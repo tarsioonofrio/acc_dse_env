@@ -1,0 +1,3194 @@
+::rc_st::__eval_from_socket_beginator
+set lib_load_start [::legacy::get_attribute runtime /]
+::legacy::set_attribute -quiet common_ui true /
+::legacy::set_attribute -quiet force_tui_is_remote true /
+::legacy::set_attribute -quiet rc_st::st_lib_script_loaded 1 /
+rc_st::setup_log_dir
+rc_st::setup_pbs_db_dir
+if { ![llength [vfind / -library *]]} {
+::legacy::set_attribute -quiet shm_id_rc 1179670 /
+::legacy::set_attribute -quiet hostname_main paxos.inf.pucrs.br /
+::legacy::set_attribute -quiet pid_main 3822 /
+::legacy::set_attribute -quiet process_group_id 0 /
+::legacy::set_attribute -quiet max_cpus_per_server 8 /
+::legacy::set_attribute -quiet max_cpus_per_server_int 8 /
+::legacy::set_attribute -quiet timing_use_ecsm_pin_capacitance true /
+::legacy::set_attribute -quiet read_library_without_ecsm false /
+::legacy::set_attribute -quiet read_ccs_noise_data false /
+::legacy::set_attribute -quiet read_library_without_ccs false /
+::legacy::set_attribute -quiet read_library_without_ecsm_timing true /
+::legacy::set_attribute -quiet derive_bussed_pins false /
+::legacy::set_attribute -quiet on_demand_library_loading false /
+::legacy::set_attribute -quiet allow_template_optimisation true /
+::legacy::set_attribute -quiet multithreaded_library_loading true /
+::legacy::set_attribute -quiet library_scaling 2 /
+::legacy::set_attribute -quiet lbr_merge_lib_arcs 6 /
+::legacy::set_attribute -quiet use_nextstate_type_only_to_assign_sync_ctrls false /
+::legacy::set_attribute -quiet lbr_setup_constraint_sigma_multiplier 0.0 /
+::legacy::set_attribute -quiet lbr_hold_constraint_sigma_multiplier 0.0 /
+::legacy::set_attribute -quiet lbr_setup_constraint_sigma_type sigma /
+::legacy::set_attribute -quiet lbr_hold_constraint_sigma_type sigma /
+::legacy::set_attribute -quiet ignore_missing_library_file false /
+::legacy::set_attribute -quiet lbr_enable_new_unit false /
+::legacy::set_attribute -quiet lbr_merge_mpw_arcs false /
+::legacy::set_attribute -quiet lbr_use_sigma_in_constraint_arcs true /
+::legacy::set_attribute -quiet allow_same_name_cells false /
+::legacy::set_attribute -quiet lbr_data_rounding_on false /
+::legacy::set_attribute -quiet lbr_ecsm_capacitance_support true /
+::legacy::set_attribute -quiet enable_srpg_arc false /
+::legacy::set_attribute -quiet infer_cap_range_from_ccs_cap false /
+::legacy::set_attribute -quiet init_lib_search_path {. /soft64/cadence/ferramentas/GENUS181/tools.lnx86/lib/tech} /
+}
+if { [::legacy::find /libraries -library_set default_emulate_libset_max ] eq "" } {
+create_library_set -name default_emulate_libset_max -timing {/soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CORE_LR@2.0@20130411.0/libs/C28SOI_SC_12_CORE_LR_ss28_0.90V_125C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_PR_LR@2.0@20130412.0/libs/C28SOI_SC_12_PR_LR_tt28_1.00V_25C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CLK_LR@2.1@20130621.0/libs/C28SOI_SC_12_CLK_LR_tt28_1.00V_25C.lib }
+}
+if { [::legacy::find /libraries -opcond default_emulate_opcond ] eq "" } {
+create_opcond -name default_emulate_opcond -process 1.228 -voltage 0.899999 -temperature 125.0
+}
+if { [::legacy::find /libraries -timing_condition default_emulate_timing_cond_max ] eq "" } {
+create_timing_condition -name default_emulate_timing_cond_max -opcond default_emulate_opcond -library_sets { default_emulate_libset_max }
+}
+if { [::legacy::find /libraries -rc_corner default_emulate_rc_corner ] eq "" } {
+create_rc_corner -name default_emulate_rc_corner -temperature 125.0 -cap_table /soft64/design-kits/stm/28nm-cmos28lp_42/CadenceTechnoKit_cmos028_6U1x_2U2x_2T8x_LB@4.2.1/CAP_TABLE/FuncRCmax.captable -pre_route_res 1.0 -pre_route_cap 1.0 -pre_route_clock_res 0.0 -pre_route_clock_cap 0.0 -post_route_res {1.0 1.0 1.0} -post_route_cap {1.0 1.0 1.0} -post_route_cross_cap {1.0 1.0 1.0} -post_route_clock_res {1.0 1.0 1.0} -post_route_clock_cap {1.0 1.0 1.0}
+}
+set list_libraries [string trimright [string trim [string map { \} {} \{ {} \" {} } [::legacy::get_attr library /]]] {\ }]
+if { "$list_libraries" ne "/soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CORE_LR@2.0@20130411.0/libs/C28SOI_SC_12_CORE_LR_ss28_0.90V_125C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_PR_LR@2.0@20130412.0/libs/C28SOI_SC_12_PR_LR_tt28_1.00V_25C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CLK_LR@2.1@20130621.0/libs/C28SOI_SC_12_CLK_LR_tt28_1.00V_25C.lib"} {
+::legacy::set_attribute library {/soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CORE_LR@2.0@20130411.0/libs/C28SOI_SC_12_CORE_LR_ss28_0.90V_125C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_PR_LR@2.0@20130412.0/libs/C28SOI_SC_12_PR_LR_tt28_1.00V_25C.lib /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CLK_LR@2.1@20130621.0/libs/C28SOI_SC_12_CLK_LR_tt28_1.00V_25C.lib} /
+}
+set cur_attr_val [::legacy::get_attribute information_level /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 9] [list $cur_attr_val]]} {
+if {[is_attr_ifca information_level ] && ![string compare 9 ""]} {
+::legacy::reset_attribute -quiet information_level / 
+} else {
+::legacy::set_attribute -quiet information_level 9 /
+}
+}
+set cur_attr_val [::legacy::get_attribute within_regress /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca within_regress ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet within_regress / 
+} else {
+::legacy::set_attribute -quiet within_regress false /
+}
+}
+set cur_attr_val [::legacy::get_attribute debug_qsort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca debug_qsort ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet debug_qsort / 
+} else {
+::legacy::set_attribute -quiet debug_qsort false /
+}
+}
+set cur_attr_val [::legacy::get_attribute novus_ui /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca novus_ui ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet novus_ui / 
+} else {
+::legacy::set_attribute -quiet novus_ui true /
+}
+}
+set cur_attr_val [::legacy::get_attribute common_ui /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca common_ui ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet common_ui / 
+} else {
+::legacy::set_attribute -quiet common_ui true /
+}
+}
+set cur_attr_val [::legacy::get_attribute path /]
+if {(17 || [llength [split $cur_attr_val]]) && [string compare [list {. / /libraries/* /libraries/library_domains/*/* /libraries/library_sets/*/* /libraries/library_domains/* /libraries/library_sets/* /designs/* /designs/*/timing/clocks/ /designs/*/timing/clock_domains/* /designs/*/dft/test_clock_domains/* /designs/*/dft/mbist/mbist_clock_domains/* /designs/*/modes /designs/*/modes/*/clocks /designs/*/modes/*/clock_domains/* /mmmc_designs_spec/* /designs/*/mmmc/*}] [list $cur_attr_val]]} {
+if {[is_attr_ifca path ] && ![string compare {. / /libraries/* /libraries/library_domains/*/* /libraries/library_sets/*/* /libraries/library_domains/* /libraries/library_sets/* /designs/* /designs/*/timing/clocks/ /designs/*/timing/clock_domains/* /designs/*/dft/test_clock_domains/* /designs/*/dft/mbist/mbist_clock_domains/* /designs/*/modes /designs/*/modes/*/clocks /designs/*/modes/*/clock_domains/* /mmmc_designs_spec/* /designs/*/mmmc/*} ""]} {
+::legacy::reset_attribute -quiet path / 
+} else {
+::legacy::set_attribute -quiet path {. / /libraries/* /libraries/library_domains/*/* /libraries/library_sets/*/* /libraries/library_domains/* /libraries/library_sets/* /designs/* /designs/*/timing/clocks/ /designs/*/timing/clock_domains/* /designs/*/dft/test_clock_domains/* /designs/*/dft/mbist/mbist_clock_domains/* /designs/*/modes /designs/*/modes/*/clocks /designs/*/modes/*/clock_domains/* /mmmc_designs_spec/* /designs/*/mmmc/*} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hostname_main /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list paxos.inf.pucrs.br] [list $cur_attr_val]]} {
+if {[is_attr_ifca hostname_main ] && ![string compare paxos.inf.pucrs.br ""]} {
+::legacy::reset_attribute -quiet hostname_main / 
+} else {
+::legacy::set_attribute -quiet hostname_main paxos.inf.pucrs.br /
+}
+}
+set cur_attr_val [::legacy::get_attribute pid_main /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 3822] [list $cur_attr_val]]} {
+if {[is_attr_ifca pid_main ] && ![string compare 3822 ""]} {
+::legacy::reset_attribute -quiet pid_main / 
+} else {
+::legacy::set_attribute -quiet pid_main 3822 /
+}
+}
+set cur_attr_val [::legacy::get_attribute operating_conditions_analysis_type /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca operating_conditions_analysis_type ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet operating_conditions_analysis_type / 
+} else {
+::legacy::set_attribute -quiet operating_conditions_analysis_type {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute operating_conditions_min /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca operating_conditions_min ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet operating_conditions_min / 
+} else {
+::legacy::set_attribute -quiet operating_conditions_min {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute operating_conditions_min_library /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca operating_conditions_min_library ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet operating_conditions_min_library / 
+} else {
+::legacy::set_attribute -quiet operating_conditions_min_library {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute operating_conditions_library_given /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca operating_conditions_library_given ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet operating_conditions_library_given / 
+} else {
+::legacy::set_attribute -quiet operating_conditions_library_given false /
+}
+}
+set cur_attr_val [::legacy::get_attribute optimize_net_area /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca optimize_net_area ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet optimize_net_area / 
+} else {
+::legacy::set_attribute -quiet optimize_net_area true /
+}
+}
+set cur_attr_val [::legacy::get_attribute net_area_weight_pct /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 100] [list $cur_attr_val]]} {
+if {[is_attr_ifca net_area_weight_pct ] && ![string compare 100 ""]} {
+::legacy::reset_attribute -quiet net_area_weight_pct / 
+} else {
+::legacy::set_attribute -quiet net_area_weight_pct 100 /
+}
+}
+set cur_attr_val [::legacy::get_attribute inst_prefix /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list g] [list $cur_attr_val]]} {
+if {[is_attr_ifca inst_prefix ] && ![string compare g ""]} {
+::legacy::reset_attribute -quiet inst_prefix / 
+} else {
+::legacy::set_attribute -quiet inst_prefix g /
+}
+}
+set cur_attr_val [::legacy::get_attribute ungroup_separator /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list _] [list $cur_attr_val]]} {
+if {[is_attr_ifca ungroup_separator ] && ![string compare _ ""]} {
+::legacy::reset_attribute -quiet ungroup_separator / 
+} else {
+::legacy::set_attribute -quiet ungroup_separator _ /
+}
+}
+set cur_attr_val [::legacy::get_attribute default_var_direction_is_downward /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca default_var_direction_is_downward ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet default_var_direction_is_downward / 
+} else {
+::legacy::set_attribute -quiet default_var_direction_is_downward true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_unconnected_value /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_unconnected_value ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet hdl_unconnected_value / 
+} else {
+::legacy::set_attribute -quiet hdl_unconnected_value 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_unconnected_input_port_value /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_unconnected_input_port_value ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet hdl_unconnected_input_port_value / 
+} else {
+::legacy::set_attribute -quiet hdl_unconnected_input_port_value 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_undriven_output_port_value /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_undriven_output_port_value ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet hdl_undriven_output_port_value / 
+} else {
+::legacy::set_attribute -quiet hdl_undriven_output_port_value 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_undriven_signal_value /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_undriven_signal_value ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet hdl_undriven_signal_value / 
+} else {
+::legacy::set_attribute -quiet hdl_undriven_signal_value 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute tns_opto /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca tns_opto ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet tns_opto / 
+} else {
+::legacy::set_attribute -quiet tns_opto true /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_vlog_unconnected_port_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list full] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_vlog_unconnected_port_style ] && ![string compare full ""]} {
+::legacy::reset_attribute -quiet write_vlog_unconnected_port_style / 
+} else {
+::legacy::set_attribute -quiet write_vlog_unconnected_port_style full /
+}
+}
+set cur_attr_val [::legacy::get_attribute skp_wire_model_enable /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca skp_wire_model_enable ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet skp_wire_model_enable / 
+} else {
+::legacy::set_attribute -quiet skp_wire_model_enable false /
+}
+}
+set cur_attr_val [::legacy::get_attribute skp_wire_model_stdcap /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 90.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca skp_wire_model_stdcap ] && ![string compare 90.0 ""]} {
+::legacy::reset_attribute -quiet skp_wire_model_stdcap / 
+} else {
+::legacy::set_attribute -quiet skp_wire_model_stdcap 90.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute skp_wire_model_stdslew /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 25.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca skp_wire_model_stdslew ] && ![string compare 25.0 ""]} {
+::legacy::reset_attribute -quiet skp_wire_model_stdslew / 
+} else {
+::legacy::set_attribute -quiet skp_wire_model_stdslew 25.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute skp_wire_model_ps_um /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca skp_wire_model_ps_um ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet skp_wire_model_ps_um / 
+} else {
+::legacy::set_attribute -quiet skp_wire_model_ps_um 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute skp_wire_model_cap_um /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.00025] [list $cur_attr_val]]} {
+if {[is_attr_ifca skp_wire_model_cap_um ] && ![string compare 0.00025 ""]} {
+::legacy::reset_attribute -quiet skp_wire_model_cap_um / 
+} else {
+::legacy::set_attribute -quiet skp_wire_model_cap_um 0.00025 /
+}
+}
+set cur_attr_val [::legacy::get_attribute compress_exceptions_during_synthesis /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca compress_exceptions_during_synthesis ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet compress_exceptions_during_synthesis / 
+} else {
+::legacy::set_attribute -quiet compress_exceptions_during_synthesis true /
+}
+}
+set cur_attr_val [::legacy::get_attribute enable_mm_cg_check /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca enable_mm_cg_check ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet enable_mm_cg_check / 
+} else {
+::legacy::set_attribute -quiet enable_mm_cg_check false /
+}
+}
+set cur_attr_val [::legacy::get_attribute probabilistic_extraction /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca probabilistic_extraction ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet probabilistic_extraction / 
+} else {
+::legacy::set_attribute -quiet probabilistic_extraction true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_bin_route_type /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_bin_route_type ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_use_bin_route_type / 
+} else {
+::legacy::set_attribute -quiet phys_use_bin_route_type true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_segment_parasitics /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_segment_parasitics ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_use_segment_parasitics / 
+} else {
+::legacy::set_attribute -quiet phys_use_segment_parasitics true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_segment_resistance /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_segment_resistance ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_use_segment_resistance / 
+} else {
+::legacy::set_attribute -quiet phys_use_segment_resistance true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_hum_route /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_hum_route ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_hum_route / 
+} else {
+::legacy::set_attribute -quiet phys_hum_route true /
+}
+}
+set cur_attr_val [::legacy::get_attribute design_mode_process /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 50.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca design_mode_process ] && ![string compare 50.0 ""]} {
+::legacy::reset_attribute -quiet design_mode_process / 
+} else {
+::legacy::set_attribute -quiet design_mode_process 50.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute fence_as_blockage_buffer_tree /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca fence_as_blockage_buffer_tree ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet fence_as_blockage_buffer_tree / 
+} else {
+::legacy::set_attribute -quiet fence_as_blockage_buffer_tree false /
+}
+}
+set cur_attr_val [::legacy::get_attribute report_layer_bin /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca report_layer_bin ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet report_layer_bin / 
+} else {
+::legacy::set_attribute -quiet report_layer_bin false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_assume_met_fill /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_assume_met_fill ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet phys_assume_met_fill / 
+} else {
+::legacy::set_attribute -quiet phys_assume_met_fill 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute map_placed_for_hum /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca map_placed_for_hum ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet map_placed_for_hum / 
+} else {
+::legacy::set_attribute -quiet map_placed_for_hum false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_invs_extraction /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_invs_extraction ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_use_invs_extraction / 
+} else {
+::legacy::set_attribute -quiet phys_use_invs_extraction true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_route_time_out /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 120.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_route_time_out ] && ![string compare 120.0 ""]} {
+::legacy::reset_attribute -quiet phys_route_time_out / 
+} else {
+::legacy::set_attribute -quiet phys_route_time_out 120.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_extra_grid_multiplier /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 10.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_extra_grid_multiplier ] && ![string compare 10.0 ""]} {
+::legacy::reset_attribute -quiet phys_extra_grid_multiplier / 
+} else {
+::legacy::set_attribute -quiet phys_extra_grid_multiplier 10.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_extraction_kit /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_extraction_kit ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_use_extraction_kit / 
+} else {
+::legacy::set_attribute -quiet phys_use_extraction_kit true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_vias_for_routing /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_vias_for_routing ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet phys_vias_for_routing / 
+} else {
+::legacy::set_attribute -quiet phys_vias_for_routing {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute early_global_supply_scale_factor_h /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca early_global_supply_scale_factor_h ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet early_global_supply_scale_factor_h / 
+} else {
+::legacy::set_attribute -quiet early_global_supply_scale_factor_h 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute early_global_supply_scale_factor_v /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca early_global_supply_scale_factor_v ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet early_global_supply_scale_factor_v / 
+} else {
+::legacy::set_attribute -quiet early_global_supply_scale_factor_v 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute scale_of_average_bin_cap_per_unit_length /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca scale_of_average_bin_cap_per_unit_length ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet scale_of_average_bin_cap_per_unit_length / 
+} else {
+::legacy::set_attribute -quiet scale_of_average_bin_cap_per_unit_length 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute _scale_of_cap_per_unit_length_h /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca _scale_of_cap_per_unit_length_h ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet _scale_of_cap_per_unit_length_h / 
+} else {
+::legacy::set_attribute -quiet _scale_of_cap_per_unit_length_h 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute _scale_of_cap_per_unit_length_v /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca _scale_of_cap_per_unit_length_v ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet _scale_of_cap_per_unit_length_v / 
+} else {
+::legacy::set_attribute -quiet _scale_of_cap_per_unit_length_v 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute scale_of_average_bin_res_per_unit_length /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca scale_of_average_bin_res_per_unit_length ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet scale_of_average_bin_res_per_unit_length / 
+} else {
+::legacy::set_attribute -quiet scale_of_average_bin_res_per_unit_length 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute _scale_of_res_per_unit_length_h /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca _scale_of_res_per_unit_length_h ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet _scale_of_res_per_unit_length_h / 
+} else {
+::legacy::set_attribute -quiet _scale_of_res_per_unit_length_h 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute _scale_of_res_per_unit_length_v /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca _scale_of_res_per_unit_length_v ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet _scale_of_res_per_unit_length_v / 
+} else {
+::legacy::set_attribute -quiet _scale_of_res_per_unit_length_v 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute extract_rc_lef_tech_file_map /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca extract_rc_lef_tech_file_map ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet extract_rc_lef_tech_file_map / 
+} else {
+::legacy::set_attribute -quiet extract_rc_lef_tech_file_map {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute capacitance_per_unit_length_mmmc /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca capacitance_per_unit_length_mmmc ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet capacitance_per_unit_length_mmmc / 
+} else {
+::legacy::set_attribute -quiet capacitance_per_unit_length_mmmc {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute resistance_per_unit_length_mmmc /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca resistance_per_unit_length_mmmc ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet resistance_per_unit_length_mmmc / 
+} else {
+::legacy::set_attribute -quiet resistance_per_unit_length_mmmc {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute global_route_overflow_TR_H /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca global_route_overflow_TR_H ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet global_route_overflow_TR_H / 
+} else {
+::legacy::set_attribute -quiet global_route_overflow_TR_H 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute global_route_overflow_TR_V /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca global_route_overflow_TR_V ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet global_route_overflow_TR_V / 
+} else {
+::legacy::set_attribute -quiet global_route_overflow_TR_V 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute lp_insert_clock_gating /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca lp_insert_clock_gating ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet lp_insert_clock_gating / 
+} else {
+::legacy::set_attribute -quiet lp_insert_clock_gating true /
+}
+}
+set cur_attr_val [::legacy::get_attribute lp_power_unit /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list nW] [list $cur_attr_val]]} {
+if {[is_attr_ifca lp_power_unit ] && ![string compare nW ""]} {
+::legacy::reset_attribute -quiet lp_power_unit / 
+} else {
+::legacy::set_attribute -quiet lp_power_unit nW /
+}
+}
+set cur_attr_val [::legacy::get_attribute use_old_ld_on_pd_method /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca use_old_ld_on_pd_method ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet use_old_ld_on_pd_method / 
+} else {
+::legacy::set_attribute -quiet use_old_ld_on_pd_method false /
+}
+}
+set cur_attr_val [::legacy::get_attribute enable_runtime_by_stage /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca enable_runtime_by_stage ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet enable_runtime_by_stage / 
+} else {
+::legacy::set_attribute -quiet enable_runtime_by_stage true /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_mmmc_adjust_fast /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_mmmc_adjust_fast ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet pbs_mmmc_adjust_fast / 
+} else {
+::legacy::set_attribute -quiet pbs_mmmc_adjust_fast true /
+}
+}
+set cur_attr_val [::legacy::get_attribute timing_use_ecsm_pin_capacitance /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca timing_use_ecsm_pin_capacitance ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet timing_use_ecsm_pin_capacitance / 
+} else {
+::legacy::set_attribute -quiet timing_use_ecsm_pin_capacitance true /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_pd_libcell_derate /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_pd_libcell_derate ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet write_pd_libcell_derate / 
+} else {
+::legacy::set_attribute -quiet write_pd_libcell_derate false /
+}
+}
+set cur_attr_val [::legacy::get_attribute lp_clock_gating_auto_control /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list none] [list $cur_attr_val]]} {
+if {[is_attr_ifca lp_clock_gating_auto_control ] && ![string compare none ""]} {
+::legacy::reset_attribute -quiet lp_clock_gating_auto_control / 
+} else {
+::legacy::set_attribute -quiet lp_clock_gating_auto_control none /
+}
+}
+set cur_attr_val [::legacy::get_attribute send_row_col /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca send_row_col ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet send_row_col / 
+} else {
+::legacy::set_attribute -quiet send_row_col false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_shift_register_with_mbci /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_shift_register_with_mbci ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dft_shift_register_with_mbci / 
+} else {
+::legacy::set_attribute -quiet dft_shift_register_with_mbci false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_shift_register_physical /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_shift_register_physical ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dft_shift_register_physical / 
+} else {
+::legacy::set_attribute -quiet dft_shift_register_physical false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_shift_register_physical_distance /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_shift_register_physical_distance ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet dft_shift_register_physical_distance / 
+} else {
+::legacy::set_attribute -quiet dft_shift_register_physical_distance 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_skip_multibit_abstract_segment /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_skip_multibit_abstract_segment ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dft_skip_multibit_abstract_segment / 
+} else {
+::legacy::set_attribute -quiet dft_skip_multibit_abstract_segment false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_use_ungated_clock_for_testpoint /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_use_ungated_clock_for_testpoint ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dft_use_ungated_clock_for_testpoint / 
+} else {
+::legacy::set_attribute -quiet dft_use_ungated_clock_for_testpoint false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_large_fanout_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_large_fanout_threshold ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet iopt_large_fanout_threshold / 
+} else {
+::legacy::set_attribute -quiet iopt_large_fanout_threshold no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_idealize_large_fanout /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_idealize_large_fanout ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_idealize_large_fanout / 
+} else {
+::legacy::set_attribute -quiet iopt_idealize_large_fanout false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_sequential_duplication_for_tns_opto /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_sequential_duplication_for_tns_opto ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_sequential_duplication_for_tns_opto / 
+} else {
+::legacy::set_attribute -quiet iopt_sequential_duplication_for_tns_opto false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_relax_scan_checks_in_sequential_resynthesis /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_relax_scan_checks_in_sequential_resynthesis ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet iopt_relax_scan_checks_in_sequential_resynthesis / 
+} else {
+::legacy::set_attribute -quiet iopt_relax_scan_checks_in_sequential_resynthesis 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute max_multiple_output_gate_support /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 3] [list $cur_attr_val]]} {
+if {[is_attr_ifca max_multiple_output_gate_support ] && ![string compare 3 ""]} {
+::legacy::reset_attribute -quiet max_multiple_output_gate_support / 
+} else {
+::legacy::set_attribute -quiet max_multiple_output_gate_support 3 /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_force_common_input_removal /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_force_common_input_removal ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_force_common_input_removal / 
+} else {
+::legacy::set_attribute -quiet iopt_force_common_input_removal false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_ultra_optimization /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_ultra_optimization ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_ultra_optimization / 
+} else {
+::legacy::set_attribute -quiet iopt_ultra_optimization false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_on_the_fly_configurations /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_on_the_fly_configurations ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet iopt_on_the_fly_configurations / 
+} else {
+::legacy::set_attribute -quiet iopt_on_the_fly_configurations true /
+}
+}
+set cur_attr_val [::legacy::get_attribute global_incremental_ignores_power /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca global_incremental_ignores_power ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet global_incremental_ignores_power / 
+} else {
+::legacy::set_attribute -quiet global_incremental_ignores_power false /
+}
+}
+set cur_attr_val [::legacy::get_attribute global_incremental_extra_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca global_incremental_extra_effort ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet global_incremental_extra_effort / 
+} else {
+::legacy::set_attribute -quiet global_incremental_extra_effort false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_cell_count_optimization /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_cell_count_optimization ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_cell_count_optimization / 
+} else {
+::legacy::set_attribute -quiet iopt_cell_count_optimization false /
+}
+}
+set cur_attr_val [::legacy::get_attribute multibit_stalone_logical /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca multibit_stalone_logical ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet multibit_stalone_logical / 
+} else {
+::legacy::set_attribute -quiet multibit_stalone_logical false /
+}
+}
+set cur_attr_val [::legacy::get_attribute multibit_stalone_include_dyn_pow_net_area /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca multibit_stalone_include_dyn_pow_net_area ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet multibit_stalone_include_dyn_pow_net_area / 
+} else {
+::legacy::set_attribute -quiet multibit_stalone_include_dyn_pow_net_area false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dump_cluster_info_for_group /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list -1] [list $cur_attr_val]]} {
+if {[is_attr_ifca dump_cluster_info_for_group ] && ![string compare -1 ""]} {
+::legacy::reset_attribute -quiet dump_cluster_info_for_group / 
+} else {
+::legacy::set_attribute -quiet dump_cluster_info_for_group -1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute multibit_ignore_exact_match_seq_sync_ctrls /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca multibit_ignore_exact_match_seq_sync_ctrls ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet multibit_ignore_exact_match_seq_sync_ctrls / 
+} else {
+::legacy::set_attribute -quiet multibit_ignore_exact_match_seq_sync_ctrls false /
+}
+}
+set cur_attr_val [::legacy::get_attribute multibit_ignore_exact_match_seq_async_ctrls /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca multibit_ignore_exact_match_seq_async_ctrls ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet multibit_ignore_exact_match_seq_async_ctrls / 
+} else {
+::legacy::set_attribute -quiet multibit_ignore_exact_match_seq_async_ctrls false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_enable_parallelization /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_enable_parallelization ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_enable_parallelization / 
+} else {
+::legacy::set_attribute -quiet iopt_enable_parallelization false /
+}
+}
+set cur_attr_val [::legacy::get_attribute gps_max_partition_size /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 130000] [list $cur_attr_val]]} {
+if {[is_attr_ifca gps_max_partition_size ] && ![string compare 130000 ""]} {
+::legacy::reset_attribute -quiet gps_max_partition_size / 
+} else {
+::legacy::set_attribute -quiet gps_max_partition_size 130000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_comet_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 100000] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_comet_threshold ] && ![string compare 100000 ""]} {
+::legacy::reset_attribute -quiet pbs_comet_threshold / 
+} else {
+::legacy::set_attribute -quiet pbs_comet_threshold 100000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_vhdl_read_version /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1993] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_vhdl_read_version ] && ![string compare 1993 ""]} {
+::legacy::reset_attribute -quiet hdl_vhdl_read_version / 
+} else {
+::legacy::set_attribute -quiet hdl_vhdl_read_version 1993 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_vhdl_environment /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list common] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_vhdl_environment ] && ![string compare common ""]} {
+::legacy::reset_attribute -quiet hdl_vhdl_environment / 
+} else {
+::legacy::set_attribute -quiet hdl_vhdl_environment common /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_vhdl_case /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list original] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_vhdl_case ] && ![string compare original ""]} {
+::legacy::reset_attribute -quiet hdl_vhdl_case / 
+} else {
+::legacy::set_attribute -quiet hdl_vhdl_case original /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_preserve_unused_registers /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_preserve_unused_registers ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_preserve_unused_registers / 
+} else {
+::legacy::set_attribute -quiet hdl_preserve_unused_registers false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_preserve_unused_flop /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_preserve_unused_flop ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_preserve_unused_flop / 
+} else {
+::legacy::set_attribute -quiet hdl_preserve_unused_flop false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_preserve_unused_latch /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_preserve_unused_latch ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_preserve_unused_latch / 
+} else {
+::legacy::set_attribute -quiet hdl_preserve_unused_latch false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_error_on_latch /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_error_on_latch ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_error_on_latch / 
+} else {
+::legacy::set_attribute -quiet hdl_error_on_latch false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_error_on_logic_abstract /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_error_on_logic_abstract ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_error_on_logic_abstract / 
+} else {
+::legacy::set_attribute -quiet hdl_error_on_logic_abstract false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_parameter_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list _%s%d] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_parameter_naming_style ] && ![string compare _%s%d ""]} {
+::legacy::reset_attribute -quiet hdl_parameter_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_parameter_naming_style _%s%d /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_generate_index_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list %s_%d] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_generate_index_style ] && ![string compare %s_%d ""]} {
+::legacy::reset_attribute -quiet hdl_generate_index_style / 
+} else {
+::legacy::set_attribute -quiet hdl_generate_index_style %s_%d /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_generate_separator /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list .] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_generate_separator ] && ![string compare . ""]} {
+::legacy::reset_attribute -quiet hdl_generate_separator / 
+} else {
+::legacy::set_attribute -quiet hdl_generate_separator . /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_use_if_generate_prefix /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_use_if_generate_prefix ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_use_if_generate_prefix / 
+} else {
+::legacy::set_attribute -quiet hdl_use_if_generate_prefix true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_use_for_generate_prefix /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_use_for_generate_prefix ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_use_for_generate_prefix / 
+} else {
+::legacy::set_attribute -quiet hdl_use_for_generate_prefix true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_use_block_prefix /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_use_block_prefix ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_use_block_prefix / 
+} else {
+::legacy::set_attribute -quiet hdl_use_block_prefix true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_flatten_complex_port /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_flatten_complex_port ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_flatten_complex_port / 
+} else {
+::legacy::set_attribute -quiet hdl_flatten_complex_port false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_instance_array_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list %s_%d] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_instance_array_naming_style ] && ![string compare %s_%d ""]} {
+::legacy::reset_attribute -quiet hdl_instance_array_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_instance_array_naming_style %s_%d /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_infer_ram /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_infer_ram ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_infer_ram / 
+} else {
+::legacy::set_attribute -quiet hdl_infer_ram false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_infer_array_md /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_infer_array_md ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_infer_array_md / 
+} else {
+::legacy::set_attribute -quiet hdl_infer_array_md false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_case_sensitive_instances /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list none] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_case_sensitive_instances ] && ![string compare none ""]} {
+::legacy::reset_attribute -quiet hdl_case_sensitive_instances / 
+} else {
+::legacy::set_attribute -quiet hdl_case_sensitive_instances none /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_auto_exec_sdc_scripts /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_auto_exec_sdc_scripts ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_auto_exec_sdc_scripts / 
+} else {
+::legacy::set_attribute -quiet hdl_auto_exec_sdc_scripts true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_ff_keep_feedback /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_ff_keep_feedback ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_ff_keep_feedback / 
+} else {
+::legacy::set_attribute -quiet hdl_ff_keep_feedback false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_ff_keep_explicit_feedback /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_ff_keep_explicit_feedback ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_ff_keep_explicit_feedback / 
+} else {
+::legacy::set_attribute -quiet hdl_ff_keep_explicit_feedback true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_latch_keep_feedback /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_latch_keep_feedback ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_latch_keep_feedback / 
+} else {
+::legacy::set_attribute -quiet hdl_latch_keep_feedback false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_common_subexpression_elimination /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_common_subexpression_elimination ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_common_subexpression_elimination / 
+} else {
+::legacy::set_attribute -quiet hdl_common_subexpression_elimination true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_remove_cdfg_redundancies /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_remove_cdfg_redundancies ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_remove_cdfg_redundancies / 
+} else {
+::legacy::set_attribute -quiet hdl_remove_cdfg_redundancies true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_map_ram /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list et_prim] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_map_ram ] && ![string compare et_prim ""]} {
+::legacy::reset_attribute -quiet hdl_map_ram / 
+} else {
+::legacy::set_attribute -quiet hdl_map_ram et_prim /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_enable_slp /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_enable_slp ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_enable_slp / 
+} else {
+::legacy::set_attribute -quiet hdl_enable_slp true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_extract_sum_of_products_logic /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_extract_sum_of_products_logic ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_extract_sum_of_products_logic / 
+} else {
+::legacy::set_attribute -quiet hdl_extract_sum_of_products_logic true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_reverse_priority_mux_chain /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_reverse_priority_mux_chain ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_reverse_priority_mux_chain / 
+} else {
+::legacy::set_attribute -quiet hdl_reverse_priority_mux_chain true /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_combine_sop_nodes /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_combine_sop_nodes ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_combine_sop_nodes / 
+} else {
+::legacy::set_attribute -quiet hdl_combine_sop_nodes 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_reduce_mux_chain /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_reduce_mux_chain ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_reduce_mux_chain / 
+} else {
+::legacy::set_attribute -quiet hdl_reduce_mux_chain 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_infer_macro /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_infer_macro ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_infer_macro / 
+} else {
+::legacy::set_attribute -quiet hdl_infer_macro 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_enable_bitwidth_analysis_based_pruning /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_enable_bitwidth_analysis_based_pruning ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_enable_bitwidth_analysis_based_pruning / 
+} else {
+::legacy::set_attribute -quiet hdl_enable_bitwidth_analysis_based_pruning 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_enable_xform_constant_shiftrotates /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_enable_xform_constant_shiftrotates ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_enable_xform_constant_shiftrotates / 
+} else {
+::legacy::set_attribute -quiet hdl_enable_xform_constant_shiftrotates 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_simplify_variable_part_selects /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_simplify_variable_part_selects ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet hdl_simplify_variable_part_selects / 
+} else {
+::legacy::set_attribute -quiet hdl_simplify_variable_part_selects 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_strict_ieee_compliance /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_strict_ieee_compliance ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_strict_ieee_compliance / 
+} else {
+::legacy::set_attribute -quiet hdl_strict_ieee_compliance false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_error_on_blackbox /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_error_on_blackbox ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_error_on_blackbox / 
+} else {
+::legacy::set_attribute -quiet hdl_error_on_blackbox false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_rename_cdn_flop_pins /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_rename_cdn_flop_pins ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hdl_rename_cdn_flop_pins / 
+} else {
+::legacy::set_attribute -quiet hdl_rename_cdn_flop_pins {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_rename_cdn_latch_pins /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_rename_cdn_latch_pins ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hdl_rename_cdn_latch_pins / 
+} else {
+::legacy::set_attribute -quiet hdl_rename_cdn_latch_pins {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_reg_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list %s_reg%s] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_reg_naming_style ] && ![string compare %s_reg%s ""]} {
+::legacy::reset_attribute -quiet hdl_reg_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_reg_naming_style %s_reg%s /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_error_on_negedge /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_error_on_negedge ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_error_on_negedge / 
+} else {
+::legacy::set_attribute -quiet hdl_error_on_negedge false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_new_case_logic /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_new_case_logic ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_new_case_logic / 
+} else {
+::legacy::set_attribute -quiet hdl_new_case_logic true /
+}
+}
+set cur_attr_val [::legacy::get_attribute use_abstract_models /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca use_abstract_models ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet use_abstract_models / 
+} else {
+::legacy::set_attribute -quiet use_abstract_models false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_resolve_parameterized_instance_with_structural_module /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_resolve_parameterized_instance_with_structural_module ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_resolve_parameterized_instance_with_structural_module / 
+} else {
+::legacy::set_attribute -quiet hdl_resolve_parameterized_instance_with_structural_module false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_use_parameterized_module_by_name /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_use_parameterized_module_by_name ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet hdl_use_parameterized_module_by_name / 
+} else {
+::legacy::set_attribute -quiet hdl_use_parameterized_module_by_name false /
+}
+}
+set cur_attr_val [::legacy::get_attribute input_pragma_keyword /]
+if {(5 || [llength [split $cur_attr_val]]) && [string compare [list {cadence synopsys ambit pragma synthesis}] [list $cur_attr_val]]} {
+if {[is_attr_ifca input_pragma_keyword ] && ![string compare {cadence synopsys ambit pragma synthesis} ""]} {
+::legacy::reset_attribute -quiet input_pragma_keyword / 
+} else {
+::legacy::set_attribute -quiet input_pragma_keyword {cadence synopsys ambit pragma synthesis} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_ignore_pragma_names /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list coverage] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_ignore_pragma_names ] && ![string compare coverage ""]} {
+::legacy::reset_attribute -quiet hdl_ignore_pragma_names / 
+} else {
+::legacy::set_attribute -quiet hdl_ignore_pragma_names coverage /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_language /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list v2001] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_language ] && ![string compare v2001 ""]} {
+::legacy::reset_attribute -quiet hdl_language / 
+} else {
+::legacy::set_attribute -quiet hdl_language v2001 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_sync_set_reset /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_sync_set_reset ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hdl_sync_set_reset / 
+} else {
+::legacy::set_attribute -quiet hdl_sync_set_reset {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_async_set_reset /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_async_set_reset ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hdl_async_set_reset / 
+} else {
+::legacy::set_attribute -quiet hdl_async_set_reset {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_retain_subprogram_hier /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_retain_subprogram_hier ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hdl_retain_subprogram_hier / 
+} else {
+::legacy::set_attribute -quiet hdl_retain_subprogram_hier {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_bus_wire_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list %s_%d] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_bus_wire_naming_style ] && ![string compare %s_%d ""]} {
+::legacy::reset_attribute -quiet hdl_bus_wire_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_bus_wire_naming_style %s_%d /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_array_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list %s_%d] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_array_naming_style ] && ![string compare %s_%d ""]} {
+::legacy::reset_attribute -quiet hdl_array_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_array_naming_style %s_%d /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_record_naming_style /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list {%s[%s]}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_record_naming_style ] && ![string compare {%s[%s]} ""]} {
+::legacy::reset_attribute -quiet hdl_record_naming_style / 
+} else {
+::legacy::set_attribute -quiet hdl_record_naming_style {%s[%s]} /
+}
+}
+set cur_attr_val [::legacy::get_attribute flatten_array /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list flatten_array] [list $cur_attr_val]]} {
+if {[is_attr_ifca flatten_array ] && ![string compare flatten_array ""]} {
+::legacy::reset_attribute -quiet flatten_array / 
+} else {
+::legacy::set_attribute -quiet flatten_array flatten_array /
+}
+}
+set cur_attr_val [::legacy::get_attribute inline /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list inline] [list $cur_attr_val]]} {
+if {[is_attr_ifca inline ] && ![string compare inline ""]} {
+::legacy::reset_attribute -quiet inline / 
+} else {
+::legacy::set_attribute -quiet inline inline /
+}
+}
+set cur_attr_val [::legacy::get_attribute proto_hdl /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca proto_hdl ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet proto_hdl / 
+} else {
+::legacy::set_attribute -quiet proto_hdl false /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_module_definition_resolution /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list last] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_module_definition_resolution ] && ![string compare last ""]} {
+::legacy::reset_attribute -quiet hdl_module_definition_resolution / 
+} else {
+::legacy::set_attribute -quiet hdl_module_definition_resolution last /
+}
+}
+set cur_attr_val [::legacy::get_attribute load_tcl_modules /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list rc] [list $cur_attr_val]]} {
+if {[is_attr_ifca load_tcl_modules ] && ![string compare rc ""]} {
+::legacy::reset_attribute -quiet load_tcl_modules / 
+} else {
+::legacy::set_attribute -quiet load_tcl_modules rc /
+}
+}
+set cur_attr_val [::legacy::get_attribute program_debug_info /]
+if {(8 || [llength [split $cur_attr_val]]) && [string compare [list {18.14-s037_1 18.1.11 {Mar 27 2019 12:19:21} /soft64/cadence/ferramentas/GENUS181/tools.lnx86/synth/bin/64bit/genus /soft64/cadence/ferramentas/GENUS181/tools.lnx86}] [list $cur_attr_val]]} {
+if {[is_attr_ifca program_debug_info ] && ![string compare {18.14-s037_1 18.1.11 {Mar 27 2019 12:19:21} /soft64/cadence/ferramentas/GENUS181/tools.lnx86/synth/bin/64bit/genus /soft64/cadence/ferramentas/GENUS181/tools.lnx86} ""]} {
+::legacy::reset_attribute -quiet program_debug_info / 
+} else {
+::legacy::set_attribute -quiet program_debug_info {18.14-s037_1 18.1.11 {Mar 27 2019 12:19:21} /soft64/cadence/ferramentas/GENUS181/tools.lnx86/synth/bin/64bit/genus /soft64/cadence/ferramentas/GENUS181/tools.lnx86} /
+}
+}
+set cur_attr_val [::legacy::get_attribute cle__disable_extra_space /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca cle__disable_extra_space ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet cle__disable_extra_space / 
+} else {
+::legacy::set_attribute -quiet cle__disable_extra_space 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_2d_compression_options /]
+if {(64 || [llength [split $cur_attr_val]]) && [string compare [list {target_period 0 target_switching_activity 50.0 post_2d_sdc_file {} directory . mask_sharing_ratio 1 decompressor elastic aspect_ratio -1.0 debug false serial_load false decomp_pipeline_distance 0 placer manual identify_multibits true post_2d_sdc_mode_name {} masken_pipeline_depth 0 grid_min_x -1.0 fullscan false opcg_edge_mode {} grid_min_y -1.0 elasticity_ratio 1 grid_max_x -1.0 channel_length 0 grid_max_y -1.0 num_scanin 0 inside {} auto_create false mask false num_scanout 0 scanin_pipeline_depth 0 compressor xor scanout_pipeline_depth 0 comp_pipeline_distance 0 ratio 0}] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_2d_compression_options ] && ![string compare {target_period 0 target_switching_activity 50.0 post_2d_sdc_file {} directory . mask_sharing_ratio 1 decompressor elastic aspect_ratio -1.0 debug false serial_load false decomp_pipeline_distance 0 placer manual identify_multibits true post_2d_sdc_mode_name {} masken_pipeline_depth 0 grid_min_x -1.0 fullscan false opcg_edge_mode {} grid_min_y -1.0 elasticity_ratio 1 grid_max_x -1.0 channel_length 0 grid_max_y -1.0 num_scanin 0 inside {} auto_create false mask false num_scanout 0 scanin_pipeline_depth 0 compressor xor scanout_pipeline_depth 0 comp_pipeline_distance 0 ratio 0} ""]} {
+::legacy::reset_attribute -quiet dft_2d_compression_options / 
+} else {
+::legacy::set_attribute -quiet dft_2d_compression_options {target_period 0 target_switching_activity 50.0 post_2d_sdc_file {} directory . mask_sharing_ratio 1 decompressor elastic aspect_ratio -1.0 debug false serial_load false decomp_pipeline_distance 0 placer manual identify_multibits true post_2d_sdc_mode_name {} masken_pipeline_depth 0 grid_min_x -1.0 fullscan false opcg_edge_mode {} grid_min_y -1.0 elasticity_ratio 1 grid_max_x -1.0 channel_length 0 grid_max_y -1.0 num_scanin 0 inside {} auto_create false mask false num_scanout 0 scanin_pipeline_depth 0 compressor xor scanout_pipeline_depth 0 comp_pipeline_distance 0 ratio 0} /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft_native_boundary_scan /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft_native_boundary_scan ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet dft_native_boundary_scan / 
+} else {
+::legacy::set_attribute -quiet dft_native_boundary_scan true /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft__within_replace_scan /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft__within_replace_scan ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet dft__within_replace_scan / 
+} else {
+::legacy::set_attribute -quiet dft__within_replace_scan 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute dft__within_replace_scan_preprocessing /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca dft__within_replace_scan_preprocessing ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet dft__within_replace_scan_preprocessing / 
+} else {
+::legacy::set_attribute -quiet dft__within_replace_scan_preprocessing 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute eta__debug /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca eta__debug ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet eta__debug / 
+} else {
+::legacy::set_attribute -quiet eta__debug 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute novus_before_eval_legacy /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca novus_before_eval_legacy ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet novus_before_eval_legacy / 
+} else {
+::legacy::set_attribute -quiet novus_before_eval_legacy false /
+}
+}
+set cur_attr_val [::legacy::get_attribute suppress_messages /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca suppress_messages ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet suppress_messages / 
+} else {
+::legacy::set_attribute -quiet suppress_messages false /
+}
+}
+set cur_attr_val [::legacy::get_attribute degenerate_combo_elts_to_basic /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca degenerate_combo_elts_to_basic ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet degenerate_combo_elts_to_basic / 
+} else {
+::legacy::set_attribute -quiet degenerate_combo_elts_to_basic 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute spef__print_swapping_stats /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca spef__print_swapping_stats ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet spef__print_swapping_stats / 
+} else {
+::legacy::set_attribute -quiet spef__print_swapping_stats 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute spef__min_cap_ratio_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca spef__min_cap_ratio_threshold ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet spef__min_cap_ratio_threshold / 
+} else {
+::legacy::set_attribute -quiet spef__min_cap_ratio_threshold 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute spef__detour_net_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca spef__detour_net_threshold ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet spef__detour_net_threshold / 
+} else {
+::legacy::set_attribute -quiet spef__detour_net_threshold 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute spef__site_size_multiple_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca spef__site_size_multiple_threshold ] && ![string compare 0.0 ""]} {
+::legacy::reset_attribute -quiet spef__site_size_multiple_threshold / 
+} else {
+::legacy::set_attribute -quiet spef__site_size_multiple_threshold 0.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute clp_enable_terminal_boundary_support /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca clp_enable_terminal_boundary_support ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet clp_enable_terminal_boundary_support / 
+} else {
+::legacy::set_attribute -quiet clp_enable_terminal_boundary_support false /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_do_lec_use_fv_map /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_do_lec_use_fv_map ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet write_do_lec_use_fv_map / 
+} else {
+::legacy::set_attribute -quiet write_do_lec_use_fv_map true /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_vlog_insert_new_line_after_separator /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_vlog_insert_new_line_after_separator ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet write_vlog_insert_new_line_after_separator / 
+} else {
+::legacy::set_attribute -quiet write_vlog_insert_new_line_after_separator 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute aupt__debug /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca aupt__debug ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet aupt__debug / 
+} else {
+::legacy::set_attribute -quiet aupt__debug 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute aupt_module_size_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 80000] [list $cur_attr_val]]} {
+if {[is_attr_ifca aupt_module_size_threshold ] && ![string compare 80000 ""]} {
+::legacy::reset_attribute -quiet aupt_module_size_threshold / 
+} else {
+::legacy::set_attribute -quiet aupt_module_size_threshold 80000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute aupt_combo_input_count_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 150000] [list $cur_attr_val]]} {
+if {[is_attr_ifca aupt_combo_input_count_threshold ] && ![string compare 150000 ""]} {
+::legacy::reset_attribute -quiet aupt_combo_input_count_threshold / 
+} else {
+::legacy::set_attribute -quiet aupt_combo_input_count_threshold 150000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute aupt__tolerance /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 10] [list $cur_attr_val]]} {
+if {[is_attr_ifca aupt__tolerance ] && ![string compare 10 ""]} {
+::legacy::reset_attribute -quiet aupt__tolerance / 
+} else {
+::legacy::set_attribute -quiet aupt__tolerance 10 /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_extreme_map_fix /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_extreme_map_fix ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet pbs_extreme_map_fix / 
+} else {
+::legacy::set_attribute -quiet pbs_extreme_map_fix true /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_extreme_gen /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_extreme_gen ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pbs_extreme_gen / 
+} else {
+::legacy::set_attribute -quiet pbs_extreme_gen false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_extreme_map /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_extreme_map ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pbs_extreme_map / 
+} else {
+::legacy::set_attribute -quiet pbs_extreme_map false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_read_msv_in_setup /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_read_msv_in_setup ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_read_msv_in_setup / 
+} else {
+::legacy::set_attribute -quiet phys_read_msv_in_setup true /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_design_strict_sdc /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_design_strict_sdc ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet write_design_strict_sdc / 
+} else {
+::legacy::set_attribute -quiet write_design_strict_sdc false /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_design_skip_auto_ndr /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list auto] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_design_skip_auto_ndr ] && ![string compare auto ""]} {
+::legacy::reset_attribute -quiet write_design_skip_auto_ndr / 
+} else {
+::legacy::set_attribute -quiet write_design_skip_auto_ndr auto /
+}
+}
+set cur_attr_val [::legacy::get_attribute common_preserve_skip_internal /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca common_preserve_skip_internal ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet common_preserve_skip_internal / 
+} else {
+::legacy::set_attribute -quiet common_preserve_skip_internal false /
+}
+}
+set cur_attr_val [::legacy::get_attribute enc_preload_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca enc_preload_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet enc_preload_script / 
+} else {
+::legacy::set_attribute -quiet enc_preload_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_preload_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_preload_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet invs_preload_script / 
+} else {
+::legacy::set_attribute -quiet invs_preload_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute enc_postload_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca enc_postload_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet enc_postload_script / 
+} else {
+::legacy::set_attribute -quiet enc_postload_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_postload_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_postload_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet invs_postload_script / 
+} else {
+::legacy::set_attribute -quiet invs_postload_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_post_plan_design_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_post_plan_design_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet invs_post_plan_design_script / 
+} else {
+::legacy::set_attribute -quiet invs_post_plan_design_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute enc_preexport_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca enc_preexport_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet enc_preexport_script / 
+} else {
+::legacy::set_attribute -quiet enc_preexport_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_preexport_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_preexport_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet invs_preexport_script / 
+} else {
+::legacy::set_attribute -quiet invs_preexport_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute enc_save_db /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca enc_save_db ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet enc_save_db / 
+} else {
+::legacy::set_attribute -quiet enc_save_db false /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_save_db /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_save_db ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_save_db / 
+} else {
+::legacy::set_attribute -quiet invs_save_db false /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_save_db_shep /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_save_db_shep ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_save_db_shep / 
+} else {
+::legacy::set_attribute -quiet invs_save_db_shep false /
+}
+}
+set cur_attr_val [::legacy::get_attribute enc_enable_useful_skew /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca enc_enable_useful_skew ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet enc_enable_useful_skew / 
+} else {
+::legacy::set_attribute -quiet enc_enable_useful_skew true /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_enable_useful_skew /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_enable_useful_skew ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet invs_enable_useful_skew / 
+} else {
+::legacy::set_attribute -quiet invs_enable_useful_skew true /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_opt_leakage /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_opt_leakage ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_opt_leakage / 
+} else {
+::legacy::set_attribute -quiet invs_opt_leakage false /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_write_scandef_options /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_write_scandef_options ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet invs_write_scandef_options / 
+} else {
+::legacy::set_attribute -quiet invs_write_scandef_options {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_opt_leakage_options /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_opt_leakage_options ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet invs_opt_leakage_options / 
+} else {
+::legacy::set_attribute -quiet invs_opt_leakage_options {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_write_flowkit_settings_file /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_write_flowkit_settings_file ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet invs_write_flowkit_settings_file / 
+} else {
+::legacy::set_attribute -quiet invs_write_flowkit_settings_file true /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_shep_write_congestion /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_shep_write_congestion ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_shep_write_congestion / 
+} else {
+::legacy::set_attribute -quiet invs_shep_write_congestion false /
+}
+}
+set cur_attr_val [::legacy::get_attribute ilm_hdls /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca ilm_hdls ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet ilm_hdls / 
+} else {
+::legacy::set_attribute -quiet ilm_hdls {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute c2c_hier_instances /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca c2c_hier_instances ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet c2c_hier_instances / 
+} else {
+::legacy::set_attribute -quiet c2c_hier_instances {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute ilm_disable_internal_paths /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca ilm_disable_internal_paths ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet ilm_disable_internal_paths / 
+} else {
+::legacy::set_attribute -quiet ilm_disable_internal_paths false /
+}
+}
+set cur_attr_val [::legacy::get_attribute multibit_consider_useful_skew /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca multibit_consider_useful_skew ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet multibit_consider_useful_skew / 
+} else {
+::legacy::set_attribute -quiet multibit_consider_useful_skew false /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpr__flag_cpr__whole_design /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpr__flag_cpr__whole_design ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet cpr__flag_cpr__whole_design / 
+} else {
+::legacy::set_attribute -quiet cpr__flag_cpr__whole_design 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_binary_mux_opt_precondition_foreground /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_binary_mux_opt_precondition_foreground ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_binary_mux_opt_precondition_foreground / 
+} else {
+::legacy::set_attribute -quiet phys_binary_mux_opt_precondition_foreground false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_binary_mux_opt_precondition /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_binary_mux_opt_precondition ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_binary_mux_opt_precondition / 
+} else {
+::legacy::set_attribute -quiet phys_binary_mux_opt_precondition false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_binary_mux_opt_route_density_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0.7] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_binary_mux_opt_route_density_threshold ] && ![string compare 0.7 ""]} {
+::legacy::reset_attribute -quiet phys_binary_mux_opt_route_density_threshold / 
+} else {
+::legacy::set_attribute -quiet phys_binary_mux_opt_route_density_threshold 0.7 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_binary_mux_opt_hpwl_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_binary_mux_opt_hpwl_threshold ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet phys_binary_mux_opt_hpwl_threshold / 
+} else {
+::legacy::set_attribute -quiet phys_binary_mux_opt_hpwl_threshold no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_binary_mux_opt_group_inst_count /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 256] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_binary_mux_opt_group_inst_count ] && ![string compare 256 ""]} {
+::legacy::reset_attribute -quiet phys_binary_mux_opt_group_inst_count / 
+} else {
+::legacy::set_attribute -quiet phys_binary_mux_opt_group_inst_count 256 /
+}
+}
+set cur_attr_val [::legacy::get_attribute scan_reorder_preserve_lp_connections /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca scan_reorder_preserve_lp_connections ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet scan_reorder_preserve_lp_connections / 
+} else {
+::legacy::set_attribute -quiet scan_reorder_preserve_lp_connections true /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_delay_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list express] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_delay_effort ] && ![string compare express ""]} {
+::legacy::reset_attribute -quiet spatial_delay_effort / 
+} else {
+::legacy::set_attribute -quiet spatial_delay_effort express /
+}
+}
+set cur_attr_val [::legacy::get_attribute shutdown_servers_post_fast_area /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca shutdown_servers_post_fast_area ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet shutdown_servers_post_fast_area / 
+} else {
+::legacy::set_attribute -quiet shutdown_servers_post_fast_area false /
+}
+}
+set cur_attr_val [::legacy::get_attribute print_long_net_driver /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca print_long_net_driver ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet print_long_net_driver / 
+} else {
+::legacy::set_attribute -quiet print_long_net_driver false /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_gopt_tns /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_gopt_tns ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet allow_gopt_tns / 
+} else {
+::legacy::set_attribute -quiet allow_gopt_tns true /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_spatial_crb_tns /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_spatial_crb_tns ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet allow_spatial_crb_tns / 
+} else {
+::legacy::set_attribute -quiet allow_spatial_crb_tns false /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_pbs_st /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_pbs_st ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet allow_pbs_st / 
+} else {
+::legacy::set_attribute -quiet allow_pbs_st false /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_pbs_st_hier /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_pbs_st_hier ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet allow_pbs_st_hier / 
+} else {
+::legacy::set_attribute -quiet allow_pbs_st_hier false /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_extra_gopt_tns /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_extra_gopt_tns ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet allow_extra_gopt_tns / 
+} else {
+::legacy::set_attribute -quiet allow_extra_gopt_tns false /
+}
+}
+set cur_attr_val [::legacy::get_attribute allow_spatial_qor_opt /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca allow_spatial_qor_opt ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet allow_spatial_qor_opt / 
+} else {
+::legacy::set_attribute -quiet allow_spatial_qor_opt false /
+}
+}
+set cur_attr_val [::legacy::get_attribute max_endps_for_spatial_crb_tns /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1000000] [list $cur_attr_val]]} {
+if {[is_attr_ifca max_endps_for_spatial_crb_tns ] && ![string compare 1000000 ""]} {
+::legacy::reset_attribute -quiet max_endps_for_spatial_crb_tns / 
+} else {
+::legacy::set_attribute -quiet max_endps_for_spatial_crb_tns 1000000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_area /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_area ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet spatial_crr_area / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_area false /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_tns_mode /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_tns_mode ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet spatial_crr_tns_mode / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_tns_mode {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_area_mode /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_area_mode ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet spatial_crr_area_mode / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_area_mode {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list low] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_effort ] && ![string compare low ""]} {
+::legacy::reset_attribute -quiet spatial_crr_effort / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_effort low /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_debug /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_debug ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet spatial_crr_debug / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_debug false /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_tns_margin /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_tns_margin ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet spatial_crr_tns_margin / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_tns_margin {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_crr_tns_path_adjust /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_crr_tns_path_adjust ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet spatial_crr_tns_path_adjust / 
+} else {
+::legacy::set_attribute -quiet spatial_crr_tns_path_adjust {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_area_wns_cleanup /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_area_wns_cleanup ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet spatial_area_wns_cleanup / 
+} else {
+::legacy::set_attribute -quiet spatial_area_wns_cleanup true /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_gopt_cleanup_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list low] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_gopt_cleanup_effort ] && ![string compare low ""]} {
+::legacy::reset_attribute -quiet spatial_gopt_cleanup_effort / 
+} else {
+::legacy::set_attribute -quiet spatial_gopt_cleanup_effort low /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_qor_report_leakage_power /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_qor_report_leakage_power ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet spatial_qor_report_leakage_power / 
+} else {
+::legacy::set_attribute -quiet spatial_qor_report_leakage_power false /
+}
+}
+set cur_attr_val [::legacy::get_attribute dpul_cor_enhancement /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dpul_cor_enhancement ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dpul_cor_enhancement / 
+} else {
+::legacy::set_attribute -quiet dpul_cor_enhancement false /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_demotion /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_demotion ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet spatial_demotion / 
+} else {
+::legacy::set_attribute -quiet spatial_demotion false /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_cgetnets /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_cgetnets ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet spatial_cgetnets / 
+} else {
+::legacy::set_attribute -quiet spatial_cgetnets true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_keep_scandef_order /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_keep_scandef_order ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_keep_scandef_order / 
+} else {
+::legacy::set_attribute -quiet phys_keep_scandef_order true /
+}
+}
+set cur_attr_val [::legacy::get_attribute spatial_high_effort_flow /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca spatial_high_effort_flow ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet spatial_high_effort_flow / 
+} else {
+::legacy::set_attribute -quiet spatial_high_effort_flow false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_st_enable_cpr /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_st_enable_cpr ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_st_enable_cpr / 
+} else {
+::legacy::set_attribute -quiet phys_st_enable_cpr false /
+}
+}
+set cur_attr_val [::legacy::get_attribute lef_power_ground_pin_override /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca lef_power_ground_pin_override ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet lef_power_ground_pin_override / 
+} else {
+::legacy::set_attribute -quiet lef_power_ground_pin_override 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute disable_power_ground_pin_support /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca disable_power_ground_pin_support ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet disable_power_ground_pin_support / 
+} else {
+::legacy::set_attribute -quiet disable_power_ground_pin_support 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute plc_cpr_crit_nets /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 800] [list $cur_attr_val]]} {
+if {[is_attr_ifca plc_cpr_crit_nets ] && ![string compare 800 ""]} {
+::legacy::reset_attribute -quiet plc_cpr_crit_nets / 
+} else {
+::legacy::set_attribute -quiet plc_cpr_crit_nets 800 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_summary_table_print_negative_tns /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_summary_table_print_negative_tns ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_summary_table_print_negative_tns / 
+} else {
+::legacy::set_attribute -quiet phys_summary_table_print_negative_tns false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_reset_attr_list /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_reset_attr_list ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet phys_reset_attr_list / 
+} else {
+::legacy::set_attribute -quiet phys_reset_attr_list {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_gen_delay_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list standard] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_gen_delay_effort ] && ![string compare standard ""]} {
+::legacy::reset_attribute -quiet phys_gen_delay_effort / 
+} else {
+::legacy::set_attribute -quiet phys_gen_delay_effort standard /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_ddt_prcode_fid_pessimize /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_ddt_prcode_fid_pessimize ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_ddt_prcode_fid_pessimize / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_ddt_prcode_fid_pessimize no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_ddt_prcode_xor_pessimize /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_ddt_prcode_xor_pessimize ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_ddt_prcode_xor_pessimize / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_ddt_prcode_xor_pessimize no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute orig_native_extraction_resistance_scale /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca orig_native_extraction_resistance_scale ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet orig_native_extraction_resistance_scale / 
+} else {
+::legacy::set_attribute -quiet orig_native_extraction_resistance_scale no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_net_delay_weight_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list auto] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_net_delay_weight_effort ] && ![string compare auto ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_net_delay_weight_effort / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_net_delay_weight_effort auto /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_net_delay_weight /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_net_delay_weight ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_net_delay_weight / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_net_delay_weight {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_aocv /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_aocv ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_aocv / 
+} else {
+::legacy::set_attribute -quiet phys_aocv false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_aocv /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_aocv ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_aocv / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_aocv false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_sanitize_adjusts /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_sanitize_adjusts ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_sanitize_adjusts / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_sanitize_adjusts false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_through_adjusts /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_through_adjusts ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pam_through_adjusts / 
+} else {
+::legacy::set_attribute -quiet pam_through_adjusts false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_positive_adjusts /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_positive_adjusts ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pam_positive_adjusts / 
+} else {
+::legacy::set_attribute -quiet pam_positive_adjusts false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_critical_cone_opt /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_critical_cone_opt ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet pam_critical_cone_opt / 
+} else {
+::legacy::set_attribute -quiet pam_critical_cone_opt true /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_adjust_capture_clock_percent_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_adjust_capture_clock_percent_threshold ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet pam_adjust_capture_clock_percent_threshold / 
+} else {
+::legacy::set_attribute -quiet pam_adjust_capture_clock_percent_threshold no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_min_adjust /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list -100000] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_min_adjust ] && ![string compare -100000 ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_min_adjust / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_min_adjust -100000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_max_slack /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 100000] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_max_slack ] && ![string compare 100000 ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_max_slack / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_max_slack 100000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_global_buffering /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_global_buffering ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_global_buffering / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_global_buffering true /
+}
+}
+set cur_attr_val [::legacy::get_attribute pam_cone_opt_skip_annotation /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pam_cone_opt_skip_annotation ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pam_cone_opt_skip_annotation / 
+} else {
+::legacy::set_attribute -quiet pam_cone_opt_skip_annotation false /
+}
+}
+set cur_attr_val [::legacy::get_attribute report_num_violations_per_cg /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca report_num_violations_per_cg ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet report_num_violations_per_cg / 
+} else {
+::legacy::set_attribute -quiet report_num_violations_per_cg false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_new_scandef_flow /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_new_scandef_flow ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_new_scandef_flow / 
+} else {
+::legacy::set_attribute -quiet phys_new_scandef_flow false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_update_preload_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_update_preload_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet phys_update_preload_script / 
+} else {
+::legacy::set_attribute -quiet phys_update_preload_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_update_preannotation_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_update_preannotation_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet phys_update_preannotation_script / 
+} else {
+::legacy::set_attribute -quiet phys_update_preannotation_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_post_piopt_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_post_piopt_script ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet phys_post_piopt_script / 
+} else {
+::legacy::set_attribute -quiet phys_post_piopt_script no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_annotate_ndr_nets /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_annotate_ndr_nets ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_annotate_ndr_nets / 
+} else {
+::legacy::set_attribute -quiet phys_annotate_ndr_nets true /
+}
+}
+set cur_attr_val [::legacy::get_attribute edi_correlation_eco_mode /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca edi_correlation_eco_mode ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet edi_correlation_eco_mode / 
+} else {
+::legacy::set_attribute -quiet edi_correlation_eco_mode false /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_keep_generic_flop_placement /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_keep_generic_flop_placement ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_keep_generic_flop_placement / 
+} else {
+::legacy::set_attribute -quiet phys_keep_generic_flop_placement true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_use_read_script /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_use_read_script ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_use_read_script / 
+} else {
+::legacy::set_attribute -quiet phys_use_read_script false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_snapshot_dir /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list no_value] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_snapshot_dir ] && ![string compare no_value ""]} {
+::legacy::reset_attribute -quiet iopt_snapshot_dir / 
+} else {
+::legacy::set_attribute -quiet iopt_snapshot_dir no_value /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_index_snapshot_dir /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_index_snapshot_dir ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet iopt_index_snapshot_dir / 
+} else {
+::legacy::set_attribute -quiet iopt_index_snapshot_dir 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_useful_skew /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_useful_skew ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_useful_skew / 
+} else {
+::legacy::set_attribute -quiet iopt_useful_skew false /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_useful_skew_min_latency /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_useful_skew_min_latency ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet iopt_useful_skew_min_latency / 
+} else {
+::legacy::set_attribute -quiet iopt_useful_skew_min_latency 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_useful_skew_max_latency /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list inf] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_useful_skew_max_latency ] && ![string compare inf ""]} {
+::legacy::reset_attribute -quiet iopt_useful_skew_max_latency / 
+} else {
+::legacy::set_attribute -quiet iopt_useful_skew_max_latency inf /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_useful_skew_max_skewpoints /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list inf] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_useful_skew_max_skewpoints ] && ![string compare inf ""]} {
+::legacy::reset_attribute -quiet iopt_useful_skew_max_skewpoints / 
+} else {
+::legacy::set_attribute -quiet iopt_useful_skew_max_skewpoints inf /
+}
+}
+set cur_attr_val [::legacy::get_attribute iopt_useful_skew_macro_only /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca iopt_useful_skew_macro_only ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet iopt_useful_skew_macro_only / 
+} else {
+::legacy::set_attribute -quiet iopt_useful_skew_macro_only false /
+}
+}
+set cur_attr_val [::legacy::get_attribute avoid_library_domain /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca avoid_library_domain ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet avoid_library_domain / 
+} else {
+::legacy::set_attribute -quiet avoid_library_domain {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute avoid_library_domain_count /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca avoid_library_domain_count ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet avoid_library_domain_count / 
+} else {
+::legacy::set_attribute -quiet avoid_library_domain_count 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_custom_cost_group_timing /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_custom_cost_group_timing ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_custom_cost_group_timing / 
+} else {
+::legacy::set_attribute -quiet invs_custom_cost_group_timing false /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_genus_style_timing_report /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_genus_style_timing_report ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet invs_genus_style_timing_report / 
+} else {
+::legacy::set_attribute -quiet invs_genus_style_timing_report false /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_snapshot_number_of_timing_paths /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_snapshot_number_of_timing_paths ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet write_snapshot_number_of_timing_paths / 
+} else {
+::legacy::set_attribute -quiet write_snapshot_number_of_timing_paths 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute print_summary_table_in_logfile /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca print_summary_table_in_logfile ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet print_summary_table_in_logfile / 
+} else {
+::legacy::set_attribute -quiet print_summary_table_in_logfile true /
+}
+}
+set cur_attr_val [::legacy::get_attribute write_snapshot_db_name /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca write_snapshot_db_name ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet write_snapshot_db_name / 
+} else {
+::legacy::set_attribute -quiet write_snapshot_db_name {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute syn_opt_phys_2d_compression /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca syn_opt_phys_2d_compression ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet syn_opt_phys_2d_compression / 
+} else {
+::legacy::set_attribute -quiet syn_opt_phys_2d_compression false /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpr__flag_cpr__beginning_big_loop /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpr__flag_cpr__beginning_big_loop ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpr__flag_cpr__beginning_big_loop / 
+} else {
+::legacy::set_attribute -quiet cpr__flag_cpr__beginning_big_loop 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_enable_whatif_stack_via /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_enable_whatif_stack_via ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_enable_whatif_stack_via / 
+} else {
+::legacy::set_attribute -quiet phys_enable_whatif_stack_via true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_svr_flow /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_svr_flow ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet phys_svr_flow / 
+} else {
+::legacy::set_attribute -quiet phys_svr_flow true /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_svr_must_join /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_svr_must_join ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_svr_must_join / 
+} else {
+::legacy::set_attribute -quiet phys_svr_must_join false /
+}
+}
+set cur_attr_val [::legacy::get_attribute invs_stack_via_setup_filename /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca invs_stack_via_setup_filename ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet invs_stack_via_setup_filename / 
+} else {
+::legacy::set_attribute -quiet invs_stack_via_setup_filename {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_stack_via_resistance /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_stack_via_resistance ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet phys_stack_via_resistance / 
+} else {
+::legacy::set_attribute -quiet phys_stack_via_resistance {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_stack_via_layer_resistance /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_stack_via_layer_resistance ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet phys_stack_via_layer_resistance / 
+} else {
+::legacy::set_attribute -quiet phys_stack_via_layer_resistance {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute ple_max_cap_per_unit_len /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca ple_max_cap_per_unit_len ] && ![string compare 1.0 ""]} {
+::legacy::reset_attribute -quiet ple_max_cap_per_unit_len / 
+} else {
+::legacy::set_attribute -quiet ple_max_cap_per_unit_len 1.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute ple_max_res_per_unit_len /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 500.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca ple_max_res_per_unit_len ] && ![string compare 500.0 ""]} {
+::legacy::reset_attribute -quiet ple_max_res_per_unit_len / 
+} else {
+::legacy::set_attribute -quiet ple_max_res_per_unit_len 500.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute ple_max_area_per_unit_len /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 2.0] [list $cur_attr_val]]} {
+if {[is_attr_ifca ple_max_area_per_unit_len ] && ![string compare 2.0 ""]} {
+::legacy::reset_attribute -quiet ple_max_area_per_unit_len / 
+} else {
+::legacy::set_attribute -quiet ple_max_area_per_unit_len 2.0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute optimize_ls_power_domain /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca optimize_ls_power_domain ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet optimize_ls_power_domain / 
+} else {
+::legacy::set_attribute -quiet optimize_ls_power_domain true /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__debug /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__debug ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__debug / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__debug 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__preview /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__preview ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__preview / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__preview 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__timing_models_are_boundaries /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__timing_models_are_boundaries ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__timing_models_are_boundaries / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__timing_models_are_boundaries 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__preserve_as_user /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__preserve_as_user ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__preserve_as_user / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__preserve_as_user 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__ignore_buf_inv_tree_polarity /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__ignore_buf_inv_tree_polarity ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__ignore_buf_inv_tree_polarity / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__ignore_buf_inv_tree_polarity 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__do_collect_buffer_trees /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__do_collect_buffer_trees ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__do_collect_buffer_trees / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__do_collect_buffer_trees 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__local_loads_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 2] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__local_loads_threshold ] && ![string compare 2 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__local_loads_threshold / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__local_loads_threshold 2 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__leaf_loads_threshold /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 10] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__leaf_loads_threshold ] && ![string compare 10 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__leaf_loads_threshold / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__leaf_loads_threshold 10 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_synth__consider_constant_drivers /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_synth__consider_constant_drivers ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cpf_synth__consider_constant_drivers / 
+} else {
+::legacy::set_attribute -quiet cpf_synth__consider_constant_drivers 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cpf_iso__honorDesignIsoRule /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 4] [list $cur_attr_val]]} {
+if {[is_attr_ifca cpf_iso__honorDesignIsoRule ] && ![string compare 4 ""]} {
+::legacy::reset_attribute -quiet cpf_iso__honorDesignIsoRule / 
+} else {
+::legacy::set_attribute -quiet cpf_iso__honorDesignIsoRule 4 /
+}
+}
+set cur_attr_val [::legacy::get_attribute cell_based_bucketing /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1] [list $cur_attr_val]]} {
+if {[is_attr_ifca cell_based_bucketing ] && ![string compare 1 ""]} {
+::legacy::reset_attribute -quiet cell_based_bucketing / 
+} else {
+::legacy::set_attribute -quiet cell_based_bucketing 1 /
+}
+}
+set cur_attr_val [::legacy::get_attribute congestion_log_file /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca congestion_log_file ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet congestion_log_file / 
+} else {
+::legacy::set_attribute -quiet congestion_log_file {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute skip_ilm_power_from_design_power /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca skip_ilm_power_from_design_power ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet skip_ilm_power_from_design_power / 
+} else {
+::legacy::set_attribute -quiet skip_ilm_power_from_design_power false /
+}
+}
+set cur_attr_val [::legacy::get_attribute flow_checks /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca flow_checks ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet flow_checks / 
+} else {
+::legacy::set_attribute -quiet flow_checks {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute new_check_flow /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca new_check_flow ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet new_check_flow / 
+} else {
+::legacy::set_attribute -quiet new_check_flow false /
+}
+}
+set cur_attr_val [::legacy::get_attribute db_compatibility_for_non_seq_setup_arcs /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca db_compatibility_for_non_seq_setup_arcs ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet db_compatibility_for_non_seq_setup_arcs / 
+} else {
+::legacy::set_attribute -quiet db_compatibility_for_non_seq_setup_arcs 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute derive_bussed_pins /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca derive_bussed_pins ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet derive_bussed_pins / 
+} else {
+::legacy::set_attribute -quiet derive_bussed_pins false /
+}
+}
+set cur_attr_val [::legacy::get_attribute stats_db__suppress /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca stats_db__suppress ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet stats_db__suppress / 
+} else {
+::legacy::set_attribute -quiet stats_db__suppress 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute tinfo_tstamp_file /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list .rs_leonardo.juracy.tstamp] [list $cur_attr_val]]} {
+if {[is_attr_ifca tinfo_tstamp_file ] && ![string compare .rs_leonardo.juracy.tstamp ""]} {
+::legacy::reset_attribute -quiet tinfo_tstamp_file / 
+} else {
+::legacy::set_attribute -quiet tinfo_tstamp_file .rs_leonardo.juracy.tstamp /
+}
+}
+set cur_attr_val [::legacy::get_attribute metric_enable /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca metric_enable ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet metric_enable / 
+} else {
+::legacy::set_attribute -quiet metric_enable true /
+}
+}
+set cur_attr_val [::legacy::get_attribute metric_page_cfg /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca metric_page_cfg ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet metric_page_cfg / 
+} else {
+::legacy::set_attribute -quiet metric_page_cfg {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute stim_no_validate_dut /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca stim_no_validate_dut ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet stim_no_validate_dut / 
+} else {
+::legacy::set_attribute -quiet stim_no_validate_dut true /
+}
+}
+set cur_attr_val [::legacy::get_attribute _gui_stop /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca _gui_stop ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet _gui_stop / 
+} else {
+::legacy::set_attribute -quiet _gui_stop 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute gui_include_derived_blockage /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca gui_include_derived_blockage ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet gui_include_derived_blockage / 
+} else {
+::legacy::set_attribute -quiet gui_include_derived_blockage 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute gui_include_macro_blockage /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca gui_include_macro_blockage ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet gui_include_macro_blockage / 
+} else {
+::legacy::set_attribute -quiet gui_include_macro_blockage 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute gui_pgrid_control /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 0] [list $cur_attr_val]]} {
+if {[is_attr_ifca gui_pgrid_control ] && ![string compare 0 ""]} {
+::legacy::reset_attribute -quiet gui_pgrid_control / 
+} else {
+::legacy::set_attribute -quiet gui_pgrid_control 0 /
+}
+}
+set cur_attr_val [::legacy::get_attribute silent_mode /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca silent_mode ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet silent_mode / 
+} else {
+::legacy::set_attribute -quiet silent_mode false /
+}
+}
+set cur_attr_val [::legacy::get_attribute startup_done /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca startup_done ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet startup_done / 
+} else {
+::legacy::set_attribute -quiet startup_done true /
+}
+}
+set cur_attr_val [::legacy::get_attribute post_option /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca post_option ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet post_option / 
+} else {
+::legacy::set_attribute -quiet post_option {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute db_option /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca db_option ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet db_option / 
+} else {
+::legacy::set_attribute -quiet db_option {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute db_script_option /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca db_script_option ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet db_script_option / 
+} else {
+::legacy::set_attribute -quiet db_script_option {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute verbose_option /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca verbose_option ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet verbose_option / 
+} else {
+::legacy::set_attribute -quiet verbose_option false /
+}
+}
+set cur_attr_val [::legacy::get_attribute script_search_path /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list ./] [list $cur_attr_val]]} {
+if {[is_attr_ifca script_search_path ] && ![string compare ./ ""]} {
+::legacy::reset_attribute -quiet script_search_path / 
+} else {
+::legacy::set_attribute -quiet script_search_path ./ /
+}
+}
+set cur_attr_val [::legacy::get_attribute hdl_track_filename_row_col /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca hdl_track_filename_row_col ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet hdl_track_filename_row_col / 
+} else {
+::legacy::set_attribute -quiet hdl_track_filename_row_col true /
+}
+}
+set cur_attr_val [::legacy::get_attribute lp_insert_discrete_clock_gating_logic /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca lp_insert_discrete_clock_gating_logic ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet lp_insert_discrete_clock_gating_logic / 
+} else {
+::legacy::set_attribute -quiet lp_insert_discrete_clock_gating_logic true /
+}
+}
+set cur_attr_val [::legacy::get_attribute lp_clock_gating_exceptions_aware /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca lp_clock_gating_exceptions_aware ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet lp_clock_gating_exceptions_aware / 
+} else {
+::legacy::set_attribute -quiet lp_clock_gating_exceptions_aware true /
+}
+}
+set cur_attr_val [::legacy::get_attribute max_cpus_per_server_int /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 8] [list $cur_attr_val]]} {
+if {[is_attr_ifca max_cpus_per_server_int ] && ![string compare 8 ""]} {
+::legacy::reset_attribute -quiet max_cpus_per_server_int / 
+} else {
+::legacy::set_attribute -quiet max_cpus_per_server_int 8 /
+}
+}
+set cur_attr_val [::legacy::get_attribute shm_id_rc /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1179670] [list $cur_attr_val]]} {
+if {[is_attr_ifca shm_id_rc ] && ![string compare 1179670 ""]} {
+::legacy::reset_attribute -quiet shm_id_rc / 
+} else {
+::legacy::set_attribute -quiet shm_id_rc 1179670 /
+}
+}
+set cur_attr_val [::legacy::get_attribute use_area_from_lef /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca use_area_from_lef ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet use_area_from_lef / 
+} else {
+::legacy::set_attribute -quiet use_area_from_lef true /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sim_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 1000] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sim_effort ] && ![string compare 1000 ""]} {
+::legacy::reset_attribute -quiet simsat_sim_effort / 
+} else {
+::legacy::set_attribute -quiet simsat_sim_effort 1000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sim_max_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 8000] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sim_max_effort ] && ![string compare 8000 ""]} {
+::legacy::reset_attribute -quiet simsat_sim_max_effort / 
+} else {
+::legacy::set_attribute -quiet simsat_sim_max_effort 8000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sat_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 2200] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sat_effort ] && ![string compare 2200 ""]} {
+::legacy::reset_attribute -quiet simsat_sat_effort / 
+} else {
+::legacy::set_attribute -quiet simsat_sat_effort 2200 /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sat_max_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 6000] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sat_max_effort ] && ![string compare 6000 ""]} {
+::legacy::reset_attribute -quiet simsat_sat_max_effort / 
+} else {
+::legacy::set_attribute -quiet simsat_sat_max_effort 6000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sat_threshold_high_effort /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 2000] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sat_threshold_high_effort ] && ![string compare 2000 ""]} {
+::legacy::reset_attribute -quiet simsat_sat_threshold_high_effort / 
+} else {
+::legacy::set_attribute -quiet simsat_sat_threshold_high_effort 2000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute simsat_sat_assign_limit /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 5000000] [list $cur_attr_val]]} {
+if {[is_attr_ifca simsat_sat_assign_limit ] && ![string compare 5000000 ""]} {
+::legacy::reset_attribute -quiet simsat_sat_assign_limit / 
+} else {
+::legacy::set_attribute -quiet simsat_sat_assign_limit 5000000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute dont_set_region_leaf /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca dont_set_region_leaf ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet dont_set_region_leaf / 
+} else {
+::legacy::set_attribute -quiet dont_set_region_leaf false /
+}
+}
+set cur_attr_val [::legacy::get_attribute legacy_before_eval_novus /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca legacy_before_eval_novus ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet legacy_before_eval_novus / 
+} else {
+::legacy::set_attribute -quiet legacy_before_eval_novus false /
+}
+}
+set cur_attr_val [::legacy::get_attribute flow_schedule /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca flow_schedule ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet flow_schedule / 
+} else {
+::legacy::set_attribute -quiet flow_schedule {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute flow_metrics_snapshot_uuid /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 4b6af7bd-312b-4e96-8f67-6c137d779838] [list $cur_attr_val]]} {
+if {[is_attr_ifca flow_metrics_snapshot_uuid ] && ![string compare 4b6af7bd-312b-4e96-8f67-6c137d779838 ""]} {
+::legacy::reset_attribute -quiet flow_metrics_snapshot_uuid / 
+} else {
+::legacy::set_attribute -quiet flow_metrics_snapshot_uuid 4b6af7bd-312b-4e96-8f67-6c137d779838 /
+}
+}
+set cur_attr_val [::legacy::get_attribute continue_on_error /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca continue_on_error ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet continue_on_error / 
+} else {
+::legacy::set_attribute -quiet continue_on_error false /
+}
+}
+set cur_attr_val [::legacy::get_attribute suppress_command_help /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca suppress_command_help ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet suppress_command_help / 
+} else {
+::legacy::set_attribute -quiet suppress_command_help {} /
+}
+}
+set cur_attr_val [::legacy::get_attribute excpt_clean_multiple_mc /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca excpt_clean_multiple_mc ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet excpt_clean_multiple_mc / 
+} else {
+::legacy::set_attribute -quiet excpt_clean_multiple_mc false /
+}
+}
+set cur_attr_val [::legacy::get_attribute auto_ungroup /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list none] [list $cur_attr_val]]} {
+if {[is_attr_ifca auto_ungroup ] && ![string compare none ""]} {
+::legacy::reset_attribute -quiet auto_ungroup / 
+} else {
+::legacy::set_attribute -quiet auto_ungroup none /
+}
+}
+set cur_attr_val [::legacy::get_attribute inside_legacy_synthesize /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca inside_legacy_synthesize ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet inside_legacy_synthesize / 
+} else {
+::legacy::set_attribute -quiet inside_legacy_synthesize true /
+}
+}
+set cur_attr_val [::legacy::get_attribute power_engine /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list legacy] [list $cur_attr_val]]} {
+if {[is_attr_ifca power_engine ] && ![string compare legacy ""]} {
+::legacy::reset_attribute -quiet power_engine / 
+} else {
+::legacy::set_attribute -quiet power_engine legacy /
+}
+}
+set cur_attr_val [::legacy::get_attribute ui_respects_preserve /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca ui_respects_preserve ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet ui_respects_preserve / 
+} else {
+::legacy::set_attribute -quiet ui_respects_preserve true /
+}
+}
+set cur_attr_val [::legacy::get_attribute sigint_happened /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca sigint_happened ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet sigint_happened / 
+} else {
+::legacy::set_attribute -quiet sigint_happened false /
+}
+}
+set cur_attr_val [::legacy::get_attribute prune_iod_level /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 2] [list $cur_attr_val]]} {
+if {[is_attr_ifca prune_iod_level ] && ![string compare 2 ""]} {
+::legacy::reset_attribute -quiet prune_iod_level / 
+} else {
+::legacy::set_attribute -quiet prune_iod_level 2 /
+}
+}
+set cur_attr_val [::legacy::get_attribute phys_ple_reporting /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca phys_ple_reporting ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet phys_ple_reporting / 
+} else {
+::legacy::set_attribute -quiet phys_ple_reporting false /
+}
+}
+set cur_attr_val [::legacy::get_attribute map_mmmc_use_dominant_views /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca map_mmmc_use_dominant_views ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet map_mmmc_use_dominant_views / 
+} else {
+::legacy::set_attribute -quiet map_mmmc_use_dominant_views false /
+}
+}
+set cur_attr_val [::legacy::get_attribute map_mmmc_use_sorted_views /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca map_mmmc_use_sorted_views ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet map_mmmc_use_sorted_views / 
+} else {
+::legacy::set_attribute -quiet map_mmmc_use_sorted_views false /
+}
+}
+set cur_attr_val [::legacy::get_attribute force_ultra_global_mapping /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca force_ultra_global_mapping ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet force_ultra_global_mapping / 
+} else {
+::legacy::set_attribute -quiet force_ultra_global_mapping true /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_set_UGM_in_gen /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_set_UGM_in_gen ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet pbs_set_UGM_in_gen / 
+} else {
+::legacy::set_attribute -quiet pbs_set_UGM_in_gen true /
+}
+}
+set cur_attr_val [::legacy::get_attribute uniquify_skip_ilm /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list true] [list $cur_attr_val]]} {
+if {[is_attr_ifca uniquify_skip_ilm ] && ![string compare true ""]} {
+::legacy::reset_attribute -quiet uniquify_skip_ilm / 
+} else {
+::legacy::set_attribute -quiet uniquify_skip_ilm true /
+}
+}
+set cur_attr_val [::legacy::get_attribute uniquify_unresolved_modules /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca uniquify_unresolved_modules ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet uniquify_unresolved_modules / 
+} else {
+::legacy::set_attribute -quiet uniquify_unresolved_modules false /
+}
+}
+set cur_attr_val [::legacy::get_attribute pbs_phys_partition_flow /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list false] [list $cur_attr_val]]} {
+if {[is_attr_ifca pbs_phys_partition_flow ] && ![string compare false ""]} {
+::legacy::reset_attribute -quiet pbs_phys_partition_flow / 
+} else {
+::legacy::set_attribute -quiet pbs_phys_partition_flow false /
+}
+}
+set cur_attr_val [::legacy::get_attribute gsp_gen_part_size /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list 100000] [list $cur_attr_val]]} {
+if {[is_attr_ifca gsp_gen_part_size ] && ![string compare 100000 ""]} {
+::legacy::reset_attribute -quiet gsp_gen_part_size / 
+} else {
+::legacy::set_attribute -quiet gsp_gen_part_size 100000 /
+}
+}
+set cur_attr_val [::legacy::get_attribute st_master_tmp_directory /]
+if {(1 || [llength [split $cur_attr_val]]) && [string compare [list /home/leonardo.juracy/Rep/acc_env/lsynth/28nm/.st_launch_paxos.inf.pucrs.br_3822] [list $cur_attr_val]]} {
+if {[is_attr_ifca st_master_tmp_directory ] && ![string compare /home/leonardo.juracy/Rep/acc_env/lsynth/28nm/.st_launch_paxos.inf.pucrs.br_3822 ""]} {
+::legacy::reset_attribute -quiet st_master_tmp_directory / 
+} else {
+::legacy::set_attribute -quiet st_master_tmp_directory /home/leonardo.juracy/Rep/acc_env/lsynth/28nm/.st_launch_paxos.inf.pucrs.br_3822 /
+}
+}
+set cur_attr_val [::legacy::get_attribute hide_timing_condition_clones /]
+if {(0 || [llength [split $cur_attr_val]]) && [string compare [list {}] [list $cur_attr_val]]} {
+if {[is_attr_ifca hide_timing_condition_clones ] && ![string compare {} ""]} {
+::legacy::reset_attribute -quiet hide_timing_condition_clones / 
+} else {
+::legacy::set_attribute -quiet hide_timing_condition_clones {} /
+}
+}
+if { "1.0"  ne "[::legacy::get_attr scale_of_cap_per_unit_length /]"} {
+::legacy::set_attribute -quiet scale_of_cap_per_unit_length 1.0 /
+}
+if { "1.0"  ne "[::legacy::get_attr scale_of_res_per_unit_length /]"} {
+::legacy::set_attribute -quiet scale_of_res_per_unit_length 1.0 /
+}
+if { "1.0"  ne "[::legacy::get_attr scale_of_area_per_unit_length /]"} {
+::legacy::set_attribute -quiet scale_of_area_per_unit_length 1.0 /
+}
+if { "1.9000 2.0000"  ne "[::legacy::get_attr ple_correlation_factors /]"} {
+::legacy::set_attribute -quiet ple_correlation_factors {1.9000 2.0000} /
+}
+if { "1.0"  ne "[::legacy::get_attr net_derating_factor_late_data /]"} {
+::legacy::set_attribute -quiet net_derating_factor_late_data 1.0 /
+}
+if { "1.0"  ne "[::legacy::get_attr net_derating_factor_early_data /]"} {
+::legacy::set_attribute -quiet net_derating_factor_early_data 1.0 /
+}
+if { "1.0"  ne "[::legacy::get_attr net_derating_factor_late_clock /]"} {
+::legacy::set_attribute -quiet net_derating_factor_late_clock 1.0 /
+}
+if { "1.0"  ne "[::legacy::get_attr net_derating_factor_early_clock /]"} {
+::legacy::set_attribute -quiet net_derating_factor_early_clock 1.0 /
+}
+if { "0.9"  ne "[::legacy::get_attr shrink_factor /]"} {
+::legacy::set_attribute -quiet shrink_factor 0.9 /
+}
+if { "100"  ne "[::legacy::get_attr max_virtual_pins_for_each_port /]"} {
+::legacy::set_attribute -quiet max_virtual_pins_for_each_port 100 /
+}
+if { "true"  ne "[::legacy::get_attr lib_lef_consistency_check_enable /]"} {
+::legacy::set_attribute -quiet lib_lef_consistency_check_enable true /
+}
+if { "/home/leonardo.juracy/Rep/acc_env/psynth/28nm/lef/technology.12T.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/SiteDefKit_cmos28@1.4@20120720.0/LEF/sites.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CORE_LR@2.0@20130411.0/CADENCE/LEF/C28SOI_SC_12_CORE_LR_soc.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_PR_LR@2.0@20130412.0/CADENCE/LEF/C28SOI_SC_12_PR_LR_soc.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CLK_LR@2.1@20130621.0/CADENCE/LEF/C28SOI_SC_12_CLK_LR_soc.lef"  ne "[::legacy::get_attr lef_library /]"} {
+::legacy::set_attribute -quiet lef_library {/home/leonardo.juracy/Rep/acc_env/psynth/28nm/lef/technology.12T.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/SiteDefKit_cmos28@1.4@20120720.0/LEF/sites.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CORE_LR@2.0@20130411.0/CADENCE/LEF/C28SOI_SC_12_CORE_LR_soc.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_PR_LR@2.0@20130412.0/CADENCE/LEF/C28SOI_SC_12_PR_LR_soc.lef /soft64/design-kits/stm/28nm-cmos28fdsoi_25d/C28SOI_SC_12_CLK_LR@2.1@20130621.0/CADENCE/LEF/C28SOI_SC_12_CLK_LR_soc.lef} /
+}
+if { "/soft64/design-kits/stm/28nm-cmos28lp_42/CadenceTechnoKit_cmos028_6U1x_2U2x_2T8x_LB@4.2.1/CAP_TABLE/FuncRCmax.captable"  ne "[::legacy::get_attr cap_table_file /]"} {
+::legacy::set_attribute -quiet cap_table_file /soft64/design-kits/stm/28nm-cmos28lp_42/CadenceTechnoKit_cmos028_6U1x_2U2x_2T8x_LB@4.2.1/CAP_TABLE/FuncRCmax.captable /
+}
+::legacy::set_attribute -quiet write_db_skip_floorplan 1 /
+::legacy::set_attribute -quiet interconnect_mode ple /
+::legacy::set_attribute -quiet ple_mode global /
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPHRQNX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPHRQX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQNTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQNX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQNTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQNX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQNTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQNX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQTX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQX4_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX25_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX17_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX25_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX33_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX8_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P10}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P4}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P0}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P10}
+::legacy::set_attribute -quiet avoid true {lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P4}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P4/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P0/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P10/Q}
+::legacy::set_attribute -quiet user_function latch_posedge_precontrol {lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P4/Q}
+::legacy::set_attribute -quiet dp_tmd_downsizing 1 /
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQNX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQNTX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX25_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQTX4_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P0/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX44_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPHRQX4_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX7_P4/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQTX4_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX25_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQNX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P0/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P10/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P4}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQNX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX93_P4/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX22_P4/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P4}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX58_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX86_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQTX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQTX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX58_P4/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX71_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P0/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX15_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNTX17_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQNX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQTX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPRQTX15_P10}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX8_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX17_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX71_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQX4_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPRQNTX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPSQNTX4_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX36_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LR_CNSDFPSQTX15_P10}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPQNTX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX29_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQX8_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX36_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P0/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPQTX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPSQNX33_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPHRQX33_P0}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRPHP_CNHLSX51_P0/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX51_P10/Q}
+catch {::legacy::set_attribute -quiet user_function latch_posedge_precontrol lib_pin:default_emulate_libset_max/C28SOI_SC_12_CLK_LR/C12T28SOI_LRP_CNHLSX29_P4/Q}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LRHF_SDFPHRQNX4_P0}
+catch {::legacy::set_attribute -quiet avoid true lib_cell:default_emulate_libset_max/C28SOI_SC_12_CORE_LR/C12T28SOI_LR_SDFPRQNTX33_P0}
+
+::legacy::get_attribute active_operating_conditions /
+aae_init
+set lib_load_end [::legacy::get_attribute runtime /]
+set ::rc_st::bg::runtime_offset [expr {$lib_load_end - $lib_load_start}]
+::rc_st::__eval_from_socket_terminator
