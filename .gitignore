@@ -2,3 +2,5 @@
 .idea/
 
 *.cf
+
+apps/imports/__pycache__/

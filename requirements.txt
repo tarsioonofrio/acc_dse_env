@@ -1,0 +1,5 @@
+# tensorflow
+pillow
+tensorflow_datasets
+scikit-image
+six
