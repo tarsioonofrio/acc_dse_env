@@ -3,4 +3,6 @@
 
 *.cf
 
-apps/imports/__pycache__/
+__pycache__/
+
+apps/data/

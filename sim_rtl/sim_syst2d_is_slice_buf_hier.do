@@ -3,8 +3,8 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../apps/inmem_pkg.vhd
-vcom -work work ../apps/gold_pkg.vhd
+vcom -work work ../apps/data/inmem_pkg.vhd
+vcom -work work ../apps/data/gold_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mem.vhd
@@ -18,7 +18,7 @@ vcom -work work ../rtl/convolution/syst2d_is_slice_buf_hier.vhd
 vcom -work work ../tb/tb_rtl.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/generic_file.txt
 do wave_syst2d_is_slice_buf_hier.do
 onfinish exit
 onbreak exit
