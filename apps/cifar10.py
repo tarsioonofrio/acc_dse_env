@@ -20,17 +20,17 @@ def main():
     parser.add_argument("--lat", "-t", default=2, type=int, help="Lat")
     args = parser.parse_args()
 
-    clk_period = args.clk_period
-    input_size = args.input_size
-    array_type = args.array_type
-    dataflow_type = args.dataflow_type
-    layer = args.layer
-    lat = args.lat
+    CLK_PERIOD = args.clk_period
+    INPUT_SIZE = args.input_size
+    ARRAY_TYPE = args.array_type
+    DATAFLOW_TYPE = args.dataflow_type
+    LAYER = args.layer
+    LAT = args.lat
 
     # HW Inputs
-    mem_size = 16
-    carry_size = 4
-    in_delay = 0.3
+    MEM_SIZE = 16
+    CARRY_SIZE = 4
+    IN_DELAY = 0.3
 
     # CNN Inputs
 
@@ -46,13 +46,13 @@ def main():
     input_h = 32
     input_c = 3
     n_dense_neuron = 10
-    shift_bits = input_size / 2
+    shift_bits = INPUT_SIZE / 2
 
     # Compute number of convolutional layers
     n_conv_layers = len(filter_channel)
 
     # Get application dataset
-    x_train, y_train, x_test, y_test, feature_shape = util.get_cifar10_dataset(input_h, input_w, input_c)
+    x_train, y_train, x_test, y_test, featureShape = util.get_cifar10_dataset(input_h, input_w, input_c)
 
     data_dir = "data"
     if not os.path.exists(data_dir):
@@ -61,7 +61,7 @@ def main():
     # Build CNN application
     if not (os.path.exists("./data/model")):
         model = util.build(
-            feature_shape, filter_channel, filter_dimension, stride_h, stride_w, input_h,
+            featureShape, filter_channel, filter_dimension, stride_h, stride_w, input_h,
             input_w, input_c, n_conv_layers, n_dense_neuron
         )
         model.fit(x_train, y_train, epochs=n_epochs)
@@ -83,46 +83,46 @@ def main():
     layer_dimension = util.get_output_layer_dimension(input_h, n_conv_layers, filter_dimension, stride_h)
 
     # Compute HW parameters
-    if layer == 0:
-        x_size = input_w
-        c_size = input_c
+    if LAYER == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
     else:
-        x_size = layer_dimension[layer - 1]
-        c_size = filter_channel[layer - 1]
-    filter_width = filter_dimension[layer]
-    conv_per_line = layer_dimension[layer]
+        X_SIZE = layer_dimension[LAYER - 1]
+        C_SIZE = filter_channel[LAYER - 1]
+    FILTER_WIDTH = filter_dimension[LAYER]
+    CONVS_PER_LINE = layer_dimension[LAYER]
 
     # Compute input channels
     input_channel = util.get_input_channel(input_c, n_conv_layers, filter_channel)
 
     # Generate dictionary
-    model_dict = generate_files.create_dictionary(model)
+    modelDict = generate_files.create_dictionary(model)
 
     # Adjust shift
     shift = 2 ** shift_bits
 
     # Generate generic file for rtl simulation
     generate_files.generate_generic_file(
-        x_size, c_size, filter_width, conv_per_line, mem_size, input_size, carry_size, clk_period,
-        stride_h[layer], filter_channel[layer], dataflow_type, lat, shift_bits, in_delay
+        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
+        stride_h[LAYER], filter_channel[LAYER], DATAFLOW_TYPE, LAT, shift_bits, IN_DELAY
     )
 
     # Generate TCL file with generics for logic synthesis
     generate_files.generate_tcl_generic(
-        x_size, c_size, filter_width, conv_per_line, mem_size, input_size, carry_size, clk_period,
-        dataflow_type, array_type, stride_h[layer], filter_channel[layer], lat, shift_bits, layer
+        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
+        DATAFLOW_TYPE, ARRAY_TYPE, stride_h[LAYER], filter_channel[LAYER], LAT, shift_bits, LAYER
     )
 
     # Generate VHDL tensorflow package
     generate_files.generate_tf_vhd_pkg(
-        model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-        input_channel, x_test, y_test, stride_h, stride_w, 1, layer
+        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
     )
 
     # Generate VHDL gold output package
     generate_files.generate_gold_vhd_pkg(
-        model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-        input_channel, x_test, y_test, stride_h, stride_w, 1, layer
+        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
     )
 
 
