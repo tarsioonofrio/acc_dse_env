@@ -5,4 +5,10 @@
 
 __pycache__/
 
-apps/data/
+#apps/data/
+
+checkpoint
+
+apps/data/model/
+
+weights.*
