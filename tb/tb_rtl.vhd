@@ -1,9 +1,14 @@
 library ieee;
+library std;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
-use std.textio.all;
 use ieee.std_logic_textio.all;
+
+use std.textio.all;
+use std.env.stop;
+
 use work.gold_package.all;
 
 entity tb is
@@ -22,11 +27,13 @@ end tb;
 
 architecture a1 of tb is
   signal inmem_value                  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+
   signal inmem_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, inmem_ce, inmem_valid, end_conv : std_logic := '0';
+
   signal pixel_out, pixel_in                                              : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal inmem_n_read, inmem_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
@@ -104,42 +111,41 @@ begin
 
   start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
-  process(clock)
+  process
 
     -- convolution counter
     variable cont_conv : integer := 0;
 
   begin
 
-    if clock'event and clock = '0' then
+    wait until clock'event and clock = '0';
 
-      if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
-        if pixel_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-          --if pixel_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
+    if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
+      if pixel_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+        --if pixel_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
+        report "end of simulation with error!";
+        report "number of convolutions executed: " & integer'image(cont_conv);
+        report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
+        report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
 
-          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(pixel_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(pixel_out));
-          end if;
-
-          assert false severity failure;
+        if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+          report "obtained value: " & integer'image(CONV_INTEGER(pixel_out(31 downto 0)));
+        else
+          report "obtained value: " & integer'image(CONV_INTEGER(pixel_out));
         end if;
-        cont_conv := cont_conv + 1;
-      elsif end_conv = '1' then
-        report "number of inmem read: " & integer'image(CONV_INTEGER(unsigned(inmem_n_read)));
-        report "number of inmem write: " & integer'image(CONV_INTEGER(unsigned(inmem_n_write)));
-        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
-        report "number of convolutions: " & integer'image(cont_conv);
-        report "end of simulation without error!" severity failure;
-      end if;
-    end if;
 
+        assert false severity failure;
+      end if;
+      cont_conv := cont_conv + 1;
+    elsif end_conv = '1' then
+      report "number of inmem read: " & integer'image(CONV_INTEGER(unsigned(inmem_n_read)));
+      report "number of inmem write: " & integer'image(CONV_INTEGER(unsigned(inmem_n_write)));
+      report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
+      report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+      report "number of convolutions: " & integer'image(cont_conv);
+      report "end of simulation without error!";
+    end if;
+  stop;
   end process;
 
 end a1;
