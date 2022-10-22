@@ -117,13 +117,8 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     cont = 0
 
     # Auxiliar strings
-    string_weight = ["\t\t\t"] * max(filter_channel)
-    label_string = "int16_t Label[" + str(testSetSize) + "] = {"
-    string_shift = " "
-
-    string_bias = " "
-    string_ofmap = " "
     input_string = "\n\t\t\t"
+    string_weight = ["\t\t\t"] * max(filter_channel)
     string_weight[0] = "\t\t\t"
 
     # Auxiliar strings for input
@@ -180,6 +175,9 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
         if modelDict[layerId]["type"] == "Conv2D":
             if layerId == layer:
                 for filterId in modelDict[layerId]["filter"]:
+                    string_weight = ["\t\t\t"] * max(filter_channel)
+                    string_weight[0] = "\t\t\t"
+
                     for weightChannel in modelDict[layerId]["filter"][filterId]["weights"]:
                         for weightsH in weightChannel:
                             if layerId == 0:
@@ -195,15 +193,15 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
                     else:
                         aux_idx_range = filter_channel[layerId - 1]
                     for i in range(aux_idx_range):
-                        cont = cont + 1
-                        if cont == filter_channel[layerId] * aux_idx_range:
-                            cont = 0
-                            f.write("\t\t")
-                            f.write(string_weight[i])
-                        else:
-                            f.write("\t\t")
-                            f.write(string_weight[i])
-                        string_weight[i] = "\t\t\t"
+                        # cont = cont + 1
+                        # if cont == filter_channel[layerId] * aux_idx_range:
+                        #     cont = 0
+                        #     f.write("\t\t")
+                        #     f.write(string_weight[i])
+                        # else:
+                        f.write("\t\t")
+                        f.write(string_weight[i])
+                        # string_weight[i] = "\t\t\t"
                         f.write("\n")
 
     if layer == 0:
