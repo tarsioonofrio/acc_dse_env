@@ -97,11 +97,6 @@ def build(featureShape, filter_channel, filter_dimension, stride_h, stride_w, in
     return model
 
 
-def train(model, x_train, y_train, n_epochs):
-    # Training
-    history = model.fit(x_train, y_train, epochs=n_epochs)
-
-
 def get_input_size(input_h, input_w, input_c):
     input_size = input_w * input_h * input_c
     return input_size

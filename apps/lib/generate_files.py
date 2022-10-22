@@ -80,7 +80,7 @@ def generate_generic_file(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE
     RST_TIME = CLK_HALF * 5
 
     # Open file
-    f = open("data/generic_file.txt", "w+")
+    f = open("data/generic_file.txt", "w")
     f.write("-gN_FILTER=" + str(N_FILTER) + " -gSTRIDE=" + str(STRIDE) + " -gX_SIZE=" + str(
         X_SIZE) + " -gFILTER_WIDTH=" + str(FILTER_WIDTH) + " -gCONVS_PER_LINE=" + str(
         CONVS_PER_LINE) + " -gMEM_SIZE=" + str(MEM_SIZE) + " -gINPUT_SIZE=" + str(INPUT_SIZE) + " -gCARRY_SIZE=" + str(
@@ -94,7 +94,7 @@ def generate_generic_file(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE
 def generate_tcl_generic(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
                          DATAFLOW_TYPE, ARRAY_TYPE, STRIDE, N_FILTER, LAT, SHIFT, LAYER):
     # Open file
-    f = open("data/generic_synth.tcl", "w+")
+    f = open("data/generic_synth.tcl", "w")
 
     # Generate tcl file
     f.write("set CLK_PERIOD " + str(CLK_PERIOD) + "\n")
@@ -140,7 +140,7 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     filter_j = 0
 
     # Open file
-    f = open("data/inmem_pkg.vhd", "w+")
+    f = open("data/inmem_pkg.vhd", "w")
 
     f.write("LIBRARY ieee;\n")
     f.write("USE ieee.std_logic_1164.all;\n")
@@ -159,6 +159,17 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
                 f.write(string_bias)
                 string_bias = "{"
                 f.write("\n\n")
+
+    # f.write("\t\tconstant input_mem: padroes := ( \n")
+    # bias_list = [
+    #     f'{int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)}, '
+    #     for layerId in modelDict
+    #     if modelDict[layerId]["type"] == "Conv2D"
+    #     if layerId == layer
+    #     for filterId in modelDict[layerId]["filter"]
+    # ]
+    # f.writelines(bias_list)
+    # f.write("\n\n")
 
     for layerId in modelDict:
         if modelDict[layerId]["type"] == "Conv2D":
@@ -420,7 +431,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
                     # Open file
-                    with open("data/gold_pkg.vhd", "a") as f:
+                    with open("data/gold_pkg.vhd", "w") as f:
                         if layerId == layer:
                             for m in range(layer_dimension[layerId]):
                                 for n in range(layer_dimension[layerId]):

@@ -1,10 +1,11 @@
-import argparse
 import os
+import json
+import argparse
 
 from tensorflow import keras
 
-from lib import generate_files
 from lib import util
+from lib import generate_files
 
 
 def main():
@@ -67,7 +68,6 @@ def main():
         model.fit(x_train, y_train, epochs=n_epochs)
         # Save model
         model.save('./data/model')
-        model.save_weights('./data/weights')
     else:
         model = keras.models.load_model("./data/model")
         model.summary()
@@ -95,11 +95,13 @@ def main():
     # Compute input channels
     input_channel = util.get_input_channel(input_c, n_conv_layers, filter_channel)
 
-    # Generate dictionary
-    modelDict = generate_files.create_dictionary(model)
-
     # Adjust shift
     shift = 2 ** shift_bits
+
+
+    # ARRAY_TYPE, CARRY_SIZE, CLK_PERIOD, CONVS_PER_LINE, C_SIZE, DATAFLOW_TYPE, FILTER_WIDTH, INPUT_SIZE, IN_DELAY, LAT, LAYER, MEM_SIZE, X_SIZE, filter_channel, filter_dimension, input_channel, input_size, layer_dimension, model, shift, shift_bits, stride_h, stride_w, x_test, y_test
+    # Generate dictionary
+    modelDict = generate_files.create_dictionary(model)
 
     # Generate generic file for rtl simulation
     generate_files.generate_generic_file(

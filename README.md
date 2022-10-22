@@ -1,3 +1,6 @@
 # DSE Environment
 
-`conda install -c conda-forge cudatoolkit=11.2 cudnn=8.1.0`
+`conda create --name acc_dse_env2 "cudatoolkit=<10.2" tensorflow-gpu tensorflow-datasets pillow scikit-image`
+
+`conda install tensorflow-datasets pillow scikit-image`
+
