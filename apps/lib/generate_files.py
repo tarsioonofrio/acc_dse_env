@@ -120,6 +120,7 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     input_string = "\n\t\t\t"
     string_weight = ["\t\t\t"] * max(filter_channel)
     string_weight[0] = "\t\t\t"
+    tabs = "\t\t\t\t\t"
 
     # Auxiliar strings for input
     pixel0 = []
@@ -156,41 +157,37 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     #             f.write("\n\n")
 
     f.write("\t\tconstant input_mem: padroes := ( \n")
-    f.write("\t\t-- bias\n")
+    f.write(f"{tabs}-- bias\n")
     bias_list = [
-        [layerId, [f'{int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)}, '
+        [layerId, [str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
                    for filterId in modelDict[layerId]["filter"]]]
         for layerId in modelDict
         if modelDict[layerId]["type"] == "Conv2D"
         if layerId == layer
     ]
     bias_list_filter = [
-        f"-- layerId {layerId}\n {''.join(bias)} \n"
+        f"{tabs}-- layer={layerId}\n{tabs}{', '.join(bias)},\n"
         for layerId, bias in bias_list
     ]
     f.writelines(bias_list_filter)
-    f.write("\n\n")
+    f.write(f"\n\n{tabs}-- weights\n")
 
-    # f.write("\t\t-- weights\n")
+    string_weight = [
+        [layerId, filterId, z, [str(int(weights[x, y, z].reshape(-1)))
+                                for x in range(weights.shape[0])
+                                for y in range(weights.shape[1])]]
+        for layerId in modelDict
+        if modelDict[layerId]["type"] == "Conv2D"
+        if layerId == layer
+        for filterId in modelDict[layerId]["filter"]
+        for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
+        for z in range(weights.shape[2])
+    ]
+    string_weight_list = [
+        f"{tabs}-- layer={la} filter={f} channel={c}\n{tabs}{','.join(s)},\n" for la, f, c, s in string_weight
+    ]
 
-    for layerId in modelDict:
-        if modelDict[layerId]["type"] == "Conv2D":
-            if layerId == layer:
-                for filterId in modelDict[layerId]["filter"]:
-                    string_weight = [
-                        [
-                            str(int(weights[x, y, z].reshape(-1)))
-                            for x in range(weights.shape[0])
-                            for y in range(weights.shape[1])
-                        ]
-                        for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
-                        for z in range(weights.shape[2])
-                    ]
-                    string_weight_list = [
-                        f"\t\t\t\t\t{','.join(s)},\n" for s in string_weight
-                    ]
-
-                    f.writelines(string_weight_list)
+    f.writelines(string_weight_list)
 
     if layer == 0:
         cont = 0
