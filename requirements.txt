@@ -1,5 +1,0 @@
-tensorflow~=2.10.0
-tensorflow-datasets~=4.7.0
-pillow~=9.2.0
-scikit-image~=0.19.3
-six~=1.16.0

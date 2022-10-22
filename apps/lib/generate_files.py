@@ -148,28 +148,33 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     f.write("\tPACKAGE inmem_package is\n")
     f.write("\t\ttype padroes is array(0 to 4000000) of integer;\n\n")
 
-    for layerId in modelDict:
-        if modelDict[layerId]["type"] == "Conv2D":
-            if layerId == layer:
-                string_bias = "\t\tconstant input_mem: padroes := ( "
-                for filterId in modelDict[layerId]["filter"]:
-                    string_bias = string_bias + str(
-                        int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)) + ","
-                f.write("\n")
-                f.write(string_bias)
-                string_bias = "{"
-                f.write("\n\n")
+    # for layerId in modelDict:
+    #     if modelDict[layerId]["type"] == "Conv2D":
+    #         if layerId == layer:
+    #             string_bias = "\t\tconstant input_mem: padroes := ( "
+    #             for filterId in modelDict[layerId]["filter"]:
+    #                 string_bias = string_bias + str(
+    #                     int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)) + ","
+    #             f.write("\n")
+    #             f.write(string_bias)
+    #             string_bias = "{"
+    #             f.write("\n\n")
 
-    # f.write("\t\tconstant input_mem: padroes := ( \n")
-    # bias_list = [
-    #     f'{int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)}, '
-    #     for layerId in modelDict
-    #     if modelDict[layerId]["type"] == "Conv2D"
-    #     if layerId == layer
-    #     for filterId in modelDict[layerId]["filter"]
-    # ]
-    # f.writelines(bias_list)
-    # f.write("\n\n")
+    f.write("\t\tconstant input_mem: padroes := ( \n")
+    f.write("\t\t-- bias\n")
+    bias_list = [
+        [layerId, [f'{int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)}, '
+                   for filterId in modelDict[layerId]["filter"]]]
+        for layerId in modelDict
+        if modelDict[layerId]["type"] == "Conv2D"
+        if layerId == layer
+    ]
+    bias_list_filter = [
+        f"-- layerId {layerId}\n {''.join(bias)} \n"
+        for layerId, bias in bias_list
+    ]
+    f.writelines(bias_list_filter)
+    f.write("\n\n")
 
     for layerId in modelDict:
         if modelDict[layerId]["type"] == "Conv2D":
@@ -295,7 +300,7 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
                                             aux_idx_range = filter_channel[layerId - 1]
                                         for weightValue, ofmapChannel, inputChannel in zip(weightsH,
                                                                                            range(aux_idx_range), range(
-                                                        input_channel[layerId])):
+                                                    input_channel[layerId])):
 
                                             if layerId == 0:
                                                 ifmap_input = int(float(
