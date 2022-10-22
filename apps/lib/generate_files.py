@@ -177,23 +177,20 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
         if modelDict[layerId]["type"] == "Conv2D":
             if layerId == layer:
                 for filterId in modelDict[layerId]["filter"]:
-                    string_weight = ["\t\t\t"] * max(filter_channel)
-                    string_weight[0] = "\t\t\t"
+                    string_weight = [
+                        [
+                            str(int(weights[x, y, z].reshape(-1)))
+                            for x in range(weights.shape[0])
+                            for y in range(weights.shape[1])
+                        ]
+                        for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
+                        for z in range(weights.shape[2])
+                    ]
+                    string_weight_list = [
+                        f"\t\t\t\t\t{','.join(s)},\n" for s in string_weight
+                    ]
 
-                    for weightChannel in modelDict[layerId]["filter"][filterId]["weights"]:
-                        for weightsH in weightChannel:
-                            for ofmapChannel, weightValue in enumerate(weightsH):
-                                weight_input = f"{string_weight[ofmapChannel]}{int(float(weightValue) * shift)},"
-                                string_weight[ofmapChannel] = weight_input
-                    if layerId == 0:
-                        aux_idx_range = input_channel[0]
-                    else:
-                        aux_idx_range = filter_channel[layerId - 1]
-                    for i in range(aux_idx_range):
-
-                        f.write("\t\t")
-                        f.write(string_weight[i])
-                        f.write("\n")
+                    f.writelines(string_weight_list)
 
     if layer == 0:
         cont = 0
