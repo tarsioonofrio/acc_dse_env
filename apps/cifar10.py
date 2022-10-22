@@ -68,13 +68,13 @@ def main():
         model.fit(x_train, y_train, epochs=n_epochs)
         # Save model
         model.save('./data/model')
+        # Accuracy
+        test_set_size = 10000
+        test_loss, test_acc = model.evaluate(x_test[0:test_set_size], y_test[0:test_set_size], verbose=2)
     else:
         model = keras.models.load_model("./data/model")
         model.summary()
 
-    # Accuracy
-    test_set_size = 10000
-    test_loss, test_acc = model.evaluate(x_test[0:test_set_size], y_test[0:test_set_size], verbose=2)
 
     # Compute input size
     input_size = util.get_input_size(input_h, input_w, input_c)

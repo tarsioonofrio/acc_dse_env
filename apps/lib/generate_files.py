@@ -374,6 +374,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
     # string for ORCA gold
     string_orca_gold = " "
+    f = open("data/gold_pkg.vhd", "w")
 
     for testCase in range(testSetSize):
         ifmap.clear()
@@ -434,28 +435,28 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
                     # Open file
-                    with open("data/gold_pkg.vhd", "w") as f:
-                        if layerId == layer:
-                            for m in range(layer_dimension[layerId]):
-                                for n in range(layer_dimension[layerId]):
-                                    if m == 0 and n == 0 and filterId == 0:
-                                        f.write("LIBRARY ieee;\n")
-                                        f.write("USE ieee.std_logic_1164.all;\n")
-                                        f.write("USE ieee.std_logic_signed.all;\n")
-                                        f.write("\tPACKAGE gold_package is\n")
-                                        f.write("\t\ttype padroes is array(0 to 4000000) of integer;\n")
-                                        f.write("\t\tconstant gold: padroes := ( ")
-                                    if m == 0 and n == 0 and filterId != 0:
-                                        f.write("\t\t")
-                                    string_orca_gold = str(int(ofmap[filterId][m][n][0])) + ","
-                                    f.write(string_orca_gold)
-                                    f.write(" ")
-                                f.write("\n")
-                                f.write("\t\t")
+                    if layerId == layer:
+                        for m in range(layer_dimension[layerId]):
+                            for n in range(layer_dimension[layerId]):
+                                if m == 0 and n == 0 and filterId == 0:
+                                    f.write("LIBRARY ieee;\n")
+                                    f.write("USE ieee.std_logic_1164.all;\n")
+                                    f.write("USE ieee.std_logic_signed.all;\n")
+                                    f.write("\tPACKAGE gold_package is\n")
+                                    f.write("\t\ttype padroes is array(0 to 4000000) of integer;\n")
+                                    f.write("\t\tconstant gold: padroes := ( ")
+                                if m == 0 and n == 0 and filterId != 0:
+                                    f.write("\t\t")
+                                string_orca_gold = str(int(ofmap[filterId][m][n][0])) + ","
+                                f.write(string_orca_gold)
+                                f.write(" ")
                             f.write("\n")
-                        if layerId == layer and filterId == filter_channel[layer] - 1:
-                            f.write("\t\tothers=>0 );\n")
-                            f.write("END gold_package;\n")
-                        f.close()
+                            f.write("\t\t")
+                        f.write("\n")
+                        # if layerId == layer and filterId == filter_channel[layer] - 1:
 
                 ifmap.append(copy.deepcopy(ofmap))
+
+    f.write("\t\tothers=>0 );\n")
+    f.write("END gold_package;\n")
+    f.close()
