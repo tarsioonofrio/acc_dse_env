@@ -113,24 +113,10 @@ def generate_tcl_generic(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE,
 
 def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
                         testSet, testLabel, stride_h, stride_w, testSetSize, layer):
-    # Auxiliar variables
-    cont = 0
 
-    # Auxiliar strings
-    input_string = "\n\t\t\t"
-    string_weight = ["\t\t\t"] * max(filter_channel)
-    string_weight[0] = "\t\t\t"
     tabs = "\t\t\t\t\t"
-
-    # Auxiliar strings for input
-
     # For layers != 0
     size = max(filter_channel)
-    acc = [0] * size
-    ifmap = []
-    ofmap = []
-    filter_i = 0
-    filter_j = 0
 
     # Open file
     f = open("data/inmem_pkg.vhd", "w")
@@ -218,57 +204,24 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
         # # print("close file! -> layer = 0")
         # f.close()
 
-        pixel0 = [
-            [[i, c, [str(int(pixel * shift))
-                     for feature in column
-                     for e, pixel in enumerate(feature)
-                     if e % 3 == 0]]
-                for c, column in enumerate(testSet[i])]
-            for i in range(testSetSize)
-        ]
-        pixel1 = [
-            [[i, c, [str(int(pixel * shift))
-                     for feature in column
-                     for e, pixel in enumerate(feature)
-                     if e % 3 == 1]]
-                for c, column in enumerate(testSet[i])]
-            for i in range(testSetSize)
-        ]
-        pixel2 = [
-            [[i, c, [str(int(pixel * shift))
-                     for feature in column
-                     for e, pixel in enumerate(feature)
-                     if e % 3 == 2]]
-                for c, column in enumerate(testSet[i])]
-            for i in range(testSetSize)
-        ]
-
         pixel = [
-            [[i, z, [str(int(image_shift[x, y, z].reshape(-1)))
-                     for x in range(image_shift.shape[0])
-                     for y in range(image_shift.shape[1])]]
-             for z in range(image_shift.shape[2])]
+            [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
+             for z in range(image_shift.shape[2])
+             for x in range(image_shift.shape[0])]
             for i, image in enumerate(testSet)
             if i in range(testSetSize)
             for image_shift in [image * shift]
         ]
 
         string_pixel = [
-            f"{','.join(p[0][2] + p[1][2] + p[2][2])},"
-            # f"{tabs}--image {e} p0 \n{tabs}{','.join(p0)}\n{tabs}--image {e} p1 \n{tabs}{','.join(p1)}\n{tabs}--image {e} p2 \n{tabs}{','.join(p2)}"
-            # (f"{tabs}-- image={p0[1]} column={p0[1]} \n{tabs}{','.join(p0[2])},\n"
-            #  f"{tabs}-- image={p1[1]} column={p1[1]} \n{tabs}{','.join(p1[2])},\n"
-            #  f"{tabs}-- image={p2[1]} column={p2[1]} \n{tabs}{','.join(p2[2])},\n")
-            for p in pixel
+            f"{tabs}-- image={p[0]} channel={p[1]} column={p[2]}\n{tabs}{','.join(p[3])},\n"
+            for image in pixel
+            for p in image
         ]
         f.write(f"\n{tabs}-- test image\n")
         f.writelines(string_pixel)
-        f.write(f"\n{tabs}others=>0 );")
-        f.write("\n")
-        f.write("END inmem_package;\n")
-        # print("close file! -> layer = 0")
+        f.write(f"\n{tabs}others=>0 );\nEND inmem_package;\n")
         f.close()
-        # print(1)
 
     else:
         # Dataset test variables
