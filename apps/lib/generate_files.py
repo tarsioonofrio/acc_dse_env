@@ -123,9 +123,6 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     tabs = "\t\t\t\t\t"
 
     # Auxiliar strings for input
-    pixel0 = []
-    pixel1 = []
-    pixel2 = []
 
     # For layers != 0
     size = max(filter_channel)
@@ -144,18 +141,6 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
     f.write("\tPACKAGE inmem_package is\n")
     f.write("\t\ttype padroes is array(0 to 4000000) of integer;\n\n")
 
-    # for layerId in modelDict:
-    #     if modelDict[layerId]["type"] == "Conv2D":
-    #         if layerId == layer:
-    #             string_bias = "\t\tconstant input_mem: padroes := ( "
-    #             for filterId in modelDict[layerId]["filter"]:
-    #                 string_bias = string_bias + str(
-    #                     int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)) + ","
-    #             f.write("\n")
-    #             f.write(string_bias)
-    #             string_bias = "{"
-    #             f.write("\n\n")
-
     f.write("\t\tconstant input_mem: padroes := ( \n")
     f.write(f"{tabs}-- bias\n")
     bias_list = [
@@ -170,7 +155,7 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
         for layerId, bias in bias_list
     ]
     f.writelines(bias_list_filter)
-    f.write(f"\n\n{tabs}-- weights\n")
+    f.write(f"\n{tabs}-- weights\n")
 
     string_weight = [
         [layerId, filterId, z, [str(int(weights[x, y, z].reshape(-1)))
@@ -184,53 +169,106 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
         for z in range(weights.shape[2])
     ]
     string_weight_list = [
-        f"{tabs}-- layer={la} filter={f} channel={c}\n{tabs}{','.join(s)},\n" for la, f, c, s in string_weight
+        f"{tabs}-- layer={la} filter={f} channel={c}\n{tabs}{', '.join(s)},\n" for la, f, c, s in string_weight
     ]
 
     f.writelines(string_weight_list)
 
     if layer == 0:
-        cont = 0
-        cont_size = 0
-        f.write(input_string)
-        for i in range(testSetSize):
-            for image in testSet[i]:
-                for feature in image:
-                    for pixel in feature:
-                        if cont % 3 == 0:
-                            pixel0.append(int(pixel * shift))
-                        if cont % 3 == 1:
-                            pixel1.append(int(pixel * shift))
-                        if cont % 3 == 2:
-                            pixel2.append(int(pixel * shift))
-                        cont = cont + 1
+        # cont = 0
+        # cont_size = 0
+        # f.write(input_string)
+        # for i in range(testSetSize):
+        #     for image in testSet[i]:
+        #         for feature in image:
+        #             for pixel in feature:
+        #                 if cont % 3 == 0:
+        #                     pixel0.append(int(pixel * shift))
+        #                 if cont % 3 == 1:
+        #                     pixel1.append(int(pixel * shift))
+        #                 if cont % 3 == 2:
+        #                     pixel2.append(int(pixel * shift))
+        #                 cont = cont + 1
+        #
+        #     cont_size = 0
+        #     for pixel in pixel0:
+        #         f.write(str(pixel))
+        #         f.write(",")
+        #         cont_size = cont_size + 1
+        #
+        #     for pixel in pixel1:
+        #         f.write(str(pixel))
+        #         f.write(",")
+        #         cont_size = cont_size + 1
+        #
+        #     for pixel in pixel2:
+        #         # TODO explicar essa linha
+        #         if cont_size == input_size - 1:
+        #             f.write(" others=>0 );")
+        #             f.write("\n")
+        #         else:
+        #             f.write(str(pixel))
+        #             f.write(",")
+        #         cont_size = cont_size + 1
+        #     pixel0 = []
+        #     pixel1 = []
+        #     pixel2 = []
+        #
+        # f.write("END inmem_package;\n")
+        # # print("close file! -> layer = 0")
+        # f.close()
 
-            cont_size = 0
-            for pixel in pixel0:
-                f.write(str(pixel))
-                f.write(",")
-                cont_size = cont_size + 1
+        pixel0 = [
+            [[i, c, [str(int(pixel * shift))
+                     for feature in column
+                     for e, pixel in enumerate(feature)
+                     if e % 3 == 0]]
+                for c, column in enumerate(testSet[i])]
+            for i in range(testSetSize)
+        ]
+        pixel1 = [
+            [[i, c, [str(int(pixel * shift))
+                     for feature in column
+                     for e, pixel in enumerate(feature)
+                     if e % 3 == 1]]
+                for c, column in enumerate(testSet[i])]
+            for i in range(testSetSize)
+        ]
+        pixel2 = [
+            [[i, c, [str(int(pixel * shift))
+                     for feature in column
+                     for e, pixel in enumerate(feature)
+                     if e % 3 == 2]]
+                for c, column in enumerate(testSet[i])]
+            for i in range(testSetSize)
+        ]
 
-            for pixel in pixel1:
-                f.write(str(pixel))
-                f.write(",")
-                cont_size = cont_size + 1
+        pixel = [
+            [[i, z, [str(int(image_shift[x, y, z].reshape(-1)))
+                     for x in range(image_shift.shape[0])
+                     for y in range(image_shift.shape[1])]]
+             for z in range(image_shift.shape[2])]
+            for i, image in enumerate(testSet)
+            if i in range(testSetSize)
+            for image_shift in [image * shift]
+        ]
 
-            for pixel in pixel2:
-                if cont_size == input_size - 1:
-                    f.write(" others=>0 );")
-                    f.write("\n")
-                else:
-                    f.write(str(pixel))
-                    f.write(",")
-                cont_size = cont_size + 1
-            pixel0 = []
-            pixel1 = []
-            pixel2 = []
-
+        string_pixel = [
+            f"{','.join(p[0][2] + p[1][2] + p[2][2])},"
+            # f"{tabs}--image {e} p0 \n{tabs}{','.join(p0)}\n{tabs}--image {e} p1 \n{tabs}{','.join(p1)}\n{tabs}--image {e} p2 \n{tabs}{','.join(p2)}"
+            # (f"{tabs}-- image={p0[1]} column={p0[1]} \n{tabs}{','.join(p0[2])},\n"
+            #  f"{tabs}-- image={p1[1]} column={p1[1]} \n{tabs}{','.join(p1[2])},\n"
+            #  f"{tabs}-- image={p2[1]} column={p2[1]} \n{tabs}{','.join(p2[2])},\n")
+            for p in pixel
+        ]
+        f.write(f"\n{tabs}-- test image\n")
+        f.writelines(string_pixel)
+        f.write(f"\n{tabs}others=>0 );")
+        f.write("\n")
         f.write("END inmem_package;\n")
         # print("close file! -> layer = 0")
         f.close()
+        # print(1)
 
     else:
         # Dataset test variables
