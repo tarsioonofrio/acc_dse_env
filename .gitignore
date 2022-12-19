@@ -12,3 +12,5 @@ checkpoint
 apps/data/model/
 
 weights.*
+
+*.ghw
