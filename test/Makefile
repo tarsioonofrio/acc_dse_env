@@ -15,8 +15,6 @@ VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws.vhd
 
 VHDL_SOURCES += $(shell pwd)/tb.vhd
 
-file := ../apps/data/generic_file.txt
-SIM_ARGS += $(shell cat ${file})
 
 ifeq (@SIM,ghdl)
 #	SIM=ghdl
@@ -26,7 +24,7 @@ else  ifeq (@SIM,questa)
 #  	SIM=questa
 	WAVES=1
 	COMPILE_ARGS += -cover sbcefx
-	SIM_ARGS += -voptargs="-access=rw+/. +acc" -suppress 12130 -t ps
+	SIM_ARGS += -voptargs="-access=rw+/. +acc=lprn" -suppress 12130 -f ../apps/data/generic_file.txt
 endif
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
