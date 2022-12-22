@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_signed.all;
-	PACKAGE inmap_package is
+	PACKAGE ifmap_package is
 		type padroes is array(0 to 4000000) of integer;
 
 		constant input_map: padroes := ( 
@@ -200,4 +200,4 @@ USE ieee.std_logic_signed.all;
 					160,149,132,134,134,132,123,115,114,105,101,108,104,108,98,89,100,118,137,152,145,131,130,123,145,167,182,175,145,124,129,110,
 
 					others=>0 );
-END inmap_package;
+END ifmap_package;

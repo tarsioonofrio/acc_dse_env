@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.std_logic_signed.all;
-	PACKAGE inwght_package is
+	PACKAGE iwght_package is
 		type padroes is array(0 to 4000000) of integer;
 
 		constant input_wght: padroes := ( 
@@ -108,4 +108,4 @@ USE ieee.std_logic_signed.all;
 					-16, 32, -44, -54, -31, -39, 8, -30, -55,
 
 					others=>0 );
-END inwght_package;
+END iwght_package;

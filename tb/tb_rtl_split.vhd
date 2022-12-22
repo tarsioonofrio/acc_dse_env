@@ -46,9 +46,8 @@ begin
       address  => iwght_address,
       data_av  => iwght_valid,
       data_out => iwght_value,
-
-      n_read  => iwght_n_read,
-      n_write => iwght_n_write
+      n_read   => iwght_n_read,
+      n_write  => iwght_n_write
       );
 
   IFMAP : entity work.memory
@@ -62,9 +61,8 @@ begin
       address  => ifmap_address,
       data_av  => ifmap_valid,
       data_out => ifmap_value,
-
-      n_read  => ifmap_n_read,
-      n_write => ifmap_n_write
+      n_read   => ifmap_n_read,
+      n_write  => ifmap_n_write
       );
 
   OFMAP : entity work.memory
@@ -78,9 +76,8 @@ begin
       address  => ofmap_address,
       data_av  => ofmap_valid,
       data_out => ofmap_in,
-
-      n_read  => ofmap_n_read,
-      n_write => ofmap_n_write
+      n_read   => ofmap_n_read,
+      n_write  => ofmap_n_write
       );
 
   DUT : entity work.convolution
@@ -96,12 +93,12 @@ begin
       CARRY_SIZE     => CARRY_SIZE
       )
     port map(
-      clock => clock,
-      reset => reset,
+      clock         => clock,
+      reset         => reset,
 
-      start_conv => start_conv,
-      end_conv   => end_conv,
-      debug      => debug,
+      start_conv    => start_conv,
+      end_conv      => end_conv,
+      debug         => debug,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value,
