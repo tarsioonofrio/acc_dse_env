@@ -27,11 +27,11 @@ entity convolution is
         end_conv   : out std_logic;
         debug      : out std_logic;
 
-        -- Input memory interface (weight)
-        inmem_valid   : in  std_logic;
-        inmem_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-        inmem_address : out std_logic_vector(MEM_SIZE-1 downto 0);
-        inmem_ce      : out std_logic;
+        -- Input weight memory interface
+        iwght_valid   : in  std_logic;
+        iwght_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+        iwght_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+        iwght_ce      : out std_logic;
 
         -- input feature map memory interface
         ifmap_valid   : in  std_logic;
@@ -39,14 +39,13 @@ entity convolution is
         ifmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
         ifmap_ce      : out std_logic;
 
-        -- Ofmap memory interface
+        -- output feature map memory interface
         ofmap_valid   : in  std_logic;
-        pixel_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-        pixel_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+        ofmap_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+        ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
         ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
         ofmap_we      : out std_logic;
         ofmap_ce      : out std_logic
-
         );
 end entity convolution;
 
@@ -73,14 +72,14 @@ architecture a1 of convolution is
   type address is array (0 to 5) of std_logic_vector(MEM_SIZE-1 downto 0);
   signal add : address;
 
-  signal in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, inmem_ce_reg : std_logic;
+  signal in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
 
   signal reg_reg_bias_value, reg_bias_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal adder_mux                          : std_logic_vector(INPUT_SIZE-1 downto 0);
 
-  signal partial0, partial1, partial2, reg_soma1, reg_soma2, reg_soma3, shift_output, pixel_out_reg : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal partial0, partial1, partial2, reg_soma1, reg_soma2, reg_soma3, shift_output, ofmap_out_reg : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal partial_add, partial_add_reg, partial_base, cont_iterations, weight_x, bias_x, weight_control, cont_steps, ofmap_address_reg, inmem_address_reg : std_logic_vector(MEM_SIZE-1 downto 0);
+  signal partial_add, partial_add_reg, partial_base, cont_iterations, weight_x, bias_x, weight_control, cont_steps, ofmap_address_reg, iwght_address_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal H                                                                            : integer range 0 to X_SIZE;
   signal V                                                                            : integer range 0 to 2**(MEM_SIZE);
@@ -108,7 +107,7 @@ begin
               EA_read <= READBIAS;
             end if;
           when READBIAS =>
-            if inmem_valid = '1' then
+            if iwght_valid = '1' then
               EA_read <= READWEIGHT;
             end if;
           when READWEIGHT =>
@@ -116,7 +115,7 @@ begin
               EA_read <= STARTMAC;
             end if;
           when STARTMAC =>
-            if inmem_valid = '1' then
+            if iwght_valid = '1' then
               EA_read <= WAITVALID;
             end if;
           when WAITVALID =>
@@ -183,7 +182,7 @@ begin
           read_bias    <= '0';
           read_weights <= '1';
 
-          if inmem_valid = '1' then
+          if iwght_valid = '1' then
             cont_weight_cycles <= cont_weight_cycles + 1;
           end if;
 
@@ -248,8 +247,8 @@ begin
       reg_read_bias <= read_bias;
 
       -- Ensure one read per bias_read rising
-      if (inmem_valid = '1' and read_bias = '1') then
-        reg_bias_value <= inmem_value;
+      if (iwght_valid = '1' and read_bias = '1') then
+        reg_bias_value <= iwght_value;
         read_bias_flag <= '1';
       end if;
 
@@ -300,37 +299,37 @@ begin
       reg_read_weights <= read_weights;
 
       -- Ensure the correct weight read value and amount (due to weight_control < FILTER_WIDTH*FILTER_WIDTH)
-      if ((read_weights = '1' or start_mac = '1') and inmem_valid = '1' and weight_control < FILTER_WIDTH*FILTER_WIDTH) then
+      if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < FILTER_WIDTH*FILTER_WIDTH) then
 
         weight_x       <= weight_x + 1;
         weight_control <= weight_control + 1;
 
         if (weight_control = 0) then
-          weight(0, 0) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(0, 0) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 1) then
-          weight(0, 1) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(0, 1) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 2) then
-          weight(0, 2) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(0, 2) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 3) then
-          weight(1, 0) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(1, 0) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 4) then
-          weight(1, 1) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(1, 1) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 5) then
-          weight(1, 2) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(1, 2) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 6) then
-          weight(2, 0) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(2, 0) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 7) then
-          weight(2, 1) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(2, 1) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         elsif (weight_control = 8) then
-          weight(2, 2) <= inmem_value(INPUT_SIZE-1 downto 0);
+          weight(2, 2) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         end if;
       elsif weight_control = FILTER_WIDTH*FILTER_WIDTH then
@@ -359,7 +358,7 @@ begin
               EA_add <= RIDLE;
             end if;
 
-          -- Read 6 values from the memory (controled by inmem_valid signal)
+          -- Read 6 values from the memory (controled by iwght_valid signal)
           when UPDATEADD =>
             EA_add <= E0;
           when E0 =>
@@ -680,7 +679,7 @@ begin
       if (partial_valid_flag = '1') then
 
         if partial_control = 0 then
-          partial1 <= pixel_in;
+          partial1 <= ofmap_in;
 
           if ofmap_valid = '1' then
             partial_control <= partial_control + 1;
@@ -699,9 +698,7 @@ begin
 
           partial_control    <= 0;
           partial_valid_flag <= '0';
-
         end if;
-
       end if;
 
       if conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
@@ -713,9 +710,7 @@ begin
           partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
           partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
         end if;
-
       end if;
-
     end if;
   end process;
 
@@ -745,7 +740,7 @@ begin
   -- Circuit outputs
   ------------------------------------------------------------------------------------
   --  input memory read address (constant sums used to access the correct address on memory)
-  inmem_address <= bias_x when read_bias = '1' else
+  iwght_address <= bias_x when read_bias = '1' else
                    (weight_x + N_FILTER)  when read_weights = '1' or start_mac = '1' else 
                    (others => '0');
 
@@ -757,11 +752,9 @@ begin
                    add(5);
 
   -- Input memory chip enable control
-  in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
-  inmem_ce <= '1' when in_ce = '1' and not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
-  ifmap_ce <= '1' when in_ce = '1' and not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
-  --inmem_ce <= in_ce;
-  --ifmap_ce <= in_ce;
+  --in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
+  iwght_ce <= '1' when not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
+  ifmap_ce <= '1' when not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
 
   -- Ofmap memory enables
   ofmap_we <= partial_wr;
@@ -772,7 +765,7 @@ begin
   ofmap_address <= partial_add_reg;
 
   -- Output
-  pixel_out <= shift_output when valid_sync_signal = '1' else
+  ofmap_out <= shift_output when valid_sync_signal = '1' else
                partial0 when channel_control = 0 else
                partial2;
 

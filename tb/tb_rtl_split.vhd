@@ -21,32 +21,32 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
-  signal inmem_value, ifmap_value: std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-  signal inmem_address, ifmap_address, ofmap_address: std_logic_vector(MEM_SIZE-1 downto 0);
+  signal iwght_value, ifmap_value: std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal iwght_address, ifmap_address, ofmap_address: std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal clock, reset, start_conv, debug : std_logic := '0';
   
-  signal ofmap_valid, ofmap_ce, ofmap_we, inmem_ce, inmem_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
-  signal pixel_out, pixel_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
+  signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal inmem_n_read, inmem_n_write, ifmap_n_read, ifmap_n_write,  ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
+  signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write,  ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   begin
 
-   INMEM: entity work.memory
+   IWGHT: entity work.memory
        generic map( ROM => "weight", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
        port map( 
      clock=>clock, 
      reset=>reset,
-     chip_en=>inmem_ce, 
+     chip_en=>iwght_ce, 
      wr_en=>'0',
      data_in=>(others=>'0'), 
-     address=>inmem_address, 
-     data_av=>inmem_valid, 
-     data_out=>inmem_value,
+     address=>iwght_address, 
+     data_av=>iwght_valid, 
+     data_out=>iwght_value,
      
-     n_read=>inmem_n_read,
-     n_write=>inmem_n_write
+     n_read=>iwght_n_read,
+     n_write=>iwght_n_write
      );
 
    IFMAP: entity work.memory
@@ -65,17 +65,17 @@ architecture a1 of tb is
      n_write=>ifmap_n_write
      );
   
-   OFMAPMEM: entity work.memory
+   OFMAP: entity work.memory
        generic map( ROM => "no", INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE), ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT )
        port map( 
      clock=>clock,
      reset=>reset, 
      chip_en=>ofmap_ce, 
      wr_en=>ofmap_we,
-     data_in=>pixel_out, 
+     data_in=>ofmap_out, 
      address=>ofmap_address, 
      data_av=>ofmap_valid, 
-     data_out=>pixel_in,
+     data_out=>ofmap_in,
      
      n_read=>ofmap_n_read,
      n_write=>ofmap_n_write
@@ -93,7 +93,7 @@ architecture a1 of tb is
       SHIFT => SHIFT,
       CARRY_SIZE => CARRY_SIZE
     )
-             port map( 
+      port map( 
      clock=>clock, 
      reset=> reset, 
      
@@ -101,10 +101,10 @@ architecture a1 of tb is
      end_conv=>end_conv,
      debug=>debug,
      
-     inmem_valid=>inmem_valid,
-     inmem_value=>inmem_value,
-     inmem_address=>inmem_address,
-     inmem_ce=>inmem_ce,  
+     iwght_valid=>iwght_valid,
+     iwght_value=>iwght_value,
+     iwght_address=>iwght_address,
+     iwght_ce=>iwght_ce,  
 
      ifmap_valid => ifmap_valid,
      ifmap_value => ifmap_value,
@@ -112,12 +112,12 @@ architecture a1 of tb is
      ifmap_ce => ifmap_ce,
 
      ofmap_valid=>ofmap_valid,
-     pixel_in=>pixel_in,     
-     pixel_out=>pixel_out,
+     ofmap_in=>ofmap_in,     
+     ofmap_out=>ofmap_out,
      ofmap_address=>ofmap_address, 
      ofmap_we=>ofmap_we,
      ofmap_ce=>ofmap_ce
-      );
+     );
 
    clock <= not clock after 0.5 ns;
 
@@ -134,17 +134,17 @@ architecture a1 of tb is
             
   if clock'event and clock = '0' then
     if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
-      if pixel_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),((INPUT_SIZE*2)+CARRY_SIZE)) then
-          --if pixel_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
+      if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),((INPUT_SIZE*2)+CARRY_SIZE)) then
+          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
         report "end of simulation with error!";
         report "number of convolutions executed: " & integer'image(cont_conv);
         report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
         report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
          
         if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-          report "obtained value: " & integer'image(CONV_INTEGER(pixel_out(31 downto 0)));
+          report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
         else
-          report "obtained value: " & integer'image(CONV_INTEGER(pixel_out));
+          report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out));
         end if;
              
         assert false severity failure;
@@ -152,8 +152,8 @@ architecture a1 of tb is
       cont_conv := cont_conv + 1;
       
     elsif end_conv = '1' then
-        report "number of inmem read: " & integer'image(CONV_INTEGER(unsigned(inmem_n_read)));
-        report "number of inmem write: " & integer'image(CONV_INTEGER(unsigned(inmem_n_write)));
+        report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
+        report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
         report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));
         report "number of ifmap write: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_write)));
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
