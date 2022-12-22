@@ -758,10 +758,10 @@ begin
 
   -- Input memory chip enable control
   in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
-  --inmem_ce <= '1' when in_ce = '1' and not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
-  --ifmap_ce <= '1' when in_ce = '1' and not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
-  inmem_ce <= in_ce;
-  ifmap_ce <= in_ce;
+  inmem_ce <= '1' when in_ce = '1' and not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
+  ifmap_ce <= '1' when in_ce = '1' and not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
+  --inmem_ce <= in_ce;
+  --ifmap_ce <= in_ce;
 
   -- Ofmap memory enables
   ofmap_we <= partial_wr;
