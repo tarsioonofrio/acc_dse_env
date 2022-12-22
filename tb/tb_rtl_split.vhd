@@ -21,13 +21,15 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
-  signal iwght_value, ifmap_value                    : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
-  signal ofmap_out, ofmap_in                                                                     : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+
+  signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
