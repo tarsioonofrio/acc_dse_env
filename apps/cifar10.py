@@ -1,93 +1,132 @@
-from imports import tflib
-from imports import envlib
-from tensorflow import keras
-import sys
 import os
+import json
+import argparse
 
-# User inputs (ex: 2.0 16 syst2d ws 2 0)
-CLK_PERIOD    = float(sys.argv[1])
-INPUT_SIZE    = int(sys.argv[2])
-ARRAY_TYPE    = str(sys.argv[3])
-DATAFLOW_TYPE = str(sys.argv[4])
-LAT	      = int(sys.argv[5])
-LAYER	      = int(sys.argv[6])
+from tensorflow import keras
+
+from lib import util
+from lib import generate_files
 
 
-# HW Inputs
-MEM_SIZE      = 16
-CARRY_SIZE    = 4
-IN_DELAY      = 0.3
+def main():
+    # User inputs (ex: 2.0 16 syst2d ws 2 0)
+    parser = argparse.ArgumentParser(
+        usage='use "python %(prog)s --help" for more information.\n'
+    )
+    parser.add_argument("--clk_period", "-c", default=2.0, type=float, help="Clock period")
+    parser.add_argument("--input_size", "-i", default=16, type=int, help="Input size")
+    parser.add_argument("--array_type", "-a", default='syst2d', type=str, help="Array Type")
+    parser.add_argument("--dataflow_type", "-d", default='ws', type=str, help="Dataflow Type")
+    parser.add_argument("--layer", "-l", default=0, type=int, help="Layer")
+    parser.add_argument("--lat", "-t", default=2, type=int, help="Lat")
+    args = parser.parse_args()
 
-# CNN Inputs
+    CLK_PERIOD = args.clk_period
+    INPUT_SIZE = args.input_size
+    ARRAY_TYPE = args.array_type
+    DATAFLOW_TYPE = args.dataflow_type
+    LAYER = args.layer
+    LAT = args.lat
 
-filter_channel   = [16,32,64,128]
-#filter_channel   = [32,64,128,512]
-filter_dimension = [3,3,3,3]
-stride_h         = [2,2,2,2]
-stride_w         = [2,2,2,2]
-n_epochs         = 5
+    # HW Inputs
+    MEM_SIZE = 16
+    CARRY_SIZE = 4
+    IN_DELAY = 0.3
 
-# Application parameters
-input_w          = 32
-input_h          = 32
-input_c          = 3
-n_dense_neuron   = 10
-shift_bits       = INPUT_SIZE/2
+    # CNN Inputs
 
-# Compute number of convolutional layers
-n_conv_layers = len(filter_channel)
+    filter_channel = [16, 32, 64, 128]
+    # filter_channel   = [32,64,128,512]
+    filter_dimension = [3, 3, 3, 3]
+    stride_h = [2, 2, 2, 2]
+    stride_w = [2, 2, 2, 2]
+    n_epochs = 5
 
-# Get application dataset
-x_train,y_train,x_test,y_test,featureShape = tflib.get_cifar10_dataset(input_h, input_w, input_c)
+    # Application parameters
+    input_w = 32
+    input_h = 32
+    input_c = 3
+    n_dense_neuron = 10
+    shift_bits = INPUT_SIZE / 2
 
-# Build CNN application
-if (not(os.path.exists("./model"))):
-  model = tflib.build_neural_network(featureShape, filter_channel, filter_dimension, stride_h, stride_w, input_h, input_w, input_c, n_conv_layers, n_dense_neuron)
-  tflib.training_neural_network(model, x_train, y_train, n_epochs)
-  # Save model
-  model.save('./model')
-  model.save_weights('./weights')
-else:
-  model = keras.models.load_model("./model")
-  model.summary() 
+    # Compute number of convolutional layers
+    n_conv_layers = len(filter_channel)
 
-# Accuracy
-test_set_size = 10000
-test_loss, test_acc = model.evaluate(x_test[0:test_set_size],  y_test[0:test_set_size], verbose=2)
+    # Get application dataset
+    x_train, y_train, x_test, y_test, featureShape = util.get_cifar10_dataset(input_h, input_w, input_c)
 
-# Compute input size
-input_size = envlib.get_input_size(input_h, input_w, input_c)
+    data_dir = "data"
+    if not os.path.exists(data_dir):
+        os.makedirs(data_dir)
 
-# Compute output layer dimensions
-layer_dimension = envlib.get_output_layer_dimension(input_h, n_conv_layers, filter_dimension, stride_h)
+    # Build CNN application
+    if not (os.path.exists("./data/model")):
+        model = util.build(
+            featureShape, filter_channel, filter_dimension, stride_h, stride_w, input_h,
+            input_w, input_c, n_conv_layers, n_dense_neuron
+        )
+        model.fit(x_train, y_train, epochs=n_epochs)
+        # Save model
+        model.save('./data/model')
+        # Accuracy
+    else:
+        model = keras.models.load_model("./data/model")
+        model.summary()
 
-# Compute HW parameters
-if LAYER == 0: 
-  X_SIZE       = input_w
-  C_SIZE       = input_c
-else:
-  X_SIZE       = layer_dimension[LAYER-1]
-  C_SIZE       = filter_channel[LAYER-1]
-FILTER_WIDTH = filter_dimension[LAYER]
-CONVS_PER_LINE = layer_dimension[LAYER]
+    # test_set_size = 10000
+    # test_loss, test_acc = model.evaluate(x_test[0:test_set_size], y_test[0:test_set_size], verbose=2)
+    # Compute input size
+    input_size = util.get_input_size(input_h, input_w, input_c)
 
-# Compute input channels
-input_channel = envlib.get_input_channel(input_c, n_conv_layers, filter_channel)
+    # Compute output layer dimensions
+    layer_dimension = util.get_output_layer_dimension(input_h, n_conv_layers, filter_dimension, stride_h)
 
-# Generate dictionary
-modelDict = envlib.create_dictionary(model)
+    # Compute HW parameters
+    if LAYER == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
+    else:
+        X_SIZE = layer_dimension[LAYER - 1]
+        C_SIZE = filter_channel[LAYER - 1]
+    FILTER_WIDTH = filter_dimension[LAYER]
+    CONVS_PER_LINE = layer_dimension[LAYER]
 
-# Adjust shift
-shift = 2**shift_bits
+    # Compute input channels
+    input_channel = util.get_input_channel(input_c, n_conv_layers, filter_channel)
 
-# Generate generic file for rtl simulation
-envlib.generate_generic_file(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD, stride_h[LAYER], filter_channel[LAYER], DATAFLOW_TYPE, LAT, shift_bits, IN_DELAY)
+    # Adjust shift
+    shift = 2 ** shift_bits
 
-# Generate TCL file with generics for logic synthesis
-envlib.generate_tcl_generic(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD, DATAFLOW_TYPE, ARRAY_TYPE, stride_h[LAYER], filter_channel[LAYER], LAT, shift_bits, LAYER)
+    # ARRAY_TYPE, CARRY_SIZE, CLK_PERIOD, CONVS_PER_LINE, C_SIZE, DATAFLOW_TYPE, FILTER_WIDTH, INPUT_SIZE, IN_DELAY,
+    # LAT, LAYER, MEM_SIZE, X_SIZE, filter_channel, filter_dimension, input_channel, input_size, layer_dimension,
+    # model, shift, shift_bits, stride_h, stride_w, x_test, y_test
+    # Generate dictionary
+    modelDict = generate_files.create_dictionary(model)
 
-# Generate VHDL tensorflow package
-envlib.generate_tf_vhd_pkg(modelDict,shift,input_size,filter_dimension,filter_channel,layer_dimension,input_channel,x_test,y_test,stride_h,stride_w,1,LAYER)
+    # Generate generic file for rtl simulation
+    generate_files.generate_generic_file(
+        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
+        stride_h[LAYER], filter_channel[LAYER], DATAFLOW_TYPE, LAT, shift_bits, IN_DELAY
+    )
 
-# Generate VHDL gold output package
-envlib.generate_gold_vhd_pkg(modelDict,shift,input_size,filter_dimension,filter_channel,layer_dimension,input_channel,x_test,y_test,stride_h,stride_w,1,LAYER)
+    # Generate TCL file with generics for logic synthesis
+    generate_files.generate_tcl_generic(
+        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
+        DATAFLOW_TYPE, ARRAY_TYPE, stride_h[LAYER], filter_channel[LAYER], LAT, shift_bits, LAYER
+    )
+
+    # Generate VHDL tensorflow package
+    generate_files.generate_tf_vhd_pkg(
+        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
+    )
+
+    # Generate VHDL gold output package
+    generate_files.generate_gold_vhd_pkg(
+        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
+    )
+
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,16 @@
+
+.idea/
+
+*.cf
+
+__pycache__/
+
+#apps/data/
+
+checkpoint
+
+apps/data/model/
+
+weights.*
+
+*.ghw
