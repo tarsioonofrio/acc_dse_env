@@ -73,9 +73,7 @@ architecture a1 of convolution is
   type address is array (0 to 5) of std_logic_vector(MEM_SIZE-1 downto 0);
   signal add : address;
 
-  signal partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, inmem_ce_reg : std_logic;
-
-  signal in_ce: std_logic;
+  signal in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, inmem_ce_reg : std_logic;
 
   signal reg_reg_bias_value, reg_bias_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal adder_mux                          : std_logic_vector(INPUT_SIZE-1 downto 0);
@@ -748,7 +746,7 @@ begin
   ------------------------------------------------------------------------------------
   --  input memory read address (constant sums used to access the correct address on memory)
   inmem_address <= bias_x when read_bias = '1' else
-                   weight_x when read_weights = '1' or start_mac = '1' else 
+                   (weight_x + N_FILTER)  when read_weights = '1' or start_mac = '1' else 
                    (others => '0');
 
   ifmap_address <= add(0) when EA_add = E0 else
@@ -760,8 +758,10 @@ begin
 
   -- Input memory chip enable control
   in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
-  inmem_ce <= '1' when in_ce = '1' and read_bias = '1' else '0';
-  ifmap_ce <= '1' when in_ce = '1' and (read_weights = '1' or start_mac = '1');
+  --inmem_ce <= '1' when in_ce = '1' and not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
+  --ifmap_ce <= '1' when in_ce = '1' and not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
+  inmem_ce <= in_ce;
+  ifmap_ce <= in_ce;
 
   -- Ofmap memory enables
   ofmap_we <= partial_wr;

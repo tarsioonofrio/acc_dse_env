@@ -21,8 +21,10 @@ vcom -work work ../tb/tb_rtl_split.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/generic_file.txt
-do wave_syst2d_ws.do
-onfinish exit
-onbreak exit
+#do wave_syst2d_ws.do
+#onfinish exit
+#onbreak exit
+add wave sim:/tb/DUT/*
 run -all
-exit 
+#run 1000 ns
+#exit 
