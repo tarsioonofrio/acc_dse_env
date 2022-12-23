@@ -4,7 +4,6 @@ use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
-use work.gold_package.all;
 
 entity tb is
   generic (N_FILTER       : integer := 16;
@@ -21,49 +20,80 @@ entity tb is
   port (
     clock : in std_logic;
     reset : in std_logic;
-    start_conv : in std_logic;
-    end_conv : in std_logic := '0';
-    address : in std_logic_vector(MEM_SIZE-1 downto 0);
-    value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-    value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-    iwght_we : in std_logic := '0';
-    iwght_valid : out std_logic := '0';
-    ifmap_we : in std_logic := '0';
-    ifmap_valid : out std_logic := '0';
-    ofmap_ce : in std_logic := '0';
-    ofmap_we : in std_logic := '0';
-    ofmap_valid : out std_logic := '0'
+    p_start_conv : in std_logic;
+    p_end_conv : out std_logic := '0';
+    p_iwght_ce : in std_logic := '0';
+    p_iwght_we : in std_logic := '0';
+    p_iwght_valid : out std_logic := '0';
+    p_ifmap_ce : in std_logic := '0';
+    p_ifmap_we : in std_logic := '0';
+    p_ifmap_valid : out std_logic := '0';
+    p_ofmap_ce : in std_logic := '0';
+    p_ofmap_we : in std_logic := '0';
+    p_ofmap_valid : out std_logic := '0';
+    p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
+    p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+    p_value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0)
   );
 end tb;
 
 architecture a1 of tb is
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+
+  signal clock, reset, start_conv, end_conv, debug : std_logic := '0';
+
+  signal iwght_valid, ifmap_valid, ofmap_valid : std_logic := '0';
+
+  signal iwght_ce, ifmap_ce, ofmap_ce, ofmap_we : std_logic := '0'; 
+
+  signal mem_iwght_ce, mem_ifmap_ce, mem_ofmap_ce, mem_ofmap_we : std_logic := '0'; 
 
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal clock, reset, start_conv, debug : std_logic := '0';
+  signal mem_iwght_address, mem_ifmap_address, mem_ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  --signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
+  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
-  signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+
+  signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
 begin
+  mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else 0;
+  mem_ifmap_ce <= '1' when p_ifmap_ce ='1' or ifmap_ce = '1' else 0;
+  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else 0;
+  mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we = '1' else 0;
 
-  ofmap_in <= value_out when ofmap_we = '1' else (others => '0');
-  ofmap_in <= value_out when ofmap_we = '1' else (others => '0');
-  ofmap_out <= value_out when ofmap_ce = '1' else (others => '0');
+  mem_iwght_address <= p_address when p_iwght_ce = '1' else iwght_address;
+  mem_ifmap_address <= p_address when p_ifmap_ce = '1' else ifmap_address;
+  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
+
+  ifmap_in <= p_value_in when p_ofmap_we = '1' else conv_ofmap_out;
+
+  p_iwght_valid <= iwght_valid;
+  p_ifmap_valid <= ifmap_valid;
+  p_ofmap_valid <= ofmap_valid;
+  p_end_conv <= end_conv;
+
+  p_value_out <= ofmap_out;
+  conv_ofmap_in <= ofmap_out;
+
 
   IWGHT : entity work.memory
-    generic map(ROM => "weight", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "no", 
+      INPUT_SIZE => INPUT_SIZE*2, 
+      ADDRESS_SIZE => MEM_SIZE, 
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
-      chip_en  => iwght_ce,
-      wr_en    => '0',
-      data_in  => (others => '0'),
-      address  => iwght_address,
+      chip_en  => mem_iwght_ce,
+      wr_en    => p_iwght_we,
+      data_in  => p_iwght_in,
+      address  => mem_iwght_address,
       data_av  => iwght_valid,
       data_out => iwght_value,
       n_read   => iwght_n_read,
@@ -71,14 +101,19 @@ begin
       );
 
   IFMAP : entity work.memory
-    generic map(ROM => "map", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "no",
+      INPUT_SIZE => INPUT_SIZE*2,
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
-      chip_en  => ifmap_ce,
-      wr_en    => '0',
-      data_in  => (others => '0'),
-      address  => ifmap_address,
+      chip_en  => mem_ifmap_ce,
+      wr_en    => p_ifmap_we,
+      data_in  => p_ifmap_in,
+      address  => mem_ifmap_address,
       data_av  => ifmap_valid,
       data_out => ifmap_value,
       n_read   => ifmap_n_read,
@@ -86,21 +121,26 @@ begin
       );
 
   OFMAP : entity work.memory
-    generic map(ROM => "no", INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE), ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "no",
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
-      chip_en  => ofmap_ce,
-      wr_en    => ofmap_we,
-      data_in  => ofmap_out,
-      address  => ofmap_address,
+      chip_en  => mem_ofmap_ce,
+      wr_en    => mem_ofmap_we,
+      data_in  => mem_ofmap_in,
+      address  => mem_ofmap_address,
       data_av  => ofmap_valid,
-      data_out => ofmap_in,
+      data_out => mem_ofmap_out,
       n_read   => ofmap_n_read,
       n_write  => ofmap_n_write
       );
 
-  DUT : entity work.convolution
+  CONV : entity work.convolution
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -137,51 +177,5 @@ begin
       ofmap_we      => ofmap_we,
       ofmap_ce      => ofmap_ce
       );
-
-  clock <= not clock after 0.5 ns;
-
-  reset <= '1', '0' after 2.5 ns;
-
-  start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
-
-  process(clock)
-
-    -- convolution counter
-    variable cont_conv : integer := 0;
-
-  begin
-
-    if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
-        if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
-
-          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out));
-          end if;
-
-          assert false severity failure;
-        end if;
-        cont_conv := cont_conv + 1;
-
-      elsif end_conv = '1' then
-        report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
-        report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
-        report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));
-        report "number of ifmap write: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_write)));
-        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
-        report "number of convolutions: " & integer'image(cont_conv);
-        report "end of simulation without error!" severity failure;
-      end if;
-    end if;
-
-  end process;
 
 end a1;
