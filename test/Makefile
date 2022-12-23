@@ -19,6 +19,8 @@ VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws_split.vhd
 
 VHDL_SOURCES += $(shell pwd)/tb.vhd
 
+COCOTB_HDL_TIMESTEP=1
+COCOTB_HDL_TIMEPRECISION=ps
 
 ifeq (@SIM,ghdl)
 #	SIM=ghdl
@@ -30,7 +32,7 @@ else  ifeq (@SIM,questa)
 	COMPILE_ARGS += -cover sbcefx
 	RTL_LIBRARY=work
 	VHDL_LIB_ORDER=inmem_package iwght_package ifmap_package gold_package memory reg mac convolution  
-	SIM_ARGS += -voptargs="-access=rw+/. +acc=lprn" -suppress 12130 -f ../apps/data/generic_file.txt
+	VSIM_ARGS += -voptargs="-access=rw+/. +acc=lprn" -t ps -f ../apps/data/generic_file.txt
 endif
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
