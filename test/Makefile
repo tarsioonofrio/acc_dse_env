@@ -15,7 +15,7 @@ VHDL_SOURCES += $(shell pwd)/../apps/data/gold_pkg.vhd
 VHDL_SOURCES += $(shell pwd)/../rtl/components/mac.vhd
 VHDL_SOURCES += $(shell pwd)/../rtl/components/reg.vhd
 VHDL_SOURCES += $(shell pwd)/../rtl/components/mem.vhd
-VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws.vhd
+VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws_split.vhd
 
 VHDL_SOURCES += $(shell pwd)/tb.vhd
 
@@ -34,3 +34,4 @@ else  ifeq (@SIM,questa)
 endif
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
+

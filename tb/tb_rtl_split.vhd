@@ -2,9 +2,11 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
-use std.textio.all;
 use ieee.std_logic_textio.all;
+use std.textio.all;
+
 use work.gold_package.all;
+
 
 entity tb is
   generic (N_FILTER       : integer := 16;
@@ -21,13 +23,13 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-
-  signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
-
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
+
+  signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
+
+  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
   signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
@@ -36,7 +38,12 @@ architecture a1 of tb is
 begin
 
   IWGHT : entity work.memory
-    generic map(ROM => "weight", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "weight",
+      INPUT_SIZE => INPUT_SIZE*2,
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
@@ -51,7 +58,12 @@ begin
       );
 
   IFMAP : entity work.memory
-    generic map(ROM => "map", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "map",
+      INPUT_SIZE => INPUT_SIZE*2,
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
@@ -66,7 +78,12 @@ begin
       );
 
   OFMAP : entity work.memory
-    generic map(ROM => "no", INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE), ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+    generic map(
+      ROM => "no",
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
     port map(
       clock    => clock,
       reset    => reset,
