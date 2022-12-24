@@ -25,13 +25,12 @@ entity tb is
      );
   port (
     clock : in std_logic;
-    reset : in std_logic;
-    start_conv : in std_logic
+    reset : in std_logic
   );
 end tb;
 
 architecture tb of tb is
-  signal debug : std_logic := '0';
+  signal debug, start_conv : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
 
@@ -143,6 +142,8 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
+
+  --gold_tb <= gold;
 
   process(clock)
 
