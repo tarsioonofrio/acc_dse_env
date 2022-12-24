@@ -56,7 +56,8 @@ async def simple(dut):
         await triggers.ReadOnly()
         if dut.debug ==1:
             address = dut.ofmap_address.value.integer
-            print(address, dut.ofmap_out.value.integer, gold[address])
+            assert dut.ofmap_out.value.integer == gold[address]
+            # print(address, dut.ofmap_out.value.integer, gold[address])
         if dut.end_conv == 1:
             break
     # print("ofmap_out", dut.ofmap_out.value)
