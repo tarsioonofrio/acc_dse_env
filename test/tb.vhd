@@ -31,13 +31,13 @@ entity tb is
 end tb;
 
 architecture tb of tb is
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-
-  signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
-
   signal debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
+
+  signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
+
+  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
   signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
@@ -154,7 +154,6 @@ begin
     if clock'event and clock = '0' then
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
@@ -178,7 +177,7 @@ begin
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
         report "number of convolutions: " & integer'image(cont_conv);
-        report "end of simulation without error!" severity failure;
+        report "end of simulation without error!";
       end if;
     end if;
 

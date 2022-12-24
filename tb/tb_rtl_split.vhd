@@ -1,8 +1,11 @@
 library ieee;
+library std;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
+
 use std.textio.all;
 
 use work.gold_package.all;

@@ -1,9 +1,9 @@
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
-use std.textio.all;
-use ieee.std_logic_textio.all;
+
 
 entity tb is
   generic (N_FILTER       : integer := 16;
