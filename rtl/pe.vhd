@@ -5,7 +5,7 @@ use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 
 
-entity tb is
+entity pe is
   generic (N_FILTER       : integer := 16;
            N_CHANNEL      : integer := 3;
            X_SIZE         : integer := 32;
@@ -21,31 +21,31 @@ entity tb is
     clock : in std_logic;
     reset : in std_logic;
     p_start_conv : in std_logic;
-    p_end_conv : out std_logic := '0';
-    p_iwght_ce : in std_logic := '0';
-    p_iwght_we : in std_logic := '0';
-    p_iwght_valid : out std_logic := '0';
-    p_ifmap_ce : in std_logic := '0';
-    p_ifmap_we : in std_logic := '0';
-    p_ifmap_valid : out std_logic := '0';
-    p_ofmap_ce : in std_logic := '0';
-    p_ofmap_we : in std_logic := '0';
-    p_ofmap_valid : out std_logic := '0';
+    p_end_conv : out std_logic;
+    p_iwght_ce : in std_logic;
+    p_iwght_we : in std_logic;
+    p_iwght_valid : out std_logic;
+    p_ifmap_ce : in std_logic;
+    p_ifmap_we : in std_logic;
+    p_ifmap_valid : out std_logic;
+    p_ofmap_ce : in std_logic;
+    p_ofmap_we : in std_logic;
+    p_ofmap_valid : out std_logic;
     p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
-    p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-    p_value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0)
+    p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
+    p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
   );
-end tb;
+end pe;
 
-architecture a1 of tb is
+architecture a1 of pe is
 
-  signal clock, reset, start_conv, end_conv, debug : std_logic := '0';
+  signal start_conv, end_conv, debug : std_logic;
 
-  signal iwght_valid, ifmap_valid, ofmap_valid : std_logic := '0';
+  signal iwght_valid, ifmap_valid, ofmap_valid : std_logic;
 
-  signal iwght_ce, ifmap_ce, ofmap_ce, ofmap_we : std_logic := '0'; 
+  signal iwght_ce, ifmap_ce, ofmap_ce, ofmap_we : std_logic; 
 
-  signal mem_iwght_ce, mem_ifmap_ce, mem_ofmap_ce, mem_ofmap_we : std_logic := '0'; 
+  signal mem_iwght_ce, mem_ifmap_ce, mem_ofmap_ce, mem_ofmap_we : std_logic; 
 
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
@@ -60,24 +60,25 @@ architecture a1 of tb is
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
 begin
-  mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else 0;
-  mem_ifmap_ce <= '1' when p_ifmap_ce ='1' or ifmap_ce = '1' else 0;
-  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else 0;
-  mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we = '1' else 0;
+  mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
+  mem_ifmap_ce <= '1' when p_ifmap_ce ='1' or ifmap_ce = '1' else '0';
+  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else '0';
+  mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we = '1' else '0';
 
   mem_iwght_address <= p_address when p_iwght_ce = '1' else iwght_address;
   mem_ifmap_address <= p_address when p_ifmap_ce = '1' else ifmap_address;
   mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
 
-  ifmap_in <= p_value_in when p_ofmap_we = '1' else conv_ofmap_out;
+  --ifmap_in <= p_value_in when p_ofmap_we = '1' else conv_ofmap_out;
 
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
   p_ofmap_valid <= ofmap_valid;
   p_end_conv <= end_conv;
-
   p_value_out <= ofmap_out;
-  conv_ofmap_in <= ofmap_out;
+
+  --conv_ofmap_in <= ofmap_out;
+  start_conv <= p_start_conv ;
 
 
   IWGHT : entity work.memory
@@ -92,7 +93,7 @@ begin
       reset    => reset,
       chip_en  => mem_iwght_ce,
       wr_en    => p_iwght_we,
-      data_in  => p_iwght_in,
+      data_in  => p_value_in,
       address  => mem_iwght_address,
       data_av  => iwght_valid,
       data_out => iwght_value,
@@ -112,7 +113,7 @@ begin
       reset    => reset,
       chip_en  => mem_ifmap_ce,
       wr_en    => p_ifmap_we,
-      data_in  => p_ifmap_in,
+      data_in  => p_value_in,
       address  => mem_ifmap_address,
       data_av  => ifmap_valid,
       data_out => ifmap_value,
