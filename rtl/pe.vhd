@@ -20,20 +20,26 @@ entity pe is
   port (
     clock : in std_logic;
     reset : in std_logic;
+
     p_start_conv : in std_logic;
     p_end_conv : out std_logic;
+    p_debug : out std_logic;
+
     p_iwght_ce : in std_logic;
     p_iwght_we : in std_logic;
     p_iwght_valid : out std_logic;
+
     p_ifmap_ce : in std_logic;
     p_ifmap_we : in std_logic;
     p_ifmap_valid : out std_logic;
+
     p_ofmap_ce : in std_logic;
     p_ofmap_we : in std_logic;
     p_ofmap_valid : out std_logic;
+    
     p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
-    p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
+    p_value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0)
   );
 end pe;
 
@@ -59,6 +65,8 @@ architecture a1 of pe is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+  signal ofmap_pad : std_logic_vector(CARRY_SIZE-1 downto 0);
+
 begin
   mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
   mem_ifmap_ce <= '1' when p_ifmap_ce ='1' or ifmap_ce = '1' else '0';
@@ -69,13 +77,14 @@ begin
   mem_ifmap_address <= p_address when p_ifmap_ce = '1' else ifmap_address;
   mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
 
-  --ifmap_in <= p_value_in when p_ofmap_we = '1' else conv_ofmap_out;
+  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_in;
 
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
   p_ofmap_valid <= ofmap_valid;
   p_end_conv <= end_conv;
-  p_value_out <= ofmap_out;
+  p_value_out <= mem_ofmap_out((INPUT_SIZE*2)-1 downto 0);
+  p_debug <= debug;
 
   --conv_ofmap_in <= ofmap_out;
   start_conv <= p_start_conv ;

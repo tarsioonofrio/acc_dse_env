@@ -1,16 +1,20 @@
+TESTCASE=conv_normal
+TOPLEVEL=tb
+
 MODULE=test
 TOPLEVEL_LANG ?= vhdl
 
-VHDL_SOURCES += $(shell pwd)/../apps/data/inmem_pkg.vhd
-VHDL_SOURCES += $(shell pwd)/../apps/data/iwght_pkg.vhd
-VHDL_SOURCES += $(shell pwd)/../apps/data/ifmap_pkg.vhd
-VHDL_SOURCES += $(shell pwd)/../apps/data/gold_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/data/inmem_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/data/iwght_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/data/ifmap_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/data/gold_pkg.vhd
 
-VHDL_SOURCES += $(shell pwd)/../rtl/components/mac.vhd
-VHDL_SOURCES += $(shell pwd)/../rtl/components/reg.vhd
-VHDL_SOURCES += $(shell pwd)/../rtl/components/mem.vhd
-VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws_split.vhd
-VHDL_SOURCES += $(shell pwd)/../rtl/pe.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/components/mac.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/components/reg.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/components/mem.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/convolution/syst2d_ws_split.vhd
+
+VHDL_SOURCES += $(shell pwd)/tb.vhd
 
 
 COCOTB_HDL_TIMESTEP=1
@@ -22,7 +26,7 @@ COCOTB_LOG_LEVEL=DEBUG
 SIM=questa
 WAVES=1
 RTL_LIBRARY=work
-SIM_ARGS += -voptargs=+acc=lprn -t ps -f ../apps/data/generic_file.txt -wlf vsim.wlf
+SIM_ARGS += -voptargs=+acc=lprn -t ps -f ../../apps/data/generic_file.txt -wlf vsim.wlf
 
 # ifeq (@SIM,ghdl)
 # #	SIM=ghdl
@@ -42,10 +46,6 @@ SIM_ARGS += -voptargs=+acc=lprn -t ps -f ../apps/data/generic_file.txt -wlf vsim
 # VHDL_SOURCES += $(shell pwd)/tb_conv.vhd
 # TESTCASE=conv_normal
 # TOPLEVEL=tb
-
-# pe:
-TESTCASE=pe_test
-TOPLEVEL=pe
 
 include $(shell cocotb-config --makefiles)/Makefile.sim
 
