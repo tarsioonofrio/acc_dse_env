@@ -96,7 +96,7 @@ begin
     iwght_we <= '0';
     ifmap_ce <= '1';
     ifmap_we <= '1';
-    for i in 0 to (X_SIZE*X_SIZE) loop
+    for i in 0 to (X_SIZE*X_SIZE*N_CHANNEL) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
