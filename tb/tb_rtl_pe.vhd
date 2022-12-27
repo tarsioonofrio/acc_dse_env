@@ -114,8 +114,8 @@ begin
     for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(clock);
-      ofmap_ce <= '0';
+      --wait until rising_edge(clock);
+      --ofmap_ce <= '0';
       wait until rising_edge(ofmap_valid);
         if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
           --if value_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))),(INPUT_SIZE*2)) then
