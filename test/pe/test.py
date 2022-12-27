@@ -110,14 +110,21 @@ async def pe_test(dut):
     await triggers.RisingEdge(dut.clock)
 
     dut.start_conv.value = 0
-    while 1:
-        await triggers.FallingEdge(dut.clock)
-        await triggers.ReadOnly()
-        if dut.debug ==1:
-            address = dut.ofmap_address.value.integer
-            # assert dut.ofmap_out.value.integer == gold[address], f"Error {address}, {dut.ofmap_out.value.integer}, {gold[address]}"
-            print(f"{address}, {dut.ofmap_out.value.integer},  {dut.IFMAP.mem.value[address].integer}, {gold[address]}")
-            # print(address, dut.ofmap_out.value.integer, gold[address])
-        if dut.end_conv == 1:
-            break
+    await triggers.RisingEdge(dut.end_conv)
+
+    print("ofmap")
+    for e, d in enumerate(gold):
+        v = dut.OFMAP.mem.value[e]
+        print(e, v.integer, d, v, complement_of_two(d, 32))
+
+    # while 1:
+    #     await triggers.FallingEdge(dut.clock)
+    #     await triggers.ReadOnly()
+    #     if dut.debug ==1:
+    #         address = dut.ofmap_address.value.integer
+    #         # assert dut.ofmap_out.value.integer == gold[address], f"Error {address}, {dut.ofmap_out.value.integer}, {gold[address]}"
+    #         print(f"{address}, {dut.ofmap_out.value.integer},  {dut.IFMAP.mem.value[address].integer}, {gold[address]}")
+    #         # print(address, dut.ofmap_out.value.integer, gold[address])
+    #     if dut.end_conv == 1:
+    #         break
 

@@ -27,13 +27,11 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
-  signal clock, reset, start_conv, end_conv, debug : std_logic := '0';
+  signal clock, reset, start_conv, end_conv, end_conv2, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_we, iwght_valid, ifmap_ce, ifmap_we, ifmap_valid : std_logic := '0';
 
-  signal iwght_address, ifmap_address, address : std_logic_vector(MEM_SIZE-1 downto 0);
-
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal value_out, value_in : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
@@ -86,9 +84,11 @@ begin
     reset <= '0';
     iwght_ce <= '1';
     iwght_we <= '1';
-    for i in 0 to input_wght'length-1 loop
+    for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
+      --report integer'image(i); --std_logic_vector'image(value_in); 
+      --report integer'image(input_wght(i)); --std_logic_vector'image(value_in); 
       wait until rising_edge(clock);
     end loop;
 
@@ -96,7 +96,7 @@ begin
     iwght_we <= '0';
     ifmap_ce <= '1';
     ifmap_we <= '1';
-    for i in 0 to input_map'length-1 loop
+    for i in 0 to (X_SIZE*X_SIZE) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
@@ -108,24 +108,19 @@ begin
     wait until rising_edge(clock);
     start_conv <= '0';
     wait until rising_edge(clock);
-    wait until end_conv = '0';
+    wait until end_conv = '1';
 
-    report "end of simulation without error!" severity failure;
-  end process;
-
-  process(clock)
-
-    -- convolution counter
-    variable cont_conv : integer := 0;
-
-  begin
-
-    if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+    wait until rising_edge(clock);
+    for i in 0 to gold'length-1 loop
+      ofmap_ce <= '1';
+      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      wait until rising_edge(clock);
+      ofmap_ce <= '0';
+      wait until rising_edge(ofmap_valid);
+        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
           --if value_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
+          --report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
           report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
 
@@ -137,14 +132,45 @@ begin
 
           assert false severity failure;
         end if;
-        cont_conv := cont_conv + 1;
+    end loop;
 
-      elsif end_conv = '1' then
-        report "number of convolutions: " & integer'image(cont_conv);
-        report "end of simulation without error!" severity failure;
-      end if;
-    end if;
-
+    --report "number of convolutions: " & integer'image(cont_conv);
+    report "end of simulation without error!" severity failure;
   end process;
+
+
+  --process(clock)
+
+  --  -- convolution counter
+  --  variable cont_conv : integer := 0;
+
+  --begin
+
+  --  if clock'event and clock = '0' then
+  --    if end_conv2 = '1' and ofmap_valid = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
+  --      if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
+  --        --if value_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))),(INPUT_SIZE*2)) then
+  --        report "end of simulation with error!";
+  --        report "number of convolutions executed: " & integer'image(cont_conv);
+  --        report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
+  --        report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+
+  --        if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+  --        else
+  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+  --        end if;
+
+  --        assert false severity failure;
+  --      end if;
+  --      cont_conv := cont_conv + 1;
+
+  --    elsif end_conv = '1' then
+  --      report "number of convolutions: " & integer'image(cont_conv);
+  --      report "end of simulation without error!" severity failure;
+  --    end if;
+  --  end if;
+
+  --end process;
 
 end a1;

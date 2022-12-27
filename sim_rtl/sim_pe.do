@@ -25,7 +25,8 @@ vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/generic_file.txt
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
-add wave sim:/tb/DUT/*
+log -r /*
+add wave sim:/tb/*
 run -all
 #run 1000 ns
 #exit 
