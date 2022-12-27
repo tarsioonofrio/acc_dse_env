@@ -608,9 +608,7 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-
       if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < N_CHANNEL then
-
         conv_length <= conv_length + 1;
 
       elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
@@ -620,9 +618,7 @@ begin
         if channel_control = (N_CHANNEL-1) then
           conv_length     <= 0;
           channel_control <= 0;
-
         end if;
-
       end if;
     end if;
   end process;
@@ -650,7 +646,6 @@ begin
       partial_valid_flag <= '0';
 
     elsif clock'event and clock = '1' then
-
       partial_wr <= '0';
 
       if (channel_control = 0) then
@@ -658,7 +653,6 @@ begin
       end if;
 
       if valid_signal = '1' and channel_control < N_CHANNEL then
-
         partial0        <= reg_soma3;
         partial_add     <= partial_add + 1;
         partial_add_reg <= partial_add;
@@ -702,7 +696,6 @@ begin
       end if;
 
       if conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
-
         partial_control <= 0;
         partial_add     <= partial_base;
 

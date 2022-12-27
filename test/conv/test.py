@@ -4,6 +4,7 @@ from pathlib import Path
 
 import cocotb
 from cocotb import triggers
+from cocotb.binary import BinaryValue
 from cocotb.types import Logic
 from cocotb.clock import Clock
 from cocotb.utils import get_sim_time
@@ -32,20 +33,47 @@ async def assert_data(i, dut_data, tb_data, units):
 
 
 @cocotb.test()
-async def simple(dut):
+async def conv_normal(dut):
+    with open(Path(__file__).parent.parent.parent / "apps/data/iwght_pkg.json") as f:
+        iwght = json.load(f)
+
+    with open(Path(__file__).parent.parent.parent / "apps/data/gold_pkg.json") as f:
+        gold = json.load(f)
+
     high_impedance = Logic('Z')
     units = "ns"
-    clock = Clock(dut.clock, int(0.5 * 1000), units='ps')  # Create a 10us period clock on port clock_in
+
+    clock = Clock(dut.clock, int(1), units=units)  # Create a 10us period clock on port clock_in
     cocotb.start_soon(clock.start())  # Start the clock
 
-    await triggers.RisingEdge(dut.clock)  # Synchronize with the clock
+    await triggers.RisingEdge(dut.clock)
     dut.reset.value = 1
     dut.start_conv.value = 0
-    await triggers.Timer(2.5, units=units)  # Synchronize with the clock
+
+    await triggers.RisingEdge(dut.clock)
+    await triggers.RisingEdge(dut.clock)
     dut.reset.value = 0
-    dut.start_conv.value = 1
-    await triggers.Timer(1.0, units=units)  # Synchronize with the clock
+
+    await triggers.RisingEdge(dut.clock)
+    print("iwght")
+    for e, d in enumerate(dut.IWGHT.input_wght.value[:100]):
+       print(e, d.integer, iwght[e])
+    assert False
+
+    dut.DUT.start_conv.value = 1
+
+    await triggers.RisingEdge(dut.clock)
     dut.start_conv.value = 0
-    await triggers.RisingEdge(dut.end_conv)  # Synchronize with the clock
 
 
+    while 1:
+        await triggers.FallingEdge(dut.clock)
+        await triggers.ReadOnly()
+        if dut.debug ==1:
+            address = dut.ofmap_address.value.integer
+            assert dut.ofmap_out.value.integer == gold[address]
+            # print(address, dut.ofmap_out.value.integer, gold[address])
+        if dut.end_conv == 1:
+            break
+    # print("ofmap_out", dut.ofmap_out.value)
+    # await triggers.RisingEdge(dut.end_conv)
