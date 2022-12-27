@@ -77,13 +77,13 @@ begin
   mem_ifmap_address <= p_address when p_ifmap_ce = '1' else ifmap_address;
   mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
 
-  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_in;
+  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
 
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
   p_ofmap_valid <= ofmap_valid;
   p_end_conv <= end_conv;
-  p_value_out <= mem_ofmap_out((INPUT_SIZE*2)-1 downto 0);
+  p_value_out <= ofmap_in((INPUT_SIZE*2)-1 downto 0);
   p_debug <= debug;
 
   --conv_ofmap_in <= ofmap_out;
@@ -145,7 +145,7 @@ begin
       data_in  => mem_ofmap_in,
       address  => mem_ofmap_address,
       data_av  => ofmap_valid,
-      data_out => mem_ofmap_out,
+      data_out => ofmap_in,
       n_read   => ofmap_n_read,
       n_write  => ofmap_n_write
       );

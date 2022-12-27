@@ -111,7 +111,7 @@ begin
     wait until end_conv = '1';
 
     wait until rising_edge(clock);
-    for i in 0 to gold'length-1 loop
+    for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(clock);
