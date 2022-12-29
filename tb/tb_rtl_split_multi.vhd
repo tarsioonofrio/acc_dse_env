@@ -5,10 +5,12 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
+use IEEE.math_real.all;
 
 use std.textio.all;
 
 use work.gold_package.all;
+use work.config.all;
 
 
 entity tb is
@@ -38,16 +40,7 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal conf_n_filter       : std_logic_vector (integer(ceil(log2(real(N_FILTER) + real(1)))) downto 0) := N_FILTER;
-  signal conf_n_channel      : std_logic_vector (integer(ceil(log2(real(N_CHANNEL) + real(1)))) downto 0) := N_CHANNEL;
-  signal conf_stride         : std_logic_vector (integer(ceil(log2(real(STRIDE) + real(1)))) downto 0) := STRIDE;
-  signal conf_x_size         : std_logic_vector (integer(ceil(log2(real(X_SIZE) + real(1)))) downto 0) := X_SIZE;
-  signal conf_filter_width   : std_logic_vector (integer(ceil(log2(real(FILTER_WIDTH) + real(1)))) downto 0) := FILTER_WIDTH;
-  signal conf_convs_per_line : std_logic_vector (integer(ceil(log2(real(CONVS_PER_LINE) + real(1)))) downto 0) := CONVS_PER_LINE;
-  signal conf_mem_size       : std_logic_vector (integer(ceil(log2(real(MEM_SIZE) + real(1)))) downto 0) := MEM_SIZE;
-  signal conf_input_size     : std_logic_vector (integer(ceil(log2(real(INPUT_SIZE) + real(1)))) downto 0) := INPUT_SIZE;
-  signal conf_shift          : std_logic_vector (integer(ceil(log2(real(SHIFT) + real(1)))) downto 0) := SHIFT;
-  signal conf_carry_size     : std_logic_vector (integer(ceil(log2(real(CARRY_SIZE) + real(1)))) downto 0) := CARRY_SIZE;
+  signal config : type_config_logic := config_logic_init;
 
 begin
 
@@ -130,17 +123,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
-
-      conf_n_filter       => conf_n_filter,
-      conf_n_channel      => conf_n_channel,
-      conf_stride         => conf_stride,
-      conf_x_size         => conf_x_size,
-      conf_filter_width   => conf_filter_width,
-      conf_convs_per_line => conf_convs_per_line,
-      --conf_mem_size       => conf_mem_size,
-      conf_input_size     => conf_input_size,
-      conf_shift          => conf_shift,
-      conf_carry_size     => conf_carry_size,
+      config        => config,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value,

@@ -7,6 +7,7 @@ vcom -work work ../apps/data/inmem_pkg.vhd
 vcom -work work ../apps/data/ifmap_pkg.vhd
 vcom -work work ../apps/data/iwght_pkg.vhd
 vcom -work work ../apps/data/gold_pkg.vhd
+vcom -work work ../apps/data/config.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
@@ -17,7 +18,7 @@ vcom -work work ../rtl/components/mem.vhd
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_split.vhd
+vcom -work work ../tb/tb_rtl_split_multi.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/generic_file.txt
