@@ -5,8 +5,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
-use work.config.all;
+use IEEE.std_logic_arith.all;
+use work.config_package.all;
 
 
 entity convolution is
@@ -99,12 +99,18 @@ begin
   process(reset, clock)
   begin
     if reset = '1' then
-        reg_config <= type_config_integer_init;
+        reg_config.n_filter <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
+        --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
-        reg_config <= convert_config_logic_integer(config, reg_config);
+        reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
+          --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
-        reg_config <= type_config_integer_init;
+        reg_config.n_filter <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
+        --reg_config <= type_config_integer_init;
       end if;
     end if;
   end process;
@@ -239,6 +245,7 @@ begin
             read_weight_flag <= '0';
           end if;
 
+          --if cont_total_valid = CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER then
           if cont_total_valid = reg_config.convs_per_line_convs_per_line_n_channel_n_filter then
             end_conv_signal <= '1';
           else

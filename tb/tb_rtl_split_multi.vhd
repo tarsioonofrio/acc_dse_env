@@ -10,7 +10,7 @@ use IEEE.math_real.all;
 use std.textio.all;
 
 use work.gold_package.all;
-use work.config.all;
+use work.config_package.all;
 
 
 entity tb is
@@ -40,7 +40,7 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := config_logic_init;
+  signal config : type_config_logic := type_config_logic_init;
 
 begin
 
@@ -142,6 +142,9 @@ begin
       ofmap_we      => ofmap_we,
       ofmap_ce      => ofmap_ce
       );
+
+  config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
+  config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
 
   clock <= not clock after 0.5 ns;
 

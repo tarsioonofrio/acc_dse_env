@@ -7,7 +7,7 @@ vcom -work work ../apps/data/inmem_pkg.vhd
 vcom -work work ../apps/data/ifmap_pkg.vhd
 vcom -work work ../apps/data/iwght_pkg.vhd
 vcom -work work ../apps/data/gold_pkg.vhd
-vcom -work work ../apps/data/config.vhd
+vcom -work work ../apps/data/config_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
