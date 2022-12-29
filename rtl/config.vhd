@@ -3,16 +3,16 @@ use ieee.std_logic_1164.all;
 
 package record_type is
   generic (
-    B_N_FILTER       : integer := 2;
+    B_N_FILTER       : integer := 4;
     B_N_CHANNEL      : integer := 4;
     B_STRIDE         : integer := 2;
     B_X_SIZE         : integer := 5;
     B_FILTER_WIDTH   : integer := 2;
     B_CONVS_PER_LINE : integer := 4;
     B_MEM_SIZE       : integer := 4;
-    B_INPUT_SIZE     : integer := 3;
-    B_CARRY_SIZE     : integer := 2
-    B_SHIFT          : integer := 2;
+    B_INPUT_SIZE     : integer := 4;
+    B_CARRY_SIZE     : integer := 2;
+    B_SHIFT          : integer := 2
   );
 
   type type_config is record
