@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-package record_type is
+package config_pkg is
   generic (
     B_N_FILTER       : integer := 4;
     B_N_CHANNEL      : integer := 4;
@@ -27,4 +27,4 @@ package record_type is
     carry_size     : std_logic_vector(B_CARRY_SIZE downto 0);
   end record type_config;  
 
-end package record_type;
+end package config_pkg;

@@ -6,7 +6,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
-use work.record_type.all;
+use work.config_pkg.all;
 
 entity convolution is
   generic (N_FILTER       : integer := 16;
