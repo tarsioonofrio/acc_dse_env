@@ -4,11 +4,15 @@ use IEEE.std_logic_arith.all;
 
 package config_package is
   type type_config_logic is record
-    --n_filter       : std_logic_vector(log2ceil(N_FILTER) downto 0);
-    --convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER) downto 0);
+
     n_filter       : std_logic_vector(4 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
     convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (14 downto 0);
     n_channel       : std_logic_vector(2 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
+    convs_per_line_convs_per_line_n_channel: std_logic_vector(10 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
+    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(9 downto 0);
 
     --n_channel      : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
     --x_size         : std_logic_vector(log2ceil(X_SIZE) downto 0);
@@ -33,6 +37,10 @@ package config_package is
 
       n_channel       : integer range 0 to 3;
   
+      convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
+
+      convs_per_line_convs_per_line_n_channel_1: integer range 0 to 450;
+
       --n_channel      : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
       --x_size         : std_logic_vector(log2ceil(X_SIZE) downto 0);
       --filter_width   : std_logic_vector(log2ceil(FILTER_WIDTH) downto 0);

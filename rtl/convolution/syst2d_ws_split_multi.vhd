@@ -102,16 +102,22 @@ begin
         reg_config.n_filter <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         reg_config.n_channel <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
         reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
         reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
+        reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config.n_filter <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         --reg_config <= type_config_integer_init;
       end if;
     end if;
@@ -147,7 +153,7 @@ begin
               EA_read <= WAITVALID;
             end if;
           when WAITVALID =>
-            if cont_valid = CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL then
+            if cont_valid = reg_config.convs_per_line_convs_per_line_n_channel then
               EA_read <= READBIAS;
             elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and read_weight_flag = '0') then
               EA_read <= READWEIGHT;
@@ -241,9 +247,9 @@ begin
 
           end if;
 
-          if (cont_conv = CONVS_PER_LINE*CONVS_PER_LINE and read_weight_flag = '0' and cont_valid < (CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL)) then
+          if (cont_conv = CONVS_PER_LINE*CONVS_PER_LINE and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '1';
-          elsif (read_weight_flag = '1' and cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 and cont_valid < (CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL)) then
+          elsif (read_weight_flag = '1' and cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '0';
           end if;
 
@@ -744,13 +750,13 @@ begin
     elsif rising_edge(clock) then
       if (partial_wr = '1') then
         cont_debug <= cont_debug + 1;
-      elsif (cont_debug = CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL) then
+      elsif (cont_debug = reg_config.convs_per_line_convs_per_line_n_channel) then
         cont_debug <= 0;
       end if;
     end if;
   end process;
 
-  valid_sync_signal <= partial_wr when (cont_debug >= CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)) else '0';
+  valid_sync_signal <= partial_wr when (cont_debug >= reg_config.convs_per_line_convs_per_line_n_channel_1) else '0';
 
   -- Shift
   shift_output(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto (INPUT_SIZE*2)-(SHIFT-CARRY_SIZE)) <= (others => '0');
