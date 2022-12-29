@@ -79,6 +79,7 @@ architecture a1 of convolution is
   signal in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
 
   signal reg_reg_bias_value, reg_bias_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+
   signal adder_mux                          : std_logic_vector(INPUT_SIZE-1 downto 0);
 
   signal partial0, partial1, partial2, reg_soma1, reg_soma2, reg_soma3, shift_output, ofmap_out_reg : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -87,11 +88,15 @@ architecture a1 of convolution is
 
   signal H                                                                            : integer range 0 to X_SIZE;
   signal V                                                                            : integer range 0 to 2**(MEM_SIZE);
+
   signal address_base                                                                 : integer range 0 to 2**(MEM_SIZE);
   signal conv_length                                                                  : integer range 0 to CONVS_PER_LINE*CONVS_PER_LINE;
-  signal channel_control, channel_control_reg                                         : integer range 0 to N_CHANNEL;
+
   signal cont_weight_cycles, cont_valid, cont_total_valid, cont_conv, cont_conv_plus1 : integer;
+
   signal partial_control, cont_debug                                                  : integer;
+
+  signal channel_control, channel_control_reg                                         : integer range 0 to N_CHANNEL;
 
 begin
   ----------------------------------------------------------------------------
