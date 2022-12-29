@@ -5,8 +5,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
-use work.config_pkg.all;
+use ieee.std_logic_unsigned.all;
+use IEEE.std_logic_arith.all;
+use IEEE.math_real.all;
 
 entity convolution is
   generic (N_FILTER       : integer := 16;
@@ -25,9 +26,19 @@ entity convolution is
 
         -- Accelerator interface
         start_conv : in  std_logic;
-        config     : in  type_config;
         end_conv   : out std_logic;
         debug      : out std_logic;
+
+        conf_n_filter       : in std_logic_vector (integer(ceil(log2(real(N_FILTER) + real(1)))) downto 0);
+        conf_n_channel      : in std_logic_vector (integer(ceil(log2(real(N_CHANNEL) + real(1)))) downto 0);
+        conf_stride         : in std_logic_vector (integer(ceil(log2(real(STRIDE) + real(1)))) downto 0);
+        conf_x_size         : in std_logic_vector (integer(ceil(log2(real(X_SIZE) + real(1)))) downto 0);
+        conf_filter_width   : in std_logic_vector (integer(ceil(log2(real(FILTER_WIDTH) + real(1)))) downto 0);
+        conf_convs_per_line : in std_logic_vector (integer(ceil(log2(real(CONVS_PER_LINE) + real(1)))) downto 0);
+        --conf_mem_size       : in std_logic_vector (integer(ceil(log2(real(MEM_SIZE) + real(1)))) downto 0);
+        conf_input_size     : in std_logic_vector (integer(ceil(log2(real(INPUT_SIZE) + real(1)))) downto 0);
+        conf_shift          : in std_logic_vector (integer(ceil(log2(real(SHIFT) + real(1)))) downto 0);
+        conf_carry_size     : in std_logic_vector (integer(ceil(log2(real(CARRY_SIZE) + real(1)))) downto 0);
 
         -- Input weight memory interface
         iwght_valid   : in  std_logic;
@@ -54,7 +65,17 @@ end entity convolution;
 
 architecture a1 of convolution is
 
-  signal reg_config: type_config;
+  signal reg_n_filter       : integer range 0 to N_FILTER;
+  signal reg_n_channel      : integer range 0 to N_CHANNEL;
+  signal reg_stride         : integer range 0 to STRIDE;
+  signal reg_x_size         : integer range 0 to X_SIZE;
+  signal reg_filter_width   : integer range 0 to FILTER_WIDTH;
+  signal reg_convs_per_line : integer range 0 to CONVS_PER_LINE;
+  --signal reg_mem_size       : integer range 0 to MEM_SIZE;
+  signal reg_input_size     : integer range 0 to INPUT_SIZE;
+  signal reg_shift          : integer range 0 to SHIFT;
+  signal reg_carry_size     : integer range 0 to CARRY_SIZE;
+
 
   -- State machine signals to control input values read
   type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3, E4, E5);
@@ -99,9 +120,49 @@ architecture a1 of convolution is
   signal channel_control, channel_control_reg                                         : integer range 0 to N_CHANNEL;
 
 begin
+
   ----------------------------------------------------------------------------
   -- input values control
   ----------------------------------------------------------------------------
+  process(reset, clock)
+  begin
+    if reset = '1' then
+        reg_n_filter <= 0;
+        reg_n_channel <= 0;
+        reg_stride <= 0;
+        reg_x_size <= 0;
+        reg_filter_width <= 0;
+        reg_convs_per_line <= 0;
+        reg_input_size <= 0;
+        reg_shift <= 0;
+        reg_carry_size <= 0;
+    elsif rising_edge(clock) then
+      if start_conv = '1' then
+        reg_n_filter <= CONV_INTEGER(unsigned(conf_n_filter)), N_FILTER;
+        reg_n_channel <= CONV_INTEGER(unsigned(conf_n_filter)), N_CHANNEL;
+        reg_stride <= CONV_INTEGER(unsigned(conf_n_filter)), STRIDE;
+        reg_x_size <= CONV_INTEGER(unsigned(conf_n_filter)), X_SIZE;
+        reg_filter_width <= CONV_INTEGER(unsigned(conf_n_filter)), FILTER_WIDTH;
+        reg_convs_per_line <= CONV_INTEGER(unsigned(conf_n_filter)), CONVS_PER_LINE;
+        --reg_mem_size <= CONV_INTEGER(unsigned(conf_n_filter)), MEM_SIZE;
+        reg_input_size <= CONV_INTEGER(unsigned(conf_n_filter)), INPUT_SIZE;
+        reg_shift <= CONV_INTEGER(unsigned(conf_n_filter)), SHIFT;
+        reg_carry_size <= CONV_INTEGER(unsigned(conf_n_filter)), CARRY_SIZE;
+      elsif end_conv_reg = '1' then
+        reg_n_filter <= 0;
+        reg_n_channel <= 0;
+        reg_stride <= 0;
+        reg_x_size <= 0;
+        reg_filter_width <= 0;
+        reg_convs_per_line <= 0;
+        reg_input_size <= 0;
+        reg_shift <= 0;
+        reg_carry_size <= 0;
+      end if;
+    end if;
+  end process;
+
+
   process(reset, clock)
   begin
     if reset = '1' then
@@ -114,14 +175,13 @@ begin
           when WAITSTART =>
             if start_conv = '1' then
               EA_read <= READBIAS;
-              reg_config <= config;
             end if;
           when READBIAS =>
             if iwght_valid = '1' then
               EA_read <= READWEIGHT;
             end if;
           when READWEIGHT =>
-            if cont_weight_cycles = (reg_config.filter_width*reg_config.filter_width)-1 then
+            if cont_weight_cycles = ((conf_filter_width*conf_filter_width)-1) then
               EA_read <= STARTMAC;
             end if;
           when STARTMAC =>
@@ -129,9 +189,9 @@ begin
               EA_read <= WAITVALID;
             end if;
           when WAITVALID =>
-            if cont_valid = reg_config.convs_per_line*reg_config.convs_per_line*reg_config.n_channel then
+            if cont_valid = (conf_convs_per_line*conf_convs_per_line*conf_n_channel) then
               EA_read <= READBIAS;
-            elsif (cont_conv = (reg_config.convs_per_line*reg_config.convs_per_line) and read_weight_flag = '0') then
+            elsif (cont_conv = (conf_convs_per_line*conf_convs_per_line) and read_weight_flag = '0') then
               EA_read <= READWEIGHT;
             elsif end_conv_signal = '1' then
               EA_read <= WAITSTART;
@@ -170,10 +230,10 @@ begin
       end if;
 
       -- Stop to read memory values at the end of each RGB channel process, ensure correct synchronization with input memory valid
-      if (cont_conv = (reg_config.convs_per_line*reg_config.convs_per_line) and ce_control = '0') then
+      if (cont_conv = (conf_convs_per_line*conf_convs_per_line) and ce_control = '0') then
         ce_control <= '1';
         ce_flag    <= '1';
-      elsif (cont_conv = (reg_config.convs_per_line*reg_config.convs_per_line) and ce_control = '1') then
+      elsif (cont_conv = (conf_convs_per_line*conf_convs_per_line) and ce_control = '1') then
         if read_bias = '1' or read_weights = '0' then
           ce_flag <= '0';
         end if;
@@ -207,14 +267,14 @@ begin
             cont_valid       <= cont_valid + 1;
             cont_total_valid <= cont_total_valid + 1;
 
-            if cont_conv = reg_config.convs_per_line*reg_config.convs_per_line then
+            if cont_conv = (conf_convs_per_line*conf_convs_per_line) then
               -- To include the past conv in the counter
               cont_conv <= 1;
             else
               cont_conv <= cont_conv + 1;
             end if;
 
-            if cont_conv_plus1 = (reg_config.convs_per_line*reg_config.convs_per_line)+1 then
+            if cont_conv_plus1 = ((conf_convs_per_line*conf_convs_per_line)+1) then
               -- To include the past 2 conv in the counter
               cont_conv_plus1 <= 2;
             else
@@ -223,13 +283,13 @@ begin
 
           end if;
 
-          if (cont_conv = reg_config.convs_per_line*reg_config.convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line*reg_config.convs_per_line*reg_config.n_channel)) then
+          if (cont_conv = (conf_convs_per_line*conf_convs_per_line) and read_weight_flag = '0' and cont_valid < (conf_convs_per_line*conf_convs_per_line*conf_n_channel)) then
             read_weight_flag <= '1';
-          elsif (read_weight_flag = '1' and cont_conv_plus1 = (reg_config.convs_per_line*reg_config.convs_per_line)+1 and cont_valid < (reg_config.convs_per_line*reg_config.convs_per_line*reg_config.n_channel)) then
+          elsif (read_weight_flag = '1' and cont_conv_plus1 = ((conf_convs_per_line*conf_convs_per_line)+1) and cont_valid < (conf_convs_per_line*conf_convs_per_line*conf_n_channel)) then
             read_weight_flag <= '0';
           end if;
 
-          if cont_total_valid = reg_config.convs_per_line*reg_config.convs_per_line*reg_config.n_channel*reg_config.n_filter then
+          if cont_total_valid = conf_convs_per_line*conf_convs_per_line*conf_n_channel*conf_n_filter then
             end_conv_signal <= '1';
           else
             end_conv_signal <= '0';
@@ -285,7 +345,7 @@ begin
       if (reg_read_bias = '1') then
         address_base <= 0;
       elsif (reg_start_mac = '1' and update_add_base = '0') then
-        address_base    <= address_base + (reg_config.x_size*reg_config.x_size);
+        address_base    <= address_base + (conf_x_size*conf_x_size);
         update_add_base <= '1';
       end if;
 
@@ -308,41 +368,41 @@ begin
       -- Register read_weights signal to ensure the correct weight value read
       reg_read_weights <= read_weights;
 
-      -- Ensure the correct weight read value and amount (due to weight_control < reg_config.filter_width*reg_config.filter_width)
-      if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < reg_config.filter_width*reg_config.filter_width) then
+      -- Ensure the correct weight read value and amount (due to weight_control < conf_filter_width*conf_filter_width)
+      if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < conf_filter_width*conf_filter_width) then
 
         weight_x       <= weight_x + 1;
         weight_control <= weight_control + 1;
 
         if (weight_control = 0) then
-          weight(0, 0) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(0, 0) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 1) then
-          weight(0, 1) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(0, 1) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 2) then
-          weight(0, 2) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(0, 2) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 3) then
-          weight(1, 0) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(1, 0) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 4) then
-          weight(1, 1) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(1, 1) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 5) then
-          weight(1, 2) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(1, 2) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 6) then
-          weight(2, 0) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(2, 0) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 7) then
-          weight(2, 1) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(2, 1) <= iwght_value(conf_input_size-1 downto 0);
 
         elsif (weight_control = 8) then
-          weight(2, 2) <= iwght_value(reg_config.input_size-1 downto 0);
+          weight(2, 2) <= iwght_value(conf_input_size-1 downto 0);
 
         end if;
-      elsif weight_control = reg_config.filter_width*reg_config.filter_width then
+      elsif weight_control = conf_filter_width*conf_filter_width then
         weight_control <= (others => '0');
       end if;
     end if;
@@ -419,21 +479,21 @@ begin
           --
           -- UPDATE THE ADDRESS IN A PIPELINE FASHION (only 2 colums)
           --
-          add(0) <= CONV_STD_LOGIC_VECTOR(V + H, reg_config.mem_size);
+          add(0) <= CONV_STD_LOGIC_VECTOR(V + H, MEM_SIZE);
           add(1) <= add(0) + 1;
 
-          add(2) <= reg_config.x_size + add(0);
+          add(2) <= conf_x_size + add(0);
           add(3) <= add(2) + 1;
 
-          add(4) <= reg_config.x_size + add(2);
+          add(4) <= conf_x_size + add(2);
           add(5) <= add(4) + 1;
 
           --
           -- NEXT LINE
           --  
-          if (H+2) >= reg_config.x_size then
+          if (H+2) >= conf_x_size then
             H <= 0;
-            V <= V+2*reg_config.x_size;
+            V <= V+2*conf_x_size;
           else
             H <= H+2;
           end if;
@@ -459,12 +519,12 @@ begin
             cont_steps <= cont_steps + 1;
           end if;
 
-        when E0 => buffer_features(0, 0) <= ifmap_value(reg_config.input_size-1 downto 0);  --------- COMPUTE WITH PREVIOUS DATA
-        when E1 => buffer_features(0, 1) <= ifmap_value(reg_config.input_size-1 downto 0);
-        when E2 => buffer_features(1, 0) <= ifmap_value(reg_config.input_size-1 downto 0);
-        when E3 => buffer_features(1, 1) <= ifmap_value(reg_config.input_size-1 downto 0);
-        when E4 => buffer_features(2, 0) <= ifmap_value(reg_config.input_size-1 downto 0);  -- signalize to store in regs  
-        when E5 => buffer_features(2, 1) <= ifmap_value(reg_config.input_size-1 downto 0);
+        when E0 => buffer_features(0, 0) <= ifmap_value(conf_input_size-1 downto 0);  --------- COMPUTE WITH PREVIOUS DATA
+        when E1 => buffer_features(0, 1) <= ifmap_value(conf_input_size-1 downto 0);
+        when E2 => buffer_features(1, 0) <= ifmap_value(conf_input_size-1 downto 0);
+        when E3 => buffer_features(1, 1) <= ifmap_value(conf_input_size-1 downto 0);
+        when E4 => buffer_features(2, 0) <= ifmap_value(conf_input_size-1 downto 0);  -- signalize to store in regs  
+        when E5 => buffer_features(2, 1) <= ifmap_value(conf_input_size-1 downto 0);
 
         when others => null;
 
@@ -473,7 +533,7 @@ begin
       if (reg_start_mac = '1' and update_add_base = '0') then
         H          <= 0;
         V          <= address_base;
-        add        <= (others => CONV_STD_LOGIC_VECTOR(address_base, reg_config.mem_size));
+        add        <= (others => CONV_STD_LOGIC_VECTOR(address_base, MEM_SIZE));
         cont_steps <= (others => '0');
 
       elsif (reg_read_bias = '1') then
@@ -509,10 +569,10 @@ begin
   -------------------------------------------------------------------------------------------------------
 
   -- The first column does not hava a previous sum
-  cols0 : for j in 0 to reg_config.filter_width-1 generate
+  cols0 : for j in 0 to conf_filter_width-1 generate
     mac0 : entity work.mac
-      generic map(INPUT_SIZE => reg_config.input_size,
-                  CARRY_SIZE => reg_config.carry_size
+      generic map(INPUT_SIZE => conf_input_size,
+                  CARRY_SIZE => conf_carry_size
                   )
       port map(sum     => (others => '0'),
                op1     => weight(j, 0),
@@ -522,12 +582,12 @@ begin
   end generate cols0;
 
   -- Second and third column with previous column
-  cols12 : for i in 1 to reg_config.filter_width-1 generate
-    rows : for j in 0 to reg_config.filter_width-1 generate
+  cols12 : for i in 1 to conf_filter_width-1 generate
+    rows : for j in 0 to conf_filter_width-1 generate
 
       mac12 : entity work.mac
-        generic map(INPUT_SIZE => reg_config.input_size,
-                    CARRY_SIZE => reg_config.carry_size
+        generic map(INPUT_SIZE => conf_input_size,
+                    CARRY_SIZE => conf_carry_size
                     )
         port map(sum     => reg_mac(j, i-1),
                  op1     => weight(j, i),
@@ -540,11 +600,11 @@ begin
   -- reset array registers
   pipe_reset <= reset or start_mac;
 
-  reg_r : for i in 0 to reg_config.filter_width-1 generate
-    reg_c : for j in 0 to reg_config.filter_width-1 generate
+  reg_r : for i in 0 to conf_filter_width-1 generate
+    reg_c : for j in 0 to conf_filter_width-1 generate
 
       ireg : entity work.reg
-        generic map(INPUT_SIZE => ((reg_config.input_size*2)+reg_config.carry_size))
+        generic map(INPUT_SIZE => ((conf_input_size*2)+conf_carry_size))
         port map(clock => clock, reset => pipe_reset, enable => en_reg,
                  D     => res_mac(j, i),
                  Q     => reg_mac(j, i)
@@ -562,9 +622,9 @@ begin
       reg_soma3 <= (others => '0');
     elsif rising_edge(clock) then
       if en_reg = '1' then
-        reg_soma1 <= reg_mac(0, reg_config.filter_width-1);
-        reg_soma2 <= reg_soma1 + reg_mac(1, reg_config.filter_width-1);
-        reg_soma3 <= reg_soma2 + reg_mac(2, reg_config.filter_width-1);
+        reg_soma1 <= reg_mac(0, conf_filter_width-1);
+        reg_soma2 <= reg_soma1 + reg_mac(1, conf_filter_width-1);
+        reg_soma3 <= reg_soma2 + reg_mac(2, conf_filter_width-1);
       end if;
 
     end if;
@@ -587,7 +647,7 @@ begin
       if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
-        if cont_iterations = reg_config.convs_per_line then
+        if cont_iterations = conf_convs_per_line then
           cont_iterations <= (others => '0');
         end if;
       elsif EA_add = E4 then
@@ -618,14 +678,14 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-      if valid_signal = '1' and conv_length < reg_config.convs_per_line*reg_config.convs_per_line and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and conv_length < conf_convs_per_line*conf_convs_per_line and channel_control < conf_n_channel then
         conv_length <= conv_length + 1;
 
-      elsif conv_length = reg_config.convs_per_line*reg_config.convs_per_line then
+      elsif conv_length = conf_convs_per_line*conf_convs_per_line then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
-        if channel_control = (reg_config.n_channel-1) then
+        if channel_control = (conf_n_channel-1) then
           conv_length     <= 0;
           channel_control <= 0;
         end if;
@@ -662,7 +722,7 @@ begin
         partial_ce <= '0';
       end if;
 
-      if valid_signal = '1' and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and channel_control < conf_n_channel then
         partial0        <= reg_soma3;
         partial_add     <= partial_add + 1;
         partial_add_reg <= partial_add;
@@ -694,7 +754,7 @@ begin
           partial_wr <= '1';
           partial_ce <= '1';
 
-          if (channel_control = (reg_config.n_channel-1)) then
+          if (channel_control = (conf_n_channel-1)) then
             partial2 <= partial0 + partial1 + reg_reg_bias_value;
           else
             partial2 <= partial0 + partial1;
@@ -705,13 +765,13 @@ begin
         end if;
       end if;
 
-      if conv_length = reg_config.convs_per_line*reg_config.convs_per_line then
+      if conv_length = conf_convs_per_line*conf_convs_per_line then
         partial_control <= 0;
         partial_add     <= partial_base;
 
-        if channel_control = (reg_config.n_channel-1) then
-          partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line*reg_config.convs_per_line, reg_config.mem_size);
-          partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line*reg_config.convs_per_line, reg_config.mem_size);
+        if channel_control = (conf_n_channel-1) then
+          partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(conf_convs_per_line*conf_convs_per_line, MEM_SIZE);
+          partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(conf_convs_per_line*conf_convs_per_line, MEM_SIZE);
         end if;
       end if;
     end if;
@@ -725,26 +785,26 @@ begin
     elsif rising_edge(clock) then
       if (partial_wr = '1') then
         cont_debug <= cont_debug + 1;
-      elsif (cont_debug = reg_config.convs_per_line*reg_config.convs_per_line*reg_config.n_channel) then
+      elsif (cont_debug = conf_convs_per_line*conf_convs_per_line*conf_n_channel) then
         cont_debug <= 0;
       end if;
     end if;
   end process;
 
-  valid_sync_signal <= partial_wr when (cont_debug >= reg_config.convs_per_line*reg_config.convs_per_line*(reg_config.n_channel-1)) else '0';
+  valid_sync_signal <= partial_wr when (cont_debug >= conf_convs_per_line*conf_convs_per_line*(conf_n_channel-1)) else '0';
 
   -- Shift
-  shift_output(((reg_config.input_size*2)+reg_config.carry_size)-1 downto (reg_config.input_size*2)-(reg_config.shift-reg_config.carry_size)) <= (others => '0');
+  shift_output(((conf_input_size*2)+conf_carry_size)-1 downto (conf_input_size*2)-(conf_shift-conf_carry_size)) <= (others => '0');
 
   -- ReLU 
-  shift_output((reg_config.input_size*2)-(reg_config.shift-reg_config.carry_size)-1 downto 0) <= partial2(((reg_config.input_size*2)+reg_config.carry_size)-1 downto reg_config.shift) when partial2 > 0 else (others => '0');
+  shift_output((conf_input_size*2)-(conf_shift-conf_carry_size)-1 downto 0) <= partial2(((conf_input_size*2)+conf_carry_size)-1 downto conf_shift) when partial2 > 0 else (others => '0');
 
   ------------------------------------------------------------------------------------
   -- Circuit outputs
   ------------------------------------------------------------------------------------
   --  input memory read address (constant sums used to access the correct address on memory)
   iwght_address <= bias_x when read_bias = '1' else
-                   (weight_x + reg_config.n_filter)  when read_weights = '1' or start_mac = '1' else 
+                   (weight_x + conf_n_filter)  when read_weights = '1' or start_mac = '1' else 
                    (others => '0');
 
   ifmap_address <= add(0) when EA_add = E0 else

@@ -14,7 +14,6 @@ vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem.vhd
 
 # Convolution core
-vcom -work work ../rtl/config.vhd
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Testbench
