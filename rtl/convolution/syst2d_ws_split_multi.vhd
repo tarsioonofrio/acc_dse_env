@@ -104,6 +104,8 @@ begin
         reg_config.n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
+        reg_config.x_size <= 0;
+        reg_config.x_size_x_size <= 0;
         --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
@@ -112,12 +114,16 @@ begin
         reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
         reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
+        reg_config.x_size <= conv_integer(unsigned(config.x_size));
+        reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config.n_filter <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
+        reg_config.x_size <= 0;
+        reg_config.x_size_x_size <= 0;
         --reg_config <= type_config_integer_init;
       end if;
     end if;
@@ -310,7 +316,7 @@ begin
       if (reg_read_bias = '1') then
         address_base <= 0;
       elsif (reg_start_mac = '1' and update_add_base = '0') then
-        address_base    <= address_base + (X_SIZE*X_SIZE);
+        address_base    <= address_base + (reg_config.x_size_x_size);
         update_add_base <= '1';
       end if;
 
@@ -447,18 +453,18 @@ begin
           add(0) <= CONV_STD_LOGIC_VECTOR(V + H, MEM_SIZE);
           add(1) <= add(0) + 1;
 
-          add(2) <= X_SIZE + add(0);
+          add(2) <= reg_config.x_size + add(0);
           add(3) <= add(2) + 1;
 
-          add(4) <= X_SIZE + add(2);
+          add(4) <= reg_config.x_size + add(2);
           add(5) <= add(4) + 1;
 
           --
           -- NEXT LINE
           --  
-          if (H+2) >= X_SIZE then
+          if (H+2) >= reg_config.x_size then
             H <= 0;
-            V <= V+2*X_SIZE;
+            V <= V+2*reg_config.x_size;
           else
             H <= H+2;
           end if;
