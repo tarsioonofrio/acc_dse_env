@@ -40,7 +40,7 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := type_config_logic_init;
+  signal config : type_config_logic;
 
 begin
 
