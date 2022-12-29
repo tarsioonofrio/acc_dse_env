@@ -8,6 +8,7 @@ package config_package is
     --convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER) downto 0);
     n_filter       : std_logic_vector(4 downto 0);
     convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (14 downto 0);
+    n_channel       : std_logic_vector(2 downto 0);
 
     --n_channel      : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
     --x_size         : std_logic_vector(log2ceil(X_SIZE) downto 0);
@@ -18,17 +19,20 @@ package config_package is
     --carry_size     : std_logic_vector(log2ceil(CARRY_SIZE) downto 0);
   end record type_config_logic;
 
-  constant type_config_logic_init: type_config_logic := (
-    n_filter => (others => '0'),
-    convs_per_line_convs_per_line_n_channel_n_filter => (others => '0')
-    );
+  --constant type_config_logic_init: type_config_logic := (
+  --  n_filter => (others => '0'),
+  --  convs_per_line_convs_per_line_n_channel_n_filter => (others => '0')
+  --  );
 
     type type_config_integer is record
       --n_filter       : std_logic_vector(log2ceil(N_FILTER) downto 0);
       --convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER) downto 0);
       n_filter       : integer range 0 to 16;
+
       convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 10800;
 
+      n_channel       : integer range 0 to 3;
+  
       --n_channel      : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
       --x_size         : std_logic_vector(log2ceil(X_SIZE) downto 0);
       --filter_width   : std_logic_vector(log2ceil(FILTER_WIDTH) downto 0);
@@ -38,10 +42,10 @@ package config_package is
       --carry_size     : std_logic_vector(log2ceil(CARRY_SIZE) downto 0);
     end record type_config_integer;
 
-  constant type_config_integer_init: type_config_integer := (
-    n_filter => 0,
-    convs_per_line_convs_per_line_n_channel_n_filter => 0
-    );
+  --constant type_config_integer_init: type_config_integer := (
+  --  n_filter => 0,
+  --  convs_per_line_convs_per_line_n_channel_n_filter => 0
+  --  );
 
 
   --function convert_config_logic_integer(config_logic : type_config_logic) return type_config_integer;

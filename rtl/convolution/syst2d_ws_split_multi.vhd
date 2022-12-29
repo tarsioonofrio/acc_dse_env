@@ -101,11 +101,13 @@ begin
     if reset = '1' then
         reg_config.n_filter <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
+        reg_config.n_channel <= 0;
         --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
         reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
+        reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config.n_filter <= 0;
@@ -635,14 +637,14 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-      if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < N_CHANNEL then
+      if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < reg_config.n_channel then
         conv_length <= conv_length + 1;
 
       elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
-        if channel_control = (N_CHANNEL-1) then
+        if channel_control = (reg_config.n_channel-1) then
           conv_length     <= 0;
           channel_control <= 0;
         end if;
@@ -679,7 +681,7 @@ begin
         partial_ce <= '0';
       end if;
 
-      if valid_signal = '1' and channel_control < N_CHANNEL then
+      if valid_signal = '1' and channel_control < reg_config.n_channel then
         partial0        <= reg_soma3;
         partial_add     <= partial_add + 1;
         partial_add_reg <= partial_add;
@@ -711,7 +713,7 @@ begin
           partial_wr <= '1';
           partial_ce <= '1';
 
-          if (channel_control = (N_CHANNEL-1)) then
+          if (channel_control = (reg_config.n_channel-1)) then
             partial2 <= partial0 + partial1 + reg_reg_bias_value;
           else
             partial2 <= partial0 + partial1;
@@ -726,7 +728,7 @@ begin
         partial_control <= 0;
         partial_add     <= partial_base;
 
-        if channel_control = (N_CHANNEL-1) then
+        if channel_control = (reg_config.n_channel-1) then
           partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
           partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
         end if;
