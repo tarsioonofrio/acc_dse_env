@@ -226,12 +226,12 @@ begin
       end if;
 
       -- Stop to read memory values at the end of each RGB channel process, ensure correct synchronization with input memory valid
-      if (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '0') then
---      if (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '0') then
+      --if (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '0') then
+      if (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '0') then
         ce_control <= '1';
         ce_flag    <= '1';
-      elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '1') then
---      elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '1') then
+      --elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '1') then
+      elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '1') then
        if read_bias = '1' or read_weights = '0' then
           ce_flag <= '0';
         end if;
@@ -265,8 +265,8 @@ begin
             cont_valid       <= cont_valid + 1;
             cont_total_valid <= cont_total_valid + 1;
 
-            if cont_conv = CONVS_PER_LINE*CONVS_PER_LINE then
---            if cont_conv = reg_config.convs_per_line_convs_per_line then
+            --if cont_conv = CONVS_PER_LINE*CONVS_PER_LINE then
+            if cont_conv = reg_config.convs_per_line_convs_per_line then
               -- To include the past conv in the counter
               cont_conv <= 1;
             else
@@ -283,8 +283,8 @@ begin
 
           end if;
 
-          if (cont_conv = CONVS_PER_LINE*CONVS_PER_LINE and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
-          --if (cont_conv = reg_config.convs_per_line_convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          --if (cont_conv = CONVS_PER_LINE*CONVS_PER_LINE and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          if (cont_conv = reg_config.convs_per_line_convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '1';
           elsif (read_weight_flag = '1' and cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
           --elsif (read_weight_flag = '1' and cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
@@ -682,8 +682,8 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-      if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < reg_config.n_channel then
---      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
+      --if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
         conv_length <= conv_length + 1;
 
       elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
