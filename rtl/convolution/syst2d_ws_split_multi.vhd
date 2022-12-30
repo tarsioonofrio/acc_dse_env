@@ -651,8 +651,8 @@ begin
       if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
-        if cont_iterations = CONVS_PER_LINE then
---        if cont_iterations = reg_config.convs_per_line then
+        --if cont_iterations = CONVS_PER_LINE then
+        if cont_iterations = reg_config.convs_per_line then
          cont_iterations <= (others => '0');
         end if;
       elsif EA_add = E4 then
