@@ -186,8 +186,8 @@ begin
           when WAITVALID =>
             if cont_valid = reg_config.convs_per_line_convs_per_line_n_channel then
               EA_read <= READBIAS;
-            elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and read_weight_flag = '0') then
---            elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and read_weight_flag = '0') then
+            --elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and read_weight_flag = '0') then
+            elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and read_weight_flag = '0') then
               EA_read <= READWEIGHT;
             elsif end_conv_signal = '1' then
               EA_read <= WAITSTART;
@@ -651,7 +651,6 @@ begin
       if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
-        --if cont_iterations = CONVS_PER_LINE then
         if cont_iterations = reg_config.convs_per_line then
          cont_iterations <= (others => '0');
         end if;
