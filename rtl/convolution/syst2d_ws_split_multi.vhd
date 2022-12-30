@@ -103,14 +103,14 @@ begin
         reg_config.n_channel <= 0;
         reg_config.x_size <= 0;
         reg_config.x_size_x_size <= 0;
-        reg_config.filter_width <= 0;
-        reg_config.filter_width_filter_width <= 0;
-        reg_config.filter_width_filter_width_1 <= 0;
+        --reg_config.filter_width <= 0;
+        --reg_config.filter_width_filter_width <= 0;
+        --reg_config.filter_width_filter_width_1 <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line_1 <= 0;
-        reg_config.input_size <= 0;
-        reg_config.carry_size <= 0;
+        --reg_config.convs_per_line_convs_per_line_1 <= 0;
+        --reg_config.input_size <= 0;
+        --reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
@@ -121,14 +121,14 @@ begin
         reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
         reg_config.x_size <= conv_integer(unsigned(config.x_size));
         reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
-        reg_config.filter_width <= conv_integer(unsigned(config.filter_width));
-        reg_config.filter_width_filter_width <= conv_integer(unsigned(config.filter_width_filter_width));
-        reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
+        --reg_config.filter_width <= conv_integer(unsigned(config.filter_width));
+        --reg_config.filter_width_filter_width <= conv_integer(unsigned(config.filter_width_filter_width));
+        --reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
         reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
         reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
-        reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
-        reg_config.input_size <= conv_integer(unsigned(config.input_size));
-        reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
+        --reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
+        --reg_config.input_size <= conv_integer(unsigned(config.input_size));
+        --reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
         reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
@@ -137,14 +137,14 @@ begin
         reg_config.n_filter <= 0;
         reg_config.x_size <= 0;
         reg_config.x_size_x_size <= 0;
-        reg_config.filter_width <= 0;
-        reg_config.filter_width_filter_width <= 0;
-        reg_config.filter_width_filter_width_1 <= 0;
+        --reg_config.filter_width <= 0;
+        --reg_config.filter_width_filter_width <= 0;
+        --reg_config.filter_width_filter_width_1 <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line_1 <= 0;
-        reg_config.input_size <= 0;
-        reg_config.carry_size <= 0;
+        --reg_config.convs_per_line_convs_per_line_1 <= 0;
+        --reg_config.input_size <= 0;
+        --reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
@@ -175,7 +175,8 @@ begin
               EA_read <= READWEIGHT;
             end if;
           when READWEIGHT =>
-            if cont_weight_cycles = reg_config.filter_width_filter_width_1 then
+            if cont_weight_cycles = (FILTER_WIDTH*FILTER_WIDTH)-1 then
+            --if cont_weight_cycles = reg_config.filter_width_filter_width_1 then
               EA_read <= STARTMAC;
             end if;
           when STARTMAC =>
@@ -185,7 +186,8 @@ begin
           when WAITVALID =>
             if cont_valid = reg_config.convs_per_line_convs_per_line_n_channel then
               EA_read <= READBIAS;
-            elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and read_weight_flag = '0') then
+            elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and read_weight_flag = '0') then
+--            elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and read_weight_flag = '0') then
               EA_read <= READWEIGHT;
             elsif end_conv_signal = '1' then
               EA_read <= WAITSTART;
@@ -224,11 +226,13 @@ begin
       end if;
 
       -- Stop to read memory values at the end of each RGB channel process, ensure correct synchronization with input memory valid
-      if (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '0') then
+      if (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '0') then
+--      if (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '0') then
         ce_control <= '1';
         ce_flag    <= '1';
-      elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '1') then
-        if read_bias = '1' or read_weights = '0' then
+      elsif (cont_conv = (CONVS_PER_LINE*CONVS_PER_LINE) and ce_control = '1') then
+--      elsif (cont_conv = (reg_config.convs_per_line_convs_per_line) and ce_control = '1') then
+       if read_bias = '1' or read_weights = '0' then
           ce_flag <= '0';
         end if;
       else
@@ -261,14 +265,16 @@ begin
             cont_valid       <= cont_valid + 1;
             cont_total_valid <= cont_total_valid + 1;
 
-            if cont_conv = reg_config.convs_per_line_convs_per_line then
+            if cont_conv = CONVS_PER_LINE*CONVS_PER_LINE then
+--            if cont_conv = reg_config.convs_per_line_convs_per_line then
               -- To include the past conv in the counter
               cont_conv <= 1;
             else
               cont_conv <= cont_conv + 1;
             end if;
 
-            if cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 then
+            if cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 then
+            --if cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 then
               -- To include the past 2 conv in the counter
               cont_conv_plus1 <= 2;
             else
@@ -277,9 +283,11 @@ begin
 
           end if;
 
-          if (cont_conv = reg_config.convs_per_line_convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          if (cont_conv = CONVS_PER_LINE*CONVS_PER_LINE and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          --if (cont_conv = reg_config.convs_per_line_convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '1';
-          elsif (read_weight_flag = '1' and cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          elsif (read_weight_flag = '1' and cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          --elsif (read_weight_flag = '1' and cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '0';
           end if;
 
@@ -363,7 +371,8 @@ begin
       reg_read_weights <= read_weights;
 
       -- Ensure the correct weight read value and amount (due to weight_control < FILTER_WIDTH*FILTER_WIDTH)
-      if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < reg_config.filter_width_filter_width) then
+      if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < FILTER_WIDTH*FILTER_WIDTH) then
+      --if ((read_weights = '1' or start_mac = '1') and iwght_valid = '1' and weight_control < reg_config.filter_width_filter_width) then
 
         weight_x       <= weight_x + 1;
         weight_control <= weight_control + 1;
@@ -396,7 +405,8 @@ begin
           weight(2, 2) <= iwght_value(INPUT_SIZE-1 downto 0);
 
         end if;
-      elsif weight_control = reg_config.filter_width_filter_width then
+      elsif weight_control = FILTER_WIDTH*FILTER_WIDTH then
+      --elsif weight_control = reg_config.filter_width_filter_width then
         weight_control <= (others => '0');
       end if;
     end if;
@@ -641,8 +651,9 @@ begin
       if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
-        if cont_iterations = reg_config.convs_per_line then
-          cont_iterations <= (others => '0');
+        if cont_iterations = CONVS_PER_LINE then
+--        if cont_iterations = reg_config.convs_per_line then
+         cont_iterations <= (others => '0');
         end if;
       elsif EA_add = E4 then
         control_iteration_flag <= '0';
@@ -672,10 +683,12 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and conv_length < CONVS_PER_LINE*CONVS_PER_LINE and channel_control < reg_config.n_channel then
+--      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
         conv_length <= conv_length + 1;
 
-      elsif conv_length = reg_config.convs_per_line_convs_per_line then
+      elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
+--      elsif conv_length = reg_config.convs_per_line_convs_per_line then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
@@ -759,13 +772,16 @@ begin
         end if;
       end if;
 
-      if conv_length = reg_config.convs_per_line_convs_per_line then
+      if conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
+--      if conv_length = reg_config.convs_per_line_convs_per_line then
         partial_control <= 0;
         partial_add     <= partial_base;
 
         if channel_control = (reg_config.n_channel-1) then
-          partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
-          partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
+          partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
+          partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, MEM_SIZE);
+--          partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
+--          partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
         end if;
       end if;
     end if;
