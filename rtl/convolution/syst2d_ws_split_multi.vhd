@@ -108,7 +108,7 @@ begin
         --reg_config.filter_width_filter_width_1 <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line_1 <= 0;
+        reg_config.convs_per_line_convs_per_line_1 <= 0;
         --reg_config.input_size <= 0;
         --reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
@@ -126,7 +126,7 @@ begin
         --reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
         reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
         reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
-        --reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
+        reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
         --reg_config.input_size <= conv_integer(unsigned(config.input_size));
         --reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
         reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
@@ -142,7 +142,7 @@ begin
         --reg_config.filter_width_filter_width_1 <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line_1 <= 0;
+        reg_config.convs_per_line_convs_per_line_1 <= 0;
         --reg_config.input_size <= 0;
         --reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
@@ -269,8 +269,7 @@ begin
               cont_conv <= cont_conv + 1;
             end if;
 
-            if cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 then
-            --if cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 then
+            if cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 then
               -- To include the past 2 conv in the counter
               cont_conv_plus1 <= 2;
             else
@@ -281,8 +280,7 @@ begin
 
           if (cont_conv = reg_config.convs_per_line_convs_per_line and read_weight_flag = '0' and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '1';
-          elsif (read_weight_flag = '1' and cont_conv_plus1 = (CONVS_PER_LINE*CONVS_PER_LINE)+1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
-          --elsif (read_weight_flag = '1' and cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
+          elsif (read_weight_flag = '1' and cont_conv_plus1 = reg_config.convs_per_line_convs_per_line_1 and cont_valid < (reg_config.convs_per_line_convs_per_line_n_channel)) then
             read_weight_flag <= '0';
           end if;
 
@@ -681,8 +679,6 @@ begin
         conv_length <= conv_length + 1;
 
       elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
-      --ERROR
-      --elsif conv_length = reg_config.convs_per_line_convs_per_line then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
