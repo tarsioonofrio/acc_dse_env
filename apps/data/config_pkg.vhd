@@ -13,17 +13,20 @@ package config_package is
     --X_SIZE*X_SIZE
     x_size_x_size : std_logic_vector(11 downto 0);
     --FILTER_WIDTH
-    --filter_width : std_logic_vector(1 downto 0);
+    filter_width : std_logic_vector(1 downto 0);
     --FILTER_WIDTH*FILTER_WIDTH
-    --filter_width_filter_width : std_logic_vector(4 downto 0);
+    filter_width_filter_width : std_logic_vector(4 downto 0);
+    --(FILTER_WIDTH*FILTER_WIDTH)-1
+    filter_width_filter_width_1: std_logic_vector(4 downto 0);
     --CONVS_PER_LINE
     convs_per_line: std_logic_vector(3 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE
     convs_per_line_convs_per_line: std_logic_vector(7 downto 0);
-
-    --INPUT_SIZE=16
+    --(CONVS_PER_LINE*CONVS_PER_LINE)+1
+    convs_per_line_convs_per_line_1: std_logic_vector(7 downto 0);
+    --INPUT_SIZE
     input_size : std_logic_vector(4 downto 0);
-    --CARRY_SIZE=4
+    --CARRY_SIZE
     carry_size : std_logic_vector(3 downto 0);
 
 
@@ -42,9 +45,9 @@ package config_package is
   --  );
 
   type type_config_integer is record
-    n_filter       : integer range 0 to 16;
+    n_filter : integer range 0 to 16;
 
-    n_channel       : integer range 0 to 3;
+    n_channel : integer range 0 to 3;
 
     x_size : integer range 0 to 32;
 
@@ -54,10 +57,17 @@ package config_package is
 
     convs_per_line_convs_per_line: integer range 0 to 225;
 
+    convs_per_line_convs_per_line_1: integer range 0 to 226;
+
     input_size : integer range 0 to 16;
 
     carry_size : integer range 0 to 4;
 
+    filter_width : integer range 0 to 3;
+
+    filter_width_filter_width : integer range 0 to 9;
+
+    filter_width_filter_width_1: integer range 0 to 8;
 
 
     convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
