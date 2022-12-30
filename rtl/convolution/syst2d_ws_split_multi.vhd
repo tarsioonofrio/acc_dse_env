@@ -105,6 +105,8 @@ begin
         reg_config.x_size_x_size <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
+        reg_config.input_size <= 0;
+        reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
@@ -117,6 +119,8 @@ begin
         reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
         reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
         reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
+        reg_config.input_size <= conv_integer(unsigned(config.input_size));
+        reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
         reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
@@ -127,6 +131,8 @@ begin
         reg_config.x_size_x_size <= 0;
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
+        reg_config.input_size <= 0;
+        reg_config.carry_size <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;

@@ -13,16 +13,21 @@ package config_package is
     --X_SIZE*X_SIZE
     x_size_x_size : std_logic_vector(11 downto 0);
     --FILTER_WIDTH
-    filter_width : std_logic_vector(1 downto 0);
+    --filter_width : std_logic_vector(1 downto 0);
     --FILTER_WIDTH*FILTER_WIDTH
-    filter_width_filter_width : std_logic_vector(4 downto 0);
+    --filter_width_filter_width : std_logic_vector(4 downto 0);
     --CONVS_PER_LINE
     convs_per_line: std_logic_vector(3 downto 0);
-
-
-    
     --CONVS_PER_LINE*CONVS_PER_LINE
     convs_per_line_convs_per_line: std_logic_vector(7 downto 0);
+
+    --INPUT_SIZE=16
+    input_size : std_logic_vector(4 downto 0);
+    --CARRY_SIZE=4
+    carry_size : std_logic_vector(3 downto 0);
+
+
+
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
     convs_per_line_convs_per_line_n_channel: std_logic_vector(10 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
@@ -47,9 +52,13 @@ package config_package is
 
     convs_per_line: integer range 0 to 15;
 
-
-
     convs_per_line_convs_per_line: integer range 0 to 225;
+
+    input_size : integer range 0 to 16;
+
+    carry_size : integer range 0 to 4;
+
+
 
     convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
 
