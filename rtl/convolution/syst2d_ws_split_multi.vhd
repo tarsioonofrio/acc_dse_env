@@ -100,30 +100,36 @@ begin
   begin
     if reset = '1' then
         reg_config.n_filter <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         reg_config.n_channel <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.x_size <= 0;
         reg_config.x_size_x_size <= 0;
+        reg_config.convs_per_line <= 0;
+        reg_config.convs_per_line_convs_per_line <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
         reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
         reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
-        reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
         reg_config.x_size <= conv_integer(unsigned(config.x_size));
         reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
+        reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
+        reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
+        reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config.n_filter <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.x_size <= 0;
         reg_config.x_size_x_size <= 0;
+        reg_config.convs_per_line <= 0;
+        reg_config.convs_per_line_convs_per_line <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
+        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         --reg_config <= type_config_integer_init;
       end if;
     end if;

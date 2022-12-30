@@ -6,19 +6,29 @@ package config_package is
   type type_config_logic is record
     --N_FILTER
     n_filter : std_logic_vector(4 downto 0);
-    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
-    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (14 downto 0);
     --N_CHANNEL
     n_channel : std_logic_vector(2 downto 0);
-    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
-    convs_per_line_convs_per_line_n_channel: std_logic_vector(10 downto 0);
-    --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
-    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(9 downto 0);
     --X_SIZE
     x_size : std_logic_vector(6 downto 0);
     --X_SIZE*X_SIZE
     x_size_x_size : std_logic_vector(11 downto 0);
+    --FILTER_WIDTH
+    filter_width : std_logic_vector(1 downto 0);
+    --FILTER_WIDTH*FILTER_WIDTH
+    filter_width_filter_width : std_logic_vector(4 downto 0);
+    --CONVS_PER_LINE
+    convs_per_line: std_logic_vector(3 downto 0);
 
+
+    
+    --CONVS_PER_LINE*CONVS_PER_LINE
+    convs_per_line_convs_per_line: std_logic_vector(7 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
+    convs_per_line_convs_per_line_n_channel: std_logic_vector(10 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
+    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(9 downto 0);
+    --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
+    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (14 downto 0);
   end record type_config_logic;
 
   --constant type_config_logic_init: type_config_logic := (
@@ -26,22 +36,26 @@ package config_package is
   --  convs_per_line_convs_per_line_n_channel_n_filter => (others => '0')
   --  );
 
-    type type_config_integer is record
-      --n_filter       : std_logic_vector(log2ceil(N_FILTER) downto 0);
-      --convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER) downto 0);
-      n_filter       : integer range 0 to 16;
+  type type_config_integer is record
+    n_filter       : integer range 0 to 16;
 
-      convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 10800;
+    n_channel       : integer range 0 to 3;
 
-      n_channel       : integer range 0 to 3;
-  
-      convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
+    x_size : integer range 0 to 32;
 
-      convs_per_line_convs_per_line_n_channel_1: integer range 0 to 450;
+    x_size_x_size : integer range 0 to 1024;
 
-      x_size : integer range 0 to 32;
-  
-      x_size_x_size : integer range 0 to 1024;
+    convs_per_line: integer range 0 to 15;
+
+
+
+    convs_per_line_convs_per_line: integer range 0 to 225;
+
+    convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
+
+    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 450;
+
+    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 10800;
 
       --n_channel      : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
       --x_size         : std_logic_vector(log2ceil(X_SIZE) downto 0);
