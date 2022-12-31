@@ -50,6 +50,8 @@ def main():
     input_c = 3
     n_dense_neuron = 10
     shift_bits = INPUT_SIZE / 2
+    # Adjust shift
+    shift = 2 ** shift_bits
 
     # Compute number of convolutional layers
     n_conv_layers = len(filter_channel)
@@ -96,16 +98,10 @@ def main():
     # Compute input channels
     input_channel = util.get_input_channel(input_c, n_conv_layers, filter_channel)
 
-    # Adjust shift
-    shift = 2 ** shift_bits
-
-    # ARRAY_TYPE, CARRY_SIZE, CLK_PERIOD, CONVS_PER_LINE, C_SIZE, DATAFLOW_TYPE, FILTER_WIDTH, INPUT_SIZE, IN_DELAY,
-    # LAT, LAYER, MEM_SIZE, X_SIZE, filter_channel, filter_dimension, input_channel, input_size, layer_dimension,
-    # model, shift, shift_bits, stride_h, stride_w, x_test, y_test
     # Generate dictionary
     modelDict = generate_files.create_dictionary(model)
 
-    generate_dict = {
+    generate_generic_dict = {
         "X_SIZE": X_SIZE,
         "C_SIZE": C_SIZE,
         "FILTER_WIDTH": FILTER_WIDTH,
@@ -124,23 +120,33 @@ def main():
         "LAYER": LAYER
     }
 
+    generate_vhd = {
+        "modelDict": modelDict,
+        "shift": shift,
+        "input_size": input_size,
+        "filter_dimension": filter_dimension,
+        "filter_channel": filter_channel,
+        "layer_dimension": layer_dimension,
+        "input_channel": input_channel,
+        "testSet": x_test,
+        "testLabel": y_test,
+        "stride_h": stride_h,
+        "stride_w": stride_w,
+        "testSetSize": 1,
+        "layer":  LAYER
+    }
+
     # Generate generic file for rtl simulation
 
-    generate_files.generate_generic_file(generate_dict)
+    generate_files.generate_generic_file(generate_generic_dict)
     # Generate TCL file with generics for logic synthesis
-    generate_files.generate_tcl_generic(generate_dict)
+    generate_files.generate_tcl_generic(generate_generic_dict)
 
     # Generate VHDL tensorflow package
-    generate_files.generate_tf_vhd_pkg(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
-    )
+    generate_files.generate_tf_vhd_pkg(**generate_vhd)
 
     # Generate VHDL gold output package
-    generate_files.generate_gold_vhd_pkg(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-        input_channel, x_test, y_test, stride_h, stride_w, 1, LAYER
-    )
+    generate_files.generate_gold_vhd_pkg(**generate_vhd)
 
 
 if __name__ == '__main__':

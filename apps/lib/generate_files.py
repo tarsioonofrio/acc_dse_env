@@ -121,8 +121,8 @@ def generate_tcl_generic(generate_dict):
         f.write(line)
 
 
-def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                        testSet, testLabel, stride_h, stride_w, testSetSize, layer):
+def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer):
 
     tabs = "\t\t\t\t\t"
     # For layers != 0
