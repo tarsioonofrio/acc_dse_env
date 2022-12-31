@@ -446,3 +446,31 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     f.write("\t\tothers=>0 );\n")
     f.write("END gold_package;\n")
     f.close()
+
+
+def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict):
+    # Compute HW parameters
+    if generic_dict["LAYER"] == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
+    else:
+        X_SIZE = vhd_dict["layer_dimension"][generic_dict["LAYER"] - 1]
+        C_SIZE = vhd_dict["filter_channel"][generic_dict["LAYER"] - 1]
+    FILTER_WIDTH = vhd_dict["filter_dimension"][generic_dict["LAYER"]]
+    CONVS_PER_LINE = vhd_dict["layer_dimension"][generic_dict["LAYER"]]
+    generic_dict2 = {
+        "X_SIZE": X_SIZE,
+        "C_SIZE": C_SIZE,
+        "FILTER_WIDTH": FILTER_WIDTH,
+        "CONVS_PER_LINE": CONVS_PER_LINE,
+    }
+    generate_generic_dict = {**generic_dict, **generic_dict2}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel}
+    # Generate generic file for rtl simulation
+    generate_generic_file(generate_generic_dict)
+    # Generate TCL file with generics for logic synthesis
+    generate_tcl_generic(generate_generic_dict)
+    # Generate VHDL tensorflow package
+    generate_tf_vhd_pkg(**generate_vhd)
+    # Generate VHDL gold output package
+    generate_gold_vhd_pkg(**generate_vhd)
