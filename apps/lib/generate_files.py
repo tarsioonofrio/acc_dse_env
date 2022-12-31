@@ -84,16 +84,6 @@ def generate_generic_file(generate_dict):
         "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
         "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
     }
-    # Open file
-    # f = open("data/generic_file.txt", "w")
-    # f.write("-gN_FILTER=" + str(N_FILTER) + " -gSTRIDE=" + str(STRIDE) + " -gX_SIZE=" + str(
-    #     X_SIZE) + " -gFILTER_WIDTH=" + str(FILTER_WIDTH) + " -gCONVS_PER_LINE=" + str(
-    #     CONVS_PER_LINE) + " -gMEM_SIZE=" + str(MEM_SIZE) + " -gINPUT_SIZE=" + str(INPUT_SIZE) + " -gCARRY_SIZE=" + str(
-    #     CARRY_SIZE) + " -gCLK_PERIOD=" + str(CLK_HALF) + "ns" + " -gRST_TIME=" + str(
-    #     RST_TIME) + "ns" + " -gRISE_START=" + str(CLK_HALF * 2.0 + RST_TIME + IN_DELAY) + "ns" + " -gFALL_START=" + str(
-    #     CLK_HALF * 4.0 + RST_TIME + IN_DELAY) + "ns" + " -gIN_DELAY=" + str(IN_DELAY) + "ns" + " -gLAT=" + str(
-    #     LAT) + " -gN_CHANNEL=" + str(C_SIZE) + " -gSHIFT=" + str(int(SHIFT)) + "\n")
-    # f.close()
     line = (
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
         "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
@@ -105,24 +95,30 @@ def generate_generic_file(generate_dict):
         f.write(line)
 
 
-def generate_tcl_generic(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
-                         DATAFLOW_TYPE, ARRAY_TYPE, STRIDE, N_FILTER, LAT, SHIFT, LAYER):
-    # Open file
-    f = open("data/generic_synth.tcl", "w")
+def generate_tcl_generic(generate_dict):
+    line = (
+        "set CLK_PERIOD {CLK_PERIOD}\n"
+        "set INPUT_SIZE {INPUT_SIZE}\n"
+        "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
+        "set ARRAY_TYPE {ARRAY_TYPE}\n"
+        "set LAT {LAT}\n"
+        "set LAYER {LAYER}\n"
+        "set parameters "
+        "{{{{N_FILTER {N_FILTER}}} "
+        "{{N_CHANNEL {C_SIZE}}} "
+        "{{STRIDE {STRIDE}}} "
+        "{{X_SIZE {X_SIZE}}} "
+        "{{FILTER_WIDTH {FILTER_WIDTH}}} "
+        "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
+        "{{MEM_SIZE {MEM_SIZE}}} "
+        "{{INPUT_SIZE {INPUT_SIZE}}} "
+        "{{CARRY_SIZE {CARRY_SIZE}}} "
+        "{{SHIFT {SHIFT}"
+        "}}}}\n"
+    ).format(**generate_dict)
 
-    # Generate tcl file
-    f.write("set CLK_PERIOD " + str(CLK_PERIOD) + "\n")
-    f.write("set INPUT_SIZE " + str(INPUT_SIZE) + "\n")
-    f.write("set DATAFLOW_TYPE " + str(DATAFLOW_TYPE) + "\n")
-    f.write("set ARRAY_TYPE " + str(ARRAY_TYPE) + "\n")
-    f.write("set LAT " + str(LAT) + "\n")
-    f.write("set LAYER " + str(LAYER) + "\n")
-    f.write("set parameters {{N_FILTER " + str(N_FILTER) + "}" + " {N_CHANNEL " + str(C_SIZE) + "}" + " {STRIDE " + str(
-        STRIDE) + "}" + " {X_SIZE " + str(X_SIZE) + "}" + " {FILTER_WIDTH " + str(
-        FILTER_WIDTH) + "}" + " {CONVS_PER_LINE " + str(CONVS_PER_LINE) + "}" + " {MEM_SIZE " + str(
-        MEM_SIZE) + "}" + " {INPUT_SIZE " + str(INPUT_SIZE) + "}" + " {CARRY_SIZE " + str(
-        CARRY_SIZE) + "}" + " {SHIFT " + str(int(SHIFT)) + "}}" + "\n")
-    f.close()
+    with open("data/generic_synth.tcl", "w") as f:
+        f.write(line)
 
 
 def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,

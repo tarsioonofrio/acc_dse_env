@@ -128,10 +128,7 @@ def main():
 
     generate_files.generate_generic_file(generate_dict)
     # Generate TCL file with generics for logic synthesis
-    generate_files.generate_tcl_generic(
-        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
-        DATAFLOW_TYPE, ARRAY_TYPE, stride_h[LAYER], filter_channel[LAYER], LAT, shift_bits, LAYER
-    )
+    generate_files.generate_tcl_generic(generate_dict)
 
     # Generate VHDL tensorflow package
     generate_files.generate_tf_vhd_pkg(
