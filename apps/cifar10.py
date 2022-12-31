@@ -18,6 +18,7 @@ def main():
     parser.add_argument("--array_type", "-a", default='syst2d', type=str, help="Array Type")
     parser.add_argument("--dataflow_type", "-d", default='ws', type=str, help="Dataflow Type")
     parser.add_argument("--layer", "-l", default=0, type=int, help="Layer")
+    parser.add_argument("--multi", "-m", default=0, type=int, help="Multi layer")
     parser.add_argument("--lat", "-t", default=2, type=int, help="Lat")
     args = parser.parse_args()
 
@@ -26,6 +27,7 @@ def main():
     ARRAY_TYPE = args.array_type
     DATAFLOW_TYPE = args.dataflow_type
     LAYER = args.layer
+    MULTI = args.multi
     LAT = args.lat
 
     # HW Inputs
@@ -103,12 +105,28 @@ def main():
     # Generate dictionary
     modelDict = generate_files.create_dictionary(model)
 
-    # Generate generic file for rtl simulation
-    generate_files.generate_generic_file(
-        X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
-        stride_h[LAYER], filter_channel[LAYER], DATAFLOW_TYPE, LAT, shift_bits, IN_DELAY
-    )
+    generate_dict = {
+        "X_SIZE": X_SIZE,
+        "C_SIZE": C_SIZE,
+        "FILTER_WIDTH": FILTER_WIDTH,
+        "CONVS_PER_LINE": CONVS_PER_LINE,
+        "MEM_SIZE": MEM_SIZE,
+        "INPUT_SIZE": INPUT_SIZE,
+        "CARRY_SIZE": CARRY_SIZE,
+        "CLK_PERIOD": CLK_PERIOD,
+        "STRIDE": stride_h[LAYER],
+        "N_FILTER": filter_channel[LAYER],
+        "DATAFLOW_TYPE": DATAFLOW_TYPE,
+        "LAT": LAT,
+        "SHIFT": int(shift_bits),
+        "IN_DELAY": IN_DELAY,
+        "ARRAY_TYPE": ARRAY_TYPE,
+        "LAYER": LAYER
+    }
 
+    # Generate generic file for rtl simulation
+
+    generate_files.generate_generic_file(generate_dict)
     # Generate TCL file with generics for logic synthesis
     generate_files.generate_tcl_generic(
         X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,

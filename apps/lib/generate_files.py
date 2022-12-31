@@ -74,21 +74,35 @@ def create_dictionary(model):
     return modelDict
 
 
-def generate_generic_file(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
-                          STRIDE, N_FILTER, DATAFLOW_TYPE, LAT, SHIFT, IN_DELAY):
-    CLK_HALF = CLK_PERIOD / 2
+def generate_generic_file(generate_dict):
+    CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
-
+    generate_dict2 = {
+        **generate_dict,
+        "CLK_HALF": CLK_HALF,
+        "RST_TIME": RST_TIME,
+        "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
+        "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
+    }
     # Open file
-    f = open("data/generic_file.txt", "w")
-    f.write("-gN_FILTER=" + str(N_FILTER) + " -gSTRIDE=" + str(STRIDE) + " -gX_SIZE=" + str(
-        X_SIZE) + " -gFILTER_WIDTH=" + str(FILTER_WIDTH) + " -gCONVS_PER_LINE=" + str(
-        CONVS_PER_LINE) + " -gMEM_SIZE=" + str(MEM_SIZE) + " -gINPUT_SIZE=" + str(INPUT_SIZE) + " -gCARRY_SIZE=" + str(
-        CARRY_SIZE) + " -gCLK_PERIOD=" + str(CLK_HALF) + "ns" + " -gRST_TIME=" + str(
-        RST_TIME) + "ns" + " -gRISE_START=" + str(CLK_HALF * 2.0 + RST_TIME + IN_DELAY) + "ns" + " -gFALL_START=" + str(
-        CLK_HALF * 4.0 + RST_TIME + IN_DELAY) + "ns" + " -gIN_DELAY=" + str(IN_DELAY) + "ns" + " -gLAT=" + str(
-        LAT) + " -gN_CHANNEL=" + str(C_SIZE) + " -gSHIFT=" + str(int(SHIFT)) + "\n")
-    f.close()
+    # f = open("data/generic_file.txt", "w")
+    # f.write("-gN_FILTER=" + str(N_FILTER) + " -gSTRIDE=" + str(STRIDE) + " -gX_SIZE=" + str(
+    #     X_SIZE) + " -gFILTER_WIDTH=" + str(FILTER_WIDTH) + " -gCONVS_PER_LINE=" + str(
+    #     CONVS_PER_LINE) + " -gMEM_SIZE=" + str(MEM_SIZE) + " -gINPUT_SIZE=" + str(INPUT_SIZE) + " -gCARRY_SIZE=" + str(
+    #     CARRY_SIZE) + " -gCLK_PERIOD=" + str(CLK_HALF) + "ns" + " -gRST_TIME=" + str(
+    #     RST_TIME) + "ns" + " -gRISE_START=" + str(CLK_HALF * 2.0 + RST_TIME + IN_DELAY) + "ns" + " -gFALL_START=" + str(
+    #     CLK_HALF * 4.0 + RST_TIME + IN_DELAY) + "ns" + " -gIN_DELAY=" + str(IN_DELAY) + "ns" + " -gLAT=" + str(
+    #     LAT) + " -gN_CHANNEL=" + str(C_SIZE) + " -gSHIFT=" + str(int(SHIFT)) + "\n")
+    # f.close()
+    line = (
+        "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+        "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
+        "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
+        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT}\n"
+    ).format(**generate_dict2)
+
+    with open("data/generic_file.txt", "w") as f:
+        f.write(line)
 
 
 def generate_tcl_generic(X_SIZE, C_SIZE, FILTER_WIDTH, CONVS_PER_LINE, MEM_SIZE, INPUT_SIZE, CARRY_SIZE, CLK_PERIOD,
