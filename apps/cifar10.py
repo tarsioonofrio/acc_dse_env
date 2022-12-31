@@ -85,27 +85,10 @@ def main():
     # Compute output layer dimensions
     layer_dimension = util.get_output_layer_dimension(input_h, n_conv_layers, filter_dimension, stride_h)
 
-    # Compute HW parameters
-    if LAYER == 0:
-        X_SIZE = input_w
-        C_SIZE = input_c
-    else:
-        X_SIZE = layer_dimension[LAYER - 1]
-        C_SIZE = filter_channel[LAYER - 1]
-    FILTER_WIDTH = filter_dimension[LAYER]
-    CONVS_PER_LINE = layer_dimension[LAYER]
-
-    # Compute input channels
-    input_channel = util.get_input_channel(input_c, n_conv_layers, filter_channel)
-
     # Generate dictionary
     modelDict = generate_files.create_dictionary(model)
 
-    generate_generic_dict = {
-        "X_SIZE": X_SIZE,
-        "C_SIZE": C_SIZE,
-        "FILTER_WIDTH": FILTER_WIDTH,
-        "CONVS_PER_LINE": CONVS_PER_LINE,
+    generic_dict = {
         "MEM_SIZE": MEM_SIZE,
         "INPUT_SIZE": INPUT_SIZE,
         "CARRY_SIZE": CARRY_SIZE,
@@ -120,14 +103,13 @@ def main():
         "LAYER": LAYER
     }
 
-    generate_vhd = {
+    vhd_dict = {
         "modelDict": modelDict,
         "shift": shift,
         "input_size": input_size,
         "filter_dimension": filter_dimension,
         "filter_channel": filter_channel,
         "layer_dimension": layer_dimension,
-        "input_channel": input_channel,
         "testSet": x_test,
         "testLabel": y_test,
         "stride_h": stride_h,
@@ -135,6 +117,30 @@ def main():
         "testSetSize": 1,
         "layer":  LAYER
     }
+
+    # Compute input channels
+    input_channel = util.get_input_channel(input_c, n_conv_layers, vhd_dict["filter_channel"])
+
+    # Compute HW parameters
+    if LAYER == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
+    else:
+        X_SIZE = vhd_dict["layer_dimension"][generic_dict["LAYER"] - 1]
+        C_SIZE = vhd_dict["filter_channel"][generic_dict["LAYER"] - 1]
+    FILTER_WIDTH = vhd_dict["filter_dimension"][generic_dict["LAYER"]]
+    CONVS_PER_LINE = vhd_dict["layer_dimension"][generic_dict["LAYER"]]
+
+    generic_dict2 = {
+        "X_SIZE": X_SIZE,
+        "C_SIZE": C_SIZE,
+        "FILTER_WIDTH": FILTER_WIDTH,
+        "CONVS_PER_LINE": CONVS_PER_LINE,
+    }
+
+    generate_generic_dict = {** generic_dict, **generic_dict2}
+
+    generate_vhd = {** vhd_dict, "input_channel": input_channel}
 
     # Generate generic file for rtl simulation
 
