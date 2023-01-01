@@ -13,7 +13,6 @@ from lib.generate_files import generate_files, create_dictionary
 def main():
     # User inputs (ex: 2.0 16 syst2d ws 2 0)
 
-
     parser = argparse.ArgumentParser(
         usage='use "python %(prog)s --help" for more information.\n'
     )
@@ -98,7 +97,11 @@ def main():
             model_dict = pickle.load(f)
     else:
         from tensorflow import keras
+        from lib import tfutil
         model = keras.models.load_model(path / "model")
+        x_train, y_train, x_test, y_test, feature_shape = tfutil.get_cifar10_dataset(input_h, input_w, input_c)
+        np.save(str(path / "x_test.npy"), x_test)
+        np.save(str(path / "y_test.npy"), y_test)
         # Generate dictionary
         model_dict = create_dictionary(model)
         # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
@@ -126,7 +129,6 @@ def main():
         "SHIFT": int(shift_bits),
         "IN_DELAY": IN_DELAY,
         "ARRAY_TYPE": ARRAY_TYPE,
-        # "LAYER": LAYER
     }
 
     vhd_dict = {
@@ -141,7 +143,6 @@ def main():
         "stride_h": stride_h,
         "stride_w": stride_w,
         "testSetSize": 1,
-        # "layer":  LAYER
     }
 
     # Compute input channels

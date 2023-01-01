@@ -18,6 +18,6 @@ class Model(nn.Module):
         )
 
     def forward(self, x):
-        x = self.flatten(x)
+        x = self.model(x)
         logits = self.linear_relu_stack(x)
         return logits
