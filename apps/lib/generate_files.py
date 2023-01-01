@@ -74,7 +74,7 @@ def create_dictionary(model):
     return modelDict
 
 
-def generate_generic_file(generate_dict):
+def generate_generic_file(generate_dict, path):
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
     generate_dict2 = {
@@ -91,11 +91,11 @@ def generate_generic_file(generate_dict):
         "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT}\n"
     ).format(**generate_dict2)
 
-    with open("data/generic_file.txt", "w") as f:
+    with open(path / "generic_file.txt", "w") as f:
         f.write(line)
 
 
-def generate_tcl_generic(generate_dict):
+def generate_tcl_generic(generate_dict, path):
     line = (
         "set CLK_PERIOD {CLK_PERIOD}\n"
         "set INPUT_SIZE {INPUT_SIZE}\n"
@@ -117,19 +117,19 @@ def generate_tcl_generic(generate_dict):
         "}}}}\n"
     ).format(**generate_dict)
 
-    with open("data/generic_synth.tcl", "w") as f:
+    with open(path / "generic_synth.tcl", "w") as f:
         f.write(line)
 
 
 def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer):
+                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
 
     tabs = "\t\t\t\t\t"
     # For layers != 0
     size = max(filter_channel)
 
     # Open file
-    f = open("data/inmem_pkg.vhd", "w")
+    f = open(path / "inmem_pkg.vhd", "w")
 
     f.write("LIBRARY ieee;\n")
     f.write("USE ieee.std_logic_1164.all;\n")
@@ -341,7 +341,7 @@ def generate_tf_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_c
 
 
 def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                          input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer):
+                          input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     # Dataset test variables
     cont_match = 0
     aux_idx_range = 0
@@ -360,7 +360,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
     # string for ORCA gold
     string_orca_gold = " "
-    f = open("data/gold_pkg.vhd", "w")
+    f = open(path / "gold_pkg.vhd", "w")
 
     for testCase in range(testSetSize):
         ifmap.clear()
@@ -448,29 +448,32 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     f.close()
 
 
-def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict):
+def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
     # Compute HW parameters
-    if generic_dict["LAYER"] == 0:
+    if layer == 0:
         X_SIZE = input_w
         C_SIZE = input_c
     else:
-        X_SIZE = vhd_dict["layer_dimension"][generic_dict["LAYER"] - 1]
-        C_SIZE = vhd_dict["filter_channel"][generic_dict["LAYER"] - 1]
-    FILTER_WIDTH = vhd_dict["filter_dimension"][generic_dict["LAYER"]]
-    CONVS_PER_LINE = vhd_dict["layer_dimension"][generic_dict["LAYER"]]
+        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
+        C_SIZE = vhd_dict["filter_channel"][layer - 1]
+    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
+    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
     generic_dict2 = {
         "X_SIZE": X_SIZE,
         "C_SIZE": C_SIZE,
         "FILTER_WIDTH": FILTER_WIDTH,
         "CONVS_PER_LINE": CONVS_PER_LINE,
+        "LAYER": layer,
     }
+
+    path.mkdir(parents=True, exist_ok=True)
     generate_generic_dict = {**generic_dict, **generic_dict2}
-    generate_vhd = {**vhd_dict, "input_channel": input_channel}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
-    generate_generic_file(generate_generic_dict)
+    generate_generic_file(generate_generic_dict, path)
     # Generate TCL file with generics for logic synthesis
-    generate_tcl_generic(generate_generic_dict)
+    generate_tcl_generic(generate_generic_dict, path)
     # Generate VHDL tensorflow package
-    generate_tf_vhd_pkg(**generate_vhd)
+    generate_tf_vhd_pkg(path=path, **generate_vhd)
     # Generate VHDL gold output package
-    generate_gold_vhd_pkg(**generate_vhd)
+    generate_gold_vhd_pkg(path=path, **generate_vhd)
