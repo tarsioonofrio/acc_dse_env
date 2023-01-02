@@ -3,8 +3,8 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../apps/data/default/1/inmem_pkg.vhd
-vcom -work work ../apps/data/default/1/gold_pkg.vhd
+vcom -work work ../apps/data/default/3/inmem_pkg.vhd
+vcom -work work ../apps/data/default/3/gold_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
@@ -18,7 +18,7 @@ vcom -work work ../rtl/convolution/syst2d_ws.vhd
 vcom -work work ../tb/tb_rtl.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/default/1/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data/default/3/generic_file.txt
 do wave_syst2d_ws.do
 onfinish exit
 onbreak exit

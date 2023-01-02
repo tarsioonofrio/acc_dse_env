@@ -74,15 +74,17 @@ def create_dictionary(model):
     return modelDict
 
 
-def generate_generic_file(generate_dict, path):
+def generate_generic_file(generate_dict, path, n_layer):
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
     generate_dict2 = {
-        **generate_dict,
+        ** {k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
         "CLK_HALF": CLK_HALF,
         "RST_TIME": RST_TIME,
         "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
         "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
+        "N_FILTER": generate_dict["N_FILTER"][n_layer],
+        "STRIDE": generate_dict["STRIDE"][n_layer],
     }
     line = (
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
@@ -95,7 +97,12 @@ def generate_generic_file(generate_dict, path):
         f.write(line)
 
 
-def generate_tcl_generic(generate_dict, path):
+def generate_tcl_generic(generate_dict, path, n_layer):
+    generate_dict2 = {
+        ** {k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+        "N_FILTER": generate_dict["N_FILTER"][n_layer],
+        "STRIDE": generate_dict["STRIDE"][n_layer],
+    }
     line = (
         "set CLK_PERIOD {CLK_PERIOD}\n"
         "set INPUT_SIZE {INPUT_SIZE}\n"
@@ -115,7 +122,7 @@ def generate_tcl_generic(generate_dict, path):
         "{{CARRY_SIZE {CARRY_SIZE}}} "
         "{{SHIFT {SHIFT}"
         "}}}}\n"
-    ).format(**generate_dict)
+    ).format(**generate_dict2)
 
     with open(path / "generic_synth.tcl", "w") as f:
         f.write(line)
@@ -710,9 +717,9 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_generic_dict = {**generic_dict, **generic_dict2}
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
-    generate_generic_file(generate_generic_dict, path)
+    generate_generic_file(generate_generic_dict, path, layer)
     # Generate TCL file with generics for logic synthesis
-    generate_tcl_generic(generate_generic_dict, path)
+    generate_tcl_generic(generate_generic_dict, path, layer)
     # Generate VHDL tensorflow package
     generate_ifmem_vhd_pkg(path=path, **generate_vhd)
     generate_wghts_vhd_pkg(path=path, **generate_vhd)
