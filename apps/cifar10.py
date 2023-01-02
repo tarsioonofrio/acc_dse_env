@@ -69,7 +69,7 @@ def main():
         os.makedirs(data_dir)
 
     # Build CNN application
-    if not (os.path.exists(path / "model")):
+    if not (os.path.exists(path / "weights")):
         from tensorflow import keras
         from lib import tfutil
         # Get application dataset
@@ -82,14 +82,14 @@ def main():
         )
         model.fit(x_train, y_train, epochs=n_epochs)
         # Save model
-        model.save(path / 'model')
+        model.save(path / 'weights')
         model_dict = create_dictionary(model)
         # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
-        with open(path / 'model.pkl', 'wb') as output:
+        with open(path / 'weights.pkl', 'wb') as output:
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, output)
 
-    if os.path.exists(path / "model.pkl"):
+    if os.path.exists(path / "weights.pkl"):
         # model_dict = {int(k): v for k, v in loadmat(str(path / "model.mat")).items() if k[0] != '_'}
         x_test = np.load(str(path / "x_test.npy"))
         y_test = np.load(str(path / "y_test.npy"))
@@ -98,14 +98,14 @@ def main():
     else:
         from tensorflow import keras
         from lib import tfutil
-        model = keras.models.load_model(path / "model")
+        model = keras.models.load_model(path / "weights")
         x_train, y_train, x_test, y_test, feature_shape = tfutil.get_cifar10_dataset(input_h, input_w, input_c)
         np.save(str(path / "x_test.npy"), x_test)
         np.save(str(path / "y_test.npy"), y_test)
         # Generate dictionary
         model_dict = create_dictionary(model)
         # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
-        with open(path / 'model.pkl', 'wb') as f:
+        with open(path / 'weights.pkl', 'wb') as f:
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, f)
 
