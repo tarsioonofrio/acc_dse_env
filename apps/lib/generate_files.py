@@ -400,7 +400,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     size = max(filter_channel)
 
     # Open file
-    f = open(path / "inmem_pkg.vhd", "w")
+    f = open(path / "ifmap_pkg.vhd", "w")
 
     f.write("LIBRARY ieee;\n")
     f.write("USE ieee.std_logic_1164.all;\n")
