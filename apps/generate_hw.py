@@ -57,7 +57,8 @@ def main():
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, f)
 
-    (x_train, y_train), (x_test, y_test) = keras_cifar10.load_data()
+    (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
+    x_test = x_test_int / 255.0
     input_size = util.get_input_size(config_nn["input_h"], config_nn["input_w"], config_nn["input_c"])
 
     # Compute output layer dimensions
