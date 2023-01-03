@@ -6,6 +6,6 @@
   "INPUT_SIZE": 16,
   "CARRY_SIZE": 4,
   "LAT": 2,
-  "CLK_PERIOD": 0.5,
+  "CLK_PERIOD": 2.0,
   "IN_DELAY": 0.3
 }
