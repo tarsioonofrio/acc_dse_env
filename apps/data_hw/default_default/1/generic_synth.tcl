@@ -1,4 +1,4 @@
-set CLK_PERIOD 0.5
+set CLK_PERIOD 2.0
 set INPUT_SIZE 16
 set DATAFLOW_TYPE ws
 set ARRAY_TYPE syst2d
