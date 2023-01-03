@@ -7,7 +7,7 @@ from pathlib import Path
 
 # from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
-from lib.generate_files import generate_files, create_dictionary
+from lib.generate_files import generate_files, create_dictionary, generate_generic_file, generate_tcl_generic
 
 
 def main():
@@ -100,6 +100,28 @@ def main():
         generate_files(
             config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict, e, path / str(e)
         )
+
+    generic_dict2 = {
+        "MEM_SIZE": config_hw["MEM_SIZE"],
+        "INPUT_SIZE": config_hw["INPUT_SIZE"],
+        "CARRY_SIZE": config_hw["CARRY_SIZE"],
+        "CLK_PERIOD": config_hw["CLK_PERIOD"],
+        "STRIDE": [max(config_nn["stride_h"])],
+        "N_FILTER": [max(config_nn["filter_channel"])],
+        "DATAFLOW_TYPE": config_hw["DATAFLOW_TYPE"],
+        "LAT": config_hw["LAT"],
+        "SHIFT": int(shift_bits),
+        "IN_DELAY": config_hw["IN_DELAY"],
+        "ARRAY_TYPE": config_hw["ARRAY_TYPE"],
+
+        "X_SIZE": max(vhd_dict["layer_dimension"]),
+        "C_SIZE": max(vhd_dict["filter_channel"]),
+        "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
+        "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
+        "LAYER": 0,
+    }
+    generate_generic_file(generic_dict2, path, 0)
+    generate_tcl_generic(generic_dict2, path, 0)
 
 
 if __name__ == '__main__':
