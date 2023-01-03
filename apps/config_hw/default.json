@@ -1,7 +1,6 @@
 {
   "DATAFLOW_TYPE": "ws",
   "ARRAY_TYPE": "syst2d",
-  "CONVS_PER_LINE": 15,
   "MEM_SIZE": 16,
   "INPUT_SIZE": 16,
   "CARRY_SIZE": 4,
