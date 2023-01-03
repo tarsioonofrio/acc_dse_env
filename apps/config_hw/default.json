@@ -1,0 +1,13 @@
+{
+  "DATAFLOW_TYPE": "ws",
+  "ARRAY_TYPE": "syst2d",
+  "CONVS_PER_LINE": 15,
+  "MEM_SIZE": 16,
+  "INPUT_SIZE": 16,
+  "CARRY_SIZE": 4,
+  "N_CHANNEL": 3,
+  "LAT": 2,
+  "CLK_PERIOD": 1.0,
+  "RST_TIME": 5.0,
+  "IN_DELAY": 0.3
+}
