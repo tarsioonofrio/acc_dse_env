@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 
 package util_pkg is
 
-function log2ceil(arg : positive) return natural;
+    function log2ceil(arg : positive) return natural;
 
 end package util_pkg;
 

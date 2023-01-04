@@ -143,16 +143,16 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
-  config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
-  config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
-  config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
+  config.n_filters <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filters'LENGTH);
+  config.n_channels <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channels'LENGTH);
+  config.x_sizer <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_sizer'LENGTH);
   config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
   --config.filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH, config.filter_width'LENGTH);
   --config.filter_width_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH*FILTER_WIDTH, config.filter_width_filter_width'LENGTH);
   --config.filter_width_filter_width_1 <= CONV_STD_LOGIC_VECTOR((FILTER_WIDTH*FILTER_WIDTH)-1, config.filter_width_filter_width_1'LENGTH);
   --config.input_size <= CONV_STD_LOGIC_VECTOR(INPUT_SIZE, config.input_size'LENGTH);
   --config.carry_size <= CONV_STD_LOGIC_VECTOR(CARRY_SIZE, config.carry_size'LENGTH);
-  config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
+  config.convs_per_lines <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_lines'LENGTH);
   config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
   config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
 

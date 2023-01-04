@@ -2,15 +2,34 @@
 -- CONVOLUTION - SYSTOLIC   -  JAN/2021 - MORAES 
 -- MODIFIED IN MARCH 8 2021 - COMBINATIONAL MAC
 -------------------------------------------------------------------------------------------------
+
+
+use work.config_package.all;
+
+package c is new work.config_package  -- ADDED primary unit declaration
+    generic map (N_FILTER       => N_FILTER,
+                 N_CHANNEL      => N_CHANNEL,
+                 STRIDE         => STRIDE,
+                 X_SIZE         => X_SIZE,
+                 FILTER_WIDTH   => FILTER_WIDTH,
+                 CONVS_PER_LINE => CONVS_PER_LINE,
+                 MEM_SIZE       => MEM_SIZE,
+                 INPUT_SIZE     => INPUT_SIZE,
+                 SHIFT          => SHIFT,
+                 CARRY_SIZE     => CARRY_SIZE
+                 );
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
-use work.config_package.all;
+use work.c.all;
 
 
 entity convolution is
-  generic (N_FILTER       : integer := 16;
+  generic (
+           N_FILTER       : integer := 16;
            N_CHANNEL      : integer := 3;
            STRIDE         : integer := 2;
            X_SIZE         : integer := 32;
@@ -100,31 +119,31 @@ begin
   begin
     if reset = '1' then
         reg_config.n_filter <= 0;
-        reg_config.n_channel <= 0;
-        reg_config.x_size <= 0;
+        reg_config.n_channels <= 0;
+        reg_config.x_sizer <= 0;
         reg_config.x_size_x_size <= 0;
         --reg_config.filter_width <= 0;
         --reg_config.filter_width_filter_width <= 0;
         --reg_config.filter_width_filter_width_1 <= 0;
-        reg_config.convs_per_line <= 0;
+        reg_config.convs_per_lines <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line_1 <= 0;
-        --reg_config.input_size <= 0;
-        --reg_config.carry_size <= 0;
+        --reg_config.input_sizer <= 0;
+        --reg_config.carry_sizer <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
         --reg_config <= type_config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
-        reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
-        reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
-        reg_config.x_size <= conv_integer(unsigned(config.x_size));
+        reg_config.n_filters <= conv_integer(unsigned(config.n_filters));
+        reg_config.n_channels <= conv_integer(unsigned(config.n_channels));
+        reg_config.x_sizer <= conv_integer(unsigned(config.x_sizer));
         reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
         --reg_config.filter_width <= conv_integer(unsigned(config.filter_width));
         --reg_config.filter_width_filter_width <= conv_integer(unsigned(config.filter_width_filter_width));
         --reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
-        reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
+        reg_config.convs_per_lines <= conv_integer(unsigned(config.convs_per_lines));
         reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
         reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
         --reg_config.input_size <= conv_integer(unsigned(config.input_size));
@@ -134,13 +153,14 @@ begin
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
-        reg_config.n_filter <= 0;
-        reg_config.x_size <= 0;
+        reg_config.n_filters <= 0;
+        reg_config.n_channels <= 0;
+        reg_config.x_sizer <= 0;
         reg_config.x_size_x_size <= 0;
         --reg_config.filter_width <= 0;
         --reg_config.filter_width_filter_width <= 0;
         --reg_config.filter_width_filter_width_1 <= 0;
-        reg_config.convs_per_line <= 0;
+        reg_config.convs_per_lines <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line_1 <= 0;
         --reg_config.input_size <= 0;
@@ -479,18 +499,18 @@ begin
           add(0) <= CONV_STD_LOGIC_VECTOR(V + H, MEM_SIZE);
           add(1) <= add(0) + 1;
 
-          add(2) <= reg_config.x_size + add(0);
+          add(2) <= reg_config.x_sizer + add(0);
           add(3) <= add(2) + 1;
 
-          add(4) <= reg_config.x_size + add(2);
+          add(4) <= reg_config.x_sizer + add(2);
           add(5) <= add(4) + 1;
 
           --
           -- NEXT LINE
           --  
-          if (H+2) >= reg_config.x_size then
+          if (H+2) >= reg_config.x_sizer then
             H <= 0;
-            V <= V+2*reg_config.x_size;
+            V <= V+2*reg_config.x_sizer;
           else
             H <= H+2;
           end if;
@@ -644,7 +664,7 @@ begin
       if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
-        if cont_iterations = reg_config.convs_per_line then
+        if cont_iterations = reg_config.convs_per_lines then
          cont_iterations <= (others => '0');
         end if;
       elsif EA_add = E4 then
@@ -675,14 +695,14 @@ begin
       channel_control <= 0;
 
     elsif clock'event and clock = '1' then
-      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channels then
         conv_length <= conv_length + 1;
 
       elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
-        if channel_control = (reg_config.n_channel-1) then
+        if channel_control = (reg_config.n_channels-1) then
           conv_length     <= 0;
           channel_control <= 0;
         end if;
@@ -719,7 +739,7 @@ begin
         partial_ce <= '0';
       end if;
 
-      if valid_signal = '1' and channel_control < reg_config.n_channel then
+      if valid_signal = '1' and channel_control < reg_config.n_channels then
         partial0        <= reg_soma3;
         partial_add     <= partial_add + 1;
         partial_add_reg <= partial_add;
@@ -751,7 +771,7 @@ begin
           partial_wr <= '1';
           partial_ce <= '1';
 
-          if (channel_control = (reg_config.n_channel-1)) then
+          if (channel_control = (reg_config.n_channels-1)) then
             partial2 <= partial0 + partial1 + reg_reg_bias_value;
           else
             partial2 <= partial0 + partial1;
@@ -766,7 +786,7 @@ begin
         partial_control <= 0;
         partial_add     <= partial_base;
 
-        if channel_control = (reg_config.n_channel-1) then
+        if channel_control = (reg_config.n_channels-1) then
           partial_base <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
           partial_add  <= partial_base + CONV_STD_LOGIC_VECTOR(reg_config.convs_per_line_convs_per_line, MEM_SIZE);
         end if;
@@ -801,7 +821,7 @@ begin
   ------------------------------------------------------------------------------------
   --  input memory read address (constant sums used to access the correct address on memory)
   iwght_address <= bias_x when read_bias = '1' else
-                   (weight_x + reg_config.n_filter)  when read_weights = '1' or start_mac = '1' else 
+                   (weight_x + reg_config.n_filters)  when read_weights = '1' or start_mac = '1' else 
                    (others => '0');
 
   ifmap_address <= add(0) when EA_add = E0 else
