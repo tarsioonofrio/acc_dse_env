@@ -3,23 +3,22 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -2008 -work work ../apps/data_hw/default_default/0/inmem_pkg.vhd
-vcom -2008 -work work ../apps/data_hw/default_default/0/ifmap_pkg.vhd
-vcom -2008 -work work ../apps/data_hw/default_default/0/iwght_pkg.vhd
-vcom -2008 -work work ../apps/data_hw/default_default/0/gold_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/0/inmem_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/0/ifmap_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/0/iwght_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/0/gold_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/0/config_pkg.vhd
 
 # Components
-vcom -2008 -work work ../rtl/components/mac.vhd
-vcom -2008 -work work ../rtl/components/reg.vhd
-vcom -2008 -work work ../rtl/components/mem.vhd
-vcom -2008 -work work ../rtl/util_pkg.vhd
-vcom -2008 -work work ../rtl/config_pkg.vhd
+vcom -work work ../rtl/components/mac.vhd
+vcom -work work ../rtl/components/reg.vhd
+vcom -work work ../rtl/components/mem.vhd
 
 # Convolution core
-vcom -2008 -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Testbench
-vcom -2008 -work work ../tb/tb_rtl_split_multi.vhd
+vcom -work work ../tb/tb_rtl_split_multi.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data_hw/default_default/0/generic_file.txt
