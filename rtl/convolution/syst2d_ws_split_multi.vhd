@@ -4,27 +4,12 @@
 -------------------------------------------------------------------------------------------------
 
 
-use work.config_package.all;
-
-package c is new work.config_package  -- ADDED primary unit declaration
-    generic map (N_FILTER       => N_FILTER,
-                 N_CHANNEL      => N_CHANNEL,
-                 STRIDE         => STRIDE,
-                 X_SIZE         => X_SIZE,
-                 FILTER_WIDTH   => FILTER_WIDTH,
-                 CONVS_PER_LINE => CONVS_PER_LINE,
-                 MEM_SIZE       => MEM_SIZE,
-                 INPUT_SIZE     => INPUT_SIZE,
-                 SHIFT          => SHIFT,
-                 CARRY_SIZE     => CARRY_SIZE
-                 );
-
-
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
-use work.c.all;
+
+use work.config_package.all;
 
 
 entity convolution is
