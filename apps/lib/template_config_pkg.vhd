@@ -27,7 +27,6 @@ package config_package is
     convs_per_line_convs_per_line_n_channel_1: std_logic_vector({LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1} downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
     convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector ({LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER} downto 0);
-
     --INPUT_SIZE
     --input_size : std_logic_vector(log2ceil(INPUT_SIZE) downto 0);
     --CARRY_SIZE
