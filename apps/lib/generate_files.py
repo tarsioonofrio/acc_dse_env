@@ -1,6 +1,140 @@
-import math
 import copy
 import time
+
+from pathlib import Path
+from math import log2, ceil
+
+
+def log2ceil(x):
+    return ceil(log2(x)) + 1
+
+
+def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
+    # Compute HW parameters
+    if layer == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
+    else:
+        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
+        C_SIZE = vhd_dict["filter_channel"][layer - 1]
+    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
+    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
+    generic_dict2 = {
+        "X_SIZE": X_SIZE,
+        "C_SIZE": C_SIZE,
+        "FILTER_WIDTH": FILTER_WIDTH,
+        "CONVS_PER_LINE": CONVS_PER_LINE,
+        "LAYER": layer,
+    }
+
+    path.mkdir(parents=True, exist_ok=True)
+    generate_generic_dict = {**generic_dict, **generic_dict2}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
+    # Generate generic file for rtl simulation
+    generate_generic_file(generate_generic_dict, path, layer)
+    # Generate TCL file with generics for logic synthesis
+    generate_tcl_generic(generate_generic_dict, path, layer)
+    # Generate VHDL tensorflow package
+    generate_ifmem_vhd_pkg(path=path, **generate_vhd)
+    generate_wghts_vhd_pkg(path=path, **generate_vhd)
+    generate_ifmap_vhd_pkg(path=path, **generate_vhd)
+    # Generate VHDL gold output package
+    generate_gold_vhd_pkg(path=path, **generate_vhd)
+    generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
+
+
+def generate_generic_file(generate_dict, path, n_layer):
+    CLK_HALF = generate_dict["CLK_PERIOD"] / 2
+    RST_TIME = CLK_HALF * 5
+    generate_dict2 = {
+        **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+        "CLK_HALF": CLK_HALF,
+        "RST_TIME": RST_TIME,
+        "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
+        "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
+        "N_FILTER": generate_dict["N_FILTER"][n_layer],
+        "STRIDE": generate_dict["STRIDE"][n_layer],
+    }
+    line = (
+        "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+        "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
+        "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
+        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT}\n"
+    ).format(**generate_dict2)
+
+    with open(path / "generic_file.txt", "w") as f:
+        f.write(line)
+
+
+def generate_tcl_generic(generate_dict, path, n_layer):
+    generate_dict2 = {
+        **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+        "N_FILTER": generate_dict["N_FILTER"][n_layer],
+        "STRIDE": generate_dict["STRIDE"][n_layer],
+    }
+    line = (
+        "set CLK_PERIOD {CLK_PERIOD}\n"
+        "set INPUT_SIZE {INPUT_SIZE}\n"
+        "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
+        "set ARRAY_TYPE {ARRAY_TYPE}\n"
+        "set LAT {LAT}\n"
+        "set LAYER {LAYER}\n"
+        "set parameters "
+        "{{{{N_FILTER {N_FILTER}}} "
+        "{{N_CHANNEL {C_SIZE}}} "
+        "{{STRIDE {STRIDE}}} "
+        "{{X_SIZE {X_SIZE}}} "
+        "{{FILTER_WIDTH {FILTER_WIDTH}}} "
+        "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
+        "{{MEM_SIZE {MEM_SIZE}}} "
+        "{{INPUT_SIZE {INPUT_SIZE}}} "
+        "{{CARRY_SIZE {CARRY_SIZE}}} "
+        "{{SHIFT {SHIFT}"
+        "}}}}\n"
+    ).format(**generate_dict2)
+
+    with open(path / "generic_synth.tcl", "w") as f:
+        f.write(line)
+
+
+def generate_config_file(generate_dict, path, n_layer):
+    generate_dict2 = {
+        "N_FILTER": generate_dict["N_FILTER"][n_layer],
+        "N_CHANNEL": generate_dict["N_CHANNEL"],
+        "X_SIZE": generate_dict["X_SIZE"],
+        "X_SIZE_X_SIZE": generate_dict["X_SIZE"]**2,
+        "CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"],
+        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"],
+        "CONVS_PER_LINE_CONVS_PER_LINE_1": ((generate_dict["CLK_PERIOD"]*generate_dict["CONVS_PER_LINE"]) + 1),
+        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+            generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*generate_dict["N_CHANNEL"],
+        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+            generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*(generate_dict["N_CHANNEL"] - 1),
+        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+            generate_dict["CONVS_PER_LINE"] * generate_dict["CONVS_PER_LINE"] * generate_dict["N_FILTER"][n_layer],
+
+        "LOG_N_FILTER": log2ceil(generate_dict["N_FILTER"][n_layer]),
+        "LOG_N_CHANNEL": log2ceil(generate_dict["N_CHANNEL"]),
+        "LOG_X_SIZE": log2ceil(generate_dict["X_SIZE"]),
+        "LOG_X_SIZE_X_SIZE": log2ceil(generate_dict["N_FILTER"][n_layer]**2),
+        "LOG_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]) + 1),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+            log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*generate_dict["N_CHANNEL"]),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+            log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*(generate_dict["N_CHANNEL"] - 1)),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+            log2ceil(generate_dict["CONVS_PER_LINE"] * generate_dict["CONVS_PER_LINE"] * generate_dict["N_FILTER"][n_layer]),
+    }
+
+    with open(Path(__file__).parent.resolve() / "template_config_pkg.vhd", "r") as f:
+        text = f.read()
+
+    text_out = text.format(**generate_dict2)
+
+    with open(path / "config_pkg.vhd", "w") as f:
+        f.write(text_out)
 
 
 def create_dictionary(model):
@@ -72,61 +206,6 @@ def create_dictionary(model):
         layerId += 1
 
     return modelDict
-
-
-def generate_generic_file(generate_dict, path, n_layer):
-    CLK_HALF = generate_dict["CLK_PERIOD"] / 2
-    RST_TIME = CLK_HALF * 5
-    generate_dict2 = {
-        ** {k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
-        "CLK_HALF": CLK_HALF,
-        "RST_TIME": RST_TIME,
-        "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
-        "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
-        "N_FILTER": generate_dict["N_FILTER"][n_layer],
-        "STRIDE": generate_dict["STRIDE"][n_layer],
-    }
-    line = (
-        "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-        "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
-        "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT}\n"
-    ).format(**generate_dict2)
-
-    with open(path / "generic_file.txt", "w") as f:
-        f.write(line)
-
-
-def generate_tcl_generic(generate_dict, path, n_layer):
-    generate_dict2 = {
-        ** {k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
-        "N_FILTER": generate_dict["N_FILTER"][n_layer],
-        "STRIDE": generate_dict["STRIDE"][n_layer],
-    }
-    line = (
-        "set CLK_PERIOD {CLK_PERIOD}\n"
-        "set INPUT_SIZE {INPUT_SIZE}\n"
-        "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
-        "set ARRAY_TYPE {ARRAY_TYPE}\n"
-        "set LAT {LAT}\n"
-        "set LAYER {LAYER}\n"
-        "set parameters "
-        "{{{{N_FILTER {N_FILTER}}} "
-        "{{N_CHANNEL {C_SIZE}}} "
-        "{{STRIDE {STRIDE}}} "
-        "{{X_SIZE {X_SIZE}}} "
-        "{{FILTER_WIDTH {FILTER_WIDTH}}} "
-        "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
-        "{{MEM_SIZE {MEM_SIZE}}} "
-        "{{INPUT_SIZE {INPUT_SIZE}}} "
-        "{{CARRY_SIZE {CARRY_SIZE}}} "
-        "{{SHIFT {SHIFT}"
-        "}}}}\n"
-    ).format(**generate_dict2)
-
-    with open(path / "generic_synth.tcl", "w") as f:
-        f.write(line)
-
 
 def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
@@ -664,7 +743,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                                             filter_i = 0
 
                             # acc_input = int((acc[filterId]/shift))
-                            acc_input = acc[filterId] >> int(math.log2(shift))
+                            acc_input = acc[filterId] >> int(log2(shift))
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
                     # Open file
@@ -693,36 +772,3 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     f.write("\t\tothers=>0 );\n")
     f.write("END gold_package;\n")
     f.close()
-
-
-def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
-    # Compute HW parameters
-    if layer == 0:
-        X_SIZE = input_w
-        C_SIZE = input_c
-    else:
-        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
-        C_SIZE = vhd_dict["filter_channel"][layer - 1]
-    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
-    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
-    generic_dict2 = {
-        "X_SIZE": X_SIZE,
-        "C_SIZE": C_SIZE,
-        "FILTER_WIDTH": FILTER_WIDTH,
-        "CONVS_PER_LINE": CONVS_PER_LINE,
-        "LAYER": layer,
-    }
-
-    path.mkdir(parents=True, exist_ok=True)
-    generate_generic_dict = {**generic_dict, **generic_dict2}
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
-    # Generate generic file for rtl simulation
-    generate_generic_file(generate_generic_dict, path, layer)
-    # Generate TCL file with generics for logic synthesis
-    generate_tcl_generic(generate_generic_dict, path, layer)
-    # Generate VHDL tensorflow package
-    generate_ifmem_vhd_pkg(path=path, **generate_vhd)
-    generate_wghts_vhd_pkg(path=path, **generate_vhd)
-    generate_ifmap_vhd_pkg(path=path, **generate_vhd)
-    # Generate VHDL gold output package
-    generate_gold_vhd_pkg(path=path, **generate_vhd)

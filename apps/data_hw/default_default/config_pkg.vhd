@@ -8,25 +8,25 @@ use IEEE.std_logic_arith.all;
 package config_package is
     type type_config_logic is record
     --N_FILTER
-    n_filter : std_logic_vector({LOG_N_FILTER} downto 0);
+    n_filter : std_logic_vector(7 downto 0);
     --N_CHANNEL
-    n_channel : std_logic_vector({LOG_N_CHANNEL} downto 0);
+    n_channel : std_logic_vector(7 downto 0);
     --X_SIZE
-    x_size : std_logic_vector({LOG_X_SIZE} downto 0);
+    x_size : std_logic_vector(5 downto 0);
     --X_SIZE*X_SIZE
-    x_size_x_size : std_logic_vector({LOG_X_SIZE_X_SIZE} downto 0);
+    x_size_x_size : std_logic_vector(13 downto 0);
     --CONVS_PER_LINE
-    convs_per_line: std_logic_vector({LOG_CONVS_PER_LINE} downto 0);
+    convs_per_line: std_logic_vector(5 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE
-    convs_per_line_convs_per_line: std_logic_vector({LOG_CONVS_PER_LINE_CONVS_PER_LINE} downto 0);
+    convs_per_line_convs_per_line: std_logic_vector(9 downto 0);
     --(CONVS_PER_LINE*CONVS_PER_LINE)+1
-    convs_per_line_convs_per_line_1: std_logic_vector({LOG_CONVS_PER_LINE_CONVS_PER_LINE_1} downto 0);
+    convs_per_line_convs_per_line_1: std_logic_vector(9 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
-    convs_per_line_convs_per_line_n_channel: std_logic_vector({LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL} downto 0);
+    convs_per_line_convs_per_line_n_channel: std_logic_vector(15 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
-    convs_per_line_convs_per_line_n_channel_1: std_logic_vector({LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1} downto 0);
+    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(15 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
-    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector ({LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER} downto 0);
+    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (15 downto 0);
     --INPUT_SIZE
     --input_size : std_logic_vector(INPUT_SIZE downto 0);
     --CARRY_SIZE
@@ -45,25 +45,25 @@ package config_package is
   --  );
 
   type type_config_integer is record
-    n_filter : integer range 0 to {N_FILTER};
+    n_filter : integer range 0 to 64;
 
-    n_channel : integer range 0 to {N_CHANNEL};
+    n_channel : integer range 0 to 64;
 
-    x_size : integer range 0 to {X_SIZE};
+    x_size : integer range 0 to 15;
 
-    x_size_x_size : integer range 0 to {X_SIZE_X_SIZE};
+    x_size_x_size : integer range 0 to 225;
 
-    convs_per_line: integer range 0 to {CONVS_PER_LINE};
+    convs_per_line: integer range 0 to 15;
 
-    convs_per_line_convs_per_line: integer range 0 to {CONVS_PER_LINE_CONVS_PER_LINE};
+    convs_per_line_convs_per_line: integer range 0 to 225;
 
-    convs_per_line_convs_per_line_1: integer range 0 to {CONVS_PER_LINE_CONVS_PER_LINE_1};
+    convs_per_line_convs_per_line_1: integer range 0 to 31.0;
 
-    convs_per_line_convs_per_line_n_channel: integer range 0 to {CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL};
+    convs_per_line_convs_per_line_n_channel: integer range 0 to 14400;
 
-    convs_per_line_convs_per_line_n_channel_1: integer range 0 to {CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1};
+    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 14175;
 
-    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to {CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER};
+    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 14400;
 
     --input_size : integer range 0 to INPUT_SIZE;
     --carry_size : integer range 0 to CARRY_SIZE;

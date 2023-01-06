@@ -7,7 +7,9 @@ from pathlib import Path
 
 # from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
-from lib.generate_files import generate_files, create_dictionary, generate_generic_file, generate_tcl_generic
+from lib.generate_files import (
+    generate_files, create_dictionary, generate_generic_file, generate_tcl_generic, generate_config_file
+)
 
 
 def main():
@@ -122,6 +124,7 @@ def main():
     }
     generate_generic_file(generic_dict2, path, 0)
     generate_tcl_generic(generic_dict2, path, 0)
+    generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, path, 0)
 
 
 if __name__ == '__main__':
