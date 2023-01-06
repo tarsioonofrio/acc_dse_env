@@ -10,11 +10,11 @@ entity tb is
    generic ( N_FILTER : integer := 16;
        N_CHANNEL : integer := 3;
        X_SIZE : integer := 32 ;  
-             FILTER_WIDTH : integer := 3 ;
-             CONVS_PER_LINE  : integer := 15 ;
-             MEM_SIZE  : integer := 12 ;
-             INPUT_SIZE  : integer := 8 ;
-             CARRY_SIZE : integer := 4 ;
+       FILTER_WIDTH : integer := 3 ;
+       CONVS_PER_LINE  : integer := 15 ;
+       MEM_SIZE  : integer := 12 ;
+       INPUT_SIZE  : integer := 8 ;
+       CARRY_SIZE : integer := 4 ;
        SHIFT : integer := 8;
        LAT : integer := 2
     );

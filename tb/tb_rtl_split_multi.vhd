@@ -1,3 +1,5 @@
+
+
 library ieee;
 library std;
 
@@ -10,7 +12,7 @@ use IEEE.math_real.all;
 use std.textio.all;
 
 use work.gold_package.all;
-use work.config_package.all;
+use work.util_pkg.log2ceil;
 
 
 entity tb is
@@ -28,6 +30,7 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
+
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
@@ -40,7 +43,28 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic;
+  signal config_n_filter : std_logic_vector(log2ceil(N_FILTER) downto 0);
+
+  signal config_n_channel : std_logic_vector(log2ceil(N_CHANNEL) downto 0);
+
+  signal config_x_size : std_logic_vector(log2ceil(X_SIZE) downto 0);
+
+  signal config_x_size_x_size : std_logic_vector(log2ceil(X_SIZE*X_SIZE) downto 0);
+
+  signal config_convs_per_line: std_logic_vector(log2ceil(CONVS_PER_LINE) downto 0);
+
+  signal config_convs_per_line_convs_per_line: std_logic_vector(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE) downto 0);
+
+  signal config_convs_per_line_convs_per_line_1: std_logic_vector(log2ceil((CONVS_PER_LINE*CONVS_PER_LINE)+1) downto 0);
+
+  signal config_convs_per_line_convs_per_line_n_channel: std_logic_vector(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL) downto 0);
+
+  signal config_convs_per_line_convs_per_line_n_channel_1: std_logic_vector(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)) downto 0);
+
+  signal config_convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER) downto 0);
+
+
+
 
 begin
 
@@ -122,8 +146,17 @@ begin
 
       start_conv    => start_conv,
       end_conv      => end_conv,
-      debug         => debug,
-      config        => config,
+
+      config_n_filter => config_n_filter,
+      config_n_channel => config_n_channel,
+      config_x_size => config_x_size,
+      config_x_size_x_size => config_x_size_x_size,
+      config_convs_per_line => config_convs_per_line,
+      config_convs_per_line_convs_per_line => config_convs_per_line_convs_per_line,
+      config_convs_per_line_convs_per_line_1 => config_convs_per_line_convs_per_line_1,
+      config_convs_per_line_convs_per_line_n_channel => config_convs_per_line_convs_per_line_n_channel,
+      config_convs_per_line_convs_per_line_n_channel_1 => config_convs_per_line_convs_per_line_n_channel_1,
+      config_convs_per_line_convs_per_line_n_channel_n_filter => config_convs_per_line_convs_per_line_n_channel_n_filter,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value,
@@ -143,22 +176,22 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
-  config.n_filters <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filters'LENGTH);
-  config.n_channels <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channels'LENGTH);
-  config.x_sizer <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_sizer'LENGTH);
-  config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
-  --config.filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH, config.filter_width'LENGTH);
-  --config.filter_width_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH*FILTER_WIDTH, config.filter_width_filter_width'LENGTH);
-  --config.filter_width_filter_width_1 <= CONV_STD_LOGIC_VECTOR((FILTER_WIDTH*FILTER_WIDTH)-1, config.filter_width_filter_width_1'LENGTH);
-  --config.input_size <= CONV_STD_LOGIC_VECTOR(INPUT_SIZE, config.input_size'LENGTH);
-  --config.carry_size <= CONV_STD_LOGIC_VECTOR(CARRY_SIZE, config.carry_size'LENGTH);
-  config.convs_per_lines <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_lines'LENGTH);
-  config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
-  config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
+  config_n_filter <= CONV_STD_LOGIC_VECTOR(log2ceil(N_FILTER), config_n_filter'LENGTH);
+  config_n_channel <= CONV_STD_LOGIC_VECTOR(log2ceil(N_CHANNEL), config_n_channel'LENGTH);
+  config_x_size <= CONV_STD_LOGIC_VECTOR(log2ceil(X_SIZE), config_x_size'LENGTH);
+  config_x_size_x_size <= CONV_STD_LOGIC_VECTOR(log2ceil(X_SIZE*X_SIZE), config_x_size_x_size'LENGTH);
+  --config_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH, config_filter_width'LENGTH);
+  --config_filter_width_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH*FILTER_WIDTH, config_filter_width_filter_width'LENGTH);
+  --config_filter_width_filter_width_1 <= CONV_STD_LOGIC_VECTOR((FILTER_WIDTH*FILTER_WIDTH)-1, config_filter_width_filter_width_1'LENGTH);
+  --config_input_size <= CONV_STD_LOGIC_VECTOR(INPUT_SIZE, config_input_size'LENGTH);
+  --config_carry_size <= CONV_STD_LOGIC_VECTOR(CARRY_SIZE, config_carry_size'LENGTH);
+  config_convs_per_line <= CONV_STD_LOGIC_VECTOR(log2ceil(CONVS_PER_LINE), config_convs_per_line'LENGTH);
+  config_convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE), config_convs_per_line_convs_per_line'LENGTH);
+  config_convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR(log2ceil((CONVS_PER_LINE*CONVS_PER_LINE)+1), config_convs_per_line_convs_per_line_1'LENGTH);
 
-  config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-  config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-  config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
+  config_convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL), config_convs_per_line_convs_per_line_n_channel'LENGTH);
+  config_convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)), config_convs_per_line_convs_per_line_n_channel_1'LENGTH);
+  config_convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(log2ceil(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER), config_convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
 
   clock <= not clock after 0.5 ns;
 
