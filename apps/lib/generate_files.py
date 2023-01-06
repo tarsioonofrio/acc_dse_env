@@ -104,28 +104,28 @@ def generate_config_file(generate_dict, path, n_layer):
         "X_SIZE": generate_dict["X_SIZE"],
         "X_SIZE_X_SIZE": generate_dict["X_SIZE"]**2,
         "CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"],
-        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"],
-        "CONVS_PER_LINE_CONVS_PER_LINE_1": ((generate_dict["CLK_PERIOD"]*generate_dict["CONVS_PER_LINE"]) + 1),
+        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"]**2,
+        "CONVS_PER_LINE_CONVS_PER_LINE_1": (generate_dict["CONVS_PER_LINE"]**2) + 1,
         "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-            generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*generate_dict["N_CHANNEL"],
+            (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"],
         "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-            generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*(generate_dict["N_CHANNEL"] - 1),
+            (generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1),
         "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-            generate_dict["CONVS_PER_LINE"] * generate_dict["CONVS_PER_LINE"] * generate_dict["N_FILTER"][n_layer],
+            (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][n_layer],
 
         "LOG_N_FILTER": log2ceil(generate_dict["N_FILTER"][n_layer]),
         "LOG_N_CHANNEL": log2ceil(generate_dict["N_CHANNEL"]),
         "LOG_X_SIZE": log2ceil(generate_dict["X_SIZE"]),
-        "LOG_X_SIZE_X_SIZE": log2ceil(generate_dict["N_FILTER"][n_layer]**2),
+        "LOG_X_SIZE_X_SIZE": log2ceil(generate_dict["X_SIZE"] ** 2),
         "LOG_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]) + 1),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"] ** 2),
+        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) + 1),
         "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-            log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*generate_dict["N_CHANNEL"]),
+            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"]),
         "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-            log2ceil(generate_dict["CONVS_PER_LINE"]*generate_dict["CONVS_PER_LINE"]*(generate_dict["N_CHANNEL"] - 1)),
+            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1)),
         "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-            log2ceil(generate_dict["CONVS_PER_LINE"] * generate_dict["CONVS_PER_LINE"] * generate_dict["N_FILTER"][n_layer]),
+            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][n_layer]),
     }
 
     with open(Path(__file__).parent.resolve() / "template_config_pkg.vhd", "r") as f:

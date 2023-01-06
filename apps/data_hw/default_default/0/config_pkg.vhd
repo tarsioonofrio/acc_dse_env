@@ -1,5 +1,4 @@
 library ieee;
-library work;
 
 use ieee.std_logic_1164.all;
 use IEEE.std_logic_arith.all;
@@ -14,7 +13,7 @@ package config_package is
     --X_SIZE
     x_size : std_logic_vector(6 downto 0);
     --X_SIZE*X_SIZE
-    x_size_x_size : std_logic_vector(9 downto 0);
+    x_size_x_size : std_logic_vector(11 downto 0);
     --CONVS_PER_LINE
     convs_per_line: std_logic_vector(5 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE
@@ -26,7 +25,7 @@ package config_package is
     --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
     convs_per_line_convs_per_line_n_channel_1: std_logic_vector(10 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
-    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (13 downto 0);
+    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (15 downto 0);
     --INPUT_SIZE
     --input_size : std_logic_vector(INPUT_SIZE downto 0);
     --CARRY_SIZE
@@ -57,13 +56,13 @@ package config_package is
 
     convs_per_line_convs_per_line: integer range 0 to 225;
 
-    convs_per_line_convs_per_line_1: integer range 0 to 31.0;
+    convs_per_line_convs_per_line_1: integer range 0 to 226;
 
     convs_per_line_convs_per_line_n_channel: integer range 0 to 675;
 
     convs_per_line_convs_per_line_n_channel_1: integer range 0 to 450;
 
-    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 3600;
+    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 10800;
 
     --input_size : integer range 0 to INPUT_SIZE;
     --carry_size : integer range 0 to CARRY_SIZE;
