@@ -353,7 +353,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
                                 ofmap[filterId][m][n] = max(0, int(acc_input))
 
-                        if layerId == layer - 1:
+                        if layerId == layer - int(gen_features):
                             for m in range(layer_dimension[layerId]):
                                 for n in range(layer_dimension[layerId]):
                                     if m == 0 and n == 0:
@@ -459,7 +459,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
-                    if layerId == layer:
+                    if layerId == layer - int(gen_features):
                         for m in range(layer_dimension[layerId]):
                             for n in range(layer_dimension[layerId]):
                                 if m == 0 and n == 0 and filterId != 0:
