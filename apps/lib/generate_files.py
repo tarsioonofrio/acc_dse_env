@@ -233,31 +233,14 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     tab = "    "
 
     bias_list = [
-        [layerId, [str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-                   for filterId in modelDict[layerId]["filter"]]]
+        str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
         for layerId in modelDict
         if modelDict[layerId]["type"] == "Conv2D"
         if layerId == layer
-    ]
-    bias_list_filter = [
-        f"{tab}-- layer={layerId}\n{tab}{', '.join(bias)},\n"
-        for layerId, bias in bias_list
+        for filterId in modelDict[layerId]["filter"]
     ]
 
-    # string_weight = [
-    #     [filterId, z, [str(int(weights[x, y, z].reshape(-1)))
-    #                             for x in range(weights.shape[0])
-    #                             for y in range(weights.shape[1])]
-    #      ]
-    #     for layerId in modelDict
-    #     if modelDict[layerId]["type"] == "Conv2D"
-    #     if layerId == layer
-    #     for filterId in modelDict[layerId]["filter"]
-    #     for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
-    #     for z in range(weights.shape[2])
-    # ]
-
-    string_weight = [
+    weight_list = [
         [[[str(int(weights[x, y, z].reshape(-1)))
          for x in range(weights.shape[0])
          for y in range(weights.shape[1])]
@@ -272,9 +255,11 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         if layerId == layer
     ]
 
-    string_weight_list = [
+    bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(bias_list)},\n"
+
+    weight_string = [
         f"{tab}-- layer={layer} filter={f} channel={c}\n{tab}{', '.join(s)},\n"
-        for filters in string_weight
+        for filters in weight_list
         for f, channel in enumerate(filters)
         for c, s in enumerate(channel)
     ]
@@ -282,7 +267,7 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     file_name = "iwght_pkg"
     package = "iwght_package"
     constant = "input_wght"
-    data = "".join([f"{tab}-- bias\n"] + bias_list_filter + [f"\n{tab}-- weights\n"] + string_weight_list)
+    data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
 
     write_mem_pkg(constant, data, file_name, package, path)
 
