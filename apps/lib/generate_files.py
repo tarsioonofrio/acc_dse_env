@@ -262,7 +262,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     tab = "    "
     gen_features = True
     if layer == 0:
-        pixel = [
+        feature = [
             [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
              for z in range(image_shift.shape[2])
              for x in range(image_shift.shape[0])]
@@ -271,22 +271,30 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
             for image_shift in [image * shift]
         ]
 
-        string_pixel = [
+        format_feat = [
             f"{tab}-- image={p[0]} channel={p[1]} column={p[2]}\n{tab}{','.join(p[3])},\n"
-            for image in pixel
+            for image in feature
             for p in image
         ]
 
     else:
-        string_pixel = convolution_from_weights(
+        feat_list = convolution_from_weights(
             gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
             stride_h, stride_w, tab, testSet, testSetSize
         )
 
+        format_feat = [tab]
+        for matrix in feat_list:
+            for line in matrix:
+                for feat in line:
+                    format_feat.append(f"{feat}, ")
+                format_feat.append(f"\n{tab}")
+            format_feat.append(f"\n{tab}")
+
     file_name = "ifmap_pkg"
     package = "ifmap_package"
     constant = "input_map"
-    data = "".join([f"\n{tab}-- ifmap\n"] + string_pixel)
+    data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
 
     write_mem_pkg(constant, data, file_name, package, path)
 
@@ -296,15 +304,30 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    string_pixel = convolution_from_weights(
+    feat_list = convolution_from_weights(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )
 
+    # format_feat = [
+    #     f"{feat}, "
+    #     for matrix in feat_list
+    #     for line in matrix
+    #     for feat in line
+    # ]
+
+    format_feat = [tab]
+    for matrix in feat_list:
+        for line in matrix:
+            for feat in line:
+                format_feat.append(f"{feat}, ")
+            format_feat.append(f"\n{tab}")
+        format_feat.append(f"\n{tab}")
+
     file_name = "gold_pkg"
     package = "gold_package"
     constant = "gold"
-    data = "".join([f"\n{tab}-- gold\n"] + string_pixel)
+    data = "".join([f"\n{tab}-- gold\n"] + format_feat)
 
     write_mem_pkg(constant, data, file_name, package, path)
 
@@ -312,6 +335,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
                              modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
     string_pixel = [tab]
+    image_list = []
     # Dataset test variables
     cont_match = 0
     aux_idx_range = 0
@@ -386,16 +410,21 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
 
                             ofmap[filterId][m][n] = max(0, int(acc_input))
                     if layerId == layer - int(gen_features):
+                        matrix = []
                         for m in range(layer_dimension[layerId]):
+                            line = []
                             for n in range(layer_dimension[layerId]):
                                 if m == 0 and n == 0 and filterId != 0:
                                     string_pixel.append(tab)
                                 string_ofmap = str(int(ofmap[filterId][m][n][0]))
                                 string_pixel.append(f"{string_ofmap}, ")
+                                line.append(string_ofmap)
                             string_pixel.append(f"\n{tab}")
+                            matrix.append(line)
                         string_pixel.append(f"\n")
+                        image_list.append(matrix)
                 ifmap.append(copy.deepcopy(ofmap))
-    return string_pixel
+    return image_list
 
 
 def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,

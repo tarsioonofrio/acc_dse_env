@@ -263,6 +263,6 @@ package gold_package_package is
     0, 0, 0, 
     243, 215, 197, 
     
-
+    
     others => 0);
 end gold_package_package;
