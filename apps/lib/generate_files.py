@@ -244,19 +244,39 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         for layerId, bias in bias_list
     ]
 
+    # string_weight = [
+    #     [filterId, z, [str(int(weights[x, y, z].reshape(-1)))
+    #                             for x in range(weights.shape[0])
+    #                             for y in range(weights.shape[1])]
+    #      ]
+    #     for layerId in modelDict
+    #     if modelDict[layerId]["type"] == "Conv2D"
+    #     if layerId == layer
+    #     for filterId in modelDict[layerId]["filter"]
+    #     for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
+    #     for z in range(weights.shape[2])
+    # ]
+
     string_weight = [
-        [layerId, filterId, z, [str(int(weights[x, y, z].reshape(-1)))
-                                for x in range(weights.shape[0])
-                                for y in range(weights.shape[1])]]
+        [[[str(int(weights[x, y, z].reshape(-1)))
+         for x in range(weights.shape[0])
+         for y in range(weights.shape[1])]
+
+         for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+         for z in range(weights.shape[2])]
+
+         for filterId in modelDict[layerId]["filter"]
+         ]
         for layerId in modelDict
         if modelDict[layerId]["type"] == "Conv2D"
         if layerId == layer
-        for filterId in modelDict[layerId]["filter"]
-        for weights in [modelDict[layerId]["filter"][filterId]["weights"]*shift]
-        for z in range(weights.shape[2])
     ]
+
     string_weight_list = [
-        f"{tab}-- layer={la} filter={f} channel={c}\n{tab}{', '.join(s)},\n" for la, f, c, s in string_weight
+        f"{tab}-- layer={layer} filter={f} channel={c}\n{tab}{', '.join(s)},\n"
+        for filters in string_weight
+        for f, channel in enumerate(filters)
+        for c, s in enumerate(channel)
     ]
 
     file_name = "iwght_pkg"
