@@ -284,13 +284,13 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     gen_features = True
     if layer == 0:
         feat_list = [
-            [[[str(int(image_shift[x, y, z]))
+            [[str(int(image_shift[x, y, z]))
                for y in range(image_shift.shape[1])]
              for x in range(image_shift.shape[0])]
-             for z in range(image_shift.shape[2])]
             for i, image in enumerate(testSet)
             if i in range(testSetSize)
             for image_shift in [image * shift]
+            for z in range(image_shift.shape[2])
         ]
 
         # format_feat = [
@@ -299,10 +299,9 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         #     for p in image
         # ]
         format_feat = [
-            f"{tab}-- image={layer} channel={n} column={c}\n{tab}{','.join(s)},\n"
-            for column in feat_list
-            for n, channel in enumerate(column)
-            for c, s in enumerate(channel)
+            f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
+            for c, channel in enumerate(feat_list)
+            for n, column in enumerate(channel)
         ]
     else:
         feat_list = convolution_from_weights(
