@@ -264,10 +264,15 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         for c, s in enumerate(channel)
     ]
 
+    # weight_string = [s for f in weight_list for c in f for s in c]
     file_name = "iwght_pkg"
     package = "iwght_package"
     constant = "input_wght"
     data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
+
+    with open(path / f"{file_name}.txt", "w") as f:
+        f.writelines([f"{b}\n" for b in bias_list])
+        f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
 
     write_mem_pkg(constant, data, file_name, package, path)
 
@@ -278,21 +283,27 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     tab = "    "
     gen_features = True
     if layer == 0:
-        feature = [
-            [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
-             for z in range(image_shift.shape[2])
+        feat_list = [
+            [[[str(int(image_shift[x, y, z]))
+               for y in range(image_shift.shape[1])]
              for x in range(image_shift.shape[0])]
+             for z in range(image_shift.shape[2])]
             for i, image in enumerate(testSet)
             if i in range(testSetSize)
             for image_shift in [image * shift]
         ]
 
+        # format_feat = [
+        #     f"{tab}-- image={p[0]} channel={p[1]} column={p[2]}\n{tab}{','.join(p[3])},\n"
+        #     for image in feat_list
+        #     for p in image
+        # ]
         format_feat = [
-            f"{tab}-- image={p[0]} channel={p[1]} column={p[2]}\n{tab}{','.join(p[3])},\n"
-            for image in feature
-            for p in image
+            f"{tab}-- image={layer} channel={n} column={c}\n{tab}{','.join(s)},\n"
+            for column in feat_list
+            for n, channel in enumerate(column)
+            for c, s in enumerate(channel)
         ]
-
     else:
         feat_list = convolution_from_weights(
             gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
