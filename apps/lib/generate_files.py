@@ -9,6 +9,14 @@ def log2ceil(x):
     return ceil(log2(x)) + 1
 
 
+def write_mem_pkg(constant, data, file_name, package, path):
+    with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
+        text = f.read()
+    text_out = text.format(package=package, constant=constant, data=data)
+    with open(path / f"{file_name}.vhd", "w") as f:
+        f.write(text_out)
+
+
 def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
     # Compute HW parameters
     if layer == 0:
@@ -208,7 +216,6 @@ def create_dictionary(model):
     return modelDict
 
 
-
 def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
 
@@ -241,16 +248,12 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         f"{tab}-- layer={la} filter={f} channel={c}\n{tab}{', '.join(s)},\n" for la, f, c, s in string_weight
     ]
 
-    with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
-        text = f.read()
-
+    file_name = "iwght_pkg"
     package = "iwght_package"
     constant = "input_wght"
     data = "".join([f"{tab}-- bias\n"] + bias_list_filter + [f"\n{tab}-- weights\n"] + string_weight_list)
-    text_out = text.format(package=package, constant=constant, data=data)
 
-    with open(path / "iwght_pkg.vhd", "w") as f:
-        f.write(text_out)
+    write_mem_pkg(constant, data, file_name, package, path)
 
 
 def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
@@ -275,7 +278,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         ]
 
     else:
-        string_pixel = []
+        string_pixel = [tab]
         # Dataset test variables
         cont_match = 0
         aux_idx_range = 0
@@ -352,11 +355,10 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                                     acc_input = acc[filterId] >> int(log2(shift))
 
                                 ofmap[filterId][m][n] = max(0, int(acc_input))
-
                         if layerId == layer - int(gen_features):
                             for m in range(layer_dimension[layerId]):
                                 for n in range(layer_dimension[layerId]):
-                                    if m == 0 and n == 0:
+                                    if m == 0 and n == 0 and filterId != 0:
                                         string_pixel.append(tab)
                                     string_ofmap = str(int(ofmap[filterId][m][n][0]))
                                     string_pixel.append(f"{string_ofmap}, ")
@@ -364,16 +366,13 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                             string_pixel.append(f"\n")
                     ifmap.append(copy.deepcopy(ofmap))
 
-    with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
-        text = f.read()
-
+    file_name = "ifmap_pkg"
     package = "ifmap_package"
     constant = "input_map"
     data = "".join([f"\n{tab}-- ifmap\n"] + string_pixel)
-    text_out = text.format(package=package, constant=constant, data=data)
 
-    with open(path / "ifmap_pkg.vhd", "w") as f:
-        f.write(text_out)
+    write_mem_pkg(constant, data, file_name, package, path)
+
 
 
 def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
@@ -381,7 +380,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    string_pixel = []
+    string_pixel = [tab]
     # Dataset test variables
     cont_match = 0
     aux_idx_range = 0
@@ -458,7 +457,6 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                                 acc_input = acc[filterId] >> int(log2(shift))
 
                             ofmap[filterId][m][n] = max(0, int(acc_input))
-
                     if layerId == layer - int(gen_features):
                         for m in range(layer_dimension[layerId]):
                             for n in range(layer_dimension[layerId]):
@@ -470,16 +468,13 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                         string_pixel.append(f"\n")
                 ifmap.append(copy.deepcopy(ofmap))
 
-    with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
-        text = f.read()
 
+    file_name = "gold_pkg"
     package = "gold_package"
     constant = "gold"
-    data = "".join([f"\n{tab}-- gold\n"] + [tab] + string_pixel)
-    text_out = text.format(package=package, constant=constant, data=data)
+    data = "".join([f"\n{tab}-- gold\n"] + string_pixel)
 
-    with open(path / "gold_pkg.vhd", "w") as f:
-        f.write(text_out)
+    write_mem_pkg(constant, data, file_name, package, path)
 
 
 def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
