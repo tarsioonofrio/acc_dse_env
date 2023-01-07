@@ -278,93 +278,10 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         ]
 
     else:
-        string_pixel = [tab]
-        # Dataset test variables
-        cont_match = 0
-        aux_idx_range = 0
-
-        # Index control
-        m = 0
-        n = 0
-        idx = 0
-        filter_i = 0
-        filter_j = 0
-
-        # feature maps
-        ifmap = []
-        ofmap = []
-        output = [0.0] * 10
-
-        for testCase in range(testSetSize):
-            ifmap.clear()
-            ofmap.clear()
-
-            # Convolution variables
-            # accumulator for each filter channel
-            size = max(filter_channel)
-            acc = [0] * size
-
-            # output feature map for each filter channel
-            for i in range(size):
-                ofmap.append(copy.deepcopy(testSet[testCase]))
-
-            # Initializing input feature map
-            ifmap.append(copy.deepcopy(ofmap))
-
-            # Auxiliar matrix for dense layer calculation
-            flatten_output = [0.0] * layer_dimension[len(layer_dimension) - 2]
-
-            for layerId in modelDict:
-                if modelDict[layerId]["type"] == "Conv2D":
-                    for filterId in modelDict[layerId]["filter"]:
-                        for m in range(layer_dimension[layerId]):
-                            for n in range(layer_dimension[layerId]):
-                                acc[filterId] = int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)
-
-                                for weightChannel in modelDict[layerId]["filter"][filterId]["weights"]:
-                                    for weightsH in weightChannel:
-                                        if layerId == 0:
-                                            aux_idx_range = input_channel[0]
-                                        else:
-                                            aux_idx_range = filter_channel[layerId - 1]
-                                        for weightValue, ofmapChannel, inputChannel in zip(
-                                                weightsH, range(aux_idx_range), range(input_channel[layerId])):
-
-                                            if layerId == 0:
-                                                ifmap_input = int(float(
-                                                    ifmap[layerId][ofmapChannel][filter_i + m * stride_h[layerId]][
-                                                        filter_j + n * stride_w[layerId]][inputChannel]) * shift)
-                                            else:
-                                                ifmap_input = int(float(
-                                                    ifmap[layerId][ofmapChannel][filter_i + m * stride_h[layerId]][
-                                                        filter_j + n * stride_w[layerId]][0]))
-                                            weight_input = int(float(weightValue) * shift)
-
-                                            acc[filterId] = int(acc[filterId]) + int(ifmap_input * weight_input)
-
-                                        filter_j = filter_j + 1
-                                        if filter_j == filter_dimension[layerId]:
-                                            filter_j = 0
-                                            filter_i = filter_i + 1
-                                            if filter_i == filter_dimension[layerId]:
-                                                filter_i = 0
-
-                                if gen_features:
-                                    acc_input = int((acc[filterId] / shift))
-                                else:
-                                    acc_input = acc[filterId] >> int(log2(shift))
-
-                                ofmap[filterId][m][n] = max(0, int(acc_input))
-                        if layerId == layer - int(gen_features):
-                            for m in range(layer_dimension[layerId]):
-                                for n in range(layer_dimension[layerId]):
-                                    if m == 0 and n == 0 and filterId != 0:
-                                        string_pixel.append(tab)
-                                    string_ofmap = str(int(ofmap[filterId][m][n][0]))
-                                    string_pixel.append(f"{string_ofmap}, ")
-                                string_pixel.append(f"\n{tab}")
-                            string_pixel.append(f"\n")
-                    ifmap.append(copy.deepcopy(ofmap))
+        string_pixel = convolution_from_weights(
+            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+            stride_h, stride_w, tab, testSet, testSetSize
+        )
 
     file_name = "ifmap_pkg"
     package = "ifmap_package"
@@ -374,29 +291,40 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     write_mem_pkg(constant, data, file_name, package, path)
 
 
-
 def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
     gen_features = False
 
+    string_pixel = convolution_from_weights(
+        gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+        stride_h, stride_w, tab, testSet, testSetSize
+    )
+
+    file_name = "gold_pkg"
+    package = "gold_package"
+    constant = "gold"
+    data = "".join([f"\n{tab}-- gold\n"] + string_pixel)
+
+    write_mem_pkg(constant, data, file_name, package, path)
+
+
+def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
+                             modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
     string_pixel = [tab]
     # Dataset test variables
     cont_match = 0
     aux_idx_range = 0
-
     # Index control
     m = 0
     n = 0
     idx = 0
     filter_i = 0
     filter_j = 0
-
     # feature maps
     ifmap = []
     ofmap = []
     output = [0.0] * 10
-
     for testCase in range(testSetSize):
         ifmap.clear()
         ofmap.clear()
@@ -467,14 +395,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                             string_pixel.append(f"\n{tab}")
                         string_pixel.append(f"\n")
                 ifmap.append(copy.deepcopy(ofmap))
-
-
-    file_name = "gold_pkg"
-    package = "gold_package"
-    constant = "gold"
-    data = "".join([f"\n{tab}-- gold\n"] + string_pixel)
-
-    write_mem_pkg(constant, data, file_name, package, path)
+    return string_pixel
 
 
 def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
@@ -527,48 +448,6 @@ def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     f.writelines(string_weight_list)
 
     if layer == 0:
-        # cont = 0
-        # cont_size = 0
-        # f.write(input_string)
-        # for i in range(testSetSize):
-        #     for image in testSet[i]:
-        #         for feature in image:
-        #             for pixel in feature:
-        #                 if cont % 3 == 0:
-        #                     pixel0.append(int(pixel * shift))
-        #                 if cont % 3 == 1:
-        #                     pixel1.append(int(pixel * shift))
-        #                 if cont % 3 == 2:
-        #                     pixel2.append(int(pixel * shift))
-        #                 cont = cont + 1
-        #
-        #     cont_size = 0
-        #     for pixel in pixel0:
-        #         f.write(str(pixel))
-        #         f.write(",")
-        #         cont_size = cont_size + 1
-        #
-        #     for pixel in pixel1:
-        #         f.write(str(pixel))
-        #         f.write(",")
-        #         cont_size = cont_size + 1
-        #
-        #     for pixel in pixel2:
-        #         # TODO explicar essa linha
-        #         if cont_size == input_size - 1:
-        #             f.write(" others=>0 );")
-        #             f.write("\n")
-        #         else:
-        #             f.write(str(pixel))
-        #             f.write(",")
-        #         cont_size = cont_size + 1
-        #     pixel0 = []
-        #     pixel1 = []
-        #     pixel2 = []
-        #
-        # f.write("END inmem_package;\n")
-        # # print("close file! -> layer = 0")
-        # f.close()
 
         pixel = [
             [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
