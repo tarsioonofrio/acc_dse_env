@@ -17,6 +17,17 @@ def write_mem_pkg(constant, data, file_name, package, path):
         f.write(text_out)
 
 
+def format_feature(feat_list, tab):
+    format_feat = [tab]
+    for matrix in feat_list:
+        for line in matrix:
+            for feat in line:
+                format_feat.append(f"{feat}, ")
+            format_feat.append(f"\n{tab}")
+        format_feat.append(f"\n{tab}")
+    return format_feat
+
+
 def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
     # Compute HW parameters
     if layer == 0:
@@ -283,13 +294,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
             stride_h, stride_w, tab, testSet, testSetSize
         )
 
-        format_feat = [tab]
-        for matrix in feat_list:
-            for line in matrix:
-                for feat in line:
-                    format_feat.append(f"{feat}, ")
-                format_feat.append(f"\n{tab}")
-            format_feat.append(f"\n{tab}")
+        format_feat = format_feature(feat_list, tab)
 
     file_name = "ifmap_pkg"
     package = "ifmap_package"
@@ -316,13 +321,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     #     for feat in line
     # ]
 
-    format_feat = [tab]
-    for matrix in feat_list:
-        for line in matrix:
-            for feat in line:
-                format_feat.append(f"{feat}, ")
-            format_feat.append(f"\n{tab}")
-        format_feat.append(f"\n{tab}")
+    format_feat = format_feature(feat_list, tab)
 
     file_name = "gold_pkg"
     package = "gold_package"
