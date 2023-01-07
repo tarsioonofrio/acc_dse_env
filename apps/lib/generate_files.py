@@ -324,9 +324,8 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                                             aux_idx_range = input_channel[0]
                                         else:
                                             aux_idx_range = filter_channel[layerId - 1]
-                                        for weightValue, ofmapChannel, inputChannel in zip(weightsH,
-                                                                                           range(aux_idx_range), range(
-                                                    input_channel[layerId])):
+                                        for weightValue, ofmapChannel, inputChannel in zip(
+                                                weightsH, range(aux_idx_range), range(input_channel[layerId])):
 
                                             if layerId == 0:
                                                 ifmap_input = int(float(
@@ -348,15 +347,13 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                                                 filter_i = 0
 
                                 acc_input = int((acc[filterId] / shift))
-                                # print("writing ofmap")
                                 ofmap[filterId][m][n] = max(0, int(acc_input))
-                                # print(ofmap[filterId][m][n][0])
 
                         if layerId == layer - 1:
                             for m in range(layer_dimension[layerId]):
                                 for n in range(layer_dimension[layerId]):
                                     if m == 0 and n == 0:
-                                        string_pixel.append(f"\n{tab}")
+                                        string_pixel.append(tab)
                                     string_ofmap = str(int(ofmap[filterId][m][n][0]))
                                     string_pixel.append(f"{string_ofmap}, ")
                                 string_pixel.append(f"\n{tab}")
@@ -379,7 +376,6 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
     string_pixel = []
-
     # Dataset test variables
     cont_match = 0
     aux_idx_range = 0
@@ -395,10 +391,6 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     ifmap = []
     ofmap = []
     output = [0.0] * 10
-
-    # string for ORCA gold
-    string_orca_gold = " "
-    # f = open(path / "gold_pkg.vhd", "w")
 
     for testCase in range(testSetSize):
         ifmap.clear()
@@ -432,8 +424,8 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                                         aux_idx_range = input_channel[0]
                                     else:
                                         aux_idx_range = filter_channel[layerId - 1]
-                                    for weightValue, ofmapChannel, inputChannel in zip(weightsH, range(aux_idx_range),
-                                                                                       range(input_channel[layerId])):
+                                    for weightValue, ofmapChannel, inputChannel in zip(
+                                            weightsH, range(aux_idx_range), range(input_channel[layerId])):
 
                                         if layerId == 0:
                                             ifmap_input = int(float(
@@ -454,38 +446,19 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                                         if filter_i == filter_dimension[layerId]:
                                             filter_i = 0
 
-                            # acc_input = int((acc[filterId]/shift))
                             acc_input = acc[filterId] >> int(log2(shift))
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
-                    # Open file
                     if layerId == layer:
                         for m in range(layer_dimension[layerId]):
                             for n in range(layer_dimension[layerId]):
-                                # if m == 0 and n == 0 and filterId == 0:
-                                #     f.write("LIBRARY ieee;\n")
-                                #     f.write("USE ieee.std_logic_1164.all;\n")
-                                #     f.write("USE ieee.std_logic_signed.all;\n")
-                                #     f.write("\tPACKAGE gold_package is\n")
-                                #     f.write("\t\ttype padroes is array(0 to 4000000) of integer;\n")
-                                #     f.write("\t\tconstant gold: padroes := ( ")
                                 if m == 0 and n == 0 and filterId != 0:
                                     string_pixel.append(tab)
-                                # string_orca_gold = str(int(ofmap[filterId][m][n][0])) + ","
-                                string_orca_gold = str(int(ofmap[filterId][m][n][0]))
-                                string_pixel.append(f"{string_orca_gold}, ")
+                                string_ofmap = str(int(ofmap[filterId][m][n][0]))
+                                string_pixel.append(f"{string_ofmap}, ")
                             string_pixel.append(f"\n{tab}")
-                            # string_pixel.append("\n")
-                            # f.write("\t\t")
                         string_pixel.append(f"\n")
-                        # f.write("\n")
-                        # if layerId == layer and filterId == filter_channel[layer] - 1:
-
                 ifmap.append(copy.deepcopy(ofmap))
-
-    # f.write("\t\tothers=>0 );\n")
-    # f.write("END gold_package;\n")
-    # f.close()
 
     with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
         text = f.read()
@@ -497,6 +470,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
     with open(path / "gold_pkg.vhd", "w") as f:
         f.write(text_out)
+
 
 def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
