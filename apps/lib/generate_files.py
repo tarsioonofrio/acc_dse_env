@@ -257,7 +257,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
 
     tab = "    "
-
+    gen_features = True
     if layer == 0:
         pixel = [
             [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
@@ -346,7 +346,11 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                                             if filter_i == filter_dimension[layerId]:
                                                 filter_i = 0
 
-                                acc_input = int((acc[filterId] / shift))
+                                if gen_features:
+                                    acc_input = int((acc[filterId] / shift))
+                                else:
+                                    acc_input = acc[filterId] >> int(log2(shift))
+
                                 ofmap[filterId][m][n] = max(0, int(acc_input))
 
                         if layerId == layer - 1:
@@ -375,6 +379,8 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
+    gen_features = False
+
     string_pixel = []
     # Dataset test variables
     cont_match = 0
@@ -446,7 +452,11 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
                                         if filter_i == filter_dimension[layerId]:
                                             filter_i = 0
 
-                            acc_input = acc[filterId] >> int(log2(shift))
+                            if gen_features:
+                                acc_input = int((acc[filterId] / shift))
+                            else:
+                                acc_input = acc[filterId] >> int(log2(shift))
+
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
                     if layerId == layer:
