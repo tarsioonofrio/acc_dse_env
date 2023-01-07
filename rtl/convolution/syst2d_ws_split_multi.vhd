@@ -2,15 +2,19 @@
 -- CONVOLUTION - SYSTOLIC   -  JAN/2021 - MORAES 
 -- MODIFIED IN MARCH 8 2021 - COMBINATIONAL MAC
 -------------------------------------------------------------------------------------------------
+
+
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
+
 use work.config_package.all;
 
 
 entity convolution is
-  generic (N_FILTER       : integer := 16;
+  generic (
+           N_FILTER       : integer := 16;
            N_CHANNEL      : integer := 3;
            STRIDE         : integer := 2;
            X_SIZE         : integer := 32;
@@ -109,8 +113,8 @@ begin
         reg_config.convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line <= 0;
         reg_config.convs_per_line_convs_per_line_1 <= 0;
-        --reg_config.input_size <= 0;
-        --reg_config.carry_size <= 0;
+        --reg_config.input_sizer <= 0;
+        --reg_config.carry_sizer <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
         reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
@@ -135,6 +139,7 @@ begin
           --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config.n_filter <= 0;
+        reg_config.n_channel <= 0;
         reg_config.x_size <= 0;
         reg_config.x_size_x_size <= 0;
         --reg_config.filter_width <= 0;

@@ -2,6 +2,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 
 package util_pkg is
+
+    function log2ceil(arg : positive) return natural;
+
 end package util_pkg;
 
 
@@ -17,7 +20,7 @@ begin
         tmp := tmp * 2;
         log := log + 1;
     end loop;
-    return log;
+    return log - 1;
 end function;
 
 end package body util_pkg;

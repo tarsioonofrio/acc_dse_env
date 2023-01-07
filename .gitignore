@@ -9,8 +9,17 @@ __pycache__/
 
 checkpoint
 
-apps/data/model/
+weights/
 
 weights.*
 
 *.ghw
+
+*.onnx
+
+*.pkl
+
+*.pth
+
+*.npy
+

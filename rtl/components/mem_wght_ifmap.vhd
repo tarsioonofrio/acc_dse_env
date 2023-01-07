@@ -1,10 +1,14 @@
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
+
 use work.inmem_package.all;
+use work.ifmap_package.all;
+use work.iwght_package.all;
 
 
 entity memory is
@@ -58,7 +62,9 @@ begin
 
   -- Read from memory
   data_out <= mem(CONV_INTEGER(unsigned(address))) when chip_en = '1' and ROM = "no" else
-              CONV_STD_LOGIC_VECTOR(input_mem(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM = "yes";
+              CONV_STD_LOGIC_VECTOR(input_mem(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM = "yes" else
+              CONV_STD_LOGIC_VECTOR(input_map(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM = "map" else
+              CONV_STD_LOGIC_VECTOR(input_wght(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM = "weight";
 
   process(reset, clock)
   begin
