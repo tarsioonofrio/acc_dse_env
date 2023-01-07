@@ -11,7 +11,7 @@ vcom -work work ../apps/data_hw/default_default/0/gold_pkg.vhd
 # Components
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
-vcom -work work ../rtl/components/mem.vhd
+vcom -work work ../rtl/components/mem_wght_ifmap.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split.vhd

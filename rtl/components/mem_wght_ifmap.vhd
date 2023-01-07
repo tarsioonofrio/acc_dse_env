@@ -1,12 +1,15 @@
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
+
 use work.inmem_package.all;
 use work.ifmap_package.all;
 use work.iwght_package.all;
+
 
 entity memory is
   generic (INPUT_SIZE      : integer := 8;
