@@ -18,13 +18,19 @@ def write_mem_pkg(constant, data, file_name, package, path):
 
 
 def format_feature(feat_list, tab):
-    format_feat = [tab]
-    for matrix in feat_list:
-        for line in matrix:
-            for feat in line:
-                format_feat.append(f"{feat}, ")
-            format_feat.append(f"\n{tab}")
-        format_feat.append(f"\n{tab}")
+    format_feat = [
+        # f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
+        f"{tab}{', '.join(column)}, \n"
+        for c, channel in enumerate(feat_list)
+        for n, column in enumerate(channel)
+    ]
+    # format_feat = [tab]
+    # for matrix in feat_list:
+    #     for line in matrix:
+    #         for feat in line:
+    #             format_feat.append(f"{feat}, ")
+    #         format_feat.append(f"\n{tab}")
+    #     format_feat.append(f"\n{tab}")
     return format_feat
 
 
