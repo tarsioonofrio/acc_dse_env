@@ -7,9 +7,10 @@ use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
-use work.iwght_package.all;
-use work.ifmap_package.all;
+--use work.iwght_package.all;
+--use work.ifmap_package.all;
 use work.gold_package.all;
+use work.config_package.all;
 
 
 entity tb is
@@ -36,21 +37,29 @@ architecture a1 of tb is
 
   signal value_out, value_in : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
+  signal config : type_config_logic;
+
+
   type type_array_int is array(0 to 4000000) of integer;
 
-  signal ifmem : type_array_int := (others=> 0);
+  signal input_wght, input_map : type_array_int := (others=> 0);
 
+  --https://nandland.com/file-input-output/
   -- https://www.fpga4student.com/2018/08/how-to-read-image-in-vhdl.html
-  function read_data(file_name : in string) return type_array_int is
+  impure function read_data(file_name : in string) return type_array_int is
       file file_ptr : text open read_mode is file_name;
       variable line_ptr : line;
-      variable tmp_int : integer;
+      variable tmp_int : integer := 0;
+      variable i : integer := 0;
       variable tmp_arr : type_array_int := (others=>0);
   begin
-      for i in mem_type'range loop
+      while not endfile(file_ptr) loop
+      --for i in type_array_int'range loop
           readline(file_ptr, line_ptr);
           read(line_ptr, tmp_int);
-          tmp_arr(i) := to_stdlogicvector(tmp_int);
+          tmp_arr(i) := tmp_int;
+          --report integer'image(i) & " " &  integer'image(tmp_int) & " " & integer'image(tmp_arr(i)) & " " & file_name;
+          i := i + 1;
       end loop;
       return tmp_arr;
   end function;
@@ -75,6 +84,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
+      config          => config,
 
       p_iwght_ce      => iwght_ce,
       p_iwght_we      => iwght_we,
@@ -101,26 +111,41 @@ begin
   begin
     wait until rising_edge(clock);
     reset <= '1';
+    input_wght <= read_data("../apps/data_hw/default_default/0/iwght_pkg.txt");
+    input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
     wait until rising_edge(clock);
     wait until rising_edge(clock);
-    ifmem <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.vhd");
+
+    config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
+    config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
+    config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
+    config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
+
+    config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
+    config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
+    config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
+
+    config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
+    config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
+    config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
+
     reset <= '0';
     iwght_ce <= '1';
     iwght_we <= '1';
     for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(ifmem(i), INPUT_SIZE*2);
+      value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
+      --report integer'image(i) & " " &  integer'image(input_wght(i));
       wait until rising_edge(clock);
     end loop;
 
-    ifmem <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.vhd");
     iwght_ce <= '0';
     iwght_we <= '0';
     ifmap_ce <= '1';
     ifmap_we <= '1';
     for i in 0 to (X_SIZE*X_SIZE*N_CHANNEL) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(ifmem(i), INPUT_SIZE*2);
+      value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
     end loop;
 
@@ -157,6 +182,11 @@ begin
 
     report "number of convolutions: " & integer'image(cont_conv);
     report "end of Conv 1 without error!";
+
+
+
+
+    report "end of simulation without error!" severity failure;
   end process;
 
 end a1;
