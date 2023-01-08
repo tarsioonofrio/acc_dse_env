@@ -16,6 +16,7 @@ def write_mem_pkg(constant, data, file_name, package, path):
     with open(path / f"{file_name}.vhd", "w") as f:
         f.write(text_out)
 
+
 def write_mem_txt(feat_list, file_name, path):
     with open(path / f"{file_name}.txt", "w") as f:
         f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
