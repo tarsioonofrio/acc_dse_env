@@ -116,8 +116,8 @@ def main():
         "IN_DELAY": config_hw["IN_DELAY"],
         "ARRAY_TYPE": config_hw["ARRAY_TYPE"],
 
-        "X_SIZE": max(vhd_dict["layer_dimension"]),
-        "C_SIZE": max(vhd_dict["filter_channel"]),
+        "X_SIZE": max([config_nn["input_w"]] + vhd_dict["layer_dimension"]),
+        "C_SIZE": max([config_nn["input_c"]] + vhd_dict["filter_channel"]),
         "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
         "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
         "LAYER": 0,

@@ -11,9 +11,9 @@ package config_package is
     --N_CHANNEL
     n_channel : std_logic_vector(7 downto 0);
     --X_SIZE
-    x_size : std_logic_vector(5 downto 0);
+    x_size : std_logic_vector(6 downto 0);
     --X_SIZE*X_SIZE
-    x_size_x_size : std_logic_vector(9 downto 0);
+    x_size_x_size : std_logic_vector(11 downto 0);
     --CONVS_PER_LINE
     convs_per_line: std_logic_vector(5 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE
@@ -48,9 +48,9 @@ package config_package is
 
     n_channel : integer range 0 to 64;
 
-    x_size : integer range 0 to 15;
+    x_size : integer range 0 to 32;
 
-    x_size_x_size : integer range 0 to 225;
+    x_size_x_size : integer range 0 to 1024;
 
     convs_per_line: integer range 0 to 15;
 
