@@ -157,23 +157,11 @@ begin
     config <= read_config("../apps/data_hw/default_default/0/config_pkg.txt");
     wait until rising_edge(clock);
 
-    --config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
-    --config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
-    --config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
-    --config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
-
-    --config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
-    --config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
-    --config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
-
-    --config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-    --config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-    --config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
-
     reset <= '0';
     iwght_ce <= '1';
     iwght_we <= '1';
-    for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
+    --for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
+    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
       --report integer'image(i) & " " &  integer'image(input_wght(i));
@@ -184,7 +172,8 @@ begin
     iwght_we <= '0';
     ifmap_ce <= '1';
     ifmap_we <= '1';
-    for i in 0 to (X_SIZE*X_SIZE*N_CHANNEL) loop
+    --for i in 0 to (X_SIZE*X_SIZE*N_CHANNEL) loop
+    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
@@ -200,7 +189,8 @@ begin
 
     wait until rising_edge(clock);
     
-    for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
+    --for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
+    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
