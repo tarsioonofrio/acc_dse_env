@@ -53,6 +53,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     else:
         X_SIZE = vhd_dict["layer_dimension"][layer - 1]
         C_SIZE = vhd_dict["filter_channel"][layer - 1]
+
     FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
     CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
     generic_dict2 = {
@@ -173,7 +174,16 @@ def generate_config_file(generate_dict, path, n_layer):
         f.write(text_out)
 
     with open(path / "config_pkg.txt", "w") as f:
-        f.writelines("\n".join([str(s) for s in generate_dict2.values()]))
+        f.write(f'{generate_dict2["N_FILTER"]}\n')
+        f.write(f'{generate_dict2["N_CHANNEL"]}\n')
+        f.write(f'{generate_dict2["X_SIZE"]}\n')
+        f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
+        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
 
 def create_dictionary(model):
