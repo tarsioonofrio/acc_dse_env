@@ -9,7 +9,7 @@ use std.textio.all;
 
 --use work.iwght_package.all;
 --use work.ifmap_package.all;
-use work.gold_package.all;
+--use work.gold_package.all;
 use work.config_package.all;
 
 
@@ -42,7 +42,7 @@ architecture a1 of tb is
 
   type type_array_int is array(0 to 4000000) of integer;
 
-  signal input_wght, input_map : type_array_int := (others=> 0);
+  signal input_wght, input_map, gold : type_array_int := (others=> 0);
 
   --https://nandland.com/file-input-output/
   -- https://www.fpga4student.com/2018/08/how-to-read-image-in-vhdl.html
@@ -113,7 +113,7 @@ begin
     reset <= '1';
     input_wght <= read_data("../apps/data_hw/default_default/0/iwght_pkg.txt");
     input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
-    wait until rising_edge(clock);
+    gold <= read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
     wait until rising_edge(clock);
 
     config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
