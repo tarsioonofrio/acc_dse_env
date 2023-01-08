@@ -36,10 +36,9 @@ architecture a1 of tb is
 
   signal config : type_config_logic;
 
-
   type type_array_int is array(0 to 4000000) of integer;
 
-  signal input_wght, input_map, gold : type_array_int := (others=> 0);
+  signal input_wght, input_map, gold, temp_arr : type_array_int := (others=> 0);
 
   --https://nandland.com/file-input-output/
   -- https://www.fpga4student.com/2018/08/how-to-read-image-in-vhdl.html
@@ -149,10 +148,14 @@ begin
     -- convolution counter
     variable cont_conv : integer := 0;
   begin
+    -- Image input
+    input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
+
+
+    -- Conv 0
     wait until rising_edge(clock);
     reset <= '1';
     input_wght <= read_data("../apps/data_hw/default_default/0/iwght_pkg.txt");
-    input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
     gold <= read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
     config <= read_config("../apps/data_hw/default_default/0/config_pkg.txt");
     wait until rising_edge(clock);
@@ -160,7 +163,6 @@ begin
     reset <= '0';
     iwght_ce <= '1';
     iwght_we <= '1';
-    --for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
     for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
@@ -172,7 +174,6 @@ begin
     iwght_we <= '0';
     ifmap_ce <= '1';
     ifmap_we <= '1';
-    --for i in 0 to (X_SIZE*X_SIZE*N_CHANNEL) loop
     for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
@@ -186,14 +187,14 @@ begin
     start_conv <= '0';
     wait until rising_edge(clock);
     wait until end_conv = '1';
-
+    input_map <= (others => 0);
     wait until rising_edge(clock);
-    
-    --for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
+
     for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
+      input_map(i) <= conv_integer(unsigned(value_out));
         if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
@@ -212,11 +213,77 @@ begin
     end loop;
 
     report "number of convolutions: " & integer'image(cont_conv);
-    report "end of Conv 1 without error!";
+    report "end of conv 0 without error!";
+
+    ofmap_ce <= '0';  
 
 
+    -- Conv 1
+    wait until rising_edge(clock);
+    reset <= '1';
+    input_wght <= read_data("../apps/data_hw/default_default/1/iwght_pkg.txt");
+    gold <= read_data("../apps/data_hw/default_default/1/gold_pkg.txt");
+    config <= read_config("../apps/data_hw/default_default/1/config_pkg.txt");
+    wait until rising_edge(clock);
 
+    reset <= '0';
+    iwght_ce <= '1';
+    iwght_we <= '1';
+    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
+      --report integer'image(i) & " " &  integer'image(input_wght(i));
+      wait until rising_edge(clock);
+    end loop;
 
+    iwght_ce <= '0';
+    iwght_we <= '0';
+    ifmap_ce <= '1';
+    ifmap_we <= '1';
+    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
+      wait until rising_edge(clock);
+    end loop;
+
+    ifmap_ce <= '0';
+    ifmap_we <= '0';
+    start_conv <= '1';
+    wait until rising_edge(clock);
+    start_conv <= '0';
+    wait until rising_edge(clock);
+    wait until end_conv = '1';
+    input_map <= (others => 0);
+    wait until rising_edge(clock);
+
+    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
+      ofmap_ce <= '1';
+      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      wait until rising_edge(ofmap_valid);
+      input_map(i) <= conv_integer(unsigned(value_out));
+        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
+          report "end of simulation with error!";
+          report "number of convolutions executed: " & integer'image(cont_conv);
+          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
+          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+
+          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+          else
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+          end if;
+
+          assert false severity failure;
+        end if;
+        cont_conv := cont_conv + 1;
+    end loop;
+
+    report "number of convolutions: " & integer'image(cont_conv);
+    report "end of conv 1 without error!";
+
+    ofmap_ce <= '0';  
+
+    -- stop simulation
     report "end of simulation without error!" severity failure;
   end process;
 
