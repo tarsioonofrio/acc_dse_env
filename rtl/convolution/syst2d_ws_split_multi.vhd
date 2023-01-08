@@ -683,7 +683,9 @@ begin
       if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
         conv_length <= conv_length + 1;
 
-      elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
+      --elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
+      elsif conv_length = reg_config.convs_per_line_convs_per_line and reg_config.convs_per_line_convs_per_line > 0 then
+        report integer'image(CONVS_PER_LINE*CONVS_PER_LINE) & " " & integer'image(reg_config.convs_per_line_convs_per_line);
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 
