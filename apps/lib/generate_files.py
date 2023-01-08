@@ -29,7 +29,7 @@ def format_feature(feat_list, tab):
         format_feat.append(f"-- channel={c}\n{tab}")
         for column in channel:
             for feat in column:
-                format_feat.append(f"{feat},")
+                format_feat.append(f"{feat}, ")
             format_feat.append(f"\n{tab}")
         format_feat.append(f"\n{tab}")
     return format_feat
