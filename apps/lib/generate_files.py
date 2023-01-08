@@ -25,9 +25,10 @@ def format_feature(feat_list, tab):
     #     for n, column in enumerate(channel)
     # ]
     format_feat = [tab]
-    for matrix in feat_list:
-        for line in matrix:
-            for feat in line:
+    for c, channel in enumerate(feat_list):
+        format_feat.append(f"-- channel={c}\n{tab}")
+        for column in channel:
+            for feat in column:
                 format_feat.append(f"{feat},")
             format_feat.append(f"\n{tab}")
         format_feat.append(f"\n{tab}")
