@@ -172,6 +172,9 @@ def generate_config_file(generate_dict, path, n_layer):
     with open(path / "config_pkg.vhd", "w") as f:
         f.write(text_out)
 
+    with open(path / "config_pkg.txt", "w") as f:
+        f.writelines("\n".join([str(s) for s in generate_dict2.values()]))
+
 
 def create_dictionary(model):
     # Create dictionary

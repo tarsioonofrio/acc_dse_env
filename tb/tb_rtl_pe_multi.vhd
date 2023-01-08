@@ -7,9 +7,6 @@ use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
---use work.iwght_package.all;
---use work.ifmap_package.all;
---use work.gold_package.all;
 use work.config_package.all;
 
 
@@ -64,6 +61,49 @@ architecture a1 of tb is
       return tmp_arr;
   end function;
 
+  impure function read_config(file_name : in string) return type_config_logic is
+      file file_ptr : text open read_mode is file_name;
+      variable line_ptr : line;
+      variable value : integer := 0;
+      variable config : type_config_logic;
+  begin
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.n_filter := CONV_STD_LOGIC_VECTOR(value, config.n_filter'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.n_channel := CONV_STD_LOGIC_VECTOR(value, config.n_channel'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.x_size := CONV_STD_LOGIC_VECTOR(value, config.x_size'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.x_size_x_size := CONV_STD_LOGIC_VECTOR(value, config.x_size_x_size'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+
+        config.convs_per_line := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.convs_per_line_convs_per_line := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.convs_per_line_convs_per_line_1 := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_1'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+
+        config.convs_per_line_convs_per_line_n_channel := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.convs_per_line_convs_per_line_n_channel_1 := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
+        readline(file_ptr, line_ptr);
+        read(line_ptr, value);
+        config.convs_per_line_convs_per_line_n_channel_n_filter := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
+        --report integer'image(i) & " " &  integer'image(tmp_int) & " " & integer'image(tmp_arr(i)) & " " & file_name;
+      return config;
+  end function;
+
+
 begin
   DUT : entity work.pe
     generic map(
@@ -114,20 +154,21 @@ begin
     input_wght <= read_data("../apps/data_hw/default_default/0/iwght_pkg.txt");
     input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
     gold <= read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
+    config <= read_config("../apps/data_hw/default_default/0/config_pkg.txt");
     wait until rising_edge(clock);
 
-    config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
-    config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
-    config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
-    config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
+    --config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
+    --config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
+    --config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
+    --config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
 
-    config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
-    config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
-    config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
+    --config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
+    --config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
+    --config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
 
-    config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-    config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-    config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
+    --config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
+    --config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
+    --config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
 
     reset <= '0';
     iwght_ce <= '1';
