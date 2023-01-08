@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-package iwght_package_package is
+package iwght_package is
   type mem is array(0 to 4000000) of integer;
 
   constant input_wght : mem := (
@@ -1036,4 +1036,4 @@ package iwght_package_package is
     35, 15, -45, 45, 23, 59, 44, 3, 19,
 
     others => 0);
-end iwght_package_package;
+end iwght_package;

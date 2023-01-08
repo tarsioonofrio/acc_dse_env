@@ -281,7 +281,6 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
         for c, s in enumerate(channel)
     ]
 
-    # weight_string = [s for f in weight_list for c in f for s in c]
     file_name = "iwght_pkg"
     package = "iwght_package"
     constant = "input_wght"
