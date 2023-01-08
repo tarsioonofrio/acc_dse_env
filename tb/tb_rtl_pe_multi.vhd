@@ -98,7 +98,6 @@ architecture a1 of tb is
         readline(file_ptr, line_ptr);
         read(line_ptr, value);
         config.convs_per_line_convs_per_line_n_channel_n_filter := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
-        --report integer'image(i) & " " &  integer'image(tmp_int) & " " & integer'image(tmp_arr(i)) & " " & file_name;
       return config;
   end function;
 
