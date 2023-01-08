@@ -16,14 +16,23 @@ def write_mem_pkg(constant, data, file_name, package, path):
     with open(path / f"{file_name}.vhd", "w") as f:
         f.write(text_out)
 
+def write_mem_txt(feat_list, file_name, path):
+    with open(path / f"{file_name}.txt", "w") as f:
+        f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
+
+
+def format_feature2(feat_list, tab):
+    format_feat = [
+        # f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
+        # f"{tab}-- channel={c} column={n}\n{tab}{', '.join(column)}, \n"
+        f"{tab}{', '.join(column)}, \n"
+        for c, channel in enumerate(feat_list)
+        for n, column in enumerate(channel)
+    ]
+    return format_feat
+
 
 def format_feature(feat_list, tab):
-    # format_feat = [
-    #     # f"{tab}-- channel={c} column={n}\n{tab}{', '.join(column)}, \n"
-    #     [f"{tab}{', '.join(column)}, \n"]
-    #     for c, channel in enumerate(feat_list)
-    #     for n, column in enumerate(channel)
-    # ]
     format_feat = [tab]
     for c, channel in enumerate(feat_list):
         format_feat.append(f"-- channel={c}\n{tab}")
@@ -276,12 +285,10 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     package = "iwght_package"
     constant = "input_wght"
     data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
-
+    write_mem_pkg(constant, data, file_name, package, path)
     with open(path / f"{file_name}.txt", "w") as f:
         f.writelines([f"{b}\n" for b in bias_list])
         f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
-
-    write_mem_pkg(constant, data, file_name, package, path)
 
 
 def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
@@ -299,12 +306,6 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
             for image_shift in [image * shift]
             for z in range(image_shift.shape[2])
         ]
-
-        # format_feat = [
-        #     f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
-        #     for c, channel in enumerate(feat_list)
-        #     for n, column in enumerate(channel)
-        # ]
     else:
         feat_list = convolution_from_weights(
             gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -318,6 +319,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     constant = "input_map"
     data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
 
+    write_mem_txt(feat_list, file_name, path)
     write_mem_pkg(constant, data, file_name, package, path)
 
 
@@ -331,20 +333,13 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
         stride_h, stride_w, tab, testSet, testSetSize
     )
 
-    # format_feat = [
-    #     f"{feat}, "
-    #     for matrix in feat_list
-    #     for line in matrix
-    #     for feat in line
-    # ]
-
     format_feat = format_feature(feat_list, tab)
 
     file_name = "gold_pkg"
     package = "gold_package"
     constant = "gold"
     data = "".join([f"\n{tab}-- gold\n"] + format_feat)
-
+    write_mem_txt(feat_list, file_name, path)
     write_mem_pkg(constant, data, file_name, package, path)
 
 
