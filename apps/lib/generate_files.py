@@ -2,6 +2,7 @@ import copy
 import time
 
 from pathlib import Path
+from os.path import relpath
 from math import log2, ceil
 
 
@@ -91,12 +92,14 @@ def generate_generic_file(generate_dict, path, n_layer):
         "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
         "N_FILTER": generate_dict["N_FILTER"][n_layer],
         "STRIDE": generate_dict["STRIDE"][n_layer],
+        "PATH": relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl")),
     }
     line = (
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
         "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
         "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT}\n"
+        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gPATH={PATH}"
+        "\n"
     ).format(**generate_dict2)
 
     with open(path / "generic_file.txt", "w") as f:

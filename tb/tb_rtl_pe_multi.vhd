@@ -22,7 +22,8 @@ entity tb is
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    LAT            : integer := 2
+    LAT            : integer := 2;
+    PATH           : string  := ""
   );
 end tb;
 
@@ -128,15 +129,15 @@ begin
     variable cont_conv : integer := 0;
   begin
     -- Image input
-    input_map <= read_data("../apps/data_hw/default_default/0/ifmap_pkg.txt");
+    input_map <= read_data(PATH & "/0/ifmap_pkg.txt");
 
 
     -- Conv 0
     wait until rising_edge(clock);
     reset <= '1';
-    input_wght <= read_data("../apps/data_hw/default_default/0/iwght_pkg.txt");
-    gold <= read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
-    config <= read_config("../apps/data_hw/default_default/0/config_pkg.txt");
+    input_wght <= read_data(PATH & "/0/iwght_pkg.txt");
+    gold <= read_data(PATH & "/0/gold_pkg.txt");
+    config <= read_config(PATH & "/0/config_pkg.txt");
     wait until rising_edge(clock);
 
     reset <= '0';
@@ -200,9 +201,9 @@ begin
     -- Conv 1
     wait until rising_edge(clock);
     reset <= '1';
-    input_wght <= read_data("../apps/data_hw/default_default/1/iwght_pkg.txt");
-    gold <= read_data("../apps/data_hw/default_default/1/gold_pkg.txt");
-    config <= read_config("../apps/data_hw/default_default/1/config_pkg.txt");
+    input_wght <= read_data(PATH & "/1/iwght_pkg.txt");
+    gold <= read_data(PATH & "/1/gold_pkg.txt");
+    config <= read_config(PATH & "/1/config_pkg.txt");
     wait until rising_edge(clock);
 
     reset <= '0';
@@ -267,9 +268,9 @@ begin
      --Conv 2
     wait until rising_edge(clock);
     reset <= '1';
-    input_wght <= read_data("../apps/data_hw/default_default/2/iwght_pkg.txt");
-    gold <= read_data("../apps/data_hw/default_default/2/gold_pkg.txt");
-    config <= read_config("../apps/data_hw/default_default/2/config_pkg.txt");
+    input_wght <= read_data(PATH & "/2/iwght_pkg.txt");
+    gold <= read_data(PATH & "/2/gold_pkg.txt");
+    config <= read_config(PATH & "/2/config_pkg.txt");
     wait until rising_edge(clock);
 
     reset <= '0';
