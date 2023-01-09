@@ -3,7 +3,7 @@ library std;
 
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
@@ -41,48 +41,7 @@ architecture a1 of tb is
 
 
   signal input_wght, input_map, gold, temp_arr : type_array_int := (others=> 0);
-
-  impure function read_config(file_name : in string) return type_config_logic is
-      file file_ptr : text open read_mode is file_name;
-      variable line_ptr : line;
-      variable value : integer := 0;
-      variable config : type_config_logic;
-  begin
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.n_filter := CONV_STD_LOGIC_VECTOR(value, config.n_filter'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.n_channel := CONV_STD_LOGIC_VECTOR(value, config.n_channel'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.x_size := CONV_STD_LOGIC_VECTOR(value, config.x_size'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.x_size_x_size := CONV_STD_LOGIC_VECTOR(value, config.x_size_x_size'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-
-        config.convs_per_line := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.convs_per_line_convs_per_line := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.convs_per_line_convs_per_line_1 := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_1'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-
-        config.convs_per_line_convs_per_line_n_channel := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.convs_per_line_convs_per_line_n_channel_1 := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-        readline(file_ptr, line_ptr);
-        read(line_ptr, value);
-        config.convs_per_line_convs_per_line_n_channel_n_filter := CONV_STD_LOGIC_VECTOR(value, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
-      return config;
-  end function;
-
+ 
 
 begin
   DUT : entity work.pe

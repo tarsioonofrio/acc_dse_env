@@ -12,11 +12,13 @@ vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem.vhd
 
+# Package with utilities - need to be before convolution core
+vcom -work work ../rtl/pe/util_pkg.vhd
+
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Processing element
-vcom -work work ../rtl/pe/util_pkg.vhd
 vcom -work work ../rtl/pe/pe_multi.vhd
 
 # Testbench

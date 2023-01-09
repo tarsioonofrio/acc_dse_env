@@ -14,6 +14,10 @@ vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_wght_ifmap.vhd
 
+# Package with utilities - need to be before convolution core
+vcom -work work ../rtl/pe/util_pkg.vhd
+
+
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
