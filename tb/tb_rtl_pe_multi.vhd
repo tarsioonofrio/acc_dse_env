@@ -131,206 +131,74 @@ begin
     -- Image input
     input_map <= read_data(PATH & "/0/ifmap_pkg.txt");
 
-
-    -- Conv 0
-    wait until rising_edge(clock);
-    reset <= '1';
-    input_wght <= read_data(PATH & "/0/iwght_pkg.txt");
-    gold <= read_data(PATH & "/0/gold_pkg.txt");
-    config <= read_config(PATH & "/0/config_pkg.txt");
-    wait until rising_edge(clock);
-
-    reset <= '0';
-    iwght_ce <= '1';
-    iwght_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
-      --report integer'image(i) & " " &  integer'image(input_wght(i));
+    for index in 0 to 2 loop
       wait until rising_edge(clock);
-    end loop;
-
-    iwght_ce <= '0';
-    iwght_we <= '0';
-    ifmap_ce <= '1';
-    ifmap_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
+      reset <= '1';
+      input_wght <= read_data(PATH & "/" & integer'image(index) & "/iwght_pkg.txt");
+      gold <= read_data(PATH & "/" & integer'image(index) & "/gold_pkg.txt");
+      config <= read_config(PATH & "/" & integer'image(index) & "/config_pkg.txt");
       wait until rising_edge(clock);
-    end loop;
 
-    ifmap_ce <= '0';
-    ifmap_we <= '0';
-    start_conv <= '1';
-    wait until rising_edge(clock);
-    start_conv <= '0';
-    wait until rising_edge(clock);
-    wait until end_conv = '1';
-    input_map <= (others => 0);
-    wait until rising_edge(clock);
+      reset <= '0';
+      iwght_ce <= '1';
+      iwght_we <= '1';
+      ifmap_ce <= '0';
+      ifmap_we <= '0';
+      for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
+        address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+        value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
+        wait until rising_edge(clock);
+      end loop;
 
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
-      ofmap_ce <= '1';
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(ofmap_valid);
-      input_map(i) <= conv_integer(unsigned(value_out));
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+      iwght_ce <= '0';
+      iwght_we <= '0';
+      ifmap_ce <= '1';
+      ifmap_we <= '1';
+      for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+        address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+        value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
+        wait until rising_edge(clock);
+      end loop;
 
-          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+      iwght_ce <= '0';
+      iwght_we <= '0';
+      ifmap_ce <= '0';
+      ifmap_we <= '0';
+      start_conv <= '1';
+      wait until rising_edge(clock);
+      start_conv <= '0';
+      wait until rising_edge(clock);
+      wait until end_conv = '1';
+      input_map <= (others => 0);
+      wait until rising_edge(clock);
+
+      for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
+        ofmap_ce <= '1';
+        address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+        wait until rising_edge(ofmap_valid);
+        input_map(i) <= conv_integer(unsigned(value_out));
+          if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
+            report "end of simulation with error!";
+            report "number of convolutions executed: " & integer'image(cont_conv);
+            report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
+            report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+
+            if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+              report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+            else
+              report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+            end if;
+
+            assert false severity failure;
           end if;
+          cont_conv := cont_conv + 1;
+      end loop;
 
-          assert false severity failure;
-        end if;
-        cont_conv := cont_conv + 1;
+      report "number of convolutions: " & integer'image(cont_conv);
+      report "end of conv " & integer'image(index) & " without error!";
+
+      ofmap_ce <= '0';  
     end loop;
-
-    report "number of convolutions: " & integer'image(cont_conv);
-    report "end of conv 0 without error!";
-
-    ofmap_ce <= '0';  
-
-
-    -- Conv 1
-    wait until rising_edge(clock);
-    reset <= '1';
-    input_wght <= read_data(PATH & "/1/iwght_pkg.txt");
-    gold <= read_data(PATH & "/1/gold_pkg.txt");
-    config <= read_config(PATH & "/1/config_pkg.txt");
-    wait until rising_edge(clock);
-
-    reset <= '0';
-    iwght_ce <= '1';
-    iwght_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
-      --report integer'image(i) & " " &  integer'image(input_wght(i));
-      wait until rising_edge(clock);
-    end loop;
-
-    iwght_ce <= '0';
-    iwght_we <= '0';
-    ifmap_ce <= '1';
-    ifmap_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
-      wait until rising_edge(clock);
-    end loop;
-
-    ifmap_ce <= '0';
-    ifmap_we <= '0';
-    start_conv <= '1';
-    wait until rising_edge(clock);
-    start_conv <= '0';
-    wait until rising_edge(clock);
-    wait until end_conv = '1';
-    input_map <= (others => 0);
-    wait until rising_edge(clock);
-    --cont_conv := 0;
-
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
-      ofmap_ce <= '1';
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(ofmap_valid);
-      input_map(i) <= conv_integer(unsigned(value_out));
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
-
-          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
-          end if;
-
-          assert false severity failure;
-        end if;
-        cont_conv := cont_conv + 1;
-    end loop;
-
-    report "number of convolutions: " & integer'image(cont_conv);
-    report "end of conv 1 without error!";
-
-    ofmap_ce <= '0';  
-
-
-     --Conv 2
-    wait until rising_edge(clock);
-    reset <= '1';
-    input_wght <= read_data(PATH & "/2/iwght_pkg.txt");
-    gold <= read_data(PATH & "/2/gold_pkg.txt");
-    config <= read_config(PATH & "/2/config_pkg.txt");
-    wait until rising_edge(clock);
-
-    reset <= '0';
-    iwght_ce <= '1';
-    iwght_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
-      --report integer'image(i) & " " &  integer'image(input_wght(i));
-      wait until rising_edge(clock);
-    end loop;
-
-    iwght_ce <= '0';
-    iwght_we <= '0';
-    ifmap_ce <= '1';
-    ifmap_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
-      wait until rising_edge(clock);
-    end loop;
-
-    ifmap_ce <= '0';
-    ifmap_we <= '0';
-    start_conv <= '1';
-    wait until rising_edge(clock);
-    start_conv <= '0';
-    wait until rising_edge(clock);
-    wait until end_conv = '1';
-    input_map <= (others => 0);
-    wait until rising_edge(clock);
-
-    cont_conv := 0;
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
-      ofmap_ce <= '1';
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(ofmap_valid);
-      input_map(i) <= conv_integer(unsigned(value_out));
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
-
-          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
-          end if;
-
-          assert false severity failure;
-        end if;
-        cont_conv := cont_conv + 1;
-    end loop;
-
-    report "number of convolutions: " & integer'image(cont_conv);
-    report "end of conv 2 without error!";
-
-    ofmap_ce <= '0';  
-
 
     -- stop simulation
     report "end of simulation without error!" severity failure;
