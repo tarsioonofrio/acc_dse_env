@@ -123,9 +123,11 @@ def main():
         "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
         "LAYER": 0,
     }
-    generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, path, 0)
-    generate_tcl_generic(generic_dict2, path, 0)
-    generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, path, 0)
+    pe_path = path / "pe"
+    pe_path.mkdir(parents=True, exist_ok=True)
+    generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, pe_path, 0)
+    generate_tcl_generic(generic_dict2, pe_path, 0)
+    generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, pe_path, 0)
 
 
 if __name__ == '__main__':

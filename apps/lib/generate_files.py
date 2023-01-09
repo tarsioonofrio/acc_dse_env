@@ -64,7 +64,6 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
         "CONVS_PER_LINE": CONVS_PER_LINE,
         "LAYER": layer,
     }
-
     path.mkdir(parents=True, exist_ok=True)
     generate_generic_dict = {**generic_dict, **generic_dict2}
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
@@ -84,6 +83,11 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
 def generate_generic_file(generate_dict, path, n_layer):
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
+    if "pe" in path.as_posix():
+        data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
+    else:
+        data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+
     generate_dict2 = {
         **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
         "CLK_HALF": CLK_HALF,
@@ -92,7 +96,7 @@ def generate_generic_file(generate_dict, path, n_layer):
         "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
         "N_FILTER": generate_dict["N_FILTER"][n_layer],
         "STRIDE": generate_dict["STRIDE"][n_layer],
-        "PATH": relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl")),
+        "PATH": data_path,
     }
     line = (
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
