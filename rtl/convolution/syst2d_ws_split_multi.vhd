@@ -106,57 +106,11 @@ begin
   begin
     if reset = '1' then
         reg_config <= config_integer_init;
-        --reg_config.n_filter <= 0;
-        --reg_config.n_channel <= 0;
-        --reg_config.x_size <= 0;
-        --reg_config.x_size_x_size <= 0;
-        ----reg_config.filter_width <= 0;
-        ----reg_config.filter_width_filter_width <= 0;
-        ----reg_config.filter_width_filter_width_1 <= 0;
-        --reg_config.convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line_1 <= 0;
-        ----reg_config.input_sizer <= 0;
-        ----reg_config.carry_sizer <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
     elsif rising_edge(clock) then
       if start_conv = '1' then
         reg_config <= convert_config_logic_integer(config);
-        --reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
-        --reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
-        --reg_config.x_size <= conv_integer(unsigned(config.x_size));
-        --reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
-        ----reg_config.filter_width <= conv_integer(unsigned(config.filter_width));
-        ----reg_config.filter_width_filter_width <= conv_integer(unsigned(config.filter_width_filter_width));
-        ----reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
-        --reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
-        --reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
-        --reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
-        ----reg_config.input_size <= conv_integer(unsigned(config.input_size));
-        ----reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
-        --reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
-        --reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
-        --reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
-        --  --reg_config <= convert_config_logic_integer(config, reg_config);
       elsif end_conv_reg = '1' then
         reg_config <= config_integer_init;
-        --reg_config.n_filter <= 0;
-        --reg_config.n_channel <= 0;
-        --reg_config.x_size <= 0;
-        --reg_config.x_size_x_size <= 0;
-        ----reg_config.filter_width <= 0;
-        ----reg_config.filter_width_filter_width <= 0;
-        ----reg_config.filter_width_filter_width_1 <= 0;
-        --reg_config.convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line <= 0;
-        --reg_config.convs_per_line_convs_per_line_1 <= 0;
-        ----reg_config.input_size <= 0;
-        ----reg_config.carry_size <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
-        --reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
       end if;
     end if;
   end process;

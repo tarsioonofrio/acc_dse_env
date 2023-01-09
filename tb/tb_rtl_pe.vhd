@@ -84,9 +84,12 @@ begin
     reset <= '1';
     wait until rising_edge(clock);
     wait until rising_edge(clock);
+
     reset <= '0';
     iwght_ce <= '1';
     iwght_we <= '1';
+    ifmap_ce <= '0';
+    ifmap_we <= '0';
     for i in 0 to ((FILTER_WIDTH*FILTER_WIDTH*N_CHANNEL*N_FILTER) + N_FILTER) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in <= CONV_STD_LOGIC_VECTOR(input_wght(i), INPUT_SIZE*2);
@@ -103,6 +106,8 @@ begin
       wait until rising_edge(clock);
     end loop;
 
+    iwght_ce <= '0';
+    iwght_we <= '0';
     ifmap_ce <= '0';
     ifmap_we <= '0';
     start_conv <= '1';
@@ -110,7 +115,6 @@ begin
     start_conv <= '0';
     wait until rising_edge(clock);
     wait until end_conv = '1';
-
     wait until rising_edge(clock);
     
     for i in 0 to (CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER) loop
