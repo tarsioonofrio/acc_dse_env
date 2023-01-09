@@ -15,7 +15,9 @@ vcom -work work ../rtl/components/mem_wght_ifmap.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
-vcom -work work ../rtl/pe.vhd
+
+# Processing element
+vcom -work work ../rtl/pe/pe.vhd
 
 # Testbench
 vcom -work work ../tb/tb_rtl_pe.vhd

@@ -14,8 +14,10 @@ vcom -work work ../rtl/components/mem.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
-vcom -work work ../rtl/pe_multi.vhd
-vcom -work work ../rtl/util_pkg.vhd
+
+# Processing element
+vcom -work work ../rtl/pe/util_pkg.vhd
+vcom -work work ../rtl/pe/pe_multi.vhd
 
 # Testbench
 vcom -work work ../tb/tb_rtl_pe_multi.vhd
