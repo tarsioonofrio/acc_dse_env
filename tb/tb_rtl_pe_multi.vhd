@@ -23,6 +23,7 @@ entity tb is
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
     LAT            : integer := 2;
+    N_LAYER        : integer := 0;
     PATH           : string  := ""
   );
 end tb;
@@ -131,7 +132,7 @@ begin
     -- Image input
     input_map <= read_data(PATH & "/0/ifmap_pkg.txt");
 
-    for index in 0 to 2 loop
+    for index in 0 to N_LAYER - 1 loop
       wait until rising_edge(clock);
       reset <= '1';
       input_wght <= read_data(PATH & "/" & integer'image(index) & "/iwght_pkg.txt");
