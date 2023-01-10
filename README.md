@@ -1,68 +1,61 @@
-# DSE Environment
+## Introduction
 
 ## Tutorial
 
-### Treinamento
+### Training
 
-Caso não queira treinar uma rede do zero pode pular essa parte
+If you don't want to train a network from scratch, you can skip this part.
 
-Primeiro é necessário treinar uma rede e salvar os pesos usando o `script` em `app/train-nn-cifar10.py`.  
-Antes disso é necessário configurar a rede, em `app/config_nn` ficam os arquivos com as configurações de rede.
-Faça uma cópia do arquivo `default.json `e altere as configurações da rede e o nome do arquivo. 
-Após isso execute:
+First you need to configure the neural network, make a copy of `default.json ` in `app/config_nn`
+and change the network settings and file name.
+After that it is necessary to train the network and save the weights running `app/train-nn-cifar10.py`:
 
-`python train-nn-cifar10.py -n {nome do arquivo}`
+`python train-nn-cifar10.py -n {filename}`
 
-Em `app/data_nn` haverá uma pasta com o nome escolhido acima onde serão salvos os pesos da rede.
-Há algumas limitações na arquitetura da rede, elas serão explicadas logo abaixo.
+In `app/data_nn` a folder will be created with the name chosen above where the network weights will be saved.
+There are some limitations in the network architecture, which will be explained below.
 
 
-### Geração dos arquivos auxiliares da simulcão 
+### Generation of auxiliary simulation files
 
-Já há arquivos auxiliares salvos, caso não queira gerar novos pode pular essa parte.
+There are already auxiliary files in repo, if you don't want to generate new ones you can skip this part.
 
-Semelhante ao passo anterior na pasta `app/config_hw` ficam os arquivos de configuração de HW. 
-Faça uma cópia do arquivo `default.json` e altere as configurações e o nome do arquivo. 
-Após isso execute:
+Similar to the previous step, the `app/config_hw` have the HW configuration files.
+Make a copy of `default.json` and change the settings and filename.
+After that run:
 
-`python generate-hw.py -n {nome do arquivo de rede} -w {nome do arquivo de hw}`
+`python generate-hw.py -n {nn file name} -w {hw file name}`
 
-Em `app/data_hw` haverá uma pasta com o nome no formato  `{nome do arquivo de rede}_{nome do arquivo de hw}`
-onde serão salvos auxiliares para a simulação por camada contendo informações como:
+In `app/data_hw` there will be a folder named in the format `{network file name}_{hw file name}`
+where auxiliaries for the simulation per layer will be saved, containing information such as:
 
 * Generics.
-* Pacote com `record` onde serão colocadas as informações necessárias para a execução da convolução.
-* Input feature map (ifmap), input weights (iwght) e gold (output feature map) em vhdl e txt.
+* Package with `type_config_*` `record` use to configure the convolutional layer.
+* Input feature map (`ifmap`), input weights (`iwght`) and gold (output feature map) in vhdl and txt.
 
-Na pasta PE são salvos outros arquivos semelhantes necessários para simulação do `PE`.
+Other similar files necessary for `PE` simulation are saved in the `pe `folder.
 
-### Simulação
+### Simulation
 
-Na pasta `sim_rtl` estão os `scripts` tcl usados na simulação das diferentes camadas.
-Os arquivos `sim_pe*` fazem a simulação dos `PEs`, os outros arquivos `sim_*` fazem a simulação somente
-da convolução.
+The `sim_rtl` folder contain the tcl scripts used to simulate the convolutional layers.
+To simulate:
 
-O arquivo `sim_pe_multi.do` faz a simulação de todas as camadas convolucionais. 
-Caso queira que usar um novo modelo de rede neural ou configuração de HW é necessário mudar dois caminhos:
+* All convolutional layers with `PE` use `sim_pe_multi.do`.
+* `PE` with one layer use `sim_pe.do`
+* Only one convolutional layer use the others `sim_*`.
 
-    ../apps/data_hw/default_default/pe/config_pkg.vhd
-    ../apps/data_hw/default_default/pe/generic_file.txt
+If you want to use a new neural network model or HW configuration, you need to change these two paths:
 
-As outras simulações executam uma convolução por vez. Caso queira executar numa outra camada que não seja
-a zero, como a 1, como exemplo basta mudar: 
+     ../apps/data_hw/default_default/pe/config_pkg.vhd
+     ../apps/data_hw/default_default/pe/generic_file.txt
 
-    ../apps/data_hw/default_default/0/config_pkg.vhd
+If you want to run it on another layer other than to zero, like 1, as an example just change , except `sim_pe_multi.do`:
 
-Para:
+     ../apps/data_hw/default_default/0/config_pkg.vhd
 
-    ../apps/data_hw/default_default/1/config_pkg.vhd
+For:
 
-Caso queira usar outras configurações hw é necessário mudar `default_default` 
-para a pasta do projeto desejado. É necessário mudar os outros caminhos da mesma pasta.
+     ../apps/data_hw/default_default/1/config_pkg.vhd
 
-
-# Requirements
-
-`conda create --name acc_dse_env2 "cudatoolkit=<10.2" tensorflow-gpu tensorflow-datasets pillow scikit-image`
-
-`conda install tensorflow-datasets pillow scikit-image`
+If you want to use other hw settings, you need to change `default_default`
+to the desired project folder. It is necessary to change the other paths to the same folder.
