@@ -5,11 +5,13 @@
 
 
 library ieee;
+
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.std_logic_arith.all;
 
 use work.config_package.all;
+use work.util_package.all;
 
 
 entity convolution is
@@ -103,57 +105,12 @@ begin
   process(reset, clock)
   begin
     if reset = '1' then
-        reg_config.n_filter <= 0;
-        reg_config.n_channel <= 0;
-        reg_config.x_size <= 0;
-        reg_config.x_size_x_size <= 0;
-        --reg_config.filter_width <= 0;
-        --reg_config.filter_width_filter_width <= 0;
-        --reg_config.filter_width_filter_width_1 <= 0;
-        reg_config.convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line_1 <= 0;
-        --reg_config.input_sizer <= 0;
-        --reg_config.carry_sizer <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
-        --reg_config <= type_config_integer_init;
+        reg_config <= config_integer_init;
     elsif rising_edge(clock) then
       if start_conv = '1' then
-        reg_config.n_filter <= conv_integer(unsigned(config.n_filter));
-        reg_config.n_channel <= conv_integer(unsigned(config.n_channel));
-        reg_config.x_size <= conv_integer(unsigned(config.x_size));
-        reg_config.x_size_x_size <= conv_integer(unsigned(config.x_size_x_size));
-        --reg_config.filter_width <= conv_integer(unsigned(config.filter_width));
-        --reg_config.filter_width_filter_width <= conv_integer(unsigned(config.filter_width_filter_width));
-        --reg_config.filter_width_filter_width_1 <= conv_integer(unsigned(config.filter_width_filter_width_1));
-        reg_config.convs_per_line <= conv_integer(unsigned(config.convs_per_line));
-        reg_config.convs_per_line_convs_per_line <= conv_integer(unsigned(config.convs_per_line_convs_per_line));
-        reg_config.convs_per_line_convs_per_line_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_1));
-        --reg_config.input_size <= conv_integer(unsigned(config.input_size));
-        --reg_config.carry_size <= conv_integer(unsigned(config.carry_size));
-        reg_config.convs_per_line_convs_per_line_n_channel <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel));
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_1));
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter));
-          --reg_config <= convert_config_logic_integer(config, reg_config);
+        reg_config <= convert_config_logic_integer(config);
       elsif end_conv_reg = '1' then
-        reg_config.n_filter <= 0;
-        reg_config.n_channel <= 0;
-        reg_config.x_size <= 0;
-        reg_config.x_size_x_size <= 0;
-        --reg_config.filter_width <= 0;
-        --reg_config.filter_width_filter_width <= 0;
-        --reg_config.filter_width_filter_width_1 <= 0;
-        reg_config.convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line <= 0;
-        reg_config.convs_per_line_convs_per_line_1 <= 0;
-        --reg_config.input_size <= 0;
-        --reg_config.carry_size <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_1 <= 0;
-        reg_config.convs_per_line_convs_per_line_n_channel_n_filter <= 0;
-        --reg_config <= type_config_integer_init;
+        reg_config <= config_integer_init;
       end if;
     end if;
   end process;
@@ -683,7 +640,7 @@ begin
       if valid_signal = '1' and conv_length < reg_config.convs_per_line_convs_per_line and channel_control < reg_config.n_channel then
         conv_length <= conv_length + 1;
 
-      elsif conv_length = CONVS_PER_LINE*CONVS_PER_LINE then
+      elsif conv_length = reg_config.convs_per_line_convs_per_line and reg_config.convs_per_line_convs_per_line > 0 then
         conv_length     <= 0;
         channel_control <= channel_control + 1;
 

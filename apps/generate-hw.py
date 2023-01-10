@@ -80,6 +80,7 @@ def main():
         "SHIFT": int(shift_bits),
         "IN_DELAY": config_hw["IN_DELAY"],
         "ARRAY_TYPE": config_hw["ARRAY_TYPE"],
+        "N_LAYER": 0,
     }
 
     vhd_dict = {
@@ -116,15 +117,17 @@ def main():
         "IN_DELAY": config_hw["IN_DELAY"],
         "ARRAY_TYPE": config_hw["ARRAY_TYPE"],
 
-        "X_SIZE": max(vhd_dict["layer_dimension"]),
-        "C_SIZE": max(vhd_dict["filter_channel"]),
+        "X_SIZE": max([config_nn["input_w"]] + vhd_dict["layer_dimension"]),
+        "C_SIZE": max([config_nn["input_c"]] + vhd_dict["filter_channel"]),
         "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
         "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
         "LAYER": 0,
     }
-    generate_generic_file(generic_dict2, path, 0)
-    generate_tcl_generic(generic_dict2, path, 0)
-    generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, path, 0)
+    pe_path = path / "pe"
+    pe_path.mkdir(parents=True, exist_ok=True)
+    generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, pe_path, 0)
+    generate_tcl_generic(generic_dict2, pe_path, 0)
+    generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, pe_path, 0)
 
 
 if __name__ == '__main__':
