@@ -11,7 +11,7 @@ use work.config_package.all;
 use work.util_package.all;
 
 use pe0;
-use pe1;
+use pen;
 
 
 entity tb is
@@ -36,16 +36,17 @@ entity tb is
         p_debug      : out std_logic;
         config       : in  type_config_logic;
 
-        chip_en : in std_logic;
-        wr_en   : in std_logic;
-        data_in : in std_logic_vector(INPUT_SIZE-1 downto 0);
-        address : in std_logic_vector(ADDRESS_SIZE-1 downto 0);
+        p_ifmap_ce : in std_logic;
+        p_ifmap_we : in std_logic;
+        p_ifmap_valid : out std_logic;
 
-        data_av  : out std_logic;
-        data_out : out std_logic_vector(INPUT_SIZE-1 downto 0);
-
-        n_read  : out std_logic_vector(31 downto 0);
-        n_write : out std_logic_vector(31 downto 0)
+        p_ofmap_ce : out std_logic;
+        p_ofmap_we : out std_logic;
+        p_ofmap_valid : in std_logic;
+        
+        p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
+        p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
+        p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
         );
 end tb;
 
@@ -69,20 +70,23 @@ architecture a1 of tb is
 
 begin
 
+
   start_conv(0) <= p_start_conv;
   start_conv(2) <= end_conv(0);
 
   p_end_conv <= end_conv(1);
 
-  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else '0';
-  mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we = '1' else '0';
-  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
 
-  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
+  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce(1) = '1' else '0';
+  mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we(1) = '1' else '0';
+  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address(1);
+
+  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out(1);
 
   p_ofmap_valid <= ofmap_valid;
-  p_value_out <= ofmap_in((INPUT_SIZE*2)-1 downto 0);
+  p_value_out <= ofmap_in;
   p_debug <= debug;
+
 
   PE0 : entity pe0.pe
     generic map(
@@ -109,9 +113,9 @@ begin
       p_iwght_we      => '0',
       p_iwght_valid   => (others => '0'),
 
-      p_ifmap_ce      => '0',
-      p_ifmap_we      => '0',
-      p_ifmap_valid   => (others => '0'),
+      p_ifmap_ce      => ifmap_ce(0),
+      p_ifmap_we      => ifmap_we(0),
+      p_ifmap_valid   => ifmap_valid(0),
 
       p_ofmap_we      => ofmap_we(0),
       p_ofmap_ce      => ofmap_ce(0),
@@ -122,7 +126,7 @@ begin
       p_value_out     => value_out(0)
       );
 
-  PE1 : entity pe0.pe
+  PEN : entity pen.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -147,9 +151,9 @@ begin
       p_iwght_we      => '0',
       p_iwght_valid   => (others => '0'),
 
-      p_ifmap_ce      => '0',
-      p_ifmap_we      => '0',
-      p_ifmap_valid   => (others => '0'),
+      p_ifmap_ce      => ifmap_ce(1),
+      p_ifmap_we      => ifmap_we(1),
+      p_ifmap_valid   => ifmap_valid(1),
 
       p_ofmap_we      => ofmap_we(1),
       p_ofmap_ce      => ofmap_ce(1),
@@ -174,7 +178,7 @@ begin
       wr_en    => mem_ofmap_we,
       data_in  => mem_ofmap_in,
       address  => mem_ofmap_address,
-      data_av  => ofmap_valid,
+      data_av  => ofmap_valid(1),
       data_out => ofmap_in,
       n_read   => (others => '0'),
       n_write  => (others => '0')

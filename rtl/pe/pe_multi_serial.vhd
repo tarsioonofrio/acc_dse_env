@@ -41,8 +41,9 @@ entity pe is
     p_ofmap_we : out std_logic;
     p_ofmap_valid : in std_logic;
     
-    p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
+    p_address_in : in std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
+    p_address_out : in std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
   );
 end pe;
@@ -55,51 +56,51 @@ architecture a1 of pe is
 
   signal iwght_ce, ifmap_ce, ofmap_ce, ofmap_we : std_logic; 
 
-  signal mem_iwght_ce, mem_ifmap_ce, mem_ofmap_ce, mem_ofmap_we : std_logic; 
+  signal mem_iwght_ce, mem_ifmap_ce : std_logic; 
 
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal mem_iwght_address, mem_ifmap_address, mem_ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
+  signal mem_iwght_address, mem_ifmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
   signal ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-
-  signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
+  signal mem_ifmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   --signal ofmap_pad : std_logic_vector(CARRY_SIZE-1 downto 0);
 
 begin
   mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
   mem_ifmap_ce <= '1' when p_ifmap_ce ='1' or ifmap_ce = '1' else '0';
-  mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else '0';
+  --mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce = '1' else '0';
   --mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we = '1' else '0';
+  p_ofmap_ce <=  ofmap_ce;
+  p_ofmap_we <=  ofmap_we;
 
-  mem_iwght_address <= p_address when p_iwght_ce = '1' else iwght_address;
-  mem_ifmap_address <= p_address when p_ifmap_ce = '1' else ifmap_address;
+  mem_iwght_address <= p_address_in when p_iwght_ce = '1' else iwght_address;
+  mem_ifmap_address <= p_address_in when p_ifmap_ce = '1' else ifmap_address;
   --mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
-  --mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
+  p_address_out <= ofmap_address;
+ 
+  mem_ifmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
 
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
   p_end_conv <= end_conv; 
-  p_value_out <= ofmap_out;
+  p_value_out <= mem_ifmap_value when p_ifmap_ce = '1' and p_ifmap_we = '1' else ofmap_out;
   p_debug <= debug;
-
-  p_ofmap_ce <=  ofmap_ce;
-  p_ofmap_we <=  ofmap_we;
-
-  ofmap_valid <= p_ofmap_valid;
 
   start_conv <= p_start_conv ;
 
+  ifmap_value <= mem_ifmap_value((INPUT_SIZE*2)-1 downto 0);
+  ofmap_valid <= p_ofmap_valid;
+  ofmap_in <= p_value_in;
 
   IWGHT : entity work.memory
     generic map(
-      ROM => "no", 
-      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+      ROM => "weight",
+      INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE, 
       DATA_AV_LATENCY => LAT
       )
@@ -118,8 +119,8 @@ begin
 
   IFMAP : entity work.memory
     generic map(
-      ROM => "no",
-      INPUT_SIZE => INPUT_SIZE*2,
+      ROM => "map",
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
       )
@@ -131,7 +132,7 @@ begin
       data_in  => p_value_in,
       address  => mem_ifmap_address,
       data_av  => ifmap_valid,
-      data_out => ifmap_value,
+      data_out => mem_ifmap_value,
       n_read   => ifmap_n_read,
       n_write  => ifmap_n_write
       );
