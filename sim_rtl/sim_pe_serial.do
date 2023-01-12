@@ -1,47 +1,28 @@
 if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
-vlib pe0
-vlib pe1
-
 vmap work work
-vmap pe0 pe0
-vmap pen pen
 
-# Conv 1
 # Packages for CNN layer simualtion
-vcom -work pe0 ../apps/data_hw/default_default/0/inmem_pkg.vhd
-vcom -work pe0 ../apps/data_hw/default_default/0/ifmap_pkg.vhd
-vcom -work pe0 ../apps/data_hw/default_default/0/iwght_pkg.vhd
-vcom -work pe0 ../apps/data_hw/default_default/0/gold_pkg.vhd
+# inmem_pkg is not used in simulation
+vcom -work work ../apps/data_hw/default_default/0/inmem_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/pe/config_pkg.vhd
 
 # Components
-vcom -work pe0 ../rtl/components/mac.vhd
-vcom -work pe0 ../rtl/components/reg.vhd
-vcom -work pe0 ../rtl/components/mem_nofmap.vhd
+vcom -work work ../rtl/components/mac.vhd
+vcom -work work ../rtl/components/reg.vhd
+vcom -work work ../rtl/components/mem.vhd
+
+# Package with utilities - need to be before convolution core
+vcom -work work ../rtl/pe/util_pkg.vhd
 
 # Convolution core
-vcom -work pe0 ../rtl/convolution/syst2d_ws_split_multi.vhd
-
-# Conv 2
-# Packages for CNN layer simualtion
-vcom -work pen ../apps/data_hw/default_default/1/inmem_pkg.vhd
-vcom -work pen ../apps/data_hw/default_default/1/ifmap_pkg.vhd
-vcom -work pen ../apps/data_hw/default_default/1/iwght_pkg.vhd
-vcom -work pen ../apps/data_hw/default_default/1/gold_pkg.vhd
-
-# Components
-vcom -work pen ../rtl/components/mac.vhd
-vcom -work pen ../rtl/components/reg.vhd
-vcom -work pen ../rtl/components/mem_nofmap.vhd
-
-# Convolution core
-vcom -work pen ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Processing element
-vcom -work work ../rtl/pe/pe_multi.vhd
+vcom -work work ../rtl/pe/pe_serial.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_pe.vhd
+vcom -work work ../tb/tb_rtl_pe_multi.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data_hw/default_default/pe/generic_file.txt
