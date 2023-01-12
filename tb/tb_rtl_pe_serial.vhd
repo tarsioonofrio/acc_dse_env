@@ -31,9 +31,9 @@ architecture a1 of tb is
 
   signal ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
 
-  signal ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
+  signal address_in, address_out : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal value_in, value_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
@@ -43,7 +43,7 @@ architecture a1 of tb is
 begin
 
 
-  PE0 : entity pe0.pe
+  PE : entity pe.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -76,7 +76,7 @@ begin
       p_ofmap_ce      => ofmap_ce,
       p_ofmap_valid   => ofmap_valid,
 
-      p_address_in    => (others => '0'),
+      p_address_in    => address_in,
       p_value_in      => value_in,
       p_address_out   => address_out,
       p_value_out     => value_out
@@ -134,15 +134,14 @@ begin
 
   begin
 
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
-      ofmap_ce <= '1';
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(ofmap_valid);
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE*2)) then
+    if clock'event and clock = '0' then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
+        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+          report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
+          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out))));
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
@@ -153,10 +152,39 @@ begin
           assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
-    end loop;
 
-    report "number of convolutions: " & integer'image(cont_conv);
-    report "end of simulation without error!" severity failure;
+      elsif end_conv = '1' then
+        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
+        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+        report "number of convolutions: " & integer'image(cont_conv);
+        report "end of simulation without error!" severity failure;
+      end if;
+    end if;
+
+    --for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
+    --  ofmap_ce <= '1';
+    --  address_out <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+    --  wait until rising_edge(ofmap_valid);
+    --    if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out))), (INPUT_SIZE*2)) then
+    --      report "end of simulation with error!";
+    --      report "number of convolutions executed: " & integer'image(cont_conv);
+    --      report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
+    --      report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out))));
+
+    --      if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+    --        report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+    --      else
+    --        report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+    --      end if;
+
+    --      assert false severity failure;
+    --    end if;
+    --    cont_conv := cont_conv + 1;
+    --end loop;
+
+    --report "number of convolutions: " & integer'image(cont_conv);
+    --report "end of simulation without error!" severity failure;
+
   end process;
 
 end a1;

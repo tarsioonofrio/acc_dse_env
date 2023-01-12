@@ -43,7 +43,7 @@ entity pe is
     
     p_address_in : in std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
-    p_address_out : in std_logic_vector(MEM_SIZE-1 downto 0);
+    p_address_out : out std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
   );
 end pe;
@@ -66,7 +66,9 @@ architecture a1 of pe is
 
   signal ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal mem_ifmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal mem_ifmap_value, mem_ifmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+
+  signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   --signal ofmap_pad : std_logic_vector(CARRY_SIZE-1 downto 0);
 
@@ -83,7 +85,7 @@ begin
   --mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
   p_address_out <= ofmap_address;
  
-  mem_ifmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
+  --mem_ifmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
 
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
