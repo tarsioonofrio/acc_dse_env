@@ -62,11 +62,9 @@ architecture a1 of pe is
 
   signal mem_iwght_address, mem_ifmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal iwght_value, mem_iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
-  signal ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-
-  signal mem_ifmap_value, mem_ifmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal mem_ifmap_value, ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
@@ -86,7 +84,6 @@ begin
   p_address_out <= ofmap_address;
  
   --mem_ifmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
-
   p_iwght_valid <= iwght_valid;
   p_ifmap_valid <= ifmap_valid;
   p_end_conv <= end_conv; 
@@ -98,6 +95,7 @@ begin
   ifmap_value <= mem_ifmap_value((INPUT_SIZE*2)-1 downto 0);
   ofmap_valid <= p_ofmap_valid;
   ofmap_in <= p_value_in;
+  mem_iwght_value <=  p_value_in((INPUT_SIZE*2)-1 downto 0);
 
   IWGHT : entity work.memory
     generic map(
@@ -111,7 +109,7 @@ begin
       reset    => reset,
       chip_en  => mem_iwght_ce,
       wr_en    => p_iwght_we,
-      data_in  => p_value_in,
+      data_in  => mem_iwght_value,
       address  => mem_iwght_address,
       data_av  => iwght_valid,
       data_out => iwght_value,

@@ -29,7 +29,7 @@ end tb;
 architecture a1 of tb is
   signal clock, reset, start_conv, debug : std_logic := '0';
 
-  signal ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
+  signal iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
 
   signal address_in, address_out : std_logic_vector(MEM_SIZE-1 downto 0);
 
@@ -43,7 +43,7 @@ architecture a1 of tb is
 begin
 
 
-  PE : entity pe.pe
+  DUT : entity work.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -66,11 +66,11 @@ begin
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
-      p_iwght_valid   => (others => '0'),
+      p_iwght_valid   => iwght_valid,
 
       p_ifmap_ce      => '0',
       p_ifmap_we      => '0',
-      p_ifmap_valid   => (others => '0'),
+      p_ifmap_valid   => ifmap_valid,
 
       p_ofmap_we      => ofmap_we,
       p_ofmap_ce      => ofmap_ce,
