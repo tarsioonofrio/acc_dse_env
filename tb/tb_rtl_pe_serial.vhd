@@ -8,8 +8,10 @@ use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
-use work.gold_package.all;
 use work.config_package.all;
+use work.iwght_package.all;
+use work.ifmap_package.all;
+use work.gold_package.all;
 
 
 entity tb is
@@ -22,7 +24,8 @@ entity tb is
            INPUT_SIZE     : integer := 8;
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
-           LAT            : integer := 2
+           LAT            : integer := 2;
+           PATH           : string  := ""
            );
 end tb;
 
@@ -37,8 +40,8 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+  --signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
   signal config : type_config_logic;
-
 
 begin
 
@@ -53,7 +56,9 @@ begin
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
+      CARRY_SIZE     => CARRY_SIZE,
+      IWGHT_PATH      => PATH & "/iwght_pkg.txt",
+      IFMAP_PATH      => PATH & "/ifmap_pkg.txt" 
       )
     port map(
       clock         => clock,
@@ -84,7 +89,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      ROM => "no",
+      ROM_PATH => "",
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT

@@ -31,14 +31,18 @@ package body util_package is
       variable i : integer := 0;
       variable tmp_arr : type_array_int := (others=>0);
   begin
-      while not endfile(file_ptr) loop
-      --for i in type_array_int'range loop
-          readline(file_ptr, line_ptr);
-          read(line_ptr, tmp_int);
-          tmp_arr(i) := tmp_int;
-          i := i + 1;
-      end loop;
-      return tmp_arr;
+      if file_name = "" then
+        return tmp_arr;
+      else
+        while not endfile(file_ptr) loop
+        --for i in type_array_int'range loop
+            readline(file_ptr, line_ptr);
+            read(line_ptr, tmp_int);
+            tmp_arr(i) := tmp_int;
+            i := i + 1;
+        end loop;
+        return tmp_arr;
+      end if;
   end function;
 
   impure function read_config(file_name : in string) return type_config_logic is
