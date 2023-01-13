@@ -40,9 +40,9 @@ entity tb is
         p_ifmap_we : in std_logic;
         p_ifmap_valid : out std_logic;
 
-        p_ofmap_ce : out std_logic;
-        p_ofmap_we : out std_logic;
-        p_ofmap_valid : in std_logic;
+        p_ofmap_ce : in std_logic;
+        p_ofmap_we : in std_logic;
+        p_ofmap_valid : out std_logic;
         
         p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
         p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
@@ -51,7 +51,9 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
-  signal clock, reset, start_conv, end_conv, end_conv2, debug : std_logic := '0';
+  signal clock, reset, start_conv, end_conv, debug : std_logic;
+
+  signal mem_ofmap_valid: std_logic;
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_we, iwght_valid, ifmap_ce, ifmap_we, ifmap_valid : std_logic_vector(1 downto 0);
 
@@ -67,25 +69,33 @@ architecture a1 of tb is
   type type_mem is array (0 to 1) of type_array_int;
   signal input_wght, input_map, gold, temp_arr :  type_mem;
  
+  signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+
+  signal n_read, n_write : std_logic_vector(31 downto 0);
+
 
 begin
 
+  p_debug <= debug;
 
   start_conv(0) <= p_start_conv;
-  start_conv(2) <= end_conv(0);
-
+  start_conv(1) <= end_conv(0);
   p_end_conv <= end_conv(1);
 
+  ifmap_we(1) <= ofmap_ce(0);
+  ifmap_ce(1) <= ofmap_we(0);
+  address_in(1) <= address_out(0);
+  value_in(1) <= value_out(0) when ofmap_ce(0) = '1' and ofmap_we(0) = '1' else value_out(2);
+  ofmap_valid(0) <= ifmap_valid(1);
 
   mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce(1) = '1' else '0';
   mem_ofmap_we <= '1' when p_ofmap_we ='1' or ofmap_we(1) = '1' else '0';
-  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address(1);
+  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else address_out(1);
+  mem_ofmap_in <= p_value_in when p_ofmap_ce ='1' and p_ofmap_we ='1' else value_out(1);
+  ofmap_valid(1) <= mem_ofmap_valid;
 
-  mem_ofmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out(1);
-
-  p_ofmap_valid <= ofmap_valid;
-  p_value_out <= ofmap_in;
-  p_debug <= debug;
+  p_ofmap_valid <= mem_ofmap_valid;
+  p_value_out <= mem_ofmap_out;
 
 
   PE0 : entity pe0.pe
@@ -159,8 +169,9 @@ begin
       p_ofmap_ce      => ofmap_ce(1),
       p_ofmap_valid   => ofmap_valid(1),
 
-      p_address       => address(1),
+      p_address_in    => address_in(1),
       p_value_in      => value_in(1),
+      p_address_out   => address_out(1),
       p_value_out     => value_out(1)
       );
 
@@ -178,10 +189,10 @@ begin
       wr_en    => mem_ofmap_we,
       data_in  => mem_ofmap_in,
       address  => mem_ofmap_address,
-      data_av  => ofmap_valid(1),
-      data_out => ofmap_in,
-      n_read   => (others => '0'),
-      n_write  => (others => '0')
+      data_av  => mem_ofmap_valid,
+      data_out => mem_ofmap_out,
+      n_read   => n_read,
+      n_write  => n_write
       );
 
 end a1;
