@@ -12,12 +12,11 @@ vmap pen pen
 vcom -work pe0 ../apps/data_hw/default_default/0/inmem_pkg.vhd
 vcom -work pe0 ../apps/data_hw/default_default/0/ifmap_pkg.vhd
 vcom -work pe0 ../apps/data_hw/default_default/0/iwght_pkg.vhd
-vcom -work pe0 ../apps/data_hw/default_default/0/gold_pkg.vhd
 
 # Components
 vcom -work pe0 ../rtl/components/mac.vhd
 vcom -work pe0 ../rtl/components/reg.vhd
-vcom -work pe0 ../rtl/components/mem_nofmap.vhd
+vcom -work pe0 ../rtl/components/mem_wght_ifmap.vhd
 
 # Convolution core
 vcom -work pe0 ../rtl/convolution/syst2d_ws_split_multi.vhd
@@ -27,12 +26,17 @@ vcom -work pe0 ../rtl/convolution/syst2d_ws_split_multi.vhd
 vcom -work pen ../apps/data_hw/default_default/1/inmem_pkg.vhd
 vcom -work pen ../apps/data_hw/default_default/1/ifmap_pkg.vhd
 vcom -work pen ../apps/data_hw/default_default/1/iwght_pkg.vhd
-vcom -work pen ../apps/data_hw/default_default/1/gold_pkg.vhd
+
+
+
+# Packages for CNN layer simualtion
+vcom -work work ../apps/data_hw/default_default/1/gold_pkg.vhd
+vcom -work pen ../apps/data_hw/default_default/1/inmem_pkg.vhd
 
 # Components
 vcom -work pen ../rtl/components/mac.vhd
 vcom -work pen ../rtl/components/reg.vhd
-vcom -work pen ../rtl/components/mem_nofmap.vhd
+vcom -work pen ../rtl/components/mem.vhd
 
 # Convolution core
 vcom -work pen ../rtl/convolution/syst2d_ws_split_multi.vhd
