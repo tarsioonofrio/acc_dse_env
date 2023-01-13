@@ -12,6 +12,7 @@ use work.config_package.all;
 use work.iwght_package.all;
 use work.ifmap_package.all;
 use work.gold_package.all;
+use work.util_package.all;
 
 
 entity tb is
@@ -40,8 +41,8 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  --signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
-  signal config : type_config_logic;
+  signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
+  --signal config : type_config_logic;
 
 begin
 
