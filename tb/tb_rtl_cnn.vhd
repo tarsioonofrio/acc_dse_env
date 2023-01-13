@@ -10,7 +10,6 @@ use std.textio.all;
 
 use work.util_package.all;
 use work.config_package.all;
-use work.cnn.all;
 
 
 entity tb is
@@ -23,7 +22,8 @@ entity tb is
            INPUT_SIZE     : integer := 8;
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
-           LAT            : integer := 2
+           LAT            : integer := 2;
+           PATH           : string  := ""
            );
 end tb;
 
@@ -32,7 +32,7 @@ architecture a1 of tb is
 
   signal iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
 
-  signal address_in, address_out : std_logic_vector(MEM_SIZE-1 downto 0);
+  signal address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal value_in, value_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
@@ -40,6 +40,7 @@ architecture a1 of tb is
 
   signal config : type_config_logic;
 
+  signal gold :type_array_int := read_data(PATH & "/1/gold_pkg.txt");
 
 begin
 
@@ -54,7 +55,8 @@ begin
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
+      CARRY_SIZE     => CARRY_SIZE,
+      PATH           => PATH
       )
     port map(
       clock         => clock,
@@ -64,10 +66,6 @@ begin
       p_end_conv      => end_conv,
       p_debug         => debug,
       config          => config,
-
-      p_iwght_ce      => '0',
-      p_iwght_we      => '0',
-      p_iwght_valid   => iwght_valid,
 
       p_ifmap_ce      => '0',
       p_ifmap_we      => '0',
@@ -95,7 +93,7 @@ begin
       chip_en  => ofmap_ce,
       wr_en    => ofmap_we,
       data_in  => value_out,
-      address  => address_out,
+      address  => address,
       data_av  => ofmap_valid,
       data_out => value_in,
       n_read   => ofmap_n_read,
@@ -136,6 +134,7 @@ begin
 
     if clock'event and clock = '0' then
       if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
+        report integer'image(CONV_INTEGER(unsigned(value_out)));-- & " " & integer'image(gold(CONV_INTEGER(unsigned(address))));
         if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";

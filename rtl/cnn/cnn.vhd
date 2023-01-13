@@ -11,7 +11,7 @@ use work.config_package.all;
 use work.util_package.all;
 
 
-entity tb is
+entity cnn is
   generic (
     N_FILTER       : integer := 16;
     N_CHANNEL      : integer := 3;
@@ -46,20 +46,20 @@ entity tb is
         p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
         p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
         );
-end tb;
+end cnn;
 
-architecture a1 of tb is
-  signal debug : std_logic;
+architecture a1 of cnn is
 
-  signal mem_ofmap_valid: std_logic;
+  signal mem_ofmap_valid, mem_ofmap_ce, mem_ofmap_we: std_logic;
 
-  signal start_conv, end_conv, ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_we, iwght_valid, ifmap_ce, ifmap_we, ifmap_valid : std_logic_vector(1 downto 0);
+  signal debug, start_conv, end_conv, ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_we, iwght_valid, ifmap_ce, ifmap_we, ifmap_valid: std_logic_vector(1 downto 0);
 
+  signal mem_ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
   type type_address is array (0 to 1) of std_logic_vector(MEM_SIZE-1 downto 0);
-  signal address : type_address;
+  signal address_in, address_out : type_address;
 
-  type type_value is array (0 to 1) of  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-  signal value_out, value_in : type_value;
+  type type_value is array (0 to 1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal value_out, value_in: type_value;
 
   type type_mem is array (0 to 1) of type_array_int;
   signal input_wght, input_map, gold, temp_arr :  type_mem;
@@ -75,7 +75,7 @@ architecture a1 of tb is
 
 begin
 
-  p_debug <= debug;
+  p_debug <= debug(1);
 
   start_conv(0) <= p_start_conv;
   start_conv(1) <= end_conv(0);
@@ -84,7 +84,7 @@ begin
   ifmap_we(1) <= ofmap_ce(0);
   ifmap_ce(1) <= ofmap_we(0);
   address_in(1) <= address_out(0);
-  value_in(1) <= value_out(0) when ofmap_ce(0) = '1' and ofmap_we(0) = '1' else value_out(2);
+  value_in(1) <= value_out(0) when ofmap_ce(0) = '1' and ofmap_we(0) = '1' else mem_ofmap_out;
   ofmap_valid(0) <= ifmap_valid(1);
 
   mem_ofmap_ce <= '1' when p_ofmap_ce ='1' or ofmap_ce(1) = '1' else '0';
@@ -117,12 +117,12 @@ begin
 
       p_start_conv    => start_conv(0),
       p_end_conv      => end_conv(0),
-      p_debug         => '0',
+      p_debug         => debug(0),
       config          => config0,
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
-      p_iwght_valid   => (others => '0'),
+      p_iwght_valid   => iwght_valid(0),
 
       p_ifmap_ce      => ifmap_ce(0),
       p_ifmap_we      => ifmap_we(0),
@@ -132,8 +132,9 @@ begin
       p_ofmap_ce      => ofmap_ce(0),
       p_ofmap_valid   => ofmap_valid(0),
 
-      p_address       => address(0),
+      p_address_in    => address_in(0),
       p_value_in      => value_in(0),
+      p_address_out   => address_out(0),
       p_value_out     => value_out(0)
       );
 
@@ -156,12 +157,12 @@ begin
 
       p_start_conv    => start_conv(1),
       p_end_conv      => end_conv(1),
-      p_debug         => debug,
+      p_debug         => debug(1),
       config          => config1,
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
-      p_iwght_valid   => (others => '0'),
+      p_iwght_valid   => iwght_valid(1),
 
       p_ifmap_ce      => ifmap_ce(1),
       p_ifmap_we      => ifmap_we(1),
@@ -179,7 +180,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      ROM => "no",
+      ROM_PATH => "",
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
