@@ -40,7 +40,7 @@ architecture a1 of tb is
 
   signal config : type_config_logic;
 
-  signal gold :type_array_int := read_data(PATH & "/1/gold_pkg.txt");
+  signal gold :type_array_int := read_data(PATH & "/2/gold_pkg.txt");
 
 begin
 
@@ -107,41 +107,42 @@ begin
 
   start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
-  --process(clock)
 
-  --  -- convolution counter
-  --variable cont_conv : integer := 0;
+  process(clock)
 
-  --begin
+    -- convolution counter
+  variable cont_conv : integer := 0;
 
-  --  if clock'event and clock = '0' then
-  --    if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
-  --      report integer'image(CONV_INTEGER(unsigned(value_out)));-- & " " & integer'image(gold(CONV_INTEGER(unsigned(address))));
-  --      if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-  --        --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
-  --        report "end of simulation with error!";
-  --        report "number of convolutions executed: " & integer'image(cont_conv);
-  --        report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-  --        report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+  begin
 
-  --        if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-  --        else
-  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out));
-  --        end if;
+    if clock'event and clock = '0' then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
+        report integer'image(CONV_INTEGER(unsigned(value_out)));-- & " " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
+          report "end of simulation with error!";
+          report "number of convolutions executed: " & integer'image(cont_conv);
+          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
+          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
 
-  --        assert false severity failure;
-  --      end if;
-  --      cont_conv := cont_conv + 1;
+          if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+          else
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+          end if;
 
-  --    elsif end_conv = '1' then
-  --      report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-  --      report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
-  --      report "number of convolutions: " & integer'image(cont_conv);
-  --      report "end of simulation without error!" severity failure;
-  --    end if;
-  --  end if;
+          assert false severity failure;
+        end if;
+        cont_conv := cont_conv + 1;
 
-  --end process;
+      elsif end_conv = '1' then
+        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
+        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+        report "number of convolutions: " & integer'image(cont_conv);
+        report "end of simulation without error!" severity failure;
+      end if;
+    end if;
+
+  end process;
 
 end a1;
