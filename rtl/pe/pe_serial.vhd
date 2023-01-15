@@ -211,8 +211,8 @@ begin
   --      cont_conv := cont_conv + 1;
 
   --    elsif end_conv = '1' then
-  --      report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-  --      report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+  --      --report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
+  --      --report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
   --      report "number of convolutions: " & integer'image(cont_conv);
   --      report "end of simulation without error!" severity failure;
   --    end if;
