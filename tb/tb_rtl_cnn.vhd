@@ -30,18 +30,17 @@ end tb;
 architecture a1 of tb is
   signal clock, reset, start_conv, debug : std_logic := '0';
 
-  signal iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
+  signal iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, ifmap_ce, ifmap_we, end_conv : std_logic := '0';
 
   signal address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal value_in, value_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal value_in, value_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0) := (others => '0');
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal input_map : type_array_int := (others=> 0);
-
-  signal gold :type_array_int := read_data(PATH & "/2/gold_pkg.txt");
   signal config : type_config_logic := read_config(PATH & "/2/config_pkg.txt");
+  signal gold :type_array_int := read_data(PATH & "/2/gold_pkg.txt");
+  signal input_map : type_array_int := read_data(PATH & "/0/ifmap_pkg.txt");
 
 begin
 
@@ -94,28 +93,22 @@ begin
     variable cont_conv : integer := 0;
   begin
     -- Image input
-    --input_map <= read_data(PATH & "/0/ifmap_pkg.txt");
-
-    --for index in 0 to N_LAYER - 1 loop
     wait until rising_edge(clock);
     reset <= '1';
-    --input_wght <= read_data(PATH & "/" & integer'image(index) & "/iwght_pkg.txt");
-    --gold <= read_data(PATH & "/" & integer'image(index) & "/gold_pkg.txt");
-    --config <= read_config(PATH & "/" & integer'image(index) & "/config_pkg.txt");
     wait until rising_edge(clock);
 
     reset <= '0';
 
-    --ifmap_ce <= '1';
-    --ifmap_we <= '1';
-    --for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
-    --  address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-    --  value_in <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
-    --  wait until rising_edge(clock);
-    --end loop;
+    ifmap_ce <= '1';
+    ifmap_we <= '1';
+    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
+      wait until rising_edge(clock);
+    end loop;
 
-    --ifmap_ce <= '0';
-    --ifmap_we <= '0';
+    ifmap_ce <= '0';
+    ifmap_we <= '0';
 
     start_conv <= '1';
     wait until rising_edge(clock);
