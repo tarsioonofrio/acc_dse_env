@@ -116,6 +116,7 @@ begin
   mem_ofmap_address <= address_in(0) when ofmap_ce(0) = '1' else address_out(3);
   mem_ofmap_in <=  value_out(3);
   ofmap_valid(3) <= mem_ofmap_valid;
+  value_out(4) <= mem_ofmap_out;
 
   -- output map port
   p_end_conv <= start_conv(3);
