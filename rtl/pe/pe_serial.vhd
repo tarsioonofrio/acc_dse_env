@@ -87,7 +87,8 @@ begin
   mem_iwght_address <= p_address_in when p_iwght_ce = '1' else iwght_address;
   mem_ifmap_address <= p_address_in when p_ifmap_ce = '1' else ifmap_address;
   --mem_ofmap_address <= p_address when p_ofmap_ce = '1' else ofmap_address;
-  p_address_out <= ofmap_address;
+  --p_address_out <= ofmap_address;
+  p_address_out <= mem_ifmap_address when p_ifmap_ce = '1' else ofmap_address;
  
   --mem_ifmap_in <= ofmap_pad & p_value_in when p_ofmap_ce = '1' and p_ofmap_we = '1' else ofmap_out;
   p_iwght_valid <= iwght_valid;

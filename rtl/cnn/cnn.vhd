@@ -79,6 +79,13 @@ begin
   start_conv(1) <= end_conv(0);
   p_end_conv <= end_conv(1);
 
+  ifmap_ce(0) <= p_ifmap_ce;
+  ifmap_we(0) <= p_ifmap_we;
+  address_in(0) <= p_address;
+  value_in(0) <= p_value_in when p_ifmap_ce = '1' and p_ifmap_we = '1' else value_out(1);
+  p_ifmap_valid <= ifmap_valid(0);
+
+
   ifmap_ce(1) <= ofmap_ce(0);
   ifmap_we(1) <= ofmap_we(0);
   address_in(1) <= address_out(0);
