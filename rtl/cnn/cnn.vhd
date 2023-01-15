@@ -73,8 +73,6 @@ architecture a1 of cnn is
 
 begin
 
-  p_debug <= debug(1);
-
   start_conv(0) <= p_start_conv;
   start_conv(1) <= end_conv(0);
   start_conv(2) <= end_conv(1);
@@ -110,6 +108,7 @@ begin
   p_ofmap_valid <= mem_ofmap_valid;
   p_value_out <= mem_ofmap_out;
 
+  p_debug <= debug(2);
 
   PE0 : entity work.pe
     generic map(
