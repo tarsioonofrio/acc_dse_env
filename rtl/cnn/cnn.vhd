@@ -66,7 +66,7 @@ architecture a1 of cnn is
   --type type_config_array  is array (0 to 1) of type_config_logic;
   signal config0 : type_config_logic := read_config(PATH & "/0/config_pkg.txt");
   signal config1 : type_config_logic := read_config(PATH & "/1/config_pkg.txt");
-  signal gold    : type_array_int := read_data(PATH & "/0/gold_pkg.txt");
+  signal gold    : type_array_int := read_data(PATH & "/1/gold_pkg.txt");
 
   signal n_read, n_write : std_logic_vector(31 downto 0);
 
@@ -230,7 +230,7 @@ begin
         end if;
         cont_conv := cont_conv + 1;
 
-      elsif end_conv(0) = '1' then
+      elsif end_conv(1) = '1' then
         --report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         --report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
         report "number of convolutions: " & integer'image(cont_conv);
