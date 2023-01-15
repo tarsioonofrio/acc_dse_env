@@ -113,7 +113,7 @@ begin
   -- ofmap mem signal map
   mem_ofmap_ce <= ofmap_ce(3) or p_ofmap_ce;
   mem_ofmap_we <= ofmap_we(3) or p_ofmap_we;
-  mem_ofmap_address <= address_in(0) when ofmap_ce(0) = '1' else address_out(3);
+  mem_ofmap_address <= p_address when p_ofmap_ce = '1' else address_out(3);
   mem_ofmap_in <=  value_out(3);
   ofmap_valid(3) <= mem_ofmap_valid;
   value_out(4) <= mem_ofmap_out;

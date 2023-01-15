@@ -72,9 +72,7 @@ architecture a1 of pe is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal gold :type_array_int := read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
-
-  --signal ofmap_pad : std_logic_vector(CARRY_SIZE-1 downto 0);
+  --signal gold :type_array_int := read_data("../apps/data_hw/default_default/0/gold_pkg.txt");
 
 begin
   mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
