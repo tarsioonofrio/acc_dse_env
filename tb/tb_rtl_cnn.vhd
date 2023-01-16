@@ -23,6 +23,7 @@ entity tb is
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
            LAT            : integer := 2;
+           N_LAYER        : integer := 0;
            PATH           : string  := ""
            );
 end tb;
@@ -38,12 +39,14 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := read_config(PATH & "/2/config_pkg.txt");
-  signal gold :type_array_int := read_data(PATH & "/2/gold_pkg.txt");
+  signal config_inpt : type_config_logic := read_config(PATH & "/0/config_pkg.txt");
+  signal config_gold : type_config_logic := read_config(PATH & "/2/config_pkg.txt");
+
   signal input_map : type_array_int := read_data(PATH & "/0/ifmap_pkg.txt");
+  signal gold      : type_array_int := read_data(PATH & "/2/gold_pkg.txt");
+
 
 begin
-
 
   DUT : entity work.cnn
     generic map(
@@ -65,10 +68,9 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => config,
 
-      p_ifmap_ce      => '0',
-      p_ifmap_we      => '0',
+      p_ifmap_ce      => ifmap_ce,
+      p_ifmap_we      => ifmap_we,
       p_ifmap_valid   => ifmap_valid,
 
       p_ofmap_we      => ofmap_we,
@@ -82,10 +84,6 @@ begin
 
 
   clock <= not clock after 0.5 ns;
-
-  --reset <= '1', '0' after 2.5 ns;
-
-  --start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
 
   process
@@ -101,7 +99,7 @@ begin
 
     ifmap_ce <= '1';
     ifmap_we <= '1';
-    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+    for i in 0 to (conv_integer(unsigned(config_inpt.x_size_x_size))*conv_integer(unsigned(config_inpt.n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
@@ -120,7 +118,7 @@ begin
     wait until rising_edge(clock);
     wait until rising_edge(clock);
 
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) loop
+    for i in 0 to (conv_integer(unsigned(config_gold.convs_per_line_convs_per_line))*conv_integer(unsigned(config_gold.n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
@@ -137,7 +135,7 @@ begin
             report "obtained value: " & integer'image(CONV_INTEGER(value_out));
           end if;
 
-          --assert false severity failure;
+          assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
     end loop;
@@ -146,7 +144,6 @@ begin
     report "end of conv without error!";
 
     ofmap_ce <= '0';  
-    --end loop;
 
     -- stop simulation
     report "end of simulation without error!" severity failure;

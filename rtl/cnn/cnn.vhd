@@ -25,7 +25,8 @@ entity cnn is
     LAT            : integer := 2;
     N_LAYER        : integer := 0;
     PATH           : string  := "";
-    TEST_LAYER     : integer  := 2
+    TEST_BENCH    : std_logic  := '0';
+    TEST_LAYER     : integer  := 0
   );
   port (reset   : in std_logic;
         clock   : in std_logic;
@@ -33,7 +34,6 @@ entity cnn is
         p_start_conv : in std_logic;
         p_end_conv   : out std_logic;
         p_debug      : out std_logic;
-        config       : in  type_config_logic;
 
         p_ifmap_ce : in std_logic;
         p_ifmap_we : in std_logic;
@@ -44,7 +44,7 @@ entity cnn is
         p_ofmap_valid : out std_logic;
         
         p_address : in std_logic_vector(MEM_SIZE-1 downto 0);
-        p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
+        p_value_in : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
         p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
         );
 end cnn;
@@ -68,24 +68,24 @@ architecture a1 of cnn is
   signal config0 : type_config_logic := read_config(PATH & "/0/config_pkg.txt");
   signal config1 : type_config_logic := read_config(PATH & "/1/config_pkg.txt");
   signal config2 : type_config_logic := read_config(PATH & "/2/config_pkg.txt");
+  signal config_test : type_config_logic := read_config(PATH & "/" & integer'image(TEST_LAYER) & "/config_pkg.txt");
 
-  signal gold    : type_array_int := read_data(PATH & "/" & integer'image(TEST_LAYER)& "/gold_pkg.txt");
-  signal config_test : type_config_logic := read_config(PATH & "/" & integer'image(TEST_LAYER)& "/config_pkg.txt");
+  signal gold        : type_array_int := read_data(PATH & "/" & integer'image(TEST_LAYER) & "/gold_pkg.txt");
 
   signal n_read, n_write : std_logic_vector(31 downto 0);
-
 
 
 begin
 
   -- input map port to 0 index signal
-  end_conv(0) <= p_start_conv;
-  ifmap_ce(0) <= p_ifmap_ce;
-  ifmap_we(0) <= p_ifmap_we;
-  address_in(0) <= p_address;
+  ofmap_ce(0) <= p_ifmap_ce;
+  ofmap_we(0) <= p_ifmap_we;
+  address_out(0) <= p_address;
   value_out(0) <= p_value_in;
+  end_conv(0) <= p_start_conv;
 
 
+  -- TODO convert to generate 
   -- conv 1
   ifmap_ce(1) <= ofmap_ce(0);
   ifmap_we(1) <= ofmap_we(0);
@@ -121,12 +121,13 @@ begin
   -- output map port
   p_end_conv <= end_conv(3);
   p_debug <= debug(3);
-  p_ifmap_valid <= ofmap_valid(0);
+  p_ifmap_valid <= ifmap_valid(0);
   p_ofmap_valid <= mem_ofmap_valid;
   p_value_out <= mem_ofmap_out;
 
 
-  PE0 : entity work.pe
+  -- TODO convert to generate 
+  PE1 : entity work.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -137,8 +138,8 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH     => PATH & "/0/iwght_pkg.txt",
-      IFMAP_PATH     => PATH & "/0/ifmap_pkg.txt" 
+      --IFMAP_PATH     => PATH & "/0/ifmap_pkg.txt";
+      IWGHT_PATH     => PATH & "/0/iwght_pkg.txt"
       )
     port map(
       clock         => clock,
@@ -167,7 +168,7 @@ begin
       p_value_out     => value_out(1)
       );
 
-  PE1 : entity work.pe
+  PE2 : entity work.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -207,7 +208,7 @@ begin
       p_value_out     => value_out(2)
       );
 
-  PEN : entity work.pe
+  PE3 : entity work.pe
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
@@ -267,41 +268,45 @@ begin
       n_write  => n_write
       );
 
-  --process(clock)
 
-  --  -- convolution counter
-  --  variable cont_conv : integer := 0;
+  GEN_TB: if TEST_BENCH = '1' generate
 
-  --begin
+    process(clock)
 
-  --  if clock'event and clock = '0' then
-  --    if debug(TEST_LAYER+1) = '1' and cont_conv < (conv_integer(unsigned(config_test.convs_per_line_convs_per_line))*conv_integer(unsigned(config_test.n_filter))) then
-  --      if value_out(TEST_LAYER+1) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out(TEST_LAYER+1)))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-  --        --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
-  --        report "end of simulation with error!";
-  --        report "number of convolutions executed: " & integer'image(cont_conv);
-  --        report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out(TEST_LAYER + 1))));
-  --        report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out(TEST_LAYER+1)))));
+      -- convolution counter
+      variable cont_conv : integer := 0;
 
-  --        if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out(TEST_LAYER+1)(31 downto 0)));
-  --        else
-  --          report "obtained value: " & integer'image(CONV_INTEGER(value_out(TEST_LAYER+1)));
-  --        end if;
+    begin
 
-  --        assert false severity failure;
-  --      end if;
-  --      cont_conv := cont_conv + 1;
-  --      --report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out(test_index))));
+      if clock'event and clock = '0' then
+        if debug(TEST_LAYER+1) = '1' and cont_conv < (conv_integer(unsigned(config_test.convs_per_line_convs_per_line))*conv_integer(unsigned(config_test.n_filter))) then
+          if value_out(TEST_LAYER+1) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out(TEST_LAYER+1)))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+            --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
+            report "end of simulation with error!";
+            report "number of convolutions executed: " & integer'image(cont_conv);
+            report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out(TEST_LAYER + 1))));
+            report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out(TEST_LAYER+1)))));
 
-  --    elsif end_conv(TEST_LAYER + 1) = '1' then
-  --      --report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-  --      --report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
-  --      report "number of convolutions: " & integer'image(cont_conv);
-  --      report "end of simulation without error!" severity failure;
-  --    end if;
-  --  end if;
+            if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+              report "obtained value: " & integer'image(CONV_INTEGER(value_out(TEST_LAYER+1)(31 downto 0)));
+            else
+              report "obtained value: " & integer'image(CONV_INTEGER(value_out(TEST_LAYER+1)));
+            end if;
 
-  --end process;
+            assert false severity failure;
+          end if;
+          cont_conv := cont_conv + 1;
+          --report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out(test_index))));
+
+        elsif end_conv(TEST_LAYER + 1) = '1' then
+          --report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
+          --report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+          report "number of convolutions: " & integer'image(cont_conv);
+          report "end of simulation without error!" severity failure;
+        end if;
+      end if;
+
+    end process;
+  end generate GEN_TB;
 
 end a1;
