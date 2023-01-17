@@ -37,7 +37,7 @@ architecture a1 of tb is
   signal value_out, value_in : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
 begin
-  DUT : entity work.pe
+  DUT : entity work.core
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,

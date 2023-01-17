@@ -17,10 +17,10 @@ vcom -work work ../rtl/components/mem_wght_ifmap.vhd
 vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
 
 # Processing element
-vcom -work work ../rtl/pe/pe.vhd
+vcom -work work ../rtl/core/core.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_pe.vhd
+vcom -work work ../tb/tb_rtl_core.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/data_hw/default_default/0/generic_file.txt
