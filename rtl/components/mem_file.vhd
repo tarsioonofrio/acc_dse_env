@@ -41,9 +41,13 @@ architecture a1 of memory is
   signal cont_read, cont_write, cont_av_cycles : integer;
 
   signal data_av_signal : std_logic;
-  signal ROM :type_array_int := read_data(ROM_PATH);
+  signal ROM :type_array_int;
 
 begin
+
+  GEN_READ: if ROM_PATH /= "" generate
+    ROM <= read_data(ROM_PATH) when reset = '1';
+  end generate;
 
   -- Process to write in memory
   process(clock)

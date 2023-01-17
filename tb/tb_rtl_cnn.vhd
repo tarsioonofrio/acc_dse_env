@@ -117,7 +117,7 @@ begin
     --input_map <= (others => 0);
     wait until rising_edge(clock);
     wait until rising_edge(clock);
-
+    
     for i in 0 to (conv_integer(unsigned(config_gold.convs_per_line_convs_per_line))*conv_integer(unsigned(config_gold.n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
