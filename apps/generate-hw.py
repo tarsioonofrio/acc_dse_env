@@ -94,7 +94,7 @@ def main():
         "testLabel": y_test,
         "stride_h": config_nn["stride_h"],
         "stride_w": config_nn["stride_w"],
-        "testSetSize": 1,
+        "testSetSize": 100,
     }
 
     # Compute input channels
