@@ -46,7 +46,7 @@ architecture a1 of tb is
 begin
 
 
-  DUT : entity work.pe
+  DUT : entity work.core
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,

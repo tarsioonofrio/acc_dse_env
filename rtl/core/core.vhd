@@ -5,7 +5,7 @@ use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 
 
-entity pe is
+entity core is
   generic (
      N_FILTER       : integer := 16;
      N_CHANNEL      : integer := 3;
@@ -42,9 +42,9 @@ entity pe is
     p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
     p_value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0)
   );
-end pe;
+end core;
 
-architecture a1 of pe is
+architecture a1 of core is
 
   signal start_conv, end_conv, debug : std_logic;
 

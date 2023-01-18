@@ -8,7 +8,7 @@ use work.config_package.all;
 use work.util_package.all;
 
 
-entity pe is
+entity core is
   generic (
     N_FILTER       : integer   := 16;
     N_CHANNEL      : integer   := 3;
@@ -52,9 +52,9 @@ entity pe is
     p_address_out : out std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_out   : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
   );
-end pe;
+end core;
 
-architecture a1 of pe is
+architecture a1 of core is
 
   signal start_conv, end_conv, debug : std_logic;
 

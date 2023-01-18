@@ -120,8 +120,8 @@ begin
   p_value_out <= mem_ofmap_out;
 
 
-  gen_instance: for i in 1 to N_LAYER generate
-    PE : entity work.pe
+  gen_core: for i in 1 to N_LAYER generate
+    core : entity work.core
       generic map(
         N_FILTER       => N_FILTER,
         N_CHANNEL      => N_CHANNEL,
