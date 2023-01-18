@@ -4,8 +4,10 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 
+use work.config_package.all;
 
-entity pe is
+
+entity core is
   generic (
      N_FILTER       : integer := 16;
      N_CHANNEL      : integer := 3;
@@ -23,8 +25,9 @@ entity pe is
     reset : in std_logic;
 
     p_start_conv : in std_logic;
-    p_end_conv : out std_logic;
-    p_debug : out std_logic;
+    p_end_conv   : out std_logic;
+    p_debug      : out std_logic;
+    config       : in  type_config_logic;
 
     p_iwght_ce : in std_logic;
     p_iwght_we : in std_logic;
@@ -42,9 +45,9 @@ entity pe is
     p_value_in : in std_logic_vector((INPUT_SIZE*2)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
     p_value_out : out std_logic_vector((INPUT_SIZE*2)-1 downto 0)
   );
-end pe;
+end core;
 
-architecture a1 of pe is
+architecture a1 of core is
 
   signal start_conv, end_conv, debug : std_logic;
 
@@ -170,6 +173,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
+      config        => config,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value,

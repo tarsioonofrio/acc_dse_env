@@ -83,7 +83,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
 def generate_generic_file(generate_dict, path, n_layer):
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
-    if "pe" in path.as_posix():
+    if "processor" in path.as_posix():
         data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
     else:
         data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
