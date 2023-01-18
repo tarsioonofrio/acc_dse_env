@@ -65,19 +65,25 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
         "LAYER": layer,
     }
     path.mkdir(parents=True, exist_ok=True)
+    path_fmap = path / 'fmap' / str(layer)
+    path_config = path / 'conf' / str(layer)
+    path_wght = path / 'wght' / str(layer)
+    path_fmap.mkdir(parents=True, exist_ok=True)
+    path_config.mkdir(parents=True, exist_ok=True)
+    path_wght.mkdir(parents=True, exist_ok=True)
     generate_generic_dict = {**generic_dict, **generic_dict2}
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
-    generate_generic_file(generate_generic_dict, path, layer)
+    generate_generic_file(generate_generic_dict, path_config, layer)
     # Generate TCL file with generics for logic synthesis
-    generate_tcl_generic(generate_generic_dict, path, layer)
+    generate_tcl_generic(generate_generic_dict, path_config, layer)
     # Generate VHDL tensorflow package
-    generate_ifmem_vhd_pkg(path=path, **generate_vhd)
-    generate_wghts_vhd_pkg(path=path, **generate_vhd)
-    generate_ifmap_vhd_pkg(path=path, **generate_vhd)
+    generate_ifmem_vhd_pkg(path=path_fmap, **generate_vhd)
+    generate_wghts_vhd_pkg(path=path_wght, **generate_vhd)
+    generate_ifmap_vhd_pkg(path=path_fmap, **generate_vhd)
     # Generate VHDL gold output package
-    generate_gold_vhd_pkg(path=path, **generate_vhd)
-    generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
+    generate_gold_vhd_pkg(path=path_fmap, **generate_vhd)
+    generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_config, layer)
 
 
 def generate_generic_file(generate_dict, path, n_layer):

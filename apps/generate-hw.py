@@ -101,7 +101,7 @@ def main():
     input_channel = util.get_input_channel(config_nn["input_c"], n_conv_layers, vhd_dict["filter_channel"])
     for e, _ in enumerate(config_nn["filter_channel"]):
         generate_files(
-            config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict, e, path / str(e)
+            config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict, e, path
         )
 
     generic_dict2 = {
