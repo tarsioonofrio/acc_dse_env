@@ -23,6 +23,18 @@ def write_mem_txt(feat_list, file_name, path):
         f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
 
 
+def write_bram_txt(feat_list, path, bits=8, lines_per_file=64):
+    word = ceil(bits / 4)
+    total_words = ceil(64 / word)
+    feat_hex = [format(int(feat), f'0{word}x') for c in feat_list for col in c for feat in col]
+    feat_line = ["".join(feat_hex[i:i + total_words])+"\n" for i in range(0, len(feat_hex), total_words)]
+    feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
+    path.mkdir(parents=True, exist_ok=True)
+    for i, file in enumerate(feat_file):
+        with open(path / f"{i}.txt", "w") as f:
+            f.writelines(file)
+
+
 def format_feature2(feat_list, tab):
     format_feat = [
         # f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
@@ -84,6 +96,35 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_fmap, **generate_vhd)
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_config, layer)
+
+
+def generate_samples(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
+    # Compute HW parameters
+    if layer == 0:
+        X_SIZE = input_w
+        C_SIZE = input_c
+    else:
+        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
+        C_SIZE = vhd_dict["filter_channel"][layer - 1]
+
+    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
+    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
+    generic_dict2 = {
+        "X_SIZE": X_SIZE,
+        "C_SIZE": C_SIZE,
+        "FILTER_WIDTH": FILTER_WIDTH,
+        "CONVS_PER_LINE": CONVS_PER_LINE,
+        "LAYER": layer,
+    }
+    path.mkdir(parents=True, exist_ok=True)
+    path_samples = path / 'samples' / str(layer)
+    path_samples.mkdir(parents=True, exist_ok=True)
+    generate_generic_dict = {**generic_dict, **generic_dict2}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
+    # Generate generic file for rtl simulation
+    generate_ifmap_bram(path=path_samples, **generate_vhd)
+    # Generate VHDL gold output package
+    generate_gold_bram(path=path_samples, **generate_vhd)
 
 
 def generate_generic_file(generate_dict, path, n_layer):
@@ -321,11 +362,37 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
 
     tab = "    "
+    feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+
+    format_feat = format_feature(feat_list, tab)
+
+    file_name = "ifmap_pkg"
+    package = "ifmap_package"
+    constant = "input_map"
+    data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
+
+    write_mem_txt(feat_list, file_name, path)
+    write_mem_pkg(constant, data, file_name, package, path)
+
+
+def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+
+    tab = "    "
+    feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+
+    write_bram_txt(feat_list, path / "bram16k", 16)
+
+
+def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+                     stride_h, stride_w, tab, testSet, testSetSize):
     gen_features = True
     if layer == 0:
         feat_list = [
             [[str(int(image_shift[x, y, z]))
-               for y in range(image_shift.shape[1])]
+              for y in range(image_shift.shape[1])]
              for x in range(image_shift.shape[0])]
             for i, image in enumerate(testSet)
             if i in range(testSetSize)
@@ -337,16 +404,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
             gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
             stride_h, stride_w, tab, testSet, testSetSize
         )
-
-    format_feat = format_feature(feat_list, tab)
-
-    file_name = "ifmap_pkg"
-    package = "ifmap_package"
-    constant = "input_map"
-    data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
-
-    write_mem_txt(feat_list, file_name, path)
-    write_mem_pkg(constant, data, file_name, package, path)
+    return feat_list
 
 
 def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
@@ -367,6 +425,26 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     data = "".join([f"\n{tab}-- gold\n"] + format_feat)
     write_mem_txt(feat_list, file_name, path)
     write_mem_pkg(constant, data, file_name, package, path)
+
+
+def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+                       input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+    tab = "    "
+    gen_features = False
+
+    feat_list = convolution_from_weights(
+        gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+        stride_h, stride_w, tab, testSet, testSetSize
+    )
+
+    format_feat = format_feature(feat_list, tab)
+
+    # file_name = "gold_pkg"
+    # package = "gold_package"
+    # constant = "gold"
+    # data = "".join([f"\n{tab}-- gold\n"] + format_feat)
+    # write_mem_txt(feat_list, file_name, path)
+    # write_mem_pkg(constant, data, file_name, package, path)
 
 
 def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,

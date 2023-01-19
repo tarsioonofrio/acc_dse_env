@@ -8,7 +8,8 @@ from pathlib import Path
 # from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
 from lib.generate_files import (
-    generate_files, create_dictionary, generate_generic_file, generate_tcl_generic, generate_config_file
+    generate_files, create_dictionary, generate_generic_file, generate_tcl_generic, generate_config_file,
+    generate_samples
 )
 
 
@@ -94,15 +95,28 @@ def main():
         "testLabel": y_test,
         "stride_h": config_nn["stride_h"],
         "stride_w": config_nn["stride_w"],
-        "testSetSize": 100,
+        "testSetSize": 1,
+    }
+    vhd_dict_files = {
+        ** vhd_dict,
+        "testSetSize": 1,
+    }
+
+    vhd_dict_samples = {
+        ** vhd_dict,
+        "testSetSize": 10,
     }
 
     # Compute input channels
     input_channel = util.get_input_channel(config_nn["input_c"], n_conv_layers, vhd_dict["filter_channel"])
     for e, _ in enumerate(config_nn["filter_channel"]):
         generate_files(
-            config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict, e, path
+            config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict_files, e, path
         )
+
+    generate_samples(
+        config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict_samples, 0, path
+    )
 
     generic_dict2 = {
         "MEM_SIZE": config_hw["MEM_SIZE"],
