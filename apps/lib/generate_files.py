@@ -98,33 +98,15 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_config, layer)
 
 
-def generate_samples(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
-    # Compute HW parameters
-    if layer == 0:
-        X_SIZE = input_w
-        C_SIZE = input_c
-    else:
-        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
-        C_SIZE = vhd_dict["filter_channel"][layer - 1]
-
-    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
-    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
-    generic_dict2 = {
-        "X_SIZE": X_SIZE,
-        "C_SIZE": C_SIZE,
-        "FILTER_WIDTH": FILTER_WIDTH,
-        "CONVS_PER_LINE": CONVS_PER_LINE,
-        "LAYER": layer,
-    }
+def generate_samples(input_channel, generic_dict, vhd_dict, layer, path):
     path.mkdir(parents=True, exist_ok=True)
-    path_samples = path / 'samples' / str(layer)
+    path_samples = path / 'samples'
     path_samples.mkdir(parents=True, exist_ok=True)
-    generate_generic_dict = {**generic_dict, **generic_dict2}
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
-    generate_ifmap_bram(path=path_samples, **generate_vhd)
+    generate_ifmap_bram(path=path_samples, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     # Generate VHDL gold output package
-    generate_gold_bram(path=path_samples, **generate_vhd)
+    # generate_gold_bram(path=path_samples, bits=generic_dict["MEM_SIZE"], **generate_vhd)
 
 
 def generate_generic_file(generate_dict, path, n_layer):
@@ -377,13 +359,14 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 
 def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
 
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
                                  shift, stride_h, stride_w, tab, testSet, testSetSize)
 
-    write_bram_txt(feat_list, path / "bram16k", 16)
+    write_bram_txt(feat_list, path / f"064lines{bits}bits", bits, 64)
+    write_bram_txt(feat_list, path / f"128lines{bits}bits", bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,

@@ -114,9 +114,7 @@ def main():
             config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict_files, e, path
         )
 
-    generate_samples(
-        config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict_samples, 0, path
-    )
+    generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, path)
 
     generic_dict2 = {
         "MEM_SIZE": config_hw["MEM_SIZE"],
