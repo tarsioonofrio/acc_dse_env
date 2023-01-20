@@ -23,16 +23,20 @@ def write_mem_txt(feat_list, file_name, path):
         f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
 
 
-def write_bram_txt(feat_list, path, bits=8, lines_per_file=64):
+def write_bram_txt(feat_list, path, bits=8, lines_per_file=64, single_file=True):
     word = ceil(bits / 4)
-    total_words = ceil(64 / word)
     feat_hex = [format(int(feat), f'0{word}x') for c in feat_list for col in c for feat in col]
-    feat_line = ["".join(feat_hex[i:i + total_words])+"\n" for i in range(0, len(feat_hex), total_words)]
-    feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
-    path.mkdir(parents=True, exist_ok=True)
-    for i, file in enumerate(feat_file):
-        with open(path / f"{i}.txt", "w") as f:
-            f.writelines(file)
+    if single_file:
+        with open(path, "w") as f:
+            f.write("".join(feat_hex))
+    else:
+        total_words = ceil(64 / word)
+        feat_line = ["".join(feat_hex[i:i + total_words])+"\n" for i in range(0, len(feat_hex), total_words)]
+        feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
+        path.mkdir(parents=True, exist_ok=True)
+        for i, file in enumerate(feat_file):
+            with open(path / f"{i}.txt", "w") as f:
+                f.writelines(file)
 
 
 def format_feature2(feat_list, tab):
@@ -98,15 +102,20 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_config, layer)
 
 
-def generate_samples(input_channel, generic_dict, vhd_dict, layer, path):
-    path.mkdir(parents=True, exist_ok=True)
+def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_file):
     path_samples = path / 'samples'
-    path_samples.mkdir(parents=True, exist_ok=True)
+    path.mkdir(parents=True, exist_ok=True)
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
-    generate_ifmap_bram(path=path_samples, bits=generic_dict["MEM_SIZE"], **generate_vhd)
+    generate_ifmap_bram(path=path_samples, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     # Generate VHDL gold output package
-    # generate_gold_bram(path=path_samples, bits=generic_dict["MEM_SIZE"], **generate_vhd)
+    generate_vhd2 = {
+        **generate_vhd,
+        "layer": len(vhd_dict["filter_dimension"]) - 1
+    }
+    generate_gold_bram(
+        path=path_samples, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd2
+    )
 
 
 def generate_generic_file(generate_dict, path, n_layer):
@@ -359,14 +368,20 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 
 def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
+                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
+                        single_file):
 
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
                                  shift, stride_h, stride_w, tab, testSet, testSetSize)
-
-    write_bram_txt(feat_list, path / f"064lines{bits}bits", bits, 64)
-    write_bram_txt(feat_list, path / f"128lines{bits}bits", bits, 128)
+    if single_file:
+        write_bram_txt(feat_list, path / f"ifmap_064lines{bits}bits.txt", bits, 64)
+        write_bram_txt(feat_list, path / f"ifmap_128lines{bits}bits.txt", bits, 128)
+    else:
+        path_samples = path / 'samples/ifmap'
+        path_samples.mkdir(parents=True, exist_ok=True)
+        write_bram_txt(feat_list, path_samples / f"064lines{bits}bits", bits, 64)
+        write_bram_txt(feat_list, path_samples / f"128lines{bits}bits", bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -411,7 +426,8 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
 
 def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                       input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+                       input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
+                       single_file):
     tab = "    "
     gen_features = False
 
@@ -419,15 +435,14 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )
-
-    format_feat = format_feature(feat_list, tab)
-
-    # file_name = "gold_pkg"
-    # package = "gold_package"
-    # constant = "gold"
-    # data = "".join([f"\n{tab}-- gold\n"] + format_feat)
-    # write_mem_txt(feat_list, file_name, path)
-    # write_mem_pkg(constant, data, file_name, package, path)
+    if single_file:
+        write_bram_txt(feat_list, path / f"gold_064lines{bits}bits.txt", bits, 64)
+        write_bram_txt(feat_list, path / f"gold_128lines{bits}bits.txt", bits, 128)
+    else:
+        path_gold = path / 'samples/gold'
+        path_gold.mkdir(parents=True, exist_ok=True)
+        write_bram_txt(feat_list, path_gold / f"064lines{bits}bits", bits, 64)
+        write_bram_txt(feat_list, path_gold / f"128lines{bits}bits", bits, 128)
 
 
 def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
