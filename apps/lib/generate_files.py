@@ -1,5 +1,4 @@
 import copy
-import time
 
 from pathlib import Path
 from os.path import relpath
@@ -107,6 +106,7 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
     path.mkdir(parents=True, exist_ok=True)
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
+    generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
     generate_ifmap_bram(path=path_samples, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     # Generate VHDL gold output package
     generate_vhd2 = {
