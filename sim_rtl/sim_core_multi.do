@@ -3,14 +3,12 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-# inmem_pkg is not used in simulation
-vcom -work work ../apps/data_hw/default_default/layer/0/inmem_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/core/config_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
-vcom -work work ../rtl/components/mem.vhd
+vcom -work work ../rtl/components/mem_file.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd

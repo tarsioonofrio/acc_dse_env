@@ -5,7 +5,6 @@ vmap work work
 # Packages for CNN layer simualtion
 # inmem_pkg is not used in simulation
 
-vcom -work work ../apps/data_hw/default_default/layer/0/inmem_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/ifmap_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/iwght_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/gold_pkg.vhd

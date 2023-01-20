@@ -3,7 +3,6 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../apps/data_hw/default_default/layer/0/inmem_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/ifmap_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/iwght_pkg.vhd
 vcom -work work ../apps/data_hw/default_default/layer/0/gold_pkg.vhd
@@ -12,7 +11,7 @@ vcom -work work ../apps/data_hw/default_default/layer/0/config_pkg.vhd
 # Components
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
-vcom -work work ../rtl/components/mem_wght_ifmap.vhd
+vcom -work work ../rtl/components/mem_split.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
