@@ -83,7 +83,7 @@ begin
 
   -- init config array
   gen_init_config: for i in 1 to N_LAYER generate
-    config(i) <= read_config(PATH & "/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
+    config(i) <= read_config(PATH & "/layer/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
   end generate;   
 
   -- input map port to 0 index signal
@@ -132,7 +132,7 @@ begin
         INPUT_SIZE     => INPUT_SIZE,
         SHIFT          => SHIFT,
         CARRY_SIZE     => CARRY_SIZE,
-        IWGHT_PATH     => PATH & "/" & integer'image(i - 1) & "/iwght_pkg.txt",
+        IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght_pkg.txt",
         TEST_BENCH     => TEST_BENCH,
         TEST_LAYER     => i,
         PATH           => PATH
@@ -187,8 +187,8 @@ begin
 
 
   GEN_TB: if TEST_BENCH = '1' generate
-    config_test <= read_config(PATH & "/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");
-    gold <= read_data(PATH & "/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
+    config_test <= read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");
+    gold <= read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
 
 
     process(clock)

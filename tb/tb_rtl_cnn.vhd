@@ -39,11 +39,11 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config_inpt : type_config_logic := read_config(PATH & "/0/config_pkg.txt");
-  signal config_gold : type_config_logic := read_config(PATH & "/2/config_pkg.txt");
+  signal config_inpt : type_config_logic := read_config(PATH & "/layer/0/config_pkg.txt");
+  signal config_gold : type_config_logic := read_config(PATH & "/layer/2/config_pkg.txt");
 
-  signal input_map : type_array_int := read_data(PATH & "/0/ifmap_pkg.txt");
-  signal gold      : type_array_int := read_data(PATH & "/2/gold_pkg.txt");
+  signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
+  signal gold      : type_array_int := read_data(PATH & "/layer/2/gold_pkg.txt");
 
 
 begin
