@@ -1,0 +1,10 @@
+rule:
+    # global:
+        # disable: true
+    generic_007:
+        disable: true
+    generic_map_002:
+        disable: true
+    # port_025:
+        # disable: false
+        # suffixes: ['_i', '_o']

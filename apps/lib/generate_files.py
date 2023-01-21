@@ -115,6 +115,25 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
 
 
 def generate_generic_file(generate_dict, path, n_layer):
+    bram18kb = {
+        (19, 36): {"BRAM_ADDR": 9,  "BRAM_WE": 4},
+        (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
+        (5,   9): {"BRAM_ADDR": 11, "BRAM_WE": 1},
+        (3,   4): {"BRAM_ADDR": 12, "BRAM_WE": 1},
+        (2,   2): {"BRAM_ADDR": 13, "BRAM_WE": 1},
+        (1,   1): {"BRAM_ADDR": 14, "BRAM_WE": 1},
+    }
+
+    bram36kb = {
+        (37, 72): {"BRAM_ADDR": 9,  "BRAM_WE": 8},
+        (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4},
+        (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2},
+        (5,   9): {"BRAM_ADDR": 12, "BRAM_WE": 1},
+        (3,   4): {"BRAM_ADDR": 13, "BRAM_WE": 1},
+        (2,   2): {"BRAM_ADDR": 14, "BRAM_WE": 1},
+        (1,   1): {"BRAM_ADDR": 15, "BRAM_WE": 1},
+    }
+
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
     if "core" in path.as_posix():
