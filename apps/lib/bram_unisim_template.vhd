@@ -30,11 +30,11 @@ use unimacro.Vcomponents.all;
 --       1     |  "18Kb"   |    16384    |   14-bit   |    1-bit   --
 ---------------------------------------------------------------------
 
-entity bram is
+entity {entity} is
     generic (
-        BRAM_SIZE: string := {BRAM_SIZE};
+        BRAM_SIZE: string := {bram_size};
         BRAM_SIZE_ADD: integer := 8;
-        DEVICE: string := {DEVICE};
+        DEVICE: string := {device};
         INPUT_SIZE : integer := 8;
         READ_WIDTH : integer := 0
         );
@@ -52,7 +52,7 @@ entity bram is
           n_read  : out std_logic_vector(31 downto 0);
           n_write : out std_logic_vector(31 downto 0)
           );
-  end bram;
+  end {entity};
 
   architecture a1 of bram is
 

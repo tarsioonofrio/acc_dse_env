@@ -5,7 +5,7 @@ from pathlib import Path
 
 from tensorflow import keras
 from lib import keras_models
-from lib.generate_files import create_dictionary
+from apps.lib.model import dictionary_from_model
 
 
 def main():
@@ -44,7 +44,7 @@ def main():
     model.fit(x_train, y_train, epochs=config_nn["n_epochs"])
     # Save model
     model.save(path / 'weights')
-    model_dict = create_dictionary(model)
+    model_dict = dictionary_from_model(model)
     # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
     with open(path / 'weights.pkl', 'wb') as output:
         # Pickle dictionary using protocol 0.

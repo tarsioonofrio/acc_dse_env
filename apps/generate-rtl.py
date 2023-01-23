@@ -8,9 +8,10 @@ from pathlib import Path
 # from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
 from lib.generate_files import (
-    generate_files, create_dictionary, generate_generic_file, generate_tcl_generic, generate_config_file,
+    generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,
     generate_samples
 )
+from apps.lib.model import dictionary_from_model
 
 
 def main():
@@ -54,7 +55,7 @@ def main():
         from lib import keras_models
         model = keras.models.load_model(wght_path / "weights")
         # Generate dictionary
-        model_dict = create_dictionary(model)
+        model_dict = dictionary_from_model(model)
         # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
         with open(wght_path / 'weights.pkl', 'wb') as f:
             # Pickle dictionary using protocol 0.
@@ -114,7 +115,7 @@ def main():
             config_nn["input_c"], config_nn["input_w"], input_channel, generic_dict, vhd_dict_files, e, path
         )
 
-    generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, path, single_file=True)
+    generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, path, single_file=False)
 
     generic_dict2 = {
         "MEM_SIZE": config_hw["MEM_SIZE"],
