@@ -12,14 +12,14 @@ def main():
     parser = argparse.ArgumentParser(
         usage='use "python %(prog)s --help" for more information.\n'
     )
-    parser.add_argument("--config_nn", "-n", type=str, help="Name of neural network config file in config_nn")
+    parser.add_argument("--nn_config", "-n", type=str, help="Name of neural network config file in nn_config")
     args = parser.parse_args()
 
     config_nn_name = args.config_nn
 
     root = Path(__file__).parent.resolve()
-    file = root / "config_nn" / f"{config_nn_name}.json"
-    path = root / "data_nn" / config_nn_name
+    file = root / "nn_config" / f"{config_nn_name}.json"
+    path = root / "nn_data" / config_nn_name
 
     path.mkdir(parents=True, exist_ok=True)
 

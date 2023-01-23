@@ -6,5 +6,7 @@
   "CARRY_SIZE": 4,
   "LAT": 2,
   "CLK_PERIOD": 2.0,
-  "IN_DELAY": 0.3
+  "IN_DELAY": 0.3,
+  "DEVICE": "7SERIES",
+  "BRAM_SIZE": "18k"
 }
