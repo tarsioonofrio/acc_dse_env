@@ -62,7 +62,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
     word = ceil(bits / 4)
     feat_hex = [format(int(feat), f'0{word}x') for feat in feat_list]
     total_words = ceil(64 / word)
-    feat_line = ["".join(feat_hex[i:i + total_words])+"\n" for i in range(0, len(feat_hex), total_words)]
+    feat_line = ["".join(feat_hex[i:i + total_words]) for i in range(0, len(feat_hex), total_words)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
     path.mkdir(parents=True, exist_ok=True)
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
@@ -358,14 +358,16 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
                                  shift, stride_h, stride_w, tab, testSet, testSetSize)
     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     if single_file:
-        write_bram_txt(feat_unpack, path / f"ifmap_064lines{bits}bits.txt", bits, 64)
-        write_bram_txt(feat_unpack, path / f"ifmap_128lines{bits}bits.txt", bits, 128)
+        pass
+        # write_bram_txt(feat_unpack, path / f"ifmap_064lines{bits}bits.txt", bits, 64)
+        # write_bram_txt(feat_unpack, path / f"ifmap_128lines{bits}bits.txt", bits, 128)
     else:
         path_samples = path / 'samples/ifmap'
         path_samples.mkdir(parents=True, exist_ok=True)
-        write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits", bits, 64)
-        write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits", bits, 128)
-        write_bram_pkg(f"ifmap_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
+        # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits", bits, 64)
+        # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits", bits, 128)
+        write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
+        write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
