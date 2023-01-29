@@ -366,8 +366,8 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
         path_samples.mkdir(parents=True, exist_ok=True)
         # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits", bits, 64)
         # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits", bits, 128)
-        write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
-        write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
+        write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path_samples,  bits, 64)
+        write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path_samples,  bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -422,13 +422,15 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
         stride_h, stride_w, tab, testSet, testSetSize
     )
     feat_unpack = [feat for c in feat_list for col in c for feat in col]
-    if single_file:
-        write_bram_txt(feat_unpack, path / f"gold_064lines{bits}bits.txt", bits, 64)
-        write_bram_txt(feat_unpack, path / f"gold_128lines{bits}bits.txt", bits, 128)
-    else:
-        path_gold = path / 'samples/gold'
-        path_gold.mkdir(parents=True, exist_ok=True)
-        write_bram_txt(feat_unpack, path_gold / f"064lines{bits}bits", bits, 64)
-        write_bram_txt(feat_unpack, path_gold / f"128lines{bits}bits", bits, 128)
+    # if single_file:
+    #     write_bram_txt(feat_unpack, path / f"gold_064lines{bits}bits.txt", bits, 64)
+    #     write_bram_txt(feat_unpack, path / f"gold_128lines{bits}bits.txt", bits, 128)
+    # else:
+    path_gold = path / 'samples/gold'
+    path_gold.mkdir(parents=True, exist_ok=True)
+    write_bram_txt(feat_unpack, path_gold / f"064lines{bits}bits", bits, 64)
+    write_bram_txt(feat_unpack, path_gold / f"128lines{bits}bits", bits, 128)
+    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path_gold,  bits, 64)
+    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path_gold,  bits, 128)
 
 
