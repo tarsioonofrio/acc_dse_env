@@ -22,13 +22,13 @@ def main():
     parser.add_argument("--rtl_config", "-w", type=str, help="Name of hardware config file in rtl_config")
     args = parser.parse_args()
 
-    config_nn_name = args.config_nn
-    config_hw_name = args.config_hw
+    config_nn_name = args.nn_config
+    config_hw_name = args.rtl_config
 
     root = Path(__file__).parent.resolve()
     file_nn = root / "nn_config" / f"{config_nn_name}.json"
     file_hw = root / "rtl_config" / f"{config_hw_name}.json"
-    wght_path = root / f"data_nn/{config_nn_name}"
+    wght_path = root / f"nn_data/{config_nn_name}"
     path = root / "rtl_code" / f"{config_nn_name}_{config_hw_name}"
 
     path.mkdir(parents=True, exist_ok=True)
