@@ -56,25 +56,6 @@ entity ifmap_36k_layer0_entity2 is
 
   architecture a1 of bram is
 
-    function string_to_std_logic_vector(data : string; s: integer; e: integer) return std_logic_vector is
-        variable output : std_logic_vector(255 downto 0);
-        type type_hex_vector is array (0 to 15) of std_logic_vector(3 downto 0);
-        variable str_vector : string := "0123456789ABCDEF";
-        variable hex_vector : type_hex := (
-            x"0", x"1", x"2", x"3", x"4", x"5", x"6", x"7", x"8", x"9", x"A", x"B", x"C", x"D", x"E", x"F"
-        );
-    begin
-        for i in s to e loop
-            for h in 0 to 15 loop
-                if data(i*4+3 downto i*4) = str_vector(h) then
-                    output(s(i*4+3 downto i*4)) := hex_vector(h);
---                     ret(i*8+7 downto i*8) := std_logic_vector(to_unsigned(character'pos(s(i)), 8));
-                end if;
-            end loop;
-        end loop;
-        return output;
-    end function string_to_std_logic_vector;
-
     begin
 
     BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
