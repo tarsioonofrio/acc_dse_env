@@ -65,9 +65,9 @@ def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
     feat_line = ["".join(feat_hex[i:i + total_words]) for i in range(0, len(feat_hex), total_words)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
     path.mkdir(parents=True, exist_ok=True)
-    with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
-        text = f.read()
     bram_size = bram_size_dict[lines_per_file]
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
+        text = f.read()
     for i, file in enumerate(feat_file):
         entity = f"{name}_entity{i}"
         text_out = text.format(entity=entity, bram_size=bram_size, device=device, init_xx=file)
