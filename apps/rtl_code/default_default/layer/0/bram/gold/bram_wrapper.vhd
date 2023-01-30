@@ -36,7 +36,7 @@ architecture a1 of bram_wrapper is
 
 begin
 
-  MEM_GOLD_36K_LAYER2_ENTITY0 :  if N_LAYER = 0 generate
+MEM_GOLD_36K_LAYER2_ENTITY0 : if N_LAYER = 0 generate
   entity work.gold_36k_layer2_entity0
     port map(
       clock    => clock,
@@ -50,36 +50,7 @@ begin
       n_read   => n_read,
       n_write  => n_write
       );
-
-MEM_GOLD_36K_LAYER2_ENTITY1 :  if N_LAYER = 1 generate
-  entity work.gold_36k_layer2_entity1
-    port map(
-      clock    => clock,
-      reset    => reset,
-      chip_en  => chip_en,
-      wr_en    => wr_en,
-      data_in  => data_in,
-      address  => address,
-      data_av  => data_av,
-      data_out => data_out,
-      n_read   => n_read,
-      n_write  => n_write
-      );
-
-MEM_GOLD_36K_LAYER2_ENTITY2 :  if N_LAYER = 2 generate
-  entity work.gold_36k_layer2_entity2
-    port map(
-      clock    => clock,
-      reset    => reset,
-      chip_en  => chip_en,
-      wr_en    => wr_en,
-      data_in  => data_in,
-      address  => address,
-      data_av  => data_av,
-      data_out => data_out,
-      n_read   => n_read,
-      n_write  => n_write
-      );
+end generate MEM_GOLD_36K_LAYER2_ENTITY0;
 
 
 end a1;

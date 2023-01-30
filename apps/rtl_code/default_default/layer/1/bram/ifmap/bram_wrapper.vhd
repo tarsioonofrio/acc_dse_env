@@ -36,5 +36,37 @@ architecture a1 of bram_wrapper is
 
 begin
 
-{code}
+MEM_IFMAP_36K_LAYER1_ENTITY0 : if N_LAYER = 0 generate
+  entity work.ifmap_36k_layer1_entity0
+    port map(
+      clock    => clock,
+      reset    => reset,
+      chip_en  => chip_en,
+      wr_en    => wr_en,
+      data_in  => data_in,
+      address  => address,
+      data_av  => data_av,
+      data_out => data_out,
+      n_read   => n_read,
+      n_write  => n_write
+      );
+end generate MEM_IFMAP_36K_LAYER1_ENTITY0;
+
+MEM_IFMAP_36K_LAYER1_ENTITY1 : if N_LAYER = 1 generate
+  entity work.ifmap_36k_layer1_entity1
+    port map(
+      clock    => clock,
+      reset    => reset,
+      chip_en  => chip_en,
+      wr_en    => wr_en,
+      data_in  => data_in,
+      address  => address,
+      data_av  => data_av,
+      data_out => data_out,
+      n_read   => n_read,
+      n_write  => n_write
+      );
+end generate MEM_IFMAP_36K_LAYER1_ENTITY1;
+
+
 end a1;

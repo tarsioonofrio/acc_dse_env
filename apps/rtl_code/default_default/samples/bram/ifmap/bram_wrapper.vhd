@@ -36,7 +36,7 @@ architecture a1 of bram_wrapper is
 
 begin
 
-  MEM_IFMAP_36K_LAYER0_ENTITY0 :  if N_LAYER = 0 generate
+MEM_IFMAP_36K_LAYER0_ENTITY0 : if N_LAYER = 0 generate
   entity work.ifmap_36k_layer0_entity0
     port map(
       clock    => clock,
@@ -50,8 +50,9 @@ begin
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY0;
 
-MEM_IFMAP_36K_LAYER0_ENTITY1 :  if N_LAYER = 1 generate
+MEM_IFMAP_36K_LAYER0_ENTITY1 : if N_LAYER = 1 generate
   entity work.ifmap_36k_layer0_entity1
     port map(
       clock    => clock,
@@ -65,8 +66,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY1 :  if N_LAYER = 1 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY1;
 
-MEM_IFMAP_36K_LAYER0_ENTITY2 :  if N_LAYER = 2 generate
+MEM_IFMAP_36K_LAYER0_ENTITY2 : if N_LAYER = 2 generate
   entity work.ifmap_36k_layer0_entity2
     port map(
       clock    => clock,
@@ -80,8 +82,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY2 :  if N_LAYER = 2 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY2;
 
-MEM_IFMAP_36K_LAYER0_ENTITY3 :  if N_LAYER = 3 generate
+MEM_IFMAP_36K_LAYER0_ENTITY3 : if N_LAYER = 3 generate
   entity work.ifmap_36k_layer0_entity3
     port map(
       clock    => clock,
@@ -95,8 +98,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY3 :  if N_LAYER = 3 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY3;
 
-MEM_IFMAP_36K_LAYER0_ENTITY4 :  if N_LAYER = 4 generate
+MEM_IFMAP_36K_LAYER0_ENTITY4 : if N_LAYER = 4 generate
   entity work.ifmap_36k_layer0_entity4
     port map(
       clock    => clock,
@@ -110,8 +114,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY4 :  if N_LAYER = 4 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY4;
 
-MEM_IFMAP_36K_LAYER0_ENTITY5 :  if N_LAYER = 5 generate
+MEM_IFMAP_36K_LAYER0_ENTITY5 : if N_LAYER = 5 generate
   entity work.ifmap_36k_layer0_entity5
     port map(
       clock    => clock,
@@ -125,8 +130,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY5 :  if N_LAYER = 5 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY5;
 
-MEM_IFMAP_36K_LAYER0_ENTITY6 :  if N_LAYER = 6 generate
+MEM_IFMAP_36K_LAYER0_ENTITY6 : if N_LAYER = 6 generate
   entity work.ifmap_36k_layer0_entity6
     port map(
       clock    => clock,
@@ -140,8 +146,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY6 :  if N_LAYER = 6 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY6;
 
-MEM_IFMAP_36K_LAYER0_ENTITY7 :  if N_LAYER = 7 generate
+MEM_IFMAP_36K_LAYER0_ENTITY7 : if N_LAYER = 7 generate
   entity work.ifmap_36k_layer0_entity7
     port map(
       clock    => clock,
@@ -155,8 +162,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY7 :  if N_LAYER = 7 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY7;
 
-MEM_IFMAP_36K_LAYER0_ENTITY8 :  if N_LAYER = 8 generate
+MEM_IFMAP_36K_LAYER0_ENTITY8 : if N_LAYER = 8 generate
   entity work.ifmap_36k_layer0_entity8
     port map(
       clock    => clock,
@@ -170,8 +178,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY8 :  if N_LAYER = 8 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY8;
 
-MEM_IFMAP_36K_LAYER0_ENTITY9 :  if N_LAYER = 9 generate
+MEM_IFMAP_36K_LAYER0_ENTITY9 : if N_LAYER = 9 generate
   entity work.ifmap_36k_layer0_entity9
     port map(
       clock    => clock,
@@ -185,8 +194,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY9 :  if N_LAYER = 9 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY9;
 
-MEM_IFMAP_36K_LAYER0_ENTITY10 :  if N_LAYER = 10 generate
+MEM_IFMAP_36K_LAYER0_ENTITY10 : if N_LAYER = 10 generate
   entity work.ifmap_36k_layer0_entity10
     port map(
       clock    => clock,
@@ -200,8 +210,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY10 :  if N_LAYER = 10 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY10;
 
-MEM_IFMAP_36K_LAYER0_ENTITY11 :  if N_LAYER = 11 generate
+MEM_IFMAP_36K_LAYER0_ENTITY11 : if N_LAYER = 11 generate
   entity work.ifmap_36k_layer0_entity11
     port map(
       clock    => clock,
@@ -215,8 +226,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY11 :  if N_LAYER = 11 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY11;
 
-MEM_IFMAP_36K_LAYER0_ENTITY12 :  if N_LAYER = 12 generate
+MEM_IFMAP_36K_LAYER0_ENTITY12 : if N_LAYER = 12 generate
   entity work.ifmap_36k_layer0_entity12
     port map(
       clock    => clock,
@@ -230,8 +242,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY12 :  if N_LAYER = 12 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY12;
 
-MEM_IFMAP_36K_LAYER0_ENTITY13 :  if N_LAYER = 13 generate
+MEM_IFMAP_36K_LAYER0_ENTITY13 : if N_LAYER = 13 generate
   entity work.ifmap_36k_layer0_entity13
     port map(
       clock    => clock,
@@ -245,8 +258,9 @@ MEM_IFMAP_36K_LAYER0_ENTITY13 :  if N_LAYER = 13 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY13;
 
-MEM_IFMAP_36K_LAYER0_ENTITY14 :  if N_LAYER = 14 generate
+MEM_IFMAP_36K_LAYER0_ENTITY14 : if N_LAYER = 14 generate
   entity work.ifmap_36k_layer0_entity14
     port map(
       clock    => clock,
@@ -260,6 +274,7 @@ MEM_IFMAP_36K_LAYER0_ENTITY14 :  if N_LAYER = 14 generate
       n_read   => n_read,
       n_write  => n_write
       );
+end generate MEM_IFMAP_36K_LAYER0_ENTITY14;
 
 
 end a1;

@@ -147,24 +147,35 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
+    path_ifmap = path_layer / 'bram/ifmap'
+    path_ifmap.mkdir(parents=True, exist_ok=True)
+    generate_ifmap_bram(path=path_ifmap, single_file=False, bits=generic_dict["MEM_SIZE"], **generate_vhd)
+    path_gold = path_layer / 'bram/gold'
+    path_gold.mkdir(parents=True, exist_ok=True)
+    generate_gold_bram(
+        path=path_gold, single_file=False, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
 def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_file):
     path_samples = path / 'samples'
-    path.mkdir(parents=True, exist_ok=True)
+    path_samples.mkdir(parents=True, exist_ok=True)
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
     # Generate generic file for rtl simulation
     generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
     generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
-    generate_ifmap_bram(path=path_samples, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd)
-    # Generate VHDL gold output package
-    generate_vhd2 = {
-        **generate_vhd,
-        "layer": len(vhd_dict["filter_dimension"]) - 1
-    }
+    path_samples_ifmap = path_samples / 'bram/ifmap'
+    path_samples_ifmap.mkdir(parents=True, exist_ok=True)
+    generate_ifmap_bram(
+        path=path_samples_ifmap, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd
+    )
+    path_samples_gold = path_samples / 'bram/gold'
+    path_samples_gold.mkdir(parents=True, exist_ok=True)
     generate_gold_bram(
-        path=path_samples, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd2
+        path=path_samples_gold, single_file=single_file, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
     )
 
 
@@ -378,12 +389,12 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
     #     write_bram_txt(feat_unpack, path / f"ifmap_064lines{bits}bits.txt", bits, 64)
     #     write_bram_txt(feat_unpack, path / f"ifmap_128lines{bits}bits.txt", bits, 128)
     # else:
-    path_samples = path / 'samples/ifmap'
-    path_samples.mkdir(parents=True, exist_ok=True)
+    # path_samples = path / 'samples/ifmap'
+    # path_samples.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path_samples,  bits, 64)
-    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path_samples,  bits, 128)
+    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
+    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -442,11 +453,11 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     #     write_bram_txt(feat_unpack, path / f"gold_064lines{bits}bits.txt", bits, 64)
     #     write_bram_txt(feat_unpack, path / f"gold_128lines{bits}bits.txt", bits, 128)
     # else:
-    path_gold = path / 'samples/gold'
-    path_gold.mkdir(parents=True, exist_ok=True)
+    # path_gold = path / 'samples/gold'
+    # path_gold.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_gold / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_gold / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path_gold,  bits, 64)
-    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path_gold,  bits, 128)
+    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
+    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
 
 

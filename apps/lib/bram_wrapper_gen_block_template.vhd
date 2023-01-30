@@ -1,4 +1,4 @@
-{label} :  if N_LAYER = {n_layer} generate
+{label} : if N_LAYER = {n_layer} generate
   entity work.{entity}
     port map(
       clock    => clock,
@@ -12,4 +12,5 @@
       n_read   => n_read,
       n_write  => n_write
       );
+end generate {label};
 
