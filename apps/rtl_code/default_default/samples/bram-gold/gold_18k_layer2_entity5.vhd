@@ -32,19 +32,15 @@ use unimacro.Vcomponents.all;
 
 entity gold_18k_layer2_entity5 is
     generic (
-        BRAM_SIZE: string := 18Kb;
-        BRAM_SIZE_ADD: integer := 8;
-        DEVICE: string := 7SERIES;
-        INPUT_SIZE : integer := 8;
-        READ_WIDTH : integer := 0
+        DEVICE: string := "7SERIES"
         );
   
     port (reset   : in std_logic;
           clock   : in std_logic;
           chip_en : in std_logic;
-          wr_en   : in std_logic;
+          wr_en   : in std_logic_vector(2-1 downto 0);;
           data_in : in std_logic_vector(INPUT_SIZE-1 downto 0);
-          address : in std_logic_vector(BRAM_SIZE_ADD-1 downto 0);
+          address : in std_logic_vector(10-1 downto 0);
   
           data_av  : out std_logic;
           data_out : out std_logic_vector(INPUT_SIZE-1 downto 0);
@@ -61,7 +57,7 @@ entity gold_18k_layer2_entity5 is
     BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
     generic map (
        BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-       DEVICE => "7SERIES",             -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+       DEVICE => DEVICE,             -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
        DO_REG => 0,                     -- Optional output register (0 or 1)
        INIT => X"000000000000000000",   -- Initial values on output port
        INIT_FILE => "NONE",

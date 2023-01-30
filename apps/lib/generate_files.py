@@ -2,8 +2,26 @@ from pathlib import Path
 from os.path import relpath
 from math import log2, ceil
 
-from apps.lib.model import convolution_from_weights, generate_ifmem_vhd_pkg
+from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
+bram18kb_dict = {
+    (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4},
+    (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
+    (5, 9): {"BRAM_ADDR": 11, "BRAM_WE": 1},
+    (3, 4): {"BRAM_ADDR": 12, "BRAM_WE": 1},
+    (2, 2): {"BRAM_ADDR": 13, "BRAM_WE": 1},
+    (1, 1): {"BRAM_ADDR": 14, "BRAM_WE": 1},
+}
+
+bram36kb_dict = {
+    (37, 72): {"BRAM_ADDR": 9, "BRAM_WE": 8},
+    (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4},
+    (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2},
+    (5, 9): {"BRAM_ADDR": 12, "BRAM_WE": 1},
+    (3, 4): {"BRAM_ADDR": 13, "BRAM_WE": 1},
+    (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1},
+    (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1},
+}
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
@@ -54,7 +72,7 @@ def write_bram_txt(feat_list, path, bits=8, lines_per_file=64, single_file=True)
                 f.writelines(file)
 
 
-def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
+def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     bram_size_dict = {
         64: "18Kb",
         128: "36Kb"
@@ -72,9 +90,24 @@ def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
 
     list_entity = [f"{name}_entity{i}" for i, file in enumerate(feat_file)]
 
+    if bram_size == '18Kb':
+        bram_dict = bram18kb_dict
+    else:
+        bram_dict = bram36kb_dict
+
+    bram_width = [
+        v for k, v in bram_dict.items()
+        if k[0] < bits < k[1]
+    ]
+    addr_width = bram_width[0]["BRAM_ADDR"]
+    we_width = bram_width[0]["BRAM_WE"]
+
     for (file, entity) in zip(feat_file, list_entity):
         file_complete = file if len(file) == lines_per_file else file + ['0'*64] * (lines_per_file-len(file))
-        text_out = text.format(entity=entity, bram_size=bram_size, device=device, init_xx=file_complete)
+        text_out = text.format(
+            entity=entity, bram_size=bram_size, device=device, addr_width=addr_width, we_width=we_width,
+            init_xx=file_complete
+        )
         with open(path / f"{entity}.vhd", "w") as f:
             f.writelines(text_out)
 
@@ -149,13 +182,11 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
     path_ifmap = path_layer / 'bram-ifmap'
     path_ifmap.mkdir(parents=True, exist_ok=True)
-    generate_ifmap_bram(path=path_ifmap, single_file=False, bits=generic_dict["MEM_SIZE"], **generate_vhd)
+    generate_ifmap_bram(path=path_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     path_gold = path_layer / 'bram-gold'
     path_gold.mkdir(parents=True, exist_ok=True)
-    generate_gold_bram(
-        path=path_gold, single_file=False, bits=generic_dict["MEM_SIZE"],
-        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
-    )
+    generate_gold_bram(path=path_gold, bits=generic_dict["MEM_SIZE"],
+                       **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1})
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
@@ -168,37 +199,14 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
     generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
     path_samples_ifmap = path_samples / 'bram-ifmap'
     path_samples_ifmap.mkdir(parents=True, exist_ok=True)
-    generate_ifmap_bram(
-        path=path_samples_ifmap, single_file=single_file, bits=generic_dict["MEM_SIZE"], **generate_vhd
-    )
+    generate_ifmap_bram(path=path_samples_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     path_samples_gold = path_samples / 'bram-gold'
     path_samples_gold.mkdir(parents=True, exist_ok=True)
-    generate_gold_bram(
-        path=path_samples_gold, single_file=single_file, bits=generic_dict["MEM_SIZE"],
-        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
-    )
+    generate_gold_bram(path=path_samples_gold, bits=generic_dict["MEM_SIZE"],
+                       **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1})
 
 
 def generate_generic_file(generate_dict, path, n_layer):
-    bram18kb = {
-        (19, 36): {"BRAM_ADDR": 9,  "BRAM_WE": 4},
-        (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
-        (5,   9): {"BRAM_ADDR": 11, "BRAM_WE": 1},
-        (3,   4): {"BRAM_ADDR": 12, "BRAM_WE": 1},
-        (2,   2): {"BRAM_ADDR": 13, "BRAM_WE": 1},
-        (1,   1): {"BRAM_ADDR": 14, "BRAM_WE": 1},
-    }
-
-    bram36kb = {
-        (37, 72): {"BRAM_ADDR": 9,  "BRAM_WE": 8},
-        (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4},
-        (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2},
-        (5,   9): {"BRAM_ADDR": 12, "BRAM_WE": 1},
-        (3,   4): {"BRAM_ADDR": 13, "BRAM_WE": 1},
-        (2,   2): {"BRAM_ADDR": 14, "BRAM_WE": 1},
-        (1,   1): {"BRAM_ADDR": 15, "BRAM_WE": 1},
-    }
-
     CLK_HALF = generate_dict["CLK_PERIOD"] / 2
     RST_TIME = CLK_HALF * 5
     if "core" in path.as_posix():
@@ -377,9 +385,8 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     # write_bram(entity, init, bram_size, device, file_name, path)
 
 
-def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                        input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
-                        single_file):
+def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
+                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
 
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
@@ -438,9 +445,8 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     write_mem_pkg(constant, data, file_name, package, path)
 
 
-def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                       input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
-                       single_file):
+def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
+                       testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
     tab = "    "
     gen_features = False
 
