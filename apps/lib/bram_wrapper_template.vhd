@@ -9,12 +9,11 @@ use work.util_package.all;
 
 
 entity bram_wrapper is
-  generic (INPUT_SIZE      : integer := 8;
-           ADDRESS_SIZE    : integer := 12;
-           DATA_AV_LATENCY : integer := 0;
-           N_LAYER         : integer := 0;
-           ROM_PATH        : string  := ""
-           );
+    generic (
+        DEVICE: string := "7SERIES";
+        N_LAYER        : integer := 0
+        );
+
 
   port (reset   : in std_logic;
         clock   : in std_logic;
@@ -33,8 +32,20 @@ end bram_wrapper;
 
 architecture a1 of bram_wrapper is
 
+signal data_valid std_logic;
 
 begin
+
+  -- code to imitate data_av in simulation
+  process(reset, clock)
+  begin
+    if reset = '1' then
+        data_valid <= '0';
+    elsif rising_edge(clock) then
+        data_valid <= chip_en;
+        data_av <= data_valid;
+    end if;
+  end process;
 
 {code}
 end a1;

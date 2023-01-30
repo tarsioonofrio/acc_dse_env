@@ -1,3 +1,5 @@
+-- https://docs.xilinx.com/r/en-US/ug953-vivado-7series-libraries/BRAM_SINGLE_MACRO
+
 library UNISIM;
 use UNISIM.vcomponents.all;
 library UNIMACRO;
@@ -35,19 +37,15 @@ entity ifmap_18k_layer0_entity23 is
         DEVICE: string := "7SERIES"
         );
   
-    port (reset   : in std_logic;
-          clock   : in std_logic;
-          chip_en : in std_logic;
-          wr_en   : in std_logic_vector(2-1 downto 0);;
-          data_in : in std_logic_vector(INPUT_SIZE-1 downto 0);
-          address : in std_logic_vector(10-1 downto 0);
-  
-          data_av  : out std_logic;
-          data_out : out std_logic_vector(INPUT_SIZE-1 downto 0);
-  
-          n_read  : out std_logic_vector(31 downto 0);
-          n_write : out std_logic_vector(31 downto 0)
-          );
+    port (
+        RST  : in std_logic;
+        CLK  : in std_logic;
+        EN   : in std_logic;
+        WE   : in std_logic_vector(2-1 downto 0);;
+        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
+        ADDR : in std_logic_vector(10-1 downto 0);
+        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
+    );
   end ifmap_18k_layer0_entity23;
 
   architecture a1 of bram is
@@ -57,7 +55,7 @@ entity ifmap_18k_layer0_entity23 is
     BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
     generic map (
        BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-       DEVICE => DEVICE,             -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+       DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
        DO_REG => 0,                     -- Optional output register (0 or 1)
        INIT => X"000000000000000000",   -- Initial values on output port
        INIT_FILE => "NONE",

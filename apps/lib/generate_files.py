@@ -4,6 +4,7 @@ from math import log2, ceil
 
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
+
 bram18kb_dict = {
     (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4},
     (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
@@ -22,6 +23,7 @@ bram36kb_dict = {
     (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1},
     (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1},
 }
+
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
@@ -185,8 +187,10 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_ifmap_bram(path=path_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     path_gold = path_layer / 'bram-gold'
     path_gold.mkdir(parents=True, exist_ok=True)
-    generate_gold_bram(path=path_gold, bits=generic_dict["MEM_SIZE"],
-                       **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1})
+    generate_gold_bram(
+        path=path_gold, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
     generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
@@ -202,8 +206,10 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
     generate_ifmap_bram(path=path_samples_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     path_samples_gold = path_samples / 'bram-gold'
     path_samples_gold.mkdir(parents=True, exist_ok=True)
-    generate_gold_bram(path=path_samples_gold, bits=generic_dict["MEM_SIZE"],
-                       **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1})
+    generate_gold_bram(
+        path=path_samples_gold, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
 
 
 def generate_generic_file(generate_dict, path, n_layer):
