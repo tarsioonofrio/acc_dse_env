@@ -8,7 +8,7 @@ use ieee.std_logic_textio.all;
 use work.util_package.all;
 
 
-entity memory is
+entity bram_wrapper is
   generic (INPUT_SIZE      : integer := 8;
            ADDRESS_SIZE    : integer := 12;
            DATA_AV_LATENCY : integer := 0;
@@ -29,13 +29,12 @@ entity memory is
         n_read  : out std_logic_vector(31 downto 0);
         n_write : out std_logic_vector(31 downto 0)
         );
-end memory;
+end bram_wrapper;
 
-architecture a1 of memory is
+architecture a1 of bram_wrapper is
 
 
 begin
 
   {code}
-
 end a1;

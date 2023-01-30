@@ -82,7 +82,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
         gen_block = f.read()
 
     blocks = [gen_block.format(label=f"MEM_{e.upper()}", n_layer=i, entity=e) for i, e in enumerate(list_entity)]
-    blocks_string = [s for b in blocks for s in b]
+    blocks_string = "".join(blocks)
 
     with open(Path(__file__).parent.resolve() / "bram_wrapper_template.vhd", "r") as f:
         bram_wrapper = f.read()
