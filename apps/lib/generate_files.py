@@ -122,7 +122,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     with open(Path(__file__).parent.resolve() / "bram_wrapper_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(code=blocks_string)
-    with open(path / "bram_wrapper.vhd", "w") as f:
+    with open(path / f"bram_wrapper{bram_size}.vhd", "w") as f:
         f.writelines(text_out)
 
 
