@@ -69,12 +69,26 @@ def write_bram_pkg(name, device, feat_list, path, bits=8, lines_per_file=64):
     bram_size = bram_size_dict[lines_per_file]
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
-    for i, file in enumerate(feat_file):
-        entity = f"{name}_entity{i}"
+
+    list_entity = [f"{name}_entity{i}" for i, file in enumerate(feat_file)]
+
+    for (file, entity) in zip(feat_file, list_entity):
         file_complete = file if len(file) == lines_per_file else file + ['0'*64] * (lines_per_file-len(file))
         text_out = text.format(entity=entity, bram_size=bram_size, device=device, init_xx=file_complete)
         with open(path / f"{entity}.vhd", "w") as f:
             f.writelines(text_out)
+
+    with open(Path(__file__).parent.resolve() / "bram_wrapper_gen_block_template.vhd", "r") as f:
+        gen_block = f.read()
+
+    blocks = [gen_block.format(label=f"MEM_{e.upper()}", n_layer=i, entity=e) for i, e in enumerate(list_entity)]
+    blocks_string = [s for b in blocks for s in b]
+
+    with open(Path(__file__).parent.resolve() / "bram_wrapper_template.vhd", "r") as f:
+        bram_wrapper = f.read()
+    text_out = bram_wrapper.format(code=blocks_string)
+    with open(path / "bram_wrapper.vhd", "w") as f:
+        f.writelines(text_out)
 
 
 def format_feature2(feat_list, tab):
