@@ -42,9 +42,9 @@ entity {entity} is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic_vector({we_width}-1 downto 0);;
-        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
+        DI   : in std_logic_vector({data_width}-1 downto 0);
         ADDR : in std_logic_vector({addr_width}-1 downto 0);
-        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
+        DO   : out std_logic_vector({data_width}-1 downto 0)
     );
  end {entity};
 

@@ -108,7 +108,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
         file_complete = file if len(file) == lines_per_file else file + ['0'*64] * (lines_per_file-len(file))
         text_out = text.format(
             entity=entity, bram_size=bram_size, device=device, addr_width=addr_width, we_width=we_width,
-            init_xx=file_complete
+            data_width=bits, init_xx=file_complete
         )
         with open(path / f"{entity}.vhd", "w") as f:
             f.writelines(text_out)

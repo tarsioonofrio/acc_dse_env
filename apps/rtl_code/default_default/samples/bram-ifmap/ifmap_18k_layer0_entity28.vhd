@@ -42,9 +42,9 @@ entity ifmap_18k_layer0_entity28 is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic_vector(2-1 downto 0);;
-        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
+        DI   : in std_logic_vector(16-1 downto 0);
         ADDR : in std_logic_vector(10-1 downto 0);
-        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
+        DO   : out std_logic_vector(16-1 downto 0)
     );
   end ifmap_18k_layer0_entity28;
 
