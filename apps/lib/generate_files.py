@@ -105,8 +105,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
 
     list_text_out = [
         text.format(
-            entity=entity, bram_size=bram_size, device=device, addr_width=addr_width, we_width=we_width,
-            data_width=bits, label=f"MEM_{entity.upper()}", n_layer=i,
+            entity=entity, bram_size=bram_size, device=device, label=f"MEM_{entity.upper()}", n_layer=i,
             init_xx=init_data(file, lines_per_file))
         for i, (file, entity) in enumerate(zip(feat_file, list_entity))
     ]
@@ -115,7 +114,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
 
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
-    text_out = bram_wrapper.format(code=blocks_string)
+    text_out = bram_wrapper.format(code=blocks_string, addr_width=addr_width, we_width=we_width, data_width=bits)
     with open(path / f"bram_{bram_size}.vhd", "w") as f:
         f.writelines(text_out)
 

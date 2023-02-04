@@ -32,7 +32,7 @@ use unimacro.Vcomponents.all;
 --       1     |  "18Kb"   |    16384    |   14-bit   |    1-bit   --
 ---------------------------------------------------------------------
 
-entity {entity} is
+entity bram_single is
     generic (
         DEVICE: string := "7SERIES"
         );
@@ -46,7 +46,7 @@ entity {entity} is
         ADDR : in std_logic_vector({addr_width}-1 downto 0);
         DO   : out std_logic_vector({data_width}-1 downto 0)
     );
- end {entity};
+ end bram_single;
 
   architecture a1 of bram is
 
