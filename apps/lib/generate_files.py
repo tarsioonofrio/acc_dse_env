@@ -180,13 +180,9 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
-    path_ifmap = path_layer / 'bram-ifmap'
-    path_ifmap.mkdir(parents=True, exist_ok=True)
-    generate_ifmap_bram(path=path_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
-    path_gold = path_layer / 'bram-gold'
-    path_gold.mkdir(parents=True, exist_ok=True)
+    generate_ifmap_bram(path=path_layer, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     generate_gold_bram(
-        path=path_gold, bits=generic_dict["MEM_SIZE"],
+        path=path_layer, bits=generic_dict["MEM_SIZE"],
         **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
     )
     generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
@@ -199,13 +195,9 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
     # Generate generic file for rtl simulation
     generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
     generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
-    path_samples_ifmap = path_samples / 'bram-ifmap'
-    path_samples_ifmap.mkdir(parents=True, exist_ok=True)
-    generate_ifmap_bram(path=path_samples_ifmap, bits=generic_dict["MEM_SIZE"], **generate_vhd)
-    path_samples_gold = path_samples / 'bram-gold'
-    path_samples_gold.mkdir(parents=True, exist_ok=True)
+    generate_ifmap_bram(path=path_samples, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     generate_gold_bram(
-        path=path_samples_gold, bits=generic_dict["MEM_SIZE"],
+        path=path_samples, bits=generic_dict["MEM_SIZE"],
         **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
     )
 
