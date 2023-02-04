@@ -84,7 +84,6 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     feat_line = ["".join(feat_hex[i:i + total_words]) for i in range(0, len(feat_hex), total_words)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
 
-    path.mkdir(parents=True, exist_ok=True)
     bram_size = bram_size_dict[lines_per_file]
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
@@ -115,7 +114,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(code=blocks_string, addr_width=addr_width, we_width=we_width, data_width=bits)
-    with open(path / f"bram_{bram_size}.vhd", "w") as f:
+    with open(path, "w") as f:
         f.writelines(text_out)
 
 
@@ -394,8 +393,8 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
     # path_samples.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path, bits, 64)
-    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path, bits, 128)
+    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path / "ifmap_bram_18Kb.vhd", bits, 64)
+    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path / "ifmap_bram_36Kb.vhd", bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -457,5 +456,5 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     # path_gold.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_gold / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_gold / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path, bits, 64)
-    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path, bits, 128)
+    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path / f"gold_bram_18Kb.vhd", bits, 64)
+    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path / f"gold_bram_36Kb.vhd", bits, 128)
