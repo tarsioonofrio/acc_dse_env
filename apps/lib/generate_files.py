@@ -4,7 +4,6 @@ from math import log2, ceil
 
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
-
 bram18kb_dict = {
     (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4},
     (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
@@ -66,7 +65,7 @@ def write_bram_txt(feat_list, path, bits=8, lines_per_file=64, single_file=True)
             f.write("".join(feat_hex))
     else:
         total_words = ceil(64 / word)
-        feat_line = ["".join(feat_hex[i:i + total_words])+"\n" for i in range(0, len(feat_hex), total_words)]
+        feat_line = ["".join(feat_hex[i:i + total_words]) + "\n" for i in range(0, len(feat_hex), total_words)]
         feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
         path.mkdir(parents=True, exist_ok=True)
         for i, file in enumerate(feat_file):
@@ -104,26 +103,26 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     addr_width = bram_width[0]["BRAM_ADDR"]
     we_width = bram_width[0]["BRAM_WE"]
 
-    for (file, entity) in zip(feat_file, list_entity):
-        file_complete = file if len(file) == lines_per_file else file + ['0'*64] * (lines_per_file-len(file))
-        text_out = text.format(
+    list_text_out = [
+        text.format(
             entity=entity, bram_size=bram_size, device=device, addr_width=addr_width, we_width=we_width,
-            data_width=bits, init_xx=file_complete
-        )
-        with open(path / f"{entity}.vhd", "w") as f:
-            f.writelines(text_out)
+            data_width=bits, label=f"MEM_{entity.upper()}", n_layer=i,
+            init_xx=init_data(file, lines_per_file))
+        for i, (file, entity) in enumerate(zip(feat_file, list_entity))
+    ]
 
-    with open(Path(__file__).parent.resolve() / "bram_wrapper_gen_block_template.vhd", "r") as f:
-        gen_block = f.read()
+    blocks_string = "".join(list_text_out)
 
-    blocks = [gen_block.format(label=f"MEM_{e.upper()}", n_layer=i, entity=e) for i, e in enumerate(list_entity)]
-    blocks_string = "".join(blocks)
-
-    with open(Path(__file__).parent.resolve() / "bram_wrapper_template.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(code=blocks_string)
-    with open(path / f"bram_wrapper{bram_size}.vhd", "w") as f:
+    with open(path / f"bram_{bram_size}.vhd", "w") as f:
         f.writelines(text_out)
+
+
+def init_data(file, lines_per_file):
+    file_complete = file if len(file) == lines_per_file else file + ['0' * 64] * (lines_per_file - len(file))
+    return file_complete
 
 
 def format_feature2(feat_list, tab):
@@ -171,7 +170,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     path_layer = path / 'layer' / str(layer)
     path_layer.mkdir(parents=True, exist_ok=True)
     generate_generic_dict = {**generic_dict, **generic_dict2}
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
     # Generate generic file for rtl simulation
     generate_generic_file(generate_generic_dict, path_layer, layer)
     # Generate TCL file with generics for logic synthesis
@@ -191,13 +190,13 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
         path=path_gold, bits=generic_dict["MEM_SIZE"],
         **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
     )
-    generate_config_file({** generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
+    generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
 def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_file):
     path_samples = path / 'samples'
     path_samples.mkdir(parents=True, exist_ok=True)
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer":  layer}
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
     # Generate generic file for rtl simulation
     generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
     generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
@@ -278,10 +277,10 @@ def generate_config_file(generate_dict, path, n_layer):
         "N_FILTER": generate_dict["N_FILTER"][n_layer],
         "N_CHANNEL": generate_dict["N_CHANNEL"],
         "X_SIZE": generate_dict["X_SIZE"],
-        "X_SIZE_X_SIZE": generate_dict["X_SIZE"]**2,
+        "X_SIZE_X_SIZE": generate_dict["X_SIZE"] ** 2,
         "CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"],
-        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"]**2,
-        "CONVS_PER_LINE_CONVS_PER_LINE_1": (generate_dict["CONVS_PER_LINE"]**2) + 1,
+        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"] ** 2,
+        "CONVS_PER_LINE_CONVS_PER_LINE_1": (generate_dict["CONVS_PER_LINE"] ** 2) + 1,
         "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
             (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"],
         "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
@@ -301,7 +300,8 @@ def generate_config_file(generate_dict, path, n_layer):
         "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
             log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1)),
         "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][n_layer]),
+            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][
+                n_layer]),
     }
 
     with open(Path(__file__).parent.resolve() / "template_config_pkg.vhd", "r") as f:
@@ -327,7 +327,6 @@ def generate_config_file(generate_dict, path, n_layer):
 
 def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
-
     tab = "    "
 
     bias_list = [
@@ -340,11 +339,11 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
     weight_list = [
         [[[str(int(weights[x, y, z].reshape(-1)))
-         for x in range(weights.shape[0])
-         for y in range(weights.shape[1])]
+           for x in range(weights.shape[0])
+           for y in range(weights.shape[1])]
 
-         for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
-         for z in range(weights.shape[2])]
+          for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+          for z in range(weights.shape[2])]
 
          for filterId in modelDict[layerId]["filter"]
          ]
@@ -374,7 +373,6 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
-
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
                                  shift, stride_h, stride_w, tab, testSet, testSetSize)
@@ -393,7 +391,6 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
                         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
                                  shift, stride_h, stride_w, tab, testSet, testSetSize)
@@ -406,8 +403,8 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
     # path_samples.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
-    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
+    write_bram_pkg(f"ifmap_18k_layer{layer}", "7SERIES", feat_unpack, path, bits, 64)
+    write_bram_pkg(f"ifmap_36k_layer{layer}", "7SERIES", feat_unpack, path, bits, 128)
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -469,7 +466,5 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     # path_gold.mkdir(parents=True, exist_ok=True)
     # write_bram_txt(feat_unpack, path_gold / f"064lines{bits}bits.txt", bits, 64)
     # write_bram_txt(feat_unpack, path_gold / f"128lines{bits}bits.txt", bits, 128)
-    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 64)
-    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path,  bits, 128)
-
-
+    write_bram_pkg(f"gold_18k_layer{layer}", "7SERIES", feat_unpack, path, bits, 64)
+    write_bram_pkg(f"gold_36k_layer{layer}", "7SERIES", feat_unpack, path, bits, 128)
