@@ -34,7 +34,8 @@ use unimacro.Vcomponents.all;
 
 entity bram_single is
     generic (
-        DEVICE: string := "7SERIES"
+        DEVICE: string := "7SERIES",
+        N_BRAM: integer := 0
         );
 
     port (
@@ -53,7 +54,7 @@ entity bram_single is
     begin
 
 
-    MEM_GOLD_36K_LAYER2_ENTITY0 : if N_LAYER = 0 generate
+    MEM_GOLD_36K_LAYER2_ENTITY0 : if N_BRAM = 0 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -230,7 +231,7 @@ entity bram_single is
     end generate MEM_GOLD_36K_LAYER2_ENTITY0;
 
 
-    MEM_GOLD_36K_LAYER2_ENTITY1 : if N_LAYER = 1 generate
+    MEM_GOLD_36K_LAYER2_ENTITY1 : if N_BRAM = 1 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -407,7 +408,7 @@ entity bram_single is
     end generate MEM_GOLD_36K_LAYER2_ENTITY1;
 
 
-    MEM_GOLD_36K_LAYER2_ENTITY2 : if N_LAYER = 2 generate
+    MEM_GOLD_36K_LAYER2_ENTITY2 : if N_BRAM = 2 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"

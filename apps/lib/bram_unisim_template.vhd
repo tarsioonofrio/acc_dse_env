@@ -34,7 +34,8 @@ use unimacro.Vcomponents.all;
 
 entity bram_single is
     generic (
-        DEVICE: string := "7SERIES"
+        DEVICE: string := "7SERIES",
+        N_BRAM: integer := 0
         );
 
     port (

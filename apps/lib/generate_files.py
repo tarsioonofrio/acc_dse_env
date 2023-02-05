@@ -104,7 +104,7 @@ def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
 
     list_text_out = [
         text.format(
-            entity=entity, bram_size=bram_size, device=device, label=f"MEM_{entity.upper()}", n_layer=i,
+            entity=entity, bram_size=bram_size, device=device, label=f"MEM_{entity.upper()}", n_bram=i,
             init_xx=init_data(file, lines_per_file))
         for i, (file, entity) in enumerate(zip(feat_file, list_entity))
     ]
