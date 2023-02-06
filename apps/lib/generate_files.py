@@ -4,23 +4,24 @@ from math import log2, ceil
 
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
+
 bram18kb_dict = {
-    (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4},
-    (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2},
-    (5, 9): {"BRAM_ADDR": 11, "BRAM_WE": 1},
-    (3, 4): {"BRAM_ADDR": 12, "BRAM_WE": 1},
-    (2, 2): {"BRAM_ADDR": 13, "BRAM_WE": 1},
-    (1, 1): {"BRAM_ADDR": 14, "BRAM_WE": 1},
+    (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4, "DEPTH": 512},
+    (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2, "DEPTH": 1024},
+    (5, 9): {"BRAM_ADDR": 11, "BRAM_WE": 1, "DEPTH": 2048},
+    (3, 4): {"BRAM_ADDR": 12, "BRAM_WE": 1, "DEPTH": 4096},
+    (2, 2): {"BRAM_ADDR": 13, "BRAM_WE": 1, "DEPTH": 8192},
+    (1, 1): {"BRAM_ADDR": 14, "BRAM_WE": 1, "DEPTH": 16384},
 }
 
 bram36kb_dict = {
-    (37, 72): {"BRAM_ADDR": 9, "BRAM_WE": 8},
-    (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4},
-    (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2},
-    (5, 9): {"BRAM_ADDR": 12, "BRAM_WE": 1},
-    (3, 4): {"BRAM_ADDR": 13, "BRAM_WE": 1},
-    (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1},
-    (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1},
+    (37, 72): {"BRAM_ADDR": 9, "BRAM_WE": 8, "DEPTH": 512},
+    (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4, "DEPTH": 1024},
+    (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2, "DEPTH": 2048},
+    (5, 9): {"BRAM_ADDR": 12, "BRAM_WE": 1, "DEPTH": 4096},
+    (3, 4): {"BRAM_ADDR": 13, "BRAM_WE": 1, "DEPTH": 8192},
+    (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1, "DEPTH": 16384},
+    (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1, "DEPTH": 32768},
 }
 
 
