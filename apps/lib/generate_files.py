@@ -176,12 +176,16 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_tcl_generic(generate_generic_dict, path_layer, layer)
     # Generate VHDL tensorflow package
     generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_wghts_vhd_pkg(path=path_layer, **generate_vhd)
+    generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
     generate_ifmap_bram(path=path_layer, bits=generic_dict["MEM_SIZE"], **generate_vhd)
     generate_gold_bram(
+        path=path_layer, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
+    generate_iwght_bram(
         path=path_layer, bits=generic_dict["MEM_SIZE"],
         **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
     )
@@ -316,35 +320,14 @@ def generate_config_file(generate_dict, path, n_layer):
         f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
 
-def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
+def generate_iwght_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
 
-    bias_list = [
-        str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-        for filterId in modelDict[layerId]["filter"]
-    ]
-
-    weight_list = [
-        [[[str(int(weights[x, y, z].reshape(-1)))
-           for x in range(weights.shape[0])
-           for y in range(weights.shape[1])]
-
-          for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
-          for z in range(weights.shape[2])]
-
-         for filterId in modelDict[layerId]["filter"]
-         ]
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-    ]
+    bias_list = get_bias(layer, modelDict, shift)
+    weight_list = get_wght(layer, modelDict, shift)
 
     bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(bias_list)},\n"
-
     weight_string = [
         f"{tab}-- layer={layer} filter={f} channel={c}\n{tab}{', '.join(s)},\n"
         for filters in weight_list
@@ -360,6 +343,53 @@ def generate_wghts_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     with open(path / f"{file_name}.txt", "w") as f:
         f.writelines([f"{b}\n" for b in bias_list])
         f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
+
+
+def get_wght(layer, modelDict, shift):
+    weight_list = [
+        [[[str(int(weights[x, y, z].reshape(-1)))
+           for x in range(weights.shape[0])
+           for y in range(weights.shape[1])]
+
+          for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+          for z in range(weights.shape[2])]
+
+         for filterId in modelDict[layerId]["filter"]
+         ]
+        for layerId in modelDict
+        if modelDict[layerId]["type"] == "Conv2D"
+        if layerId == layer
+    ]
+    return weight_list
+
+
+def get_bias(layer, modelDict, shift):
+    bias_list = [
+        str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
+        for layerId in modelDict
+        if modelDict[layerId]["type"] == "Conv2D"
+        if layerId == layer
+        for filterId in modelDict[layerId]["filter"]
+    ]
+    return bias_list
+
+
+def generate_iwght_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
+                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
+    bias_list = get_bias(layer, modelDict, shift)
+    weight_list = get_wght(layer, modelDict, shift)
+    weight_unpack = [feat for c in weight_list for col in c for line in col for feat in line]
+    data = bias_list + weight_unpack
+    # if single_file:
+    #     write_bram_txt(feat_unpack, path / f"ifmap_064lines{bits}bits.txt", bits, 64)
+    #     write_bram_txt(feat_unpack, path / f"ifmap_128lines{bits}bits.txt", bits, 128)
+    # else:
+    # path_samples = path / 'samples/ifmap'
+    # path_samples.mkdir(parents=True, exist_ok=True)
+    # write_bram_txt(feat_unpack, path_samples / f"064lines{bits}bits.txt", bits, 64)
+    # write_bram_txt(feat_unpack, path_samples / f"128lines{bits}bits.txt", bits, 128)
+    write_bram_pkg(f"iwght_18k_layer{layer}", "7SERIES", data, path / "iwght_bram_18Kb.vhd", bits, 64)
+    write_bram_pkg(f"iwght_36k_layer{layer}", "7SERIES", data, path / "iwght_bram_36Kb.vhd", bits, 128)
 
 
 def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,

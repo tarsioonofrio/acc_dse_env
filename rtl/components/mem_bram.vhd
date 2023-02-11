@@ -8,7 +8,7 @@ use ieee.std_logic_textio.all;
 use work.util_package.all;
 
 
-entity bram_wrapper is
+entity memory is
   generic (
     DEVICE : string := "7SERIES";
     N_BRAM : integer := 0,
@@ -28,9 +28,9 @@ entity bram_wrapper is
     n_read  : out std_logic_vector(31 downto 0);
     n_write : out std_logic_vector(31 downto 0)
   );
-end bram_wrapper;
+end memory;
 
-architecture a1 of bram_wrapper is
+architecture a1 of memory is
 
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(N_BRAM - 1 downto 0);
@@ -51,7 +51,7 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
     end if;
   end loop ;
   return output ;
-end function sum ;
+end function mux_output ;
 
 begin
 
