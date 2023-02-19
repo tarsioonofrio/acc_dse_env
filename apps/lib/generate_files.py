@@ -192,6 +192,21 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
+def generate_bram_files(input_channel, generic_dict, vhd_dict, layer, path):
+    path.mkdir(parents=True, exist_ok=True)
+    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+    # Generate generic file for rtl simulation
+    generate_ifmap_bram(path=path, bits=generic_dict["MEM_SIZE"], **generate_vhd)
+    generate_gold_bram(
+        path=path, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
+    generate_iwght_bram(
+        path=path, bits=generic_dict["MEM_SIZE"],
+        **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
+    )
+
+
 def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_file):
     path_samples = path / 'samples'
     path_samples.mkdir(parents=True, exist_ok=True)
