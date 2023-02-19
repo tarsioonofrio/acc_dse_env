@@ -5,6 +5,10 @@ use UNISIM.vcomponents.all;
 library UNIMACRO;
 use unimacro.Vcomponents.all;
 
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_signed.all;
+use IEEE.std_logic_arith.all;
 
 -- BRAM_SINGLE_MACRO: Single Port RAM
 --                    7 Series
@@ -34,6 +38,7 @@ use unimacro.Vcomponents.all;
 
 entity bram_single is
     generic (
+        INPUT_SIZE     : integer := 8;
         DEVICE: string := "7SERIES";
         N_BRAM: integer := 0
         );
@@ -42,17 +47,19 @@ entity bram_single is
         RST  : in std_logic;
         CLK  : in std_logic;
         EN   : in std_logic;
-        WE   : in std_logic_vector({we_width}-1 downto 0);;
+        WE   : in std_logic;
         DI   : in std_logic_vector({data_width}-1 downto 0);
         ADDR : in std_logic_vector({addr_width}-1 downto 0);
         DO   : out std_logic_vector({data_width}-1 downto 0)
     );
  end bram_single;
 
-  architecture a1 of bram is
+  architecture a1 of bram_single is
+    signal bram_wr_en    : std_logic_vector({we_width}-1 downto 0);
 
     begin
-
+    bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
+          
 {code}
 
 end a1;

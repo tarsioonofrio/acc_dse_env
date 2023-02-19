@@ -9,11 +9,12 @@ use work.util_package.all;
 
 
 entity memory is
-  generic (INPUT_SIZE      : integer := 8;
-           ADDRESS_SIZE    : integer := 12;
-           DATA_AV_LATENCY : integer := 0;
-           ROM_PATH        : string  := ""
-           );
+  generic (
+    INPUT_SIZE      : integer := 8;
+    ADDRESS_SIZE    : integer := 12;
+    DATA_AV_LATENCY : integer := 0;
+    ROM_PATH        : string  := ""
+    );
 
   port (reset   : in std_logic;
         clock   : in std_logic;

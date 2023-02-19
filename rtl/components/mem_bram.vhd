@@ -10,8 +10,12 @@ use work.util_package.all;
 
 entity memory is
   generic (
+    INPUT_SIZE      : integer := 8;
+    ADDRESS_SIZE    : integer := 12;
+    DATA_AV_LATENCY : integer := 0;
+    ROM_PATH        : string  := "";
     DEVICE : string := "7SERIES";
-    N_BRAM : integer := 0,
+    N_BRAM : integer := 0;
     SIZE_BRAM : integer := 0
   );
   port(
@@ -46,8 +50,8 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
   variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
   for index in 0 to N_BRAM loop
-    if bram_wr_en(i) = '1' then
-      output := bram_data_out(i);
+    if bram_wr_en(index) = '1' then
+      output := bram_data_out(index);
     end if;
   end loop ;
   return output ;
@@ -69,7 +73,7 @@ begin
   --   '0';
 
   LOOP_SELECT : for i in 0 to N_BRAM generate
-    bram_select <= i when chip_en and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1));
+    bram_select <= i when chip_en = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1));
   end generate; 
 
   data_out <= mux_output(bram_wr_en, bram_data_out);
@@ -88,8 +92,8 @@ begin
 
   
   LOOP_MEM : for i in 0 to N_BRAM generate
-    bram_chip_en(i) <= '1' when chip_en and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
-    bram_wr_en(i) <= '1' when wr_en and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
+    bram_chip_en(i) <= '1' when chip_en = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
+    bram_wr_en(i) <= '1' when wr_en  = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
 
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (

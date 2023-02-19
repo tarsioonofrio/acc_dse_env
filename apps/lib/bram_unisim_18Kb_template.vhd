@@ -93,9 +93,9 @@
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate {label};

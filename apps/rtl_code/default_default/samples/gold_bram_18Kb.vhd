@@ -5,6 +5,10 @@ use UNISIM.vcomponents.all;
 library UNIMACRO;
 use unimacro.Vcomponents.all;
 
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_signed.all;
+use IEEE.std_logic_arith.all;
 
 -- BRAM_SINGLE_MACRO: Single Port RAM
 --                    7 Series
@@ -34,6 +38,7 @@ use unimacro.Vcomponents.all;
 
 entity bram_single is
     generic (
+        INPUT_SIZE     : integer := 8;
         DEVICE: string := "7SERIES";
         N_BRAM: integer := 0
         );
@@ -42,17 +47,19 @@ entity bram_single is
         RST  : in std_logic;
         CLK  : in std_logic;
         EN   : in std_logic;
-        WE   : in std_logic_vector(2-1 downto 0);;
+        WE   : in std_logic;
         DI   : in std_logic_vector(16-1 downto 0);
         ADDR : in std_logic_vector(10-1 downto 0);
         DO   : out std_logic_vector(16-1 downto 0)
     );
  end bram_single;
 
-  architecture a1 of bram is
+  architecture a1 of bram_single is
+    signal bram_wr_en    : std_logic_vector(2-1 downto 0);
 
     begin
-
+    bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
+          
 
     MEM_GOLD_18K_LAYER2_ENTITY0 : if N_BRAM = 0 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
@@ -148,9 +155,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY0;
@@ -250,9 +257,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY1;
@@ -352,9 +359,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY2;
@@ -454,9 +461,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY3;
@@ -556,9 +563,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY4;
@@ -658,9 +665,9 @@ entity bram_single is
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
-            REGCE => REGCE, -- 1-bit input output register enable
+            REGCE => '1', -- 1-bit input output register enable
             RST => RST,    -- 1-bit input reset
-            WE => WE       -- Input write enable, width defined by write port depth
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_GOLD_18K_LAYER2_ENTITY5;
