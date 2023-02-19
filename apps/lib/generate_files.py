@@ -4,7 +4,6 @@ from math import log2, ceil
 
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
-
 bram18kb_dict = {
     (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4, "DEPTH": 512},
     (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2, "DEPTH": 1024},
@@ -74,13 +73,18 @@ def write_bram_txt(feat_list, path, bits=8, lines_per_file=64, single_file=True)
                 f.writelines(file)
 
 
+def two_comp(val, nbits):
+    # https://stackoverflow.com/questions/7822956/how-to-convert-negative-integer-value-to-hex-in-python
+    return (val + (1 << nbits)) % (1 << nbits)
+
+
 def write_bram_pkg(name, device, feat_list, path, bits=16, lines_per_file=64):
     bram_size_dict = {
         64: "18Kb",
         128: "36Kb"
     }
     word = ceil(bits / 4)
-    feat_hex = [format(int(feat), f'0{word}x') for feat in feat_list]
+    feat_hex = [format(two_comp(int(feat), bits), f'0{word}x') for feat in feat_list]
     total_words = ceil(64 / word)
     feat_line = ["".join(feat_hex[i:i + total_words]) for i in range(0, len(feat_hex), total_words)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
