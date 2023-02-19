@@ -3,12 +3,17 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-# inmem_pkg is not used in simulation
+# ifmap_pkg, inmem_pkg and iwght_pkg are not used in simulation
+vcom -work work ../apps/data_hw/default_default/layer/0/ifmap_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/layer/0/iwght_pkg.vhd
+vcom -work work ../apps/data_hw/default_default/layer/0/gold_pkg.vhd
+
 
 vcom -work work ../apps/rtl_code/default_default/layer/0/ifmap_bram_36Kb.vhd
-vcom -work work ../apps/rtl_code/default_default/layer/0/iwght_pkg.vhd
-# vcom -work work ../apps/rtl_code/default_default/layer/0/gold_bram_18Kb.vhd
+vcom -work work ../apps/rtl_code/default_default/layer/0/iwght_bram_36Kb.vhd
+vcom -work work ../apps/rtl_code/default_default/layer/0/gold_bram_18Kb.vhd
 vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
+
 
 
 # Package with utilities - need to be before convolution core
