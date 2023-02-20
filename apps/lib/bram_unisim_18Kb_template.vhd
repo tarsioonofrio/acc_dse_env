@@ -1,5 +1,5 @@
 
-    {label} : if N_BRAM = {n_bram} generate
+    {label} : if BRAM_NAME = {bram_name} generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"

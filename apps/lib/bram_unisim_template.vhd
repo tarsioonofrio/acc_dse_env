@@ -38,9 +38,9 @@ use IEEE.std_logic_arith.all;
 
 entity bram_single is
     generic (
-        INPUT_SIZE     : integer := 8;
-        DEVICE: string := "7SERIES";
-        N_BRAM: integer := 0
+        INPUT_SIZE : integer := 8;
+        DEVICE     : string := "7SERIES";
+        BRAM_NAME  : string := ""
         );
 
     port (

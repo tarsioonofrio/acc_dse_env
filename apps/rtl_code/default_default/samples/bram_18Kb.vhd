@@ -38,9 +38,9 @@ use IEEE.std_logic_arith.all;
 
 entity bram_single is
     generic (
-        INPUT_SIZE     : integer := 8;
-        DEVICE: string := "7SERIES";
-        N_BRAM: integer := 0
+        INPUT_SIZE : integer := 8;
+        DEVICE     : string := "7SERIES";
+        BRAM_NAME  : string := ""
         );
 
     port (
@@ -61,7 +61,7 @@ entity bram_single is
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
           
 
-    MEM_IFMAP_18K_LAYER0_ENTITY0 : if N_BRAM = 0 generate
+    MEM_IFMAP_LAYER0_ENTITY0 : if BRAM_NAME = ifmap_layer0_entity0 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -147,8 +147,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -160,10 +160,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY0;
+    end generate MEM_IFMAP_LAYER0_ENTITY0;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY1 : if N_BRAM = 1 generate
+    MEM_IFMAP_LAYER0_ENTITY1 : if BRAM_NAME = ifmap_layer0_entity1 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -249,8 +249,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -262,10 +262,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY1;
+    end generate MEM_IFMAP_LAYER0_ENTITY1;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY2 : if N_BRAM = 2 generate
+    MEM_IFMAP_LAYER0_ENTITY2 : if BRAM_NAME = ifmap_layer0_entity2 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -351,8 +351,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -364,10 +364,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY2;
+    end generate MEM_IFMAP_LAYER0_ENTITY2;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY3 : if N_BRAM = 3 generate
+    MEM_IFMAP_LAYER0_ENTITY3 : if BRAM_NAME = ifmap_layer0_entity3 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -453,8 +453,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -466,10 +466,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY3;
+    end generate MEM_IFMAP_LAYER0_ENTITY3;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY4 : if N_BRAM = 4 generate
+    MEM_IFMAP_LAYER0_ENTITY4 : if BRAM_NAME = ifmap_layer0_entity4 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -555,8 +555,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -568,10 +568,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY4;
+    end generate MEM_IFMAP_LAYER0_ENTITY4;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY5 : if N_BRAM = 5 generate
+    MEM_IFMAP_LAYER0_ENTITY5 : if BRAM_NAME = ifmap_layer0_entity5 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -657,8 +657,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -670,10 +670,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY5;
+    end generate MEM_IFMAP_LAYER0_ENTITY5;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY6 : if N_BRAM = 6 generate
+    MEM_IFMAP_LAYER0_ENTITY6 : if BRAM_NAME = ifmap_layer0_entity6 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -759,8 +759,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -772,10 +772,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY6;
+    end generate MEM_IFMAP_LAYER0_ENTITY6;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY7 : if N_BRAM = 7 generate
+    MEM_IFMAP_LAYER0_ENTITY7 : if BRAM_NAME = ifmap_layer0_entity7 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -861,8 +861,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -874,10 +874,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY7;
+    end generate MEM_IFMAP_LAYER0_ENTITY7;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY8 : if N_BRAM = 8 generate
+    MEM_IFMAP_LAYER0_ENTITY8 : if BRAM_NAME = ifmap_layer0_entity8 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -963,8 +963,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -976,10 +976,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY8;
+    end generate MEM_IFMAP_LAYER0_ENTITY8;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY9 : if N_BRAM = 9 generate
+    MEM_IFMAP_LAYER0_ENTITY9 : if BRAM_NAME = ifmap_layer0_entity9 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1065,8 +1065,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1078,10 +1078,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY9;
+    end generate MEM_IFMAP_LAYER0_ENTITY9;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY10 : if N_BRAM = 10 generate
+    MEM_IFMAP_LAYER0_ENTITY10 : if BRAM_NAME = ifmap_layer0_entity10 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1167,8 +1167,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1180,10 +1180,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY10;
+    end generate MEM_IFMAP_LAYER0_ENTITY10;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY11 : if N_BRAM = 11 generate
+    MEM_IFMAP_LAYER0_ENTITY11 : if BRAM_NAME = ifmap_layer0_entity11 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1269,8 +1269,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1282,10 +1282,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY11;
+    end generate MEM_IFMAP_LAYER0_ENTITY11;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY12 : if N_BRAM = 12 generate
+    MEM_IFMAP_LAYER0_ENTITY12 : if BRAM_NAME = ifmap_layer0_entity12 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1371,8 +1371,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1384,10 +1384,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY12;
+    end generate MEM_IFMAP_LAYER0_ENTITY12;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY13 : if N_BRAM = 13 generate
+    MEM_IFMAP_LAYER0_ENTITY13 : if BRAM_NAME = ifmap_layer0_entity13 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1473,8 +1473,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1486,10 +1486,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY13;
+    end generate MEM_IFMAP_LAYER0_ENTITY13;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY14 : if N_BRAM = 14 generate
+    MEM_IFMAP_LAYER0_ENTITY14 : if BRAM_NAME = ifmap_layer0_entity14 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1575,8 +1575,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1588,10 +1588,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY14;
+    end generate MEM_IFMAP_LAYER0_ENTITY14;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY15 : if N_BRAM = 15 generate
+    MEM_IFMAP_LAYER0_ENTITY15 : if BRAM_NAME = ifmap_layer0_entity15 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1677,8 +1677,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1690,10 +1690,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY15;
+    end generate MEM_IFMAP_LAYER0_ENTITY15;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY16 : if N_BRAM = 16 generate
+    MEM_IFMAP_LAYER0_ENTITY16 : if BRAM_NAME = ifmap_layer0_entity16 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1779,8 +1779,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1792,10 +1792,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY16;
+    end generate MEM_IFMAP_LAYER0_ENTITY16;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY17 : if N_BRAM = 17 generate
+    MEM_IFMAP_LAYER0_ENTITY17 : if BRAM_NAME = ifmap_layer0_entity17 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1881,8 +1881,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1894,10 +1894,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY17;
+    end generate MEM_IFMAP_LAYER0_ENTITY17;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY18 : if N_BRAM = 18 generate
+    MEM_IFMAP_LAYER0_ENTITY18 : if BRAM_NAME = ifmap_layer0_entity18 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1983,8 +1983,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -1996,10 +1996,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY18;
+    end generate MEM_IFMAP_LAYER0_ENTITY18;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY19 : if N_BRAM = 19 generate
+    MEM_IFMAP_LAYER0_ENTITY19 : if BRAM_NAME = ifmap_layer0_entity19 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2085,8 +2085,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2098,10 +2098,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY19;
+    end generate MEM_IFMAP_LAYER0_ENTITY19;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY20 : if N_BRAM = 20 generate
+    MEM_IFMAP_LAYER0_ENTITY20 : if BRAM_NAME = ifmap_layer0_entity20 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2187,8 +2187,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2200,10 +2200,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY20;
+    end generate MEM_IFMAP_LAYER0_ENTITY20;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY21 : if N_BRAM = 21 generate
+    MEM_IFMAP_LAYER0_ENTITY21 : if BRAM_NAME = ifmap_layer0_entity21 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2289,8 +2289,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2302,10 +2302,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY21;
+    end generate MEM_IFMAP_LAYER0_ENTITY21;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY22 : if N_BRAM = 22 generate
+    MEM_IFMAP_LAYER0_ENTITY22 : if BRAM_NAME = ifmap_layer0_entity22 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2391,8 +2391,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2404,10 +2404,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY22;
+    end generate MEM_IFMAP_LAYER0_ENTITY22;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY23 : if N_BRAM = 23 generate
+    MEM_IFMAP_LAYER0_ENTITY23 : if BRAM_NAME = ifmap_layer0_entity23 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2493,8 +2493,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2506,10 +2506,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY23;
+    end generate MEM_IFMAP_LAYER0_ENTITY23;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY24 : if N_BRAM = 24 generate
+    MEM_IFMAP_LAYER0_ENTITY24 : if BRAM_NAME = ifmap_layer0_entity24 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2595,8 +2595,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2608,10 +2608,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY24;
+    end generate MEM_IFMAP_LAYER0_ENTITY24;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY25 : if N_BRAM = 25 generate
+    MEM_IFMAP_LAYER0_ENTITY25 : if BRAM_NAME = ifmap_layer0_entity25 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2697,8 +2697,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2710,10 +2710,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY25;
+    end generate MEM_IFMAP_LAYER0_ENTITY25;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY26 : if N_BRAM = 26 generate
+    MEM_IFMAP_LAYER0_ENTITY26 : if BRAM_NAME = ifmap_layer0_entity26 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2799,8 +2799,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2812,10 +2812,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY26;
+    end generate MEM_IFMAP_LAYER0_ENTITY26;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY27 : if N_BRAM = 27 generate
+    MEM_IFMAP_LAYER0_ENTITY27 : if BRAM_NAME = ifmap_layer0_entity27 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2901,8 +2901,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -2914,10 +2914,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY27;
+    end generate MEM_IFMAP_LAYER0_ENTITY27;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY28 : if N_BRAM = 28 generate
+    MEM_IFMAP_LAYER0_ENTITY28 : if BRAM_NAME = ifmap_layer0_entity28 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3003,8 +3003,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -3016,10 +3016,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY28;
+    end generate MEM_IFMAP_LAYER0_ENTITY28;
 
 
-    MEM_IFMAP_18K_LAYER0_ENTITY29 : if N_BRAM = 29 generate
+    MEM_IFMAP_LAYER0_ENTITY29 : if BRAM_NAME = ifmap_layer0_entity29 generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3105,8 +3105,8 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
-
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
             ADDR => ADDR,  -- Input address, width defined by read/write port depth
@@ -3118,7 +3118,619 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_18K_LAYER0_ENTITY29;
+    end generate MEM_IFMAP_LAYER0_ENTITY29;
+
+
+    MEM_GOLD_LAYER2_ENTITY0 : if BRAM_NAME = gold_layer2_entity0 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00a0001200400104005100bc01010000000000470000001c0000000000ba0000",
+            INIT_01 => X"0000000000000031000000000092000000000000000000000000000000000000",
+            INIT_02 => X"000000000000000001040000000000020000000000000000000000a800000038",
+            INIT_03 => X"0000000000000000000000020000000000000000000000000000005300370000",
+            INIT_04 => X"0000000000000000000000000000000000000000000f00000000000000000000",
+            INIT_05 => X"000000a8017a013400370113008200b7003500000000002d00790000014d0062",
+            INIT_06 => X"00000000000000000000007e001000350000006a000000d10000000000000000",
+            INIT_07 => X"00b000b0000000a00033007700d2008100c600000000000800a9005700000065",
+            INIT_08 => X"00c8000000a1003c00000058007a00000000000000060000005c000000000000",
+            INIT_09 => X"0000002c00e6000000770048000000ff00240000000000190000003600000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"00000000005d004d00b5006c00aa00000000000000000000003f0000001b0030",
+            INIT_0C => X"0015000000000000011900b300000012000000aa000000bd00b6002600000000",
+            INIT_0D => X"0028000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"000000c001240144014f00d00068001700000040000000000009005700160000",
+            INIT_0F => X"00cf005d00000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000a8000100b8001e0028009600900015006300000000",
+            INIT_11 => X"00000000000000000000000000000000000000000000000000000000011b009e",
+            INIT_12 => X"00000000006c0000000000000000007900f80043000400ff0067001200110000",
+            INIT_13 => X"0000001c00000069004100000086004e0031000000000091006c005100170026",
+            INIT_14 => X"0046000000b000fd00e0000000780000001000000000000000000000005900ab",
+            INIT_15 => X"00c100fb00ef006a008f00db003b00530014001000000000007b004600ab0062",
+            INIT_16 => X"005a013c00a2006d008c007a01230051009700a10000000000000000003c0000",
+            INIT_17 => X"000700000000000000000000000001040000000000000000001e004f00a2012f",
+            INIT_18 => X"008c00000000015b013a0161008300a1007201380012000000000088007000dc",
+            INIT_19 => X"00e000ad013e00cd00ae00000000000000000000000000000000000000c8001f",
+            INIT_1A => X"00bf0046004b004e001b00260000001e0073013b009f0036001e000600aa00a5",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000006a0043007601010066007c000000000000000000000000",
+            INIT_1E => X"000000000000000000000000000000590069000000310000000000000000003d",
+            INIT_1F => X"0000000000100031007200ed000000000000000000000000000000000070012c",
+            INIT_20 => X"017f00d0000000000000000000320000006700080039002100de006d00440076",
+            INIT_21 => X"0084014100eb00000000000000000000000000000000000000b20078006e003f",
+            INIT_22 => X"007f009200000000000000000000001c01910000001e00340087014800000000",
+            INIT_23 => X"0000000000000000000000000058004a0046000000000000000000f300d700c5",
+            INIT_24 => X"0000000000000000000000000118006b000000000031000000fe003a007101a4",
+            INIT_25 => X"013000b600000000000000000000000000e3000000f300000000000000000000",
+            INIT_26 => X"00000000000000000000000000000000000000000000000000000169004d00c7",
+            INIT_27 => X"00f500aa002a00000100007800520000000000000000007601c0000000000000",
+            INIT_28 => X"00000000000000000000000000000000000000000000000000000000007d0000",
+            INIT_29 => X"00000000001100000000000000000074000000c80139000600b9000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000005c00000000000000000000000000000000",
+            INIT_2C => X"000000000000000000450000000000c300eb016c01a101d500d401b401db0149",
+            INIT_2D => X"000000000000007c0083005c0000000000000000000000000000000000000000",
+            INIT_2E => X"000000000000000000000000000000000079017600d100a000d4004d02030255",
+            INIT_2F => X"0218022a027001b6012900000063000000000000000000590000000000000000",
+            INIT_30 => X"00000000003d00da000000000000000000a8004a00dd005f014801d600220000",
+            INIT_31 => X"0000000000af00000000000e0090018a00000000000000000000000000000000",
+            INIT_32 => X"000000000000000000000000000000000000000000f900d4009000420137013d",
+            INIT_33 => X"013800b700160000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"000000000000000000000145019b00b80115014f01060000002c000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000b9016d019d0000029f",
+            INIT_36 => X"00000000000000000000000000fb012100fa0000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000d30000000000d00083009f00000000",
+            INIT_38 => X"000000000000000000000000000000000000000000000000000000000000003d",
+            INIT_39 => X"000f00000000000000000000000000000000000000000000006f003800000000",
+            INIT_3A => X"0034003400000000008b00000079007a018e014300a000540000000000000000",
+            INIT_3B => X"0000009000e40124009a00a400c20000002800a6000000080000000000000000",
+            INIT_3C => X"006f000b000000e400db00ec016e009d005f01d9000000000000000000000000",
+            INIT_3D => X"00000000000000000000000000000000000000000000000000000000008b001f",
+            INIT_3E => X"001c000000000000003300000000000000000000000000000000000e00000000",
+            INIT_3F => X"000000000000000000000000011b0000000000000000000000000000000000c1",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY0;
+
+
+    MEM_GOLD_LAYER2_ENTITY1 : if BRAM_NAME = gold_layer2_entity1 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"009f009300000000000000000000000000f5000000dc00000000000000000000",
+            INIT_01 => X"000000000000000000000000000000000000000000000000000000c500f5006f",
+            INIT_02 => X"009e003c00d60000000000210000000000000000000000480260016100d3018f",
+            INIT_03 => X"000200c101a300d10079008f01a4002f00000000000000000052005b007100b2",
+            INIT_04 => X"0000002d006200b7009600e900dc0000010500080047006f00b001c501ed01db",
+            INIT_05 => X"01b602dc01dc00000000000000000000000000fd00c000530000000000000000",
+            INIT_06 => X"0000000000000000003700000000000000000000000000000000000001a700c7",
+            INIT_07 => X"00c000b3006101040000000000700000004500c7016701c101ac011100e300d2",
+            INIT_08 => X"00000031000000000000000000000000000000fe009f004a00000000000000ec",
+            INIT_09 => X"00b3002500000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"000000000000000000000000000000000000000000000000000000840000002b",
+            INIT_0B => X"00c20104008b00c2009d0074013100e100b900000000000000f100f7010c0000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000089000000270061",
+            INIT_0E => X"0000000700000000000000000072006b00900000000000000000000000000007",
+            INIT_0F => X"0000000000000000001f00000000003000000000000000000000000000000000",
+            INIT_10 => X"0003004300000000000000000000018b00de0179003800a000530113010d009d",
+            INIT_11 => X"000000000000004e001700d70025000000dc0000000000000000000000000000",
+            INIT_12 => X"000000000014002a000d000000000000000000000000009900e5007c00a000df",
+            INIT_13 => X"00a600c6007300a000230015000000230000000000000018001a000000000000",
+            INIT_14 => X"00000000000000360000008200730057015800180045001e0066009c008c0000",
+            INIT_15 => X"00000000000000670000001c0051000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000009000000000000018100cf00d0000000c500d5",
+            INIT_17 => X"00b100cf00620000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000a200b40029009f005800530094006c006a00000000",
+            INIT_19 => X"000000000000000000000000000000000050002c007e000000000063000000c0",
+            INIT_1A => X"000000000000008500000000000000000022000000000000006700b000180012",
+            INIT_1B => X"004900300000000000000000000000000000001d005900380028000000000000",
+            INIT_1C => X"001c000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"00d6007700710000000b0010000000110000000900000000000000000008001f",
+            INIT_1E => X"00000092005300a200830000009000eb005400cc0000000b0000000000000000",
+            INIT_1F => X"0000009300db009000b700b700a90032004d0020000c001b0000000000000000",
+            INIT_20 => X"00100084000901500123011e000000000030006c00bb00890000000000000018",
+            INIT_21 => X"0000004a00000000000000000000000000000000000000000000000000a000a7",
+            INIT_22 => X"0051001200670000002800a9009c00000000000000000000000000000000002e",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000005000000000000000000480000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000007100bc0000",
+            INIT_26 => X"00a500c90000005d0025000000000000002f0000000000000075003100490197",
+            INIT_27 => X"0091013c005b0047007f001f0042000000410000004e013c000e000000ae006d",
+            INIT_28 => X"007d00b40000011600a100010000003e0000000e00fc007d00d900fa00bb0182",
+            INIT_29 => X"01020105014d000000000000000000000000003e004f000a0000000000000000",
+            INIT_2A => X"000000000000000000000000000000000000001a005c000000000000019f00fc",
+            INIT_2B => X"00c200e100940080010600b2007a00eb0107001100a5008e000000f5008e0074",
+            INIT_2C => X"00370026000000000000000000a8014c0088000000000000000003050212002c",
+            INIT_2D => X"0000006d0000000000750000010100a900000000000000000000000000000000",
+            INIT_2E => X"0000000000000000001200c90054000000000000000000000000006a00000000",
+            INIT_2F => X"00a001aa016a00000054006100000000000200000000000000a8000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"00000000000000e10026001b00000000009700b400440000002c000000000083",
+            INIT_32 => X"0000000000000056004a00240000000000000000000000000000000000000000",
+            INIT_33 => X"00000000005f001300000000000a000000440091000a0000004800a300000000",
+            INIT_34 => X"000700000000000000000000000000000000000000a9016700ac00bd015501ba",
+            INIT_35 => X"000c009a0079008300140002000000a200170000000000000000000000000000",
+            INIT_36 => X"00000000000000000000000e0080000a00270000006e0045010700ca000900f9",
+            INIT_37 => X"00cd026602bc035e0077004d000000b5005f0119000000000000000000250000",
+            INIT_38 => X"0000000000000006011700c50000000000000088005f0000008f013c01250000",
+            INIT_39 => X"0000000000420000001f00ff008a00b800000000000000000000000000000000",
+            INIT_3A => X"0000000000a4006b000000000000000000000000009f0060009a00d900340028",
+            INIT_3B => X"0168016401780000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000c9011b0115004000770173007e000c002300000000",
+            INIT_3D => X"0000000000000000000000000000000000be00a20000000000000137021c028e",
+            INIT_3E => X"0000003e004900000000000000000073008a0093005a005300ff000000000000",
+            INIT_3F => X"00000000000000000000000000000000000000000000008100a701810043005b",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY1;
+
+
+    MEM_GOLD_LAYER2_ENTITY2 : if BRAM_NAME = gold_layer2_entity2 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"009c0000000000000000000000000000000000000000000000000000000f0071",
+            INIT_01 => X"00000000000000000000002d00000000000a002b000000000072004f003200c7",
+            INIT_02 => X"003a000000530000000001db01760128008300cc009e002c003f0104008c0000",
+            INIT_03 => X"0000012900640000007b0000008a007e005c000a000000000000004300000051",
+            INIT_04 => X"0000000000000021002b00000000017800f100010024008d0079004200580060",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000030044",
+            INIT_06 => X"000e00000096002b000000100008000000000000001f00000000000000000000",
+            INIT_07 => X"000000000000000000000000000000000000000000000000000000000000003b",
+            INIT_08 => X"00000000000000000050005a00f800620000000000e200000000000000000000",
+            INIT_09 => X"00000000000000000000000000000000000000000000000000000051008700ae",
+            INIT_0A => X"0000009000cf011a00e3010d00000000000000000091000000000052013800ae",
+            INIT_0B => X"0047005000000197007c006a007f00f9002b00bc010100ef0000000000000098",
+            INIT_0C => X"00e30000003d00210000017b010a003301c30162013b00890059013b00e70030",
+            INIT_0D => X"01150113017f0000000000000000000000000063009b01320000000000000000",
+            INIT_0E => X"00a50000000f0027000801aa00ca000001620000000000000000000001380164",
+            INIT_0F => X"01580000009501920032002d015400420114007c0049015e00da012e0212026d",
+            INIT_10 => X"003f000000000014000000000000007600000000000000000000000000000000",
+            INIT_11 => X"0000000b00000009005500000036004900000000009c00000000000000000000",
+            INIT_12 => X"00000000000000000000000000000000002b001c00000000000000aa010d0000",
+            INIT_13 => X"00e000cf0074010e00b1004e0000000000000000000000000000000000710000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"00000034006100590000006e017c00320000010000c500a001d300ee009c00e8",
+            INIT_16 => X"0190014e007500ed006900ff00fc00e6002e005500de000000d4006501260084",
+            INIT_17 => X"0094007b00520000000000000000000000000000000000000000000000540000",
+            INIT_18 => X"000000000000003e0000000000080083004f000300000000004c007300000000",
+            INIT_19 => X"0000001600000000008300800032000000000069000000f5007700bf00ad0078",
+            INIT_1A => X"005a0079000000fb0011000000a900760037000000000000001a000000000000",
+            INIT_1B => X"00000008000000000000000000000000000000000000005a002a000800070000",
+            INIT_1C => X"001a00000000001b000000000044008d0000003e000000000000006000000000",
+            INIT_1D => X"001000000000001f001b00660010004800000000000000000000000000000000",
+            INIT_1E => X"000000970037003d0059014a00be0086007300e100000000000000000000001c",
+            INIT_1F => X"00000000002e0000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"00000000000000000000002c002a00890048003700810039000100f800000000",
+            INIT_21 => X"00000000000000000000000000000000003700000000003e0000003000000000",
+            INIT_22 => X"00000000000000000000000000000000000000ee00d100b2015200d900ec001b",
+            INIT_23 => X"008e009b00a600de006f0068000000420000000000000000000000000000000d",
+            INIT_24 => X"00be0000003b00d300000000000000000000000000000000000000dd0151015c",
+            INIT_25 => X"015600e600a90115009c0000000000000000000000000042000000000012010e",
+            INIT_26 => X"00520078010f0000000000af0008002b00070000000000000000001700000055",
+            INIT_27 => X"00b800000037000000000047000000390054000000000000000e003f00000000",
+            INIT_28 => X"0000000000190000000000000000000000000000000000390047000000ad0075",
+            INIT_29 => X"0000000c003f00f0000000000000000000000000000000000000000000f4010e",
+            INIT_2A => X"019101530000000001a20166000000d100000017003b00000000000400150039",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000290000000000000000000000000000",
+            INIT_2D => X"00000000000000000066000000000085003f0000000500a30000000000450000",
+            INIT_2E => X"000000000060003c0000000000280005000000000000009200000000006d0000",
+            INIT_2F => X"000000220095003e0000004a00a2000000000000000000000000000000000000",
+            INIT_30 => X"0000000001110000003c00ab001600ce0000000000c7007f002b009600a50043",
+            INIT_31 => X"00ba00dd001e0026015b00ab00d7003f000000f400da00000161015a013900f2",
+            INIT_32 => X"00b2011b0190007b011400000000000000980000000000000044000000000000",
+            INIT_33 => X"0000000000370000002300a60000000000000000000000000000000000000000",
+            INIT_34 => X"007000a5010e00c6000000e000de0089008300190086007800a0005100540000",
+            INIT_35 => X"0000000000000000000000000000003100000000000000000000000000000000",
+            INIT_36 => X"000000000000000000e4011800cd002d00c40000003b00910096007d00000000",
+            INIT_37 => X"0076002600000000000000000000000000560000000000d4003d0000002c0000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"000000000048008a00be005d009700000056004e004d0003005c0000000100dd",
+            INIT_3A => X"001a0000002a0020000000000055000000000000000000000000000000410000",
+            INIT_3B => X"0000000000be002f002b000000000000001c0000000000000000000000000000",
+            INIT_3C => X"00000026000000550000004900b00000000000000000001e0022003e00930025",
+            INIT_3D => X"00340054003d004c00be0000000000290000006d000000000000000000000000",
+            INIT_3E => X"000000000000000000000000000000000000000000000000002b0000000000df",
+            INIT_3F => X"00000000005a000000cf00860000006d001e0000000000320000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY2;
+
+
+    MEM_GOLD_LAYER2_ENTITY3 : if BRAM_NAME = gold_layer2_entity3 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000000000000000000000000000022004100000082002d004400ea010e0000",
+            INIT_01 => X"000000000027002f000000000000000000000000000000000000000000000000",
+            INIT_02 => X"000000cf008700a400de00c200bf00c300cc00e4000000000000000000030000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000820070000000e4009d000000ae0073001000000000",
+            INIT_05 => X"000000000000000000000000000000000000000000000000001b000000540000",
+            INIT_06 => X"00000000000000000000000000000031007d00ed007e007201090000000000d3",
+            INIT_07 => X"0023000000000000000000000000000000000000000000ca00b8009e00a60000",
+            INIT_08 => X"003a00660000004e0092008f0083004e0006007c00db00b50136000000000000",
+            INIT_09 => X"00000000000000000000004d0000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000040000000bc00f8001500e40031000000000000",
+            INIT_0B => X"00000000000000000000000000000000000000000000000000000000004900a5",
+            INIT_0C => X"006500000000000000000000005c003400c4000000000000002d006900700000",
+            INIT_0D => X"0000006400b50084006f00000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000003b0000005c00c3000000bc00ae002a0078",
+            INIT_0F => X"00000000000000000000000000000000004b0000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"00000000000000000094006e00ae00b90077012c006e00bc0077000000000000",
+            INIT_12 => X"00000000000000470000000000190000005d0082007e0070008200aa00e30000",
+            INIT_13 => X"0000000000000000000000000000007000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000011500ae00e000fe01450116",
+            INIT_15 => X"0059011c00f5000000000000000000000000000000000000005a0057003400bc",
+            INIT_16 => X"00ac0096006400660034003200000000000000000000004e008000a7005e000b",
+            INIT_17 => X"0000000000000000000000000000000000250000000000c10000000000400060",
+            INIT_18 => X"004b004001080120000900e200d300570169016d0215000401b9000000000000",
+            INIT_19 => X"01b701da000000000000007300410000008f00af000000000000000000000000",
+            INIT_1A => X"0000000000000000037c02790120014900000000000000000000000000000000",
+            INIT_1B => X"000000000000000000000000016000000000004b000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"000000000008009e013b01bf00eb003b000000be000000000000000000000134",
+            INIT_1E => X"001e014200000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000e3000000000000006900d100fe00eb000e00000000000000000000",
+            INIT_20 => X"00000000016300cc016c00d000ca00b400730000000000000065002600940156",
+            INIT_21 => X"00000000006c0000000000860000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000001ec022f004200db0262",
+            INIT_23 => X"005f009e008c000000c6017a00310027000d00000000006a0000001101b70000",
+            INIT_24 => X"0170012000000000000000000051008c0148008200c400a400a1009701390000",
+            INIT_25 => X"0000000000000000010000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000062002900e6011c0109009f0000000000000000000000000000",
+            INIT_27 => X"0000000002360000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"00000000000000000000008400aa00330040000000000000004600f500000000",
+            INIT_29 => X"0000000000000000000000000000000000c80000019401f9008a000000000000",
+            INIT_2A => X"028f026b016a01d2035600000127000000260000000000000000000000000000",
+            INIT_2B => X"00000000000000000000000000000000008e020000d80135002a000000000000",
+            INIT_2C => X"00000008000000000000000000fb000000000000000000000000000000000000",
+            INIT_2D => X"0000008701cf003f0124000000110000000000f401120000012d000000590000",
+            INIT_2E => X"004f00880084000000bc0000000000c7011501c9008201bf009a000000000046",
+            INIT_2F => X"0000000000000000000000000089000001790000000000000000000000000028",
+            INIT_30 => X"00d701ba019b00a602a201a8037400b301c70026027b02310064005e007a0053",
+            INIT_31 => X"005a00d700ca0000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"000000000000000000000000001a009c00000000002b00780051000000b1009d",
+            INIT_33 => X"00bb000000000000000000000000000000000000000000000000000000000078",
+            INIT_34 => X"0000005000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"000000000000000000ce005901270017000000b3000000000037000000000000",
+            INIT_36 => X"0000000000000000000000000224007f004000f3007200000175016801980000",
+            INIT_37 => X"001100000000011e0000004501030000000000000000000000b5000000000078",
+            INIT_38 => X"000000000000000000000000000000000000000002c801de0134012c02670182",
+            INIT_39 => X"0154013801650000000000000000000000000000000000ad0000000000000010",
+            INIT_3A => X"0000000000590000000000c3000000000000000000c1000000000010001a0153",
+            INIT_3B => X"000000200000000000000000000001a501d1008901a00096000400af01340000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"000000000033007500000000006f00000000002e000000000000000000000000",
+            INIT_3E => X"000000000000000000000000000000000000001e00000029002a017e01b50155",
+            INIT_3F => X"00bd016801ea0081018f01e80000006f000000000016009100f100d3003d0000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY3;
+
+
+    MEM_GOLD_LAYER2_ENTITY4 : if BRAM_NAME = gold_layer2_entity4 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"000000e700000000010c0114000000e300b9000000fe00f2009200f601820143",
+            INIT_02 => X"00810104013a0000000100cb00000000005c000000000021001a003600690064",
+            INIT_03 => X"00930000012e00b3003600000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000500000000000000000000000000000000000000000000",
+            INIT_05 => X"006600000038016600b50000011900000000004f00be0072001c013400900000",
+            INIT_06 => X"0089004e002400110000000000010000000c0094002e0000000f008a00000000",
+            INIT_07 => X"000000a400000000005e00600000009f000000810000000000ae000000000000",
+            INIT_08 => X"000000000000000000000000000000000000000000000000002b000000000010",
+            INIT_09 => X"000000cd013d0029000000600000000000000000000000000000000000000000",
+            INIT_0A => X"000000000000000000b100000000001f0000000000000000002e000000000000",
+            INIT_0B => X"0016000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000a3005e0000009600980000006300c3000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000018000000000000008700000000",
+            INIT_0E => X"00000000000000000000000000000000000000cd00db014600d60089010b0000",
+            INIT_0F => X"0072010400410000000000000071000000a700d2001b00a20075000900500130",
+            INIT_10 => X"00c5000001150094000000000000000000000000000000000000008200000045",
+            INIT_11 => X"00fd00460000000d0000000000000000003c0000000000190000000000000145",
+            INIT_12 => X"0088002001e60066000e017200390000002100e6006900000024014c00000000",
+            INIT_13 => X"012200000000000000000000006200000000008b000000000000000000000000",
+            INIT_14 => X"0000000000050031000000000000000700000000000000000000005000b50055",
+            INIT_15 => X"000000d100000000000b00000000000000000000000000000000000000000117",
+            INIT_16 => X"0105000000ad00e800000000000d0070000000000000000e0000007b002f0000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"000000000000007c00bc0000001400a100000000000000000000000000000000",
+            INIT_19 => X"0000000000000000007b0000000000140021000000160000000c000000760081",
+            INIT_1A => X"00000000000d000000000000000000000000000000000000006a004400000062",
+            INIT_1B => X"007d00000000003d005b00000084006100000000000000000000000000000000",
+            INIT_1C => X"000000a700d1002d00000124001b0012011200250057005d008f006b004b007d",
+            INIT_1D => X"01ad005700840000019c01b1000000b901f5009100eb01d200ae00b60079007f",
+            INIT_1E => X"01390058009500fd009300000000003f004b00000010000000000000001600dd",
+            INIT_1F => X"006a0000000000a900000000003e000000000000000000000000000000000000",
+            INIT_20 => X"014000a9003500a20047004500af004900920000000000000000000000330000",
+            INIT_21 => X"006200000000000000aa00000000001d00000000000000000000000000000000",
+            INIT_22 => X"00000000000000000000000000000000000000000000002e0050000000000000",
+            INIT_23 => X"0000000000250034001c00000000003300000000000000120049001600b90000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"000000cf009d00f500bc001b00780000003c0064017700b1010c010100db00ec",
+            INIT_26 => X"00aa00b800560137007a013100e800a0000000fd000e0072002000a70000000f",
+            INIT_27 => X"005c0000000000150088000000000000000000000000000000000000014b001a",
+            INIT_28 => X"004500000000000000000000004d001800000000000000120086003300410009",
+            INIT_29 => X"0000000000050000000000000000003e00000022001800f10039001c00000000",
+            INIT_2A => X"0000003200000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000450030000000000065000000000023000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000032004600000000001700240000000000000060",
+            INIT_2D => X"00000000000000000000002300aa000800000000000000000000000000000000",
+            INIT_2E => X"0000014e011a0173010d00bb00010069007b011e000000000048004b000b0049",
+            INIT_2F => X"0126015000a40000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"000000000000000000000012000b002100dd00a4006d003500ab00a900000000",
+            INIT_31 => X"00000000000000000000000000000000001c0000000000000000000000000000",
+            INIT_32 => X"0000000000650000000000000000000000070010002f006400e900ca00000108",
+            INIT_33 => X"00c0008a000000000000000000000000000000000000004e008200ab00cc0081",
+            INIT_34 => X"0053006d00b8008100000000000000000000000000000000000001d1003a00e6",
+            INIT_35 => X"008a005000710000000000000000000000000041000000000016000000000000",
+            INIT_36 => X"0000000000000084000000000045000000000000008900920068008700ce0033",
+            INIT_37 => X"0000002100b30000005600460036006700140000000000000000000000000000",
+            INIT_38 => X"00000000000000470000000000000000000200000000000000f6010b0113010e",
+            INIT_39 => X"004c0000009f0006004800000000000000000000000000000000000000c60000",
+            INIT_3A => X"002600a20000002700770000000000dc00b5019f0000001800000049000f0069",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"000000000000000000540019000000000055003c000000380003000000000000",
+            INIT_3E => X"00950062000200000010000000000000000000000000003500000000004c0098",
+            INIT_3F => X"000b00190000000000b50000001b000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY4;
+
+
+    MEM_GOLD_LAYER2_ENTITY5 : if BRAM_NAME = gold_layer2_entity5 generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000000000000000001200000000001d0090008800f200000080006f",
+            INIT_01 => X"00aa00ef00f50000000000000000000000220000000000010000000e000000a9",
+            INIT_02 => X"004b0097008a00a200d6000000b8000000000043000000000000000000000000",
+            INIT_03 => X"0058000000000053004800000000000000000000000000000000000000000000",
+            INIT_04 => X"014100000000019b000e0000004e010a00750032004d0000013a015601220000",
+            INIT_05 => X"017201d40000000000000000000000000000000600ce00000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000aa00c8",
+            INIT_07 => X"000000bb0000000000000000016000440000011c000000000000002c00620000",
+            INIT_08 => X"000000000000000000000000000000000000000000000000000000000000002c",
+            INIT_09 => X"000000b30000000000e5000000000060005800ec00000000017400000000002e",
+            INIT_0A => X"0000000000000000000000000000000000000057000000000000000000000000",
+            INIT_0B => X"00000000002e000000000000000c000000120000006b00000009000000000000",
+            INIT_0C => X"0000006c00210029006e00820000005f008a009201790174019100bb00530000",
+            INIT_0D => X"004b004100000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"00000000000000000000003f00580048000000000000000001730000000001f8",
+            INIT_0F => X"01ce0000009a00830000003c00690000006200000000000000000000002c0000",
+            INIT_10 => X"000000150089000000b800ac0054006f000000de015a01d900c6012200810019",
+            INIT_11 => X"0000000000000022009f00000000014400000000000000000000000000000000",
+            INIT_12 => X"000000000000000000920000000000fb000000000169005600cb018c00070000",
+            INIT_13 => X"00d90044003c0000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"00000000000000000000011000f90077016a0043000000d70000000000000000",
+            INIT_15 => X"00000000000000000000000000000000009f0000000000420134000000fb00a9",
+            INIT_16 => X"0000005400000000004b0019004c000000580000006500290000000000000063",
+            INIT_17 => X"00000000000000000000003c00000000002b000400810064007700f200380000",
+            INIT_18 => X"000000d70000000000000000000000000000000000000000000000000053007c",
+            INIT_19 => X"00000000007b001a005400000161004000000174004200000000008500000017",
+            INIT_1A => X"0018004a002e0000004d00ea00000000000f0000001a00000098000000000000",
+            INIT_1B => X"0000008e0000000b00000035015200000000012400b90000000000d200000000",
+            INIT_1C => X"0098000000740052000b005c01d1009e013100400111010b0027000000000000",
+            INIT_1D => X"0000001501570000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"000000550000000000000000000000000000010d00000000000000c7005d004a",
+            INIT_1F => X"0000000000000000000000000000000000080000000000000000002100c20000",
+            INIT_20 => X"004f0043000000000000000000b9004e00000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000017000000000000000000000000000000690000",
+            INIT_22 => X"000000db010a0000000000000000004d000000be002200480000006901440000",
+            INIT_23 => X"000000c40000002600ef0000011e005500000127000000000087004e0058007f",
+            INIT_24 => X"001f000000cf000000aa00d3002200000056000000e401a800ca0129017c0141",
+            INIT_25 => X"00c001690184000000000000000000000000000000000000000000000000006f",
+            INIT_26 => X"000000000000000000000000000000370000000000000102005e000000000082",
+            INIT_27 => X"0064000000dc0000000000000000000000f90000000001ba0184000000ac00a4",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_GOLD_LAYER2_ENTITY5;
 
 
 
