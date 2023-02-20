@@ -10,7 +10,6 @@ vcom -work work ../apps/data_hw/default_default/layer/0/gold_pkg.vhd
 
 
 vcom -work work ../apps/rtl_code/default_default/layer/0/bram_36Kb.vhd
-vcom -work work ../apps/rtl_code/default_default/layer/0/gold_bram_18Kb.vhd
 vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
 
 
