@@ -57,9 +57,11 @@ entity bram_single is
 
   architecture a1 of bram_single is
     signal bram_wr_en    : std_logic_vector({we_width}-1 downto 0);
+    signal bram_addr     : std_logic_vector({depth}-1 downto 0);
 
     begin
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
+    bram_addr <= ADDR({depth}-1 downto 0);
           
 {code}
 

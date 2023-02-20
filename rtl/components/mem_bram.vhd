@@ -57,22 +57,21 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
     end if;
   end loop ;
   return output ;
-end function mux_output ;
+end function mux_output;
+
+
+function mux_input(address: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
+  variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
+  begin 
+  for index in 0 to N_BRAM loop
+    if (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) then
+      output := bram_data_out(index);
+    end if;
+  end loop ;
+  return output ;
+end function mux_output;
 
 begin
-
-  -- bram_chip_en(0) <= '1' when chip_en and (SIZE_BRAM*0 <= address and address < SIZE_BRAM*1) else '0';
-  -- bram_chip_en(1) <= '1' when chip_en and (SIZE_BRAM*1 <= address and address < SIZE_BRAM*2) else '0';
-  -- bram_chip_en(2) <= '1' when chip_en and (SIZE_BRAM*2 <= address and address < SIZE_BRAM*3) else '0';
-
-  -- bram_wr_en(0) <= '1' when wr_en and (SIZE_BRAM*0 <= address and address < SIZE_BRAM*1) else '0';
-  -- bram_wr_en(1) <= '1' when wr_en and (SIZE_BRAM*1 <= address and address < SIZE_BRAM*2) else '0';
-  -- bram_wr_en(2) <= '1' when wr_en and (SIZE_BRAM*2 <= address and address < SIZE_BRAM*3) else '0';
-
-  -- data_out <= bram_data_out(0) when wr_en and (SIZE_BRAM*0 <= address and address < SIZE_BRAM*1) else 
-  --   bram_data_out(1) when wr_en and (SIZE_BRAM*1 <= address and address < SIZE_BRAM*2) else 
-  --   bram_data_out(2) when wr_en and (SIZE_BRAM*2 <= address and address < SIZE_BRAM*3) else 
-  --   '0';
 
   LOOP_SELECT : for i in 0 to N_BRAM generate
     bram_select <= i when chip_en = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1));

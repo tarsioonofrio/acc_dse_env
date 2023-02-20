@@ -39,6 +39,7 @@ use IEEE.std_logic_arith.all;
 entity bram_single is
     generic (
         INPUT_SIZE : integer := 8;
+        ADDRESS_SIZE    : integer := 12;
         DEVICE     : string := "7SERIES";
         BRAM_NAME  : string := ""
         );
@@ -49,16 +50,18 @@ entity bram_single is
         EN   : in std_logic;
         WE   : in std_logic;
         DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
-        ADDR : in std_logic_vector(10-1 downto 0);
+        ADDR : in std_logic_vector(ADDRESS_SIZE-1 downto 0);
         DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
     );
  end bram_single;
 
   architecture a1 of bram_single is
     signal bram_wr_en    : std_logic_vector(2-1 downto 0);
+    signal bram_addr     : std_logic_vector(1024-1 downto 0);
 
     begin
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
+    bram_addr <= ADDR(1024-1 downto 0);
           
 
     MEM_IWGHT_LAYER1_ENTITY0 : if BRAM_NAME = "iwght_layer1_entity0" generate
@@ -227,7 +230,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -405,7 +408,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -583,7 +586,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -685,7 +688,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -787,7 +790,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -889,7 +892,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -991,7 +994,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -1093,7 +1096,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
@@ -1195,7 +1198,7 @@ entity bram_single is
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable

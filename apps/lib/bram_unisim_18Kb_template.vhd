@@ -89,7 +89,7 @@
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => ADDR,  -- Input address, width defined by read/write port depth
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
             CLK => CLK,    -- 1-bit input clock
             DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
             EN => EN,      -- 1-bit input RAM enable
