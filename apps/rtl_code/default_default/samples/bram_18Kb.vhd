@@ -61,7 +61,7 @@ entity bram_single is
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
           
 
-    MEM_IFMAP_LAYER0_ENTITY0 : if BRAM_NAME = ifmap_layer0_entity0 generate
+    MEM_IFMAP_LAYER0_ENTITY0 : if BRAM_NAME = "ifmap_layer0_entity0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -163,7 +163,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY0;
 
 
-    MEM_IFMAP_LAYER0_ENTITY1 : if BRAM_NAME = ifmap_layer0_entity1 generate
+    MEM_IFMAP_LAYER0_ENTITY1 : if BRAM_NAME = "ifmap_layer0_entity1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -265,7 +265,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY1;
 
 
-    MEM_IFMAP_LAYER0_ENTITY2 : if BRAM_NAME = ifmap_layer0_entity2 generate
+    MEM_IFMAP_LAYER0_ENTITY2 : if BRAM_NAME = "ifmap_layer0_entity2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -367,7 +367,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY2;
 
 
-    MEM_IFMAP_LAYER0_ENTITY3 : if BRAM_NAME = ifmap_layer0_entity3 generate
+    MEM_IFMAP_LAYER0_ENTITY3 : if BRAM_NAME = "ifmap_layer0_entity3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -469,7 +469,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY3;
 
 
-    MEM_IFMAP_LAYER0_ENTITY4 : if BRAM_NAME = ifmap_layer0_entity4 generate
+    MEM_IFMAP_LAYER0_ENTITY4 : if BRAM_NAME = "ifmap_layer0_entity4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -571,7 +571,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY4;
 
 
-    MEM_IFMAP_LAYER0_ENTITY5 : if BRAM_NAME = ifmap_layer0_entity5 generate
+    MEM_IFMAP_LAYER0_ENTITY5 : if BRAM_NAME = "ifmap_layer0_entity5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -673,7 +673,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY5;
 
 
-    MEM_IFMAP_LAYER0_ENTITY6 : if BRAM_NAME = ifmap_layer0_entity6 generate
+    MEM_IFMAP_LAYER0_ENTITY6 : if BRAM_NAME = "ifmap_layer0_entity6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -775,7 +775,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY6;
 
 
-    MEM_IFMAP_LAYER0_ENTITY7 : if BRAM_NAME = ifmap_layer0_entity7 generate
+    MEM_IFMAP_LAYER0_ENTITY7 : if BRAM_NAME = "ifmap_layer0_entity7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -877,7 +877,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY7;
 
 
-    MEM_IFMAP_LAYER0_ENTITY8 : if BRAM_NAME = ifmap_layer0_entity8 generate
+    MEM_IFMAP_LAYER0_ENTITY8 : if BRAM_NAME = "ifmap_layer0_entity8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -979,7 +979,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY8;
 
 
-    MEM_IFMAP_LAYER0_ENTITY9 : if BRAM_NAME = ifmap_layer0_entity9 generate
+    MEM_IFMAP_LAYER0_ENTITY9 : if BRAM_NAME = "ifmap_layer0_entity9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1081,7 +1081,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY9;
 
 
-    MEM_IFMAP_LAYER0_ENTITY10 : if BRAM_NAME = ifmap_layer0_entity10 generate
+    MEM_IFMAP_LAYER0_ENTITY10 : if BRAM_NAME = "ifmap_layer0_entity10" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1183,7 +1183,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY10;
 
 
-    MEM_IFMAP_LAYER0_ENTITY11 : if BRAM_NAME = ifmap_layer0_entity11 generate
+    MEM_IFMAP_LAYER0_ENTITY11 : if BRAM_NAME = "ifmap_layer0_entity11" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1285,7 +1285,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY11;
 
 
-    MEM_IFMAP_LAYER0_ENTITY12 : if BRAM_NAME = ifmap_layer0_entity12 generate
+    MEM_IFMAP_LAYER0_ENTITY12 : if BRAM_NAME = "ifmap_layer0_entity12" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1387,7 +1387,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY12;
 
 
-    MEM_IFMAP_LAYER0_ENTITY13 : if BRAM_NAME = ifmap_layer0_entity13 generate
+    MEM_IFMAP_LAYER0_ENTITY13 : if BRAM_NAME = "ifmap_layer0_entity13" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1489,7 +1489,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY13;
 
 
-    MEM_IFMAP_LAYER0_ENTITY14 : if BRAM_NAME = ifmap_layer0_entity14 generate
+    MEM_IFMAP_LAYER0_ENTITY14 : if BRAM_NAME = "ifmap_layer0_entity14" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1591,7 +1591,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY14;
 
 
-    MEM_IFMAP_LAYER0_ENTITY15 : if BRAM_NAME = ifmap_layer0_entity15 generate
+    MEM_IFMAP_LAYER0_ENTITY15 : if BRAM_NAME = "ifmap_layer0_entity15" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1693,7 +1693,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY15;
 
 
-    MEM_IFMAP_LAYER0_ENTITY16 : if BRAM_NAME = ifmap_layer0_entity16 generate
+    MEM_IFMAP_LAYER0_ENTITY16 : if BRAM_NAME = "ifmap_layer0_entity16" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1795,7 +1795,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY16;
 
 
-    MEM_IFMAP_LAYER0_ENTITY17 : if BRAM_NAME = ifmap_layer0_entity17 generate
+    MEM_IFMAP_LAYER0_ENTITY17 : if BRAM_NAME = "ifmap_layer0_entity17" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1897,7 +1897,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY17;
 
 
-    MEM_IFMAP_LAYER0_ENTITY18 : if BRAM_NAME = ifmap_layer0_entity18 generate
+    MEM_IFMAP_LAYER0_ENTITY18 : if BRAM_NAME = "ifmap_layer0_entity18" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1999,7 +1999,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY18;
 
 
-    MEM_IFMAP_LAYER0_ENTITY19 : if BRAM_NAME = ifmap_layer0_entity19 generate
+    MEM_IFMAP_LAYER0_ENTITY19 : if BRAM_NAME = "ifmap_layer0_entity19" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2101,7 +2101,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY19;
 
 
-    MEM_IFMAP_LAYER0_ENTITY20 : if BRAM_NAME = ifmap_layer0_entity20 generate
+    MEM_IFMAP_LAYER0_ENTITY20 : if BRAM_NAME = "ifmap_layer0_entity20" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2203,7 +2203,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY20;
 
 
-    MEM_IFMAP_LAYER0_ENTITY21 : if BRAM_NAME = ifmap_layer0_entity21 generate
+    MEM_IFMAP_LAYER0_ENTITY21 : if BRAM_NAME = "ifmap_layer0_entity21" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2305,7 +2305,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY21;
 
 
-    MEM_IFMAP_LAYER0_ENTITY22 : if BRAM_NAME = ifmap_layer0_entity22 generate
+    MEM_IFMAP_LAYER0_ENTITY22 : if BRAM_NAME = "ifmap_layer0_entity22" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2407,7 +2407,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY22;
 
 
-    MEM_IFMAP_LAYER0_ENTITY23 : if BRAM_NAME = ifmap_layer0_entity23 generate
+    MEM_IFMAP_LAYER0_ENTITY23 : if BRAM_NAME = "ifmap_layer0_entity23" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2509,7 +2509,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY23;
 
 
-    MEM_IFMAP_LAYER0_ENTITY24 : if BRAM_NAME = ifmap_layer0_entity24 generate
+    MEM_IFMAP_LAYER0_ENTITY24 : if BRAM_NAME = "ifmap_layer0_entity24" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2611,7 +2611,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY24;
 
 
-    MEM_IFMAP_LAYER0_ENTITY25 : if BRAM_NAME = ifmap_layer0_entity25 generate
+    MEM_IFMAP_LAYER0_ENTITY25 : if BRAM_NAME = "ifmap_layer0_entity25" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2713,7 +2713,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY25;
 
 
-    MEM_IFMAP_LAYER0_ENTITY26 : if BRAM_NAME = ifmap_layer0_entity26 generate
+    MEM_IFMAP_LAYER0_ENTITY26 : if BRAM_NAME = "ifmap_layer0_entity26" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2815,7 +2815,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY26;
 
 
-    MEM_IFMAP_LAYER0_ENTITY27 : if BRAM_NAME = ifmap_layer0_entity27 generate
+    MEM_IFMAP_LAYER0_ENTITY27 : if BRAM_NAME = "ifmap_layer0_entity27" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2917,7 +2917,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY27;
 
 
-    MEM_IFMAP_LAYER0_ENTITY28 : if BRAM_NAME = ifmap_layer0_entity28 generate
+    MEM_IFMAP_LAYER0_ENTITY28 : if BRAM_NAME = "ifmap_layer0_entity28" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3019,7 +3019,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY28;
 
 
-    MEM_IFMAP_LAYER0_ENTITY29 : if BRAM_NAME = ifmap_layer0_entity29 generate
+    MEM_IFMAP_LAYER0_ENTITY29 : if BRAM_NAME = "ifmap_layer0_entity29" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3121,7 +3121,7 @@ entity bram_single is
     end generate MEM_IFMAP_LAYER0_ENTITY29;
 
 
-    MEM_GOLD_LAYER2_ENTITY0 : if BRAM_NAME = gold_layer2_entity0 generate
+    MEM_GOLD_LAYER2_ENTITY0 : if BRAM_NAME = "gold_layer2_entity0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3223,7 +3223,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_ENTITY0;
 
 
-    MEM_GOLD_LAYER2_ENTITY1 : if BRAM_NAME = gold_layer2_entity1 generate
+    MEM_GOLD_LAYER2_ENTITY1 : if BRAM_NAME = "gold_layer2_entity1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3325,7 +3325,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_ENTITY1;
 
 
-    MEM_GOLD_LAYER2_ENTITY2 : if BRAM_NAME = gold_layer2_entity2 generate
+    MEM_GOLD_LAYER2_ENTITY2 : if BRAM_NAME = "gold_layer2_entity2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3427,7 +3427,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_ENTITY2;
 
 
-    MEM_GOLD_LAYER2_ENTITY3 : if BRAM_NAME = gold_layer2_entity3 generate
+    MEM_GOLD_LAYER2_ENTITY3 : if BRAM_NAME = "gold_layer2_entity3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3529,7 +3529,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_ENTITY3;
 
 
-    MEM_GOLD_LAYER2_ENTITY4 : if BRAM_NAME = gold_layer2_entity4 generate
+    MEM_GOLD_LAYER2_ENTITY4 : if BRAM_NAME = "gold_layer2_entity4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3631,7 +3631,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_ENTITY4;
 
 
-    MEM_GOLD_LAYER2_ENTITY5 : if BRAM_NAME = gold_layer2_entity5 generate
+    MEM_GOLD_LAYER2_ENTITY5 : if BRAM_NAME = "gold_layer2_entity5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
