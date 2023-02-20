@@ -40,6 +40,7 @@ architecture a1 of memory is
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(N_BRAM - 1 downto 0);
 signal bram_wr_en    : std_logic_vector(N_BRAM - 1 downto 0);
+signal bram_address  : std_logic_vector(N_BRAM - 1 downto 0);
 signal bram_select   : integer range 0 to N_BRAM;
 
 type type_data is array (0 to N_BRAM + 1) of std_logic_vector(INPUT_SIZE-1  downto 0);
@@ -79,7 +80,7 @@ begin
 
   data_out <= mux_output(bram_wr_en, bram_data_out);
 
-
+  -- bram_address <= 
   -- code to imitate data_av in simulation
   process(reset, clock)
   begin
@@ -98,7 +99,8 @@ begin
 
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
-      BRAM_NAME => BRAM_NAME & integer'image(i) 
+      BRAM_NAME => BRAM_NAME & integer'image(i), 
+      INPUT_SIZE => INPUT_SIZE
     )
     port map(
       CLK  => clock,

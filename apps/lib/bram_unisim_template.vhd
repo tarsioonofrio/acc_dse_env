@@ -39,6 +39,7 @@ use IEEE.std_logic_arith.all;
 entity bram_single is
     generic (
         INPUT_SIZE : integer := 8;
+        ADDRESS_SIZE    : integer := 12;
         DEVICE     : string := "7SERIES";
         BRAM_NAME  : string := ""
         );
@@ -48,9 +49,9 @@ entity bram_single is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic;
-        DI   : in std_logic_vector({data_width}-1 downto 0);
-        ADDR : in std_logic_vector({addr_width}-1 downto 0);
-        DO   : out std_logic_vector({data_width}-1 downto 0)
+        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
+        ADDR : in std_logic_vector(ADDRESS_SIZE-1 downto 0);
+        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
     );
  end bram_single;
 

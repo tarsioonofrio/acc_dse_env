@@ -48,9 +48,9 @@ entity bram_single is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic;
-        DI   : in std_logic_vector(16-1 downto 0);
+        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
         ADDR : in std_logic_vector(11-1 downto 0);
-        DO   : out std_logic_vector(16-1 downto 0)
+        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
     );
  end bram_single;
 
