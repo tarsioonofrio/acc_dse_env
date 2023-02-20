@@ -24,7 +24,8 @@ entity core is
     IFMAP_PATH     : string    := "";
     TEST_BENCH     : std_logic := '0';
     TEST_LAYER     : integer   := 0;
-    PATH           : string    := ""
+    PATH           : string    := "";
+    N_LAYER        : integer   := 0
    );
   port (
     clock : in std_logic;
@@ -113,7 +114,8 @@ begin
       ROM_PATH => IWGHT_PATH,
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE, 
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => LAT,
+      BRAM_NAME => "iwght_layer" & integer'image(N_LAYER) & "entity"
       )
     port map(
       clock    => clock,
@@ -133,7 +135,8 @@ begin
       ROM_PATH => IFMAP_PATH,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => LAT,
+      BRAM_NAME => "ifmap_layer" & integer'image(N_LAYER) & "entity"
       )
     port map(
       clock    => clock,

@@ -14,9 +14,10 @@ entity memory is
     ADDRESS_SIZE    : integer := 12;
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
-    DEVICE : string := "7SERIES";
-    N_BRAM : integer := 0;
-    SIZE_BRAM : integer := 0
+    DEVICE          : string := "7SERIES";
+    BRAM_NAME       : string := "";
+    N_BRAM          : integer := 0;
+    SIZE_BRAM       : integer := 0
   );
   port(
     reset   : in std_logic;
@@ -97,7 +98,7 @@ begin
 
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
-      N_BRAM => i
+      BRAM_NAME => BRAM_NAME & integer'image(i) 
     )
     port map(
       CLK  => clock,

@@ -26,6 +26,7 @@ entity tb is
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
            LAT            : integer := 2;
+           N_LAYER        : integer := 0;
            PATH           : string  := ""
            );
 end tb;
@@ -57,8 +58,9 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH      => PATH & "/iwght_pkg.txt",
-      IFMAP_PATH      => PATH & "/ifmap_pkg.txt" 
+      IWGHT_PATH     => PATH & "/iwght_pkg.txt",
+      IFMAP_PATH     => PATH & "/ifmap_pkg.txt",
+      N_LAYER        => N_LAYER
       )
     port map(
       clock         => clock,
