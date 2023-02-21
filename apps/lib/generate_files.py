@@ -118,13 +118,13 @@ def write_bram_pkg(blocks_string, lines_per_file, path, bits):
         v for k, v in bram_dict.items()
         if k[0] < bits < k[1]
     ]
-    addr_width = bram_width[0]["BRAM_ADDR"]
-    we_width = bram_width[0]["BRAM_WE"]
+    bram_addr = bram_width[0]["BRAM_ADDR"]
+    bram_we = bram_width[0]["BRAM_WE"]
     depth = bram_width[0]["DEPTH"]
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(
-        code=blocks_string, addr_width=addr_width, we_width=we_width, data_width=bits, depth=depth
+        code=blocks_string, bram_addr=bram_addr, bram_we=bram_we, data_width=bits
     )
     with open(path, "w") as f:
         f.writelines(text_out)
