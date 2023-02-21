@@ -40,7 +40,7 @@ architecture a1 of memory is
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(N_BRAM - 1 downto 0);
 signal bram_wr_en    : std_logic_vector(N_BRAM - 1 downto 0);
-signal bram_address  : std_logic_vector(N_BRAM - 1 downto 0);
+signal bram_address  : std_logic_vector(ADDRESS_SIZE - 1 downto 0);
 signal bram_select   : integer range 0 to N_BRAM;
 
 type type_data is array (0 to N_BRAM + 1) of std_logic_vector(INPUT_SIZE-1  downto 0);
@@ -58,12 +58,12 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
 end function mux_output;
 
 procedure mux_input(
-  chip_en : in std_logic;
-  wr_en   : in std_logic;
-  address : in std_logic_vector; 
-  out_chip_en : out std_logic_vector;
-  out_wr_en   : out std_logic_vector;
-  out_address: out std_logic_vector
+  signal chip_en : in std_logic;
+  signal wr_en   : in std_logic;
+  signal address : in std_logic_vector; 
+  signal out_chip_en : out std_logic_vector;
+  signal out_wr_en   : out std_logic_vector;
+  signal out_address: out std_logic_vector
   ) is
   variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
   variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
@@ -76,9 +76,9 @@ procedure mux_input(
       tmp_address := address - (DEPTH_BRAM*i);
     end if;
   end loop;
-  out_chip_en := tmp_chip_en;
-  out_wr_en := tmp_chip_en;
-  out_address := tmp_address;
+  out_chip_en <= tmp_chip_en;
+  out_wr_en <= tmp_chip_en;
+  out_address <= tmp_address;
 end procedure mux_input;
 
 begin
@@ -109,7 +109,8 @@ begin
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
       BRAM_NAME => BRAM_NAME & integer'image(i), 
-      INPUT_SIZE => INPUT_SIZE
+      INPUT_SIZE => INPUT_SIZE,
+      ADDRESS_SIZE => ADDRESS_SIZE
     )
     port map(
       CLK  => clock,
@@ -117,7 +118,7 @@ begin
       EN   => bram_chip_en(i),
       WE   => bram_wr_en(i),
       DI   => data_in,
-      ADDR => address,
+      ADDR => bram_address,
       DO   => bram_data_out(i)
       );
   end generate; 
