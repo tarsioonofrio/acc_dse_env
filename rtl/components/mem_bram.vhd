@@ -16,7 +16,7 @@ entity memory is
     ROM_PATH        : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
-    N_BRAM          : integer := 0;
+    N_BRAM          : integer := 2;
     DEPTH_BRAM       : integer := 1024
   );
   port(
@@ -35,6 +35,7 @@ entity memory is
   );
 end memory;
 
+
 architecture a1 of memory is
 
 signal data_valid    : std_logic;
@@ -49,13 +50,14 @@ signal bram_data_out: type_data;
 function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
   variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
-  for index in 0 to N_BRAM loop
+  for index in 0 to N_BRAM -1 loop
     if bram_wr_en(index) = '1' then
       output := bram_data_out(index);
     end if;
   end loop ;
   return output ;
 end function mux_output;
+
 
 procedure mux_input(
   signal chip_en : in std_logic;
@@ -65,11 +67,13 @@ procedure mux_input(
   signal out_wr_en   : out std_logic_vector;
   signal out_address: out std_logic_vector
   ) is
-  variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
-  variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
-  variable tmp_address : std_logic_vector(ADDRESS_SIZE-1 downto 0) := ( others => '0' ) ;
+
+  variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
+  variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
+  variable tmp_address : std_logic_vector(ADDRESS_SIZE-1 downto 0) := ( others => '0');
+
   begin 
-  for i in 0 to N_BRAM loop
+  for i in 0 to N_BRAM -1 loop
     if (DEPTH_BRAM*i <= address and address < DEPTH_BRAM*(i + 1)) then
       tmp_chip_en(i) := chip_en;
       tmp_wr_en(i) := wr_en;
@@ -80,6 +84,7 @@ procedure mux_input(
   out_wr_en <= tmp_chip_en;
   out_address <= tmp_address;
 end procedure mux_input;
+
 
 begin
 
@@ -105,7 +110,7 @@ begin
   end process;
 
   
-  LOOP_MEM : for i in 0 to N_BRAM generate
+  LOOP_MEM : for i in 0 to N_BRAM -1 generate
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
       BRAM_NAME => BRAM_NAME & integer'image(i), 
