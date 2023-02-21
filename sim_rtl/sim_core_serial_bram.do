@@ -31,8 +31,12 @@ vcom -work work ../rtl/core/core_serial.vhd
 # Testbench
 vcom -work work ../tb/tb_rtl_core_serial.vhd
 
+# Get bram generics
+set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram.txt" r]
+set bram_generics [read $fp]
+
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt $bram_generics
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
