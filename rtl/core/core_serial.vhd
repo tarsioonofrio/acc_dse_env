@@ -25,8 +25,11 @@ entity core is
     TEST_BENCH     : std_logic := '0';
     TEST_LAYER     : integer   := 0;
     PATH           : string    := "";
-    N_LAYER        : integer   := 0
-   );
+    N_LAYER        : integer   := 0;
+    N_BRAM_IWGHT   : integer := 2;
+    N_BRAM_IFMAP   : integer := 2;
+    N_BRAM_GOLD    : integer := 2
+    );
   port (
     clock : in std_logic;
     reset : in std_logic;
@@ -115,6 +118,7 @@ begin
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE, 
       DATA_AV_LATENCY => LAT,
+      N_BRAM => N_BRAM_IWGHT,
       BRAM_NAME => "iwght_layer" & integer'image(N_LAYER) & "entity"
       )
     port map(
@@ -136,6 +140,7 @@ begin
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT,
+      N_BRAM => N_BRAM_IFMAP,
       BRAM_NAME => "ifmap_layer" & integer'image(N_LAYER) & "entity"
       )
     port map(
