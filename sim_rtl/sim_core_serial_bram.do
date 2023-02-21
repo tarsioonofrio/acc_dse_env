@@ -32,7 +32,7 @@ vcom -work work ../rtl/core/core_serial.vhd
 vcom -work work ../tb/tb_rtl_core_serial.vhd
 
 # Get bram generics
-set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram.txt" r]
+set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram36k.txt" r]
 set bram_generics [read $fp]
 
 # Simulation

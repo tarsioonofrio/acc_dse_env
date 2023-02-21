@@ -559,10 +559,10 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in
         zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
     )
-    with open(path / "generic_file_bram18k.vhd", "w") as f:
+    with open(path / "generic_file_bram18k.txt", "w") as f:
         f.write(generic18k)
 
-    with open(path / "generic_file_bram36k.vhd", "w") as f:
+    with open(path / "generic_file_bram36k.txt", "w") as f:
         f.write(generic36k)
 
 
@@ -598,8 +598,8 @@ def generate_samples_files(modelDict, shift, input_size, filter_dimension, filte
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in
         zip([fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
     )
-    with open(path / "generic_file_bram18k.vhd", "w") as f:
+    with open(path / "generic_file_bram18k.txt", "w") as f:
         f.write(generic18k)
 
-    with open(path / "generic_file_bram36k.vhd", "w") as f:
+    with open(path / "generic_file_bram36k.txt", "w") as f:
         f.write(generic36k)
