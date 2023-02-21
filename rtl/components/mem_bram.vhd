@@ -17,7 +17,7 @@ entity memory is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 0;
-    SIZE_BRAM       : integer := 0
+    DEPTH_BRAM       : integer := 1024
   );
   port(
     reset   : in std_logic;
@@ -46,8 +46,6 @@ signal bram_select   : integer range 0 to N_BRAM;
 type type_data is array (0 to N_BRAM + 1) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
--- signal bram_data_out : std_logic_vector(INPUT_SIZE-1 downto 0);
-
 function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
   variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
@@ -59,28 +57,43 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
   return output ;
 end function mux_output;
 
-
-function mux_input(address: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
-  variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
+procedure mux_input(
+  chip_en : in std_logic;
+  wr_en   : in std_logic;
+  address : in std_logic_vector; 
+  out_chip_en : out std_logic_vector;
+  out_wr_en   : out std_logic_vector;
+  out_address: out std_logic_vector
+  ) is
+  variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
+  variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0' ) ;
+  variable tmp_address : std_logic_vector(ADDRESS_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
-  for index in 0 to N_BRAM loop
-    if (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) then
-      output := bram_data_out(index);
+  for i in 0 to N_BRAM loop
+    if (DEPTH_BRAM*i <= address and address < DEPTH_BRAM*(i + 1)) then
+      tmp_chip_en(i) := chip_en;
+      tmp_wr_en(i) := wr_en;
+      tmp_address := address - (DEPTH_BRAM*i);
     end if;
-  end loop ;
-  return output ;
-end function mux_output;
+  end loop;
+  out_chip_en := tmp_chip_en;
+  out_wr_en := tmp_chip_en;
+  out_address := tmp_address;
+end procedure mux_input;
 
 begin
 
-  LOOP_SELECT : for i in 0 to N_BRAM generate
-    bram_select <= i when chip_en = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1));
-  end generate; 
+  mux_input(
+    chip_en => chip_en,
+    wr_en => wr_en,
+    address => address, 
+    out_chip_en => bram_chip_en,
+    out_wr_en => bram_wr_en,
+    out_address => bram_address
+  );
 
   data_out <= mux_output(bram_wr_en, bram_data_out);
 
-  -- bram_address <= 
-  -- code to imitate data_av in simulation
   process(reset, clock)
   begin
     if reset = '1' then
@@ -93,9 +106,6 @@ begin
 
   
   LOOP_MEM : for i in 0 to N_BRAM generate
-    bram_chip_en(i) <= '1' when chip_en = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
-    bram_wr_en(i) <= '1' when wr_en  = '1' and (SIZE_BRAM*i <= address and address < SIZE_BRAM*(i + 1)) else '0';
-
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
       BRAM_NAME => BRAM_NAME & integer'image(i), 
