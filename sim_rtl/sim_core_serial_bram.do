@@ -36,7 +36,7 @@ set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram36k.txt"
 set bram_generics [read $fp]
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt $bram_generics
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt {*}$bram_generics
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
