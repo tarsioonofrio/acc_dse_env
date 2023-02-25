@@ -41,7 +41,7 @@ entity bram_single is
         INPUT_SIZE : integer := 8;
         ADDRESS_SIZE    : integer := 12;
         DEVICE     : string := "7SERIES";
-        BRAM_NAME  : string := ""
+        BRAM_NAME  : string := "default"
         );
 
     port (
