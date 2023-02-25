@@ -542,8 +542,14 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
     gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 64)
     gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 128)
 
-    bram18k = wght_18k + fmap_18k + gold_18k
-    bram36k = wght_36k + fmap_36k + gold_36k
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
+        empty_18k = f.read()
+
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_36Kb_template_empty.vhd", "r") as f:
+        empty_36k = f.read()
+
+    bram18k = wght_18k + fmap_18k + gold_18k + empty_18k
+    bram36k = wght_36k + fmap_36k + gold_36k + empty_36k
 
     write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits)
     write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits)
