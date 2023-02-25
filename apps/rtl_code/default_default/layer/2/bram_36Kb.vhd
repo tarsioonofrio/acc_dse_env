@@ -67,7 +67,7 @@ entity bram_single is
     MEM_IWGHT_LAYER2_ENTITY0 : if BRAM_NAME = "iwght_layer2_entity0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -142,6 +142,72 @@ entity bram_single is
             INIT_3E => X"000a00050007ffee0000ffebffdd0000000cffe70002000900040007fff9ffec",
             INIT_3F => X"fffcffed0008ffff00020002fff7fff9fffcffffffeb000ffff2000300000010",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"ffeafffaffdfffebfff80011fff800070004fff2fffc00080005fff80005fff4",
+            INIT_41 => X"0000ffeb0002fff4fffcffe1fffdffe2000a000bfff20000fffd00000001ffee",
+            INIT_42 => X"fff9ffee000800120007000bfff5fff8ffecfff100030005fff2fffbfffbfff5",
+            INIT_43 => X"000bfff00000fff7ffe8fffffffb0000ffedffff0006ffecffebffefffe9ffe7",
+            INIT_44 => X"fffdfffafff40000fffefff6000afff2fff5fff4fff8ffea000cfffefff10000",
+            INIT_45 => X"fff0ffe7fff4ffebffec000fffedfff9fffbffebfffbfff3ffedfff400030004",
+            INIT_46 => X"0001fffa0007ffee000bfff2fffe000c0005ffe90000ffebfff8ffe7fffc0004",
+            INIT_47 => X"0003fffcffea0000fff80003fff2ffedffea0005ffffffeaffe80005fffc0000",
+            INIT_48 => X"ffe0ffeefff00001fff30009fff6fff00009ffedfffb00020004001100000001",
+            INIT_49 => X"00000005ffec000b000bffea00100008ffec0002fff6ffe8ffeafff2fffefff0",
+            INIT_4A => X"fff9fff1fff1fff50009fff600070007ffed000b000b0001fffafff10009fff6",
+            INIT_4B => X"0006fffa0008000d0009fffbfff4fff3ffefffe300040012fff3fff70008fff0",
+            INIT_4C => X"0009001b0017fffbfff60001000c0001fffcffe3ffd5ffe30012003efffaffe6",
+            INIT_4D => X"ffeefff3ffb6ffd6ffea000cfff7ffd90011001e0007ffe6ffce0032ffe4ffbe",
+            INIT_4E => X"ffd5ffdfffe4ffc2ffd0ffceffcd000affd1ffd0fff8ffd6ffe5ffc3ffc3ffd3",
+            INIT_4F => X"ffbfffeaffe9fffe00160016002300250031001b000ffffb0008001c0036ffff",
+            INIT_50 => X"00160018ffe1fff7ffed000e001ffff200070008fff6002b0011fff10003000e",
+            INIT_51 => X"0024fff9ffc3fff0ffb6ffcfffabffd7ffde000f0009000300000028003a000e",
+            INIT_52 => X"fffa000f001dffe900140001fff40024fff0fffdffeeffdc0016001afff7fff4",
+            INIT_53 => X"ffde0000fff5ffe0ffdffff30038001cffb5ffcfffaaffb2ffebffe2ffea0000",
+            INIT_54 => X"0000fffffffafff200160003000c000ffffa0000ffefffe00000fffcffe5ffc8",
+            INIT_55 => X"0027000dffe8002a0041006000120035001d000f001a0017ffed003f0022fff9",
+            INIT_56 => X"0046003700060000fff80006002c000cffe40000ffd40016fffd000a000d0001",
+            INIT_57 => X"00020004fffe0002002b0018001f000d001300160013fffb00040002ffe6000e",
+            INIT_58 => X"0010ffdf00150014fffa000dffda001bfff0ffceffeeffe3fff7ffec0002fff5",
+            INIT_59 => X"fff2ffff0022003f0032001a001200110017ffceffe7002efff5ffd60023ffec",
+            INIT_5A => X"ffbeffedffdaffdaffe7002effd6fff100050008ffccffe0ffe5ffd4ffe9ffee",
+            INIT_5B => X"000800060028000bfff8ffd50006ffe9ffe9001cfff7fffdffa7ffb60015ffd9",
+            INIT_5C => X"ffc7ffd1ffbcffd7fff3000dfffcffd900240003fff100140006001100290005",
+            INIT_5D => X"0014000cfff7ffe90011000ffff0fff6ffebffecffe5000affe9ffdbffecfff6",
+            INIT_5E => X"000fffecfffdfffffff0001cfff8fff5fff9003800260005000cfff1ffe9fff3",
+            INIT_5F => X"000e002cfffaffadff92ffcbff9fffad0036ffe7ffd5fffbff8dffc4ffd0ffe5",
+            INIT_60 => X"ffcb0004ffdbfffefff2ffb7ffecfff0ff9effc6ffd1fff7ffeb002300350022",
+            INIT_61 => X"0012001a00310000fffdffedffe0ffd8ffdefff3fffdffd80008fff2fffc001b",
+            INIT_62 => X"000a00120007ffef001cffe3ffee0019fffeffd4fff4ffbaffb7ffe0ffd3fff1",
+            INIT_63 => X"000cfffa0024000d002d0018fff1001500180000fffaffd7ffdfffefffe4ffe0",
+            INIT_64 => X"000e00160058ffe8ffdcffe000070000ffbd0010ffe2ffbefffc000d00100000",
+            INIT_65 => X"fffd00070001ffee0006001000140000001900120016001a000b001000190008",
+            INIT_66 => X"001affe4fffeffefffe3ffeefff9000400200012000f0011fff8000e0000ffd5",
+            INIT_67 => X"ffe5ffd1ffddffe9ffbc0001ffd7ffed0002fffd00030016003e000ffff80014",
+            INIT_68 => X"fffdffd3fff90007ffc4fffe000afffa00150022ffe20000001200110002000d",
+            INIT_69 => X"0023ffdb0007000a0014002500210023001c0034ffe70005000d000c0005002f",
+            INIT_6A => X"00090027003cfffd0005fffffff4000bffe500050016ffe9ffed0006ffc8ffed",
+            INIT_6B => X"ffe5fff8ffd2fffa000a000f0013002b001cffb3ffdefffbfff8fff10033fff9",
+            INIT_6C => X"ffe2001bfff2ffee0007000e00050015001a003100220021fff7002e000affd2",
+            INIT_6D => X"00440004ffecfff7fff1fff9ffc300070005ffff00000002ffbeff78ffbdffd4",
+            INIT_6E => X"ffb8ffcdfff0ffd5ffd3000f000b0015fffc00210030001effeafff8000b001d",
+            INIT_6F => X"001000040019001afffcfffb002f00170019001e00370017fff80025000cffc6",
+            INIT_70 => X"ffd8ffe5fff1fff1ffeafffbfff9fff2ffeb0026002a0029003200250015fff7",
+            INIT_71 => X"ffbbffb80000000efffdffe2ffea0026ffe5fff5001afff600120031ffd6ffda",
+            INIT_72 => X"000dffe8ffed0023ffda001cffea002e00350016fff0001a0007000400080005",
+            INIT_73 => X"00150036001c0027003100330038000200240019fff9ffedfff2ffcdffd3fff2",
+            INIT_74 => X"fff1fff1ffb5ffa1ffabffdfffceffcb0028002600220053003f0037000e0003",
+            INIT_75 => X"fff0fffbfff2fff6000a0001000b0014fff0000c0005fffe0017001b000a000b",
+            INIT_76 => X"ffdefff1ffdd000bffef0021000200000040fffcfffd0030002100210020ffe5",
+            INIT_77 => X"00190013ffe8fff5fff2ffdeffc4ffe7ffccffc1ffcaffeeffddffd2000a0025",
+            INIT_78 => X"002c0022003a00230006fff300130018fff0fff7fffffffe000effe4001a002c",
+            INIT_79 => X"00110002fff5ffabffb3ffedffaeff95ffa3001a0005001300220016002ffff5",
+            INIT_7A => X"00080006ffd3000c0016ffd5fffa0031ffec0034001100340032001dfff60016",
+            INIT_7B => X"ffeffff0fff5fff10004ffee0004ffcefffdffe9fffc0004001500250027001a",
+            INIT_7C => X"000e0016fffb001f001500110029002d001f00170002000fffe5ffd0ffe3000b",
+            INIT_7D => X"0012ffffffe9000afffeffe5ffebfffb002bfffaffceffe8ffdcffacffbbffef",
+            INIT_7E => X"ffcd000700020013ffb0ffacffb6ffc6ffb6ffab001900110003ffecfffe0024",
+            INIT_7F => X"ffe0ffff0003001a000affec000bfff8ffbaffb6ffbaffb7fffcfff8fffeffcd",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -150,7 +216,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -169,109 +245,7 @@ entity bram_single is
     MEM_IWGHT_LAYER2_ENTITY1 : if BRAM_NAME = "iwght_layer2_entity1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"ffeafffaffdfffebfff80011fff800070004fff2fffc00080005fff80005fff4",
-            INIT_01 => X"0000ffeb0002fff4fffcffe1fffdffe2000a000bfff20000fffd00000001ffee",
-            INIT_02 => X"fff9ffee000800120007000bfff5fff8ffecfff100030005fff2fffbfffbfff5",
-            INIT_03 => X"000bfff00000fff7ffe8fffffffb0000ffedffff0006ffecffebffefffe9ffe7",
-            INIT_04 => X"fffdfffafff40000fffefff6000afff2fff5fff4fff8ffea000cfffefff10000",
-            INIT_05 => X"fff0ffe7fff4ffebffec000fffedfff9fffbffebfffbfff3ffedfff400030004",
-            INIT_06 => X"0001fffa0007ffee000bfff2fffe000c0005ffe90000ffebfff8ffe7fffc0004",
-            INIT_07 => X"0003fffcffea0000fff80003fff2ffedffea0005ffffffeaffe80005fffc0000",
-            INIT_08 => X"ffe0ffeefff00001fff30009fff6fff00009ffedfffb00020004001100000001",
-            INIT_09 => X"00000005ffec000b000bffea00100008ffec0002fff6ffe8ffeafff2fffefff0",
-            INIT_0A => X"fff9fff1fff1fff50009fff600070007ffed000b000b0001fffafff10009fff6",
-            INIT_0B => X"0006fffa0008000d0009fffbfff4fff3ffefffe300040012fff3fff70008fff0",
-            INIT_0C => X"0009001b0017fffbfff60001000c0001fffcffe3ffd5ffe30012003efffaffe6",
-            INIT_0D => X"ffeefff3ffb6ffd6ffea000cfff7ffd90011001e0007ffe6ffce0032ffe4ffbe",
-            INIT_0E => X"ffd5ffdfffe4ffc2ffd0ffceffcd000affd1ffd0fff8ffd6ffe5ffc3ffc3ffd3",
-            INIT_0F => X"ffbfffeaffe9fffe00160016002300250031001b000ffffb0008001c0036ffff",
-            INIT_10 => X"00160018ffe1fff7ffed000e001ffff200070008fff6002b0011fff10003000e",
-            INIT_11 => X"0024fff9ffc3fff0ffb6ffcfffabffd7ffde000f0009000300000028003a000e",
-            INIT_12 => X"fffa000f001dffe900140001fff40024fff0fffdffeeffdc0016001afff7fff4",
-            INIT_13 => X"ffde0000fff5ffe0ffdffff30038001cffb5ffcfffaaffb2ffebffe2ffea0000",
-            INIT_14 => X"0000fffffffafff200160003000c000ffffa0000ffefffe00000fffcffe5ffc8",
-            INIT_15 => X"0027000dffe8002a0041006000120035001d000f001a0017ffed003f0022fff9",
-            INIT_16 => X"0046003700060000fff80006002c000cffe40000ffd40016fffd000a000d0001",
-            INIT_17 => X"00020004fffe0002002b0018001f000d001300160013fffb00040002ffe6000e",
-            INIT_18 => X"0010ffdf00150014fffa000dffda001bfff0ffceffeeffe3fff7ffec0002fff5",
-            INIT_19 => X"fff2ffff0022003f0032001a001200110017ffceffe7002efff5ffd60023ffec",
-            INIT_1A => X"ffbeffedffdaffdaffe7002effd6fff100050008ffccffe0ffe5ffd4ffe9ffee",
-            INIT_1B => X"000800060028000bfff8ffd50006ffe9ffe9001cfff7fffdffa7ffb60015ffd9",
-            INIT_1C => X"ffc7ffd1ffbcffd7fff3000dfffcffd900240003fff100140006001100290005",
-            INIT_1D => X"0014000cfff7ffe90011000ffff0fff6ffebffecffe5000affe9ffdbffecfff6",
-            INIT_1E => X"000fffecfffdfffffff0001cfff8fff5fff9003800260005000cfff1ffe9fff3",
-            INIT_1F => X"000e002cfffaffadff92ffcbff9fffad0036ffe7ffd5fffbff8dffc4ffd0ffe5",
-            INIT_20 => X"ffcb0004ffdbfffefff2ffb7ffecfff0ff9effc6ffd1fff7ffeb002300350022",
-            INIT_21 => X"0012001a00310000fffdffedffe0ffd8ffdefff3fffdffd80008fff2fffc001b",
-            INIT_22 => X"000a00120007ffef001cffe3ffee0019fffeffd4fff4ffbaffb7ffe0ffd3fff1",
-            INIT_23 => X"000cfffa0024000d002d0018fff1001500180000fffaffd7ffdfffefffe4ffe0",
-            INIT_24 => X"000e00160058ffe8ffdcffe000070000ffbd0010ffe2ffbefffc000d00100000",
-            INIT_25 => X"fffd00070001ffee0006001000140000001900120016001a000b001000190008",
-            INIT_26 => X"001affe4fffeffefffe3ffeefff9000400200012000f0011fff8000e0000ffd5",
-            INIT_27 => X"ffe5ffd1ffddffe9ffbc0001ffd7ffed0002fffd00030016003e000ffff80014",
-            INIT_28 => X"fffdffd3fff90007ffc4fffe000afffa00150022ffe20000001200110002000d",
-            INIT_29 => X"0023ffdb0007000a0014002500210023001c0034ffe70005000d000c0005002f",
-            INIT_2A => X"00090027003cfffd0005fffffff4000bffe500050016ffe9ffed0006ffc8ffed",
-            INIT_2B => X"ffe5fff8ffd2fffa000a000f0013002b001cffb3ffdefffbfff8fff10033fff9",
-            INIT_2C => X"ffe2001bfff2ffee0007000e00050015001a003100220021fff7002e000affd2",
-            INIT_2D => X"00440004ffecfff7fff1fff9ffc300070005ffff00000002ffbeff78ffbdffd4",
-            INIT_2E => X"ffb8ffcdfff0ffd5ffd3000f000b0015fffc00210030001effeafff8000b001d",
-            INIT_2F => X"001000040019001afffcfffb002f00170019001e00370017fff80025000cffc6",
-            INIT_30 => X"ffd8ffe5fff1fff1ffeafffbfff9fff2ffeb0026002a0029003200250015fff7",
-            INIT_31 => X"ffbbffb80000000efffdffe2ffea0026ffe5fff5001afff600120031ffd6ffda",
-            INIT_32 => X"000dffe8ffed0023ffda001cffea002e00350016fff0001a0007000400080005",
-            INIT_33 => X"00150036001c0027003100330038000200240019fff9ffedfff2ffcdffd3fff2",
-            INIT_34 => X"fff1fff1ffb5ffa1ffabffdfffceffcb0028002600220053003f0037000e0003",
-            INIT_35 => X"fff0fffbfff2fff6000a0001000b0014fff0000c0005fffe0017001b000a000b",
-            INIT_36 => X"ffdefff1ffdd000bffef0021000200000040fffcfffd0030002100210020ffe5",
-            INIT_37 => X"00190013ffe8fff5fff2ffdeffc4ffe7ffccffc1ffcaffeeffddffd2000a0025",
-            INIT_38 => X"002c0022003a00230006fff300130018fff0fff7fffffffe000effe4001a002c",
-            INIT_39 => X"00110002fff5ffabffb3ffedffaeff95ffa3001a0005001300220016002ffff5",
-            INIT_3A => X"00080006ffd3000c0016ffd5fffa0031ffec0034001100340032001dfff60016",
-            INIT_3B => X"ffeffff0fff5fff10004ffee0004ffcefffdffe9fffc0004001500250027001a",
-            INIT_3C => X"000e0016fffb001f001500110029002d001f00170002000fffe5ffd0ffe3000b",
-            INIT_3D => X"0012ffffffe9000afffeffe5ffebfffb002bfffaffceffe8ffdcffacffbbffef",
-            INIT_3E => X"ffcd000700020013ffb0ffacffb6ffc6ffb6ffab001900110003ffecfffe0024",
-            INIT_3F => X"ffe0ffff0003001a000affec000bfff8ffbaffb6ffbaffb7fffcfff8fffeffcd",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY1;
-
-
-    MEM_IWGHT_LAYER2_ENTITY2 : if BRAM_NAME = "iwght_layer2_entity2" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -346,6 +320,72 @@ entity bram_single is
             INIT_3E => X"000a0009fffbfff3000d0016ffdeffee0008ffe1fffbffddffe2001e001e0009",
             INIT_3F => X"0007000d0016002b00120012ffd7ffbb00640000ffc30033ffe8ffbdffd0ffe6",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"0029ffe6000c0003ffdfffd9ffdffff20007000a000f0036002600130003000a",
+            INIT_41 => X"002affcdff7cfffaff9affa2fff4ffb9ffcf0018fff2ffe40040fff1ffd70027",
+            INIT_42 => X"fff0ffddfff0000b000dffea0019ffeefff8001b0000fff3002b00340001fffe",
+            INIT_43 => X"001d00050014000e001c001e000400110009ffeefffa001fffea001300000010",
+            INIT_44 => X"0007001200260000fffc0000ffeefff7fffcfff3000fffe80000001c00180007",
+            INIT_45 => X"00110027ffea0003002affef000efff5ffc9002a0058ffcb00140053fff3ffe3",
+            INIT_46 => X"00280006ffd7ffda0015fffcfff1000bfffdfff2000f0007ffd60033fff9fffb",
+            INIT_47 => X"0009ffe6ffc30000ffe1ffecffee0001fffcfff9fff8001a001800260017fff9",
+            INIT_48 => X"0007fffaffd8fff80009fff30013fff80018ffec000affe6ffe7ffe7fff4001f",
+            INIT_49 => X"000a000dfffeffec00090016ffedfff7fff9000300260008000f00200007ffe9",
+            INIT_4A => X"000400100007fff40009fff6ffffffdafff8ff99ffbeffa8ff8aff74ffa9ffa4",
+            INIT_4B => X"ffa0ffcc001200210022001000370015002bfffb001a0024ffe3fffe00220000",
+            INIT_4C => X"ffe4fff6fffcffe400460029002c005f0015000400510029fff1000d0004fff8",
+            INIT_4D => X"0000001d00060002ffe6ffeeffe2ffffffebfffcfff3000b0019fffdfff6fff1",
+            INIT_4E => X"0024001f0017000a000b0028003cfff7fffdfffd0003ffcfffa1ffd7ffc3ffc8",
+            INIT_4F => X"0016fff5ffe9ffffffedfff0ffedfff9fff70025ffd2ffe2ffe5ffd2ffa0ffcf",
+            INIT_50 => X"fff0ffc9fff9ffdcffd8ffdf00180004ffe50009ffeaffebffe8ffe5ffef000c",
+            INIT_51 => X"0009ffea001b001d0010000d001b0002fffafff500130015000efffcfffeffff",
+            INIT_52 => X"ffe4ffe800070002fff8ffe1fff2ffe8fff5ffd90014ffe8ffe8002b0018000c",
+            INIT_53 => X"ffb0ffd3ffefffb1ffd7fff0ffe0ffee000ffff9ffd9ffd6fff8ffec0003000d",
+            INIT_54 => X"fffe0006fff000290019fff6000bfff6fff4ffebffe40005000afffe00050017",
+            INIT_55 => X"fffa000f001e0005fff8fffc000700140006ffed001cfffdffdeffe9fff2fffc",
+            INIT_56 => X"ffe9fff6ffec0012fffb000affefffe5fff4ffe4fff90008fff3fff600140027",
+            INIT_57 => X"00050012ffebfff60012fff000080004fffeffff000f0000fff1002affd00010",
+            INIT_58 => X"0031001d001400200008001b00090008ffedfff1fff7fffe0014001e00060006",
+            INIT_59 => X"00000001003afffdffea00050003ffe7001f0014fffc00000034002900110003",
+            INIT_5A => X"0031000300090021000cffdb00090015ffe10002002efff5000c000000030011",
+            INIT_5B => X"000f000d000dfff70002fff6ffdd001700000015001a0017001e002d0018000a",
+            INIT_5C => X"00080001ffdffff7ffeb000a0007fff800000004000afff30023002dffed0005",
+            INIT_5D => X"ffceffae000b002e0056001e0006fff3ffedffe4ffef000400150000ffc6000c",
+            INIT_5E => X"002affbafff200130037001b0022fff30006ffd8fff1ffd7ffd0ffd9ffb3ffe1",
+            INIT_5F => X"000cffb1000f0029002900440019fff30012ffdfffea0017fff4ffe3ffe1000b",
+            INIT_60 => X"00050013fff1001fffff0002ffefffeaffed0011001a0028fffe0021ffe2ffd5",
+            INIT_61 => X"ffe5ffd5ffe8fff0ffeeffe3ffd7fff5ffe0fffb00110000ffe40033fffeffed",
+            INIT_62 => X"fff9ffefffdd0017fff2fff2fff7ffdeffe9fffbffe8fff8fffaffd8ffd60012",
+            INIT_63 => X"000400080008001e0031000500050031001e00150009ffe70003ffea0003ffad",
+            INIT_64 => X"ffae0044ffcc00090036001d003d0000000c0019000c001100150003ffe50018",
+            INIT_65 => X"000dffe9ffdb0003000cffbf001effdcffd6ffd7fff60002ffc5fff6fff9ffe2",
+            INIT_66 => X"ffda0026fffc003400250010004d004d001cffffffed0001ffdfffeb0010ffd8",
+            INIT_67 => X"00250026ffff00180024ffee000bffecffdc00000000ffecfffdffedffe80016",
+            INIT_68 => X"fff1ffe20020000c0007001fffcafffefff4ffdffffa0000ffecfff5000cfff4",
+            INIT_69 => X"ffbcffeb000c0010001b002b001100280010006d00310026003bfff9ffdcffe5",
+            INIT_6A => X"ffe5fff800130028fffb0004fff1fff0ffecffbffff6ffff00090017fff2001a",
+            INIT_6B => X"ffedfff90006000bffdbffe00005000efff300100006fff7001800130035fffd",
+            INIT_6C => X"000f000afff1fff9ffff0002ffdaffde00080019ffe2ffecfff7fff70006ffde",
+            INIT_6D => X"fffa0006ffe50000000200050011fffa0001000bfffe001b001d001f00180028",
+            INIT_6E => X"0008fffb0001fff7001d00000014fff9fffefff10010fff8fffafff7fff8ffee",
+            INIT_6F => X"fff50023ffe0fff8ffcafff7002a0017005100600059001c000b0008ffdbffe6",
+            INIT_70 => X"fff50019fff2ffdbfff8ffd9ffb10025000dffd4004f00270014000700150013",
+            INIT_71 => X"ffecffdd0003000affe60001ffee000a0019ffe3ffe10008000bfff2fff4fff9",
+            INIT_72 => X"ffd8001fffed00020000000c0016001e0004ffd8ffbb00140016ffd9001cffed",
+            INIT_73 => X"0000ffecfffafffe0027002ffff3000f000bffdbffe2fff2ffc400060007fff8",
+            INIT_74 => X"ffdafff0fffeffeffff1001dffeefffe00320001002cfffeffef000e0002fffa",
+            INIT_75 => X"fff50014ffd1ffdcfff9000a0008002d000b0018ffdf000c001300060015000e",
+            INIT_76 => X"00100001000200000012ffe20010ffe4ffd5000affedfffdfff600120000ffd3",
+            INIT_77 => X"0025002f002d0071004a00600023fffc001fffe5000d000500050015000c0012",
+            INIT_78 => X"0007ffedffff0001fff20002ffd6fff3ffdbffdbfff0fff7ffe20024fff9ffc7",
+            INIT_79 => X"ffd0fff7fff1fffb00060013002afff2ffcaffe1000100040004fff4fffd001f",
+            INIT_7A => X"ffcdfff9ffe30017fffbfffefff3fff8fff00024000cfff300150003ffef0000",
+            INIT_7B => X"ffeb001c0003fff70024ffeaffc1fff000090010ffe3fff5ffeeffdd00140002",
+            INIT_7C => X"0000ffff000000000008ffeb0003001300260015fffc000fffe1000e002afff7",
+            INIT_7D => X"0003ffecffd3ffd8ffe70007fff3ffeefff20014001d0027ffc2fff5fffcfff9",
+            INIT_7E => X"fff6fffb0023fff3ffe5fffe0032002dfffafff30042ffe9fffb001400320000",
+            INIT_7F => X"0027fffaffd7fff2fff9fff3fff6ffef0019fff9fff8001d0014000afffdfff0",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -354,7 +394,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -367,115 +417,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY2;
+    end generate MEM_IWGHT_LAYER2_ENTITY1;
 
 
-    MEM_IWGHT_LAYER2_ENTITY3 : if BRAM_NAME = "iwght_layer2_entity3" generate
+    MEM_IWGHT_LAYER2_ENTITY2 : if BRAM_NAME = "iwght_layer2_entity2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"0029ffe6000c0003ffdfffd9ffdffff20007000a000f0036002600130003000a",
-            INIT_01 => X"002affcdff7cfffaff9affa2fff4ffb9ffcf0018fff2ffe40040fff1ffd70027",
-            INIT_02 => X"fff0ffddfff0000b000dffea0019ffeefff8001b0000fff3002b00340001fffe",
-            INIT_03 => X"001d00050014000e001c001e000400110009ffeefffa001fffea001300000010",
-            INIT_04 => X"0007001200260000fffc0000ffeefff7fffcfff3000fffe80000001c00180007",
-            INIT_05 => X"00110027ffea0003002affef000efff5ffc9002a0058ffcb00140053fff3ffe3",
-            INIT_06 => X"00280006ffd7ffda0015fffcfff1000bfffdfff2000f0007ffd60033fff9fffb",
-            INIT_07 => X"0009ffe6ffc30000ffe1ffecffee0001fffcfff9fff8001a001800260017fff9",
-            INIT_08 => X"0007fffaffd8fff80009fff30013fff80018ffec000affe6ffe7ffe7fff4001f",
-            INIT_09 => X"000a000dfffeffec00090016ffedfff7fff9000300260008000f00200007ffe9",
-            INIT_0A => X"000400100007fff40009fff6ffffffdafff8ff99ffbeffa8ff8aff74ffa9ffa4",
-            INIT_0B => X"ffa0ffcc001200210022001000370015002bfffb001a0024ffe3fffe00220000",
-            INIT_0C => X"ffe4fff6fffcffe400460029002c005f0015000400510029fff1000d0004fff8",
-            INIT_0D => X"0000001d00060002ffe6ffeeffe2ffffffebfffcfff3000b0019fffdfff6fff1",
-            INIT_0E => X"0024001f0017000a000b0028003cfff7fffdfffd0003ffcfffa1ffd7ffc3ffc8",
-            INIT_0F => X"0016fff5ffe9ffffffedfff0ffedfff9fff70025ffd2ffe2ffe5ffd2ffa0ffcf",
-            INIT_10 => X"fff0ffc9fff9ffdcffd8ffdf00180004ffe50009ffeaffebffe8ffe5ffef000c",
-            INIT_11 => X"0009ffea001b001d0010000d001b0002fffafff500130015000efffcfffeffff",
-            INIT_12 => X"ffe4ffe800070002fff8ffe1fff2ffe8fff5ffd90014ffe8ffe8002b0018000c",
-            INIT_13 => X"ffb0ffd3ffefffb1ffd7fff0ffe0ffee000ffff9ffd9ffd6fff8ffec0003000d",
-            INIT_14 => X"fffe0006fff000290019fff6000bfff6fff4ffebffe40005000afffe00050017",
-            INIT_15 => X"fffa000f001e0005fff8fffc000700140006ffed001cfffdffdeffe9fff2fffc",
-            INIT_16 => X"ffe9fff6ffec0012fffb000affefffe5fff4ffe4fff90008fff3fff600140027",
-            INIT_17 => X"00050012ffebfff60012fff000080004fffeffff000f0000fff1002affd00010",
-            INIT_18 => X"0031001d001400200008001b00090008ffedfff1fff7fffe0014001e00060006",
-            INIT_19 => X"00000001003afffdffea00050003ffe7001f0014fffc00000034002900110003",
-            INIT_1A => X"0031000300090021000cffdb00090015ffe10002002efff5000c000000030011",
-            INIT_1B => X"000f000d000dfff70002fff6ffdd001700000015001a0017001e002d0018000a",
-            INIT_1C => X"00080001ffdffff7ffeb000a0007fff800000004000afff30023002dffed0005",
-            INIT_1D => X"ffceffae000b002e0056001e0006fff3ffedffe4ffef000400150000ffc6000c",
-            INIT_1E => X"002affbafff200130037001b0022fff30006ffd8fff1ffd7ffd0ffd9ffb3ffe1",
-            INIT_1F => X"000cffb1000f0029002900440019fff30012ffdfffea0017fff4ffe3ffe1000b",
-            INIT_20 => X"00050013fff1001fffff0002ffefffeaffed0011001a0028fffe0021ffe2ffd5",
-            INIT_21 => X"ffe5ffd5ffe8fff0ffeeffe3ffd7fff5ffe0fffb00110000ffe40033fffeffed",
-            INIT_22 => X"fff9ffefffdd0017fff2fff2fff7ffdeffe9fffbffe8fff8fffaffd8ffd60012",
-            INIT_23 => X"000400080008001e0031000500050031001e00150009ffe70003ffea0003ffad",
-            INIT_24 => X"ffae0044ffcc00090036001d003d0000000c0019000c001100150003ffe50018",
-            INIT_25 => X"000dffe9ffdb0003000cffbf001effdcffd6ffd7fff60002ffc5fff6fff9ffe2",
-            INIT_26 => X"ffda0026fffc003400250010004d004d001cffffffed0001ffdfffeb0010ffd8",
-            INIT_27 => X"00250026ffff00180024ffee000bffecffdc00000000ffecfffdffedffe80016",
-            INIT_28 => X"fff1ffe20020000c0007001fffcafffefff4ffdffffa0000ffecfff5000cfff4",
-            INIT_29 => X"ffbcffeb000c0010001b002b001100280010006d00310026003bfff9ffdcffe5",
-            INIT_2A => X"ffe5fff800130028fffb0004fff1fff0ffecffbffff6ffff00090017fff2001a",
-            INIT_2B => X"ffedfff90006000bffdbffe00005000efff300100006fff7001800130035fffd",
-            INIT_2C => X"000f000afff1fff9ffff0002ffdaffde00080019ffe2ffecfff7fff70006ffde",
-            INIT_2D => X"fffa0006ffe50000000200050011fffa0001000bfffe001b001d001f00180028",
-            INIT_2E => X"0008fffb0001fff7001d00000014fff9fffefff10010fff8fffafff7fff8ffee",
-            INIT_2F => X"fff50023ffe0fff8ffcafff7002a0017005100600059001c000b0008ffdbffe6",
-            INIT_30 => X"fff50019fff2ffdbfff8ffd9ffb10025000dffd4004f00270014000700150013",
-            INIT_31 => X"ffecffdd0003000affe60001ffee000a0019ffe3ffe10008000bfff2fff4fff9",
-            INIT_32 => X"ffd8001fffed00020000000c0016001e0004ffd8ffbb00140016ffd9001cffed",
-            INIT_33 => X"0000ffecfffafffe0027002ffff3000f000bffdbffe2fff2ffc400060007fff8",
-            INIT_34 => X"ffdafff0fffeffeffff1001dffeefffe00320001002cfffeffef000e0002fffa",
-            INIT_35 => X"fff50014ffd1ffdcfff9000a0008002d000b0018ffdf000c001300060015000e",
-            INIT_36 => X"00100001000200000012ffe20010ffe4ffd5000affedfffdfff600120000ffd3",
-            INIT_37 => X"0025002f002d0071004a00600023fffc001fffe5000d000500050015000c0012",
-            INIT_38 => X"0007ffedffff0001fff20002ffd6fff3ffdbffdbfff0fff7ffe20024fff9ffc7",
-            INIT_39 => X"ffd0fff7fff1fffb00060013002afff2ffcaffe1000100040004fff4fffd001f",
-            INIT_3A => X"ffcdfff9ffe30017fffbfffefff3fff8fff00024000cfff300150003ffef0000",
-            INIT_3B => X"ffeb001c0003fff70024ffeaffc1fff000090010ffe3fff5ffeeffdd00140002",
-            INIT_3C => X"0000ffff000000000008ffeb0003001300260015fffc000fffe1000e002afff7",
-            INIT_3D => X"0003ffecffd3ffd8ffe70007fff3ffeefff20014001d0027ffc2fff5fffcfff9",
-            INIT_3E => X"fff6fffb0023fff3ffe5fffe0032002dfffafff30042ffe9fffb001400320000",
-            INIT_3F => X"0027fffaffd7fff2fff9fff3fff6ffef0019fff9fff8001d0014000afffdfff0",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY3;
-
-
-    MEM_IWGHT_LAYER2_ENTITY4 : if BRAM_NAME = "iwght_layer2_entity4" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -550,6 +498,72 @@ entity bram_single is
             INIT_3E => X"0012fff3fffeffebfff30000ffd6ffc3ffe7fff6ffd6000a0006fff400390024",
             INIT_3F => X"ffd5ffeaffa7ffa6ffc5ffbeffc7ffbfffb7ffdeffbfffdc0001ffefffe3001c",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"0000ffe6001e000e0027ffe8ffe90007ffaa0000ffef0008fffe0006000f0027",
+            INIT_41 => X"0022fff90017002fffeb000f0020ffef00100003fff900160019fff8fffcffff",
+            INIT_42 => X"000a0008000c0001001a0016ffc2ffdaffc5ffccfff5ffe4000cffebfffd0018",
+            INIT_43 => X"000a001100190015ffeffff6000cfffaffed002bffffffb7fff20005ffa4ffde",
+            INIT_44 => X"00060010002a0025fffffff20005fff5ffe60005ffe7fffb000ffff0fff3fffa",
+            INIT_45 => X"fff30009fff8ffebffc8ffe0ffe50008fff6ffbe00000004001c001300370008",
+            INIT_46 => X"0000fff2ffe3ffad0012fffa0005ffd9ffd6fff2ffdfffe10002ffcb00190032",
+            INIT_47 => X"000cfff8001f0011fff8001a00170000ffeb000000120016fffd002afffd0004",
+            INIT_48 => X"ffeeffee0014000d0003000a0000ffe900170016000f003e0005001c000afff5",
+            INIT_49 => X"00000003ffe900000001fffc001b000efff4000a001cffceffe3000f00320006",
+            INIT_4A => X"ffe7002f000b0000ffeefffc0002000bfffb00080022fffc0007fff700180003",
+            INIT_4B => X"ffedffee0009ffef000400220000001b000f000300010018ffeeffff000fffea",
+            INIT_4C => X"00000025ffe500170031004800180050001effddffc7001b0034ffdc00280001",
+            INIT_4D => X"fff700110022fff2ffedfffeffd8ffa9ffe2ffd0001b00000011fff9000dffe5",
+            INIT_4E => X"ffe60009fff2000dfff0002cffd3ffcaffc8ffc4ffd4ffeb002300260024ffe7",
+            INIT_4F => X"ffe10008fff9fff900130014002b0020fff7001b00190011fff70043fff2ffdd",
+            INIT_50 => X"ffdeffecffe5ffdf002c003d003e004a00460021ffe4fff80000ffbeffc2ffc6",
+            INIT_51 => X"ffc7ffd1ffb4ffec001c000cffd1ffefffdf00210025000fffe2fffefff6ffb6",
+            INIT_52 => X"fffa0003ffe1ffdeffd300020031fff8ffbaffe9ffcd000dfffffff5ffe9fffa",
+            INIT_53 => X"ffeafff0ffe5001e0000000a000e00130011002efffbffed00040021001e0016",
+            INIT_54 => X"fff5fff10013000effdc00030052002d001a00000000ffcefff6fff1fff6ffcc",
+            INIT_55 => X"ffacffd0ffe9ffe2fff8ffea00120012ffd8ffa5ffaffff4ffefffe1fff5ffd4",
+            INIT_56 => X"ffbcffb2ffd7fff7000e0034000c002afff7fffdfffe000efffcffd0fff5ffdb",
+            INIT_57 => X"ffb2ffeb000f000f0000000f000000120014ffe3fff20037fff0fff1ffca001d",
+            INIT_58 => X"fffaffcd000f0000ffcc00180007fff2fffe0015003b0001fff2003cffd6ffe8",
+            INIT_59 => X"fffc001b00230022001b001e000b00100029001cffe30000000bffccffeeffe8",
+            INIT_5A => X"000c0006001a000efff4fffc00150002fff90033004b002a00430040003e0042",
+            INIT_5B => X"0038003afff0ffbafff5ffbcff8affbcffbeff94ffdaffdeffdfffe3ffdeffc0",
+            INIT_5C => X"ffefffa2ffe4ffe5fff7ffe2ffe6ffc4ffbb000cff86ffbeffe1fffaffe9ffd9",
+            INIT_5D => X"000c0000ffff0037002f0042fffe00420027fff7ffeb000dffdcffe0ffef000e",
+            INIT_5E => X"0001fffb001000210005002700150008000a00150022001efff1000a000c0010",
+            INIT_5F => X"00380014000b001bffdb00050002ffcbffdb000300210010000d0022fff50029",
+            INIT_60 => X"ffeefffd0017fff8fff0ffd8fff0fff7ffe7ffe4001e000a000bffe9ffebffef",
+            INIT_61 => X"fff3fff1ffff000cfff2001300210016001400310032ffed00070009000cffe9",
+            INIT_62 => X"fffeffed0000fffb001e00100006ffe4fffcffe9ffda00000003fffa00100009",
+            INIT_63 => X"0033005d005efff90048003a002000130025000e001efffd000a00050000fff7",
+            INIT_64 => X"000e000dffea0000ffe8ffe3000dffe6ffe8fff8ffe4001d000f001f0001fff6",
+            INIT_65 => X"0008001400140019ffd2fff5ffea000f0018ffe7001a00020007001100190003",
+            INIT_66 => X"fffc000fffe6000b00070011001c0012002900030011001cfff4fff600030003",
+            INIT_67 => X"fff10004fff9000d0006ffd30004fff3ffbbffdefff7ffb7ff94ffc3ff97ff70",
+            INIT_68 => X"ffc0000a002100240010000f0023000400110019000300130021ffd8002d0009",
+            INIT_69 => X"ffe6000a0006003200180009000afffbffed00250010ffecfff6ffd4fff4ffd2",
+            INIT_6A => X"ffd50009ffc8ffe70008ffefffe9000100090008ffea0004ffeaffdffff1ffe8",
+            INIT_6B => X"ffe6001800120003000d00150000fff0000ffffc0003000e0003fffb00000009",
+            INIT_6C => X"ffebffea0000ffea000b00030003000a000a00110004fffcffefffc7ffe2ffd4",
+            INIT_6D => X"ffd8ffdeffc2ffc1ffccffabff9affed000bfffb00150009fff7ffd600290003",
+            INIT_6E => X"ffe500360035fffeff96ffc1ffb3ffb2ffd6ffe9000500240005001a00420033",
+            INIT_6F => X"000000160027ffcffff1ffd6ffd8ffe9ffbfffa3ffdeffe50009ffeb002c001b",
+            INIT_70 => X"000e000ffff70000001e001c000a0034fffafffdfff9ffdaffcafff6ffcbffe7",
+            INIT_71 => X"ffee00100014fffc0001ffed0007fff8000affeefff20007fff5ffd8fff3ffed",
+            INIT_72 => X"fff3002900240014001d00070008000cfff2fffa001effc6fffc000300180002",
+            INIT_73 => X"fff9000500000001ffdaffdbffd6ffd30003fff9fff2004d0030003b000e0036",
+            INIT_74 => X"0018ffe7000effecffc4ffedffe3ffe90001fff1fffdfffdffebffd8ffed0000",
+            INIT_75 => X"00040007ffd5000b00100034001700360016fff4fff50006001bfff1ffff0008",
+            INIT_76 => X"0014000bffd6fff9ffd2fff00005ffff002a000affe4fffb000c001bffed0015",
+            INIT_77 => X"fff6ffef00050013000c000dfff4001f001cfff6fff70004ffeb00310010ffff",
+            INIT_78 => X"fffa000effe7ffd2ffee0014fffd001a000c000200150028ffeb0006fff70003",
+            INIT_79 => X"000f00120006fff6ffec000d001a0011ffc4001d002dffcf00340050ffc6000e",
+            INIT_7A => X"008dffc9ffcdffcbffe20000ffe6002a003a002e0001fff30004fff4ffeffff3",
+            INIT_7B => X"003100200001ffe40008000affe5fff1fff9ffbf00150016fff0fff4ffd9002a",
+            INIT_7C => X"0009ffe700370036ffeb0011002e0016ffea0006000dffd8ffe9001d0022000e",
+            INIT_7D => X"fff30025001efffd001b0010fff800250017002800360016ffd9001c0022fffa",
+            INIT_7E => X"fffe0008000c0006000a001a00040017fff5fff70004fff30003000600180005",
+            INIT_7F => X"0030ffed000ffffafff3fff0ffeaffe90015ffd9fffbfff7ffe2ffd10006ffea",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -558,7 +572,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -571,115 +595,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY4;
+    end generate MEM_IWGHT_LAYER2_ENTITY2;
 
 
-    MEM_IWGHT_LAYER2_ENTITY5 : if BRAM_NAME = "iwght_layer2_entity5" generate
+    MEM_IWGHT_LAYER2_ENTITY3 : if BRAM_NAME = "iwght_layer2_entity3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"0000ffe6001e000e0027ffe8ffe90007ffaa0000ffef0008fffe0006000f0027",
-            INIT_01 => X"0022fff90017002fffeb000f0020ffef00100003fff900160019fff8fffcffff",
-            INIT_02 => X"000a0008000c0001001a0016ffc2ffdaffc5ffccfff5ffe4000cffebfffd0018",
-            INIT_03 => X"000a001100190015ffeffff6000cfffaffed002bffffffb7fff20005ffa4ffde",
-            INIT_04 => X"00060010002a0025fffffff20005fff5ffe60005ffe7fffb000ffff0fff3fffa",
-            INIT_05 => X"fff30009fff8ffebffc8ffe0ffe50008fff6ffbe00000004001c001300370008",
-            INIT_06 => X"0000fff2ffe3ffad0012fffa0005ffd9ffd6fff2ffdfffe10002ffcb00190032",
-            INIT_07 => X"000cfff8001f0011fff8001a00170000ffeb000000120016fffd002afffd0004",
-            INIT_08 => X"ffeeffee0014000d0003000a0000ffe900170016000f003e0005001c000afff5",
-            INIT_09 => X"00000003ffe900000001fffc001b000efff4000a001cffceffe3000f00320006",
-            INIT_0A => X"ffe7002f000b0000ffeefffc0002000bfffb00080022fffc0007fff700180003",
-            INIT_0B => X"ffedffee0009ffef000400220000001b000f000300010018ffeeffff000fffea",
-            INIT_0C => X"00000025ffe500170031004800180050001effddffc7001b0034ffdc00280001",
-            INIT_0D => X"fff700110022fff2ffedfffeffd8ffa9ffe2ffd0001b00000011fff9000dffe5",
-            INIT_0E => X"ffe60009fff2000dfff0002cffd3ffcaffc8ffc4ffd4ffeb002300260024ffe7",
-            INIT_0F => X"ffe10008fff9fff900130014002b0020fff7001b00190011fff70043fff2ffdd",
-            INIT_10 => X"ffdeffecffe5ffdf002c003d003e004a00460021ffe4fff80000ffbeffc2ffc6",
-            INIT_11 => X"ffc7ffd1ffb4ffec001c000cffd1ffefffdf00210025000fffe2fffefff6ffb6",
-            INIT_12 => X"fffa0003ffe1ffdeffd300020031fff8ffbaffe9ffcd000dfffffff5ffe9fffa",
-            INIT_13 => X"ffeafff0ffe5001e0000000a000e00130011002efffbffed00040021001e0016",
-            INIT_14 => X"fff5fff10013000effdc00030052002d001a00000000ffcefff6fff1fff6ffcc",
-            INIT_15 => X"ffacffd0ffe9ffe2fff8ffea00120012ffd8ffa5ffaffff4ffefffe1fff5ffd4",
-            INIT_16 => X"ffbcffb2ffd7fff7000e0034000c002afff7fffdfffe000efffcffd0fff5ffdb",
-            INIT_17 => X"ffb2ffeb000f000f0000000f000000120014ffe3fff20037fff0fff1ffca001d",
-            INIT_18 => X"fffaffcd000f0000ffcc00180007fff2fffe0015003b0001fff2003cffd6ffe8",
-            INIT_19 => X"fffc001b00230022001b001e000b00100029001cffe30000000bffccffeeffe8",
-            INIT_1A => X"000c0006001a000efff4fffc00150002fff90033004b002a00430040003e0042",
-            INIT_1B => X"0038003afff0ffbafff5ffbcff8affbcffbeff94ffdaffdeffdfffe3ffdeffc0",
-            INIT_1C => X"ffefffa2ffe4ffe5fff7ffe2ffe6ffc4ffbb000cff86ffbeffe1fffaffe9ffd9",
-            INIT_1D => X"000c0000ffff0037002f0042fffe00420027fff7ffeb000dffdcffe0ffef000e",
-            INIT_1E => X"0001fffb001000210005002700150008000a00150022001efff1000a000c0010",
-            INIT_1F => X"00380014000b001bffdb00050002ffcbffdb000300210010000d0022fff50029",
-            INIT_20 => X"ffeefffd0017fff8fff0ffd8fff0fff7ffe7ffe4001e000a000bffe9ffebffef",
-            INIT_21 => X"fff3fff1ffff000cfff2001300210016001400310032ffed00070009000cffe9",
-            INIT_22 => X"fffeffed0000fffb001e00100006ffe4fffcffe9ffda00000003fffa00100009",
-            INIT_23 => X"0033005d005efff90048003a002000130025000e001efffd000a00050000fff7",
-            INIT_24 => X"000e000dffea0000ffe8ffe3000dffe6ffe8fff8ffe4001d000f001f0001fff6",
-            INIT_25 => X"0008001400140019ffd2fff5ffea000f0018ffe7001a00020007001100190003",
-            INIT_26 => X"fffc000fffe6000b00070011001c0012002900030011001cfff4fff600030003",
-            INIT_27 => X"fff10004fff9000d0006ffd30004fff3ffbbffdefff7ffb7ff94ffc3ff97ff70",
-            INIT_28 => X"ffc0000a002100240010000f0023000400110019000300130021ffd8002d0009",
-            INIT_29 => X"ffe6000a0006003200180009000afffbffed00250010ffecfff6ffd4fff4ffd2",
-            INIT_2A => X"ffd50009ffc8ffe70008ffefffe9000100090008ffea0004ffeaffdffff1ffe8",
-            INIT_2B => X"ffe6001800120003000d00150000fff0000ffffc0003000e0003fffb00000009",
-            INIT_2C => X"ffebffea0000ffea000b00030003000a000a00110004fffcffefffc7ffe2ffd4",
-            INIT_2D => X"ffd8ffdeffc2ffc1ffccffabff9affed000bfffb00150009fff7ffd600290003",
-            INIT_2E => X"ffe500360035fffeff96ffc1ffb3ffb2ffd6ffe9000500240005001a00420033",
-            INIT_2F => X"000000160027ffcffff1ffd6ffd8ffe9ffbfffa3ffdeffe50009ffeb002c001b",
-            INIT_30 => X"000e000ffff70000001e001c000a0034fffafffdfff9ffdaffcafff6ffcbffe7",
-            INIT_31 => X"ffee00100014fffc0001ffed0007fff8000affeefff20007fff5ffd8fff3ffed",
-            INIT_32 => X"fff3002900240014001d00070008000cfff2fffa001effc6fffc000300180002",
-            INIT_33 => X"fff9000500000001ffdaffdbffd6ffd30003fff9fff2004d0030003b000e0036",
-            INIT_34 => X"0018ffe7000effecffc4ffedffe3ffe90001fff1fffdfffdffebffd8ffed0000",
-            INIT_35 => X"00040007ffd5000b00100034001700360016fff4fff50006001bfff1ffff0008",
-            INIT_36 => X"0014000bffd6fff9ffd2fff00005ffff002a000affe4fffb000c001bffed0015",
-            INIT_37 => X"fff6ffef00050013000c000dfff4001f001cfff6fff70004ffeb00310010ffff",
-            INIT_38 => X"fffa000effe7ffd2ffee0014fffd001a000c000200150028ffeb0006fff70003",
-            INIT_39 => X"000f00120006fff6ffec000d001a0011ffc4001d002dffcf00340050ffc6000e",
-            INIT_3A => X"008dffc9ffcdffcbffe20000ffe6002a003a002e0001fff30004fff4ffeffff3",
-            INIT_3B => X"003100200001ffe40008000affe5fff1fff9ffbf00150016fff0fff4ffd9002a",
-            INIT_3C => X"0009ffe700370036ffeb0011002e0016ffea0006000dffd8ffe9001d0022000e",
-            INIT_3D => X"fff30025001efffd001b0010fff800250017002800360016ffd9001c0022fffa",
-            INIT_3E => X"fffe0008000c0006000a001a00040017fff5fff70004fff30003000600180005",
-            INIT_3F => X"0030ffed000ffffafff3fff0ffeaffe90015ffd9fffbfff7ffe2ffd10006ffea",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY5;
-
-
-    MEM_IWGHT_LAYER2_ENTITY6 : if BRAM_NAME = "iwght_layer2_entity6" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -754,6 +676,72 @@ entity bram_single is
             INIT_3E => X"fff1000a001500110002fff30007fffbfffafff9fff00003000effedfff3000c",
             INIT_3F => X"fff3000effff0002fff9ffffffe80004000d0002fff50003fffd0006000bfff4",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"ffe9fff4000a0009ffeb000afff0000dfffcfffa0005ffe9ffee0012fff9fffd",
+            INIT_41 => X"fff1fff4fff2fff00004fff3ffedffeafff0fff8fff60003fffe000a0005fffe",
+            INIT_42 => X"ffe8fff4fffeffe80004fff3fff90003fffe0000fffefff6000b0005000ffff6",
+            INIT_43 => X"00110007000dfff60009fff5ffeffffbfffaffeb0004ffeefff600000004fff8",
+            INIT_44 => X"0001fff5fff60003fff50000fff8fff2ffebfff9fffc00000007ffecffea0009",
+            INIT_45 => X"fff3ffee0000fff9fff7fffb000300060008fffffff9fffbffeefff3fff4ffe9",
+            INIT_46 => X"fff8fffafffefff80008ffe70006ffe9ffeefffd00150002fffdffe9ffd5fffa",
+            INIT_47 => X"ffe4fff3ffddfffcffdffffc0014001f002e00430028001d00480040003a0018",
+            INIT_48 => X"001e000b0002ffe6fff9fff2ffda0030000bfff0002c00310033fffbffe0fff7",
+            INIT_49 => X"ffe0fffdffeeffe90017ffe1ffea000afffefffeffd7fff7fff4fff6ffe90005",
+            INIT_4A => X"001800040013002200260020002700000016001c0019001bfff40001000dffe9",
+            INIT_4B => X"0006ffb2ff9affe8ffdbffc3ffe50022000000240008002f0002fff2ffdbffef",
+            INIT_4C => X"000cffe8ffe0ffc9ffc1ffe6ffd2ffc4ffd5ffeeffbfffcf0001ffceffe5fffc",
+            INIT_4D => X"0003fff5001300210010ffed000c000200020005fffe0017000d002e0016ffee",
+            INIT_4E => X"fff60010fff200150001fff9ffefffeaffd1fff2ffddfff2fff900070009001e",
+            INIT_4F => X"ffcfffc6ffefffafffaeffddffe5ffe0ffcdffc7fff7ffff0000ffc30009fffd",
+            INIT_50 => X"fff800070001001bfff4ffb8ffb1ffb1ffbaffa3ffc700280009ffec0026002c",
+            INIT_51 => X"000600250013001f00150001fff40013ffebfff1ffdeffecfff50027000bffec",
+            INIT_52 => X"002b001300040009fffa0009ffd5ffebfff6fff2ffd100060016000a001cfffe",
+            INIT_53 => X"00070014fff3ffff0004fff90007ffff002000300019002c0029fffd0000fffb",
+            INIT_54 => X"000b002400420020002300070024002300010017ffb7ffbdfff7ffc7fffc0007",
+            INIT_55 => X"fffd000b00200017ffe2fffbfffc0028001f000a000600130041002e00240024",
+            INIT_56 => X"00140014000bffeefff0ffdcffca000c0004ffda0003000d00080001000f0010",
+            INIT_57 => X"00130028000b001dfff5ffeffff2ffedffb80002ffbeffdc0010000b00140022",
+            INIT_58 => X"0000fff900150007fff6fff7fffd0006ffe90035001300280003fff900230003",
+            INIT_59 => X"00000002002afffc003c002d002e0015002c00300016ffc8fff1ffe9fff7ffdf",
+            INIT_5A => X"ffee0012000cffcfffef0019ffcc0037003500140014001d0002ffdbffddffd8",
+            INIT_5B => X"000e00270023000e001e0007004d00380033000e001c0020fff5ffc7ffc3001c",
+            INIT_5C => X"00330016ffe9fff7ffd3ffe8ffc9fffb002efff800070001002c002a0012001b",
+            INIT_5D => X"0017002c0011fffe002bffdfffe700260000ffef0001ffeb0006ffdd00000033",
+            INIT_5E => X"ffe9fff2fff3fff6002d000effe2001f001e0007ffdcffe0001b00040004000a",
+            INIT_5F => X"0011ffdf0006fff8ffe30030001200350002ffe2ffddfff2ffe5ffe9000c000d",
+            INIT_60 => X"ffed0010003f00210010003e0018000600080003001dfffaffe5fff6ffe70001",
+            INIT_61 => X"ffe4fffb0013000bffef0029ffd1ffd6fff9001a001000280005fff40027fff6",
+            INIT_62 => X"ffdeffe9fff60006fff500180004000900240007fff1000efffdfff400080035",
+            INIT_63 => X"0000fff20008fff6fffdfff2fff4000a0003ffdefff6000e000600000001ffe9",
+            INIT_64 => X"000f00130010001c000b000f004a002a00280015000b00170028ffeffff7ffe3",
+            INIT_65 => X"fff2ffd70005000afff5000dfffbffe00001ffcf00000012fff8003fffdc0001",
+            INIT_66 => X"0022fffe000bfffaffefffe7ffdcffbcffc7ffb50013fffdffff0011ffe10001",
+            INIT_67 => X"0019ffd8fffe00480013001e001900030011fffefff4fff3fff1fff6fff40001",
+            INIT_68 => X"0004001f001a003afff1002000250019001b0002fff8fffbffdb0013ffe1fffa",
+            INIT_69 => X"ffddfff7fff5fff1ffe90001ffeb001e0010fffbfff5ffd7fff600190001ffed",
+            INIT_6A => X"000affeeffeb0014000300080015000a0000ffe7fff0ffef0001ffeafffe0008",
+            INIT_6B => X"000200000002000a0005ffedfff50008fffdffebffedffe8000bfff4000d0004",
+            INIT_6C => X"fff300110002fffd0002fffdfff600070015fff6000c000a0002fffefff8fffc",
+            INIT_6D => X"fffe000bffe60005ffff0003000b0007ffff0000fff4fff4fff1ffe500060007",
+            INIT_6E => X"ffeb0001fffcffeafff8fffbfff60001fff100090005ffeffff0ffe7fff5fff2",
+            INIT_6F => X"ffed000cfff1ffeb00090000ffe7ffe8ffe5fff9ffe7000500090001000affee",
+            INIT_70 => X"fffdfff9ffee000afff9fffd000ffff5fff900000000fffdffecffebfffcfff1",
+            INIT_71 => X"ffe5000b0009fffaffffffef0009fff4fff50002fffefffc0000ffe6ffe6fff5",
+            INIT_72 => X"ffe900010000fff1000400040002fff000040007000f000ffff1fff1fff90001",
+            INIT_73 => X"fffcfff3fff50000000b0000fff10007fffc0003000b0001ffeb0002fff9ffea",
+            INIT_74 => X"0009ffeefff5000d0008ffec00020000ffec000f000f0007fffcfff2fffffff3",
+            INIT_75 => X"fff6fffeffe3fff6fff2fff9000bffecfff8ffedffe3fff00000ffeb000e0005",
+            INIT_76 => X"0007000dfff6ffee000effec0000000dffff0004ffeffff8fff4ffed0007fff0",
+            INIT_77 => X"00040000fff0ffeafff90007ffee000500000002ffe7fff20004ffe40007000b",
+            INIT_78 => X"ffedffe100000003ffe6ffdfffdefff4ffe0ffeffff800060013fff6fff3fffd",
+            INIT_79 => X"fff60000fff0ffe9fff30001fffafff8ffebffec0005ffe7fff40007ffe6fffd",
+            INIT_7A => X"0007fff200130005ffe3ffffffec000b0010fff40005fff3ffe5fffcfffbffe7",
+            INIT_7B => X"0000fff5fff2fffeffeb0006fffdfff4fff4fffdfff9ffec0006000fffe80005",
+            INIT_7C => X"fff6fffd0012ffed0014fffefffd0006ffef0004fffdffeb00090003000a0003",
+            INIT_7D => X"ffff0000ffedfff7fffd00050004001100010005ffe90000ffebffecffeffff7",
+            INIT_7E => X"ffec0009fff7fff2ffeefff30003fffc00090006fff0fff4ffeeffe9ffe40002",
+            INIT_7F => X"ffe4ffefffe20009000bfff4fff4ffe8fffefff500020002fffaffecfffeffea",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -762,7 +750,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -775,115 +773,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY6;
+    end generate MEM_IWGHT_LAYER2_ENTITY3;
 
 
-    MEM_IWGHT_LAYER2_ENTITY7 : if BRAM_NAME = "iwght_layer2_entity7" generate
+    MEM_IWGHT_LAYER2_ENTITY4 : if BRAM_NAME = "iwght_layer2_entity4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"ffe9fff4000a0009ffeb000afff0000dfffcfffa0005ffe9ffee0012fff9fffd",
-            INIT_01 => X"fff1fff4fff2fff00004fff3ffedffeafff0fff8fff60003fffe000a0005fffe",
-            INIT_02 => X"ffe8fff4fffeffe80004fff3fff90003fffe0000fffefff6000b0005000ffff6",
-            INIT_03 => X"00110007000dfff60009fff5ffeffffbfffaffeb0004ffeefff600000004fff8",
-            INIT_04 => X"0001fff5fff60003fff50000fff8fff2ffebfff9fffc00000007ffecffea0009",
-            INIT_05 => X"fff3ffee0000fff9fff7fffb000300060008fffffff9fffbffeefff3fff4ffe9",
-            INIT_06 => X"fff8fffafffefff80008ffe70006ffe9ffeefffd00150002fffdffe9ffd5fffa",
-            INIT_07 => X"ffe4fff3ffddfffcffdffffc0014001f002e00430028001d00480040003a0018",
-            INIT_08 => X"001e000b0002ffe6fff9fff2ffda0030000bfff0002c00310033fffbffe0fff7",
-            INIT_09 => X"ffe0fffdffeeffe90017ffe1ffea000afffefffeffd7fff7fff4fff6ffe90005",
-            INIT_0A => X"001800040013002200260020002700000016001c0019001bfff40001000dffe9",
-            INIT_0B => X"0006ffb2ff9affe8ffdbffc3ffe50022000000240008002f0002fff2ffdbffef",
-            INIT_0C => X"000cffe8ffe0ffc9ffc1ffe6ffd2ffc4ffd5ffeeffbfffcf0001ffceffe5fffc",
-            INIT_0D => X"0003fff5001300210010ffed000c000200020005fffe0017000d002e0016ffee",
-            INIT_0E => X"fff60010fff200150001fff9ffefffeaffd1fff2ffddfff2fff900070009001e",
-            INIT_0F => X"ffcfffc6ffefffafffaeffddffe5ffe0ffcdffc7fff7ffff0000ffc30009fffd",
-            INIT_10 => X"fff800070001001bfff4ffb8ffb1ffb1ffbaffa3ffc700280009ffec0026002c",
-            INIT_11 => X"000600250013001f00150001fff40013ffebfff1ffdeffecfff50027000bffec",
-            INIT_12 => X"002b001300040009fffa0009ffd5ffebfff6fff2ffd100060016000a001cfffe",
-            INIT_13 => X"00070014fff3ffff0004fff90007ffff002000300019002c0029fffd0000fffb",
-            INIT_14 => X"000b002400420020002300070024002300010017ffb7ffbdfff7ffc7fffc0007",
-            INIT_15 => X"fffd000b00200017ffe2fffbfffc0028001f000a000600130041002e00240024",
-            INIT_16 => X"00140014000bffeefff0ffdcffca000c0004ffda0003000d00080001000f0010",
-            INIT_17 => X"00130028000b001dfff5ffeffff2ffedffb80002ffbeffdc0010000b00140022",
-            INIT_18 => X"0000fff900150007fff6fff7fffd0006ffe90035001300280003fff900230003",
-            INIT_19 => X"00000002002afffc003c002d002e0015002c00300016ffc8fff1ffe9fff7ffdf",
-            INIT_1A => X"ffee0012000cffcfffef0019ffcc0037003500140014001d0002ffdbffddffd8",
-            INIT_1B => X"000e00270023000e001e0007004d00380033000e001c0020fff5ffc7ffc3001c",
-            INIT_1C => X"00330016ffe9fff7ffd3ffe8ffc9fffb002efff800070001002c002a0012001b",
-            INIT_1D => X"0017002c0011fffe002bffdfffe700260000ffef0001ffeb0006ffdd00000033",
-            INIT_1E => X"ffe9fff2fff3fff6002d000effe2001f001e0007ffdcffe0001b00040004000a",
-            INIT_1F => X"0011ffdf0006fff8ffe30030001200350002ffe2ffddfff2ffe5ffe9000c000d",
-            INIT_20 => X"ffed0010003f00210010003e0018000600080003001dfffaffe5fff6ffe70001",
-            INIT_21 => X"ffe4fffb0013000bffef0029ffd1ffd6fff9001a001000280005fff40027fff6",
-            INIT_22 => X"ffdeffe9fff60006fff500180004000900240007fff1000efffdfff400080035",
-            INIT_23 => X"0000fff20008fff6fffdfff2fff4000a0003ffdefff6000e000600000001ffe9",
-            INIT_24 => X"000f00130010001c000b000f004a002a00280015000b00170028ffeffff7ffe3",
-            INIT_25 => X"fff2ffd70005000afff5000dfffbffe00001ffcf00000012fff8003fffdc0001",
-            INIT_26 => X"0022fffe000bfffaffefffe7ffdcffbcffc7ffb50013fffdffff0011ffe10001",
-            INIT_27 => X"0019ffd8fffe00480013001e001900030011fffefff4fff3fff1fff6fff40001",
-            INIT_28 => X"0004001f001a003afff1002000250019001b0002fff8fffbffdb0013ffe1fffa",
-            INIT_29 => X"ffddfff7fff5fff1ffe90001ffeb001e0010fffbfff5ffd7fff600190001ffed",
-            INIT_2A => X"000affeeffeb0014000300080015000a0000ffe7fff0ffef0001ffeafffe0008",
-            INIT_2B => X"000200000002000a0005ffedfff50008fffdffebffedffe8000bfff4000d0004",
-            INIT_2C => X"fff300110002fffd0002fffdfff600070015fff6000c000a0002fffefff8fffc",
-            INIT_2D => X"fffe000bffe60005ffff0003000b0007ffff0000fff4fff4fff1ffe500060007",
-            INIT_2E => X"ffeb0001fffcffeafff8fffbfff60001fff100090005ffeffff0ffe7fff5fff2",
-            INIT_2F => X"ffed000cfff1ffeb00090000ffe7ffe8ffe5fff9ffe7000500090001000affee",
-            INIT_30 => X"fffdfff9ffee000afff9fffd000ffff5fff900000000fffdffecffebfffcfff1",
-            INIT_31 => X"ffe5000b0009fffaffffffef0009fff4fff50002fffefffc0000ffe6ffe6fff5",
-            INIT_32 => X"ffe900010000fff1000400040002fff000040007000f000ffff1fff1fff90001",
-            INIT_33 => X"fffcfff3fff50000000b0000fff10007fffc0003000b0001ffeb0002fff9ffea",
-            INIT_34 => X"0009ffeefff5000d0008ffec00020000ffec000f000f0007fffcfff2fffffff3",
-            INIT_35 => X"fff6fffeffe3fff6fff2fff9000bffecfff8ffedffe3fff00000ffeb000e0005",
-            INIT_36 => X"0007000dfff6ffee000effec0000000dffff0004ffeffff8fff4ffed0007fff0",
-            INIT_37 => X"00040000fff0ffeafff90007ffee000500000002ffe7fff20004ffe40007000b",
-            INIT_38 => X"ffedffe100000003ffe6ffdfffdefff4ffe0ffeffff800060013fff6fff3fffd",
-            INIT_39 => X"fff60000fff0ffe9fff30001fffafff8ffebffec0005ffe7fff40007ffe6fffd",
-            INIT_3A => X"0007fff200130005ffe3ffffffec000b0010fff40005fff3ffe5fffcfffbffe7",
-            INIT_3B => X"0000fff5fff2fffeffeb0006fffdfff4fff4fffdfff9ffec0006000fffe80005",
-            INIT_3C => X"fff6fffd0012ffed0014fffefffd0006ffef0004fffdffeb00090003000a0003",
-            INIT_3D => X"ffff0000ffedfff7fffd00050004001100010005ffe90000ffebffecffeffff7",
-            INIT_3E => X"ffec0009fff7fff2ffeefff30003fffc00090006fff0fff4ffeeffe9ffe40002",
-            INIT_3F => X"ffe4ffefffe20009000bfff4fff4ffe8fffefff500020002fffaffecfffeffea",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY7;
-
-
-    MEM_IWGHT_LAYER2_ENTITY8 : if BRAM_NAME = "iwght_layer2_entity8" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -958,6 +854,72 @@ entity bram_single is
             INIT_3E => X"fff10000000afff8fffb0009ffe8000c000ffffd000fffeefff3000900000021",
             INIT_3F => X"0001fff3001effe6ffe4ffebffcdffc7ffe6ffb8ffffffb8ffd6ff9bfff5ffb5",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"ffa2002f002400320020002a0007000cfff4ffe9002efff9ffecfffafffbffde",
+            INIT_41 => X"fff7ffff000ffff3fffeffea000efff8fff0000c000f000efff0ffd0001dffe4",
+            INIT_42 => X"fff3fffa003b0019000effe0ffd2ffd3ffbbffc0ffcf0013000b0014fff1000f",
+            INIT_43 => X"0001fff9ffe600170009000b001a000effe5fff60005fffffffefffd001a001b",
+            INIT_44 => X"fffc001800140004fffc0008000e0010000200120021fffd0017fff7ffefffef",
+            INIT_45 => X"ffd0000cfff9ffedffccffeeffd2ffc40003ffd5ffcb001a00000007002f0019",
+            INIT_46 => X"002c003b0021fff0fff3ff96ffe0ffe5ff94ffcfffd9ffeaffe6ffcafff2ffc4",
+            INIT_47 => X"ffe90009fff5ffdf004000310016000000130009ffee001dffe2ffedffeeffdb",
+            INIT_48 => X"ffd30005fff600130029000ffffc001f004d0032000f004d0005ffeafff9ffff",
+            INIT_49 => X"fff60002ffeafff5000afff4ffdaffe9fff6ffe300250021ffff0024ffd7ffe0",
+            INIT_4A => X"fff50000ffe10000ffebffecfffe001d0002fff2fffbfffefff3ffdffffbfff3",
+            INIT_4B => X"00160029001500180017ffdeffe7ffde0015000500370022fff900010011ffef",
+            INIT_4C => X"ffd8ffe4fff6000bfff4001200080001ffdaffe0ffe9001900190001000d0012",
+            INIT_4D => X"005f00390026002e00280026fff4000600240009000b00110012fffc00260008",
+            INIT_4E => X"ffebffe8fff6ffd0ffb4ffecfff8fff0ffeaffee00190000ffeeffe5000effe1",
+            INIT_4F => X"fffdffe50022002effe7ffe7ffd8ffbfffe6ffe8ffd8001c002afff6ffefffde",
+            INIT_50 => X"ffc1ffdcffd8fff800400042fffeffeaffd1fff2ffee0004ffd3ffeafff70040",
+            INIT_51 => X"0019000a0017ffe5fffdfffefff6fff6fffaffdbffbf004cfffeffd20000001e",
+            INIT_52 => X"00170005ffe5fff1fff0000d000800010005000affff000e0013002200050005",
+            INIT_53 => X"0007fff8fff3ffddffd8ffcdfffaffee0009ffebfff400040006001900210030",
+            INIT_54 => X"0008000f001f0001ffdefff3fffcfff6fff4000dffe6fff6ffe70012ffdbffee",
+            INIT_55 => X"ffd4ffb0ffe5fff4fff4000c0018ffe300020017fffb0011002f0018fff90012",
+            INIT_56 => X"fff70001ffedffdffff6000affe3ffe8ffe8001afff6ffebff9bff9affb9ff78",
+            INIT_57 => X"ff87ffc600180019ffeaffe00006fffc0026001b000e0002ffb3ffdc000affc1",
+            INIT_58 => X"ffcc0011ffe9ffd6000affee000000270014ffef002b002c000a00290022ffff",
+            INIT_59 => X"00390027fff6000c0017fff6ffef0008ffebfff9fff5ffe0fffdfff2fff3000c",
+            INIT_5A => X"00200001fff4001b00380026001a0019fff4ffe4fff6ffb8ffc9ffeeffcafff0",
+            INIT_5B => X"0003000100110005fffffff7ffe9000cfff9fffe00010009fffdffdcffc3ffc7",
+            INIT_5C => X"ffdafff1000e000a000bffed001effd0ffdd002fffd8ffe3fffafff4ffe10005",
+            INIT_5D => X"fffdfff100200010ffc8000d00220028ffe3fffaffff0006000300020003fff2",
+            INIT_5E => X"ffe9003f000efff200130012fff0fff0fff5000d000f001bfff10019000efffa",
+            INIT_5F => X"ffccffe2ffc4ffb4ffe0ffbb0004ffb0ffc2001e0014001100000011ffe40002",
+            INIT_60 => X"fffaffce002c004a004c0007ffdaffedfffcffbbffdafffbffe700000017000d",
+            INIT_61 => X"000b000f002300190004fff8001c00220004fff8fff9fff200000007fff7fff9",
+            INIT_62 => X"0019000b000000070008001a0000fff7fffc00050007fff500000022ffef0020",
+            INIT_63 => X"fff7fffd0013000d000800200019000bfff30010ffd9ffeb00030030fff10021",
+            INIT_64 => X"004200000011000dffdbfff5ffe10017ffed000efffa002600290000000effef",
+            INIT_65 => X"0026fff6ffe3fffcffebffccffe800000009000600210005001d0000ffe60019",
+            INIT_66 => X"0008ffd9fffb003affe8fff40021ffcc0007002cffff0029fffbffecffffffe6",
+            INIT_67 => X"0001000effec000e00140006000c0021001b0032000e001b000200100023ffce",
+            INIT_68 => X"ffedfff5ffe3fffc0010000e0001fffafff0fffd0015000e003600160032000e",
+            INIT_69 => X"00200020002f0011001affdd0011000c0015001c0042ffe8001500070018003b",
+            INIT_6A => X"0007ffd6ffea000b001cffda00150010000f0029ffe800080027ffcdffd8ffeb",
+            INIT_6B => X"ffe7ffe4ffeeffb8ffc7ffe7ffeafff9ffd5ffafffb9ffb5fffefff2fffc0022",
+            INIT_6C => X"003afff50012fff1ffe50011fff90015ffecfffb0002ffe800090011ffc80001",
+            INIT_6D => X"003effee000b00180009fff700020006000b000dffe9000d001a0009fffe001a",
+            INIT_6E => X"000300290013ffe5ffa8000effb7fff1ffe7ffc0ffe2ffcfffeafff4fffbffc9",
+            INIT_6F => X"fff2000ffffaffc2ffbbffdefffaffd5ffd8ffccffe3fffd0012ffecffdfffbf",
+            INIT_70 => X"fff0ffc0ff9afffbff97ffa5ffc9fff00000001effeaffea0001fff2ffd7ffbf",
+            INIT_71 => X"ffccffeaffe7ffbbffabffa9ffcaff82ffd7ffd10000001afff0ffabffe1ffd9",
+            INIT_72 => X"fffdffe6fffffffc0024ffe100000000ffddffcf001c000e0018001b00020014",
+            INIT_73 => X"00030013ffdfffd7000f0045003000170036003efffaffe3ffed000e00330033",
+            INIT_74 => X"001100350014ffe0ffedffedffe2ffef0002ffe9000b0007ffeb0001000effef",
+            INIT_75 => X"fff7001bffe2ffe30015ffddffcaffe50008001dffec0024003200160031001a",
+            INIT_76 => X"fff3002b0013ffe70000001600060005fff3fff0000000150039000000210043",
+            INIT_77 => X"fff8001a0038ffdbffd2ffdeffeeffb0ffd1002fffb6ff9e00080000002c0030",
+            INIT_78 => X"00040031000c000d0011ff97ff95ffc3ffc5ff90ff7600220004ffcd00080015",
+            INIT_79 => X"003200150031000d0004ffe3ffcffff4000c00440011002b001afffbfff4001f",
+            INIT_7A => X"00130013ffefffe10002fff3000100000000ffe6ffceff9affd0ffbcffa7ffea",
+            INIT_7B => X"ffe0fff60004ffeaffca000bffde00030002fffeffe1ffeefffbfff1ffe40011",
+            INIT_7C => X"0016ffe20005fffafff1ffd8ffc90004fff0ffe5ffd6ffdaffe5000f002d002e",
+            INIT_7D => X"001f001c00200025fffcfffd0014ffddffca000effec00050022fffb0014fffb",
+            INIT_7E => X"0017ffdf0029000f00180012000effe30019ffe4fffa0000ffdffff7ffe9ffee",
+            INIT_7F => X"000cffedffe0fff3ffedffff00020011002400150013ffe9ffcb001cfff1fff9",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -966,7 +928,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -979,115 +951,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY8;
+    end generate MEM_IWGHT_LAYER2_ENTITY4;
 
 
-    MEM_IWGHT_LAYER2_ENTITY9 : if BRAM_NAME = "iwght_layer2_entity9" generate
+    MEM_IWGHT_LAYER2_ENTITY5 : if BRAM_NAME = "iwght_layer2_entity5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"ffa2002f002400320020002a0007000cfff4ffe9002efff9ffecfffafffbffde",
-            INIT_01 => X"fff7ffff000ffff3fffeffea000efff8fff0000c000f000efff0ffd0001dffe4",
-            INIT_02 => X"fff3fffa003b0019000effe0ffd2ffd3ffbbffc0ffcf0013000b0014fff1000f",
-            INIT_03 => X"0001fff9ffe600170009000b001a000effe5fff60005fffffffefffd001a001b",
-            INIT_04 => X"fffc001800140004fffc0008000e0010000200120021fffd0017fff7ffefffef",
-            INIT_05 => X"ffd0000cfff9ffedffccffeeffd2ffc40003ffd5ffcb001a00000007002f0019",
-            INIT_06 => X"002c003b0021fff0fff3ff96ffe0ffe5ff94ffcfffd9ffeaffe6ffcafff2ffc4",
-            INIT_07 => X"ffe90009fff5ffdf004000310016000000130009ffee001dffe2ffedffeeffdb",
-            INIT_08 => X"ffd30005fff600130029000ffffc001f004d0032000f004d0005ffeafff9ffff",
-            INIT_09 => X"fff60002ffeafff5000afff4ffdaffe9fff6ffe300250021ffff0024ffd7ffe0",
-            INIT_0A => X"fff50000ffe10000ffebffecfffe001d0002fff2fffbfffefff3ffdffffbfff3",
-            INIT_0B => X"00160029001500180017ffdeffe7ffde0015000500370022fff900010011ffef",
-            INIT_0C => X"ffd8ffe4fff6000bfff4001200080001ffdaffe0ffe9001900190001000d0012",
-            INIT_0D => X"005f00390026002e00280026fff4000600240009000b00110012fffc00260008",
-            INIT_0E => X"ffebffe8fff6ffd0ffb4ffecfff8fff0ffeaffee00190000ffeeffe5000effe1",
-            INIT_0F => X"fffdffe50022002effe7ffe7ffd8ffbfffe6ffe8ffd8001c002afff6ffefffde",
-            INIT_10 => X"ffc1ffdcffd8fff800400042fffeffeaffd1fff2ffee0004ffd3ffeafff70040",
-            INIT_11 => X"0019000a0017ffe5fffdfffefff6fff6fffaffdbffbf004cfffeffd20000001e",
-            INIT_12 => X"00170005ffe5fff1fff0000d000800010005000affff000e0013002200050005",
-            INIT_13 => X"0007fff8fff3ffddffd8ffcdfffaffee0009ffebfff400040006001900210030",
-            INIT_14 => X"0008000f001f0001ffdefff3fffcfff6fff4000dffe6fff6ffe70012ffdbffee",
-            INIT_15 => X"ffd4ffb0ffe5fff4fff4000c0018ffe300020017fffb0011002f0018fff90012",
-            INIT_16 => X"fff70001ffedffdffff6000affe3ffe8ffe8001afff6ffebff9bff9affb9ff78",
-            INIT_17 => X"ff87ffc600180019ffeaffe00006fffc0026001b000e0002ffb3ffdc000affc1",
-            INIT_18 => X"ffcc0011ffe9ffd6000affee000000270014ffef002b002c000a00290022ffff",
-            INIT_19 => X"00390027fff6000c0017fff6ffef0008ffebfff9fff5ffe0fffdfff2fff3000c",
-            INIT_1A => X"00200001fff4001b00380026001a0019fff4ffe4fff6ffb8ffc9ffeeffcafff0",
-            INIT_1B => X"0003000100110005fffffff7ffe9000cfff9fffe00010009fffdffdcffc3ffc7",
-            INIT_1C => X"ffdafff1000e000a000bffed001effd0ffdd002fffd8ffe3fffafff4ffe10005",
-            INIT_1D => X"fffdfff100200010ffc8000d00220028ffe3fffaffff0006000300020003fff2",
-            INIT_1E => X"ffe9003f000efff200130012fff0fff0fff5000d000f001bfff10019000efffa",
-            INIT_1F => X"ffccffe2ffc4ffb4ffe0ffbb0004ffb0ffc2001e0014001100000011ffe40002",
-            INIT_20 => X"fffaffce002c004a004c0007ffdaffedfffcffbbffdafffbffe700000017000d",
-            INIT_21 => X"000b000f002300190004fff8001c00220004fff8fff9fff200000007fff7fff9",
-            INIT_22 => X"0019000b000000070008001a0000fff7fffc00050007fff500000022ffef0020",
-            INIT_23 => X"fff7fffd0013000d000800200019000bfff30010ffd9ffeb00030030fff10021",
-            INIT_24 => X"004200000011000dffdbfff5ffe10017ffed000efffa002600290000000effef",
-            INIT_25 => X"0026fff6ffe3fffcffebffccffe800000009000600210005001d0000ffe60019",
-            INIT_26 => X"0008ffd9fffb003affe8fff40021ffcc0007002cffff0029fffbffecffffffe6",
-            INIT_27 => X"0001000effec000e00140006000c0021001b0032000e001b000200100023ffce",
-            INIT_28 => X"ffedfff5ffe3fffc0010000e0001fffafff0fffd0015000e003600160032000e",
-            INIT_29 => X"00200020002f0011001affdd0011000c0015001c0042ffe8001500070018003b",
-            INIT_2A => X"0007ffd6ffea000b001cffda00150010000f0029ffe800080027ffcdffd8ffeb",
-            INIT_2B => X"ffe7ffe4ffeeffb8ffc7ffe7ffeafff9ffd5ffafffb9ffb5fffefff2fffc0022",
-            INIT_2C => X"003afff50012fff1ffe50011fff90015ffecfffb0002ffe800090011ffc80001",
-            INIT_2D => X"003effee000b00180009fff700020006000b000dffe9000d001a0009fffe001a",
-            INIT_2E => X"000300290013ffe5ffa8000effb7fff1ffe7ffc0ffe2ffcfffeafff4fffbffc9",
-            INIT_2F => X"fff2000ffffaffc2ffbbffdefffaffd5ffd8ffccffe3fffd0012ffecffdfffbf",
-            INIT_30 => X"fff0ffc0ff9afffbff97ffa5ffc9fff00000001effeaffea0001fff2ffd7ffbf",
-            INIT_31 => X"ffccffeaffe7ffbbffabffa9ffcaff82ffd7ffd10000001afff0ffabffe1ffd9",
-            INIT_32 => X"fffdffe6fffffffc0024ffe100000000ffddffcf001c000e0018001b00020014",
-            INIT_33 => X"00030013ffdfffd7000f0045003000170036003efffaffe3ffed000e00330033",
-            INIT_34 => X"001100350014ffe0ffedffedffe2ffef0002ffe9000b0007ffeb0001000effef",
-            INIT_35 => X"fff7001bffe2ffe30015ffddffcaffe50008001dffec0024003200160031001a",
-            INIT_36 => X"fff3002b0013ffe70000001600060005fff3fff0000000150039000000210043",
-            INIT_37 => X"fff8001a0038ffdbffd2ffdeffeeffb0ffd1002fffb6ff9e00080000002c0030",
-            INIT_38 => X"00040031000c000d0011ff97ff95ffc3ffc5ff90ff7600220004ffcd00080015",
-            INIT_39 => X"003200150031000d0004ffe3ffcffff4000c00440011002b001afffbfff4001f",
-            INIT_3A => X"00130013ffefffe10002fff3000100000000ffe6ffceff9affd0ffbcffa7ffea",
-            INIT_3B => X"ffe0fff60004ffeaffca000bffde00030002fffeffe1ffeefffbfff1ffe40011",
-            INIT_3C => X"0016ffe20005fffafff1ffd8ffc90004fff0ffe5ffd6ffdaffe5000f002d002e",
-            INIT_3D => X"001f001c00200025fffcfffd0014ffddffca000effec00050022fffb0014fffb",
-            INIT_3E => X"0017ffdf0029000f00180012000effe30019ffe4fffa0000ffdffff7ffe9ffee",
-            INIT_3F => X"000cffedffe0fff3ffedffff00020011002400150013ffe9ffcb001cfff1fff9",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY9;
-
-
-    MEM_IWGHT_LAYER2_ENTITY10 : if BRAM_NAME = "iwght_layer2_entity10" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -1162,6 +1032,72 @@ entity bram_single is
             INIT_3E => X"000dffd4000dfffd000a0015fff4ffdefffb0001ff9ffff20033ffd00023004b",
             INIT_3F => X"ffb6000c003ffffafff3fff7ffe9fff800050014fff50012ffe9001cfffe000f",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"00160015fff3fff8ffe3ffcdfff6000bffcbfffc001cffe8ffef001a002bfff5",
+            INIT_41 => X"ffeb0023ffe9ffdd0050000affccffdcffff003bffc80000002effc1fff60015",
+            INIT_42 => X"00140002fff6ffe40001ffe80005fff1ffea0023000a0027002ffffcffed0003",
+            INIT_43 => X"ffe4ffcaffe9fff0fff7000dffc6ffd200330016fff9ffcfffcd00160020ffc9",
+            INIT_44 => X"ffbb002dffcbffeefff3ffc7ffae0015ffc7ffc0005f0025fff30033fffbffe8",
+            INIT_45 => X"0010fff6ffefffe7fff3ffd600370008fff2000d0000ffea00050007ffecffe8",
+            INIT_46 => X"00110052ffc9fff00011ffceffed001b000e001cffed001ffffbffd30004ffff",
+            INIT_47 => X"ffd4000effc0ffd60028fffcfff50015fffdffc1000f0001000afffcffef0000",
+            INIT_48 => X"ffeb000bfffeffedffeb002affe1ffdbfff3ffe9ffbeffd90031ffe30009000b",
+            INIT_49 => X"ffe8ffceffe4ffe1ffcd0002ffe90026004c00130008001f000affed00030005",
+            INIT_4A => X"00070004ffe0ffe0ffd2ffddffc60031fff3fffb002b0003fff700210027000d",
+            INIT_4B => X"00080029000f00430051004b003d0014fff90010fff000090012000bffdd0008",
+            INIT_4C => X"fffbffc7ffccffe1ffe5000800050006000c0021fff100010003000afff6fffc",
+            INIT_4D => X"0002fff4000b0008fff6fffe0018ffed0017000ffff500060015fff900110003",
+            INIT_4E => X"fffeffe80013000c003e001100220002ffd20036fffbffdcfff4fffbffc40014",
+            INIT_4F => X"ffd9ffc700000001ffff000800040016004b0070004d000f004a003effee0015",
+            INIT_50 => X"0033ffec000b00020026fffc001900270007001e001bffd3ffdb002e0007fffa",
+            INIT_51 => X"002efff8ffd8000c002dfffb000600000004ffe60000ffd6ffe0ffb1fff6fff2",
+            INIT_52 => X"ffd8ffb30039fff8ffe20017000e000effdffff8001dffd1ffe8ffc4fff1ffe0",
+            INIT_53 => X"000fffe6fff70016ffbfffdf0001001effe1ffe70033fffeffe700110031ffec",
+            INIT_54 => X"ffff0019fffbfffb0014001f001c001c000fffbdffc00039ffc9ffee00290008",
+            INIT_55 => X"0008fff6ffa8ffa3ffcbffbdffaaff9f0003ffe20008001100310041000f0020",
+            INIT_56 => X"000c0015001f000effdaff7dffb0ff9cffbeffeefff4fffeffff00410033001b",
+            INIT_57 => X"0018001f00100007ffe80005fff4ffe9fff9fff4fff90000fffd0018001efff6",
+            INIT_58 => X"000300010009ffd9ffe3ffe30009ffebffddffde003dffe100000020ffdffff9",
+            INIT_59 => X"000dfff1fffa0015ffe9fffe000cffeb00150022ffcfffd7fff8fff9fff00012",
+            INIT_5A => X"0011fffb000800100009ffff0004000bffc50008fff8fff0002d000c00080017",
+            INIT_5B => X"001f0021000b000d001dffbfffe6001effd100030017ffe30013000b0033002c",
+            INIT_5C => X"001500110028fff40018fff9000f0016000c000bffe50024fff900030028000c",
+            INIT_5D => X"ffc7002b0044000200340048001700550039ffdeffdafffc0000ffef0003001e",
+            INIT_5E => X"00030024fffc002dfff3fffa0022fffafff2001bfff1001e0024fff60014000e",
+            INIT_5F => X"000c0019000b001c0003001affdf001cfffbffe3fff1000fffd900040000ffee",
+            INIT_60 => X"002a0018fff500070003fff8000bfff4002dffe400260003fff0001e0007000b",
+            INIT_61 => X"0004ffdb000c00110003001afff40015000affb2000bffeffff8ffd9ffec0029",
+            INIT_62 => X"0001ffc6ffd60016fff9ffef0034003a00290009ffe000120017ffd500060015",
+            INIT_63 => X"ffe700070025ffff00110014000d001c0015fff9fff80001fff1ffe8001a0006",
+            INIT_64 => X"000c000c000f000b002bffef00090006fffafff7000bffee0002fffd00000016",
+            INIT_65 => X"ffe000170004fff40014fff8ffecfff2fff00002ffe500100011ffe600000004",
+            INIT_66 => X"000ffff6fff90006ffe7ffe9ffe9ffeffff9ffdffffc0032fffb00120016001f",
+            INIT_67 => X"003cfff0ffccffe8ffe1ffe6ffd10009ffe0ffbdfffaffee0035001200130052",
+            INIT_68 => X"00530032001e0038ffd90022fffffff500020039ffddfff7ffe80010001efff5",
+            INIT_69 => X"00150000fff5ffdafff5fff4ffe9ffef002000160021002c0005ffff0045fff9",
+            INIT_6A => X"0015002affe7ffefffee000fffde0007ffc0ffe80015ffa400190028ffc50036",
+            INIT_6B => X"ffe10022ffeeffeb0013ffe2ffbdffff0003ffeeffc5ffde0033ffab00090025",
+            INIT_6C => X"ffeeffe1ffd1fff3ffddffd7ffbcffb1ffb2fff0ffaeff97001c0001000b0000",
+            INIT_6D => X"fff4ffe2001e0018000c0001fff7fff2001d0011ffdf0027fff8fffeffed0005",
+            INIT_6E => X"fffeffe7ffdd0002ffecffcdfff90023fff7ffe30020ffe7ffef000d0009ffee",
+            INIT_6F => X"ffe4ffe9ffd4fff2000200340010000b0013fff7ffedfffc0014000800170028",
+            INIT_70 => X"0004000800250034000b002b003c0017002f0003ffd30025002000250012fffc",
+            INIT_71 => X"000effea0012002700160013ffdffff9ffedfffcffd1ffe3ffe700020016001b",
+            INIT_72 => X"0012000b000f0013000a000b0001000700210026001b0006001a002e000effb9",
+            INIT_73 => X"fff70018ffd70015000bfff30003002effd3ffc4fff2ffc3fff0ffefffaeffab",
+            INIT_74 => X"ffc7ffc7000900280003003000270010001dfffd0025ffeaffd8002d0007ffca",
+            INIT_75 => X"000f0000ffed0010fff6fffd0009fffeffe1fffb0008ffec0003fffdfffa0016",
+            INIT_76 => X"0060004800000015002b000bffd7ffe00004ffb8ffbcffe5ffd6ffee00080015",
+            INIT_77 => X"fff8ffd400060009ffea0006fff0000900120003001a0002fffb00220007fff1",
+            INIT_78 => X"ffff0009ffe80008ffecfff8000000130019ffeb002a0001ffe9ffbeffe40036",
+            INIT_79 => X"001effeb00170037004200130047004d0011004100280028000effe800450018",
+            INIT_7A => X"0008fff9001700220038004b001a004a0037003e0017002e002e001f0026002c",
+            INIT_7B => X"0021003e0035ffe7fffcffff002f00160010ffc9fffcffe6fff50004000bfff0",
+            INIT_7C => X"000b000bffc8ffdaffc7fff0fff3fff0000a00090000ffd9ffdf000000120003",
+            INIT_7D => X"00190023002e0018fff20013fff7ffeafff9000a00000026ffd1fff1fff0ffea",
+            INIT_7E => X"0008001b000e001dffe4ffd500210006ffe90027fff9fffb0022fff6fffbfff0",
+            INIT_7F => X"0000ffecffdfffe1fff1ffd8fff8fff4ffbaffbbffc9fffc002a0029fffc0024",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -1170,7 +1106,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -1183,115 +1129,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY10;
+    end generate MEM_IWGHT_LAYER2_ENTITY5;
 
 
-    MEM_IWGHT_LAYER2_ENTITY11 : if BRAM_NAME = "iwght_layer2_entity11" generate
+    MEM_IWGHT_LAYER2_ENTITY6 : if BRAM_NAME = "iwght_layer2_entity6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"00160015fff3fff8ffe3ffcdfff6000bffcbfffc001cffe8ffef001a002bfff5",
-            INIT_01 => X"ffeb0023ffe9ffdd0050000affccffdcffff003bffc80000002effc1fff60015",
-            INIT_02 => X"00140002fff6ffe40001ffe80005fff1ffea0023000a0027002ffffcffed0003",
-            INIT_03 => X"ffe4ffcaffe9fff0fff7000dffc6ffd200330016fff9ffcfffcd00160020ffc9",
-            INIT_04 => X"ffbb002dffcbffeefff3ffc7ffae0015ffc7ffc0005f0025fff30033fffbffe8",
-            INIT_05 => X"0010fff6ffefffe7fff3ffd600370008fff2000d0000ffea00050007ffecffe8",
-            INIT_06 => X"00110052ffc9fff00011ffceffed001b000e001cffed001ffffbffd30004ffff",
-            INIT_07 => X"ffd4000effc0ffd60028fffcfff50015fffdffc1000f0001000afffcffef0000",
-            INIT_08 => X"ffeb000bfffeffedffeb002affe1ffdbfff3ffe9ffbeffd90031ffe30009000b",
-            INIT_09 => X"ffe8ffceffe4ffe1ffcd0002ffe90026004c00130008001f000affed00030005",
-            INIT_0A => X"00070004ffe0ffe0ffd2ffddffc60031fff3fffb002b0003fff700210027000d",
-            INIT_0B => X"00080029000f00430051004b003d0014fff90010fff000090012000bffdd0008",
-            INIT_0C => X"fffbffc7ffccffe1ffe5000800050006000c0021fff100010003000afff6fffc",
-            INIT_0D => X"0002fff4000b0008fff6fffe0018ffed0017000ffff500060015fff900110003",
-            INIT_0E => X"fffeffe80013000c003e001100220002ffd20036fffbffdcfff4fffbffc40014",
-            INIT_0F => X"ffd9ffc700000001ffff000800040016004b0070004d000f004a003effee0015",
-            INIT_10 => X"0033ffec000b00020026fffc001900270007001e001bffd3ffdb002e0007fffa",
-            INIT_11 => X"002efff8ffd8000c002dfffb000600000004ffe60000ffd6ffe0ffb1fff6fff2",
-            INIT_12 => X"ffd8ffb30039fff8ffe20017000e000effdffff8001dffd1ffe8ffc4fff1ffe0",
-            INIT_13 => X"000fffe6fff70016ffbfffdf0001001effe1ffe70033fffeffe700110031ffec",
-            INIT_14 => X"ffff0019fffbfffb0014001f001c001c000fffbdffc00039ffc9ffee00290008",
-            INIT_15 => X"0008fff6ffa8ffa3ffcbffbdffaaff9f0003ffe20008001100310041000f0020",
-            INIT_16 => X"000c0015001f000effdaff7dffb0ff9cffbeffeefff4fffeffff00410033001b",
-            INIT_17 => X"0018001f00100007ffe80005fff4ffe9fff9fff4fff90000fffd0018001efff6",
-            INIT_18 => X"000300010009ffd9ffe3ffe30009ffebffddffde003dffe100000020ffdffff9",
-            INIT_19 => X"000dfff1fffa0015ffe9fffe000cffeb00150022ffcfffd7fff8fff9fff00012",
-            INIT_1A => X"0011fffb000800100009ffff0004000bffc50008fff8fff0002d000c00080017",
-            INIT_1B => X"001f0021000b000d001dffbfffe6001effd100030017ffe30013000b0033002c",
-            INIT_1C => X"001500110028fff40018fff9000f0016000c000bffe50024fff900030028000c",
-            INIT_1D => X"ffc7002b0044000200340048001700550039ffdeffdafffc0000ffef0003001e",
-            INIT_1E => X"00030024fffc002dfff3fffa0022fffafff2001bfff1001e0024fff60014000e",
-            INIT_1F => X"000c0019000b001c0003001affdf001cfffbffe3fff1000fffd900040000ffee",
-            INIT_20 => X"002a0018fff500070003fff8000bfff4002dffe400260003fff0001e0007000b",
-            INIT_21 => X"0004ffdb000c00110003001afff40015000affb2000bffeffff8ffd9ffec0029",
-            INIT_22 => X"0001ffc6ffd60016fff9ffef0034003a00290009ffe000120017ffd500060015",
-            INIT_23 => X"ffe700070025ffff00110014000d001c0015fff9fff80001fff1ffe8001a0006",
-            INIT_24 => X"000c000c000f000b002bffef00090006fffafff7000bffee0002fffd00000016",
-            INIT_25 => X"ffe000170004fff40014fff8ffecfff2fff00002ffe500100011ffe600000004",
-            INIT_26 => X"000ffff6fff90006ffe7ffe9ffe9ffeffff9ffdffffc0032fffb00120016001f",
-            INIT_27 => X"003cfff0ffccffe8ffe1ffe6ffd10009ffe0ffbdfffaffee0035001200130052",
-            INIT_28 => X"00530032001e0038ffd90022fffffff500020039ffddfff7ffe80010001efff5",
-            INIT_29 => X"00150000fff5ffdafff5fff4ffe9ffef002000160021002c0005ffff0045fff9",
-            INIT_2A => X"0015002affe7ffefffee000fffde0007ffc0ffe80015ffa400190028ffc50036",
-            INIT_2B => X"ffe10022ffeeffeb0013ffe2ffbdffff0003ffeeffc5ffde0033ffab00090025",
-            INIT_2C => X"ffeeffe1ffd1fff3ffddffd7ffbcffb1ffb2fff0ffaeff97001c0001000b0000",
-            INIT_2D => X"fff4ffe2001e0018000c0001fff7fff2001d0011ffdf0027fff8fffeffed0005",
-            INIT_2E => X"fffeffe7ffdd0002ffecffcdfff90023fff7ffe30020ffe7ffef000d0009ffee",
-            INIT_2F => X"ffe4ffe9ffd4fff2000200340010000b0013fff7ffedfffc0014000800170028",
-            INIT_30 => X"0004000800250034000b002b003c0017002f0003ffd30025002000250012fffc",
-            INIT_31 => X"000effea0012002700160013ffdffff9ffedfffcffd1ffe3ffe700020016001b",
-            INIT_32 => X"0012000b000f0013000a000b0001000700210026001b0006001a002e000effb9",
-            INIT_33 => X"fff70018ffd70015000bfff30003002effd3ffc4fff2ffc3fff0ffefffaeffab",
-            INIT_34 => X"ffc7ffc7000900280003003000270010001dfffd0025ffeaffd8002d0007ffca",
-            INIT_35 => X"000f0000ffed0010fff6fffd0009fffeffe1fffb0008ffec0003fffdfffa0016",
-            INIT_36 => X"0060004800000015002b000bffd7ffe00004ffb8ffbcffe5ffd6ffee00080015",
-            INIT_37 => X"fff8ffd400060009ffea0006fff0000900120003001a0002fffb00220007fff1",
-            INIT_38 => X"ffff0009ffe80008ffecfff8000000130019ffeb002a0001ffe9ffbeffe40036",
-            INIT_39 => X"001effeb00170037004200130047004d0011004100280028000effe800450018",
-            INIT_3A => X"0008fff9001700220038004b001a004a0037003e0017002e002e001f0026002c",
-            INIT_3B => X"0021003e0035ffe7fffcffff002f00160010ffc9fffcffe6fff50004000bfff0",
-            INIT_3C => X"000b000bffc8ffdaffc7fff0fff3fff0000a00090000ffd9ffdf000000120003",
-            INIT_3D => X"00190023002e0018fff20013fff7ffeafff9000a00000026ffd1fff1fff0ffea",
-            INIT_3E => X"0008001b000e001dffe4ffd500210006ffe90027fff9fffb0022fff6fffbfff0",
-            INIT_3F => X"0000ffecffdfffe1fff1ffd8fff8fff4ffbaffbbffc9fffc002a0029fffc0024",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY11;
-
-
-    MEM_IWGHT_LAYER2_ENTITY12 : if BRAM_NAME = "iwght_layer2_entity12" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -1366,6 +1210,72 @@ entity bram_single is
             INIT_3E => X"ffe7000200010008ffe2fffb0000fff80005ffeffff70000fffafff2ffea000a",
             INIT_3F => X"00020000ffedffec00090009fffb000afff2fffc0008fff9fff1ffff00160008",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"fff6ffec00000008ffe80007000a000bffebffeffff2ffd30014fff8ffed0015",
+            INIT_41 => X"0001ffdb0018000a000a003c00310010002f0037002bffdb000bffd8ffc1ffe5",
+            INIT_42 => X"ffb8ffd8ffb6ffc7fffcfff9001c001a003b004d002300550030fffa00220017",
+            INIT_43 => X"ffea000afffbfff0ffdefffd0021001b0017ffd8ffd2fff1ffe2ffcbffe6fffc",
+            INIT_44 => X"ffe7ffed0016fffffff8000b000b0005002a000d0023fff3001afff2ffb9ff95",
+            INIT_45 => X"ffb0000200000014ffc900170000fff4fffe0003fff4ffe20008fff6ffdaffdf",
+            INIT_46 => X"ffd1ffcbffcefff700100000fffb000cfff9ffc4ffea001d0013000ffff1ffe9",
+            INIT_47 => X"0010000effe300020014ffcc0006fffcfffb000f000f001500160022001b0011",
+            INIT_48 => X"0019ffd900010000ffa8ffabffd0fff2000bffd000100030000c002100440035",
+            INIT_49 => X"ffe90001000dfff90007001a00020021001400060019001fffefffeffff4ffb7",
+            INIT_4A => X"ffdfffe9ffd6ffedffbdffc1ffb6ffc1ffd50002ffe2000e000e00050004fff0",
+            INIT_4B => X"000800050019000effe3ffeeffd60027fff5ffdc003b0019fff8fffcfff0ffe6",
+            INIT_4C => X"00150015ffeb002300190006001000220015ffee0005000affd4ffccffdd001d",
+            INIT_4D => X"00160027ffdafffc0007ff9dffbdffe5ffec0032ffeeffd0ffccffd9fffbff9a",
+            INIT_4E => X"ffce0015000500180020001efffd0027001f0007ffe700010023fff2fffd0015",
+            INIT_4F => X"fff800150017000a00090003ffe3ffee000c000effe0fffbffe6ffff0009ffc1",
+            INIT_50 => X"ffb8ffccffc5ffc9ffecffdefff20017ffebfff70001ffbeffd5fffb0007000b",
+            INIT_51 => X"000500190021ffed003900350012fff3000b001a00040017002fffd8fffcfff7",
+            INIT_52 => X"fffe000c000f000d000100120024fffffffbfff7ffe9fff5ffc9ff98ffd0ffb9",
+            INIT_53 => X"ff8affdefff00009000c00330035004e00430055002600260059002600340043",
+            INIT_54 => X"0031002c00180008fffdffecffe2002a0026ffe600310018fffa000a0008ffe6",
+            INIT_55 => X"001b001b000f002c00280022ffefffe4ffcdfffefff7ffed00250000ffffffdf",
+            INIT_56 => X"0000ffe0ffeefffdffedffc7ffd9fff00039000affff001afff4fffcfffbfff6",
+            INIT_57 => X"0000ffe8ffdeffee0023fff6ffeb001efffcfffd001600060010001bffedffe1",
+            INIT_58 => X"ffecfff1fff1fff0fffc0020fff90023001b002c00060022ffedfff700000018",
+            INIT_59 => X"000b0013001500280003fffcffccffe7001affcfffe1ffebffcfffe1000efffd",
+            INIT_5A => X"000a00040022000000170034fff9fffffffeffe5001200180012000b0006000a",
+            INIT_5B => X"0006ffe3ffed002affabffdbffe2ffd3ffd20018fff5ffe300510009ffd7001a",
+            INIT_5C => X"fff3ffd2ffd1ffccffbbffe5ffdcfffaffeafff0fff5ffdcfff10014ffddffea",
+            INIT_5D => X"0017fff0fff50016ffe0000d000cffe700090022ffdbffe80007ffc9ffe10006",
+            INIT_5E => X"ffe9000a001dffe900000022ffee0000000500340002ffe000350005fff10011",
+            INIT_5F => X"fff1fff9fff80016fff5001600030004003600450020003f006f001d005a0045",
+            INIT_60 => X"00350001ffe2fff2ffe1ffe5fffbffd2ffaeffd30008fffcfff40031fffaffd5",
+            INIT_61 => X"0034fff9ffe0ffdaffe70014ffdbffe0fffeffe1fff2001b003500490017007b",
+            INIT_62 => X"005b0038006900270036ffd6ffdc0011fffe0005ffe8ffe5ffe6000fffe6ffef",
+            INIT_63 => X"0012ffe7001c0022ffecfff10016fff70000fff1001effe5fff10035fffbffc8",
+            INIT_64 => X"0014fff700040016fff90000ffe100000008003f001effbdffd7fff90026fff0",
+            INIT_65 => X"ffd8fff9001a0001ffd8000a000a0021ffefffec0009ffd4ffdf0001ffd1fff0",
+            INIT_66 => X"0010ffcafff6fff0001a000c0028000ffffc0028fffe0006ffd8ffe90019000b",
+            INIT_67 => X"fff7000e0014001800230015ffb0ffd60003ffd7ffe6ffd4fff0fff8ffd5ffcc",
+            INIT_68 => X"ffcbffc2ffd80002ffe2ffeaffd10006003100330035ffdffff70033ffd9fff8",
+            INIT_69 => X"0023ffe5fff9ffd3ffd0fff2ffc1fffcfff4fff9000f0016000dffc5ffdd0044",
+            INIT_6A => X"ffd9ffe30020ffdbffebfff1fff0ffc200010010ffddfff0ffd7ffceffeaffdd",
+            INIT_6B => X"ff9ffffe0003ffcbffc5ffe2ffccfff90001ffdffffaffe8fffa0002ffbe0022",
+            INIT_6C => X"0048ffd9ffdf0003fff8ffddffe4ffd2fff4ffd7fffaffdaff9c00170016ffcd",
+            INIT_6D => X"00070036fff8ffc400050030ffd0000b002bfff3000e000bffb4fff20028fffc",
+            INIT_6E => X"fff1fff70006003800390069004e003c005500660023ffe0fffa0000ffdaffc4",
+            INIT_6F => X"ffb1ffdbffcaffaaffdfffd6fff9fffcfff2ffb4fffafffdffd00004000dfffc",
+            INIT_70 => X"fff7ffeaffe4fffb0018ffdbfff1ffeffff2ffe5ffdcffeb00130047ffe40001",
+            INIT_71 => X"002e003dffd0ffee0023ffd5ffdb001cfff0000bfff2ffde000b00270007ffd6",
+            INIT_72 => X"00030021ffe9000cffe9fff9000affdfffe10015ffe9fff2fffbfff7fff5ffe6",
+            INIT_73 => X"ffed00070032ffd1ffe7fffcffd6ffe3fffbffdc000effd7ffd600140028fff8",
+            INIT_74 => X"000e003a000300110029ffd8ffcbffecffeafff40007ffef00170043ffdcffcc",
+            INIT_75 => X"00050004ffe1ffe2000cffefffd2001400240012000afff900110021001a0023",
+            INIT_76 => X"0012fffcfffc000c0014fff0fff0fff2001900360037fff1000300130009fff2",
+            INIT_77 => X"fffc000fffce0015000afffc0041fffbffe6fffb0009ffd6fff8ffd20010002c",
+            INIT_78 => X"0011000c0023003affd5fffe0031001effdcfffc0034ffc9fff600060019000c",
+            INIT_79 => X"00000008fff9fff30001ffdafffa0010ffc40000000e0006fffaffffffe0ffeb",
+            INIT_7A => X"ffe00000fff50007001ffff4000d0013000a002a0007fff10015fff7fff90006",
+            INIT_7B => X"0036000afff0ffecffffffc4ffb7fff0ffe5ffedfff1001cffeb001d00070017",
+            INIT_7C => X"001cfff60024fffcffd2fff1fffdffddffe7ffc4ffdbffa80000ffea0010fff8",
+            INIT_7D => X"ffe5ffebffd0ffd9ffd3fff30007ffdd000bfff40000000100060019fffbffd4",
+            INIT_7E => X"ffef0007fff0ffddffccffcdffb70007ffdaffd9ffe1ffe3ffc4ffe4ffebfff1",
+            INIT_7F => X"ffcdffa4ffbdff93ffc8ffe0ffdf0006ffdb001f0011ffe7002d0004fffa0010",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -1374,7 +1284,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -1387,115 +1307,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY12;
+    end generate MEM_IWGHT_LAYER2_ENTITY6;
 
 
-    MEM_IWGHT_LAYER2_ENTITY13 : if BRAM_NAME = "iwght_layer2_entity13" generate
+    MEM_IWGHT_LAYER2_ENTITY7 : if BRAM_NAME = "iwght_layer2_entity7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"fff6ffec00000008ffe80007000a000bffebffeffff2ffd30014fff8ffed0015",
-            INIT_01 => X"0001ffdb0018000a000a003c00310010002f0037002bffdb000bffd8ffc1ffe5",
-            INIT_02 => X"ffb8ffd8ffb6ffc7fffcfff9001c001a003b004d002300550030fffa00220017",
-            INIT_03 => X"ffea000afffbfff0ffdefffd0021001b0017ffd8ffd2fff1ffe2ffcbffe6fffc",
-            INIT_04 => X"ffe7ffed0016fffffff8000b000b0005002a000d0023fff3001afff2ffb9ff95",
-            INIT_05 => X"ffb0000200000014ffc900170000fff4fffe0003fff4ffe20008fff6ffdaffdf",
-            INIT_06 => X"ffd1ffcbffcefff700100000fffb000cfff9ffc4ffea001d0013000ffff1ffe9",
-            INIT_07 => X"0010000effe300020014ffcc0006fffcfffb000f000f001500160022001b0011",
-            INIT_08 => X"0019ffd900010000ffa8ffabffd0fff2000bffd000100030000c002100440035",
-            INIT_09 => X"ffe90001000dfff90007001a00020021001400060019001fffefffeffff4ffb7",
-            INIT_0A => X"ffdfffe9ffd6ffedffbdffc1ffb6ffc1ffd50002ffe2000e000e00050004fff0",
-            INIT_0B => X"000800050019000effe3ffeeffd60027fff5ffdc003b0019fff8fffcfff0ffe6",
-            INIT_0C => X"00150015ffeb002300190006001000220015ffee0005000affd4ffccffdd001d",
-            INIT_0D => X"00160027ffdafffc0007ff9dffbdffe5ffec0032ffeeffd0ffccffd9fffbff9a",
-            INIT_0E => X"ffce0015000500180020001efffd0027001f0007ffe700010023fff2fffd0015",
-            INIT_0F => X"fff800150017000a00090003ffe3ffee000c000effe0fffbffe6ffff0009ffc1",
-            INIT_10 => X"ffb8ffccffc5ffc9ffecffdefff20017ffebfff70001ffbeffd5fffb0007000b",
-            INIT_11 => X"000500190021ffed003900350012fff3000b001a00040017002fffd8fffcfff7",
-            INIT_12 => X"fffe000c000f000d000100120024fffffffbfff7ffe9fff5ffc9ff98ffd0ffb9",
-            INIT_13 => X"ff8affdefff00009000c00330035004e00430055002600260059002600340043",
-            INIT_14 => X"0031002c00180008fffdffecffe2002a0026ffe600310018fffa000a0008ffe6",
-            INIT_15 => X"001b001b000f002c00280022ffefffe4ffcdfffefff7ffed00250000ffffffdf",
-            INIT_16 => X"0000ffe0ffeefffdffedffc7ffd9fff00039000affff001afff4fffcfffbfff6",
-            INIT_17 => X"0000ffe8ffdeffee0023fff6ffeb001efffcfffd001600060010001bffedffe1",
-            INIT_18 => X"ffecfff1fff1fff0fffc0020fff90023001b002c00060022ffedfff700000018",
-            INIT_19 => X"000b0013001500280003fffcffccffe7001affcfffe1ffebffcfffe1000efffd",
-            INIT_1A => X"000a00040022000000170034fff9fffffffeffe5001200180012000b0006000a",
-            INIT_1B => X"0006ffe3ffed002affabffdbffe2ffd3ffd20018fff5ffe300510009ffd7001a",
-            INIT_1C => X"fff3ffd2ffd1ffccffbbffe5ffdcfffaffeafff0fff5ffdcfff10014ffddffea",
-            INIT_1D => X"0017fff0fff50016ffe0000d000cffe700090022ffdbffe80007ffc9ffe10006",
-            INIT_1E => X"ffe9000a001dffe900000022ffee0000000500340002ffe000350005fff10011",
-            INIT_1F => X"fff1fff9fff80016fff5001600030004003600450020003f006f001d005a0045",
-            INIT_20 => X"00350001ffe2fff2ffe1ffe5fffbffd2ffaeffd30008fffcfff40031fffaffd5",
-            INIT_21 => X"0034fff9ffe0ffdaffe70014ffdbffe0fffeffe1fff2001b003500490017007b",
-            INIT_22 => X"005b0038006900270036ffd6ffdc0011fffe0005ffe8ffe5ffe6000fffe6ffef",
-            INIT_23 => X"0012ffe7001c0022ffecfff10016fff70000fff1001effe5fff10035fffbffc8",
-            INIT_24 => X"0014fff700040016fff90000ffe100000008003f001effbdffd7fff90026fff0",
-            INIT_25 => X"ffd8fff9001a0001ffd8000a000a0021ffefffec0009ffd4ffdf0001ffd1fff0",
-            INIT_26 => X"0010ffcafff6fff0001a000c0028000ffffc0028fffe0006ffd8ffe90019000b",
-            INIT_27 => X"fff7000e0014001800230015ffb0ffd60003ffd7ffe6ffd4fff0fff8ffd5ffcc",
-            INIT_28 => X"ffcbffc2ffd80002ffe2ffeaffd10006003100330035ffdffff70033ffd9fff8",
-            INIT_29 => X"0023ffe5fff9ffd3ffd0fff2ffc1fffcfff4fff9000f0016000dffc5ffdd0044",
-            INIT_2A => X"ffd9ffe30020ffdbffebfff1fff0ffc200010010ffddfff0ffd7ffceffeaffdd",
-            INIT_2B => X"ff9ffffe0003ffcbffc5ffe2ffccfff90001ffdffffaffe8fffa0002ffbe0022",
-            INIT_2C => X"0048ffd9ffdf0003fff8ffddffe4ffd2fff4ffd7fffaffdaff9c00170016ffcd",
-            INIT_2D => X"00070036fff8ffc400050030ffd0000b002bfff3000e000bffb4fff20028fffc",
-            INIT_2E => X"fff1fff70006003800390069004e003c005500660023ffe0fffa0000ffdaffc4",
-            INIT_2F => X"ffb1ffdbffcaffaaffdfffd6fff9fffcfff2ffb4fffafffdffd00004000dfffc",
-            INIT_30 => X"fff7ffeaffe4fffb0018ffdbfff1ffeffff2ffe5ffdcffeb00130047ffe40001",
-            INIT_31 => X"002e003dffd0ffee0023ffd5ffdb001cfff0000bfff2ffde000b00270007ffd6",
-            INIT_32 => X"00030021ffe9000cffe9fff9000affdfffe10015ffe9fff2fffbfff7fff5ffe6",
-            INIT_33 => X"ffed00070032ffd1ffe7fffcffd6ffe3fffbffdc000effd7ffd600140028fff8",
-            INIT_34 => X"000e003a000300110029ffd8ffcbffecffeafff40007ffef00170043ffdcffcc",
-            INIT_35 => X"00050004ffe1ffe2000cffefffd2001400240012000afff900110021001a0023",
-            INIT_36 => X"0012fffcfffc000c0014fff0fff0fff2001900360037fff1000300130009fff2",
-            INIT_37 => X"fffc000fffce0015000afffc0041fffbffe6fffb0009ffd6fff8ffd20010002c",
-            INIT_38 => X"0011000c0023003affd5fffe0031001effdcfffc0034ffc9fff600060019000c",
-            INIT_39 => X"00000008fff9fff30001ffdafffa0010ffc40000000e0006fffaffffffe0ffeb",
-            INIT_3A => X"ffe00000fff50007001ffff4000d0013000a002a0007fff10015fff7fff90006",
-            INIT_3B => X"0036000afff0ffecffffffc4ffb7fff0ffe5ffedfff1001cffeb001d00070017",
-            INIT_3C => X"001cfff60024fffcffd2fff1fffdffddffe7ffc4ffdbffa80000ffea0010fff8",
-            INIT_3D => X"ffe5ffebffd0ffd9ffd3fff30007ffdd000bfff40000000100060019fffbffd4",
-            INIT_3E => X"ffef0007fff0ffddffccffcdffb70007ffdaffd9ffe1ffe3ffc4ffe4ffebfff1",
-            INIT_3F => X"ffcdffa4ffbdff93ffc8ffe0ffdf0006ffdb001f0011ffe7002d0004fffa0010",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY13;
-
-
-    MEM_IWGHT_LAYER2_ENTITY14 : if BRAM_NAME = "iwght_layer2_entity14" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -1570,6 +1388,72 @@ entity bram_single is
             INIT_3E => X"ffff0000000600080001fff30000fffe0007002300060013000e00380029ffdc",
             INIT_3F => X"00070010fff8fffd0019fffdffd1ffd9fff2ffbeffafffb9ffd0ffd8ffb7ff99",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"ffc5ffafff86ff9dffe700460026ffb7ffeffffbfff5ffc00001003d00280013",
+            INIT_41 => X"000000000023003400100023fffcfff6fffe000300050000fff80000fffdfff8",
+            INIT_42 => X"0014000f001e001f00220022000f001cffdcffebfffcffdf0012ffd0fff0000a",
+            INIT_43 => X"ffef000affebffedfff3fffc000affedfff5fff9ffeafff1ffe2000affecfff2",
+            INIT_44 => X"000c00080001fff8fffc0001fffd0001000400140002fff3000b00000012fffb",
+            INIT_45 => X"ffef0015001b00140012000a0002000900120047003700000012001800250014",
+            INIT_46 => X"003300070015001600210027002a0010000cfff9ffe50003fffcffed00050014",
+            INIT_47 => X"ffd3000c0018ffec00280010ffe60024fff5fffefffe00050009000e0005fffc",
+            INIT_48 => X"0016fffa0018ffeaffe70014ffceffecfff9001dfff9fff7000d0001fff3ffec",
+            INIT_49 => X"fffb002600130008ffe4fffffff8fff2ffedfff60000fff80014fff900090008",
+            INIT_4A => X"fff1fff2fffbffffffff001ffff9fffeffe8000e001bffe6000f0005fffcfffc",
+            INIT_4B => X"ffe1fffdfff1ffdc000500190008fff1ff84ffe1ff95ff6dff6eff94ffdeffa3",
+            INIT_4C => X"ff84000f0031001d000800320034000efff8fff2fffa001d0001fff800110012",
+            INIT_4D => X"000c0002fff1fffaffeefff0001a00080024002b002d0029ffd3ffe4ffdcffb5",
+            INIT_4E => X"ffa5ffa7ffaaffa1ffa90000fffb000d00060017001100300027002effe9ffe7",
+            INIT_4F => X"ffecfff3fff1fffd0023ffff001c001c001b0014ffeb000cfffefff0fffafff3",
+            INIT_50 => X"00090018ffff00000017001500030015000e001500220009000affed0015ffe9",
+            INIT_51 => X"0002000e0019001800080027005700480035000b004900220001000e0015ffe6",
+            INIT_52 => X"0008ffebffe4ffc70018fff1ffed002300290040001a000c002cffe2ffe4fff2",
+            INIT_53 => X"fff600130004003c0026fff9000a0032001ffff10008fff2ffd3ffc9ffd1fff9",
+            INIT_54 => X"ffff000fffe40004ffebffe8fff3001b0033002b000a00370021000600170002",
+            INIT_55 => X"000600080027fffdfffb001dffdf00010004ffd5001400360009000600150009",
+            INIT_56 => X"0017fff70018ffe1fff10021000a000400240007000bffe6ffdbfffe0016ffd7",
+            INIT_57 => X"ffe2ffdcffeafff1ffc9fffc0038002cffd10006ffe3ffe300120012ffe6ffe0",
+            INIT_58 => X"fff9001efff60007004300060016ffda000d0032ffbeffe50014ffce00040007",
+            INIT_59 => X"0013003affd1fffdfff0ff81ffc7fff4ffda00180037003c0003fff1fff00008",
+            INIT_5A => X"ffdfffc0ffe4fff7fff3ffbfffedfff7ffd40003ffc9fff1fff00008ffe2ffeb",
+            INIT_5B => X"fff3000fffe7fffdffff00000011ffd900060021ffe00009002cfff8fff7002d",
+            INIT_5C => X"ffed0018002ffff300020024fff600190023ffe800090009fff7ffe8ffc50017",
+            INIT_5D => X"000bffe50008000f000800180006fff1fff7ffb5ffd0ffd0ffb30014fff5ffd0",
+            INIT_5E => X"ffe000110015ffe6ffeaffe8ffe3fff30011000c0003002e000bffeafffcfff1",
+            INIT_5F => X"000400130007fff7fff0001bffd0fff8ffc10013ffd1fff2fffe001d002dfff7",
+            INIT_60 => X"00150016fffbffe80011ffdcffe2fffcffa8ffeaffbaffe5fff4fff30001fffb",
+            INIT_61 => X"ffeeffebfff60021fff800090013000800060020ffd700030002ffcffff2fffa",
+            INIT_62 => X"fff7fff2000000000010fffdfff60002fff800260014000f00490023fff40018",
+            INIT_63 => X"00330059000e000400200000ffedfffa0006ffbfffe90013fffb001700280032",
+            INIT_64 => X"003f001100360034fff0002a002dffc9fff3fffeffe2ffe6ffe5fffc00200013",
+            INIT_65 => X"ffd8ffdb001affd1ffea0000fff9001e0018ffd00006003efffafff10013fff9",
+            INIT_66 => X"002e003b000300380024fff9ffeaffe20004ffd4fff8fff70013ffec000a001f",
+            INIT_67 => X"002a000affe3ffffffd9ffc7ffe20005ffdbffedffeffffcffefffd8fffa0010",
+            INIT_68 => X"ffe00012003b0018002d0020ffca000c001bffbeffe5001900260028001affef",
+            INIT_69 => X"000b0004ffff000c0002000d000100020009ffe8ffd20026fff2fff0fff00025",
+            INIT_6A => X"0021ff84ffed0006ff88fff000190031001dfffd0016ffe7ffdc001afff9ffe3",
+            INIT_6B => X"0003ffeeffdc0008005000280022001b003e0029001700050004000f0030ffe6",
+            INIT_6C => X"0013001bffe1fffb001a0013002e00170014001b0010fffc0026000cffdcffff",
+            INIT_6D => X"0038ffd7000ffff5ffd9fffffff6fff2002e0016ffd6fffbfff6002a001c000f",
+            INIT_6E => X"001a00250018ffe0ffedfffe0017fff20008ffdfffd70017ffe6fff1ffefffdd",
+            INIT_6F => X"fff60004ffc3001a001fffde0024000effe8ffde0012ffe5ffd500020029ffec",
+            INIT_70 => X"ffe2ffe9ffeaffffffe3fffdfff6ffe3ffecfffefffeffd0ffef0004ffd8ffc9",
+            INIT_71 => X"002f0000fffb000700160022ffb3ffcc00200006ffe5fff70002fff10005ffff",
+            INIT_72 => X"000800260009001900190009fff90018ffcdffe400110026ffdaffd6ffd90000",
+            INIT_73 => X"0016ffdc001c0006ffc3000a000b0012fff700170029fff8ffd7003300060013",
+            INIT_74 => X"001400030010000c0022000efff9000e0002001700000002fff4001fffdcffe4",
+            INIT_75 => X"ffe20022003d002efffb00170038fffcfffcfff0000a0037001dfff4003d0006",
+            INIT_76 => X"ffe000400007ffd6fff1ffe4ffe4003cffe9ffbb0043ffcffffdffd800000017",
+            INIT_77 => X"0010000b001300380004002900000004002cffedfff6001f001affdd0009ffd1",
+            INIT_78 => X"ffe6ffcaffbbfff3ffcfffefffcefffb000ffff8ffe9ffec000afff60002ffd9",
+            INIT_79 => X"ffe9fff100000006000b001a00150001001c0013000c0007000affe90016000d",
+            INIT_7A => X"ffcdffe00009fff30009001a0000000300370017000a0001ffebfffb0012ffdb",
+            INIT_7B => X"ffeb00060015000a002a001f0003fffaffe6000ffff900220008fff3ffc6ffe4",
+            INIT_7C => X"0018fff700050004ffe90017fff6ffd9ffe6fffcffe30006fffa001300200009",
+            INIT_7D => X"00000006fff4000b0020fff9fffcffebffefffe1000e002e0001001b002b000c",
+            INIT_7E => X"000dfffe0047002a0010005000060028004b006b0054ffdeffdbffe9ffc8ffd8",
+            INIT_7F => X"ffe6ffc7fff2fff1fff90012ffccffed0009ffd3ffc3fff700090008ffd7ffce",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -1578,7 +1462,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -1591,115 +1485,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY14;
+    end generate MEM_IWGHT_LAYER2_ENTITY7;
 
 
-    MEM_IWGHT_LAYER2_ENTITY15 : if BRAM_NAME = "iwght_layer2_entity15" generate
+    MEM_IWGHT_LAYER2_ENTITY8 : if BRAM_NAME = "iwght_layer2_entity8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"ffc5ffafff86ff9dffe700460026ffb7ffeffffbfff5ffc00001003d00280013",
-            INIT_01 => X"000000000023003400100023fffcfff6fffe000300050000fff80000fffdfff8",
-            INIT_02 => X"0014000f001e001f00220022000f001cffdcffebfffcffdf0012ffd0fff0000a",
-            INIT_03 => X"ffef000affebffedfff3fffc000affedfff5fff9ffeafff1ffe2000affecfff2",
-            INIT_04 => X"000c00080001fff8fffc0001fffd0001000400140002fff3000b00000012fffb",
-            INIT_05 => X"ffef0015001b00140012000a0002000900120047003700000012001800250014",
-            INIT_06 => X"003300070015001600210027002a0010000cfff9ffe50003fffcffed00050014",
-            INIT_07 => X"ffd3000c0018ffec00280010ffe60024fff5fffefffe00050009000e0005fffc",
-            INIT_08 => X"0016fffa0018ffeaffe70014ffceffecfff9001dfff9fff7000d0001fff3ffec",
-            INIT_09 => X"fffb002600130008ffe4fffffff8fff2ffedfff60000fff80014fff900090008",
-            INIT_0A => X"fff1fff2fffbffffffff001ffff9fffeffe8000e001bffe6000f0005fffcfffc",
-            INIT_0B => X"ffe1fffdfff1ffdc000500190008fff1ff84ffe1ff95ff6dff6eff94ffdeffa3",
-            INIT_0C => X"ff84000f0031001d000800320034000efff8fff2fffa001d0001fff800110012",
-            INIT_0D => X"000c0002fff1fffaffeefff0001a00080024002b002d0029ffd3ffe4ffdcffb5",
-            INIT_0E => X"ffa5ffa7ffaaffa1ffa90000fffb000d00060017001100300027002effe9ffe7",
-            INIT_0F => X"ffecfff3fff1fffd0023ffff001c001c001b0014ffeb000cfffefff0fffafff3",
-            INIT_10 => X"00090018ffff00000017001500030015000e001500220009000affed0015ffe9",
-            INIT_11 => X"0002000e0019001800080027005700480035000b004900220001000e0015ffe6",
-            INIT_12 => X"0008ffebffe4ffc70018fff1ffed002300290040001a000c002cffe2ffe4fff2",
-            INIT_13 => X"fff600130004003c0026fff9000a0032001ffff10008fff2ffd3ffc9ffd1fff9",
-            INIT_14 => X"ffff000fffe40004ffebffe8fff3001b0033002b000a00370021000600170002",
-            INIT_15 => X"000600080027fffdfffb001dffdf00010004ffd5001400360009000600150009",
-            INIT_16 => X"0017fff70018ffe1fff10021000a000400240007000bffe6ffdbfffe0016ffd7",
-            INIT_17 => X"ffe2ffdcffeafff1ffc9fffc0038002cffd10006ffe3ffe300120012ffe6ffe0",
-            INIT_18 => X"fff9001efff60007004300060016ffda000d0032ffbeffe50014ffce00040007",
-            INIT_19 => X"0013003affd1fffdfff0ff81ffc7fff4ffda00180037003c0003fff1fff00008",
-            INIT_1A => X"ffdfffc0ffe4fff7fff3ffbfffedfff7ffd40003ffc9fff1fff00008ffe2ffeb",
-            INIT_1B => X"fff3000fffe7fffdffff00000011ffd900060021ffe00009002cfff8fff7002d",
-            INIT_1C => X"ffed0018002ffff300020024fff600190023ffe800090009fff7ffe8ffc50017",
-            INIT_1D => X"000bffe50008000f000800180006fff1fff7ffb5ffd0ffd0ffb30014fff5ffd0",
-            INIT_1E => X"ffe000110015ffe6ffeaffe8ffe3fff30011000c0003002e000bffeafffcfff1",
-            INIT_1F => X"000400130007fff7fff0001bffd0fff8ffc10013ffd1fff2fffe001d002dfff7",
-            INIT_20 => X"00150016fffbffe80011ffdcffe2fffcffa8ffeaffbaffe5fff4fff30001fffb",
-            INIT_21 => X"ffeeffebfff60021fff800090013000800060020ffd700030002ffcffff2fffa",
-            INIT_22 => X"fff7fff2000000000010fffdfff60002fff800260014000f00490023fff40018",
-            INIT_23 => X"00330059000e000400200000ffedfffa0006ffbfffe90013fffb001700280032",
-            INIT_24 => X"003f001100360034fff0002a002dffc9fff3fffeffe2ffe6ffe5fffc00200013",
-            INIT_25 => X"ffd8ffdb001affd1ffea0000fff9001e0018ffd00006003efffafff10013fff9",
-            INIT_26 => X"002e003b000300380024fff9ffeaffe20004ffd4fff8fff70013ffec000a001f",
-            INIT_27 => X"002a000affe3ffffffd9ffc7ffe20005ffdbffedffeffffcffefffd8fffa0010",
-            INIT_28 => X"ffe00012003b0018002d0020ffca000c001bffbeffe5001900260028001affef",
-            INIT_29 => X"000b0004ffff000c0002000d000100020009ffe8ffd20026fff2fff0fff00025",
-            INIT_2A => X"0021ff84ffed0006ff88fff000190031001dfffd0016ffe7ffdc001afff9ffe3",
-            INIT_2B => X"0003ffeeffdc0008005000280022001b003e0029001700050004000f0030ffe6",
-            INIT_2C => X"0013001bffe1fffb001a0013002e00170014001b0010fffc0026000cffdcffff",
-            INIT_2D => X"0038ffd7000ffff5ffd9fffffff6fff2002e0016ffd6fffbfff6002a001c000f",
-            INIT_2E => X"001a00250018ffe0ffedfffe0017fff20008ffdfffd70017ffe6fff1ffefffdd",
-            INIT_2F => X"fff60004ffc3001a001fffde0024000effe8ffde0012ffe5ffd500020029ffec",
-            INIT_30 => X"ffe2ffe9ffeaffffffe3fffdfff6ffe3ffecfffefffeffd0ffef0004ffd8ffc9",
-            INIT_31 => X"002f0000fffb000700160022ffb3ffcc00200006ffe5fff70002fff10005ffff",
-            INIT_32 => X"000800260009001900190009fff90018ffcdffe400110026ffdaffd6ffd90000",
-            INIT_33 => X"0016ffdc001c0006ffc3000a000b0012fff700170029fff8ffd7003300060013",
-            INIT_34 => X"001400030010000c0022000efff9000e0002001700000002fff4001fffdcffe4",
-            INIT_35 => X"ffe20022003d002efffb00170038fffcfffcfff0000a0037001dfff4003d0006",
-            INIT_36 => X"ffe000400007ffd6fff1ffe4ffe4003cffe9ffbb0043ffcffffdffd800000017",
-            INIT_37 => X"0010000b001300380004002900000004002cffedfff6001f001affdd0009ffd1",
-            INIT_38 => X"ffe6ffcaffbbfff3ffcfffefffcefffb000ffff8ffe9ffec000afff60002ffd9",
-            INIT_39 => X"ffe9fff100000006000b001a00150001001c0013000c0007000affe90016000d",
-            INIT_3A => X"ffcdffe00009fff30009001a0000000300370017000a0001ffebfffb0012ffdb",
-            INIT_3B => X"ffeb00060015000a002a001f0003fffaffe6000ffff900220008fff3ffc6ffe4",
-            INIT_3C => X"0018fff700050004ffe90017fff6ffd9ffe6fffcffe30006fffa001300200009",
-            INIT_3D => X"00000006fff4000b0020fff9fffcffebffefffe1000e002e0001001b002b000c",
-            INIT_3E => X"000dfffe0047002a0010005000060028004b006b0054ffdeffdbffe9ffc8ffd8",
-            INIT_3F => X"ffe6ffc7fff2fff1fff90012ffccffed0009ffd3ffc3fff700090008ffd7ffce",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY15;
-
-
-    MEM_IWGHT_LAYER2_ENTITY16 : if BRAM_NAME = "iwght_layer2_entity16" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -1774,6 +1566,72 @@ entity bram_single is
             INIT_3E => X"ffdeffcfffe2ffea0006fff6fff40022002b001800010048002d0004ffdc000f",
             INIT_3F => X"0013fffafff800080018ffe5001dfff4fffafffefff4ffe0fff6fff2ffefffec",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"fff3ffed0004ffff000b0007002b002d000c001a00080047001effdd0015fffc",
+            INIT_41 => X"000c0016fffb0008ffdfffef0021ffdcffd8001cfffe0018fff9000fffedffed",
+            INIT_42 => X"002bffedfffaffe7ffe8ffe1ffd5ffcffff0ffd1ffe1ffcd0004fff40009fff9",
+            INIT_43 => X"fffe0009000dfffaffea0007001500000002001e0034ffeb00200019fff7ffee",
+            INIT_44 => X"ffe6000cfffaffef001a0000ffcc0004001e0000001b002b0013ffed0004001d",
+            INIT_45 => X"ffafffd3ffbeffe0ffcafff3ffb9ff97ffa8fff400010006ffe5ffdbffdafff0",
+            INIT_46 => X"ffd8ffdefffc00060023ffc6ffd0ffdaff8dffdfffeb001a001b0013001d001d",
+            INIT_47 => X"fffc0010002e0023000b000afffa001a001200220004ffee0021001d0000fff8",
+            INIT_48 => X"00080010000000190008000affceffe5ffecffcbffe3ffb2ffc8ffc3ffd00006",
+            INIT_49 => X"001300220016fff4ffea0006fff3fff8ffcffff5ffdaffceffd7ffae0006ffdd",
+            INIT_4A => X"ffd9000d0010002c001b0016000f001d0014001b0007fffc001bfff7000f0009",
+            INIT_4B => X"ffd6ffe500120008ffe80009001500000003000100000006fff900020013ffe4",
+            INIT_4C => X"fff1fffdfff80000ffd80000001b002bffdeffc5ffdaffe2ffceffdd0002fffe",
+            INIT_4D => X"001600030004000a0001ffedfffb0012000f0001ffe90009fffeffcaffdeffec",
+            INIT_4E => X"0008000e0005fff7ffecfff900000000ffef001bffebffdfffdf0021001fffbf",
+            INIT_4F => X"ffcfffeb0019fffb0000000c00100019ffd6fff8ffbbffe6ffe3ffff0002fffb",
+            INIT_50 => X"0020ffe5fffb0012fff4fff0fff3fff8fffaffe1000dffd6fff4ffdaffcffffa",
+            INIT_51 => X"0006ffcdfffd0029000bfff2ffee0002000b000d001fffc60007fffafff10000",
+            INIT_52 => X"001f001fffe40010002afff7fffb0037ffd900110008fff3fffe0000ffd5ffe2",
+            INIT_53 => X"ffed0016fff1ffc00015ffe9ffc7002afff0fff7fff80044002cffd90003004e",
+            INIT_54 => X"ffb6fff8ffdc000e0005000f00270007004700290012ffeb001cffdbffef0023",
+            INIT_55 => X"fff3ffdb00360025000c000f0019ffe6ffd4000b0005fffbfff60013ffcffff7",
+            INIT_56 => X"0016ffffffdafff9002f00270003003affd0ffdc003cffe7ffd80040fffc0006",
+            INIT_57 => X"fff4001cffe0ffd0002afff9ffbeffec0023fff5ffefffeeffe7001affd60015",
+            INIT_58 => X"0032000800310006fffefffd0007ffcc002afff80002fff4ffd7000bfff0ffee",
+            INIT_59 => X"fffefff20001ffedffddfff80016001500020004ffeb00030027ffe2ffef0020",
+            INIT_5A => X"ffefffe0001d0010fff8fffdfffaffe2ffbe0006ffe8ffc000220019fff7ffe3",
+            INIT_5B => X"00190040ffc1ffed0055ffeefff500110042002e001b00500052005e0006001e",
+            INIT_5C => X"0023ffe2001bffe1ffda00130016ffc800030028001a0001ffde000dffedffce",
+            INIT_5D => X"002d001cfff70000ffe3fffdfff5ffeaffe3000a001c001d001700270005001e",
+            INIT_5E => X"001f002100180012001d00050008ffe60029003e00320017003b0050ffcaffc3",
+            INIT_5F => X"0008ffdcffd3fffaffeffff8fffe0008ffdaffca0036ffefffd6005400220011",
+            INIT_60 => X"0006fffefff2fffffffeffe50004fff0fff300040029002e00250005001d001d",
+            INIT_61 => X"00290007ffb4ffa7ffb5ffbbff89ff8fff93ffbeffa1fff80037002f00280037",
+            INIT_62 => X"ffff002700290015ffadffb7ffaeffb3ff96ffcfffa9ffafffca000000270018",
+            INIT_63 => X"0002002b0034ffd700120010000e00280032ffecffedfff3ffc5ffdcfff60026",
+            INIT_64 => X"001cffef000dfff5000700020002fffcffe7ffdafff40004fff5001affe4fff5",
+            INIT_65 => X"ffc7fff0ffef0017fff7ffd2fff7000000090000fff9ffe9fffefff90000001e",
+            INIT_66 => X"ffddffeeffcaffecfff1ffe50004001c0009fff7ffda0014001dfffe001e0002",
+            INIT_67 => X"0028002affec0000000a000f00060007000effebfff1000f000e001a00110019",
+            INIT_68 => X"00070007001a0019ffe2ffddffeaffff00060000fffe0012000a000e000f0011",
+            INIT_69 => X"ffe4ffe4000700160000fffa0021000e0019002600160027000c0005000f000b",
+            INIT_6A => X"fff7fff30015ffeeffd2001effd8ffac000dffe3ffd6fff6001e002b00020017",
+            INIT_6B => X"0027fff7fff9000bfffe000bfff8fffdfffdffebffee00050000001e0028000f",
+            INIT_6C => X"000ffffd00170013001a001f0010002300290007fffd000cfff9fffb00000017",
+            INIT_6D => X"0009001b000a00290016ffc4ffc7fff2ff77ffc5ff99ffa0ffe3ffd5ffb2ffe3",
+            INIT_6E => X"000bfff200070009fff9ffe5fffa001e00050008fffe000a0008fff1fff5fff3",
+            INIT_6F => X"fffbfff1001300130003000afff200230029ffde00060002ffeb0017fffc0018",
+            INIT_70 => X"fff4ffc6fff1000bffcafff50007fffafffeffe3fff9ffedffdeffec00020008",
+            INIT_71 => X"0007000d00080000ffe7ffe4fffd0011001300070019001b001d002000240005",
+            INIT_72 => X"fffdfff3ffe5ffecfffb0012000900030005000f00180000001c002600180046",
+            INIT_73 => X"0047002300220007ffff000dffc7fffdffebffd70002fffefffc000fffe6ffe5",
+            INIT_74 => X"fffcff97ffc7000bffffffe70000ff96ffbcffd0ffa0ffcfffe7000e00230013",
+            INIT_75 => X"000e000afff1004100250023002700080027ffe70013ffefffcaffeafff50006",
+            INIT_76 => X"00040005fff8fff2fffaffec000afff0ffff0004ffedffff001500240009ffee",
+            INIT_77 => X"001d000a001b0004000500130017fff90020fff300000006fffc000b000b0023",
+            INIT_78 => X"000b00160005ffd9ffe2fffcfff7ffd2ffee00060004fff4ffeffff3000cffe3",
+            INIT_79 => X"ffe8ffe4000cffeefff7ffda0021fffcfff4002c000f0000003a001b0003ffed",
+            INIT_7A => X"fffdffeaffdffffdfffe0004ffff0009fffcfff5ffecfff9ffef0015000a000c",
+            INIT_7B => X"0009001e0039001b00460045fff8000e003f000b002300170006000b0001ffe4",
+            INIT_7C => X"fff9000f00460026ffe3fffcffd4ffb0ffd4ffd7ffca0039000800120008fff4",
+            INIT_7D => X"0003ffeeffedffed000cfff60004fffdffceffc1ffe8ffb8ffc7001b0027000c",
+            INIT_7E => X"fff4ffe5ffe2ffe9fff9ffdc0004001e0014ffe8000effffffe6000dffd6000b",
+            INIT_7F => X"00100012fff600180010ffedfffaffeafff4ffc4ffc6ffcbffacffde000bffca",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -1782,7 +1640,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -1795,115 +1663,13 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY16;
+    end generate MEM_IWGHT_LAYER2_ENTITY8;
 
 
-    MEM_IWGHT_LAYER2_ENTITY17 : if BRAM_NAME = "iwght_layer2_entity17" generate
+    MEM_IWGHT_LAYER2_ENTITY9 : if BRAM_NAME = "iwght_layer2_entity9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
-            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
-            DO_REG => 0,                     -- Optional output register (0 or 1)
-            INIT => X"000000000000000000",   -- Initial values on output port
-            INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
-            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
-            -- The following INIT_xx declarations specify the initial contents of the RAM
-            INIT_00 => X"fff3ffed0004ffff000b0007002b002d000c001a00080047001effdd0015fffc",
-            INIT_01 => X"000c0016fffb0008ffdfffef0021ffdcffd8001cfffe0018fff9000fffedffed",
-            INIT_02 => X"002bffedfffaffe7ffe8ffe1ffd5ffcffff0ffd1ffe1ffcd0004fff40009fff9",
-            INIT_03 => X"fffe0009000dfffaffea0007001500000002001e0034ffeb00200019fff7ffee",
-            INIT_04 => X"ffe6000cfffaffef001a0000ffcc0004001e0000001b002b0013ffed0004001d",
-            INIT_05 => X"ffafffd3ffbeffe0ffcafff3ffb9ff97ffa8fff400010006ffe5ffdbffdafff0",
-            INIT_06 => X"ffd8ffdefffc00060023ffc6ffd0ffdaff8dffdfffeb001a001b0013001d001d",
-            INIT_07 => X"fffc0010002e0023000b000afffa001a001200220004ffee0021001d0000fff8",
-            INIT_08 => X"00080010000000190008000affceffe5ffecffcbffe3ffb2ffc8ffc3ffd00006",
-            INIT_09 => X"001300220016fff4ffea0006fff3fff8ffcffff5ffdaffceffd7ffae0006ffdd",
-            INIT_0A => X"ffd9000d0010002c001b0016000f001d0014001b0007fffc001bfff7000f0009",
-            INIT_0B => X"ffd6ffe500120008ffe80009001500000003000100000006fff900020013ffe4",
-            INIT_0C => X"fff1fffdfff80000ffd80000001b002bffdeffc5ffdaffe2ffceffdd0002fffe",
-            INIT_0D => X"001600030004000a0001ffedfffb0012000f0001ffe90009fffeffcaffdeffec",
-            INIT_0E => X"0008000e0005fff7ffecfff900000000ffef001bffebffdfffdf0021001fffbf",
-            INIT_0F => X"ffcfffeb0019fffb0000000c00100019ffd6fff8ffbbffe6ffe3ffff0002fffb",
-            INIT_10 => X"0020ffe5fffb0012fff4fff0fff3fff8fffaffe1000dffd6fff4ffdaffcffffa",
-            INIT_11 => X"0006ffcdfffd0029000bfff2ffee0002000b000d001fffc60007fffafff10000",
-            INIT_12 => X"001f001fffe40010002afff7fffb0037ffd900110008fff3fffe0000ffd5ffe2",
-            INIT_13 => X"ffed0016fff1ffc00015ffe9ffc7002afff0fff7fff80044002cffd90003004e",
-            INIT_14 => X"ffb6fff8ffdc000e0005000f00270007004700290012ffeb001cffdbffef0023",
-            INIT_15 => X"fff3ffdb00360025000c000f0019ffe6ffd4000b0005fffbfff60013ffcffff7",
-            INIT_16 => X"0016ffffffdafff9002f00270003003affd0ffdc003cffe7ffd80040fffc0006",
-            INIT_17 => X"fff4001cffe0ffd0002afff9ffbeffec0023fff5ffefffeeffe7001affd60015",
-            INIT_18 => X"0032000800310006fffefffd0007ffcc002afff80002fff4ffd7000bfff0ffee",
-            INIT_19 => X"fffefff20001ffedffddfff80016001500020004ffeb00030027ffe2ffef0020",
-            INIT_1A => X"ffefffe0001d0010fff8fffdfffaffe2ffbe0006ffe8ffc000220019fff7ffe3",
-            INIT_1B => X"00190040ffc1ffed0055ffeefff500110042002e001b00500052005e0006001e",
-            INIT_1C => X"0023ffe2001bffe1ffda00130016ffc800030028001a0001ffde000dffedffce",
-            INIT_1D => X"002d001cfff70000ffe3fffdfff5ffeaffe3000a001c001d001700270005001e",
-            INIT_1E => X"001f002100180012001d00050008ffe60029003e00320017003b0050ffcaffc3",
-            INIT_1F => X"0008ffdcffd3fffaffeffff8fffe0008ffdaffca0036ffefffd6005400220011",
-            INIT_20 => X"0006fffefff2fffffffeffe50004fff0fff300040029002e00250005001d001d",
-            INIT_21 => X"00290007ffb4ffa7ffb5ffbbff89ff8fff93ffbeffa1fff80037002f00280037",
-            INIT_22 => X"ffff002700290015ffadffb7ffaeffb3ff96ffcfffa9ffafffca000000270018",
-            INIT_23 => X"0002002b0034ffd700120010000e00280032ffecffedfff3ffc5ffdcfff60026",
-            INIT_24 => X"001cffef000dfff5000700020002fffcffe7ffdafff40004fff5001affe4fff5",
-            INIT_25 => X"ffc7fff0ffef0017fff7ffd2fff7000000090000fff9ffe9fffefff90000001e",
-            INIT_26 => X"ffddffeeffcaffecfff1ffe50004001c0009fff7ffda0014001dfffe001e0002",
-            INIT_27 => X"0028002affec0000000a000f00060007000effebfff1000f000e001a00110019",
-            INIT_28 => X"00070007001a0019ffe2ffddffeaffff00060000fffe0012000a000e000f0011",
-            INIT_29 => X"ffe4ffe4000700160000fffa0021000e0019002600160027000c0005000f000b",
-            INIT_2A => X"fff7fff30015ffeeffd2001effd8ffac000dffe3ffd6fff6001e002b00020017",
-            INIT_2B => X"0027fff7fff9000bfffe000bfff8fffdfffdffebffee00050000001e0028000f",
-            INIT_2C => X"000ffffd00170013001a001f0010002300290007fffd000cfff9fffb00000017",
-            INIT_2D => X"0009001b000a00290016ffc4ffc7fff2ff77ffc5ff99ffa0ffe3ffd5ffb2ffe3",
-            INIT_2E => X"000bfff200070009fff9ffe5fffa001e00050008fffe000a0008fff1fff5fff3",
-            INIT_2F => X"fffbfff1001300130003000afff200230029ffde00060002ffeb0017fffc0018",
-            INIT_30 => X"fff4ffc6fff1000bffcafff50007fffafffeffe3fff9ffedffdeffec00020008",
-            INIT_31 => X"0007000d00080000ffe7ffe4fffd0011001300070019001b001d002000240005",
-            INIT_32 => X"fffdfff3ffe5ffecfffb0012000900030005000f00180000001c002600180046",
-            INIT_33 => X"0047002300220007ffff000dffc7fffdffebffd70002fffefffc000fffe6ffe5",
-            INIT_34 => X"fffcff97ffc7000bffffffe70000ff96ffbcffd0ffa0ffcfffe7000e00230013",
-            INIT_35 => X"000e000afff1004100250023002700080027ffe70013ffefffcaffeafff50006",
-            INIT_36 => X"00040005fff8fff2fffaffec000afff0ffff0004ffedffff001500240009ffee",
-            INIT_37 => X"001d000a001b0004000500130017fff90020fff300000006fffc000b000b0023",
-            INIT_38 => X"000b00160005ffd9ffe2fffcfff7ffd2ffee00060004fff4ffeffff3000cffe3",
-            INIT_39 => X"ffe8ffe4000cffeefff7ffda0021fffcfff4002c000f0000003a001b0003ffed",
-            INIT_3A => X"fffdffeaffdffffdfffe0004ffff0009fffcfff5ffecfff9ffef0015000a000c",
-            INIT_3B => X"0009001e0039001b00460045fff8000e003f000b002300170006000b0001ffe4",
-            INIT_3C => X"fff9000f00460026ffe3fffcffd4ffb0ffd4ffd7ffca0039000800120008fff4",
-            INIT_3D => X"0003ffeeffedffed000cfff60004fffdffceffc1ffe8ffb8ffc7001b0027000c",
-            INIT_3E => X"fff4ffe5ffe2ffe9fff9ffdc0004001e0014ffe8000effffffe6000dffd6000b",
-            INIT_3F => X"00100012fff600180010ffedfffaffeafff4ffc4ffc6ffcbffacffde000bffca",
-
-            -- The next set of INITP_xx are for the parity bits
-            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
-        )
-        port map (
-            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
-            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
-            CLK => CLK,    -- 1-bit input clock
-            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
-            EN => EN,      -- 1-bit input RAM enable
-            REGCE => '1', -- 1-bit input output register enable
-            RST => RST,    -- 1-bit input reset
-            WE => bram_wr_en       -- Input write enable, width defined by write port depth
-        );
-    -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY17;
-
-
-    MEM_IWGHT_LAYER2_ENTITY18 : if BRAM_NAME = "iwght_layer2_entity18" generate
-        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
-        generic map (
-            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
             DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
@@ -1978,6 +1744,72 @@ entity bram_single is
             INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
             INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
 
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INIT_40 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_41 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_42 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_43 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_44 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_45 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_46 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_47 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_48 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_49 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_4F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_50 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_51 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_52 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_53 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_54 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_55 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_56 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_57 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_58 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_59 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_5F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_60 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_61 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_62 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_63 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_64 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_65 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_66 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_67 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_68 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_69 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_6F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_70 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_71 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_72 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_73 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_74 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_75 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_76 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_77 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_78 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_79 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_7F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
             -- The next set of INITP_xx are for the parity bits
             INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
@@ -1986,7 +1818,17 @@ entity bram_single is
             INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
             INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
-            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INIT_xx are valid when configured as 36Kb
+            INITP_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_0F => X"0000000000000000000000000000000000000000000000000000000000000000"
         )
         port map (
             DO => DO,      -- Output data, width defined by READ_WIDTH parameter
@@ -1999,7 +1841,7 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY18;
+    end generate MEM_IWGHT_LAYER2_ENTITY9;
 
 
     MEM_IFMAP_LAYER2_ENTITY0 : if BRAM_NAME = "ifmap_layer2_entity0" generate

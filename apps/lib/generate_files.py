@@ -4,7 +4,6 @@ from math import log2, ceil
 
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
-
 bram_size_dict = {
     64: "18Kb",
     128: "36Kb"
@@ -98,8 +97,7 @@ def format_bram_pkg(name, feat_list, bits=16, lines_per_file=64):
     list_entity = [f"{name}_entity{i}" for i, file in enumerate(feat_file)]
 
     list_text_out = [
-        text.format(
-            label=f"MEM_{entity.upper()}", bram_name=entity, init_xx=init_data(file, lines_per_file))
+        text.format(label=f"MEM_{entity.upper()}", bram_name=entity, init_xx=init_data(file, lines_per_file))
         for i, (file, entity) in enumerate(zip(feat_file, list_entity))
     ]
 
@@ -523,13 +521,12 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
 
 def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
                         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-
     wght = generate_iwght_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
     )
-    wght_18k, wght_18k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 128)
-    wght_36k, wght_36k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 64)
+    wght_18k, wght_18k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 64)
+    wght_36k, wght_36k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 128)
 
     fmap = generate_ifmap_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
@@ -569,7 +566,6 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
 def generate_samples_files(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
                            last_layer):
-
     fmap = generate_ifmap_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
@@ -592,11 +588,11 @@ def generate_samples_files(modelDict, shift, input_size, filter_dimension, filte
 
     generic18k = " ".join(
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in
-        zip([fmap_18k_size, gold_18k_size], ["IWGHT", "IFMAP", "GOLD"])
+        zip([fmap_18k_size, gold_18k_size], ["IFMAP", "GOLD"])
     )
     generic36k = " ".join(
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in
-        zip([fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
+        zip([fmap_36k_size, gold_36k_size], ["IFMAP", "GOLD"])
     )
     with open(path / "generic_file_bram18k.txt", "w") as f:
         f.write(generic18k)
