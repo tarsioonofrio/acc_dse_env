@@ -8,37 +8,36 @@ use ieee.std_logic_textio.all;
 use work.util_package.all;
 
 
-entity memory is
+entity tb is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
-    ROM_PATH        : string  := "";
+    PATH        : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 2;
-    DEPTH_BRAM       : integer := 1024
+    DEPTH_BRAM      : integer := 1024
   );
-end memory;
+end tb;
 
 
-architecture a1 of memory is
+architecture a1 of tb is
 
 signal reset    : std_logic;
 signal clock    : std_logic;
 signal chip_en  : std_logic;
 signal wr_en    : std_logic;
 signal address  : std_logic_vector(ADDRESS_SIZE-1 downto 0);
-signal data_in  : std_logic_vector(INPUT_SIZE-1 downto 0);
-signal data_out : std_logic_vector(INPUT_SIZE-1 downto 0);
-
-signal data      : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
+signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+signal data     : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
 
 
 begin
 
   BRAM_SINGLE_INST: entity work.bram_single
   generic map (
-    BRAM_NAME => BRAM_NAME & integer'image(i),
+    BRAM_NAME => "default",
     INPUT_SIZE => INPUT_SIZE,
     ADDRESS_SIZE => ADDRESS_SIZE
   )
@@ -71,14 +70,14 @@ begin
     wr_en <= '1';
 
     for i in 0 to (ADDRESS_SIZE*ADDRESS_SIZE-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      data_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE * 2);
+      address <= CONV_STD_LOGIC_VECTOR(i, ADDRESS_SIZE);
+      data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
     end loop;
 
-    ifmap_ce <= '0';
-    ifmap_we <= '0';
-
+    chip_en <= '0';
+    wr_en <= '0';
+    report "end of simulation without error!" severity failure;
 
   end process;
 end a1;

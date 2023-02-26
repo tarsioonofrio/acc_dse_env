@@ -7,6 +7,7 @@ vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
+vcom -work work ../tb/tb_unisim_bram.vhd
 
 # Get bram generics
 set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram36k.txt" r]
