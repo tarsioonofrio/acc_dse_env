@@ -9,12 +9,9 @@ vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
 vcom -work work ../rtl/core/util_pkg.vhd
 vcom -work work ../tb/tb_unisim_bram.vhd
 
-# Get bram generics
-set fp [open "../apps/rtl_code/default_default/layer/0/generic_file_bram36k.txt" r]
-set bram_generics [read $fp]
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt {*}$bram_generics
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt 
 #onfinish exit
 #onbreak exit
 log -r /*

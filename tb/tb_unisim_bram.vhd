@@ -23,10 +23,10 @@ end tb;
 
 architecture a1 of tb is
 
-signal reset    : std_logic;
-signal clock    : std_logic;
-signal chip_en  : std_logic;
-signal wr_en    : std_logic;
+signal reset    : std_logic := '0';
+signal clock    : std_logic := '0';
+signal chip_en  : std_logic := '0';
+signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(ADDRESS_SIZE-1 downto 0);
 signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
@@ -60,11 +60,13 @@ begin
 
   begin
 
+    report "*** start";
     wait until rising_edge(clock);
     reset <= '1';
     wait until rising_edge(clock);
 
     reset <= '0';
+    report "*** reser";
 
     chip_en <= '1';
     wr_en <= '1';
