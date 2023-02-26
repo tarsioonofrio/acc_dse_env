@@ -83,7 +83,7 @@ def two_comp(val, nbits):
     return (val + (1 << nbits)) % (1 << nbits)
 
 
-def format_bram_pkg(name, feat_list, bits=16, lines_per_file=64):
+def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     word = ceil(bits / 4)
     feat_hex = [format(two_comp(int(feat), bits), f'0{word}x') for feat in feat_list]
     total_words = ceil(64 / word)
@@ -525,22 +525,23 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
     )
-    wght_18k, wght_18k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 64)
-    wght_36k, wght_36k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits, 128)
+    bits2 = bits * 2
+    wght_18k, wght_18k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits2, 64)
+    wght_36k, wght_36k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits2, 128)
 
     fmap = generate_ifmap_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
     )
-    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits, 64)
-    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits, 128)
+    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 64)
+    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 128)
 
     gold = generate_gold_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
     )
-    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 64)
-    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 128)
+    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 64)
+    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 128)
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
         empty_18k = f.read()
@@ -551,8 +552,8 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
     bram18k = wght_18k + fmap_18k + gold_18k + empty_18k
     bram36k = wght_36k + fmap_36k + gold_36k + empty_36k
 
-    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits)
-    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits)
+    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits2)
+    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
 
     generic18k = " ".join(
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in
@@ -572,25 +573,26 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
 def generate_samples_files(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
                            last_layer):
+    bits2 = bits * 2
     fmap = generate_ifmap_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
     )
-    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits, 64)
-    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits, 128)
+    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 64)
+    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 128)
 
     gold = generate_gold_bram(
         modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
         testSet, testLabel, stride_h, stride_w, testSetSize, last_layer, path, bits
     )
-    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 64)
-    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits, 128)
+    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 64)
+    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 128)
 
     bram18k = fmap_18k + gold_18k
     bram36k = fmap_36k + gold_36k
 
-    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits)
-    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits)
+    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits2)
+    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
 
     generic18k = " ".join(
         f"-gN_BRAM_{n}={max(2, i)}" for i, n in

@@ -30,7 +30,7 @@ signal wr_en    : std_logic;
 signal address  : std_logic_vector(ADDRESS_SIZE-1 downto 0);
 signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
+signal data     : type_array_int := read_data(PATH & "/iwght_pkg.txt");
 
 
 begin
@@ -38,7 +38,7 @@ begin
   BRAM_SINGLE_INST: entity work.bram_single
   generic map (
     BRAM_NAME => "default",
-    INPUT_SIZE => INPUT_SIZE,
+    INPUT_SIZE => INPUT_SIZE * 2,
     ADDRESS_SIZE => ADDRESS_SIZE
   )
   port map(
