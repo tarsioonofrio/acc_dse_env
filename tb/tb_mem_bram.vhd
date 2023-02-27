@@ -15,7 +15,7 @@ entity tb is
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
-    N_BRAM          : integer := 2;
+    N_BRAM          : integer := 1;
     DEPTH_BRAM      : integer := 1024
   );
 end tb;
@@ -41,6 +41,7 @@ begin
   MEM : entity work.memory
   generic map(
     BRAM_NAME => "default",
+    N_BRAM => N_BRAM,
     INPUT_SIZE => INPUT_SIZE * 2,
     ADDRESS_SIZE => MEM_SIZE
     )

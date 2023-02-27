@@ -87,7 +87,7 @@ def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     word = ceil(bits / 4)
     feat_hex = [format(two_comp(int(feat), bits), f'0{word}x') for feat in feat_list]
     total_words = ceil(64 / word)
-    feat_line = ["".join(feat_hex[i:i + total_words]) for i in range(0, len(feat_hex), total_words)]
+    feat_line = ["".join(reversed(feat_hex[i:i + total_words])) for i in range(0, len(feat_hex), total_words)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
 
     bram_size = bram_size_dict[lines_per_file]

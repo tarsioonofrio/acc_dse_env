@@ -97,8 +97,8 @@ begin
     chip_en => chip_en,
     wr_en => wr_en,
     address => address, 
-    out_chip_en => bram_chip_en,
-    out_wr_en => bram_wr_en,
+    out_chip_en => bram_chip_en(N_BRAM-1 downto 0),
+    out_wr_en => bram_wr_en(N_BRAM-1 downto 0),
     out_address => bram_address
   );
 
