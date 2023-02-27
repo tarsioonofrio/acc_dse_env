@@ -12,7 +12,7 @@ entity tb is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
-    PATH        : string  := "";
+    PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 2;
@@ -79,6 +79,19 @@ begin
 
     chip_en <= '0';
     wr_en <= '0';
+    wait until rising_edge(clock);
+    wait until rising_edge(clock);
+
+    chip_en <= '1';
+    wr_en <= '0';
+    for i in 0 to (ADDRESS_SIZE*ADDRESS_SIZE-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, ADDRESS_SIZE);
+      -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      wait until rising_edge(clock);
+      wait until rising_edge(clock);
+      report "data: " & integer'image(data(i)) & " - " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
+    end loop;
+
     report "end of simulation without error!" severity failure;
 
   end process;
