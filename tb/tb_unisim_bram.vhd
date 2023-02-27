@@ -90,7 +90,7 @@ begin
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
       wait until rising_edge(clock);
-      report "data: " & integer'image(data(i)) & " - " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
+      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
     end loop;
 
     report "end of simulation without error!" severity failure;
