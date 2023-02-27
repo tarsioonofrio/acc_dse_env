@@ -28,9 +28,9 @@ signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
-signal address  : std_logic_vector(ADDRESS_SIZE-1 downto 0);
-signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
+signal data_in  : std_logic_vector((MEM_SIZE*2)-1 downto 0);
+signal data_out : std_logic_vector((MEM_SIZE*2)-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/iwght_pkg.txt");
 
 
@@ -72,8 +72,8 @@ begin
     chip_en <= '1';
     wr_en <= '1';
 
-    for i in 0 to (ADDRESS_SIZE*ADDRESS_SIZE-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, ADDRESS_SIZE);
+    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
     end loop;
@@ -85,8 +85,8 @@ begin
 
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (ADDRESS_SIZE*ADDRESS_SIZE-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, ADDRESS_SIZE);
+    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
       wait until rising_edge(clock);
