@@ -12,6 +12,7 @@ entity tb is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
+    MEM_SIZE        : integer := 12 ;
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
