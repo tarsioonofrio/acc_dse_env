@@ -39,8 +39,8 @@ end memory;
 architecture a1 of memory is
 
 signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(N_BRAM - 1 downto 0);
-signal bram_wr_en    : std_logic_vector(N_BRAM - 1 downto 0);
+signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
+signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
 signal bram_address  : std_logic_vector(ADDRESS_SIZE - 1 downto 0);
 signal bram_select   : integer range 0 to N_BRAM;
 
@@ -51,6 +51,7 @@ function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) ret
   variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
   for index in 0 to N_BRAM -1 loop
+    -- report "mux_output: " & integer'image(index) & " " & std_logic'image(bram_wr_en(index));
     if bram_wr_en(index) = '1' then
       output := bram_data_out(index);
     end if;
@@ -74,19 +75,23 @@ procedure mux_input(
 
   begin 
   for i in 0 to N_BRAM -1 loop
+    -- report "mux_input: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
     if (DEPTH_BRAM*i <= address and address < DEPTH_BRAM*(i + 1)) then
+      report "mux_input END: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
       tmp_chip_en(i) := chip_en;
       tmp_wr_en(i) := wr_en;
       tmp_address := address - (DEPTH_BRAM*i);
     end if;
   end loop;
   out_chip_en <= tmp_chip_en;
-  out_wr_en <= tmp_chip_en;
+  out_wr_en <= tmp_wr_en;
   out_address <= tmp_address;
 end procedure mux_input;
 
 
 begin
+
+  -- data_out <= mux_output(bram_wr_en, bram_data_out);
 
   mux_input(
     chip_en => chip_en,
@@ -96,8 +101,6 @@ begin
     out_wr_en => bram_wr_en,
     out_address => bram_address
   );
-
-  data_out <= mux_output(bram_wr_en, bram_data_out);
 
   process(reset, clock)
   begin

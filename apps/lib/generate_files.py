@@ -556,11 +556,11 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
     write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
 
     generic18k = " ".join(
-        f"-gN_BRAM_{n}={max(2, i)}" for i, n in
+        f"-gN_BRAM_{n}={i}" for i, n in
         zip([wght_18k_size, fmap_18k_size, gold_18k_size], ["IWGHT", "IFMAP", "GOLD"])
     )
     generic36k = " ".join(
-        f"-gN_BRAM_{n}={max(2, i)}" for i, n in
+        f"-gN_BRAM_{n}={i}" for i, n in
         zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
     )
     with open(path / "generic_file_bram18k.txt", "w") as f:
@@ -595,11 +595,11 @@ def generate_samples_files(modelDict, shift, input_size, filter_dimension, filte
     write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
 
     generic18k = " ".join(
-        f"-gN_BRAM_{n}={max(2, i)}" for i, n in
+        f"-gN_BRAM_{n}={i}" for i, n in
         zip([fmap_18k_size, gold_18k_size], ["IFMAP", "GOLD"])
     )
     generic36k = " ".join(
-        f"-gN_BRAM_{n}={max(2, i)}" for i, n in
+        f"-gN_BRAM_{n}={i}" for i, n in
         zip([fmap_36k_size, gold_36k_size], ["IFMAP", "GOLD"])
     )
     with open(path / "generic_file_bram18k.txt", "w") as f:
