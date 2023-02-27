@@ -39,7 +39,7 @@ begin
   generic map (
     BRAM_NAME => "default",
     INPUT_SIZE => INPUT_SIZE * 2,
-    ADDRESS_SIZE => ADDRESS_SIZE
+    ADDRESS_SIZE => MEM_SIZE
   )
   port map(
     CLK  => clock,
