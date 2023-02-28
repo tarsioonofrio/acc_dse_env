@@ -42,75 +42,17 @@ architecture a1 of memory is
 type type_data is array (0 to N_BRAM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
-function mux_output(bram_chip_en: std_logic_vector; bram_wr_en: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
-  variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
-  begin 
-  for index in 0 to N_BRAM -1 loop
-    -- report "mux_output: " & integer'image(index) & " " & std_logic'image(bram_wr_en(index));
-    if (bram_chip_en(index) = '1') and (bram_wr_en(index) = '0')then
-      output := bram_data_out(index);
-    end if;
-  end loop ;
-  return output ;
-end function mux_output;
-
-
-procedure mux_input(
-  signal chip_en : in std_logic;
-  signal wr_en   : in std_logic;
-  signal address : in std_logic_vector; 
-  signal out_chip_en : out std_logic_vector;
-  signal out_wr_en   : out std_logic_vector
-  ) is
-
-  variable tmp_chip_en : std_logic_vector(N_BRAM downto 0) := ( others => '0');
-  variable tmp_wr_en : std_logic_vector(N_BRAM downto 0) := ( others => '0');
-
-  begin 
-  for i in 0 to N_BRAM -1 loop
-    -- report "mux_input: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
-    if (i = CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_WIDHT)))) then
-      -- report "mux_input END: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
-      tmp_chip_en(i) := chip_en;
-      tmp_wr_en(i) := wr_en;
-      -- tmp_address := address - (DEPTH_BRAM*i);
-    end if;
-  end loop;
-  out_chip_en <= tmp_chip_en;
-  out_wr_en <= tmp_wr_en;
-end procedure mux_input;
-
-signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
-signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
-signal bram_address  : std_logic_vector(ADDRESS_SIZE - 1 downto 0);
-signal bram_select   : integer range 0 to 2**(N_BRAM);
-
 
 begin
   bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_WIDHT)));
-  -- data_out <= mux_output(bram_chip_en, bram_wr_en, bram_data_out);
   data_out <= bram_data_out(bram_select);
 
-  mux_input(
-    chip_en => chip_en,
-    wr_en => wr_en,
-    address => address, 
-    out_chip_en => bram_chip_en,
-    out_wr_en => bram_wr_en
-  );
+  LOOP_MEM : for i in 0 to N_BRAM -1 generate
+    bram_chip_en(i) <= chip_en when i = bram_select else '0';
+    bram_wr_en(i) <= wr_en when i = bram_select else '0';
+  end generate; 
 
-  process(reset, clock)
-  begin
-    if reset = '1' then
-        data_valid <= '0';
-    elsif rising_edge(clock) then
-        data_valid <= chip_en;
-        data_av <= data_valid;
-    end if;
-  end process;
-
-  
+    
   IF_MEM_DEFAULT: if BRAM_NAME = "default" generate
     LOOP_MEM : for i in 0 to N_BRAM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
@@ -149,5 +91,15 @@ begin
         );
     end generate; 
   end generate; 
+
+  process(reset, clock)
+  begin
+    if reset = '1' then
+        data_valid <= '0';
+    elsif rising_edge(clock) then
+        data_valid <= chip_en;
+        data_av <= data_valid;
+    end if;
+  end process;
 
 end a1;
