@@ -38,8 +38,11 @@ use IEEE.std_logic_arith.all;
 
 entity bram_single is
     generic (
-        INPUT_SIZE : integer := 8;
+        -- replace ADDR_WIDHT, INPUT_SIZE and ADDRESS_SIZE generics with constants using python
+        ADDR_WIDHT      : integer := 10;
+        INPUT_SIZE      : integer := 8;
         ADDRESS_SIZE    : integer := 12;
+
         DEVICE     : string := "7SERIES";
         BRAM_NAME  : string := "default"
         );

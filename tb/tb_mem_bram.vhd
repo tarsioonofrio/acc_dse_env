@@ -17,7 +17,8 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 1;
-    DEPTH_BRAM      : integer := 1024
+    DEPTH_BRAM      : integer := 1024;
+    ADDR_WIDHT      : integer := 10
   );
 end tb;
 
@@ -42,9 +43,9 @@ begin
 
   MEM : entity work.memory
   generic map(
-    -- BRAM_NAME => "default",
+    BRAM_NAME => "default",
     -- BRAM_NAME => "iwght_layer0_entity",
-    BRAM_NAME => "ifmap_layer0_entity",
+    -- BRAM_NAME => "ifmap_layer0_entity",
     N_BRAM => N_BRAM,
     INPUT_SIZE => INPUT_SIZE * 2,
     ADDRESS_SIZE => MEM_SIZE
@@ -79,28 +80,31 @@ begin
     report "*** reset";
 
     -- write stage
-    -- chip_en <= '1';
-    -- wr_en <= '1';
+
+    chip_en <= '1';
+    wr_en <= '1';
 
     -- for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
     -- for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
-    -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
-    --   address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-    --   data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
-    --   wait until rising_edge(clock);
-    -- end loop;
+    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
+      data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      wait until rising_edge(clock);
+    end loop;
 
-    -- chip_en <= '0';
-    -- wr_en <= '0';
-    -- wait until rising_edge(clock);
-    -- wait until rising_edge(clock);
+    chip_en <= '0';
+    wr_en <= '0';
+    data_in <= CONV_STD_LOGIC_VECTOR(0, INPUT_SIZE*2);
+    wait until rising_edge(clock);
+    wait until rising_edge(clock);
 
     -- read stage
+
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+    -- for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
     -- for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
-    -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
       address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);

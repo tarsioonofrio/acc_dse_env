@@ -17,7 +17,8 @@ entity memory is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "default";
     N_BRAM          : integer := 2;
-    DEPTH_BRAM       : integer := 1024
+    DEPTH_BRAM      : integer := 1024;
+    ADDR_WIDHT      : integer := 10
   );
   port(
     reset   : in std_logic;
@@ -59,46 +60,44 @@ procedure mux_input(
   signal wr_en   : in std_logic;
   signal address : in std_logic_vector; 
   signal out_chip_en : out std_logic_vector;
-  signal out_wr_en   : out std_logic_vector;
-  signal out_address: out std_logic_vector
+  signal out_wr_en   : out std_logic_vector
   ) is
 
   variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
   variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
-  variable tmp_address : std_logic_vector(ADDRESS_SIZE-1 downto 0) := ( others => '0');
 
   begin 
   for i in 0 to N_BRAM -1 loop
     -- report "mux_input: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
-    if (DEPTH_BRAM*i <= address and address < DEPTH_BRAM*(i + 1)) then
+    if (i = CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_WIDHT)))) then
       -- report "mux_input END: " & integer'image(i) & " " & integer'image(CONV_INTEGER(unsigned(address)));
       tmp_chip_en(i) := chip_en;
       tmp_wr_en(i) := wr_en;
-      tmp_address := address - (DEPTH_BRAM*i);
+      -- tmp_address := address - (DEPTH_BRAM*i);
     end if;
   end loop;
   out_chip_en <= tmp_chip_en;
   out_wr_en <= tmp_wr_en;
-  out_address <= tmp_address;
 end procedure mux_input;
 
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
 signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
 signal bram_address  : std_logic_vector(ADDRESS_SIZE - 1 downto 0);
+signal bram_select   : integer range 0 to 2**(N_BRAM);
 
 
 begin
-
-  data_out <= mux_output(bram_chip_en, bram_wr_en, bram_data_out);
+  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_WIDHT)));
+  -- data_out <= mux_output(bram_chip_en, bram_wr_en, bram_data_out);
+  data_out <= bram_data_out(bram_select);
 
   mux_input(
     chip_en => chip_en,
     wr_en => wr_en,
     address => address, 
     out_chip_en => bram_chip_en(N_BRAM-1 downto 0),
-    out_wr_en => bram_wr_en(N_BRAM-1 downto 0),
-    out_address => bram_address
+    out_wr_en => bram_wr_en(N_BRAM-1 downto 0)
   );
 
   process(reset, clock)
@@ -126,7 +125,7 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => bram_address,
+        ADDR => address(ADDR_WIDHT-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
@@ -145,7 +144,7 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => bram_address,
+        ADDR => address(ADDR_WIDHT-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
