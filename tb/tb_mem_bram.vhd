@@ -5,6 +5,7 @@ use IEEE.std_logic_arith.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
+use work.config_package.all;
 use work.util_package.all;
 
 
@@ -81,6 +82,7 @@ begin
     -- chip_en <= '1';
     -- wr_en <= '1';
 
+    -- for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
     -- for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
     -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
     --   address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
@@ -96,7 +98,8 @@ begin
     -- read stage
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
+    for i in 0 to (conv_integer(unsigned(config.x_size_x_size))*conv_integer(unsigned(config.n_channel))) loop
+    -- for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
     -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
       address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
