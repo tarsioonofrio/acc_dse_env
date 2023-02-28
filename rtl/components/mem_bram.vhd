@@ -63,8 +63,8 @@ procedure mux_input(
   signal out_wr_en   : out std_logic_vector
   ) is
 
-  variable tmp_chip_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
-  variable tmp_wr_en : std_logic_vector(N_BRAM-1 downto 0) := ( others => '0');
+  variable tmp_chip_en : std_logic_vector(N_BRAM downto 0) := ( others => '0');
+  variable tmp_wr_en : std_logic_vector(N_BRAM downto 0) := ( others => '0');
 
   begin 
   for i in 0 to N_BRAM -1 loop
@@ -96,8 +96,8 @@ begin
     chip_en => chip_en,
     wr_en => wr_en,
     address => address, 
-    out_chip_en => bram_chip_en(N_BRAM-1 downto 0),
-    out_wr_en => bram_wr_en(N_BRAM-1 downto 0)
+    out_chip_en => bram_chip_en,
+    out_wr_en => bram_wr_en
   );
 
   process(reset, clock)
