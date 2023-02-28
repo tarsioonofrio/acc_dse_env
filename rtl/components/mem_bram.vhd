@@ -42,17 +42,16 @@ signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
 signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
 signal bram_address  : std_logic_vector(ADDRESS_SIZE - 1 downto 0);
-signal bram_select   : integer range 0 to N_BRAM;
 
-type type_data is array (0 to N_BRAM + 1) of std_logic_vector(INPUT_SIZE-1  downto 0);
+type type_data is array (0 to N_BRAM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
-function mux_output(bram_wr_en: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
+function mux_output(bram_chip_en: std_logic_vector; bram_wr_en: std_logic_vector; bram_data_out : type_data) return std_logic_vector is
   variable output : std_logic_vector(INPUT_SIZE-1 downto 0) := ( others => '0' ) ;
   begin 
   for index in 0 to N_BRAM -1 loop
     -- report "mux_output: " & integer'image(index) & " " & std_logic'image(bram_wr_en(index));
-    if bram_wr_en(index) = '1' then
+    if (bram_chip_en(index) = '1') and (bram_wr_en(index) = '0')then
       output := bram_data_out(index);
     end if;
   end loop ;
@@ -91,7 +90,7 @@ end procedure mux_input;
 
 begin
 
-  -- data_out <= mux_output(bram_wr_en, bram_data_out);
+  data_out <= mux_output(bram_chip_en, bram_wr_en, bram_data_out);
 
   mux_input(
     chip_en => chip_en,
@@ -116,7 +115,8 @@ begin
   LOOP_MEM : for i in 0 to N_BRAM -1 generate
     BRAM_SINGLE_INST: entity work.bram_single
     generic map (
-      BRAM_NAME => BRAM_NAME & integer'image(i), 
+      -- BRAM_NAME => BRAM_NAME & integer'image(i), 
+      BRAM_NAME => "default", 
       INPUT_SIZE => INPUT_SIZE,
       ADDRESS_SIZE => ADDRESS_SIZE
     )

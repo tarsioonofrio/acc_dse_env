@@ -40,7 +40,8 @@ begin
 
   MEM : entity work.memory
   generic map(
-    BRAM_NAME => "default",
+    BRAM_NAME => "iwght_layer0_entity0",
+    -- BRAM_NAME => "default",
     N_BRAM => N_BRAM,
     INPUT_SIZE => INPUT_SIZE * 2,
     ADDRESS_SIZE => MEM_SIZE
