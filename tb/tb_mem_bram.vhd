@@ -31,17 +31,19 @@ signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
 signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/iwght_pkg.txt");
+signal data     : type_array_int := read_data(PATH & "/ifmap_pkg.txt");
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
+signal config : type_config_logic := read_config(PATH & "/ifmap_pkg.txt");
 
 
 begin
 
   MEM : entity work.memory
   generic map(
-    BRAM_NAME => "iwght_layer0_entity0",
     -- BRAM_NAME => "default",
+    -- BRAM_NAME => "iwght_layer0_entity",
+    BRAM_NAME => "ifmap_layer0_entity",
     N_BRAM => N_BRAM,
     INPUT_SIZE => INPUT_SIZE * 2,
     ADDRESS_SIZE => MEM_SIZE
@@ -75,30 +77,39 @@ begin
     reset <= '0';
     report "*** reset";
 
-    chip_en <= '1';
-    wr_en <= '1';
+    -- write stage
+    -- chip_en <= '1';
+    -- wr_en <= '1';
 
-    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+    -- for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
+    -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
+    --   address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
+    --   data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+    --   wait until rising_edge(clock);
+    -- end loop;
+
+    -- chip_en <= '0';
+    -- wr_en <= '0';
+    -- wait until rising_edge(clock);
+    -- wait until rising_edge(clock);
+
+    -- read stage
+    chip_en <= '1';
+    wr_en <= '0';
+    for i in 0 to (conv_integer(unsigned(config.convs_per_line_convs_per_line_n_channel_n_filter)) + conv_integer(unsigned(config.n_filter))) loop
+    -- for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
       address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-      data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
+      wait until rising_edge(clock);
+      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
     end loop;
 
     chip_en <= '0';
     wr_en <= '0';
     wait until rising_edge(clock);
     wait until rising_edge(clock);
-
-    chip_en <= '1';
-    wr_en <= '0';
-    for i in 0 to (MEM_SIZE*MEM_SIZE-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-      -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
-      wait until rising_edge(clock);
-      wait until rising_edge(clock);
-      -- report "data: " & integer'image(data(i)) & " - " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
-    end loop;
-
+  
     report "end of simulation without error!" severity failure;
 
   end process;
