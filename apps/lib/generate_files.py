@@ -478,7 +478,6 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
 
     format_feat = format_feature(feat_list, tab)
 
-    file_name = "gold_pkg"
     package = "gold_package"
     constant = "gold"
     data = "".join([f"\n{tab}-- gold\n"] + format_feat)
@@ -547,6 +546,59 @@ def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_c
         f.write(generic18k)
 
     with open(path / "generic_file_bram36k.txt", "w") as f:
+        f.write(generic36k)
+
+
+def open_file(path):
+    with open(Path(path).resolve(), "r") as f:
+        data = f.readlines()
+    data_int = [int(i) for i in data]
+    return data_int
+
+
+def generate_bram_files2(n_layers, input_path, path_output, max_bits):
+    wght = [open_file(p) for p in input_path.glob("**/iwght.txt")]
+    wght_18k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), wght)]
+    wght_36k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), wght)]
+    wght_18k_data, wght_18k_size = [x[0] for x in wght_18k], [x[1] for x in wght_18k]
+    wght_36k_data, wght_36k_size = [x[0] for x in wght_36k], [x[1] for x in wght_36k]
+
+    fmap = [open_file(p) for p in input_path.glob("**/ifmap.txt")]
+    fmap_18k = [format_bram_pkg(f"ifmap_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), fmap)]
+    fmap_36k = [format_bram_pkg(f"ifmap_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), fmap)]
+    fmap_18k_data, fmap_18k_size = [x[0] for x in fmap_18k], [x[1] for x in fmap_18k]
+    fmap_36k_data, fmap_36k_size = [x[0] for x in fmap_36k], [x[1] for x in fmap_36k]
+
+    gold = [open_file(p) for p in input_path.glob("**/gold.txt")]
+    gold_18k = [format_bram_pkg(f"gold_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), gold)]
+    gold_36k = [format_bram_pkg(f"gold_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), gold)]
+    gold_18k_data, gold_18k_size = [x[0] for x in gold_18k], [x[1] for x in gold_18k]
+    gold_36k_data, gold_36k_size = [x[0] for x in gold_36k], [x[1] for x in gold_36k]
+
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
+        empty_18k = f.read()
+
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_36Kb_template_empty.vhd", "r") as f:
+        empty_36k = f.read()
+
+    bram18k = wght_18k_data + fmap_18k_data + gold_18k_data + empty_18k
+    bram36k = wght_36k_data + fmap_36k_data + gold_36k_data + empty_36k
+
+    write_bram_pkg(bram18k, 64, path_output / "bram_18Kb.vhd", max_bits)
+    write_bram_pkg(bram36k, 128, path_output / "bram_36Kb.vhd", max_bits)
+
+    generic18k = " ".join(
+        f"-gN_BRAM_{n}={i}" for i, n in
+        zip([wght_18k_size, fmap_18k_size, gold_18k_size], ["IWGHT", "IFMAP", "GOLD"])
+    )
+    generic36k = " ".join(
+        f"-gN_BRAM_{n}={i}" for i, n in
+        zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
+    )
+    with open(input_path / "generic_file_bram18k.txt", "w") as f:
+        f.write(generic18k)
+
+    with open(input_path / "generic_file_bram36k.txt", "w") as f:
         f.write(generic36k)
 
 
