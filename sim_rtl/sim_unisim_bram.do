@@ -2,7 +2,7 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-vcom -work work ../apps/rtl_code/default_default/layer/0/bram_36Kb.vhd
+vcom -work work ../apps/rtl_code/default_default/bram/bram_36Kb.vhd
 vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
 
 # Package with utilities - need to be before convolution core
@@ -11,7 +11,7 @@ vcom -work work ../tb/tb_unisim_bram.vhd
 
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/layer/0/generic_file.txt 
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/core/generic_file.txt
 #onfinish exit
 #onbreak exit
 log -r /*

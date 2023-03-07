@@ -8,8 +8,9 @@ from pathlib import Path
 # from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
 from lib.generate_files import (
-    generate_samples, generate_bram_files2
+    generate_samples
 )
+from apps.lib.bram import generate_bram_files2
 from apps.lib.model import dictionary_from_model
 
 
