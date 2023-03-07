@@ -12,12 +12,13 @@ entity tb is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
+    MAX_MEM_SIZE    : integer := 12 ;
     MEM_SIZE        : integer := 12 ;
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 2;
-    ADDR_BRAM      : integer := 10
+    ADDR_BRAM       : integer := 10
   );
 end tb;
 
@@ -29,8 +30,8 @@ signal clock    : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(ADDR_BRAM-1 downto 0);
-signal data_in  : std_logic_vector((MEM_SIZE*2)-1 downto 0);
-signal data_out : std_logic_vector((MEM_SIZE*2)-1 downto 0);
+signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
+signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/iwght_pkg.txt");
 
 

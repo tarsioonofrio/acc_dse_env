@@ -67,7 +67,7 @@ def write_bram_pkg(blocks_string, lines_per_file, path, bits):
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(
-        code=blocks_string, bram_addr=bram_addr, bram_we=bram_we, data_width=bits
+        code=blocks_string, bram_addr=bram_addr, bram_we=bram_we, bram_data=bits
     )
     with open(path, "w") as f:
         f.writelines(text_out)
