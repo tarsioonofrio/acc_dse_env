@@ -1,0 +1,1 @@
+-gN_BRAM_IWGHT=[1, 37, 10] -gN_BRAM_IFMAP=[6, 4, 8] -gN_BRAM_GOLD=[8, 2, 4]
