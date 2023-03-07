@@ -38,8 +38,8 @@ use IEEE.std_logic_arith.all;
 
 entity bram_single is
     generic (
-        -- replace ADDR_WIDHT, INPUT_SIZE and ADDRESS_SIZE generics with constants using python
-        ADDR_WIDHT      : integer := 10;
+        -- replace ADDR_BRAM, INPUT_SIZE and ADDRESS_SIZE generics with constants using python
+        ADDR_BRAM      : integer := 10;
         INPUT_SIZE      : integer := 8;
         ADDRESS_SIZE    : integer := 12;
 
@@ -52,9 +52,9 @@ entity bram_single is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic;
-        DI   : in std_logic_vector(INPUT_SIZE-1 downto 0);
-        ADDR : in std_logic_vector(ADDR_WIDHT-1 downto 0);
-        DO   : out std_logic_vector(INPUT_SIZE-1 downto 0)
+        DI   : in std_logic_vector(({bram_addr}**2)-1 downto 0);
+        ADDR : in std_logic_vector(ADDR_BRAM-1 downto 0);
+        DO   : out std_logic_vector(({bram_addr}**2)-1 downto 0)
     );
  end bram_single;
 

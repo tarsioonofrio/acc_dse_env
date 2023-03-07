@@ -17,7 +17,7 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 2;
-    DEPTH_BRAM      : integer := 1024
+    ADDR_BRAM      : integer := 10
   );
 end tb;
 
@@ -28,7 +28,7 @@ signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
-signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
+signal address  : std_logic_vector(ADDR_BRAM-1 downto 0);
 signal data_in  : std_logic_vector((MEM_SIZE*2)-1 downto 0);
 signal data_out : std_logic_vector((MEM_SIZE*2)-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/iwght_pkg.txt");

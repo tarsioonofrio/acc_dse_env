@@ -6,21 +6,21 @@ bram_size_dict = {
     128: "36Kb"
 }
 bram18kb_dict = {
-    (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4, "DEPTH": 512},
-    (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2, "DEPTH": 1024},
-    (5, 9): {"BRAM_ADDR": 11, "BRAM_WE": 1, "DEPTH": 2048},
-    (3, 4): {"BRAM_ADDR": 12, "BRAM_WE": 1, "DEPTH": 4096},
-    (2, 2): {"BRAM_ADDR": 13, "BRAM_WE": 1, "DEPTH": 8192},
-    (1, 1): {"BRAM_ADDR": 14, "BRAM_WE": 1, "DEPTH": 16384},
+    (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4, "BRAM_DEPTH": 512},
+    (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2, "BRAM_DEPTH": 1024},
+    (5, 9): {"BRAM_ADDR": 11, "BRAM_WE": 1, "BRAM_DEPTH": 2048},
+    (3, 4): {"BRAM_ADDR": 12, "BRAM_WE": 1, "BRAM_DEPTH": 4096},
+    (2, 2): {"BRAM_ADDR": 13, "BRAM_WE": 1, "BRAM_DEPTH": 8192},
+    (1, 1): {"BRAM_ADDR": 14, "BRAM_WE": 1, "BRAM_DEPTH": 16384},
 }
 bram36kb_dict = {
-    (37, 72): {"BRAM_ADDR": 9, "BRAM_WE": 8, "DEPTH": 512},
-    (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4, "DEPTH": 1024},
-    (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2, "DEPTH": 2048},
-    (5, 9): {"BRAM_ADDR": 12, "BRAM_WE": 1, "DEPTH": 4096},
-    (3, 4): {"BRAM_ADDR": 13, "BRAM_WE": 1, "DEPTH": 8192},
-    (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1, "DEPTH": 16384},
-    (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1, "DEPTH": 32768},
+    (37, 72): {"BRAM_ADDR": 9, "BRAM_WE": 8, "BRAM_DEPTH": 512},
+    (19, 36): {"BRAM_ADDR": 10, "BRAM_WE": 4, "BRAM_DEPTH": 1024},
+    (10, 18): {"BRAM_ADDR": 11, "BRAM_WE": 2, "BRAM_DEPTH": 2048},
+    (5, 9): {"BRAM_ADDR": 12, "BRAM_WE": 1, "BRAM_DEPTH": 4096},
+    (3, 4): {"BRAM_ADDR": 13, "BRAM_WE": 1, "BRAM_DEPTH": 8192},
+    (2, 2): {"BRAM_ADDR": 14, "BRAM_WE": 1, "BRAM_DEPTH": 16384},
+    (1, 1): {"BRAM_ADDR": 15, "BRAM_WE": 1, "BRAM_DEPTH": 32768},
 }
 
 

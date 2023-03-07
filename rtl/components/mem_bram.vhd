@@ -18,7 +18,7 @@ entity memory is
     BRAM_NAME       : string := "default";
     N_BRAM          : integer := 2;
     DEPTH_BRAM      : integer := 1024;
-    ADDR_WIDHT      : integer := 10
+    ADDR_BRAM      : integer := 10
   );
   port(
     reset   : in std_logic;
@@ -44,7 +44,7 @@ signal bram_data_out: type_data;
 
 
 begin
-  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_WIDHT)));
+  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_BRAM)));
   data_out <= bram_data_out(bram_select);
 
   LOOP_MEM : for i in 0 to N_BRAM -1 generate
@@ -67,7 +67,7 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => address(ADDR_WIDHT-1 downto 0),
+        ADDR => address(ADDR_BRAM-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
@@ -86,7 +86,7 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => address(ADDR_WIDHT-1 downto 0),
+        ADDR => address(ADDR_BRAM-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
