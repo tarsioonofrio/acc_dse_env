@@ -17,6 +17,7 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 3;
+    BRAM_SIZE      : integer := 36;
     DEPTH_BRAM      : integer := 1024;
     ADDR_WIDHT      : integer := 10
   );
@@ -31,12 +32,12 @@ signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
-signal data_in  : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-signal data_out : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/ifmap_pkg.txt");
+signal data_in  : std_logic_vector(BRAM_SIZE-1 downto 0);
+signal data_out : std_logic_vector(BRAM_SIZE-1 downto 0);
+signal data     : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
-signal config : type_config_logic := read_config(PATH & "/ifmap_pkg.txt");
+signal config : type_config_logic := read_config(PATH & "/layer/0/ifmap_pkg.txt");
 
 
 begin
@@ -47,7 +48,7 @@ begin
     -- BRAM_NAME => "iwght_layer0_entity",
     BRAM_NAME => "ifmap_layer0_entity",
     N_BRAM => N_BRAM,
-    INPUT_SIZE => INPUT_SIZE * 2,
+    INPUT_SIZE => BRAM_SIZE,
     ADDRESS_SIZE => MEM_SIZE
     )
   port map(

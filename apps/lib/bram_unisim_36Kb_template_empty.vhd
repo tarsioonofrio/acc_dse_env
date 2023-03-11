@@ -6,8 +6,8 @@ MEM_EMPTY_36Kb : if BRAM_NAME = "default" generate
         DO_REG => 0,                     -- Optional output register (0 or 1)
         INIT => X"000000000000000000",   -- Initial values on output port
         INIT_FILE => "NONE",
-        WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-        READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+        WRITE_WIDTH => {data_width}, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+        READ_WIDTH => {data_width}, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
         SRVAL => X"000000000000000000",  -- Set/Reset value for port output
         WRITE_MODE => "WRITE_FIRST"      -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
     )

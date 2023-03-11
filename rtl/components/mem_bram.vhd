@@ -18,7 +18,7 @@ entity memory is
     BRAM_NAME       : string := "default";
     N_BRAM          : integer := 2;
     DEPTH_BRAM      : integer := 1024;
-    ADDR_BRAM      : integer := 10
+    ADDR_BRAM       : integer := 10
   );
   port(
     reset   : in std_logic;
@@ -39,9 +39,13 @@ end memory;
 
 architecture a1 of memory is
 
+signal data_valid    : std_logic;
+signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
+signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
+signal bram_select   : integer range 0 to 2**(N_BRAM);
+
 type type_data is array (0 to N_BRAM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
-
 
 begin
   bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_BRAM)));
@@ -57,9 +61,7 @@ begin
     LOOP_MEM : for i in 0 to N_BRAM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
-        BRAM_NAME => "default", 
-        INPUT_SIZE => INPUT_SIZE,
-        ADDRESS_SIZE => ADDRESS_SIZE
+        BRAM_NAME => "default"
       )
       port map(
         CLK  => clock,
@@ -76,9 +78,7 @@ begin
     LOOP_MEM : for i in 0 to N_BRAM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
-        BRAM_NAME => BRAM_NAME & integer'image(i), 
-        INPUT_SIZE => INPUT_SIZE,
-        ADDRESS_SIZE => ADDRESS_SIZE
+        BRAM_NAME => BRAM_NAME & integer'image(i)
       )
       port map(
         CLK  => clock,

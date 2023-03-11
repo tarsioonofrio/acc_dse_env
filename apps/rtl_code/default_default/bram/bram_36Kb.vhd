@@ -39,9 +39,9 @@ use IEEE.std_logic_arith.all;
 entity bram_single is
     generic (
         -- replace ADDR_BRAM, INPUT_SIZE and ADDRESS_SIZE generics with constants using python
-        ADDR_BRAM      : integer := 10;
-        INPUT_SIZE      : integer := 8;
-        ADDRESS_SIZE    : integer := 12;
+--         ADDR_BRAM      : integer := 10;
+--         INPUT_SIZE      : integer := 8;
+--         ADDRESS_SIZE    : integer := 12;
 
         DEVICE     : string := "7SERIES";
         BRAM_NAME  : string := "default"
@@ -53,7 +53,7 @@ entity bram_single is
         EN   : in std_logic;
         WE   : in std_logic;
         DI   : in std_logic_vector(36-1 downto 0);
-        ADDR : in std_logic_vector(ADDR_BRAM-1 downto 0);
+        ADDR : in std_logic_vector(10-1 downto 0);
         DO   : out std_logic_vector(36-1 downto 0)
     );
  end bram_single;
@@ -75,8 +75,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -253,8 +253,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -431,8 +431,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -609,8 +609,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -787,8 +787,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -965,8 +965,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -1143,8 +1143,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -1321,8 +1321,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -1499,8 +1499,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -1677,8 +1677,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -1855,8 +1855,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2033,8 +2033,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2211,8 +2211,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2389,8 +2389,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2567,8 +2567,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2745,8 +2745,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -2923,8 +2923,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3101,8 +3101,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3279,8 +3279,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3457,8 +3457,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3635,8 +3635,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3813,8 +3813,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -3991,8 +3991,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -4169,8 +4169,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -4347,8 +4347,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -4525,8 +4525,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -4703,8 +4703,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -4881,8 +4881,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5059,8 +5059,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5237,8 +5237,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5415,8 +5415,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5593,8 +5593,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5771,8 +5771,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -5949,8 +5949,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -6127,8 +6127,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -6305,8 +6305,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -6483,8 +6483,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -6661,8 +6661,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -6839,8 +6839,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -7017,8 +7017,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -7195,8 +7195,8 @@ entity bram_single is
             DO_REG => 0,                     -- Optional output register (0 or 1)
             INIT => X"000000000000000000",   -- Initial values on output port
             INIT_FILE => "NONE",
-            WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-            READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
             SRVAL => X"000000000000000000",  -- Set/Reset value for port output
             WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
             -- The following INIT_xx declarations specify the initial contents of the RAM
@@ -7372,8 +7372,8 @@ MEM_EMPTY_36Kb : if BRAM_NAME = "default" generate
         DO_REG => 0,                     -- Optional output register (0 or 1)
         INIT => X"000000000000000000",   -- Initial values on output port
         INIT_FILE => "NONE",
-        WRITE_WIDTH => INPUT_SIZE, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
-        READ_WIDTH => INPUT_SIZE, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+        WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+        READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
         SRVAL => X"000000000000000000",  -- Set/Reset value for port output
         WRITE_MODE => "WRITE_FIRST"      -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
     )

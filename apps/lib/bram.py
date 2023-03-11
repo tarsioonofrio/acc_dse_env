@@ -30,6 +30,9 @@ def two_comp(val, nbits):
 
 
 def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
+    bram_config = get_bram_config(bits, lines_per_file)
+    bram_addr = bram_config["BRAM_ADDR"]
+
     word = ceil(bits / 4)
     feat_hex = [format(two_comp(int(feat), bits), f'0{word}x') for feat in feat_list]
     total_words = ceil(64 / word)
@@ -43,7 +46,10 @@ def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     list_entity = [f"{name}_entity{i}" for i, file in enumerate(feat_file)]
 
     list_text_out = [
-        text.format(label=f"MEM_{entity.upper()}", bram_name=entity, init_xx=init_data(file, lines_per_file))
+        text.format(
+            label=f"MEM_{entity.upper()}", bram_name=entity, init_xx=init_data(file, lines_per_file),
+            data_width=bits
+        )
         for i, (file, entity) in enumerate(zip(feat_file, list_entity))
     ]
 
@@ -53,17 +59,9 @@ def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
 
 
 def write_bram_pkg(blocks_string, lines_per_file, path, bits):
-    bram_size = bram_size_dict[lines_per_file]
-    if bram_size == '18Kb':
-        bram_dict = bram18kb_dict
-    else:
-        bram_dict = bram36kb_dict
-    bram_width = [
-        v for k, v in bram_dict.items()
-        if k[0] <= bits <= k[1]
-    ]
-    bram_addr = bram_width[0]["BRAM_ADDR"]
-    bram_we = bram_width[0]["BRAM_WE"]
+    bram_config = get_bram_config(bits, lines_per_file)
+    bram_addr = bram_config["BRAM_ADDR"]
+    bram_we = bram_config["BRAM_WE"]
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
     text_out = bram_wrapper.format(
@@ -71,6 +69,19 @@ def write_bram_pkg(blocks_string, lines_per_file, path, bits):
     )
     with open(path, "w") as f:
         f.writelines(text_out)
+
+
+def get_bram_config(bits, lines_per_file):
+    bram_size = bram_size_dict[lines_per_file]
+    if bram_size == '18Kb':
+        bram_dict = bram18kb_dict
+    else:
+        bram_dict = bram36kb_dict
+    bram_config = [
+        v for k, v in bram_dict.items()
+        if k[0] <= bits <= k[1]
+    ]
+    return bram_config[0]
 
 
 def init_data(file, lines_per_file):
@@ -85,7 +96,7 @@ def open_file(path):
     return data_int
 
 
-def generate_bram_files2(n_layers, input_path, path_output, max_bits):
+def generate_bram_files2(n_layers, input_path, path_output, max_bits=36):
     wght = [open_file(p) for p in input_path.glob("**/iwght.txt")]
     wght_18k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), wght)]
     wght_36k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), wght)]
@@ -105,10 +116,10 @@ def generate_bram_files2(n_layers, input_path, path_output, max_bits):
     gold_36k_data, gold_36k_size = [y for x in gold_36k for y in x[0]], [x[1] for x in gold_36k]
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
-        empty_18k = f.read()
+        empty_18k = f.read().format(data_width=max_bits)
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_36Kb_template_empty.vhd", "r") as f:
-        empty_36k = f.read()
+        empty_36k = f.read().format(data_width=max_bits)
 
     bram18k = "".join(wght_18k_data + fmap_18k_data + gold_18k_data) + empty_18k
     bram36k = "".join(wght_36k_data + fmap_36k_data + gold_36k_data) + empty_36k

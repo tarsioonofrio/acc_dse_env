@@ -39,9 +39,9 @@ use IEEE.std_logic_arith.all;
 entity bram_single is
     generic (
         -- replace ADDR_BRAM, INPUT_SIZE and ADDRESS_SIZE generics with constants using python
-        ADDR_BRAM      : integer := 10;
-        INPUT_SIZE      : integer := 8;
-        ADDRESS_SIZE    : integer := 12;
+--         ADDR_BRAM      : integer := 10;
+--         INPUT_SIZE      : integer := 8;
+--         ADDRESS_SIZE    : integer := 12;
 
         DEVICE     : string := "7SERIES";
         BRAM_NAME  : string := "default"
@@ -53,7 +53,7 @@ entity bram_single is
         EN   : in std_logic;
         WE   : in std_logic;
         DI   : in std_logic_vector({bram_data}-1 downto 0);
-        ADDR : in std_logic_vector(ADDR_BRAM-1 downto 0);
+        ADDR : in std_logic_vector({bram_addr}-1 downto 0);
         DO   : out std_logic_vector({bram_data}-1 downto 0)
     );
  end bram_single;
