@@ -16,7 +16,7 @@ entity tb is
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
     BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity0"
-    BRAM_NUM   : integer := 1;
+    BRAM_NUM   : integer := 2;
     BRAM_SIZE  : integer := 16;
     BRAM_RW_DEPTH : integer := 16;
     BRAM_ADDR  : integer := 11
