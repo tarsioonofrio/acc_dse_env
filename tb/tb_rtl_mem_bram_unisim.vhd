@@ -33,7 +33,7 @@ signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
 signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
+signal data     : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
 
 
 begin

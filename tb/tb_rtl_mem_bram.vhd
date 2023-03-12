@@ -11,7 +11,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity"
+    BRAM_NAME  : string  := "ifmap_layer0_entity"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity"
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
@@ -79,19 +79,21 @@ begin
 
     -- write stage
 
-    chip_en <= '1';
-    wr_en <= '1';
-    for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-      data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
-      wait until rising_edge(clock);
-    end loop;
+    if BRAM_NAME = "default" then
+        chip_en <= '1';
+        wr_en <= '1';
+        for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+          address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
+          data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
+          wait until rising_edge(clock);
+        end loop;
 
-    chip_en <= '0';
-    wr_en <= '0';
-    data_in <= CONV_STD_LOGIC_VECTOR(0, BRAM_RW_DEPTH);
-    wait until rising_edge(clock);
-    wait until rising_edge(clock);
+        chip_en <= '0';
+        wr_en <= '0';
+        data_in <= CONV_STD_LOGIC_VECTOR(0, BRAM_RW_DEPTH);
+        wait until rising_edge(clock);
+        wait until rising_edge(clock);
+    end if;
 
     -- read stage
 
