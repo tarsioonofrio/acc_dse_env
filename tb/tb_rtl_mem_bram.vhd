@@ -83,13 +83,13 @@ begin
     wr_en <= '1';
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
       address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-      data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
       wait until rising_edge(clock);
     end loop;
 
     chip_en <= '0';
     wr_en <= '0';
-    data_in <= CONV_STD_LOGIC_VECTOR(0, INPUT_SIZE*2);
+    data_in <= CONV_STD_LOGIC_VECTOR(0, BRAM_RW_DEPTH);
     wait until rising_edge(clock);
     wait until rising_edge(clock);
 
@@ -98,7 +98,7 @@ begin
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_RW_DEPTH);
+      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       wait until rising_edge(clock);
       wait until rising_edge(clock);
       report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
