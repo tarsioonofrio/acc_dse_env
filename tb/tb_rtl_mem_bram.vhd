@@ -15,10 +15,10 @@ entity tb is
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
-    BRAM_NAME  : string  := "";
+    BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity0"
     BRAM_NUM   : integer := 3;
     BRAM_SIZE  : integer := 16;
-    BRAM_DEPTH : integer := 1024;
+    BRAM_RW_DEPTH : integer := 16;
     BRAM_ADDR  : integer := 11
   );
 end tb;
@@ -32,23 +32,21 @@ signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
-signal data_in  : std_logic_vector(INPUT_SIZE-1 downto 0);
-signal data_out : std_logic_vector(INPUT_SIZE-1 downto 0);
+signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
+signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
-signal config : type_config_logic := read_config(PATH & "/layer/0/ifmap_pkg.txt");
+signal config   : type_config_logic := read_config(PATH & "/layer/0/ifmap_pkg.txt");
 
 
 begin
 
   MEM : entity work.memory
   generic map(
-    -- BRAM_NAME => "default",
-    -- BRAM_NAME => "iwght_layer0_entity",
     BRAM_NAME => "ifmap_layer0_entity",
     BRAM_NUM => BRAM_NUM,
-    INPUT_SIZE => BRAM_SIZE,
+    INPUT_SIZE => BRAM_RW_DEPTH,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
     )
@@ -81,27 +79,26 @@ begin
 
     -- write stage
 
-    -- chip_en <= '1';
-    -- wr_en <= '1';
-    -- for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-    --   address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-    --   data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
-    --   wait until rising_edge(clock);
-    -- end loop;
+    chip_en <= '1';
+    wr_en <= '1';
+    for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
+      data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      wait until rising_edge(clock);
+    end loop;
 
-    -- chip_en <= '0';
-    -- wr_en <= '0';
-    -- data_in <= CONV_STD_LOGIC_VECTOR(0, INPUT_SIZE*2);
-    -- wait until rising_edge(clock);
-    -- wait until rising_edge(clock);
+    chip_en <= '0';
+    wr_en <= '0';
+    data_in <= CONV_STD_LOGIC_VECTOR(0, INPUT_SIZE*2);
+    wait until rising_edge(clock);
+    wait until rising_edge(clock);
 
     -- read stage
 
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-      -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
+      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_RW_DEPTH);
       wait until rising_edge(clock);
       wait until rising_edge(clock);
       report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 

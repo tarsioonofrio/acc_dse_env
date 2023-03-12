@@ -19,6 +19,7 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "default"; -- "iwght_layer0_entity0", "default"
     BRAM_NUM        : integer := 2;
+    BRAM_RW_DEPTH   : integer := 16;
     BRAM_ADDR       : integer := 11
   );
 end tb;
@@ -31,8 +32,8 @@ signal clock    : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
-signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
-signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
+signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
+signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
 
 
@@ -67,27 +68,24 @@ begin
     reset <= '0';
     report "*** reser";
 
-    if TEST_WRITE = '1' generate
-        chip_en <= '1';
-        wr_en <= '1';
+    chip_en <= '1';
+    wr_en <= '1';
 
-        for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
-          address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
-          data_in <= CONV_STD_LOGIC_VECTOR(data(i), MAX_MEM_SIZE);
-          wait until rising_edge(clock);
-        end loop;
+    for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
+      data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
+      wait until rising_edge(clock);
+    end loop;
 
-        chip_en <= '0';
-        wr_en <= '0';
-        wait until rising_edge(clock);
-        wait until rising_edge(clock);
-    end generate;
+    chip_en <= '0';
+    wr_en <= '0';
+    wait until rising_edge(clock);
+    wait until rising_edge(clock);
 
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
       address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
-      -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
       wait until rising_edge(clock);
       report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 

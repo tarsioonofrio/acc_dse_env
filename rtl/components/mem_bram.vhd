@@ -17,7 +17,6 @@ entity memory is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "default";
     BRAM_NUM        : integer := 2;
-    BRAM_DEPTH      : integer := 1024;
     BRAM_ADDR       : integer := 10
   );
   port(

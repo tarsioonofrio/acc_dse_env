@@ -96,7 +96,9 @@ def open_file(path):
     return data_int
 
 
-def generate_bram_files2(n_layers, input_path, path_output, max_bits=36):
+def generate_bram_files2(n_layers, input_path, path_output, config_hw):
+    max_bits = config_hw["BRAM_RW_DEPTH"]
+    sampples_bits = config_hw["BRAM_RW_DEPTH_SAMPLES"]
     wght = [open_file(p) for p in input_path.glob("**/iwght.txt")]
     wght_18k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), wght)]
     wght_36k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), wght)]
@@ -140,3 +142,13 @@ def generate_bram_files2(n_layers, input_path, path_output, max_bits=36):
 
     with open(path_output / "generic_file_bram36k.txt", "w") as f:
         f.write(generic36k)
+
+    with open(path_output.parent / "core/generic_file.txt", "r") as f:
+        generics = (
+                f.read().strip() +
+                f" -gBRAM_RW_DEPTH={config_hw['BRAM_RW_DEPTH']}"
+                f" -gBRAM_RW_DEPTH_SAMPLES={config_hw['BRAM_RW_DEPTH_SAMPLES']}"
+        )
+
+    with open(path_output / "generic_file.txt", "w") as f:
+        f.writelines(generics)

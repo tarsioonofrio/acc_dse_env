@@ -9,7 +9,7 @@ vcom -work work ../apps/rtl_code/default_default/layer/0/config_pkg.vhd
 vcom -work work ../rtl/core/util_pkg.vhd
 vcom -work work ../rtl/components/mem_bram.vhd
 
-vcom -work work ../tb/tb_mem_bram.vhd
+vcom -work work ../tb/tb_rtl_mem_bram.vhd
 
 
 # Simulation

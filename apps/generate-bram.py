@@ -40,16 +40,7 @@ def main():
     with open(file_hw) as f:
         config_hw = json.load(f)
 
-    # generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, path, single_file=False)
-    generate_bram_files2(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw["MAX_MEM_SIZE"])
-
-    with open(path / "core/generic_file.txt", "r") as f:
-        generics = f.read().strip()
-
-    generics2 = generics + f" -gMAX_MEM_SIZE={config_hw['MAX_MEM_SIZE']}"
-
-    with open(path / "bram/generic_file.txt", "w") as f:
-        f.writelines(generics2)
+    generate_bram_files2(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw)
 
 
 if __name__ == '__main__':
