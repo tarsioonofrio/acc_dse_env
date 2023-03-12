@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.numeric_std.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
@@ -72,8 +72,8 @@ begin
         wr_en <= '1';
 
         for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
-          address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
-          data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
+          address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
+          data_in <= std_logic_vector(to_unsigned(data(i), BRAM_RW_DEPTH));
           wait until rising_edge(clock);
         end loop;
     end if;
@@ -86,10 +86,10 @@ begin
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
+      address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
       wait until rising_edge(clock);
       wait until rising_edge(clock);
-      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
+      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
     report "end of simulation without error!" severity failure;

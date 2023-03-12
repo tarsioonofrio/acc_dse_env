@@ -1,7 +1,7 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.numeric_std.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
@@ -16,7 +16,7 @@ entity tb is
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
-    BRAM_NUM   : integer := 2;
+    BRAM_NUM   : integer := 9;
     BRAM_SIZE  : integer := 16;
     BRAM_RW_DEPTH : integer := 16;
     BRAM_ADDR  : integer := 11
@@ -83,14 +83,14 @@ begin
         chip_en <= '1';
         wr_en <= '1';
         for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-          address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
-          data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
+          address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
+          data_in <= std_logic_vector(to_unsigned(data(i), BRAM_RW_DEPTH));
           wait until rising_edge(clock);
         end loop;
 
         chip_en <= '0';
         wr_en <= '0';
-        data_in <= CONV_STD_LOGIC_VECTOR(0, BRAM_RW_DEPTH);
+        data_in <= std_logic_vector(to_unsigned(0, BRAM_RW_DEPTH));
         wait until rising_edge(clock);
         wait until rising_edge(clock);
     end if;
@@ -100,10 +100,10 @@ begin
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
+      address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       wait until rising_edge(clock);
-      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(CONV_INTEGER(signed(data_out))); 
+      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
     chip_en <= '0';

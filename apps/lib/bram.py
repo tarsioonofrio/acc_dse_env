@@ -1,4 +1,4 @@
-from math import ceil
+from math import ceil, floor
 from pathlib import Path
 
 bram_size_dict = {
@@ -31,12 +31,14 @@ def two_comp(val, nbits):
 
 def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     bram_config = get_bram_config(bits, lines_per_file)
-    bram_addr = bram_config["BRAM_ADDR"]
+    bram_depth = bram_config["BRAM_DEPTH"]
+    values_per_line = bram_depth // lines_per_file
+    bytes_per_value = 64 // values_per_line
 
-    word = ceil(bits / 4)
-    feat_hex = [format(two_comp(int(feat), bits), f'0{word}x') for feat in feat_list]
-    total_words = ceil(64 / word)
-    feat_line = ["".join(reversed(feat_hex[i:i + total_words])) for i in range(0, len(feat_hex), total_words)]
+    # word = floor(bits / 4)
+    feat_hex = [format(two_comp(int(feat), bytes_per_value*4), f'0{bytes_per_value}x') for feat in feat_list]
+    # total_words = floor(64 / word)
+    feat_line = ["".join(reversed(feat_hex[i:i + values_per_line])) for i in range(0, len(feat_hex), values_per_line)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
 
     bram_size = bram_size_dict[lines_per_file]
@@ -139,7 +141,7 @@ def generate_bram_files2(n_layers, input_path, path_output, config_hw):
         f"-gN_BRAM_{n}={i}" for i, n in
         zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
     )
-    
+
     # with open(path_output / "generic_file_bram18k.txt", "w") as f:
     #     f.write(generic18k)
     #
