@@ -10,15 +10,16 @@ use work.util_package.all;
 
 entity tb is
   generic (
+    TEST_WRITE      : std_logic := '1';
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
-    MAX_MEM_SIZE    : integer := 36 ;
-    MEM_SIZE        : integer := 12 ;
+    MAX_MEM_SIZE    : integer := 36;
+    MEM_SIZE        : integer := 12;
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
-    BRAM_NAME       : string := "";
-    N_BRAM          : integer := 2;
-    ADDR_BRAM       : integer := 11
+    BRAM_NAME       : string := "default"; -- "iwght_layer0_entity0", "default"
+    BRAM_NUM        : integer := 2;
+    BRAM_ADDR       : integer := 11
   );
 end tb;
 
@@ -29,7 +30,7 @@ signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
-signal address  : std_logic_vector(ADDR_BRAM-1 downto 0);
+signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
 signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data     : type_array_int := read_data(PATH & "/layer/0/iwght_pkg.txt");
@@ -39,8 +40,7 @@ begin
 
   BRAM_SINGLE_INST: entity work.bram_single
   generic map (
-    -- BRAM_NAME => "iwght_layer0_entity0",
-    BRAM_NAME => "default"
+    BRAM_NAME => BRAM_NAME
   )
   port map(
     CLK  => clock,
@@ -56,8 +56,6 @@ begin
   clock <= not clock after 0.5 ns;
 
   process
-    -- convolution counter
-    -- variable cont_conv : integer := 0;
 
   begin
 
@@ -69,24 +67,26 @@ begin
     reset <= '0';
     report "*** reser";
 
+    if TEST_WRITE = '1' generate
+        chip_en <= '1';
+        wr_en <= '1';
+
+        for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
+          address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
+          data_in <= CONV_STD_LOGIC_VECTOR(data(i), MAX_MEM_SIZE);
+          wait until rising_edge(clock);
+        end loop;
+
+        chip_en <= '0';
+        wr_en <= '0';
+        wait until rising_edge(clock);
+        wait until rising_edge(clock);
+    end generate;
+
     chip_en <= '1';
-    wr_en <= '1';
-
-    for i in 0 to (ADDR_BRAM*ADDR_BRAM-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, ADDR_BRAM);
-      data_in <= CONV_STD_LOGIC_VECTOR(data(i), MAX_MEM_SIZE);
-      wait until rising_edge(clock);
-    end loop;
-
-    chip_en <= '0';
     wr_en <= '0';
-    wait until rising_edge(clock);
-    wait until rising_edge(clock);
-
-    chip_en <= '1';
-    wr_en <= '0';
-    for i in 0 to (ADDR_BRAM*ADDR_BRAM-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, ADDR_BRAM);
+    for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
+      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);
       wait until rising_edge(clock);

@@ -16,9 +16,9 @@ entity memory is
     ROM_PATH        : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "default";
-    N_BRAM          : integer := 2;
-    DEPTH_BRAM      : integer := 1024;
-    ADDR_BRAM       : integer := 10
+    BRAM_NUM        : integer := 2;
+    BRAM_DEPTH      : integer := 1024;
+    BRAM_ADDR       : integer := 10
   );
   port(
     reset   : in std_logic;
@@ -40,25 +40,25 @@ end memory;
 architecture a1 of memory is
 
 signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(N_BRAM downto 0);
-signal bram_wr_en    : std_logic_vector(N_BRAM downto 0);
-signal bram_select   : integer range 0 to 2**(N_BRAM);
+signal bram_chip_en  : std_logic_vector(BRAM_NUM downto 0);
+signal bram_wr_en    : std_logic_vector(BRAM_NUM downto 0);
+signal bram_select   : integer range 0 to 2**(BRAM_NUM);
 
-type type_data is array (0 to N_BRAM) of std_logic_vector(INPUT_SIZE-1  downto 0);
+type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
 begin
-  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto ADDR_BRAM)));
+  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
   data_out <= bram_data_out(bram_select);
 
-  LOOP_MEM : for i in 0 to N_BRAM -1 generate
+  LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';
     bram_wr_en(i) <= wr_en when i = bram_select else '0';
   end generate; 
 
     
   IF_MEM_DEFAULT: if BRAM_NAME = "default" generate
-    LOOP_MEM : for i in 0 to N_BRAM -1 generate
+    LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
         BRAM_NAME => "default"
@@ -69,13 +69,13 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => address(ADDR_BRAM-1 downto 0),
+        ADDR => address(BRAM_ADDR-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
   end generate; 
   IF_MEM_NOT_DEFAULT: if BRAM_NAME /= "default" generate
-    LOOP_MEM : for i in 0 to N_BRAM -1 generate
+    LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
         BRAM_NAME => BRAM_NAME & integer'image(i)
@@ -86,7 +86,7 @@ begin
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
         DI   => data_in,
-        ADDR => address(ADDR_BRAM-1 downto 0),
+        ADDR => address(BRAM_ADDR-1 downto 0),
         DO   => bram_data_out(i)
         );
     end generate; 
