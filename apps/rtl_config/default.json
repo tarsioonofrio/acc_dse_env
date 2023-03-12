@@ -2,7 +2,7 @@
   "DATAFLOW_TYPE": "ws",
   "ARRAY_TYPE": "syst2d",
   "MEM_SIZE": 16,
-  "BRAM_RW_DEPTH": 24,
+  "BRAM_RW_DEPTH": 16,
   "BRAM_RW_DEPTH_SAMPLES": 8,
   "INPUT_SIZE": 16,
   "CARRY_SIZE": 4,
