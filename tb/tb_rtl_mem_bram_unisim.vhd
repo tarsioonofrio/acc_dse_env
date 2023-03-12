@@ -10,14 +10,13 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    TEST_WRITE      : std_logic := '1';
+    BRAM_NAME       : string  := "ifmap_layer0_entity0"; -- "default", "ifmap_layer0_entity0", "iwght_layer0_entity0"
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     MAX_MEM_SIZE    : integer := 36;
     MEM_SIZE        : integer := 12;
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
-    BRAM_NAME       : string := "default"; -- "iwght_layer0_entity0", "default"
     BRAM_NUM        : integer := 2;
     BRAM_RW_DEPTH   : integer := 16;
     BRAM_ADDR       : integer := 11
@@ -68,14 +67,16 @@ begin
     reset <= '0';
     report "*** reser";
 
-    chip_en <= '1';
-    wr_en <= '1';
+    if BRAM_NAME = "default" then
+        chip_en <= '1';
+        wr_en <= '1';
 
-    for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
-      address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
-      data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
-      wait until rising_edge(clock);
-    end loop;
+        for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
+          address <= CONV_STD_LOGIC_VECTOR(i, BRAM_ADDR);
+          data_in <= CONV_STD_LOGIC_VECTOR(data(i), BRAM_RW_DEPTH);
+          wait until rising_edge(clock);
+        end loop;
+    end if;
 
     chip_en <= '0';
     wr_en <= '0';
