@@ -16,7 +16,7 @@ entity tb is
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
     BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity0"
-    BRAM_NUM   : integer := 3;
+    BRAM_NUM   : integer := 1;
     BRAM_SIZE  : integer := 16;
     BRAM_RW_DEPTH : integer := 16;
     BRAM_ADDR  : integer := 11
@@ -44,7 +44,7 @@ begin
 
   MEM : entity work.memory
   generic map(
-    BRAM_NAME => "ifmap_layer0_entity",
+    BRAM_NAME => BRAM_NAME,
     BRAM_NUM => BRAM_NUM,
     INPUT_SIZE => BRAM_RW_DEPTH,
     ADDRESS_SIZE => MEM_SIZE,
