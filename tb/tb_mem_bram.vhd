@@ -17,9 +17,9 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 3;
-    BRAM_SIZE      : integer := 36;
+    BRAM_SIZE      : integer := 16;
     DEPTH_BRAM      : integer := 1024;
-    ADDR_WIDHT      : integer := 10
+    ADDR_BRAM       : integer := 11
   );
 end tb;
 
@@ -49,7 +49,8 @@ begin
     BRAM_NAME => "ifmap_layer0_entity",
     N_BRAM => N_BRAM,
     INPUT_SIZE => BRAM_SIZE,
-    ADDRESS_SIZE => MEM_SIZE
+    ADDRESS_SIZE => MEM_SIZE,
+    ADDR_BRAM => ADDR_BRAM
     )
   port map(
     clock    => clock,
@@ -82,7 +83,7 @@ begin
 
     -- chip_en <= '1';
     -- wr_en <= '1';
-    -- for i in 0 to (N_BRAM*((ADDR_WIDHT**2)-1)) loop
+    -- for i in 0 to (N_BRAM*((ADDR_BRAM**2)-1)) loop
     --   address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
     --   data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
     --   wait until rising_edge(clock);
@@ -98,7 +99,7 @@ begin
 
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (N_BRAM*((ADDR_WIDHT**2)-1)) loop
+    for i in 0 to (N_BRAM*((ADDR_BRAM**2)-1)) loop
       address <= CONV_STD_LOGIC_VECTOR(i, MEM_SIZE);
       -- data_in <= CONV_STD_LOGIC_VECTOR(data(i), INPUT_SIZE*2);
       wait until rising_edge(clock);

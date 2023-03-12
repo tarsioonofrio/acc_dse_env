@@ -18,7 +18,7 @@ entity tb is
     DEVICE          : string := "7SERIES";
     BRAM_NAME       : string := "";
     N_BRAM          : integer := 2;
-    ADDR_BRAM       : integer := 10
+    ADDR_BRAM       : integer := 11
   );
 end tb;
 

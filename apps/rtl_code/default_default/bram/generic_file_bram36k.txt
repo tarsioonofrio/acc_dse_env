@@ -1,1 +1,1 @@
--gN_BRAM_IWGHT=[1, 19, 5] -gN_BRAM_IFMAP=[3, 2, 4] -gN_BRAM_GOLD=[4, 1, 2]
+-gN_BRAM_IWGHT=[1, 10, 3] -gN_BRAM_IFMAP=[2, 1, 2] -gN_BRAM_GOLD=[2, 1, 1]
