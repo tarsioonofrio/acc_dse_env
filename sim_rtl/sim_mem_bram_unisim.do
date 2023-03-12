@@ -11,7 +11,7 @@ vcom -work work ../tb/tb_rtl_mem_bram_unisim.vhd
 
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/bram/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_code/default_default/bram/generic_file36k.txt
 #onfinish exit
 #onbreak exit
 log -r /*
