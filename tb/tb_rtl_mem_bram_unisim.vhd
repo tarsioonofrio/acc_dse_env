@@ -10,7 +10,8 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME       : string  := "ifmap_layer0_entity0"; -- "default", "ifmap_layer0_entity0", "iwght_layer0_entity0"
+    BRAM_NAME       : string  := "ifmap_layer0_instance0"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
+    PATH_DATA       : string  := "/layer/0/ifmap.txt";
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     MAX_MEM_SIZE    : integer := 36;
@@ -33,7 +34,7 @@ signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
 signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
+signal data     : type_array_int := read_data(PATH & PATH_DATA);
 
 
 begin

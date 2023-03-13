@@ -67,7 +67,7 @@ entity bram_single is
     bram_addr <= ADDR(9-1 downto 0);
           
 
-    MEM_IWGHT_LAYER0_ENTITY0 : if BRAM_NAME = "iwght_layer0_entity0" generate
+    MEM_IWGHT_LAYER0_INSTANCE0 : if BRAM_NAME = "iwght_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -166,10 +166,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER0_ENTITY0;
+    end generate MEM_IWGHT_LAYER0_INSTANCE0;
 
 
-    MEM_IWGHT_LAYER1_ENTITY0 : if BRAM_NAME = "iwght_layer1_entity0" generate
+    MEM_IWGHT_LAYER1_INSTANCE0 : if BRAM_NAME = "iwght_layer1_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -268,10 +268,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY0;
+    end generate MEM_IWGHT_LAYER1_INSTANCE0;
 
 
-    MEM_IWGHT_LAYER1_ENTITY1 : if BRAM_NAME = "iwght_layer1_entity1" generate
+    MEM_IWGHT_LAYER1_INSTANCE1 : if BRAM_NAME = "iwght_layer1_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -370,10 +370,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY1;
+    end generate MEM_IWGHT_LAYER1_INSTANCE1;
 
 
-    MEM_IWGHT_LAYER1_ENTITY2 : if BRAM_NAME = "iwght_layer1_entity2" generate
+    MEM_IWGHT_LAYER1_INSTANCE2 : if BRAM_NAME = "iwght_layer1_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -472,10 +472,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY2;
+    end generate MEM_IWGHT_LAYER1_INSTANCE2;
 
 
-    MEM_IWGHT_LAYER1_ENTITY3 : if BRAM_NAME = "iwght_layer1_entity3" generate
+    MEM_IWGHT_LAYER1_INSTANCE3 : if BRAM_NAME = "iwght_layer1_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -574,10 +574,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY3;
+    end generate MEM_IWGHT_LAYER1_INSTANCE3;
 
 
-    MEM_IWGHT_LAYER1_ENTITY4 : if BRAM_NAME = "iwght_layer1_entity4" generate
+    MEM_IWGHT_LAYER1_INSTANCE4 : if BRAM_NAME = "iwght_layer1_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -676,10 +676,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY4;
+    end generate MEM_IWGHT_LAYER1_INSTANCE4;
 
 
-    MEM_IWGHT_LAYER1_ENTITY5 : if BRAM_NAME = "iwght_layer1_entity5" generate
+    MEM_IWGHT_LAYER1_INSTANCE5 : if BRAM_NAME = "iwght_layer1_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -778,10 +778,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY5;
+    end generate MEM_IWGHT_LAYER1_INSTANCE5;
 
 
-    MEM_IWGHT_LAYER1_ENTITY6 : if BRAM_NAME = "iwght_layer1_entity6" generate
+    MEM_IWGHT_LAYER1_INSTANCE6 : if BRAM_NAME = "iwght_layer1_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -880,10 +880,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY6;
+    end generate MEM_IWGHT_LAYER1_INSTANCE6;
 
 
-    MEM_IWGHT_LAYER1_ENTITY7 : if BRAM_NAME = "iwght_layer1_entity7" generate
+    MEM_IWGHT_LAYER1_INSTANCE7 : if BRAM_NAME = "iwght_layer1_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -982,10 +982,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY7;
+    end generate MEM_IWGHT_LAYER1_INSTANCE7;
 
 
-    MEM_IWGHT_LAYER1_ENTITY8 : if BRAM_NAME = "iwght_layer1_entity8" generate
+    MEM_IWGHT_LAYER1_INSTANCE8 : if BRAM_NAME = "iwght_layer1_instance8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1084,10 +1084,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY8;
+    end generate MEM_IWGHT_LAYER1_INSTANCE8;
 
 
-    MEM_IWGHT_LAYER1_ENTITY9 : if BRAM_NAME = "iwght_layer1_entity9" generate
+    MEM_IWGHT_LAYER1_INSTANCE9 : if BRAM_NAME = "iwght_layer1_instance9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1186,10 +1186,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY9;
+    end generate MEM_IWGHT_LAYER1_INSTANCE9;
 
 
-    MEM_IWGHT_LAYER1_ENTITY10 : if BRAM_NAME = "iwght_layer1_entity10" generate
+    MEM_IWGHT_LAYER1_INSTANCE10 : if BRAM_NAME = "iwght_layer1_instance10" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1288,10 +1288,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY10;
+    end generate MEM_IWGHT_LAYER1_INSTANCE10;
 
 
-    MEM_IWGHT_LAYER1_ENTITY11 : if BRAM_NAME = "iwght_layer1_entity11" generate
+    MEM_IWGHT_LAYER1_INSTANCE11 : if BRAM_NAME = "iwght_layer1_instance11" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1390,10 +1390,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY11;
+    end generate MEM_IWGHT_LAYER1_INSTANCE11;
 
 
-    MEM_IWGHT_LAYER1_ENTITY12 : if BRAM_NAME = "iwght_layer1_entity12" generate
+    MEM_IWGHT_LAYER1_INSTANCE12 : if BRAM_NAME = "iwght_layer1_instance12" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1492,10 +1492,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY12;
+    end generate MEM_IWGHT_LAYER1_INSTANCE12;
 
 
-    MEM_IWGHT_LAYER1_ENTITY13 : if BRAM_NAME = "iwght_layer1_entity13" generate
+    MEM_IWGHT_LAYER1_INSTANCE13 : if BRAM_NAME = "iwght_layer1_instance13" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1594,10 +1594,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY13;
+    end generate MEM_IWGHT_LAYER1_INSTANCE13;
 
 
-    MEM_IWGHT_LAYER1_ENTITY14 : if BRAM_NAME = "iwght_layer1_entity14" generate
+    MEM_IWGHT_LAYER1_INSTANCE14 : if BRAM_NAME = "iwght_layer1_instance14" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1696,10 +1696,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY14;
+    end generate MEM_IWGHT_LAYER1_INSTANCE14;
 
 
-    MEM_IWGHT_LAYER1_ENTITY15 : if BRAM_NAME = "iwght_layer1_entity15" generate
+    MEM_IWGHT_LAYER1_INSTANCE15 : if BRAM_NAME = "iwght_layer1_instance15" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1798,10 +1798,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY15;
+    end generate MEM_IWGHT_LAYER1_INSTANCE15;
 
 
-    MEM_IWGHT_LAYER1_ENTITY16 : if BRAM_NAME = "iwght_layer1_entity16" generate
+    MEM_IWGHT_LAYER1_INSTANCE16 : if BRAM_NAME = "iwght_layer1_instance16" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -1900,10 +1900,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY16;
+    end generate MEM_IWGHT_LAYER1_INSTANCE16;
 
 
-    MEM_IWGHT_LAYER1_ENTITY17 : if BRAM_NAME = "iwght_layer1_entity17" generate
+    MEM_IWGHT_LAYER1_INSTANCE17 : if BRAM_NAME = "iwght_layer1_instance17" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2002,10 +2002,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY17;
+    end generate MEM_IWGHT_LAYER1_INSTANCE17;
 
 
-    MEM_IWGHT_LAYER1_ENTITY18 : if BRAM_NAME = "iwght_layer1_entity18" generate
+    MEM_IWGHT_LAYER1_INSTANCE18 : if BRAM_NAME = "iwght_layer1_instance18" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2104,10 +2104,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY18;
+    end generate MEM_IWGHT_LAYER1_INSTANCE18;
 
 
-    MEM_IWGHT_LAYER1_ENTITY19 : if BRAM_NAME = "iwght_layer1_entity19" generate
+    MEM_IWGHT_LAYER1_INSTANCE19 : if BRAM_NAME = "iwght_layer1_instance19" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2206,10 +2206,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY19;
+    end generate MEM_IWGHT_LAYER1_INSTANCE19;
 
 
-    MEM_IWGHT_LAYER1_ENTITY20 : if BRAM_NAME = "iwght_layer1_entity20" generate
+    MEM_IWGHT_LAYER1_INSTANCE20 : if BRAM_NAME = "iwght_layer1_instance20" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2308,10 +2308,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY20;
+    end generate MEM_IWGHT_LAYER1_INSTANCE20;
 
 
-    MEM_IWGHT_LAYER1_ENTITY21 : if BRAM_NAME = "iwght_layer1_entity21" generate
+    MEM_IWGHT_LAYER1_INSTANCE21 : if BRAM_NAME = "iwght_layer1_instance21" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2410,10 +2410,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY21;
+    end generate MEM_IWGHT_LAYER1_INSTANCE21;
 
 
-    MEM_IWGHT_LAYER1_ENTITY22 : if BRAM_NAME = "iwght_layer1_entity22" generate
+    MEM_IWGHT_LAYER1_INSTANCE22 : if BRAM_NAME = "iwght_layer1_instance22" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2512,10 +2512,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY22;
+    end generate MEM_IWGHT_LAYER1_INSTANCE22;
 
 
-    MEM_IWGHT_LAYER1_ENTITY23 : if BRAM_NAME = "iwght_layer1_entity23" generate
+    MEM_IWGHT_LAYER1_INSTANCE23 : if BRAM_NAME = "iwght_layer1_instance23" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2614,10 +2614,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY23;
+    end generate MEM_IWGHT_LAYER1_INSTANCE23;
 
 
-    MEM_IWGHT_LAYER1_ENTITY24 : if BRAM_NAME = "iwght_layer1_entity24" generate
+    MEM_IWGHT_LAYER1_INSTANCE24 : if BRAM_NAME = "iwght_layer1_instance24" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2716,10 +2716,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY24;
+    end generate MEM_IWGHT_LAYER1_INSTANCE24;
 
 
-    MEM_IWGHT_LAYER1_ENTITY25 : if BRAM_NAME = "iwght_layer1_entity25" generate
+    MEM_IWGHT_LAYER1_INSTANCE25 : if BRAM_NAME = "iwght_layer1_instance25" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2818,10 +2818,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY25;
+    end generate MEM_IWGHT_LAYER1_INSTANCE25;
 
 
-    MEM_IWGHT_LAYER1_ENTITY26 : if BRAM_NAME = "iwght_layer1_entity26" generate
+    MEM_IWGHT_LAYER1_INSTANCE26 : if BRAM_NAME = "iwght_layer1_instance26" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -2920,10 +2920,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY26;
+    end generate MEM_IWGHT_LAYER1_INSTANCE26;
 
 
-    MEM_IWGHT_LAYER1_ENTITY27 : if BRAM_NAME = "iwght_layer1_entity27" generate
+    MEM_IWGHT_LAYER1_INSTANCE27 : if BRAM_NAME = "iwght_layer1_instance27" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3022,10 +3022,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY27;
+    end generate MEM_IWGHT_LAYER1_INSTANCE27;
 
 
-    MEM_IWGHT_LAYER1_ENTITY28 : if BRAM_NAME = "iwght_layer1_entity28" generate
+    MEM_IWGHT_LAYER1_INSTANCE28 : if BRAM_NAME = "iwght_layer1_instance28" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3124,10 +3124,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY28;
+    end generate MEM_IWGHT_LAYER1_INSTANCE28;
 
 
-    MEM_IWGHT_LAYER1_ENTITY29 : if BRAM_NAME = "iwght_layer1_entity29" generate
+    MEM_IWGHT_LAYER1_INSTANCE29 : if BRAM_NAME = "iwght_layer1_instance29" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3226,10 +3226,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY29;
+    end generate MEM_IWGHT_LAYER1_INSTANCE29;
 
 
-    MEM_IWGHT_LAYER1_ENTITY30 : if BRAM_NAME = "iwght_layer1_entity30" generate
+    MEM_IWGHT_LAYER1_INSTANCE30 : if BRAM_NAME = "iwght_layer1_instance30" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3328,10 +3328,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY30;
+    end generate MEM_IWGHT_LAYER1_INSTANCE30;
 
 
-    MEM_IWGHT_LAYER1_ENTITY31 : if BRAM_NAME = "iwght_layer1_entity31" generate
+    MEM_IWGHT_LAYER1_INSTANCE31 : if BRAM_NAME = "iwght_layer1_instance31" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3430,10 +3430,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY31;
+    end generate MEM_IWGHT_LAYER1_INSTANCE31;
 
 
-    MEM_IWGHT_LAYER1_ENTITY32 : if BRAM_NAME = "iwght_layer1_entity32" generate
+    MEM_IWGHT_LAYER1_INSTANCE32 : if BRAM_NAME = "iwght_layer1_instance32" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3532,10 +3532,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY32;
+    end generate MEM_IWGHT_LAYER1_INSTANCE32;
 
 
-    MEM_IWGHT_LAYER1_ENTITY33 : if BRAM_NAME = "iwght_layer1_entity33" generate
+    MEM_IWGHT_LAYER1_INSTANCE33 : if BRAM_NAME = "iwght_layer1_instance33" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3634,10 +3634,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY33;
+    end generate MEM_IWGHT_LAYER1_INSTANCE33;
 
 
-    MEM_IWGHT_LAYER1_ENTITY34 : if BRAM_NAME = "iwght_layer1_entity34" generate
+    MEM_IWGHT_LAYER1_INSTANCE34 : if BRAM_NAME = "iwght_layer1_instance34" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3736,10 +3736,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY34;
+    end generate MEM_IWGHT_LAYER1_INSTANCE34;
 
 
-    MEM_IWGHT_LAYER1_ENTITY35 : if BRAM_NAME = "iwght_layer1_entity35" generate
+    MEM_IWGHT_LAYER1_INSTANCE35 : if BRAM_NAME = "iwght_layer1_instance35" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3838,10 +3838,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY35;
+    end generate MEM_IWGHT_LAYER1_INSTANCE35;
 
 
-    MEM_IWGHT_LAYER1_ENTITY36 : if BRAM_NAME = "iwght_layer1_entity36" generate
+    MEM_IWGHT_LAYER1_INSTANCE36 : if BRAM_NAME = "iwght_layer1_instance36" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -3940,10 +3940,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER1_ENTITY36;
+    end generate MEM_IWGHT_LAYER1_INSTANCE36;
 
 
-    MEM_IWGHT_LAYER2_ENTITY0 : if BRAM_NAME = "iwght_layer2_entity0" generate
+    MEM_IWGHT_LAYER2_INSTANCE0 : if BRAM_NAME = "iwght_layer2_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4042,10 +4042,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY0;
+    end generate MEM_IWGHT_LAYER2_INSTANCE0;
 
 
-    MEM_IWGHT_LAYER2_ENTITY1 : if BRAM_NAME = "iwght_layer2_entity1" generate
+    MEM_IWGHT_LAYER2_INSTANCE1 : if BRAM_NAME = "iwght_layer2_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4144,10 +4144,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY1;
+    end generate MEM_IWGHT_LAYER2_INSTANCE1;
 
 
-    MEM_IWGHT_LAYER2_ENTITY2 : if BRAM_NAME = "iwght_layer2_entity2" generate
+    MEM_IWGHT_LAYER2_INSTANCE2 : if BRAM_NAME = "iwght_layer2_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4246,10 +4246,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY2;
+    end generate MEM_IWGHT_LAYER2_INSTANCE2;
 
 
-    MEM_IWGHT_LAYER2_ENTITY3 : if BRAM_NAME = "iwght_layer2_entity3" generate
+    MEM_IWGHT_LAYER2_INSTANCE3 : if BRAM_NAME = "iwght_layer2_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4348,10 +4348,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY3;
+    end generate MEM_IWGHT_LAYER2_INSTANCE3;
 
 
-    MEM_IWGHT_LAYER2_ENTITY4 : if BRAM_NAME = "iwght_layer2_entity4" generate
+    MEM_IWGHT_LAYER2_INSTANCE4 : if BRAM_NAME = "iwght_layer2_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4450,10 +4450,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY4;
+    end generate MEM_IWGHT_LAYER2_INSTANCE4;
 
 
-    MEM_IWGHT_LAYER2_ENTITY5 : if BRAM_NAME = "iwght_layer2_entity5" generate
+    MEM_IWGHT_LAYER2_INSTANCE5 : if BRAM_NAME = "iwght_layer2_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4552,10 +4552,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY5;
+    end generate MEM_IWGHT_LAYER2_INSTANCE5;
 
 
-    MEM_IWGHT_LAYER2_ENTITY6 : if BRAM_NAME = "iwght_layer2_entity6" generate
+    MEM_IWGHT_LAYER2_INSTANCE6 : if BRAM_NAME = "iwght_layer2_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4654,10 +4654,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY6;
+    end generate MEM_IWGHT_LAYER2_INSTANCE6;
 
 
-    MEM_IWGHT_LAYER2_ENTITY7 : if BRAM_NAME = "iwght_layer2_entity7" generate
+    MEM_IWGHT_LAYER2_INSTANCE7 : if BRAM_NAME = "iwght_layer2_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4756,10 +4756,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY7;
+    end generate MEM_IWGHT_LAYER2_INSTANCE7;
 
 
-    MEM_IWGHT_LAYER2_ENTITY8 : if BRAM_NAME = "iwght_layer2_entity8" generate
+    MEM_IWGHT_LAYER2_INSTANCE8 : if BRAM_NAME = "iwght_layer2_instance8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4858,10 +4858,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY8;
+    end generate MEM_IWGHT_LAYER2_INSTANCE8;
 
 
-    MEM_IWGHT_LAYER2_ENTITY9 : if BRAM_NAME = "iwght_layer2_entity9" generate
+    MEM_IWGHT_LAYER2_INSTANCE9 : if BRAM_NAME = "iwght_layer2_instance9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -4960,10 +4960,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IWGHT_LAYER2_ENTITY9;
+    end generate MEM_IWGHT_LAYER2_INSTANCE9;
 
 
-    MEM_IFMAP_LAYER0_ENTITY0 : if BRAM_NAME = "ifmap_layer0_entity0" generate
+    MEM_IFMAP_LAYER0_INSTANCE0 : if BRAM_NAME = "ifmap_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5062,10 +5062,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY0;
+    end generate MEM_IFMAP_LAYER0_INSTANCE0;
 
 
-    MEM_IFMAP_LAYER0_ENTITY1 : if BRAM_NAME = "ifmap_layer0_entity1" generate
+    MEM_IFMAP_LAYER0_INSTANCE1 : if BRAM_NAME = "ifmap_layer0_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5164,10 +5164,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY1;
+    end generate MEM_IFMAP_LAYER0_INSTANCE1;
 
 
-    MEM_IFMAP_LAYER0_ENTITY2 : if BRAM_NAME = "ifmap_layer0_entity2" generate
+    MEM_IFMAP_LAYER0_INSTANCE2 : if BRAM_NAME = "ifmap_layer0_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5266,10 +5266,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY2;
+    end generate MEM_IFMAP_LAYER0_INSTANCE2;
 
 
-    MEM_IFMAP_LAYER0_ENTITY3 : if BRAM_NAME = "ifmap_layer0_entity3" generate
+    MEM_IFMAP_LAYER0_INSTANCE3 : if BRAM_NAME = "ifmap_layer0_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5368,10 +5368,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY3;
+    end generate MEM_IFMAP_LAYER0_INSTANCE3;
 
 
-    MEM_IFMAP_LAYER0_ENTITY4 : if BRAM_NAME = "ifmap_layer0_entity4" generate
+    MEM_IFMAP_LAYER0_INSTANCE4 : if BRAM_NAME = "ifmap_layer0_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5470,10 +5470,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY4;
+    end generate MEM_IFMAP_LAYER0_INSTANCE4;
 
 
-    MEM_IFMAP_LAYER0_ENTITY5 : if BRAM_NAME = "ifmap_layer0_entity5" generate
+    MEM_IFMAP_LAYER0_INSTANCE5 : if BRAM_NAME = "ifmap_layer0_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5572,10 +5572,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_ENTITY5;
+    end generate MEM_IFMAP_LAYER0_INSTANCE5;
 
 
-    MEM_IFMAP_LAYER1_ENTITY0 : if BRAM_NAME = "ifmap_layer1_entity0" generate
+    MEM_IFMAP_LAYER1_INSTANCE0 : if BRAM_NAME = "ifmap_layer1_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5674,10 +5674,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER1_ENTITY0;
+    end generate MEM_IFMAP_LAYER1_INSTANCE0;
 
 
-    MEM_IFMAP_LAYER1_ENTITY1 : if BRAM_NAME = "ifmap_layer1_entity1" generate
+    MEM_IFMAP_LAYER1_INSTANCE1 : if BRAM_NAME = "ifmap_layer1_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5776,10 +5776,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER1_ENTITY1;
+    end generate MEM_IFMAP_LAYER1_INSTANCE1;
 
 
-    MEM_IFMAP_LAYER1_ENTITY2 : if BRAM_NAME = "ifmap_layer1_entity2" generate
+    MEM_IFMAP_LAYER1_INSTANCE2 : if BRAM_NAME = "ifmap_layer1_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5878,10 +5878,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER1_ENTITY2;
+    end generate MEM_IFMAP_LAYER1_INSTANCE2;
 
 
-    MEM_IFMAP_LAYER1_ENTITY3 : if BRAM_NAME = "ifmap_layer1_entity3" generate
+    MEM_IFMAP_LAYER1_INSTANCE3 : if BRAM_NAME = "ifmap_layer1_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -5980,10 +5980,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER1_ENTITY3;
+    end generate MEM_IFMAP_LAYER1_INSTANCE3;
 
 
-    MEM_IFMAP_LAYER2_ENTITY0 : if BRAM_NAME = "ifmap_layer2_entity0" generate
+    MEM_IFMAP_LAYER2_INSTANCE0 : if BRAM_NAME = "ifmap_layer2_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6082,10 +6082,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY0;
+    end generate MEM_IFMAP_LAYER2_INSTANCE0;
 
 
-    MEM_IFMAP_LAYER2_ENTITY1 : if BRAM_NAME = "ifmap_layer2_entity1" generate
+    MEM_IFMAP_LAYER2_INSTANCE1 : if BRAM_NAME = "ifmap_layer2_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6184,10 +6184,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY1;
+    end generate MEM_IFMAP_LAYER2_INSTANCE1;
 
 
-    MEM_IFMAP_LAYER2_ENTITY2 : if BRAM_NAME = "ifmap_layer2_entity2" generate
+    MEM_IFMAP_LAYER2_INSTANCE2 : if BRAM_NAME = "ifmap_layer2_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6286,10 +6286,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY2;
+    end generate MEM_IFMAP_LAYER2_INSTANCE2;
 
 
-    MEM_IFMAP_LAYER2_ENTITY3 : if BRAM_NAME = "ifmap_layer2_entity3" generate
+    MEM_IFMAP_LAYER2_INSTANCE3 : if BRAM_NAME = "ifmap_layer2_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6388,10 +6388,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY3;
+    end generate MEM_IFMAP_LAYER2_INSTANCE3;
 
 
-    MEM_IFMAP_LAYER2_ENTITY4 : if BRAM_NAME = "ifmap_layer2_entity4" generate
+    MEM_IFMAP_LAYER2_INSTANCE4 : if BRAM_NAME = "ifmap_layer2_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6490,10 +6490,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY4;
+    end generate MEM_IFMAP_LAYER2_INSTANCE4;
 
 
-    MEM_IFMAP_LAYER2_ENTITY5 : if BRAM_NAME = "ifmap_layer2_entity5" generate
+    MEM_IFMAP_LAYER2_INSTANCE5 : if BRAM_NAME = "ifmap_layer2_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6592,10 +6592,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY5;
+    end generate MEM_IFMAP_LAYER2_INSTANCE5;
 
 
-    MEM_IFMAP_LAYER2_ENTITY6 : if BRAM_NAME = "ifmap_layer2_entity6" generate
+    MEM_IFMAP_LAYER2_INSTANCE6 : if BRAM_NAME = "ifmap_layer2_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6694,10 +6694,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY6;
+    end generate MEM_IFMAP_LAYER2_INSTANCE6;
 
 
-    MEM_IFMAP_LAYER2_ENTITY7 : if BRAM_NAME = "ifmap_layer2_entity7" generate
+    MEM_IFMAP_LAYER2_INSTANCE7 : if BRAM_NAME = "ifmap_layer2_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6796,10 +6796,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER2_ENTITY7;
+    end generate MEM_IFMAP_LAYER2_INSTANCE7;
 
 
-    MEM_GOLD_LAYER0_ENTITY0 : if BRAM_NAME = "gold_layer0_entity0" generate
+    MEM_GOLD_LAYER0_INSTANCE0 : if BRAM_NAME = "gold_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -6898,10 +6898,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY0;
+    end generate MEM_GOLD_LAYER0_INSTANCE0;
 
 
-    MEM_GOLD_LAYER0_ENTITY1 : if BRAM_NAME = "gold_layer0_entity1" generate
+    MEM_GOLD_LAYER0_INSTANCE1 : if BRAM_NAME = "gold_layer0_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7000,10 +7000,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY1;
+    end generate MEM_GOLD_LAYER0_INSTANCE1;
 
 
-    MEM_GOLD_LAYER0_ENTITY2 : if BRAM_NAME = "gold_layer0_entity2" generate
+    MEM_GOLD_LAYER0_INSTANCE2 : if BRAM_NAME = "gold_layer0_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7102,10 +7102,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY2;
+    end generate MEM_GOLD_LAYER0_INSTANCE2;
 
 
-    MEM_GOLD_LAYER0_ENTITY3 : if BRAM_NAME = "gold_layer0_entity3" generate
+    MEM_GOLD_LAYER0_INSTANCE3 : if BRAM_NAME = "gold_layer0_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7204,10 +7204,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY3;
+    end generate MEM_GOLD_LAYER0_INSTANCE3;
 
 
-    MEM_GOLD_LAYER0_ENTITY4 : if BRAM_NAME = "gold_layer0_entity4" generate
+    MEM_GOLD_LAYER0_INSTANCE4 : if BRAM_NAME = "gold_layer0_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7306,10 +7306,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY4;
+    end generate MEM_GOLD_LAYER0_INSTANCE4;
 
 
-    MEM_GOLD_LAYER0_ENTITY5 : if BRAM_NAME = "gold_layer0_entity5" generate
+    MEM_GOLD_LAYER0_INSTANCE5 : if BRAM_NAME = "gold_layer0_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7408,10 +7408,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY5;
+    end generate MEM_GOLD_LAYER0_INSTANCE5;
 
 
-    MEM_GOLD_LAYER0_ENTITY6 : if BRAM_NAME = "gold_layer0_entity6" generate
+    MEM_GOLD_LAYER0_INSTANCE6 : if BRAM_NAME = "gold_layer0_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7510,10 +7510,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY6;
+    end generate MEM_GOLD_LAYER0_INSTANCE6;
 
 
-    MEM_GOLD_LAYER0_ENTITY7 : if BRAM_NAME = "gold_layer0_entity7" generate
+    MEM_GOLD_LAYER0_INSTANCE7 : if BRAM_NAME = "gold_layer0_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7612,10 +7612,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER0_ENTITY7;
+    end generate MEM_GOLD_LAYER0_INSTANCE7;
 
 
-    MEM_GOLD_LAYER1_ENTITY0 : if BRAM_NAME = "gold_layer1_entity0" generate
+    MEM_GOLD_LAYER1_INSTANCE0 : if BRAM_NAME = "gold_layer1_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7714,10 +7714,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER1_ENTITY0;
+    end generate MEM_GOLD_LAYER1_INSTANCE0;
 
 
-    MEM_GOLD_LAYER1_ENTITY1 : if BRAM_NAME = "gold_layer1_entity1" generate
+    MEM_GOLD_LAYER1_INSTANCE1 : if BRAM_NAME = "gold_layer1_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7816,10 +7816,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER1_ENTITY1;
+    end generate MEM_GOLD_LAYER1_INSTANCE1;
 
 
-    MEM_GOLD_LAYER2_ENTITY0 : if BRAM_NAME = "gold_layer2_entity0" generate
+    MEM_GOLD_LAYER2_INSTANCE0 : if BRAM_NAME = "gold_layer2_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7918,10 +7918,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER2_ENTITY0;
+    end generate MEM_GOLD_LAYER2_INSTANCE0;
 
 
-    MEM_GOLD_LAYER2_ENTITY1 : if BRAM_NAME = "gold_layer2_entity1" generate
+    MEM_GOLD_LAYER2_INSTANCE1 : if BRAM_NAME = "gold_layer2_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8020,10 +8020,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER2_ENTITY1;
+    end generate MEM_GOLD_LAYER2_INSTANCE1;
 
 
-    MEM_GOLD_LAYER2_ENTITY2 : if BRAM_NAME = "gold_layer2_entity2" generate
+    MEM_GOLD_LAYER2_INSTANCE2 : if BRAM_NAME = "gold_layer2_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8122,10 +8122,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER2_ENTITY2;
+    end generate MEM_GOLD_LAYER2_INSTANCE2;
 
 
-    MEM_GOLD_LAYER2_ENTITY3 : if BRAM_NAME = "gold_layer2_entity3" generate
+    MEM_GOLD_LAYER2_INSTANCE3 : if BRAM_NAME = "gold_layer2_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8224,7 +8224,7 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_GOLD_LAYER2_ENTITY3;
+    end generate MEM_GOLD_LAYER2_INSTANCE3;
 
     MEM_EMPTY_18Kb : if BRAM_NAME = "default" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO

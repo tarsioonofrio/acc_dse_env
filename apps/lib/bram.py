@@ -45,7 +45,7 @@ def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
 
-    list_entity = [f"{name}_entity{i}" for i, file in enumerate(feat_file)]
+    list_entity = [f"{name}_instance{i}" for i, file in enumerate(feat_file)]
 
     list_text_out = [
         text.format(

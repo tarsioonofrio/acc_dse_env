@@ -11,7 +11,8 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME  : string  := "ifmap_layer0_entity"; -- "default", "ifmap_layer0_entity", "iwght_layer0_entity"
+    BRAM_NAME  : string  := "ifmap_layer0"; -- "default", "ifmap_layer0", "iwght_layer0"
+    PATH_DATA  : string  := "/layer/0/ifmap.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
@@ -34,10 +35,9 @@ signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
 signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
+signal data     : type_array_int := read_data(PATH & PATH_DATA);
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
-signal config   : type_config_logic := read_config(PATH & "/layer/0/ifmap_pkg.txt");
 
 
 begin
@@ -78,7 +78,6 @@ begin
     report "*** reset";
 
     -- write stage
-
     if BRAM_NAME = "default" then
         chip_en <= '1';
         wr_en <= '1';
@@ -96,7 +95,6 @@ begin
     end if;
 
     -- read stage
-
     chip_en <= '1';
     wr_en <= '0';
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop

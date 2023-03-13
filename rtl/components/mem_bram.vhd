@@ -77,7 +77,7 @@ begin
     LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
-        BRAM_NAME => BRAM_NAME & integer'image(i)
+        BRAM_NAME => BRAM_NAME & "_instance" & integer'image(i)
       )
       port map(
         CLK  => clock,
