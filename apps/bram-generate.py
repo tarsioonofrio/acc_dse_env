@@ -28,8 +28,8 @@ def main():
     with open(file_hw) as f:
         config_hw = json.load(f)
 
-    generate_bram_files(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw, "18Kb")
-    generate_bram_files(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw, "36Kb")
+    generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "18Kb")
+    generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "36Kb")
 
 
 if __name__ == '__main__':
