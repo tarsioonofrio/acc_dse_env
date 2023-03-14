@@ -2,10 +2,8 @@ import os
 import json
 import pickle
 import argparse
-import datetime
 from pathlib import Path
 
-# from scipy.io import savemat, loadmat
 from lib import util, keras_cifar10
 from lib.generate_files import (
     generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,

@@ -5,7 +5,7 @@ from pathlib import Path
 
 from tensorflow import keras
 from lib import keras_models
-from apps.lib.model import dictionary_from_model
+from lib.model import dictionary_from_model
 
 
 def main():

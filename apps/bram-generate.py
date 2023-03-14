@@ -1,17 +1,8 @@
-import os
 import json
-import pickle
 import argparse
-import datetime
 from pathlib import Path
 
-# from scipy.io import savemat, loadmat
-from lib import util, keras_cifar10
-from lib.generate_files import (
-    generate_samples
-)
-from apps.lib.bram import generate_bram_files
-from apps.lib.model import dictionary_from_model
+from lib.bram import generate_bram_files
 
 
 def main():
@@ -26,7 +17,7 @@ def main():
     root = Path(__file__).parent.resolve()
     file_nn = root / "cnn_config" / f"{args.rtl_config}.json"
     file_hw = root / "rtl_config" / f"{args.rtl_config}.json"
-    path = root / "rtl_output" / f"{args.nn_config}/{args.rtl_config}"
+    path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 
     path_output = path / "bram"
     path_output.mkdir(parents=True, exist_ok=True)
