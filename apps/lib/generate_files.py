@@ -2,7 +2,6 @@ from pathlib import Path
 from os.path import relpath
 from math import log2, ceil
 
-from .bram import format_bram_pkg, write_bram_pkg
 from .model import convolution_from_weights, generate_ifmem_vhd_pkg
 
 
@@ -111,18 +110,6 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_bram_files(
-        path=path_layer, bits=generic_dict["MEM_SIZE"],
-        **generate_vhd
-    )
-    # generate_gold_bram(
-    #     path=path_layer, bits=generic_dict["MEM_SIZE"],
-    #     **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
-    # )
-    # generate_iwght_bram(
-    #     path=path_layer, bits=generic_dict["MEM_SIZE"],
-    #     **{**generate_vhd, "layer": len(vhd_dict["filter_dimension"]) - 1}
-    # )
     generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
 
@@ -147,10 +134,6 @@ def generate_all_bram_files(input_c, input_w, input_channel, generic_dict, vhd_d
     path.mkdir(parents=True, exist_ok=True)
     generate_generic_dict = {**generic_dict, **generic_dict2}
     generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-    generate_bram_files(
-        path=path, bits=generic_dict["MEM_SIZE"],
-        **generate_vhd
-    )
     generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
 
 
@@ -161,10 +144,6 @@ def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_
     # Generate generic file for rtl simulation
     generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
     generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
-    generate_samples_files(
-        path=path_samples, bits=generic_dict["MEM_SIZE"],
-        **{**generate_vhd, "last_layer": len(vhd_dict["filter_dimension"]) - 1}
-    )
 
 
 def generate_generic_file(generate_dict, path, n_layer):
@@ -420,92 +399,3 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     return feat_unpack
 
-
-def generate_bram_files(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-    wght = generate_iwght_bram(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
-    )
-    bits2 = bits * 2
-    wght_18k, wght_18k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits2, 64)
-    wght_36k, wght_36k_size = format_bram_pkg(f"iwght_layer{layer}", wght, bits2, 128)
-
-    fmap = generate_ifmap_bram(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
-    )
-    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 64)
-    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 128)
-
-    gold = generate_gold_bram(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
-    )
-    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 64)
-    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 128)
-
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
-        empty_18k = f.read()
-
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_36Kb_template_empty.vhd", "r") as f:
-        empty_36k = f.read()
-
-    bram18k = wght_18k + fmap_18k + gold_18k + empty_18k
-    bram36k = wght_36k + fmap_36k + gold_36k + empty_36k
-
-    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits2)
-    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
-
-    generic18k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([wght_18k_size, fmap_18k_size, gold_18k_size], ["IWGHT", "IFMAP", "GOLD"])
-    )
-    generic36k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
-    )
-    with open(path / "generic_file_bram18k.txt", "w") as f:
-        f.write(generic18k)
-
-    with open(path / "generic_file_bram36k.txt", "w") as f:
-        f.write(generic36k)
-
-
-def generate_samples_files(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits,
-                           last_layer):
-    bits2 = bits * 2
-    fmap = generate_ifmap_bram(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits
-    )
-    fmap_18k, fmap_18k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 64)
-    fmap_36k, fmap_36k_size = format_bram_pkg(f"ifmap_layer{layer}", fmap, bits2, 128)
-
-    gold = generate_gold_bram(
-        modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-        testSet, testLabel, stride_h, stride_w, testSetSize, last_layer, path, bits
-    )
-    gold_18k, gold_18k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 64)
-    gold_36k, gold_36k_size = format_bram_pkg(f"gold_layer{layer}", gold, bits2, 128)
-
-    bram18k = fmap_18k + gold_18k
-    bram36k = fmap_36k + gold_36k
-
-    write_bram_pkg(bram18k, 64, path / "bram_18Kb.vhd", bits2)
-    write_bram_pkg(bram36k, 128, path / "bram_36Kb.vhd", bits2)
-
-    generic18k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([fmap_18k_size, gold_18k_size], ["IFMAP", "GOLD"])
-    )
-    generic36k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([fmap_36k_size, gold_36k_size], ["IFMAP", "GOLD"])
-    )
-    with open(path / "generic_file_bram18k.txt", "w") as f:
-        f.write(generic18k)
-
-    with open(path / "generic_file_bram36k.txt", "w") as f:
-        f.write(generic36k)

@@ -18,18 +18,15 @@ def main():
     parser = argparse.ArgumentParser(
         usage='use "python %(prog)s --help" for more information.\n'
     )
-    parser.add_argument("--nn_config", "-n", type=str, help="Name of neural network config file in nn_config")
+    parser.add_argument("--cnn_config", "-c", type=str, help="Name of neural network config file in nn_config")
     parser.add_argument("--rtl_config", "-r", type=str, help="Name of hardware config file in rtl_config")
 
     args = parser.parse_args()
 
-    config_nn_name = args.nn_config
-    config_hw_name = args.rtl_config
-
     root = Path(__file__).parent.resolve()
-    file_nn = root / "nn_config" / f"{config_hw_name}.json"
-    file_hw = root / "rtl_config" / f"{config_hw_name}.json"
-    path = root / "rtl_code" / f"{config_nn_name}_{config_hw_name}"
+    file_nn = root / "cnn_config" / f"{args.rtl_config}.json"
+    file_hw = root / "rtl_config" / f"{args.rtl_config}.json"
+    path = root / "rtl_output" / f"{args.nn_config}/{args.rtl_config}"
 
     path_output = path / "bram"
     path_output.mkdir(parents=True, exist_ok=True)
