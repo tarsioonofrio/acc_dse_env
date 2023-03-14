@@ -1,10 +1,11 @@
 from math import ceil, floor
 from pathlib import Path
 
-bram_size_dict = {
-    64: "18Kb",
-    128: "36Kb"
+bram_lines = {
+    "18Kb": 64,
+    "36Kb": 128
 }
+
 bram18kb_dict = {
     (19, 36): {"BRAM_ADDR": 9, "BRAM_WE": 4, "BRAM_DEPTH": 512},
     (10, 18): {"BRAM_ADDR": 10, "BRAM_WE": 2, "BRAM_DEPTH": 1024},
@@ -29,19 +30,16 @@ def two_comp(val, nbits):
     return (val + (1 << nbits)) % (1 << nbits)
 
 
-def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
-    bram_config = get_bram_config(bits, lines_per_file)
+def format_bram_pkg(name, feat_list, bram_config, bits=32, bram_size="36Kb"):
+    lines_per_file = bram_lines[bram_size]
     bram_depth = bram_config["BRAM_DEPTH"]
     values_per_line = bram_depth // lines_per_file
     bytes_per_value = 64 // values_per_line
 
-    # word = floor(bits / 4)
     feat_hex = [format(two_comp(int(feat), bytes_per_value*4), f'0{bytes_per_value}x') for feat in feat_list]
-    # total_words = floor(64 / word)
     feat_line = ["".join(reversed(feat_hex[i:i + values_per_line])) for i in range(0, len(feat_hex), values_per_line)]
     feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
 
-    bram_size = bram_size_dict[lines_per_file]
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
 
@@ -60,8 +58,7 @@ def format_bram_pkg(name, feat_list, bits=32, lines_per_file=64):
     # write_bram_pkg(blocks_string, lines_per_file, path, bits)
 
 
-def write_bram_pkg(blocks_string, lines_per_file, path, bits):
-    bram_config = get_bram_config(bits, lines_per_file)
+def write_bram_pkg(blocks_string, path, bits, bram_config):
     bram_addr = bram_config["BRAM_ADDR"]
     bram_we = bram_config["BRAM_WE"]
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
@@ -73,8 +70,7 @@ def write_bram_pkg(blocks_string, lines_per_file, path, bits):
         f.writelines(text_out)
 
 
-def get_bram_config(bits, lines_per_file):
-    bram_size = bram_size_dict[lines_per_file]
+def get_bram_config(bits, bram_size):
     if bram_size == '18Kb':
         bram_dict = bram18kb_dict
     else:
@@ -98,53 +94,26 @@ def open_file(path):
     return data_int
 
 
-def generate_bram_files2(n_layers, input_path, path_output, config_hw):
+def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size):
     max_bits = config_hw["BRAM_RW_DEPTH"]
-    bram_addr18k = get_bram_config(max_bits, 64)["BRAM_ADDR"]
-    bram_addr36k = get_bram_config(max_bits, 128)["BRAM_ADDR"]
-    get_bram_config(max_bits, 128)
-    wght = [open_file(p) for p in input_path.glob("**/iwght.txt")]
-    wght_18k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), wght)]
-    wght_36k = [format_bram_pkg(f"iwght_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), wght)]
-    wght_18k_data, wght_18k_size = [y for x in wght_18k for y in x[0]], [x[1] for x in wght_18k]
-    wght_36k_data, wght_36k_size = [y for x in wght_36k for y in x[0]], [x[1] for x in wght_36k]
+    bram_config = get_bram_config(max_bits, bram_size)
+    bram_addr = bram_config["BRAM_ADDR"]
 
-    fmap = [open_file(p) for p in input_path.glob("**/ifmap.txt")]
-    fmap_18k = [format_bram_pkg(f"ifmap_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), fmap)]
-    fmap_36k = [format_bram_pkg(f"ifmap_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), fmap)]
-    fmap_18k_data, fmap_18k_size = [y for x in fmap_18k for y in x[0]], [x[1] for x in fmap_18k]
-    fmap_36k_data, fmap_36k_size = [y for x in fmap_36k for y in x[0]], [x[1] for x in fmap_36k]
+    wght_data, wght_size = generate_data_formated("iwght", bram_config, bram_size, input_path, max_bits, n_layers)
+    fmap_data, fmap_size = generate_data_formated("ifmap", bram_config, bram_size, input_path, max_bits, n_layers)
+    gold_data, gold_size = generate_data_formated("gold", bram_config, bram_size, input_path, max_bits, n_layers)
 
-    gold = [open_file(p) for p in input_path.glob("**/gold.txt")]
-    gold_18k = [format_bram_pkg(f"gold_layer{i}", d, max_bits, 64) for i, d in zip(range(n_layers), gold)]
-    gold_36k = [format_bram_pkg(f"gold_layer{i}", d, max_bits, 128) for i, d in zip(range(n_layers), gold)]
-    gold_18k_data, gold_18k_size = [y for x in gold_18k for y in x[0]], [x[1] for x in gold_18k]
-    gold_36k_data, gold_36k_size = [y for x in gold_36k for y in x[0]], [x[1] for x in gold_36k]
+    with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
+        empty = f.read().format(data_width=max_bits)
 
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_18Kb_template_empty.vhd", "r") as f:
-        empty_18k = f.read().format(data_width=max_bits)
+    bram36k = "".join(wght_data + fmap_data + gold_data) + empty
 
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_36Kb_template_empty.vhd", "r") as f:
-        empty_36k = f.read().format(data_width=max_bits)
+    write_bram_pkg(bram36k, path_output / f"bram_{bram_size}.vhd", max_bits, bram_config)
 
-    bram18k = "".join(wght_18k_data + fmap_18k_data + gold_18k_data) + empty_18k
-    bram36k = "".join(wght_36k_data + fmap_36k_data + gold_36k_data) + empty_36k
-
-    write_bram_pkg(bram18k, 64, path_output / "bram_18Kb.vhd", max_bits)
-    write_bram_pkg(bram36k, 128, path_output / "bram_36Kb.vhd", max_bits)
-
-    generic18k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([wght_18k_size, fmap_18k_size, gold_18k_size], ["IWGHT", "IFMAP", "GOLD"])
-    )
-    generic36k = " ".join(
-        f"-gN_BRAM_{n}={i}" for i, n in
-        zip([wght_36k_size, fmap_36k_size, gold_36k_size], ["IWGHT", "IFMAP", "GOLD"])
-    )
-
-    # with open(path_output / "generic_file_bram18k.txt", "w") as f:
-    #     f.write(generic18k)
-    #
+    # generic36k = " ".join(
+    #     f"-gN_BRAM_{n}={i}" for i, n in
+    #     zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
+    # )
     # with open(path_output / "generic_file_bram36k.txt", "w") as f:
     #     f.write(generic36k)
 
@@ -156,12 +125,18 @@ def generate_bram_files2(n_layers, input_path, path_output, config_hw):
     with open(path_output.parent / "core/generic_file.txt", "r") as f:
         generics = f.read().strip()
 
-    with open(path_output / "generic_file18k.txt", "w") as f:
+    with open(path_output / f"generic_file{bram_size}.txt", "w") as f:
         f.writelines(
-            generics + rw_depth_generics + f" -gBRAM_ADDR={bram_addr18k}"
+            generics + rw_depth_generics + f" -gBRAM_ADDR={bram_addr}"
         )
 
-    with open(path_output / "generic_file36k.txt", "w") as f:
-        f.writelines(
-            generics + rw_depth_generics + f" -gBRAM_ADDR={bram_addr36k}"
-        )
+
+def generate_data_formated(file_name, bram_config, bram_size, input_path, max_bits, n_layers):
+    files = [open_file(p) for p in input_path.glob(f"**/{file_name}.txt")]
+    formated = [
+        format_bram_pkg(f"{file_name}_layer{i}", d, bram_config, max_bits, bram_size)
+        for i, d in zip(range(n_layers), files)
+    ]
+    data = [y for x in formated for y in x[0]]
+    size = [x[1] for x in formated]
+    return data, size

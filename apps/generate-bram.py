@@ -10,7 +10,7 @@ from lib import util, keras_cifar10
 from lib.generate_files import (
     generate_samples
 )
-from apps.lib.bram import generate_bram_files2
+from apps.lib.bram import generate_bram_files
 from apps.lib.model import dictionary_from_model
 
 
@@ -40,7 +40,8 @@ def main():
     with open(file_hw) as f:
         config_hw = json.load(f)
 
-    generate_bram_files2(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw)
+    generate_bram_files(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw, "18Kb")
+    generate_bram_files(len(config_nn["filter_channel"]), path / "layer", path_output, config_hw, "36Kb")
 
 
 if __name__ == '__main__':
