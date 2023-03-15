@@ -1,7 +1,8 @@
 library ieee;
-library std;
 
+library std;
 use ieee.std_logic_1164.all;
+
 use ieee.std_logic_signed.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
@@ -47,7 +48,7 @@ entity cnn is
         p_ofmap_ce    : in std_logic;
         p_ofmap_we    : in std_logic;
         p_ofmap_valid : out std_logic;
-        
+
         p_address   : in std_logic_vector(MEM_SIZE-1 downto 0);
         p_value_in  : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
         p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
@@ -67,7 +68,7 @@ architecture a1 of cnn is
 
   type type_value is array (0 to N_LAYER + 1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal value_out, value_in: type_value;
- 
+
   signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
@@ -84,7 +85,7 @@ begin
   -- init config array
   gen_init_config: for i in 1 to N_LAYER generate
     config(i) <= read_config(PATH & "/layer/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
-  end generate;   
+  end generate;
 
   -- input map port to 0 index signal
   ofmap_ce(0) <= p_ifmap_ce;
@@ -102,7 +103,7 @@ begin
     value_in(i) <= value_out(i-1) when ofmap_ce(i-1) = '1' and ofmap_we(i-1) = '1' else value_out(i+1);
     ofmap_valid(i-1) <= ifmap_valid(i);
     start_conv(i) <= end_conv(i-1);
-  end generate;   
+  end generate;
 
   -- ofmap mem signal map
   mem_ofmap_ce <= ofmap_ce(N_LAYER) or p_ofmap_ce;
@@ -132,7 +133,7 @@ begin
         INPUT_SIZE     => INPUT_SIZE,
         SHIFT          => SHIFT,
         CARRY_SIZE     => CARRY_SIZE,
-        IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght.txt",
+        IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght_pkg.txt",
         TEST_BENCH     => TEST_BENCH,
         TEST_LAYER     => i,
         PATH           => PATH
@@ -163,7 +164,7 @@ begin
         p_address_out   => address_out(i),
         p_value_out     => value_out(i)
         );
-  end generate;   
+  end generate;
 
   OFMAP : entity work.memory
     generic map(
@@ -188,7 +189,7 @@ begin
 
   GEN_TB: if TEST_BENCH = '1' generate
     config_test <= read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");
-    gold <= read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold.txt");
+    gold <= read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
 
 
     process(clock)

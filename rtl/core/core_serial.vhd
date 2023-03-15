@@ -24,8 +24,13 @@ entity core is
     IFMAP_PATH     : string    := "";
     TEST_BENCH     : std_logic := '0';
     TEST_LAYER     : integer   := 0;
-    PATH           : string    := ""
-   );
+    PATH           : string    := "";
+    N_LAYER        : integer   := 0;
+    BRAM_ADDR      : integer   := 10;
+    BRAM_NUM_IWGHT : integer   := 1;
+    BRAM_NUM_IFMAP : integer   := 1;
+    BRAM_NUM_GOLD  : integer   := 1
+    );
   port (
     clock : in std_logic;
     reset : in std_logic;
@@ -68,7 +73,7 @@ architecture a1 of core is
 
   signal mem_iwght_address, mem_ifmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal iwght_value, mem_iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal iwght_value, mem_iwght_value, ifmap_value : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal mem_ifmap_value, ofmap_in, ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
@@ -83,7 +88,7 @@ begin
   start_conv <= p_start_conv ;
   ofmap_valid <= p_ofmap_valid;
   ofmap_in <= p_value_in;
-  mem_iwght_value <=  p_value_in((INPUT_SIZE*2)-1 downto 0);
+  mem_iwght_value((INPUT_SIZE*2)-1 downto 0) <=  p_value_in((INPUT_SIZE*2)-1 downto 0);
 
   -- map conditional input port
   mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
@@ -105,15 +110,18 @@ begin
   p_value_out <= mem_ifmap_value when p_ifmap_ce = '1' else ofmap_out; -- and p_ifmap_we = '1'
 
   -- map mem value to conv 
-  ifmap_value <= mem_ifmap_value((INPUT_SIZE*2)-1 downto 0);
+  ifmap_value((INPUT_SIZE*2)-1 downto 0) <= mem_ifmap_value((INPUT_SIZE*2)-1 downto 0);
 
 
   IWGHT : entity work.memory
     generic map(
       ROM_PATH => IWGHT_PATH,
-      INPUT_SIZE => INPUT_SIZE*2,
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE, 
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => LAT,
+      BRAM_ADDR => BRAM_ADDR,
+      BRAM_NUM => BRAM_NUM_IWGHT,
+      BRAM_NAME => "iwght_layer" & integer'image(N_LAYER)
       )
     port map(
       clock    => clock,
@@ -133,7 +141,10 @@ begin
       ROM_PATH => IFMAP_PATH,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => LAT,
+      BRAM_ADDR => BRAM_ADDR,
+      BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_NAME => "ifmap_layer" & integer'image(N_LAYER)
       )
     port map(
       clock    => clock,
@@ -171,12 +182,12 @@ begin
       config        => config,
 
       iwght_valid   => iwght_valid,
-      iwght_value   => iwght_value,
+      iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
       iwght_address => iwght_address,
       iwght_ce      => iwght_ce,
 
       ifmap_valid   => ifmap_valid,
-      ifmap_value   => ifmap_value,
+      ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
       ifmap_address => ifmap_address,
       ifmap_ce      => ifmap_ce,
 
@@ -190,7 +201,7 @@ begin
 
 
   GEN_TB: if TEST_BENCH = '1' generate
-    gold <= read_data(PATH & "/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
+    gold <= read_data(PATH & "/" & integer'image(TEST_LAYER - 1) & "/gold.txt");
 
     process(clock)
 

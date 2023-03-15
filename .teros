@@ -1,0 +1,10 @@
+apps/data_hw/default_default/core/config_pkg.vhd
+rtl/core/util_pkg.vhd
+rtl/components/reg.vhd
+rtl/components/mem_file.vhd
+rtl/components/mac.vhd
+rtl/convolution/syst2d_ws_split_multi.vhd
+
+rtl/core/core_serial.vhd
+rtl/cnn/simple.vhd
+tb/tb_rtl_cnn.vhd

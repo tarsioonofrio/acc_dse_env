@@ -89,14 +89,14 @@ begin
     variable cont_conv : integer := 0;
   begin
     -- Image input
-    input_map <= read_data(PATH & "/0/ifmap_pkg.txt");
+    input_map <= read_data(PATH & "/layer/0/ifmap_pkg.txt");
 
     for index in 0 to N_LAYER - 1 loop
       wait until rising_edge(clock);
       reset <= '1';
-      input_wght <= read_data(PATH & "/" & integer'image(index) & "/iwght_pkg.txt");
-      gold <= read_data(PATH & "/" & integer'image(index) & "/gold_pkg.txt");
-      config <= read_config(PATH & "/" & integer'image(index) & "/config_pkg.txt");
+      input_wght <= read_data(PATH & "/layer/" & integer'image(index) & "/iwght_pkg.txt");
+      gold <= read_data(PATH & "/layer/" & integer'image(index) & "/gold_pkg.txt");
+      config <= read_config(PATH & "/layer/" & integer'image(index) & "/config_pkg.txt");
       wait until rising_edge(clock);
 
       reset <= '0';
