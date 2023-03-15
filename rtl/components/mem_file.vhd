@@ -13,7 +13,10 @@ entity memory is
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     DATA_AV_LATENCY : integer := 0;
-    ROM_PATH        : string  := ""
+    ROM_PATH        : string  := "";
+    BRAM_NAME       : string := "";
+    BRAM_NUM        : integer := 0;
+    BRAM_ADDR       : integer := 0
     );
 
   port (reset   : in std_logic;

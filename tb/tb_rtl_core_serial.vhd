@@ -28,9 +28,9 @@ entity tb is
            LAT            : integer := 2;
            N_LAYER        : integer := 0;
            PATH           : string  := "";
-           N_BRAM_IWGHT   : integer := 2;
-           N_BRAM_IFMAP   : integer := 2;
-           N_BRAM_GOLD    : integer := 2
+           BRAM_NUM_IWGHT : integer := 2;
+           BRAM_NUM_IFMAP : integer := 2;
+           BRAM_NUM_GOLD  : integer := 2
            );
 end tb;
 
@@ -61,12 +61,12 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH     => PATH & "/iwght_pkg.txt",
-      IFMAP_PATH     => PATH & "/ifmap_pkg.txt",
+      IWGHT_PATH     => PATH & "/iwght.txt",
+      IFMAP_PATH     => PATH & "/ifmap.txt",
       N_LAYER        => N_LAYER,
-      N_BRAM_IWGHT   => N_BRAM_IWGHT,
-      N_BRAM_IFMAP   => N_BRAM_IFMAP,   
-      N_BRAM_GOLD    => N_BRAM_GOLD    
+      BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
+      BRAM_NUM_GOLD  => BRAM_NUM_GOLD
  )
     port map(
       clock         => clock,
