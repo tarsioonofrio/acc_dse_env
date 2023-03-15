@@ -55,8 +55,8 @@ architecture a1 of tb is
   signal config_inpt : type_config_logic := read_config(PATH & "/layer/0/config_pkg.txt");
   signal config_gold : type_config_logic := read_config(PATH & "/layer/2/config_pkg.txt");
 
-  signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap_pkg.txt");
-  signal gold      : type_array_int := read_data(PATH & "/layer/2/gold_pkg.txt");
+  signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap.txt");
+  signal gold      : type_array_int := read_data(PATH & "/layer/2/gold.txt");
 
 begin
 

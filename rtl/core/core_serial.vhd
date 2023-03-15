@@ -201,7 +201,7 @@ begin
 
 
   GEN_TB: if TEST_BENCH = '1' generate
-    gold <= read_data(PATH & "/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
+    gold <= read_data(PATH & "/" & integer'image(TEST_LAYER - 1) & "/gold.txt");
 
     process(clock)
 

@@ -132,7 +132,7 @@ begin
         INPUT_SIZE     => INPUT_SIZE,
         SHIFT          => SHIFT,
         CARRY_SIZE     => CARRY_SIZE,
-        IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght_pkg.txt",
+        IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght.txt",
         TEST_BENCH     => TEST_BENCH,
         TEST_LAYER     => i,
         PATH           => PATH
@@ -188,7 +188,7 @@ begin
 
   GEN_TB: if TEST_BENCH = '1' generate
     config_test <= read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");
-    gold <= read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold_pkg.txt");
+    gold <= read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold.txt");
 
 
     process(clock)
