@@ -8227,7 +8227,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_INSTANCE3;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE0 : if BRAM_NAME = "ifmap_layer0_instance0" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE0 : if BRAM_NAME = "sample_ifmap_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8326,10 +8326,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE0;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE0;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE1 : if BRAM_NAME = "ifmap_layer0_instance1" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE1 : if BRAM_NAME = "sample_ifmap_layer0_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8428,10 +8428,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE1;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE1;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE2 : if BRAM_NAME = "ifmap_layer0_instance2" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE2 : if BRAM_NAME = "sample_ifmap_layer0_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8530,10 +8530,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE2;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE2;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE3 : if BRAM_NAME = "ifmap_layer0_instance3" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE3 : if BRAM_NAME = "sample_ifmap_layer0_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8632,10 +8632,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE3;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE3;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE4 : if BRAM_NAME = "ifmap_layer0_instance4" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE4 : if BRAM_NAME = "sample_ifmap_layer0_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8734,10 +8734,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE4;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE4;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE5 : if BRAM_NAME = "ifmap_layer0_instance5" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE5 : if BRAM_NAME = "sample_ifmap_layer0_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8836,10 +8836,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE5;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE5;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE6 : if BRAM_NAME = "ifmap_layer0_instance6" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE6 : if BRAM_NAME = "sample_ifmap_layer0_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8938,10 +8938,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE6;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE6;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE7 : if BRAM_NAME = "ifmap_layer0_instance7" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE7 : if BRAM_NAME = "sample_ifmap_layer0_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9040,10 +9040,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE7;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE7;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE8 : if BRAM_NAME = "ifmap_layer0_instance8" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE8 : if BRAM_NAME = "sample_ifmap_layer0_instance8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9142,10 +9142,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE8;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE8;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE9 : if BRAM_NAME = "ifmap_layer0_instance9" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE9 : if BRAM_NAME = "sample_ifmap_layer0_instance9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9244,10 +9244,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE9;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE9;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE10 : if BRAM_NAME = "ifmap_layer0_instance10" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE10 : if BRAM_NAME = "sample_ifmap_layer0_instance10" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9346,10 +9346,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE10;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE10;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE11 : if BRAM_NAME = "ifmap_layer0_instance11" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE11 : if BRAM_NAME = "sample_ifmap_layer0_instance11" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9448,10 +9448,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE11;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE11;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE12 : if BRAM_NAME = "ifmap_layer0_instance12" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE12 : if BRAM_NAME = "sample_ifmap_layer0_instance12" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9550,10 +9550,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE12;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE12;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE13 : if BRAM_NAME = "ifmap_layer0_instance13" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE13 : if BRAM_NAME = "sample_ifmap_layer0_instance13" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9652,10 +9652,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE13;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE13;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE14 : if BRAM_NAME = "ifmap_layer0_instance14" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE14 : if BRAM_NAME = "sample_ifmap_layer0_instance14" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9754,10 +9754,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE14;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE14;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE15 : if BRAM_NAME = "ifmap_layer0_instance15" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE15 : if BRAM_NAME = "sample_ifmap_layer0_instance15" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9856,10 +9856,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE15;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE15;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE16 : if BRAM_NAME = "ifmap_layer0_instance16" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE16 : if BRAM_NAME = "sample_ifmap_layer0_instance16" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9958,10 +9958,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE16;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE16;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE17 : if BRAM_NAME = "ifmap_layer0_instance17" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE17 : if BRAM_NAME = "sample_ifmap_layer0_instance17" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10060,10 +10060,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE17;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE17;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE18 : if BRAM_NAME = "ifmap_layer0_instance18" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE18 : if BRAM_NAME = "sample_ifmap_layer0_instance18" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10162,10 +10162,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE18;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE18;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE19 : if BRAM_NAME = "ifmap_layer0_instance19" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE19 : if BRAM_NAME = "sample_ifmap_layer0_instance19" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10264,10 +10264,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE19;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE19;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE20 : if BRAM_NAME = "ifmap_layer0_instance20" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE20 : if BRAM_NAME = "sample_ifmap_layer0_instance20" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10366,10 +10366,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE20;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE20;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE21 : if BRAM_NAME = "ifmap_layer0_instance21" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE21 : if BRAM_NAME = "sample_ifmap_layer0_instance21" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10468,10 +10468,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE21;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE21;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE22 : if BRAM_NAME = "ifmap_layer0_instance22" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE22 : if BRAM_NAME = "sample_ifmap_layer0_instance22" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10570,10 +10570,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE22;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE22;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE23 : if BRAM_NAME = "ifmap_layer0_instance23" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE23 : if BRAM_NAME = "sample_ifmap_layer0_instance23" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10672,10 +10672,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE23;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE23;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE24 : if BRAM_NAME = "ifmap_layer0_instance24" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE24 : if BRAM_NAME = "sample_ifmap_layer0_instance24" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10774,10 +10774,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE24;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE24;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE25 : if BRAM_NAME = "ifmap_layer0_instance25" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE25 : if BRAM_NAME = "sample_ifmap_layer0_instance25" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10876,10 +10876,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE25;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE25;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE26 : if BRAM_NAME = "ifmap_layer0_instance26" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE26 : if BRAM_NAME = "sample_ifmap_layer0_instance26" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10978,10 +10978,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE26;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE26;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE27 : if BRAM_NAME = "ifmap_layer0_instance27" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE27 : if BRAM_NAME = "sample_ifmap_layer0_instance27" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11080,10 +11080,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE27;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE27;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE28 : if BRAM_NAME = "ifmap_layer0_instance28" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE28 : if BRAM_NAME = "sample_ifmap_layer0_instance28" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11182,10 +11182,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE28;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE28;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE29 : if BRAM_NAME = "ifmap_layer0_instance29" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE29 : if BRAM_NAME = "sample_ifmap_layer0_instance29" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11284,10 +11284,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE29;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE29;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE30 : if BRAM_NAME = "ifmap_layer0_instance30" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE30 : if BRAM_NAME = "sample_ifmap_layer0_instance30" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11386,10 +11386,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE30;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE30;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE31 : if BRAM_NAME = "ifmap_layer0_instance31" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE31 : if BRAM_NAME = "sample_ifmap_layer0_instance31" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11488,10 +11488,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE31;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE31;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE32 : if BRAM_NAME = "ifmap_layer0_instance32" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE32 : if BRAM_NAME = "sample_ifmap_layer0_instance32" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11590,10 +11590,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE32;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE32;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE33 : if BRAM_NAME = "ifmap_layer0_instance33" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE33 : if BRAM_NAME = "sample_ifmap_layer0_instance33" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11692,10 +11692,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE33;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE33;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE34 : if BRAM_NAME = "ifmap_layer0_instance34" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE34 : if BRAM_NAME = "sample_ifmap_layer0_instance34" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11794,10 +11794,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE34;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE34;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE35 : if BRAM_NAME = "ifmap_layer0_instance35" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE35 : if BRAM_NAME = "sample_ifmap_layer0_instance35" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11896,10 +11896,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE35;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE35;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE36 : if BRAM_NAME = "ifmap_layer0_instance36" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE36 : if BRAM_NAME = "sample_ifmap_layer0_instance36" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11998,10 +11998,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE36;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE36;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE37 : if BRAM_NAME = "ifmap_layer0_instance37" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE37 : if BRAM_NAME = "sample_ifmap_layer0_instance37" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12100,10 +12100,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE37;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE37;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE38 : if BRAM_NAME = "ifmap_layer0_instance38" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE38 : if BRAM_NAME = "sample_ifmap_layer0_instance38" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12202,10 +12202,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE38;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE38;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE39 : if BRAM_NAME = "ifmap_layer0_instance39" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE39 : if BRAM_NAME = "sample_ifmap_layer0_instance39" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12304,10 +12304,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE39;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE39;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE40 : if BRAM_NAME = "ifmap_layer0_instance40" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE40 : if BRAM_NAME = "sample_ifmap_layer0_instance40" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12406,10 +12406,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE40;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE40;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE41 : if BRAM_NAME = "ifmap_layer0_instance41" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE41 : if BRAM_NAME = "sample_ifmap_layer0_instance41" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12508,10 +12508,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE41;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE41;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE42 : if BRAM_NAME = "ifmap_layer0_instance42" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE42 : if BRAM_NAME = "sample_ifmap_layer0_instance42" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12610,10 +12610,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE42;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE42;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE43 : if BRAM_NAME = "ifmap_layer0_instance43" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE43 : if BRAM_NAME = "sample_ifmap_layer0_instance43" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12712,10 +12712,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE43;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE43;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE44 : if BRAM_NAME = "ifmap_layer0_instance44" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE44 : if BRAM_NAME = "sample_ifmap_layer0_instance44" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12814,10 +12814,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE44;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE44;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE45 : if BRAM_NAME = "ifmap_layer0_instance45" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE45 : if BRAM_NAME = "sample_ifmap_layer0_instance45" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12916,10 +12916,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE45;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE45;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE46 : if BRAM_NAME = "ifmap_layer0_instance46" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE46 : if BRAM_NAME = "sample_ifmap_layer0_instance46" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13018,10 +13018,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE46;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE46;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE47 : if BRAM_NAME = "ifmap_layer0_instance47" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE47 : if BRAM_NAME = "sample_ifmap_layer0_instance47" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13120,10 +13120,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE47;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE47;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE48 : if BRAM_NAME = "ifmap_layer0_instance48" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE48 : if BRAM_NAME = "sample_ifmap_layer0_instance48" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13222,10 +13222,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE48;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE48;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE49 : if BRAM_NAME = "ifmap_layer0_instance49" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE49 : if BRAM_NAME = "sample_ifmap_layer0_instance49" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13324,10 +13324,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE49;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE49;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE50 : if BRAM_NAME = "ifmap_layer0_instance50" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE50 : if BRAM_NAME = "sample_ifmap_layer0_instance50" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13426,10 +13426,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE50;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE50;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE51 : if BRAM_NAME = "ifmap_layer0_instance51" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE51 : if BRAM_NAME = "sample_ifmap_layer0_instance51" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13528,10 +13528,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE51;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE51;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE52 : if BRAM_NAME = "ifmap_layer0_instance52" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE52 : if BRAM_NAME = "sample_ifmap_layer0_instance52" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13630,10 +13630,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE52;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE52;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE53 : if BRAM_NAME = "ifmap_layer0_instance53" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE53 : if BRAM_NAME = "sample_ifmap_layer0_instance53" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13732,10 +13732,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE53;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE53;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE54 : if BRAM_NAME = "ifmap_layer0_instance54" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE54 : if BRAM_NAME = "sample_ifmap_layer0_instance54" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13834,10 +13834,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE54;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE54;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE55 : if BRAM_NAME = "ifmap_layer0_instance55" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE55 : if BRAM_NAME = "sample_ifmap_layer0_instance55" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13936,10 +13936,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE55;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE55;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE56 : if BRAM_NAME = "ifmap_layer0_instance56" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE56 : if BRAM_NAME = "sample_ifmap_layer0_instance56" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14038,10 +14038,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE56;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE56;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE57 : if BRAM_NAME = "ifmap_layer0_instance57" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE57 : if BRAM_NAME = "sample_ifmap_layer0_instance57" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14140,10 +14140,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE57;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE57;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE58 : if BRAM_NAME = "ifmap_layer0_instance58" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE58 : if BRAM_NAME = "sample_ifmap_layer0_instance58" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14242,10 +14242,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE58;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE58;
 
 
-    MEM_IFMAP_LAYER0_INSTANCE59 : if BRAM_NAME = "ifmap_layer0_instance59" generate
+    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE59 : if BRAM_NAME = "sample_ifmap_layer0_instance59" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14344,7 +14344,7249 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_IFMAP_LAYER0_INSTANCE59;
+    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE59;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE0 : if BRAM_NAME = "sample_gold_layer0_instance0" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001d0000000f0000000d00000017000000140000000f0000001200000012",
+            INIT_01 => X"00000016000000150000000c0000000600000001000000000000000a0000001d",
+            INIT_02 => X"0000000000000003000000080000000400000013000000130000000f00000012",
+            INIT_03 => X"0000000b000000000000000b0000000500000000000000000000000000000004",
+            INIT_04 => X"00000000000000000000001e000000200000001b000000120000001b00000013",
+            INIT_05 => X"0000000c00000000000000010000000100000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000110000000b00000019",
+            INIT_07 => X"0000000300000003000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000040000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000001000000000000000000000000000000000000000000000000",
+            INIT_0B => X"00000000000000000000001c0000000400000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000200000000000000000000000000000000",
+            INIT_0E => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"000000000000000b000000000000000000000000000000000000000000000000",
+            INIT_10 => X"000000000000000000000000000000000000000b000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000080000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"00000000000000000000000000000000000000000000000b0000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000020",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"000000000000000000000000000000000000000000000000000000000000000b",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"000000000000000d000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000070000000400000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000006000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000a0000003f0000000f0000001a0000000f000000000000000000000000",
+            INIT_31 => X"0000002000000025000000380000003a00000032000000000000000000000000",
+            INIT_32 => X"000000000000003a0000002c0000002000000027000000250000002900000022",
+            INIT_33 => X"000000240000001f00000020000000200000001d0000001d0000001e00000000",
+            INIT_34 => X"0000000e0000002f0000002f000000300000002100000028000000220000001e",
+            INIT_35 => X"000000330000002f00000023000000220000001d00000019000000210000000f",
+            INIT_36 => X"0000002a000000410000003100000033000000290000003a0000002800000034",
+            INIT_37 => X"0000001a0000002d000000210000001c000000170000001f0000002a00000030",
+            INIT_38 => X"000000000000000000000000000000000000000000000000000000290000001c",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"00000000000000000000000000000000000000060000000e0000001800000003",
+            INIT_3E => X"000000000000000100000002000000000000000000000000000000000000000b",
+            INIT_3F => X"0000001e0000000000000000000000000000000000000006000000000000001b",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE0;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE1 : if BRAM_NAME = "sample_gold_layer0_instance1" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001d00000000000000030000000500000014000000110000000000000000",
+            INIT_01 => X"00000000000000170000000f0000000300000000000000080000000000000010",
+            INIT_02 => X"00000003000000440000000000000004000000060000000a0000001a00000000",
+            INIT_03 => X"00000000000000000000000b0000001700000002000000000000000b00000000",
+            INIT_04 => X"00000004000000000000003700000000000000000000000b0000001e0000000c",
+            INIT_05 => X"000000060000000000000006000000140000002000000002000000110000000a",
+            INIT_06 => X"000000110000000000000000000000200000000000000000000000000000002d",
+            INIT_07 => X"00000000000000080000001100000004000000280000001d0000000000000008",
+            INIT_08 => X"00000000000000060000000000000010000000000000000b0000000b00000000",
+            INIT_09 => X"00000012000000090000000e0000002700000000000000240000001800000000",
+            INIT_0A => X"00000000000000000000000c0000000000000000000000000000001500000012",
+            INIT_0B => X"000000110000002d000000280000000d0000005800000000000000230000002b",
+            INIT_0C => X"00000036000000000000000b0000001f000000220000001b0000000000000000",
+            INIT_0D => X"0000001a000000210000001f0000000700000000000000450000001200000023",
+            INIT_0E => X"000000380000002a0000002f0000002f0000002e00000028000000220000001e",
+            INIT_0F => X"0000002a00000024000000240000002500000027000000000000002500000033",
+            INIT_10 => X"000000520000002e0000002c0000003a0000002e0000002f000000360000002f",
+            INIT_11 => X"0000002e0000002f0000002a0000002a000000260000002b0000001300000000",
+            INIT_12 => X"000000190000002c000000330000002b00000028000000450000002a0000002f",
+            INIT_13 => X"0000002e0000002d000000310000002e00000024000000230000002800000019",
+            INIT_14 => X"00000000000000000000000000000000000000000000001f0000003a00000043",
+            INIT_15 => X"00000000000000000000000a0000000200000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"00000000000000030000001c0000001f00000000000000170000000800000010",
+            INIT_18 => X"0000002b00000000000000000000000000000000000000000000002a00000000",
+            INIT_19 => X"00000000000000000000003f0000002d00000042000000000000000000000011",
+            INIT_1A => X"0000002c00000028000000000000000e00000000000000000000000000000071",
+            INIT_1B => X"0000006c000000000000002a0000003b000000260000005a0000000000000025",
+            INIT_1C => X"0000003c000000480000005d0000002400000034000000000000002300000005",
+            INIT_1D => X"0000003100000059000000000000003e0000001e000000520000002f00000000",
+            INIT_1E => X"00000000000000600000003e000000610000002c000000000000000000000037",
+            INIT_1F => X"0000001500000073000000480000002500000031000000120000005c00000073",
+            INIT_20 => X"00000075000000000000006a0000004a0000005a000000000000000000000038",
+            INIT_21 => X"0000003100000028000000650000004d000000370000000c0000001200000047",
+            INIT_22 => X"000000500000004f0000000000000046000000380000008b0000000600000000",
+            INIT_23 => X"0000002a0000000b000000840000004200000068000000130000002500000006",
+            INIT_24 => X"000000040000005b0000001600000029000000000000002c0000002e00000013",
+            INIT_25 => X"0000001800000064000000000000009f0000003a0000004a0000000000000000",
+            INIT_26 => X"0000000000000000000000170000005a0000003b000000300000004d00000000",
+            INIT_27 => X"000000200000004c0000009300000000000000940000003c0000000f0000000c",
+            INIT_28 => X"0000003100000020000000230000001d0000001a000000410000008300000071",
+            INIT_29 => X"0000003c0000003a00000073000000d8000000000000004e0000002b0000001d",
+            INIT_2A => X"0000005f0000004f000000400000003e0000003c0000003d0000003800000047",
+            INIT_2B => X"0000003e0000003f0000004900000042000000af000000820000000000000012",
+            INIT_2C => X"000000450000006a0000003d0000004800000050000000400000003800000039",
+            INIT_2D => X"000000410000003c000000420000004d000000390000005a000000cb00000000",
+            INIT_2E => X"0000003e0000004b000000760000007b000000380000004e0000004d00000048",
+            INIT_2F => X"0000005500000044000000380000004400000043000000350000004800000054",
+            INIT_30 => X"00000008000000080000000000000000000000800000006f0000001a0000003a",
+            INIT_31 => X"0000000000000000000000000000000400000000000000050000000300000006",
+            INIT_32 => X"0000000a000000070000000c0000000a00000007000000050000000600000000",
+            INIT_33 => X"0000000000000006000000240000000000000000000000000000001a00000049",
+            INIT_34 => X"0000000000000007000000040000000400000000000000000000000400000000",
+            INIT_35 => X"000000000000001700000007000000150000001a0000000d0000000000000000",
+            INIT_36 => X"00000037000000000000000d0000000500000009000000250000002800000000",
+            INIT_37 => X"000000000000000100000000000000000000000000000000000000050000001b",
+            INIT_38 => X"0000000e0000000600000056000000800000000b000000130000005a00000026",
+            INIT_39 => X"0000000000000000000000180000000f00000025000000250000000000000000",
+            INIT_3A => X"0000001f0000001a0000002a0000000000000000000000000000000800000000",
+            INIT_3B => X"000000070000000600000027000000090000000000000000000000000000003a",
+            INIT_3C => X"00000011000000090000000a0000000000000021000000000000000400000000",
+            INIT_3D => X"0000001c00000007000000150000001d00000017000000000000000b00000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000160000001900000010",
+            INIT_3F => X"000000040000000b000000040000001000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE1;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE2 : if BRAM_NAME = "sample_gold_layer0_instance2" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000000000000000000000040000001a00000000000000000000001c",
+            INIT_01 => X"00000011000000040000000900000000000000000000002f0000000300000000",
+            INIT_02 => X"0000001b0000000000000000000000000000000c0000004a0000000000000000",
+            INIT_03 => X"000000850000009c00000046000000000000000000000000000000000000001f",
+            INIT_04 => X"000000000000001b000000410000002000000000000000000000000000000028",
+            INIT_05 => X"000000000000000000000000000000460000000f000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000002",
+            INIT_08 => X"0000000000000011000000000000000000000012000000070000000400000000",
+            INIT_09 => X"0000000000000000000000080000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000001300000000000000000000000000000000",
+            INIT_0B => X"0000001300000014000000000000000000000000000000000000000000000000",
+            INIT_0C => X"000000a2000000a30000009d0000000000000022000000280000000000000004",
+            INIT_0D => X"0000007c00000094000000ad000000b7000000ac0000009d000000a4000000a5",
+            INIT_0E => X"000000ac000000a8000000ad000000a20000009200000092000000840000007c",
+            INIT_0F => X"0000003e0000002e0000003a0000007a000000a0000000a90000008c000000a0",
+            INIT_10 => X"000000af000000b0000000ac0000006a000000890000008b0000006e0000004e",
+            INIT_11 => X"000000270000000a0000001e000000070000002d00000048000000730000008e",
+            INIT_12 => X"00000059000000a2000000aa000000a40000002b0000004d000000670000003a",
+            INIT_13 => X"000000250000001b0000002d000000330000000c00000015000000270000004d",
+            INIT_14 => X"00000043000000470000004e00000060000000940000001f000000170000003a",
+            INIT_15 => X"0000002f0000001c000000170000003900000031000000000000001f0000002f",
+            INIT_16 => X"00000031000000450000003b00000025000000990000008e0000001200000016",
+            INIT_17 => X"0000000e0000001700000012000000100000002a0000003e000000000000002d",
+            INIT_18 => X"0000002f0000002d0000003e000000320000002f0000009f000000620000002a",
+            INIT_19 => X"0000000a0000001c000000260000000e00000010000000280000003200000000",
+            INIT_1A => X"0000001e00000029000000270000002e0000002600000037000000620000002c",
+            INIT_1B => X"0000002b00000000000000140000004100000022000000090000002d0000002f",
+            INIT_1C => X"00000042000000540000000d000000300000003600000022000000550000000e",
+            INIT_1D => X"00000000000000240000000500000010000000790000002d0000000f00000026",
+            INIT_1E => X"000000060000001d000000340000002d00000028000000080000002000000035",
+            INIT_1F => X"00000017000000000000002300000015000000000000008a0000006200000009",
+            INIT_20 => X"000000000000000000000000000000000000000600000000000000000000001a",
+            INIT_21 => X"000000000000003a000000060000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000003400000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000002300000022000000000000000000000000000000000000000000000000",
+            INIT_29 => X"000000170000001d0000002400000026000000270000001e0000002000000025",
+            INIT_2A => X"0000002a0000002c00000023000000180000001e00000024000000260000001a",
+            INIT_2B => X"000000000000001d0000000e0000001d0000000f00000020000000280000001f",
+            INIT_2C => X"000000210000002800000039000000060000001c0000002b0000002000000009",
+            INIT_2D => X"00000000000000000000002e0000002100000006000000000000001a00000027",
+            INIT_2E => X"0000000f00000029000000210000004c000000000000002c0000002500000000",
+            INIT_2F => X"0000000000000009000000000000004800000000000000000000000400000024",
+            INIT_30 => X"0000000b00000009000000560000000200000026000000000000004a00000000",
+            INIT_31 => X"0000000000000006000000000000000000000059000000000000000000000000",
+            INIT_32 => X"00000000000000130000003e0000001a000000000000000a000000000000002b",
+            INIT_33 => X"00000000000000000000001400000000000000000000008e0000000000000000",
+            INIT_34 => X"0000000000000000000000360000003f00000000000000200000000000000000",
+            INIT_35 => X"0000000000000000000000150000000a00000000000000000000006600000000",
+            INIT_36 => X"0000000000000000000000000000004200000038000000000000000000000000",
+            INIT_37 => X"0000000200000000000000080000000f0000001d000000000000000000000042",
+            INIT_38 => X"0000000000000024000000000000000000000011000000040000002100000000",
+            INIT_39 => X"00000000000000000000000000000023000000210000001e0000000000000025",
+            INIT_3A => X"00000000000000050000000200000000000000270000000f000000000000002c",
+            INIT_3B => X"0000007800000000000000040000002a0000001400000034000000300000000c",
+            INIT_3C => X"0000000900000008000000000000000000000000000000220000000000000000",
+            INIT_3D => X"0000000000000040000000000000001400000020000000000000000000000001",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000004300000021000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE2;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE3 : if BRAM_NAME = "sample_gold_layer0_instance3" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"000000000000000000000000000000000000005d000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000002b00000000000000000000000400000000000000000000000000000000",
+            INIT_05 => X"000000370000003a00000030000000290000002f0000002c0000002d00000030",
+            INIT_06 => X"000000350000002c000000310000002a0000002700000026000000250000002a",
+            INIT_07 => X"0000000c0000003b000000290000001f000000000000002d0000002e00000030",
+            INIT_08 => X"0000002e000000290000001c000000250000001f0000000e0000000000000000",
+            INIT_09 => X"000000000000000000000000000000230000002d0000003b0000003200000035",
+            INIT_0A => X"000000320000002300000000000000000000001a000000040000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000001900000025",
+            INIT_0C => X"0000000000000018000000120000000000000000000000110000000000000006",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000300000003000000380000000b00000000000000000000000500000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000070000003a00000007000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000200000000000000000000000000000000",
+            INIT_13 => X"000000000000000d000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000050000001a00000000000000000000000000000000",
+            INIT_15 => X"000000000000000000000008000000000000000400000018000000030000000f",
+            INIT_16 => X"0000000800000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000001f00000000000000000000000a00000011",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000b0000000c0000000c000000040000000800000008000000110000000a",
+            INIT_22 => X"00000000000000060000000800000011000000230000002d000000210000000b",
+            INIT_23 => X"00000042000000230000000500000000000000080000000c0000000a0000000a",
+            INIT_24 => X"00000033000000350000000a000000170000000a000000000000000000000000",
+            INIT_25 => X"0000000000000000000000090000001600000037000000050000000800000005",
+            INIT_26 => X"0000000500000000000000000000000c0000000e000000000000000000000000",
+            INIT_27 => X"000000040000001a000000000000000200000000000000000000000800000008",
+            INIT_28 => X"0000000e0000000200000000000000010000000e000000000000000600000010",
+            INIT_29 => X"0000000000000000000000000000000700000000000000090000000000000000",
+            INIT_2A => X"0000003e0000000300000006000000000000000f000000000000000000000000",
+            INIT_2B => X"0000000700000015000000140000000000000000000000000000000000000028",
+            INIT_2C => X"0000000000000012000000180000001c00000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000001100000000000000110000000000000031",
+            INIT_2E => X"0000003500000035000000020000000000000000000000000000000000000000",
+            INIT_2F => X"000000000000000e000000050000000000000009000000000000000e00000021",
+            INIT_30 => X"0000000000000000000000260000000000000000000000000000000100000000",
+            INIT_31 => X"0000000c00000000000000000000000000000030000000260000000000000000",
+            INIT_32 => X"0000000000000000000000000000000900000023000000000000000400000000",
+            INIT_33 => X"000000000000000300000018000000000000000000000011000000360000004e",
+            INIT_34 => X"0000000000000037000000510000001e00000000000000000000000000000007",
+            INIT_35 => X"0000000c00000021000000350000000a00000005000000000000000000000000",
+            INIT_36 => X"0000000000000000000000030000000500000004000000280000005600000000",
+            INIT_37 => X"0000001800000000000000160000000000000000000000000000000000000000",
+            INIT_38 => X"000000000000000000000000000000000000000000000000000000000000003f",
+            INIT_39 => X"0000000b0000004f000000180000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000300000000000000220000000000000000000000000000001400000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000012",
+            INIT_3D => X"0000000800000015000000090000000e0000000a000000130000000d00000000",
+            INIT_3E => X"0000000200000006000000130000001b000000220000001c0000000c00000006",
+            INIT_3F => X"0000001a0000000f000000360000000f0000000d000000090000000b00000008",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE3;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE4 : if BRAM_NAME = "sample_gold_layer0_instance4" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000260000000a0000001a000000210000002400000035000000340000001f",
+            INIT_01 => X"00000020000000280000003300000051000000080000000a0000000b00000024",
+            INIT_02 => X"00000014000000330000001a000000190000002b0000004b0000005e00000053",
+            INIT_03 => X"0000005b000000360000002f000000450000002e00000019000000120000000e",
+            INIT_04 => X"000000150000005e000000710000001b000000150000003b000000420000005d",
+            INIT_05 => X"000000670000003b000000330000003b00000064000000440000007e00000035",
+            INIT_06 => X"00000013000000280000009e0000007f00000001000000250000003900000038",
+            INIT_07 => X"000000500000007f0000005b0000002e0000004b0000007d0000007e000000bd",
+            INIT_08 => X"0000005a0000001700000043000000940000007a000000150000003c00000047",
+            INIT_09 => X"0000003b0000004600000081000000780000004e00000065000000a800000075",
+            INIT_0A => X"000000a5000000390000003900000040000000a50000008e000000330000004c",
+            INIT_0B => X"0000004b000000480000004c000000780000005f000000500000006a00000085",
+            INIT_0C => X"0000005900000066000000380000007300000066000000b8000000b000000026",
+            INIT_0D => X"0000000e0000002b0000002c000000410000006500000033000000510000004e",
+            INIT_0E => X"000000790000005f000000330000006f0000007500000086000000b3000000c0",
+            INIT_0F => X"000000c700000027000000270000002f00000025000000400000005a00000042",
+            INIT_10 => X"00000079000000b900000091000000650000009e000000a20000008b000000ab",
+            INIT_11 => X"000000cb000000c100000068000000710000005a00000047000000400000003c",
+            INIT_12 => X"0000006f0000007c000000850000008a000000a5000000e7000000c90000009d",
+            INIT_13 => X"000000b1000000a10000008c0000008e0000008a000000880000008000000078",
+            INIT_14 => X"00000084000000760000007100000070000000750000007a000000af000000e5",
+            INIT_15 => X"000000ef000000a6000000850000009d000000a30000009a000000950000008c",
+            INIT_16 => X"0000009b0000008c000000820000007700000073000000790000008000000088",
+            INIT_17 => X"00000074000000a70000007f0000008f00000097000000ab000000a300000093",
+            INIT_18 => X"0000009a0000008500000086000000880000007c0000007e000000890000007f",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000008d000000af",
+            INIT_1A => X"00000000000000000000000b0000001c00000013000000000000000000000000",
+            INIT_1B => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"00000000000000000000001e0000001400000000000000000000003300000014",
+            INIT_1D => X"000000280000001c0000003e000000000000000000000000000000000000003f",
+            INIT_1E => X"00000019000000000000001e0000000700000000000000000000000000000000",
+            INIT_1F => X"000000000000000000000000000000000000000c000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000e000000060000001a0000000000000000",
+            INIT_21 => X"000000000000001d000000040000000f00000000000000000000000000000009",
+            INIT_22 => X"00000002000000000000002f0000002500000000000000000000000800000000",
+            INIT_23 => X"000000260000000000000006000000000000000000000000000000030000004f",
+            INIT_24 => X"0000000d0000000d00000018000000000000000000000000000000000000001c",
+            INIT_25 => X"0000000800000018000000000000000900000000000000050000000000000000",
+            INIT_26 => X"0000000000000000000000070000000000000002000000000000000000000000",
+            INIT_27 => X"000000000000001c0000000000000000000000000000001e0000003d00000000",
+            INIT_28 => X"0000003200000022000000000000002e00000000000000000000000000000010",
+            INIT_29 => X"000000000000000d0000003a0000002600000036000000000000000000000003",
+            INIT_2A => X"000000000000001500000012000000000000000a000000000000000000000000",
+            INIT_2B => X"00000008000000000000000000000001000000310000001f0000002e00000000",
+            INIT_2C => X"0000001900000000000000000000000000000000000000220000000000000000",
+            INIT_2D => X"0000004100000021000000160000000000000000000000000000000d0000000f",
+            INIT_2E => X"0000000c000000370000003f00000052000000a2000000000000000000000000",
+            INIT_2F => X"000000360000000d000000000000000000000000000000020000000000000006",
+            INIT_30 => X"0000000000000000000000000000000200000000000000560000004100000000",
+            INIT_31 => X"0000002500000000000000020000000000000000000000030000000000000000",
+            INIT_32 => X"000000070000000000000000000000010000000000000000000000060000003e",
+            INIT_33 => X"0000003600000018000000000000000c0000004200000000000000000000000a",
+            INIT_34 => X"0000000000000005000000000000000000000000000000090000001300000024",
+            INIT_35 => X"0000000000000000000000000000000000000000000000040000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"00000000000000000000000000000000000000000000001f0000000400000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000b00000000",
+            INIT_3C => X"0000000000000001000000020000000000000007000000000000002d00000005",
+            INIT_3D => X"0000000200000000000000000000000000000000000000000000000000000002",
+            INIT_3E => X"000000060000000100000010000000000000000300000000000000000000003b",
+            INIT_3F => X"0000005d000000000000000000000000000000000000002c0000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE4;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE5 : if BRAM_NAME = "sample_gold_layer0_instance5" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000000000000000000000000000000000000000000000e0000000000000000",
+            INIT_01 => X"00000000000000520000000000000000000000000000000f0000001c00000000",
+            INIT_02 => X"0000000000000000000000000000000400000000000000130000001200000000",
+            INIT_03 => X"00000000000000000000002d000000000000000500000000000000170000000c",
+            INIT_04 => X"000000000000001100000000000000160000000000000000000000030000001d",
+            INIT_05 => X"0000001b00000000000000110000000000000008000000000000000000000012",
+            INIT_06 => X"00000003000000000000003b0000000000000019000000090000000000000000",
+            INIT_07 => X"0000000000000012000000120000000000000000000000050000000000000010",
+            INIT_08 => X"0000002d000000000000000000000058000000000000000d0000003300000000",
+            INIT_09 => X"0000001d0000002c0000003e0000003300000028000000020000000000000004",
+            INIT_0A => X"0000004e0000004e0000002e000000000000003b000000000000003600000070",
+            INIT_0B => X"0000005a000000530000005a00000058000000560000004f0000004900000044",
+            INIT_0C => X"0000004c0000004a00000048000000490000000000000008000000480000006f",
+            INIT_0D => X"000000600000005a0000005e0000005d000000570000005b0000005b00000054",
+            INIT_0E => X"00000057000000530000004d000000450000005000000031000000000000008a",
+            INIT_0F => X"0000006700000067000000500000005e00000074000000610000006400000061",
+            INIT_10 => X"00000052000000520000005200000049000000550000005f0000004900000041",
+            INIT_11 => X"0000002e000000330000002e0000002f00000045000000530000006b0000005e",
+            INIT_12 => X"000000270000001c000000230000002b0000002f000000310000002f0000002f",
+            INIT_13 => X"000000340000002d000000350000003200000032000000240000002700000026",
+            INIT_14 => X"0000002400000015000000130000002100000004000000250000001300000055",
+            INIT_15 => X"0000002c000000380000002e000000340000003b0000001a000000280000002d",
+            INIT_16 => X"00000027000000040000000b0000000a0000004f0000001a0000000000000000",
+            INIT_17 => X"0000001a0000002300000025000000360000002c000000790000000000000039",
+            INIT_18 => X"000000530000000e000000000000001200000000000000530000001800000008",
+            INIT_19 => X"00000000000000000000001a0000002c000000490000000a0000006300000000",
+            INIT_1A => X"0000000000000039000000000000001e000000000000000b0000005f00000008",
+            INIT_1B => X"00000000000000000000000000000000000000490000002e0000000000000038",
+            INIT_1C => X"00000015000000000000000d00000004000000230000000000000000000000bf",
+            INIT_1D => X"000000a400000000000000000000000a0000005000000061000000000000000c",
+            INIT_1E => X"0000000100000000000000000000000d000000270000001e0000000000000000",
+            INIT_1F => X"000000000000007c000000000000000800000000000000680000004500000000",
+            INIT_20 => X"0000003c00000000000000170000000000000012000000220000002a00000000",
+            INIT_21 => X"000000000000002200000006000000310000001c000000000000000300000011",
+            INIT_22 => X"000000000000004a00000000000000180000000a000000440000003a00000026",
+            INIT_23 => X"0000004800000005000000000000000a000000170000000e0000002a00000019",
+            INIT_24 => X"0000000b00000000000000a30000000000000011000000510000001c00000056",
+            INIT_25 => X"0000001e0000002d000000280000001400000000000000000000000000000056",
+            INIT_26 => X"0000000000000000000000000000009800000000000000280000004000000000",
+            INIT_27 => X"00000000000000110000000e0000001000000010000000090000000000000000",
+            INIT_28 => X"0000000a0000000500000009000000000000001f000000480000004100000003",
+            INIT_29 => X"0000000000000017000000080000001000000017000000140000001000000008",
+            INIT_2A => X"0000000d00000009000000000000001100000000000000000000007400000010",
+            INIT_2B => X"0000000d00000000000000000000002600000000000000090000000d00000010",
+            INIT_2C => X"0000001000000018000000090000000c00000016000000000000000000000019",
+            INIT_2D => X"0000000000000000000000000000000000000003000000310000000b00000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000001000000000000000000000000000000000000000400000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000012000000040000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000005",
+            INIT_35 => X"0000000000000008000000380000000000000000000000270000000100000000",
+            INIT_36 => X"0000000000000004000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"000000000000000f000000000000000000000000000000000000001400000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000012000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE5;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE6 : if BRAM_NAME = "sample_gold_layer0_instance6" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000300000001e000000000000000000000000000000000000000000000011",
+            INIT_01 => X"00000001000000240000001c000000000000000000000000000000000000003e",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000200000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"000000360000002f000000000000000000000013000000000000000000000000",
+            INIT_0A => X"0000002b000000360000003b0000003900000030000000350000003500000033",
+            INIT_0B => X"0000003600000038000000300000002700000028000000250000002000000020",
+            INIT_0C => X"000000020000000200000023000000390000003b000000420000003300000039",
+            INIT_0D => X"0000003900000036000000130000003000000027000000110000000600000006",
+            INIT_0E => X"00000000000000040000000000000000000000000000001e0000003d00000037",
+            INIT_0F => X"0000004000000037000000320000000000000015000000170000000000000001",
+            INIT_10 => X"0000000000000000000000170000000000000000000000000000001e00000012",
+            INIT_11 => X"0000003300000044000000100000003400000012000000000000000000000000",
+            INIT_12 => X"0000000000000000000000090000001000000000000000000000000600000025",
+            INIT_13 => X"0000002b0000000d0000000b00000038000000310000000f0000000000000000",
+            INIT_14 => X"000000000000000000000000000000000000002a000000000000000b00000008",
+            INIT_15 => X"000000170000002e000000110000000e0000003d000000070000002c00000000",
+            INIT_16 => X"0000000400000000000000000000000000000000000000130000000300000008",
+            INIT_17 => X"000000000000000a0000002e0000002200000000000000250000000000000019",
+            INIT_18 => X"0000001100000015000000000000000200000000000000000000000f00000013",
+            INIT_19 => X"0000002c000000000000000c00000000000000000000001c0000000000000009",
+            INIT_1A => X"000000140000000e000000160000002100000000000000000000000000000000",
+            INIT_1B => X"0000000000000005000000060000001f00000000000000000000000300000000",
+            INIT_1C => X"00000000000000150000001400000005000000280000001e0000000000000000",
+            INIT_1D => X"000000000000000000000000000000000000001700000011000000060000002c",
+            INIT_1E => X"0000003c00000032000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"00000000000000000000004f0000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000002800000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000002700000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000002f0000002b00000028000000200000002c000000290000002300000022",
+            INIT_27 => X"00000024000000280000002e000000290000001e0000001d0000002900000032",
+            INIT_28 => X"000000050000002e00000030000000430000000e000000210000002c00000024",
+            INIT_29 => X"00000028000000020000003f0000002c00000015000000190000002900000021",
+            INIT_2A => X"0000001c00000000000000100000002400000028000000200000002a00000029",
+            INIT_2B => X"000000240000002e000000000000005c0000000b0000001a000000320000000c",
+            INIT_2C => X"0000001800000023000000000000001900000025000000270000000c00000038",
+            INIT_2D => X"000000130000000000000041000000050000002c00000000000000260000001a",
+            INIT_2E => X"0000001200000038000000140000000000000025000000240000002a00000027",
+            INIT_2F => X"00000000000000000000002f0000003700000000000000240000001a0000002b",
+            INIT_30 => X"0000001d000000070000002a0000003400000000000000430000002500000016",
+            INIT_31 => X"000000150000000000000000000000460000000e000000240000001100000020",
+            INIT_32 => X"00000025000000000000000d000000280000002b00000000000000390000001c",
+            INIT_33 => X"0000000b0000003500000000000000020000003400000029000000060000000b",
+            INIT_34 => X"0000000d0000000d00000011000000000000002c000000110000000000000018",
+            INIT_35 => X"000000000000001b0000000e0000000000000034000000000000003f00000000",
+            INIT_36 => X"00000000000000000000001a00000000000000000000002b000000050000003f",
+            INIT_37 => X"0000000f0000002c0000001d00000000000000140000002a0000000000000039",
+            INIT_38 => X"0000003800000000000000000000002f00000010000000000000000f0000002f",
+            INIT_39 => X"0000000f0000002b000000270000000500000000000000320000002900000000",
+            INIT_3A => X"0000000000000000000000000000000000000021000000110000000800000008",
+            INIT_3B => X"0000000000000003000000070000000000000000000000000000000500000052",
+            INIT_3C => X"0000002e00000022000000000000000000000014000000030000000000000000",
+            INIT_3D => X"0000000200000000000000000000000100000005000000020000000600000000",
+            INIT_3E => X"000000000000000d000000220000000000000000000000090000000000000000",
+            INIT_3F => X"0000000000000000000000000000000100000000000000000000000600000009",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE6;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE7 : if BRAM_NAME = "sample_gold_layer0_instance7" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000140000000400000000000000000000001300000015",
+            INIT_01 => X"0000001a0000001200000000000000000000000c000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000200000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000020000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000c00000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000e00000000000000000000000000000000",
+            INIT_1C => X"00000000000000000000000000000000000000000000001a0000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000e00000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"000000000000002f0000003d0000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000120000001f00000013",
+            INIT_28 => X"0000000000000000000000000000000000000009000000130000000000000000",
+            INIT_29 => X"00000000000000000000000d0000004500000042000000000000000000000000",
+            INIT_2A => X"00000000000000030000000000000000000000000000000a0000001f00000004",
+            INIT_2B => X"000000000000000000000009000000090000000000000025000000100000000e",
+            INIT_2C => X"0000000000000000000000000000000800000017000000190000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"00000020000000270000000e0000000000000000000000000000000000000000",
+            INIT_2F => X"000000210000002a000000310000003a0000003e00000040000000370000001b",
+            INIT_30 => X"000000370000000b0000000a000000120000002100000026000000140000001c",
+            INIT_31 => X"000000420000004c0000005600000055000000500000004b0000003f00000041",
+            INIT_32 => X"0000000a0000000200000000000000000000001e00000029000000320000003e",
+            INIT_33 => X"000000020000000800000000000000010000000b000000030000000000000000",
+            INIT_34 => X"0000001800000010000000000000000000000000000000000000000000000000",
+            INIT_35 => X"000000000000000000000000000000000000002200000006000000060000000a",
+            INIT_36 => X"000000040000000600000003000000000000000000000000000000000000000b",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000400000004",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000200000000",
+            INIT_3A => X"0000002b0000002c0000002b0000002b0000002b0000002b0000000000000000",
+            INIT_3B => X"0000002b0000002b0000002a0000002d0000002c0000002b0000002b0000002b",
+            INIT_3C => X"0000002c0000002b0000002b0000002b0000002b0000002b0000002b0000002c",
+            INIT_3D => X"0000002c0000002b0000002c00000031000000280000001c0000002b00000029",
+            INIT_3E => X"000000230000002b0000002c0000002d0000002b0000002b0000002b00000029",
+            INIT_3F => X"000000320000002c0000002b0000002b0000002b0000002c0000001a0000001c",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE7;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE8 : if BRAM_NAME = "sample_gold_layer0_instance8" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000002c000000200000002f0000001f0000002c0000002b0000002c0000002d",
+            INIT_01 => X"00000022000000190000002b0000002b0000002b00000046000000330000002d",
+            INIT_02 => X"00000031000000330000002900000032000000200000002c000000290000002e",
+            INIT_03 => X"0000002f00000038000000320000002b00000029000000170000001400000020",
+            INIT_04 => X"0000002b0000001e0000001d0000001700000013000000120000002500000021",
+            INIT_05 => X"00000027000000290000001f000000160000002e0000004b0000002600000032",
+            INIT_06 => X"00000015000000200000002d000000550000003b00000021000000050000001b",
+            INIT_07 => X"0000002700000034000000150000003b0000001e000000260000001400000019",
+            INIT_08 => X"0000002f0000002a000000200000001c0000001900000021000000430000002e",
+            INIT_09 => X"000000230000003200000037000000300000002a0000006b0000003b00000035",
+            INIT_0A => X"00000014000000180000001e0000002500000023000000270000001700000028",
+            INIT_0B => X"000000270000002b0000002900000027000000250000001d0000002e00000019",
+            INIT_0C => X"0000002400000024000000290000001f0000002800000028000000300000002c",
+            INIT_0D => X"00000022000000210000001900000014000000170000001a000000170000000c",
+            INIT_0E => X"00000000000000250000002c00000029000000230000001f0000001c0000001d",
+            INIT_0F => X"0000002d0000002f0000002b0000000d00000000000000000000000100000012",
+            INIT_10 => X"00000000000000000000002400000018000000210000003c0000003600000031",
+            INIT_11 => X"0000002000000026000000210000003f00000000000000000000000000000002",
+            INIT_12 => X"00000000000000000000000000000026000000190000001f0000000e0000000e",
+            INIT_13 => X"000000150000000700000012000000270000001b000000000000000000000000",
+            INIT_14 => X"00000000000000000000000000000000000000230000001a0000000d00000017",
+            INIT_15 => X"000000080000000d000000150000000a00000006000000030000000000000000",
+            INIT_16 => X"0000004e0000004f0000004f0000004f00000052000000240000001a00000011",
+            INIT_17 => X"0000004f0000004f00000051000000520000004d000000510000004f0000004f",
+            INIT_18 => X"0000004f0000004e000000500000004f0000004f000000520000004e0000004f",
+            INIT_19 => X"0000004e000000500000003a0000003100000080000000540000004f0000004d",
+            INIT_1A => X"0000004a000000560000004c0000004f0000004e0000004e000000510000004e",
+            INIT_1B => X"0000004f0000004e00000051000000270000003100000071000000640000006f",
+            INIT_1C => X"0000006f0000002a00000079000000500000004e0000004c0000005100000045",
+            INIT_1D => X"0000003f0000004e0000004f0000005200000011000000370000005000000043",
+            INIT_1E => X"000000480000005700000035000000640000004f0000004b0000002100000022",
+            INIT_1F => X"000000340000004900000048000000090000005b000000680000007a0000006a",
+            INIT_20 => X"000000640000003e000000580000005e0000007f00000054000000540000004b",
+            INIT_21 => X"0000003a0000001c00000051000000440000000000000060000000430000004b",
+            INIT_22 => X"0000007400000062000000000000000000000003000000800000007c00000029",
+            INIT_23 => X"0000000000000037000000140000000000000025000000660000005f00000074",
+            INIT_24 => X"0000002700000040000000480000005000000076000000280000004c00000039",
+            INIT_25 => X"0000004d00000040000000450000005d000000000000002a0000002300000016",
+            INIT_26 => X"000000620000007c00000064000000690000005900000085000000610000006d",
+            INIT_27 => X"00000054000000550000005a000000550000005e000000200000004900000055",
+            INIT_28 => X"000000370000003c000000530000004d0000005b0000004c0000004d00000061",
+            INIT_29 => X"0000004a0000002e0000003000000034000000380000000f0000002b00000028",
+            INIT_2A => X"0000001c0000002b00000018000000330000004500000054000000540000004e",
+            INIT_2B => X"0000002c00000000000000020000001d000000370000003a000000000000002e",
+            INIT_2C => X"00000037000000060000002c0000003a0000001d000000000000000f00000017",
+            INIT_2D => X"0000004400000046000000000000000800000012000000230000000a00000000",
+            INIT_2E => X"0000000900000075000000060000000c0000000d0000001b0000004900000052",
+            INIT_2F => X"000000060000003d000000220000000000000007000000090000000f00000006",
+            INIT_30 => X"000000040000000a00000062000000100000000b0000001c0000000100000000",
+            INIT_31 => X"0000001800000000000000000000000000000000000000000000000200000005",
+            INIT_32 => X"000000000000000000000000000000000000001500000013000000130000001d",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_39 => X"0000000000000000000000000000002d0000004a0000003a0000002800000000",
+            INIT_3A => X"0000000500000019000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000007600000000000000000000000000000000000000000000000800000017",
+            INIT_3C => X"000000000000000000000000000000000000000000000000000000170000007c",
+            INIT_3D => X"00000000000000000000000000000056000000620000005f0000003200000000",
+            INIT_3E => X"000000000000004e000000230000000000000000000000160000000000000000",
+            INIT_3F => X"0000000000000072000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE8;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE9 : if BRAM_NAME = "sample_gold_layer0_instance9" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000000000000000000000000000017000000a3000000790000000000000000",
+            INIT_01 => X"0000004e00000066000000240000006f0000003d000000440000002800000013",
+            INIT_02 => X"000000000000000000000000000000130000000000000000000000000000000b",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000001b00000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000004d00000000000000040000002000000019000000000000000000000009",
+            INIT_08 => X"0000001c000000000000001d000000700000006300000055000000530000008e",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000020",
+            INIT_0A => X"000000190000001e0000001c0000001900000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_0C => X"0000002200000000000000030000000a00000005000000440000004200000000",
+            INIT_0D => X"0000005000000049000000000000000c0000001900000016000000140000001d",
+            INIT_0E => X"0000001500000015000000170000000e000000100000000b000000000000001d",
+            INIT_0F => X"0000001000000016000000170000001800000015000000150000001500000015",
+            INIT_10 => X"0000001600000016000000160000001700000015000000150000001600000015",
+            INIT_11 => X"0000000e00000000000000210000001a00000017000000150000001600000015",
+            INIT_12 => X"0000001600000017000000150000001600000015000000160000001600000016",
+            INIT_13 => X"00000016000000000000000000000000000000070000001f0000000f00000019",
+            INIT_14 => X"000000270000001800000018000000120000000c000000070000001500000016",
+            INIT_15 => X"0000000f0000000c000000000000000000000000000000000000001300000007",
+            INIT_16 => X"0000001100000012000000160000001700000000000000000000000000000011",
+            INIT_17 => X"00000009000000000000000200000000000000010000000a0000000800000011",
+            INIT_18 => X"000000000000000000000019000000110000001f0000000b0000000000000000",
+            INIT_19 => X"0000000000000004000000000000000000000000000000000000000000000000",
+            INIT_1A => X"000000000000000000000000000000010000000d000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000080000000c00000010",
+            INIT_1C => X"0000000000000002000000140000000000000000000000000000000200000001",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000001000000050000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000004000000070000000000000000000000060000000000000000",
+            INIT_24 => X"0000000000000004000000000000000000000000000000000000000000000000",
+            INIT_25 => X"00000000000000090000000a00000016000000150000000a0000002200000000",
+            INIT_26 => X"00000000000000080000001d0000002000000044000000570000005900000052",
+            INIT_27 => X"000000bc00000032000000090000000a0000000c0000000d0000000b00000030",
+            INIT_28 => X"00000021000000000000000700000013000000220000002d0000004c000000a7",
+            INIT_29 => X"00000032000000410000001b000000070000000b0000000a0000000d00000014",
+            INIT_2A => X"000000000000000000000000000000030000000c000000140000002700000028",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000a00000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000009",
+            INIT_2F => X"0000001400000011000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"000000000000001d000000000000000000000000000000000000001000000000",
+            INIT_32 => X"0000000000000000000000000000001900000014000000000000000000000000",
+            INIT_33 => X"0000002500000000000000000000000000000000000000000000000000000006",
+            INIT_34 => X"0000000000000000000000000000000000000000000000030000000000000000",
+            INIT_35 => X"0000000000000031000000000000000000000000000000000000000400000000",
+            INIT_36 => X"0000002000000008000000000000000000000009000000120000001b00000000",
+            INIT_37 => X"000000360000001600000000000000000000000000000000000000000000003e",
+            INIT_38 => X"00000000000000000000000b0000000000000000000000340000000000000015",
+            INIT_39 => X"00000000000000a20000000d0000000600000008000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000010000000c00000000",
+            INIT_3B => X"0000000000000000000000210000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000b0000000500000013000000000000000a000000030000000000000000",
+            INIT_3E => X"0000000800000000000000000000000000000007000000060000001200000010",
+            INIT_3F => X"0000000600000000000000000000003500000000000000120000000a00000013",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE9;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE10 : if BRAM_NAME = "sample_gold_layer0_instance10" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000d0000001c0000001d0000000d0000000000000000000000380000001f",
+            INIT_01 => X"000000130000000c00000009000000200000001b000000000000001e00000005",
+            INIT_02 => X"00000016000000230000001b000000130000002100000032000000390000009d",
+            INIT_03 => X"0000006c0000001200000012000000110000001600000010000000000000001a",
+            INIT_04 => X"0000001100000014000000050000002600000037000000430000005700000081",
+            INIT_05 => X"0000003f000000280000000f0000000f00000009000000090000000300000000",
+            INIT_06 => X"000000000000000c0000000b0000000c000000000000000c000000350000003b",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000001b0000001a0000001e0000000000000000000000000000000000000000",
+            INIT_1A => X"000000000000000000000000000000040000000f000000250000002600000023",
+            INIT_1B => X"0000000100000000000000000000001300000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000001400000012",
+            INIT_1D => X"0000001d0000002e000000300000001700000008000000000000000000000000",
+            INIT_1E => X"0000000000000032000000400000003800000039000000430000000e0000001a",
+            INIT_1F => X"000000190000001a0000001e0000001c00000017000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000059000000a5000000990000001f",
+            INIT_21 => X"0000000b0000000c0000000e0000000a00000009000000070000000100000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000a00000045",
+            INIT_23 => X"0000000200000002000000030000000200000001000000010000000100000002",
+            INIT_24 => X"0000000200000001000000010000000200000002000000040000000300000001",
+            INIT_25 => X"0000000200000000000000010000000000000001000000010000000100000001",
+            INIT_26 => X"000000070000000a000000000000000000000000000000000000000e0000001c",
+            INIT_27 => X"000000240000002a000000110000000600000004000000000000000000000001",
+            INIT_28 => X"0000000000000000000000000000000100000001000000010000001600000025",
+            INIT_29 => X"0000000000000000000000000000000000000002000000080000000200000002",
+            INIT_2A => X"000000090000000c000000310000002a00000000000000000000000000000000",
+            INIT_2B => X"00000040000000390000000c0000000000000002000000000000000100000004",
+            INIT_2C => X"000000280000002d000000000000000000000000000000000000002a00000043",
+            INIT_2D => X"0000000000000000000000000000000000000047000000780000008900000082",
+            INIT_2E => X"00000000000000000000000200000034000000440000004d0000000100000000",
+            INIT_2F => X"0000005200000069000000660000005500000025000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000800000039",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000001c00000004",
+            INIT_32 => X"0000004b00000038000000240000001a00000000000000000000000e00000000",
+            INIT_33 => X"0000003c0000001c0000003f000000560000004f000000410000004700000020",
+            INIT_34 => X"0000000800000000000000120000002700000035000000480000004a0000005b",
+            INIT_35 => X"000000000000000a000000000000000d00000005000000120000001100000005",
+            INIT_36 => X"000000400000004c0000005e0000005f00000056000000470000003200000018",
+            INIT_37 => X"000000080000001300000012000000000000000000000000000000110000002b",
+            INIT_38 => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_39 => X"000000170000001c000000000000000000000000000000010000001700000000",
+            INIT_3A => X"0000001a00000057000000590000004d0000005d000000240000000000000003",
+            INIT_3B => X"0000000000000001000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000001a00000078000000600000000500000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000030000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"000000f0000000f0000000ef000000ef000000ef000000ef000000ef00000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE10;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE11 : if BRAM_NAME = "sample_gold_layer0_instance11" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000f0000000ef000000f0000000ef000000f3000000f1000000ed000000ef",
+            INIT_01 => X"000000ef000000f0000000f0000000f0000000f0000000f0000000f0000000f1",
+            INIT_02 => X"000000f1000000f1000000f0000000ef000000f1000000ee000000e9000000ef",
+            INIT_03 => X"000000ec000000ed000000f2000000f0000000f0000000f1000000f0000000f0",
+            INIT_04 => X"000000f5000000f7000000f3000000f2000000f2000000f3000000cf000000de",
+            INIT_05 => X"000000c4000000cd000000e5000000eb000000eb000000f2000000f2000000f6",
+            INIT_06 => X"000000fd000000de000000d2000000f8000000f8000000fa000000d7000000b5",
+            INIT_07 => X"000000f0000000f3000000ea000000f1000000e0000000f2000000f1000000f0",
+            INIT_08 => X"000000dc000000d3000000ac000000aa000000fc000000f3000000e0000000e9",
+            INIT_09 => X"000000b9000000d2000000f5000000fc000000f7000000f3000000e6000000ee",
+            INIT_0A => X"000000d3000000d0000000df000000c9000000bd000000f7000000b7000000a2",
+            INIT_0B => X"000000e7000000e4000000ee000000ec000000b6000000830000006b00000075",
+            INIT_0C => X"000000b1000000de000000ad000000820000007500000056000000e9000000db",
+            INIT_0D => X"000000a30000008e0000008f000000a0000000c2000000cf000000be000000a9",
+            INIT_0E => X"000000ff000000f4000000e4000000c0000000b1000000d100000050000000ae",
+            INIT_0F => X"000000c2000000c7000000c6000000c9000000d4000000c6000000c1000000e9",
+            INIT_10 => X"000000ae000000c9000000d4000000d4000000d5000000d1000000cb00000092",
+            INIT_11 => X"000000310000008a0000007f000000800000008f0000009a0000009b000000b4",
+            INIT_12 => X"0000008a0000008b0000008b000000700000005c000000510000004c00000048",
+            INIT_13 => X"000000170000000000000075000000680000006b000000680000006f0000007a",
+            INIT_14 => X"00000029000000270000001a000000300000000000000000000000000000001a",
+            INIT_15 => X"000000050000000000000000000000790000006b00000056000000420000002e",
+            INIT_16 => X"0000003b0000002900000025000000450000003a000000000000000000000000",
+            INIT_17 => X"00000000000000000000000000000009000000970000006a0000005300000051",
+            INIT_18 => X"0000003f0000001f0000000e0000000000000000000000000000000000000000",
+            INIT_19 => X"000000000000000000000000000000000000001e000000ad0000007f00000067",
+            INIT_1A => X"000000760000006a0000004f0000002100000000000000010000000000000000",
+            INIT_1B => X"000000000000000000000000000000000000000000000000000000b30000008c",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000350000000000000000",
+            INIT_1F => X"0000001e00000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000160000001700000035",
+            INIT_21 => X"0000000000000000000000000000001400000000000000000000000000000000",
+            INIT_22 => X"0000004900000073000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000100000000000000000000000000000000000000610000004f00000032",
+            INIT_25 => X"0000000000000000000000090000003b0000005400000075000000170000002f",
+            INIT_26 => X"000000000000001f000000570000007b00000000000000000000000000000000",
+            INIT_27 => X"000000510000003a000000120000000000000000000000000000003400000003",
+            INIT_28 => X"00000000000000070000001f0000000000000000000000180000004c00000027",
+            INIT_29 => X"00000000000000000000000f00000029000000460000002b0000000000000000",
+            INIT_2A => X"0000001d00000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000004c0000003300000024000000000000000c000000000000000000000025",
+            INIT_2C => X"0000002f00000031000000470000005300000059000000540000002f0000002a",
+            INIT_2D => X"000000000000000200000001000000170000002e00000019000000200000001e",
+            INIT_2E => X"0000005d000000640000006b0000006e000000660000005f000000300000005e",
+            INIT_2F => X"00000006000000000000000000000000000000160000002f0000004900000050",
+            INIT_30 => X"0000000000000000000000000000000000000005000000000000000000000000",
+            INIT_31 => X"0000001800000017000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000700000000000000000000001400000003000000030000001a00000025",
+            INIT_33 => X"000000030000000000000018000000000000000000000000000000110000003e",
+            INIT_34 => X"0000000000000002000000460000001500000000000000000000000000000004",
+            INIT_35 => X"0000000000000000000000000000000f00000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000b0000000a0000000a0000000a00000008000000000000000000000000",
+            INIT_38 => X"0000000a000000090000000d0000000b0000000a000000080000000a0000000a",
+            INIT_39 => X"0000000b0000000b0000000a0000000b0000000b000000090000000b0000000a",
+            INIT_3A => X"0000000b0000000a0000001a0000002b000000060000000b0000000a0000000c",
+            INIT_3B => X"00000010000000090000000b0000000a0000000b0000000b0000000a0000000c",
+            INIT_3C => X"0000000c0000000c0000000a0000002a00000032000000100000001a00000009",
+            INIT_3D => X"0000000000000022000000000000000a0000000a0000000e000000100000001a",
+            INIT_3E => X"000000490000000e0000000f00000010000000360000001b0000001000000015",
+            INIT_3F => X"000000140000000400000016000000000000000c0000000c000000310000004b",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE11;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE12 : if BRAM_NAME = "sample_gold_layer0_instance12" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000100000000400000015000000430000002d000000270000001a0000000f",
+            INIT_01 => X"0000000c0000002a000000280000002c00000015000000180000001200000012",
+            INIT_02 => X"000000360000005c00000049000000180000004000000000000000090000000c",
+            INIT_03 => X"000000130000001000000044000000460000004500000000000000000000001d",
+            INIT_04 => X"000000470000001a00000032000000510000003e000000200000001d00000018",
+            INIT_05 => X"0000002700000024000000290000002b0000000d000000150000000000000019",
+            INIT_06 => X"000000190000000c00000002000000020000007f0000002d000000210000002b",
+            INIT_07 => X"000000300000001d000000230000001e00000013000000000000002000000011",
+            INIT_08 => X"000000470000004e0000004e0000005000000043000000590000003200000037",
+            INIT_09 => X"000000350000003a000000340000004100000033000000420000003d00000039",
+            INIT_0A => X"000000620000006100000057000000540000004b000000540000003c00000034",
+            INIT_0B => X"0000002b0000002b000000450000004700000049000000480000004e0000005b",
+            INIT_0C => X"0000001f0000004a0000002a000000130000000300000000000000340000000b",
+            INIT_0D => X"0000000000000023000000160000001a0000001e0000002e0000003400000034",
+            INIT_0E => X"00000000000000000000005f00000018000000110000000b0000001e00000027",
+            INIT_0F => X"0000001200000000000000270000001a00000013000000120000000000000000",
+            INIT_10 => X"0000000000000000000000000000002400000013000000120000001100000016",
+            INIT_11 => X"0000000f000000050000000000000029000000200000000c0000000f00000003",
+            INIT_12 => X"0000000400000009000000000000000300000022000000140000001000000010",
+            INIT_13 => X"00000013000000130000001300000010000000250000001b000000140000000a",
+            INIT_14 => X"0000001400000014000000130000001400000012000000130000001300000014",
+            INIT_15 => X"000000130000001200000013000000130000000f000000150000001300000014",
+            INIT_16 => X"000000120000001f000000210000000000000010000000120000001300000012",
+            INIT_17 => X"0000001100000014000000120000001400000012000000100000001400000013",
+            INIT_18 => X"0000001300000012000000330000003100000000000000000000000100000014",
+            INIT_19 => X"0000002b00000000000000130000001400000017000000130000001a00000014",
+            INIT_1A => X"0000001600000015000000130000004c0000001c000000090000001100000000",
+            INIT_1B => X"0000000a0000002f0000000000000013000000120000003f0000000d00000000",
+            INIT_1C => X"000000280000001d0000002c0000000000000000000000020000000c0000001f",
+            INIT_1D => X"0000001a000000120000000e000000000000001900000003000000310000003f",
+            INIT_1E => X"0000000a000000000000001f0000006b00000003000000190000000700000000",
+            INIT_1F => X"000000140000005c000000350000001500000000000000010000002600000011",
+            INIT_20 => X"00000001000000620000002c0000002100000005000000070000000000000002",
+            INIT_21 => X"0000000000000000000000000000000e000000500000000e0000000a00000049",
+            INIT_22 => X"000000390000002b0000001b000000c50000003b000000240000001e00000008",
+            INIT_23 => X"000000080000001c000000120000001e0000000000000015000000080000002a",
+            INIT_24 => X"000000000000000000000000000000000000006000000000000000020000000e",
+            INIT_25 => X"0000000d00000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"000000000000000000000000000000000000000e000000000000002100000015",
+            INIT_27 => X"0000001c00000017000000040000000000000000000000000000000000000000",
+            INIT_28 => X"000000580000001d0000000b000000040000000b00000041000000000000002d",
+            INIT_29 => X"0000003700000011000000250000003500000028000000160000000f00000005",
+            INIT_2A => X"0000000000000088000000190000000c00000000000000100000002700000000",
+            INIT_2B => X"0000000000000047000000350000002100000000000000000000000000000000",
+            INIT_2C => X"00000000000000070000005500000019000000170000000f0000001c00000018",
+            INIT_2D => X"0000001a000000000000003e0000003500000024000000440000002c00000000",
+            INIT_2E => X"0000005300000026000000180000003e0000001e0000001d0000001c0000001f",
+            INIT_2F => X"0000000000000000000000000000003d000000350000002e0000001f0000002e",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000100000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"000000000000000000000000000000000000000000000000000000220000002a",
+            INIT_3A => X"0000000000000000000000000000001100000018000000000000000000000000",
+            INIT_3B => X"0000000200000008000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000001b00000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000003f0000002d000000000000000000000000",
+            INIT_3E => X"0000001a000000000000004d0000000000000010000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE12;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE13 : if BRAM_NAME = "sample_gold_layer0_instance13" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000007000000120000000b00000000000000000000000000000000",
+            INIT_05 => X"00000000000000000000003d0000004a0000003e0000003f0000006200000045",
+            INIT_06 => X"0000000000000002000000000000000000000000000000000000001300000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000090000000900000001000000030000000b00000002",
+            INIT_09 => X"000000000000000000000000000000000000000c000000200000000000000000",
+            INIT_0A => X"0000002c000000000000000c0000001c0000001b000000190000001c00000020",
+            INIT_0B => X"0000002c0000002c000000000000000000000000000000000000000000000024",
+            INIT_0C => X"0000002d0000002c0000002d0000002c0000002c0000002c0000002c0000002c",
+            INIT_0D => X"0000002c0000002c0000002c0000002c0000002c0000002c0000002c0000002a",
+            INIT_0E => X"00000011000000300000002e0000002b0000002b0000002c0000002b0000002c",
+            INIT_0F => X"0000002c0000002c0000002c0000002b0000002c0000002b0000002c00000020",
+            INIT_10 => X"000000170000000d000000090000001700000031000000270000002f0000002c",
+            INIT_11 => X"0000002e0000002d00000029000000260000001f0000002c0000002c0000002b",
+            INIT_12 => X"00000027000000150000000a0000000f0000000e000000290000001900000039",
+            INIT_13 => X"0000002a0000002b0000002b0000001000000000000000000000002a00000028",
+            INIT_14 => X"0000000000000009000000110000001f0000002700000026000000280000002a",
+            INIT_15 => X"0000000e000000190000002400000020000000360000001b0000001100000026",
+            INIT_16 => X"00000024000000110000001a000000120000000b0000001f0000000f00000010",
+            INIT_17 => X"0000000000000000000000000000003100000007000000000000000000000000",
+            INIT_18 => X"00000000000000000000001e0000000c00000019000000220000002b00000000",
+            INIT_19 => X"0000000c00000031000000170000000500000006000000040000000000000003",
+            INIT_1A => X"00000026000000000000000c0000000000000000000000000000000000000000",
+            INIT_1B => X"0000000c000000110000000c0000001d00000028000000290000002900000014",
+            INIT_1C => X"00000000000000000000000e0000000000000000000000010000000e00000007",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000500000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000001c00000030000000380000002c00000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000002",
+            INIT_25 => X"000000050000000000000004000000060000000000000001000000340000004a",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"00000000000000090000000300000000000000000000000d0000000400000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000001000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000700000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000010000000000000005000000000000000900000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000070000000000000000000000000000000000000000",
+            INIT_31 => X"0000001000000000000000000000000500000000000000000000000000000000",
+            INIT_32 => X"0000000000000016000000000000000000000000000000000000000000000000",
+            INIT_33 => X"00000000000000390000001e0000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000002a000000000000000000000000000000000000000e0000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000004",
+            INIT_38 => X"0000000000000000000000000000000000000000000000090000000000000004",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000120000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000002b00000013000000000000001e00000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000700000024000000000000000c00000022",
+            INIT_3E => X"0000001a00000016000000050000001600000049000000000000000000000000",
+            INIT_3F => X"000000000000000000000000000000000000000000000000000000000000001a",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE13;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE14 : if BRAM_NAME = "sample_gold_layer0_instance14" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001c0000001d0000001c000000190000001e0000005d0000000000000000",
+            INIT_01 => X"000000000000000b0000000b0000000000000000000000000000000000000000",
+            INIT_02 => X"0000000b0000001f0000001f00000024000000270000002c0000004b00000000",
+            INIT_03 => X"0000000000000000000000030000000d00000012000000020000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000022000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000001000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000002e00000018000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000001e00000017000000200000000000000000000000160000003d0000002e",
+            INIT_28 => X"0000000f00000004000000050000000b000000100000000f000000140000001a",
+            INIT_29 => X"0000000800000000000000000000000a00000009000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000300000009000000000000000000000000",
+            INIT_2B => X"0000000f0000001200000013000000070000000c000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000001000000002000000020000000000000000",
+            INIT_2F => X"0000001900000015000000080000000a00000021000000250000000d00000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000007",
+            INIT_31 => X"0000000000000000000000000000001000000013000000000000000000000012",
+            INIT_32 => X"0000001b0000001600000011000000020000000000000000000000000000000c",
+            INIT_33 => X"000000110000001e000000090000001c0000001b0000000b000000080000000d",
+            INIT_34 => X"000000150000001e000000070000000d00000009000000180000001200000004",
+            INIT_35 => X"0000000f0000000f0000000300000007000000070000000f0000001e00000015",
+            INIT_36 => X"0000001f0000001b0000001a0000000d0000000f0000000a0000001b0000000a",
+            INIT_37 => X"000000090000001d000000130000000500000010000000280000002400000019",
+            INIT_38 => X"000000120000001900000025000000260000000a0000000e0000000e0000000e",
+            INIT_39 => X"0000000b000000120000000000000005000000140000001b000000150000000f",
+            INIT_3A => X"000000070000000b0000000b0000000900000008000000050000000a0000000d",
+            INIT_3B => X"0000000b0000000b0000000b0000000a000000140000000c0000000a00000003",
+            INIT_3C => X"000000350000003a0000003a0000003f0000003c0000002f000000080000000b",
+            INIT_3D => X"0000002f0000002d0000002f0000002800000033000000330000002a00000032",
+            INIT_3E => X"0000002d0000002b0000002f0000002f00000038000000340000002900000033",
+            INIT_3F => X"000000320000002c0000002b000000320000002f000000190000002f00000029",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE14;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE15 : if BRAM_NAME = "sample_gold_layer0_instance15" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000022000000200000002300000025000000240000002e0000002b00000021",
+            INIT_01 => X"000000170000002d000000230000001f000000270000003c000000000000002a",
+            INIT_02 => X"000000070000001900000017000000210000001a00000021000000270000002a",
+            INIT_03 => X"0000000f0000000f0000001900000015000000250000001c0000001a0000000b",
+            INIT_04 => X"00000019000000160000000e00000015000000120000000e0000001500000010",
+            INIT_05 => X"000000110000002300000020000000150000000d0000001e0000002700000019",
+            INIT_06 => X"000000300000001b0000001b0000001c0000002700000026000000240000001d",
+            INIT_07 => X"0000002a000000180000001b0000002400000005000000160000000d0000002d",
+            INIT_08 => X"00000022000000360000002d000000310000002f000000340000002a00000032",
+            INIT_09 => X"0000003b0000003f000000380000002e0000002e00000000000000190000000b",
+            INIT_0A => X"0000001b000000200000001900000011000000290000002e0000003500000037",
+            INIT_0B => X"00000028000000350000003a000000390000001c000000310000002300000000",
+            INIT_0C => X"0000001b0000001c000000210000002b000000190000002e0000002100000021",
+            INIT_0D => X"0000002d000000320000002e0000002c00000031000000420000002d00000012",
+            INIT_0E => X"00000009000000040000000c0000001c0000002600000021000000160000001f",
+            INIT_0F => X"0000000f0000001500000023000000240000002100000031000000310000002e",
+            INIT_10 => X"00000035000000030000000300000005000000080000000d0000001e0000002d",
+            INIT_11 => X"000000140000000d0000001100000037000000260000001e0000001a0000002a",
+            INIT_12 => X"000000180000002700000002000000050000000c000000010000000900000013",
+            INIT_13 => X"000000060000000a0000001300000015000000110000000d0000001200000010",
+            INIT_14 => X"0000000a0000000c0000000d0000000700000008000000010000000d0000000a",
+            INIT_15 => X"0000000700000008000000150000000900000009000000050000000b0000000f",
+            INIT_16 => X"0000000a000000080000000800000004000000090000000a0000000600000009",
+            INIT_17 => X"000000090000000a0000000000000015000000030000000a0000000c0000000c",
+            INIT_18 => X"0000005700000055000000440000002b00000078000000000000000a00000009",
+            INIT_19 => X"0000005600000048000000560000005500000042000000670000005100000051",
+            INIT_1A => X"0000005100000050000000570000003800000027000000720000004300000057",
+            INIT_1B => X"0000005a0000005a0000003c000000110000008f000000430000005300000054",
+            INIT_1C => X"000000670000004b0000004a0000004e0000002c000000220000006f0000003e",
+            INIT_1D => X"000000370000004e000000610000003400000000000000ba0000003300000041",
+            INIT_1E => X"000000640000005c0000003d000000500000003c00000044000000230000006c",
+            INIT_1F => X"000000420000002b0000004e000000000000001a000000190000005a00000066",
+            INIT_20 => X"000000500000006b00000039000000350000003a00000025000000390000002e",
+            INIT_21 => X"000000180000001200000020000000560000000e0000001a000000300000004e",
+            INIT_22 => X"0000003d0000003e0000005c0000003e0000002f000000270000000e00000050",
+            INIT_23 => X"00000040000000380000002e0000005b0000001b000000730000001d00000000",
+            INIT_24 => X"0000000a00000034000000330000003e00000041000000430000002600000009",
+            INIT_25 => X"00000038000000310000003b0000003a00000071000000440000006b00000033",
+            INIT_26 => X"00000021000000180000007c0000005300000063000000580000004f00000047",
+            INIT_27 => X"0000006400000042000000200000005000000056000000150000006800000040",
+            INIT_28 => X"00000040000000380000001a0000005d00000031000000460000005100000060",
+            INIT_29 => X"000000420000003f00000054000000450000002600000049000000440000004c",
+            INIT_2A => X"000000590000005b0000005f0000003f0000003e00000038000000610000004f",
+            INIT_2B => X"00000073000000310000004a00000065000000540000004c000000330000002b",
+            INIT_2C => X"0000003b000000360000004700000056000000560000003f000000000000004d",
+            INIT_2D => X"0000004c000000730000001c00000027000000390000006f000000430000000e",
+            INIT_2E => X"000000220000002d0000002a0000003400000033000000440000003800000029",
+            INIT_2F => X"0000003800000033000000310000002f00000038000000440000006000000051",
+            INIT_30 => X"00000022000000250000001f000000200000003e0000001f0000003000000031",
+            INIT_31 => X"00000047000000040000002a0000002100000026000000290000001d00000024",
+            INIT_32 => X"00000014000000110000001e000000210000001a000000230000002500000025",
+            INIT_33 => X"0000001e000000510000000000000030000000230000001d0000001700000012",
+            INIT_34 => X"000000000000000800000005000000080000003e000000160000001c00000021",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000002",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000200000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000008",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000a00000000000000000000000d00000021000000000000000000000000",
+            INIT_3E => X"00000000000000000000000f0000002100000032000000000000000c0000001d",
+            INIT_3F => X"0000000000000003000000060000000000000045000000690000002d00000008",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE15;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE16 : if BRAM_NAME = "sample_gold_layer0_instance16" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000400000004f000000320000002000000010000000000000000000000000",
+            INIT_01 => X"0000005e0000003a000000230000000000000000000000000000000000000034",
+            INIT_02 => X"00000000000000000000000000000007000000160000001f0000002f00000059",
+            INIT_03 => X"0000000000000000000000000000000000000072000000100000000000000000",
+            INIT_04 => X"0000000c00000040000000200000000b00000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000170000004300000000000000000000000200000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000001100000019",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000002000000030000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000600000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"000000000000000000000001000000000000000000000000000000000000000b",
+            INIT_0F => X"000000000000000000000000000000000000000b000000050000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000d0000000b000000020000000a00000001000000000000000000000000",
+            INIT_12 => X"000000000000000000000000000000000000000b0000000e0000000f0000000d",
+            INIT_13 => X"0000000f00000000000000250000000a00000009000000120000000d00000001",
+            INIT_14 => X"0000001a00000013000000000000000000000000000000110000001600000019",
+            INIT_15 => X"0000001d00000000000000000000002400000009000000110000002100000017",
+            INIT_16 => X"00000024000000310000001f000000210000000700000010000000160000001e",
+            INIT_17 => X"0000002300000000000000100000000000000000000000130000002400000023",
+            INIT_18 => X"000000090000001c0000001f000000140000000d000000040000000100000024",
+            INIT_19 => X"000000290000002e000000020000000000000000000000000000000000000001",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"000000000000001d000000140000003a00000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000190000003400000023000000190000000000000000",
+            INIT_1E => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"00000000000000000000000000000012000000180000001a0000001800000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"000000000000000000000000000000000000001400000014000000080000000d",
+            INIT_22 => X"0000000c00000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000030000000c00000009",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000400000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"00000008000000000000000a0000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"000000040000000c000000000000000100000000000000000000000000000000",
+            INIT_2F => X"0000002300000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"000000000000000b0000000f0000000000000005000000000000000000000009",
+            INIT_31 => X"0000000e00000046000000000000000d00000001000000000000000000000000",
+            INIT_32 => X"000000000000000f0000000e0000001900000000000000090000000000000000",
+            INIT_33 => X"0000004100000015000000050000000000000000000000000000000000000004",
+            INIT_34 => X"000000100000000d000000190000000300000009000000010000001700000000",
+            INIT_35 => X"0000000000000019000000150000000000000000000000000000000000000006",
+            INIT_36 => X"0000000000000000000000000000000c00000000000000110000000e00000012",
+            INIT_37 => X"0000000000000018000000000000001200000025000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000a00000017000000000000000000000001",
+            INIT_39 => X"0000000000000000000000040000000000000007000000210000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000030000000800000000",
+            INIT_3B => X"0000000000000000000000080000000000000000000000170000001400000000",
+            INIT_3C => X"0000000000000002000000000000000000000000000000000000000000000012",
+            INIT_3D => X"0000000000000016000000000000000000000000000000000000000000000014",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000002000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE16;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE17 : if BRAM_NAME = "sample_gold_layer0_instance17" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000002400000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000019000000000000000000000000",
+            INIT_02 => X"000000000000000000000000000000000000000000000000000000000000001c",
+            INIT_03 => X"0000000000000000000000000000000000000000000000110000000000000000",
+            INIT_04 => X"0000000200000000000000020000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000600000000000000020000000000000000",
+            INIT_06 => X"0000000300000005000000000000000100000000000000000000001100000000",
+            INIT_07 => X"0000000000000000000000000000000200000004000000030000000800000002",
+            INIT_08 => X"0000000000000000000000080000000400000004000000060000000000000022",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000600000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000400000000000000000000000000000001000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000003000000020000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000900000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000110000000500000000",
+            INIT_27 => X"000000010000000a000000090000000200000000000000000000000000000000",
+            INIT_28 => X"0000000000000004000000000000000800000005000000030000000e00000015",
+            INIT_29 => X"0000001e0000001e000000230000000a00000004000000010000000000000000",
+            INIT_2A => X"0000002d0000000f00000026000000090000000f000000110000002d00000012",
+            INIT_2B => X"000000000000001a000000240000000f0000001d00000015000000250000002c",
+            INIT_2C => X"0000003500000026000000270000003f0000003b0000003f0000004e00000012",
+            INIT_2D => X"00000000000000030000000900000016000000390000003a0000004700000042",
+            INIT_2E => X"0000000000000000000000000000000000000000000000170000000000000000",
+            INIT_2F => X"00000000000000000000000000000000000000010000000d0000000000000000",
+            INIT_30 => X"0000000000000000000000000000000400000000000000000000000c0000000d",
+            INIT_31 => X"0000002f0000001b000000050000000000000000000000000000000000000000",
+            INIT_32 => X"000000000000000000000000000000000000000000000000000000000000002c",
+            INIT_33 => X"00000000000000000000000a0000000c000000100000001c0000001600000000",
+            INIT_34 => X"00000000000000010000001a0000001300000001000000000000002300000016",
+            INIT_35 => X"000000000000002f0000000e0000000100000000000000000000000000000000",
+            INIT_36 => X"0000002b00000028000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000180000002e000000330000001c0000000000000004",
+            INIT_38 => X"0000002600000000000000000000000000000013000000300000002300000000",
+            INIT_39 => X"00000000000000000000000000000017000000120000001c0000002200000032",
+            INIT_3A => X"0000001c00000004000000000000001e00000042000000000000000000000000",
+            INIT_3B => X"0000002800000043000000370000001b00000004000000030000000000000005",
+            INIT_3C => X"0000000500000002000000090000001b00000007000000040000000600000012",
+            INIT_3D => X"0000000f00000005000000040000000a0000000400000000000000000000000e",
+            INIT_3E => X"0000000000000001000000030000000000000000000000000000000000000010",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE17;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE18 : if BRAM_NAME = "sample_gold_layer0_instance18" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000007000000020000000900000000",
+            INIT_01 => X"000000f8000000f1000000fb000000f5000000f3000000c3000000df0000000d",
+            INIT_02 => X"000000f4000000fd000000f5000000fb000000f600000100000000f4000000f9",
+            INIT_03 => X"000000f9000000ef000000e5000000f4000000e9000000ec000000bf000000dd",
+            INIT_04 => X"000000d4000000f1000000fe000000f3000000f8000000de000000ee000000f0",
+            INIT_05 => X"000000e6000000da000000e0000000db000000e4000000da000000da000000b0",
+            INIT_06 => X"0000009c000000c3000000ec000000ee000000ed000000f3000000bd000000d0",
+            INIT_07 => X"000000a5000000a8000000b9000000ce000000cb000000cc000000cb000000c1",
+            INIT_08 => X"000000930000007e00000097000000c8000000d2000000d30000008c0000007a",
+            INIT_09 => X"00000074000000790000008d000000b8000000b2000000a9000000a400000097",
+            INIT_0A => X"000000630000006c0000005e000000600000007d0000008d0000006800000064",
+            INIT_0B => X"0000008e000000730000007c0000007d00000090000000910000007900000079",
+            INIT_0C => X"000000a0000000740000006f0000006900000074000000580000009d0000006b",
+            INIT_0D => X"000000ad000000b00000008f0000008b0000008600000092000000a2000000a0",
+            INIT_0E => X"000000c6000000b8000000990000008a00000080000000860000005300000073",
+            INIT_0F => X"00000065000000a2000000a200000098000000a5000000c4000000c2000000cf",
+            INIT_10 => X"000000c8000000d0000000d2000000cf000000b00000009f000000a000000047",
+            INIT_11 => X"0000009600000091000000a100000096000000810000009c000000a8000000ba",
+            INIT_12 => X"000000af000000b5000000b5000000bb000000b5000000a9000000900000008b",
+            INIT_13 => X"000000af000000640000007f00000096000000a7000000aa000000b4000000aa",
+            INIT_14 => X"0000006f00000079000000ab000000bb000000a9000000a9000000b0000000b0",
+            INIT_15 => X"000000a9000000940000003d00000050000000680000008b0000009e000000a4",
+            INIT_16 => X"00000073000000660000006e0000009d0000009000000075000000790000009e",
+            INIT_17 => X"0000008d0000008e0000007c0000002200000030000000410000005900000066",
+            INIT_18 => X"00000044000000550000005800000057000000640000006f0000006a0000006d",
+            INIT_19 => X"0000003c0000003c0000003d000000390000001b000000220000003500000038",
+            INIT_1A => X"000000240000003100000037000000400000004000000045000000410000003f",
+            INIT_1B => X"0000002b000000230000001f00000016000000180000001b0000001c00000021",
+            INIT_1C => X"0000001b0000001a0000001f00000039000000370000002c000000320000002c",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000c0000001e",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"00000000000000000000000000000000000000000000003b0000000000000000",
+            INIT_21 => X"0000001f00000008000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000001200000000000000000000000b00000003000000000000004500000007",
+            INIT_23 => X"0000006e0000000b00000001000000000000000a000000000000001200000001",
+            INIT_24 => X"00000040000000460000001f0000001d000000100000008b0000004600000046",
+            INIT_25 => X"00000003000000040000003d0000003d0000004f00000050000000510000004a",
+            INIT_26 => X"000000000000000000000000000000470000001b000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000800000000000000000000000000000000",
+            INIT_28 => X"00000000000000110000000a0000000000000027000000000000000b00000000",
+            INIT_29 => X"0000000900000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000380000005000000000",
+            INIT_2B => X"0000000000000000000000110000003600000000000000020000000000000000",
+            INIT_2C => X"0000001c00000011000000000000000500000027000000140000000000000000",
+            INIT_2D => X"0000000000000002000000000000000000000000000000000000000000000015",
+            INIT_2E => X"0000000000000000000000000000001a0000000000000000000000000000001f",
+            INIT_2F => X"0000002c00000042000000360000001700000000000000000000000f00000022",
+            INIT_30 => X"0000002c00000025000000000000002e00000017000000050000000000000000",
+            INIT_31 => X"00000000000000230000001300000023000000360000003a0000001c00000002",
+            INIT_32 => X"0000000f000000050000002000000003000000000000000e0000001c00000002",
+            INIT_33 => X"0000002d0000000e0000000b0000001300000010000000160000002400000016",
+            INIT_34 => X"0000001a000000230000000700000006000000290000002c0000001b00000028",
+            INIT_35 => X"000000100000001f0000002c0000000000000003000000140000000b00000007",
+            INIT_36 => X"0000000700000016000000000000001000000015000000150000000c00000005",
+            INIT_37 => X"000000000000000000000000000000000000000000000000000000020000000b",
+            INIT_38 => X"0000000200000005000000180000000000000012000000050000000000000000",
+            INIT_39 => X"000000270000002e0000003b0000004500000024000000230000000000000000",
+            INIT_3A => X"0000000c000000130000000e000000140000001d000000090000001900000020",
+            INIT_3B => X"00000014000000190000001a00000030000000390000001a000000140000000e",
+            INIT_3C => X"0000000a00000007000000160000003200000002000000170000001100000014",
+            INIT_3D => X"000000030000000a0000000b00000009000000240000002d0000000d00000015",
+            INIT_3E => X"000000170000000800000002000000250000005300000000000000210000001b",
+            INIT_3F => X"0000000400000000000000060000000000000009000000110000002100000003",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE18;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE19 : if BRAM_NAME = "sample_gold_layer0_instance19" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000002a0000001000000007000000470000004b000000490000001e0000001f",
+            INIT_01 => X"000000200000001200000026000000240000001f000000320000002800000033",
+            INIT_02 => X"0000002c000000360000002800000000000000200000001c0000003500000028",
+            INIT_03 => X"000000240000002c000000250000003400000026000000250000002d00000014",
+            INIT_04 => X"000000260000002e0000003b000000000000000b000000000000001100000033",
+            INIT_05 => X"00000033000000260000002b0000002d0000003600000031000000410000004d",
+            INIT_06 => X"000000350000002b000000260000003200000000000000020000000000000014",
+            INIT_07 => X"0000001a0000003000000011000000300000002e000000310000003300000034",
+            INIT_08 => X"0000003e00000049000000550000003e00000040000000040000000000000007",
+            INIT_09 => X"00000013000000120000001c000000000000002c0000002d0000003b0000003e",
+            INIT_0A => X"000000350000003e0000003c0000003d00000047000000350000000800000009",
+            INIT_0B => X"0000001300000017000000100000001f000000230000002f000000220000002a",
+            INIT_0C => X"0000001f0000004400000042000000300000003d000000410000005000000023",
+            INIT_0D => X"0000001b0000001a0000001c0000001c000000240000002f0000004b00000025",
+            INIT_0E => X"00000020000000160000004b0000003d0000003a0000002c000000420000005f",
+            INIT_0F => X"0000004b00000017000000230000002000000025000000230000002800000031",
+            INIT_10 => X"0000002c0000002a0000002e000000390000003a000000350000002b00000038",
+            INIT_11 => X"00000037000000380000002000000024000000190000002a000000210000002a",
+            INIT_12 => X"000000160000003000000028000000300000002c0000002c0000003300000031",
+            INIT_13 => X"00000026000000250000001d0000001f00000024000000210000002400000023",
+            INIT_14 => X"000000250000000d000000410000001c00000027000000250000002600000028",
+            INIT_15 => X"00000012000000280000001f000000000000000d000000250000002500000021",
+            INIT_16 => X"0000001a00000007000000190000002300000009000000190000001100000019",
+            INIT_17 => X"0000001e0000000c0000002a0000001e00000000000000160000001600000009",
+            INIT_18 => X"00000005000000230000001f000000000000001b00000017000000170000000e",
+            INIT_19 => X"0000000e000000210000000c0000002d00000016000000000000001b00000014",
+            INIT_1A => X"00000017000000030000002800000059000000000000001e000000130000000c",
+            INIT_1B => X"00000000000000170000000d0000001800000022000000180000000000000022",
+            INIT_1C => X"000000190000001a00000037000000020000001200000000000000000000000e",
+            INIT_1D => X"00000000000000000000000a0000000300000018000000000000000700000000",
+            INIT_1E => X"0000002a000000130000000e0000003b00000022000000120000000800000000",
+            INIT_1F => X"00000010000000000000001c00000015000000230000001c0000000a00000021",
+            INIT_20 => X"0000000900000023000000000000003100000000000000460000003e0000000f",
+            INIT_21 => X"0000001f0000001b000000060000000d000000030000001b0000003100000000",
+            INIT_22 => X"000000270000001800000014000000000000000c00000000000000210000004c",
+            INIT_23 => X"00000022000000000000000f0000000c00000013000000190000002200000032",
+            INIT_24 => X"0000001a00000021000000000000000b00000025000000000000000900000020",
+            INIT_25 => X"0000001b0000003d000000000000001c00000003000000040000000200000007",
+            INIT_26 => X"0000000a000000070000002500000033000000000000000c000000070000000b",
+            INIT_27 => X"000000000000000300000016000000170000000d0000000c0000001b0000001a",
+            INIT_28 => X"0000001c00000015000000000000000f0000000f000000230000000400000000",
+            INIT_29 => X"000000000000000000000000000000000000001f0000002f0000000000000000",
+            INIT_2A => X"000000000000003e0000001100000000000000000000000c000000410000000b",
+            INIT_2B => X"000000000000000b000000030000000000000003000000080000001800000004",
+            INIT_2C => X"0000001700000004000000040000000a0000000b00000000000000080000002f",
+            INIT_2D => X"0000000a0000000f0000000f000000000000001b00000005000000070000000d",
+            INIT_2E => X"000000250000000a0000001000000014000000190000001a0000000d00000008",
+            INIT_2F => X"0000001a0000001200000017000000170000000b0000000e0000000c00000005",
+            INIT_30 => X"00000000000000390000000b0000001a0000001d0000001a0000001a0000001a",
+            INIT_31 => X"000000000000000000000000000000000000001a000000150000000d00000014",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000d00000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000700000000000000000000000200000000",
+            INIT_3C => X"0000000000000000000000000000000000000022000000180000000000000000",
+            INIT_3D => X"0000001e0000000b000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000001200000003000000000000000000000000000000000000000000000013",
+            INIT_3F => X"000000000000000000000000000000000000000000000000000000160000002c",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE19;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE20 : if BRAM_NAME = "sample_gold_layer0_instance20" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000004500000000000000000000000000000000",
+            INIT_01 => X"0000000400000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000150000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000006",
+            INIT_0C => X"0000000000000000000000000000000100000001000000000000000000000000",
+            INIT_0D => X"0000000000000005000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000002a000000240000002c0000002400000019000000190000000f00000008",
+            INIT_0F => X"00000010000000000000000d000000240000002f000000280000002900000026",
+            INIT_10 => X"000000000000003700000024000000290000002a000000210000002400000019",
+            INIT_11 => X"0000002100000016000000000000001600000027000000320000002b0000002a",
+            INIT_12 => X"0000001b0000000000000030000000150000001c00000031000000230000002e",
+            INIT_13 => X"000000330000002400000026000000000000001c000000270000002e0000002d",
+            INIT_14 => X"0000000000000000000000000000000000000010000000270000002900000026",
+            INIT_15 => X"0000000700000006000000000000000000000000000000000000001c0000002a",
+            INIT_16 => X"0000002700000008000000000000000000000000000000000000000400000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"000000000000000d0000002c0000000d00000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"00000000000000000000001d000000170000001d000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"000000000000000000000000000000000000001300000009000000000000000b",
+            INIT_1D => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"00000000000000000000000000000014000000060000000a0000001400000008",
+            INIT_1F => X"0000000800000001000000000000000400000000000000000000000000000000",
+            INIT_20 => X"000000000000000000000000000000000000000000000000000000030000000d",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000001b00000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000050000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000038000000000000000000000002000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000300000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000010000001d00000010000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000100000000000000000000000c000000000000000c0000000000000000",
+            INIT_33 => X"0000000b00000000000000000000001900000001000000000000000000000013",
+            INIT_34 => X"0000000000000040000000000000000000000008000000040000000a00000000",
+            INIT_35 => X"0000000000000000000000000000000000000007000000070000000000000038",
+            INIT_36 => X"0000002600000026000000070000000000000000000000060000000600000000",
+            INIT_37 => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000006000000260000000000000000000000000000001b00000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"000000000000000000000007000000050000000000000004000000000000000a",
+            INIT_3B => X"00000000000000000000000b0000000000000000000000000000000000000000",
+            INIT_3C => X"00000000000000000000000000000002000000130000000e0000000800000000",
+            INIT_3D => X"0000000700000000000000000000000f00000019000000000000000000000001",
+            INIT_3E => X"000000000000001300000000000000000000001c00000012000000130000000c",
+            INIT_3F => X"00000011000000180000000900000005000000080000000c0000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE20;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE21 : if BRAM_NAME = "sample_gold_layer0_instance21" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000500000002000000020000000000000000000000170000001600000016",
+            INIT_01 => X"0000001b0000000f000000120000000b000000140000000e0000000000000000",
+            INIT_02 => X"0000001000000010000000070000000a000000020000000a0000001500000011",
+            INIT_03 => X"0000001200000013000000140000000f0000003000000000000000120000000d",
+            INIT_04 => X"0000001800000015000000120000001200000014000000120000001500000016",
+            INIT_05 => X"0000002d0000000e00000014000000100000001200000029000000000000001b",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"000000000000000000000000000000000000001a000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000005000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000001c0000001d000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000002400000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"000000000000000000000000000000000000000000000000000000000000000d",
+            INIT_31 => X"0000001e00000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000020000001400000029",
+            INIT_33 => X"0000000000000000000000090000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000001300000026000000420000002d00000005",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"000000110000000f000000000000000000000000000000000000000000000000",
+            INIT_37 => X"000000040000001f00000013000000010000000d000000200000001b00000016",
+            INIT_38 => X"000000000000000000000000000000160000001f000000140000000100000011",
+            INIT_39 => X"000000140000000f000000090000000600000000000000000000000000000000",
+            INIT_3A => X"0000000b0000000f000000110000000a000000210000001a0000001b00000018",
+            INIT_3B => X"0000000000000000000000000000000000000000000000010000000600000004",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000002e000000300000002a0000002900000035000000320000000d00000000",
+            INIT_3F => X"00000032000000330000002c0000002e0000002e0000002d0000002e0000002b",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE21;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE22 : if BRAM_NAME = "sample_gold_layer0_instance22" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000280000003200000042000000230000003100000039000000340000002e",
+            INIT_01 => X"0000003400000034000000390000002e000000270000002d0000002a00000030",
+            INIT_02 => X"0000002b0000001b0000002a0000001d00000026000000360000003600000034",
+            INIT_03 => X"000000350000003600000033000000280000002c000000280000002100000020",
+            INIT_04 => X"000000430000003c000000340000003b0000003d000000450000002700000038",
+            INIT_05 => X"000000380000003200000037000000370000004c000000380000003d0000003a",
+            INIT_06 => X"000000260000002b000000300000002a00000028000000280000002600000035",
+            INIT_07 => X"00000026000000310000002e0000003500000033000000340000003600000029",
+            INIT_08 => X"000000340000003300000035000000380000003900000035000000340000002e",
+            INIT_09 => X"0000002d0000001f000000230000002f00000037000000330000003300000037",
+            INIT_0A => X"000000340000003600000035000000380000003a0000003a0000002f0000002a",
+            INIT_0B => X"0000001e0000000d0000002a0000003400000033000000350000003300000033",
+            INIT_0C => X"0000003500000034000000340000003200000035000000300000002900000030",
+            INIT_0D => X"0000001000000000000000290000003000000032000000320000003800000034",
+            INIT_0E => X"00000033000000350000003700000032000000230000001e0000002200000018",
+            INIT_0F => X"0000000c00000008000000000000002b00000032000000310000003000000037",
+            INIT_10 => X"00000034000000240000001a00000019000000200000000c0000000b0000000c",
+            INIT_11 => X"0000004500000026000000140000002d00000019000000320000003300000033",
+            INIT_12 => X"0000001b0000003b000000390000004700000023000000260000002100000025",
+            INIT_13 => X"0000002200000020000000140000000a0000001100000012000000130000001a",
+            INIT_14 => X"00000020000000170000002e000000300000002a000000270000002600000023",
+            INIT_15 => X"00000016000000150000001d000000170000001100000013000000150000001d",
+            INIT_16 => X"000000090000000b000000030000001300000013000000170000001600000013",
+            INIT_17 => X"0000000200000000000000030000000600000007000000040000000000000006",
+            INIT_18 => X"0000000300000003000000040000000000000015000000000000000000000001",
+            INIT_19 => X"0000000000000002000000050000000300000006000000070000000900000000",
+            INIT_1A => X"0000003200000041000000640000004a0000001d000000000000001800000004",
+            INIT_1B => X"0000003100000040000000410000003c0000003f000000390000004700000044",
+            INIT_1C => X"0000004100000039000000700000006200000045000000260000004800000042",
+            INIT_1D => X"00000050000000440000002d00000048000000490000004b000000380000004f",
+            INIT_1E => X"000000430000003700000054000000540000006700000047000000270000004b",
+            INIT_1F => X"0000004c00000054000000350000003b000000420000004b000000400000002a",
+            INIT_20 => X"00000038000000490000003c0000003b00000042000000760000004400000031",
+            INIT_21 => X"000000460000004c0000004e000000150000004200000037000000550000003e",
+            INIT_22 => X"0000004e00000043000000400000004500000047000000700000005500000045",
+            INIT_23 => X"0000006000000044000000500000005000000051000000290000003f00000052",
+            INIT_24 => X"0000005200000059000000540000004b0000004e00000053000000470000005c",
+            INIT_25 => X"00000063000000650000003a0000004a0000005000000052000000490000004c",
+            INIT_26 => X"000000530000005d00000057000000560000004e00000043000000230000002f",
+            INIT_27 => X"0000008400000064000000530000003300000050000000550000005500000059",
+            INIT_28 => X"00000054000000510000005a000000590000004d000000230000000700000044",
+            INIT_29 => X"000000cd00000062000000560000004d000000330000004f0000005500000053",
+            INIT_2A => X"00000056000000550000003e0000004e000000390000001b0000000400000015",
+            INIT_2B => X"00000016000000d20000007e000000530000004d000000310000005000000054",
+            INIT_2C => X"000000410000003a00000038000000080000002800000016000000180000000f",
+            INIT_2D => X"0000000000000064000000430000007800000050000000510000002b0000004c",
+            INIT_2E => X"0000003d00000028000000000000001800000013000000340000003900000000",
+            INIT_2F => X"0000003c000000590000007a0000005e0000006500000068000000690000003e",
+            INIT_30 => X"000000290000005600000058000000550000005c000000560000006000000061",
+            INIT_31 => X"0000004e00000034000000380000003a000000390000003e000000420000003b",
+            INIT_32 => X"00000022000000250000003f0000004e00000044000000400000004600000043",
+            INIT_33 => X"0000001c0000001f000000180000001a0000001a000000200000001900000028",
+            INIT_34 => X"000000180000001900000022000000000000000a000000140000001700000014",
+            INIT_35 => X"0000001700000011000000130000000800000016000000080000001600000013",
+            INIT_36 => X"000000010000000900000007000000010000003b000000050000000000000016",
+            INIT_37 => X"0000000200000008000000060000000c00000005000000060000000400000000",
+            INIT_38 => X"00000000000000000000000000000000000000000000000d000000180000000d",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"000000310000000d000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000280000002f000000340000002e0000002400000012",
+            INIT_3C => X"0000001200000005000000060000002000000000000000000000000600000000",
+            INIT_3D => X"00000000000000000000000f0000000600000000000000000000000100000009",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000010",
+            INIT_3F => X"0000000800000000000000000000001400000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE22;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE23 : if BRAM_NAME = "sample_gold_layer0_instance23" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000002b000000270000002c0000002e00000030000000000000000000000000",
+            INIT_01 => X"0000000800000002000000030000000000000000000000180000002200000027",
+            INIT_02 => X"000000050000000500000002000000000000000000000000000000000000001a",
+            INIT_03 => X"0000002100000003000000010000000000000000000000000000000000000000",
+            INIT_04 => X"000000000000000000000000000000000000000000000000000000140000007e",
+            INIT_05 => X"0000000000000000000000000000000100000000000000000000000100000000",
+            INIT_06 => X"0000000200000000000000000000000000000000000000000000000000000023",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"000000b70000007e000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000002f0000006d00000075000000a300000074000000a30000007d00000067",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000010000000b00000007000000090000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"00000000000000000000003b0000000000000000000000000000000000000000",
+            INIT_11 => X"000000180000001300000014000000180000000c000000000000000000000000",
+            INIT_12 => X"000000000000000000000000000000000000004e000000130000000400000010",
+            INIT_13 => X"0000000700000005000000050000000200000007000000000000000000000007",
+            INIT_14 => X"0000004800000000000000000000000000000000000000050000000000000005",
+            INIT_15 => X"0000002000000030000000360000003c000000370000003b0000003300000046",
+            INIT_16 => X"0000003900000039000000000000000000000000000000000000000000000000",
+            INIT_17 => X"00000000000000310000003100000039000000320000003d0000004a0000003c",
+            INIT_18 => X"0000002d000000370000005a0000000d00000000000000000000000000000000",
+            INIT_19 => X"00000000000000220000003700000041000000490000003a0000003f0000003d",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"00000000000000000000000000000000000000000000001a0000001d00000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"00000000000000000000000000000000000000000000002b0000001a00000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000e00000015000000120000003f00000002",
+            INIT_23 => X"0000001b00000002000000060000000000000000000000000000000000000000",
+            INIT_24 => X"00000004000000060000001e0000001a000000150000000f000000130000002f",
+            INIT_25 => X"0000000c00000007000000000000000100000000000000000000000000000000",
+            INIT_26 => X"0000000000000012000000060000000f0000000f000000000000000c00000023",
+            INIT_27 => X"0000000000000000000000020000000100000000000000000000000000000004",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000600000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000001300000013000000160000001b0000001200000012000000150000001f",
+            INIT_2C => X"0000002000000000000000080000001100000012000000130000001500000015",
+            INIT_2D => X"0000001600000013000000150000000d00000015000000140000001100000011",
+            INIT_2E => X"0000000000000011000000020000000000000000000000180000001800000016",
+            INIT_2F => X"0000000000000000000000030000000000000000000000060000000200000000",
+            INIT_30 => X"00000000000000000000000f00000000000000050000000b0000000000000000",
+            INIT_31 => X"0000001b0000001b0000001e0000002e00000015000000260000003f00000000",
+            INIT_32 => X"0000001400000000000000000000000f00000000000000000000000600000025",
+            INIT_33 => X"000000220000001c0000001c0000001d00000033000000260000002d0000000c",
+            INIT_34 => X"0000002b00000039000000000000000000000008000000000000000000000010",
+            INIT_35 => X"0000004000000021000000310000001e0000002b000000330000001800000029",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000002000000150000000300000000000000000000000300000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"000000000000000000000002000000290000001b000000000000000000000000",
+            INIT_3B => X"0000000800000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000220000003d00000000000000000000000000000000",
+            INIT_3D => X"0000000000000008000000000000000000000000000000000000000000000000",
+            INIT_3E => X"000000020000001c0000002e0000002300000016000000000000000000000000",
+            INIT_3F => X"0000000000000000000000090000000000000000000000000000000000000007",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE23;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE24 : if BRAM_NAME = "sample_gold_layer0_instance24" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000034000000050000000b000000150000001d000000140000000000000000",
+            INIT_01 => X"0000000000000000000000000000000e00000000000000050000001600000021",
+            INIT_02 => X"000000000000000600000000000000000000004f0000000f0000000000000000",
+            INIT_03 => X"000000000000000000000000000000000000000f0000000c0000000e00000048",
+            INIT_04 => X"0000000000000000000000010000000000000000000000120000000000000000",
+            INIT_05 => X"0000000000000002000000010000000200000007000000060000000700000003",
+            INIT_06 => X"0000000000000005000000070000000100000004000000000000000e00000007",
+            INIT_07 => X"0000000d00000008000000030000000b000000080000000c0000000000000004",
+            INIT_08 => X"000000170000000800000008000000090000000a00000003000000050000000c",
+            INIT_09 => X"0000000f0000000800000010000000070000000d0000000a0000000800000000",
+            INIT_0A => X"00000000000000000000000e0000000f00000003000000060000000700000004",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000a0000000f0000001000000012000000120000000b0000000400000000",
+            INIT_0E => X"000000000000000000000000000000000000000000000000000000070000000a",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000010",
+            INIT_10 => X"0000000700000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"000000000000000b0000000a0000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000001d0000000300000000000000030000000f000000060000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000b0000001f",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"000000100000000f0000000f0000001400000018000000140000000f00000002",
+            INIT_24 => X"0000000000000001000000000000000400000005000000050000000b0000000c",
+            INIT_25 => X"0000000000000000000000010000000000000000000000010000000600000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000003f000000380000003d00000042000000240000000d0000000000000000",
+            INIT_2A => X"000000000000000000000003000000060000000a000000330000003f00000040",
+            INIT_2B => X"00000010000000130000001d0000001a000000120000001a0000003a00000005",
+            INIT_2C => X"00000001000000000000000000000004000000040000001a0000001300000011",
+            INIT_2D => X"0000000100000004000000000000000000000001000000010000000600000000",
+            INIT_2E => X"0000000500000000000000000000000000000005000000040000000000000000",
+            INIT_2F => X"0000000100000000000000060000000b00000000000000000000000300000000",
+            INIT_30 => X"0000000000000001000000300000001300000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"00000017000000610000002a0000000000000000000000000000000000000000",
+            INIT_33 => X"0000000800000007000000080000000400000000000000000000000000000000",
+            INIT_34 => X"0000004900000045000000000000000000000000000000000000000000000008",
+            INIT_35 => X"000000000000000000000000000000010000000000000006000000020000000a",
+            INIT_36 => X"0000005a00000009000000000000000300000004000000000000000100000000",
+            INIT_37 => X"0000000000000001000000010000000000000000000000130000004500000075",
+            INIT_38 => X"00000000000000050000000e00000013000000340000001a0000000300000005",
+            INIT_39 => X"000000010000000100000009000000370000007400000082000000470000000c",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000001",
+            INIT_3B => X"000000800000007a0000006e0000000000000000000000000000000000000000",
+            INIT_3C => X"00000048000000510000005700000052000000700000008b0000008400000083",
+            INIT_3D => X"00000018000000100000000c0000000c000000400000003a000000340000004a",
+            INIT_3E => X"0000003e0000003c0000003a0000003400000027000000220000001f00000019",
+            INIT_3F => X"00000004000000040000000c0000000b0000000a0000003f0000004300000043",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE24;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE25 : if BRAM_NAME = "sample_gold_layer0_instance25" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000002000000000000000200000003",
+            INIT_01 => X"0000000000000000000000000000000000000000000000020000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"000000bb000000c0000000b3000000a7000000bc000000d5000000c00000000d",
+            INIT_04 => X"000000d4000000cb000000bf000000ba000000bc000000b9000000b5000000b8",
+            INIT_05 => X"0000008d0000008e000000920000008a00000085000000e0000000e1000000c5",
+            INIT_06 => X"000000c3000000db000000df000000d20000009e000000960000009800000091",
+            INIT_07 => X"0000007e0000006c00000065000000730000008100000074000000e0000000de",
+            INIT_08 => X"000000db000000be000000e4000000e2000000c0000000840000008100000083",
+            INIT_09 => X"00000099000000970000008d0000008e000000940000009000000072000000cd",
+            INIT_0A => X"000000d8000000d8000000c7000000e3000000e20000009e000000a200000095",
+            INIT_0B => X"000000b0000000b8000000ba000000b5000000b4000000b2000000b1000000c0",
+            INIT_0C => X"000000d6000000cf000000d6000000d6000000df000000dc000000cb000000cc",
+            INIT_0D => X"000000cc000000c6000000c5000000c6000000ca000000c5000000c3000000c3",
+            INIT_0E => X"000000d2000000980000008b000000c5000000db000000de000000dd000000df",
+            INIT_0F => X"000000de000000dd000000da000000da000000de000000e1000000dd000000dd",
+            INIT_10 => X"0000009f000000490000007d000000d7000000e7000000e1000000e3000000e0",
+            INIT_11 => X"000000db000000db000000da000000d9000000dc000000df000000e2000000da",
+            INIT_12 => X"0000005d0000003c00000064000000de000000e6000000e9000000e1000000de",
+            INIT_13 => X"000000df000000dc000000da000000d8000000d8000000d4000000ce000000a9",
+            INIT_14 => X"00000037000000350000002900000075000000dd000000e7000000e3000000e1",
+            INIT_15 => X"000000e1000000da000000d8000000d3000000bf0000008b0000005f0000003e",
+            INIT_16 => X"00000065000000530000002a0000002c0000007f000000d1000000e4000000de",
+            INIT_17 => X"000000d0000000ce000000ca000000a300000073000000350000004000000043",
+            INIT_18 => X"000000ba000000cb000000ae000000a3000000c6000000cc000000cd000000cf",
+            INIT_19 => X"000000640000006b0000006b000000c8000000c9000000b8000000bc000000b9",
+            INIT_1A => X"000000700000007000000071000000650000005800000058000000570000005d",
+            INIT_1B => X"0000003d000000480000004900000046000000700000007b0000007b00000074",
+            INIT_1C => X"0000002500000027000000280000003300000033000000330000003500000037",
+            INIT_1D => X"0000002100000021000000240000002300000024000000400000002600000022",
+            INIT_1E => X"0000002d0000001d0000001c0000001e00000022000000200000001e00000023",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000005300000050",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000002000000018000000170000002900000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000300000016000000140000001a00000013",
+            INIT_23 => X"0000000000000000000000000000000000000000000000060000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000008",
+            INIT_27 => X"0000000100000003000000000000000000000006000000000000000700000000",
+            INIT_28 => X"0000001c0000000b000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000007400000015000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000015",
+            INIT_2C => X"0000004c00000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000038",
+            INIT_2E => X"000000070000002d000000000000000000000000000000000000000000000000",
+            INIT_2F => X"00000000000000000000000000000000000000080000002a000000610000004d",
+            INIT_30 => X"000000000000001e0000004f0000002000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000210000005f0000007c000000700000002400000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000003f00000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"000000480000002b0000001f0000003c000000630000005f0000005c00000052",
+            INIT_35 => X"0000000000000000000000310000003b000000300000000d0000002a0000001a",
+            INIT_36 => X"000000200000001e000000100000000000000000000000000000000000000000",
+            INIT_37 => X"00000029000000320000003a00000039000000340000002f0000002d00000028",
+            INIT_38 => X"000000050000000c0000000a00000012000000170000001e000000200000001c",
+            INIT_39 => X"0000000000000000000000000000000a00000000000000000000000300000003",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000002700000017000000130000002b000000360000003e0000000000000000",
+            INIT_3C => X"0000001d000000190000001b0000001c000000190000001c000000180000001d",
+            INIT_3D => X"0000000500000007000000000000001a0000003b0000003b0000001700000016",
+            INIT_3E => X"0000001c0000001f000000130000000200000000000000000000000800000000",
+            INIT_3F => X"000000000000000000000000000000000000001b000000390000003c0000001d",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE25;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE26 : if BRAM_NAME = "sample_gold_layer0_instance26" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000200000001e000000220000000000000000000000000000000000000000",
+            INIT_01 => X"00000008000000000000000900000006000000000000000b0000003700000036",
+            INIT_02 => X"0000002a0000002600000024000000260000000600000009000000000000000d",
+            INIT_03 => X"0000002300000023000000260000002700000025000000120000002700000037",
+            INIT_04 => X"000000240000002400000027000000220000001c0000002c000000220000001a",
+            INIT_05 => X"0000001700000016000000170000001c0000001b00000019000000240000002a",
+            INIT_06 => X"0000000b00000010000000250000002600000021000000240000002600000018",
+            INIT_07 => X"000000210000001b0000001e00000022000000260000002e0000004a0000003e",
+            INIT_08 => X"0000000000000000000000220000002b0000002700000023000000220000001f",
+            INIT_09 => X"0000001f0000001e0000001a0000001c000000220000003f0000005200000012",
+            INIT_0A => X"0000000000000002000000170000001d00000027000000290000002000000021",
+            INIT_0B => X"000000200000001e0000002a0000002600000035000000460000003d0000001d",
+            INIT_0C => X"0000001b00000000000000070000001800000018000000230000002800000022",
+            INIT_0D => X"0000002900000035000000410000005b000000320000001e0000000f00000017",
+            INIT_0E => X"000000150000000000000000000000000000001b000000190000002b00000025",
+            INIT_0F => X"0000002800000020000000360000000300000003000000000000000000000026",
+            INIT_10 => X"000000390000001d000000110000002e00000028000000250000002500000032",
+            INIT_11 => X"0000001a000000350000003800000031000000240000002c000000270000002d",
+            INIT_12 => X"000000230000002a0000001a000000120000001400000012000000140000001a",
+            INIT_13 => X"0000002200000016000000390000002f00000034000000330000002c0000002b",
+            INIT_14 => X"0000000e00000011000000180000001800000017000000110000001c0000001e",
+            INIT_15 => X"0000000f00000011000000030000002500000016000000110000001100000012",
+            INIT_16 => X"0000000600000007000000060000000c00000009000000100000000b0000000f",
+            INIT_17 => X"0000000b00000000000000150000003400000010000000200000001e00000007",
+            INIT_18 => X"000000090000000d0000000d0000000c0000000d000000080000000d00000018",
+            INIT_19 => X"0000000e00000000000000010000001c00000031000000150000001b00000017",
+            INIT_1A => X"0000001d00000004000000000000000000000000000000060000000000000000",
+            INIT_1B => X"0000001b0000000000000000000000050000001a0000002f0000000e0000000c",
+            INIT_1C => X"00000012000000210000001c00000017000000100000000f0000001900000000",
+            INIT_1D => X"0000000000000002000000030000000000000000000000180000002900000011",
+            INIT_1E => X"0000000f0000000f0000001f0000000500000005000000000000000000000006",
+            INIT_1F => X"0000000e00000008000000080000000b000000000000000b0000001a0000001e",
+            INIT_20 => X"0000001f0000000d000000100000000e00000023000000100000000100000007",
+            INIT_21 => X"0000000d0000001100000019000000150000001300000015000000010000000e",
+            INIT_22 => X"0000000000000025000000110000000d0000000d0000001d0000001700000013",
+            INIT_23 => X"000000080000000a0000000b0000000f0000001a0000001f0000000d00000000",
+            INIT_24 => X"00000000000000100000002f0000000c0000000c0000000d0000000b0000000f",
+            INIT_25 => X"0000000d0000000300000005000000120000002d0000003c0000000000000000",
+            INIT_26 => X"000000000000000d00000016000000340000000e0000000a0000000e0000000b",
+            INIT_27 => X"000000090000001400000012000000190000001f0000002e0000002600000000",
+            INIT_28 => X"00000000000000020000000d00000013000000320000000c0000000b00000009",
+            INIT_29 => X"0000001d000000150000001b000000010000001b0000001c0000001f0000000c",
+            INIT_2A => X"0000000000000000000000000000000f0000000d000000310000001000000019",
+            INIT_2B => X"0000002b00000062000000110000002d0000000000000021000000530000001e",
+            INIT_2C => X"0000001100000000000000000000000000000000000000000000002000000018",
+            INIT_2D => X"0000000000000000000000080000000000000008000000000000000000000026",
+            INIT_2E => X"0000001d000000170000001200000018000000100000000b0000000b00000014",
+            INIT_2F => X"0000000000000004000000010000000a0000000d000000080000000c00000005",
+            INIT_30 => X"0000001200000014000000100000000b000000080000000c0000000400000006",
+            INIT_31 => X"0000001400000002000000450000001c00000018000000180000001800000011",
+            INIT_32 => X"0000001a00000016000000210000001800000020000000140000001b00000015",
+            INIT_33 => X"000000000000000000000000000000110000004d0000002d0000001d00000018",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE26;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE27 : if BRAM_NAME = "sample_gold_layer0_instance27" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000002500000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000005100000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000003b0000004900000065000000510000005400000064000000480000005e",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000020000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000200000003000000030000000000000000000000000000000000000000",
+            INIT_0F => X"0000000e00000007000000000000002400000005000000000000000000000007",
+            INIT_10 => X"00000012000000130000000d00000014000000110000000e0000001100000010",
+            INIT_11 => X"0000000c00000005000000010000001c0000001e000000110000001300000014",
+            INIT_12 => X"000000270000002d0000002f000000260000002a000000280000002700000030",
+            INIT_13 => X"000000250000001600000003000000000000001b0000001a0000001e0000001a",
+            INIT_14 => X"00000038000000370000003a0000003300000034000000380000003000000035",
+            INIT_15 => X"0000001e0000002a00000018000000020000000100000019000000190000001f",
+            INIT_16 => X"000000160000002200000020000000240000001e000000260000002100000019",
+            INIT_17 => X"000000070000000a0000001c00000007000000040000000a0000001400000012",
+            INIT_18 => X"000000150000001d000000070000000f0000000d0000000d0000000e00000004",
+            INIT_19 => X"0000001400000010000000130000000700000006000000100000000f00000012",
+            INIT_1A => X"0000001200000014000000120000001600000015000000130000001500000018",
+            INIT_1B => X"00000016000000130000000c00000000000000000000000d0000000d00000014",
+            INIT_1C => X"0000001500000014000000150000001500000015000000150000001800000016",
+            INIT_1D => X"0000001b0000001900000000000000000000000b000000250000001300000014",
+            INIT_1E => X"0000001b00000018000000100000001300000014000000150000001600000016",
+            INIT_1F => X"00000012000000000000000000000000000000000000001d0000001d0000001e",
+            INIT_20 => X"0000001f0000001f0000001b000000110000001200000016000000180000000f",
+            INIT_21 => X"000000000000000000000000000000000000000000000000000000100000002e",
+            INIT_22 => X"0000001f0000001c0000001d0000001a000000160000000d0000000000000000",
+            INIT_23 => X"0000000000000000000000000000001900000000000000000000001b00000000",
+            INIT_24 => X"000000080000000b0000000e000000100000000c000000100000001a00000000",
+            INIT_25 => X"0000000f000000010000000800000000000000070000000c0000000500000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000300000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000500000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000001000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000024000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"000000000000000000000000000000390000002f000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000300000063000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000d0000000e00000001000000000000000c0000004f0000000700000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000f0000002a0000001700000000000000100000004c0000000000000002",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE27;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE28 : if BRAM_NAME = "sample_gold_layer0_instance28" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000025",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000500000003000000000000000000000002000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000004",
+            INIT_04 => X"0000000f00000013000000050000000500000003000000140000000000000000",
+            INIT_05 => X"0000000f0000001400000016000000140000001a000000130000000c0000000c",
+            INIT_06 => X"000000170000000b000000160000001400000012000000140000001d00000006",
+            INIT_07 => X"0000003e0000001c000000090000001d0000001e000000190000001b00000011",
+            INIT_08 => X"0000000000000000000000000000000c00000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000001500000000000000070000000000000000",
+            INIT_0A => X"000000000000000000000007000000000000000d000000000000000000000000",
+            INIT_0B => X"000000000000000000000000000000000000002c000000000000000e00000000",
+            INIT_0C => X"00000000000000000000000000000000000000000000000f0000000000000000",
+            INIT_0D => X"000000000000000000000013000000000000000000000000000000000000000b",
+            INIT_0E => X"0000000000000015000000000000003200000000000000000000000700000000",
+            INIT_0F => X"0000000000000004000000000000000000000000000000000000000700000000",
+            INIT_10 => X"0000000100000000000000000000000000000000000000240000000000000000",
+            INIT_11 => X"000000000000000f0000000000000000000000000000001f0000000000000000",
+            INIT_12 => X"0000000400000000000000080000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000002200000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000300000023",
+            INIT_16 => X"0000002000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000016000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000005000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000004",
+            INIT_1C => X"0000000700000000000000060000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000003000000020000000000000008000000000000000000000000",
+            INIT_1F => X"000000000000000000000000000000000000000000000000000000000000000f",
+            INIT_20 => X"00000007000000070000000a0000000000000000000000000000000000000000",
+            INIT_21 => X"0000001200000000000000000000000000000000000000210000001100000008",
+            INIT_22 => X"0000000000000003000000000000000000000009000000090000002b00000000",
+            INIT_23 => X"0000000d0000000d000000170000000000000000000000000000001000000004",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"000000000000000b000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000009000000050000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000150000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000030000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000400000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000002000000040000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"000000000000000d0000001b0000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"00000000000000000000000d0000000000000000000000070000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE28;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE29 : if BRAM_NAME = "sample_gold_layer0_instance29" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000200000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000070000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"000000000000000c000000000000001100000000000000000000000000000004",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000010000000000000000000000000",
+            INIT_06 => X"0000001200000000000000000000000000000000000000000000000000000007",
+            INIT_07 => X"0000000e00000000000000000000000000000000000000010000000000000000",
+            INIT_08 => X"00000000000000000000000a0000000000000000000000010000000000000000",
+            INIT_09 => X"000000000000000f000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000004000000000000000000000000",
+            INIT_0B => X"0000000000000002000000080000000000000000000000000000000000000001",
+            INIT_0C => X"0000000a00000006000000060000000500000006000000000000000000000000",
+            INIT_0D => X"0000000000000000000000070000000200000000000000000000000000000000",
+            INIT_0E => X"000000020000000f000000130000000b000000000000000d0000000500000002",
+            INIT_0F => X"0000000000000012000000000000000000000001000000000000000000000000",
+            INIT_10 => X"00000000000000050000000d000000050000000b0000000b0000000800000014",
+            INIT_11 => X"0000000a00000015000000000000000000000000000000000000000200000000",
+            INIT_12 => X"0000000500000000000000000000000400000009000000080000001400000014",
+            INIT_13 => X"0000000f00000022000000000000000700000000000000000000000100000000",
+            INIT_14 => X"0000000800000000000000000000000000000004000000080000000c0000000c",
+            INIT_15 => X"000000100000000e0000000d0000000b00000000000000000000000000000008",
+            INIT_16 => X"0000000000000000000000000000000000000000000000070000000f00000007",
+            INIT_17 => X"0000000c00000006000000000000000100000001000000000000000000000000",
+            INIT_18 => X"000000000000000000000000000000000000000000000000000000010000000f",
+            INIT_19 => X"000000090000000c000000140000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000001000000000000000000000000000000030000000000000001",
+            INIT_1B => X"0000000000000000000000060000000000000000000000000000000000000000",
+            INIT_1C => X"000000520000000800000000000000150000001b000000140000000000000000",
+            INIT_1D => X"00000091000000000000003e000000000000000f000000000000001800000000",
+            INIT_1E => X"000000000000004e0000000d0000001b00000010000000100000000000000000",
+            INIT_1F => X"000000000000007c000000000000003f000000000000001d0000000000000008",
+            INIT_20 => X"0000000000000000000000390000001e0000000e0000000c000000330000002b",
+            INIT_21 => X"000000310000000c0000006000000000000000000000003d0000000000000022",
+            INIT_22 => X"000000250000002c0000000000000000000000290000002f0000000000000033",
+            INIT_23 => X"00000030000000840000001b0000004600000000000000000000002500000000",
+            INIT_24 => X"00000008000000000000005600000006000000000000002d0000005d00000000",
+            INIT_25 => X"0000000000000047000000ab0000002500000029000000000000001d00000000",
+            INIT_26 => X"000000090000001a000000000000002b00000003000000000000004c00000020",
+            INIT_27 => X"000000000000000000000038000000a90000001500000041000000000000001f",
+            INIT_28 => X"0000001000000014000000190000000e00000011000000100000003000000033",
+            INIT_29 => X"0000002a00000000000000000000002b00000084000000060000002a00000004",
+            INIT_2A => X"00000003000000180000000e0000001f0000001a000000000000002200000020",
+            INIT_2B => X"00000006000000170000001d0000000400000001000000730000001600000050",
+            INIT_2C => X"000000520000001700000027000000170000001d000000200000000800000048",
+            INIT_2D => X"0000000000000016000000040000002d00000027000000210000004a00000032",
+            INIT_2E => X"0000001900000052000000320000001f0000003b000000250000001c00000022",
+            INIT_2F => X"000000000000001e000000070000000000000032000000000000005c00000000",
+            INIT_30 => X"0000001800000003000000360000002900000024000000400000003800000034",
+            INIT_31 => X"0000002700000007000000000000002f00000000000000410000000500000000",
+            INIT_32 => X"00000017000000170000000000000037000000310000001c000000460000002c",
+            INIT_33 => X"0000000000000059000000220000000000000026000000280000002e00000000",
+            INIT_34 => X"00000000000000450000001e00000000000000490000003c000000290000002a",
+            INIT_35 => X"0000001f00000000000000200000000b00000010000000350000000800000000",
+            INIT_36 => X"00000000000000190000005a0000000000000000000000670000004900000021",
+            INIT_37 => X"000000320000002200000025000000080000001e000000230000001500000000",
+            INIT_38 => X"0000000a00000039000000180000001c00000000000000000000002500000025",
+            INIT_39 => X"00000005000000000000000000000000000000000000000d0000001b00000000",
+            INIT_3A => X"000000000000000a00000003000000310000000a000000120000000000000005",
+            INIT_3B => X"000000190000001100000000000000150000000c000000140000000000000000",
+            INIT_3C => X"0000003400000000000000000000000000000000000000000000002100000058",
+            INIT_3D => X"000000170000001f000000170000000000000000000000000000001300000052",
+            INIT_3E => X"000000000000004c00000017000000010000001e000000390000000000000015",
+            INIT_3F => X"000000000000000e000000000000002800000046000000070000001e00000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE29;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE30 : if BRAM_NAME = "sample_gold_layer0_instance30" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000004e000000000000000d0000002b00000000000000250000001200000007",
+            INIT_01 => X"000000000000000000000000000000000000000000000011000000400000002a",
+            INIT_02 => X"0000001e0000003b000000190000000000000048000000420000000000000000",
+            INIT_03 => X"0000001400000025000000000000000000000000000000370000000000000000",
+            INIT_04 => X"00000000000000000000000c0000002300000000000000000000000100000000",
+            INIT_05 => X"0000001300000002000000000000000000000010000000000000001b00000010",
+            INIT_06 => X"0000001f0000003a000000190000001000000000000000000000002a00000000",
+            INIT_07 => X"0000000000000000000000230000001d00000000000000000000002e00000000",
+            INIT_08 => X"0000000900000000000000000000001700000000000000110000003200000000",
+            INIT_09 => X"00000000000000000000000000000000000000120000000a0000000000000000",
+            INIT_0A => X"0000000000000000000000010000000a00000001000000250000000500000000",
+            INIT_0B => X"0000000b00000015000000050000000d00000013000000000000000a00000016",
+            INIT_0C => X"0000000b000000110000000000000000000000000000000e0000000300000002",
+            INIT_0D => X"000000010000000000000000000000260000005700000095000000370000003d",
+            INIT_0E => X"0000000000000011000000000000000600000014000000010000000000000000",
+            INIT_0F => X"00000000000000000000000d000000140000003b000000130000000000000000",
+            INIT_10 => X"0000000000000000000000000000000900000000000000000000000200000000",
+            INIT_11 => X"0000002d00000019000000000000002100000036000000010000000000000000",
+            INIT_12 => X"0000001900000000000000000000001800000000000000000000000100000000",
+            INIT_13 => X"000000000000000000000004000000330000003b000000000000000000000000",
+            INIT_14 => X"000000070000000c0000000f0000004f0000002e0000003e0000000000000000",
+            INIT_15 => X"0000001e00000008000000180000000000000010000000000000001100000000",
+            INIT_16 => X"000000000000000700000014000000020000000d000000020000004c00000000",
+            INIT_17 => X"0000000000000019000000090000000d00000003000000030000000200000015",
+            INIT_18 => X"000000100000000300000003000000070000001f000000110000000500000038",
+            INIT_19 => X"0000003200000000000000000000002500000000000000190000000600000000",
+            INIT_1A => X"00000009000000010000000f00000022000000000000000b000000160000000a",
+            INIT_1B => X"0000000d0000001f000000150000000c000000060000000a0000000c00000027",
+            INIT_1C => X"0000002e00000011000000000000002600000017000000000000000e00000030",
+            INIT_1D => X"000000310000000a000000250000000700000024000000150000000b00000002",
+            INIT_1E => X"00000009000000330000002e000000180000001100000000000000000000001b",
+            INIT_1F => X"000000180000003c000000000000002f000000150000002b0000002700000023",
+            INIT_20 => X"000000440000004600000046000000460000003e000000150000000000000000",
+            INIT_21 => X"000000000000001100000026000000060000002d0000003c000000350000003f",
+            INIT_22 => X"0000004c00000043000000520000003e00000053000000310000001500000009",
+            INIT_23 => X"000000090000000b000000010000002a000000140000004c0000002d00000053",
+            INIT_24 => X"0000005000000051000000520000004000000041000000380000002800000002",
+            INIT_25 => X"0000000b0000001b0000000a00000012000000140000001b0000004400000047",
+            INIT_26 => X"0000004f000000450000004c000000470000003f00000032000000250000000f",
+            INIT_27 => X"000000130000000000000019000000090000001e000000000000001d00000043",
+            INIT_28 => X"000000420000004c000000430000004e00000045000000400000002200000017",
+            INIT_29 => X"0000000c0000000c0000000e0000003a00000025000000000000000600000005",
+            INIT_2A => X"00000019000000510000005700000043000000450000003d0000004e00000030",
+            INIT_2B => X"0000002c0000000b000000250000003c0000002d000000090000002000000000",
+            INIT_2C => X"0000000c000000090000005900000050000000470000003b000000200000005c",
+            INIT_2D => X"0000001e0000002c0000002a0000003d00000024000000050000002400000026",
+            INIT_2E => X"00000027000000000000000d000000460000005b000000420000004400000026",
+            INIT_2F => X"000000450000002c000000300000002f000000220000000f0000001500000015",
+            INIT_30 => X"00000000000000000000001e0000000200000028000000260000003d00000037",
+            INIT_31 => X"00000000000000000000000a000000000000002d000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000019000000000000003800000000",
+            INIT_33 => X"0000000000000000000000000000001b000000000000001c0000000000000000",
+            INIT_34 => X"00000000000000000000000000000000000000000000001d0000000000000048",
+            INIT_35 => X"0000003e00000004000000000000000000000000000000000000001d00000000",
+            INIT_36 => X"0000000800000000000000000000002000000000000000000000000000000000",
+            INIT_37 => X"00000000000000150000000f000000000000002b000000000000000000000008",
+            INIT_38 => X"000000000000002500000000000000000000002b000000000000000000000000",
+            INIT_39 => X"0000000000000000000000050000000000000000000000000000002a00000000",
+            INIT_3A => X"0000000100000002000000090000000000000000000000320000000000000000",
+            INIT_3B => X"000000000000000000000000000000200000000000000000000000000000000b",
+            INIT_3C => X"0000000d0000000f0000000e00000000000000000000000b0000001800000000",
+            INIT_3D => X"000000000000000000000000000000000000001500000016000000160000000e",
+            INIT_3E => X"000000090000001b00000027000000030000000500000000000000000000000c",
+            INIT_3F => X"0000000000000000000000000000000000000000000000270000001200000012",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE30;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE31 : if BRAM_NAME = "sample_gold_layer0_instance31" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000160000000f0000001400000026000000000000001b0000000000000000",
+            INIT_01 => X"000000000000000000000000000000000000000000000000000000150000000e",
+            INIT_02 => X"000000140000000000000017000000170000000d000000370000000000000005",
+            INIT_03 => X"0000000100000000000000170000000000000011000000000000000000000000",
+            INIT_04 => X"0000000a0000000e000000050000000300000002000000470000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000006000000000000000000000000",
+            INIT_06 => X"000000000000000d000000140000000000000009000000130000001c0000000a",
+            INIT_07 => X"0000000f0000000000000000000000000000001c000000000000000000000009",
+            INIT_08 => X"0000000f0000000000000000000000140000000c000000340000000000000001",
+            INIT_09 => X"00000000000000000000000000000000000000240000001d0000000000000000",
+            INIT_0A => X"00000000000000210000000000000000000000130000001a0000002500000000",
+            INIT_0B => X"000000000000000000000000000000000000001c0000003f0000000000000000",
+            INIT_0C => X"00000000000000360000000000000000000000000000000e0000001300000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"000000000000000000000000000000000000000b000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000020000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000070000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"00000000000000000000000000000000000000090000000f0000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000023000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000900000007000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000200000000000000000000000400000000",
+            INIT_2B => X"0000000000000000000000020000000000000003000000000000000000000000",
+            INIT_2C => X"0000000d00000015000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000800000000000000000000000000000000",
+            INIT_30 => X"0000000200000000000000000000000000000010000000000000000a00000000",
+            INIT_31 => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"000000000000000000000000000000000000000c000000140000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000001800000000",
+            INIT_34 => X"0000000b00000010000000000000000000000000000000000000000900000000",
+            INIT_35 => X"000000000000000a000000000000000100000015000000010000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000009",
+            INIT_37 => X"0000000f0000000000000000000000160000000000000000000000000000000c",
+            INIT_38 => X"0000000e000000060000000000000018000000040000000b0000000000000000",
+            INIT_39 => X"00000000000000000000002d0000003800000000000000120000000000000000",
+            INIT_3A => X"0000000900000000000000000000003b0000000000000000000000000000000e",
+            INIT_3B => X"0000000000000005000000000000000000000005000000090000000000000003",
+            INIT_3C => X"0000001800000002000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000200000005",
+            INIT_3E => X"00000000000000090000000d0000001000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000390000002000000000000000050000001100000010",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE31;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE32 : if BRAM_NAME = "sample_gold_layer0_instance32" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000001500000003000000360000004a000000150000000800000000",
+            INIT_01 => X"0000000000000000000000260000002000000000000000000000000400000014",
+            INIT_02 => X"0000003000000019000000070000001200000000000000000000000000000000",
+            INIT_03 => X"00000000000000030000001e00000003000000000000000f0000000000000000",
+            INIT_04 => X"0000000000000000000000140000004f000000330000000c0000000000000000",
+            INIT_05 => X"000000300000000a000000240000003c00000023000000120000003a00000000",
+            INIT_06 => X"00000030000000240000004e00000041000000500000004f000000470000002a",
+            INIT_07 => X"000000240000002f000000090000001a00000043000000450000002a0000004b",
+            INIT_08 => X"000000520000004d0000002d00000062000000450000004b0000003e0000004e",
+            INIT_09 => X"0000004c0000003e0000002e00000009000000110000003a0000004900000046",
+            INIT_0A => X"0000003c00000037000000700000005f00000085000000520000004b00000032",
+            INIT_0B => X"000000340000002f000000280000005b0000003a000000080000002c00000045",
+            INIT_0C => X"0000006f0000006c000000370000007200000079000000a5000000650000003b",
+            INIT_0D => X"0000006b000000540000004e00000018000000370000005e0000003100000030",
+            INIT_0E => X"000000470000009800000069000000310000005f000000880000008d0000006d",
+            INIT_0F => X"0000004e000000530000005a000000570000004f0000003e0000005700000041",
+            INIT_10 => X"000000550000008f0000007e00000052000000340000004f0000008f00000086",
+            INIT_11 => X"000000700000004d0000004e0000005100000051000000460000003e00000047",
+            INIT_12 => X"0000002d0000006a000000930000006c000000600000004a0000005d0000007c",
+            INIT_13 => X"000000750000005c000000780000004c00000047000000520000005f00000053",
+            INIT_14 => X"0000005200000065000000830000007d000000720000005f0000005600000047",
+            INIT_15 => X"000000420000005d0000007d000000600000006b0000006e0000005c00000067",
+            INIT_16 => X"000000710000006a000000840000006d0000006300000055000000670000006e",
+            INIT_17 => X"00000062000000540000003e0000005100000067000000630000007500000079",
+            INIT_18 => X"0000008200000088000000800000005a000000570000005d0000004a00000051",
+            INIT_19 => X"000000640000006800000070000000550000004d00000062000000660000007a",
+            INIT_1A => X"0000006e0000008600000086000000780000006b000000760000005c00000057",
+            INIT_1B => X"0000009c000000b60000007d0000008500000059000000510000005f00000067",
+            INIT_1C => X"00000077000000760000007d0000006d000000820000007e0000006900000072",
+            INIT_1D => X"000000a70000009b00000037000000480000007c0000003c000000470000005c",
+            INIT_1E => X"0000005e00000075000000750000004b00000066000000770000006b00000076",
+            INIT_1F => X"000000b30000009f0000002b000000140000004f000000670000003b0000003b",
+            INIT_20 => X"00000034000000600000006f0000007000000068000000790000007600000083",
+            INIT_21 => X"000000000000001d00000000000000000000000000000000000000680000003a",
+            INIT_22 => X"0000000000000029000000000000001200000006000000140000000000000000",
+            INIT_23 => X"00000003000000060000001c0000000000000002000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000006000000000000000000000000",
+            INIT_25 => X"0000001800000000000000000000001200000017000000000000000000000038",
+            INIT_26 => X"0000000300000000000000000000000000000000000000000000004500000000",
+            INIT_27 => X"0000000000000028000000240000000000000000000000000000001000000000",
+            INIT_28 => X"000000000000000a0000003c0000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000001e00000000000000000000002400000000",
+            INIT_2A => X"0000000000000000000000260000004200000000000000000000000200000006",
+            INIT_2B => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000027000000000000001500000000",
+            INIT_2D => X"0000000000000000000000000000000300000003000000000000000000000007",
+            INIT_2E => X"00000000000000000000000000000000000000080000000c0000000000000001",
+            INIT_2F => X"0000000000000000000000040000000000000000000000000000000000000035",
+            INIT_30 => X"0000000000000022000000060000002000000000000000000000004f00000000",
+            INIT_31 => X"0000002c00000023000000090000000000000001000000000000000000000000",
+            INIT_32 => X"0000000000000028000000000000000000000021000000230000000900000000",
+            INIT_33 => X"0000000000000000000000070000000200000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000c00000000000000000000000000000033",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000001900000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"000000010000004d00000000000000000000000c000000020000000000000000",
+            INIT_38 => X"0000000000000008000000570000000700000000000000000000000000000000",
+            INIT_39 => X"000000000000006d000000180000001800000017000000110000000000000000",
+            INIT_3A => X"0000000000000005000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000038000000000000001a00000000000000000000004500000023",
+            INIT_3C => X"0000000000000035000000130000002400000000000000000000000000000000",
+            INIT_3D => X"000000000000001b000000190000000000000003000000000000000000000000",
+            INIT_3E => X"000000000000003400000000000000110000000a00000018000000060000002e",
+            INIT_3F => X"0000002900000000000000180000000600000001000000070000000e00000025",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE32;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE33 : if BRAM_NAME = "sample_gold_layer0_instance33" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001e00000000000000420000000000000013000000000000002500000012",
+            INIT_01 => X"0000001400000020000000000000001100000011000000120000000f00000001",
+            INIT_02 => X"000000000000000c000000000000003c00000012000000000000001d00000009",
+            INIT_03 => X"00000000000000000000001c0000000e00000002000000000000002b00000000",
+            INIT_04 => X"000000000000000000000006000000000000002c000000190000000000000035",
+            INIT_05 => X"000000000000002000000000000000000000002100000000000000000000003d",
+            INIT_06 => X"0000004400000000000000000000000d0000000000000010000000000000000e",
+            INIT_07 => X"0000000000000000000000040000000000000000000000180000000000000009",
+            INIT_08 => X"000000280000002d000000000000000000000017000000000000001d00000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"000000060000001e000000280000000000000000000000160000000000000000",
+            INIT_0B => X"0000000500000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"000000140000000e00000012000000110000000c000000000000000d00000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000001c0000000f000000200000000a00000008000000100000000000000000",
+            INIT_0F => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000001f000000030000000f0000001a000000000000001f0000000000000018",
+            INIT_11 => X"000000180000000a000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000008000000120000000100000022000000000000000000000000",
+            INIT_13 => X"0000001f0000000f000000150000000000000000000000000000000000000000",
+            INIT_14 => X"0000001600000000000000000000002100000000000000000000000000000023",
+            INIT_15 => X"0000003100000000000000100000001a00000000000000000000000000000000",
+            INIT_16 => X"000000000000001700000000000000050000000000000000000000000000002e",
+            INIT_17 => X"0000003900000000000000000000000d0000002b000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000025",
+            INIT_19 => X"000000310000004a0000000a0000002600000031000000060000000000000000",
+            INIT_1A => X"0000006a0000000b000000300000003a000000390000002b0000006200000000",
+            INIT_1B => X"00000000000000300000001e0000001c00000020000000270000004500000000",
+            INIT_1C => X"00000000000000840000000a00000041000000270000004c0000001d0000004d",
+            INIT_1D => X"00000058000000000000001500000022000000220000001d0000002700000060",
+            INIT_1E => X"00000035000000050000007b0000004700000000000000320000002f00000052",
+            INIT_1F => X"0000002d00000075000000190000000f0000001800000070000000000000002c",
+            INIT_20 => X"000000000000002e00000014000000760000006b000000000000007000000000",
+            INIT_21 => X"000000600000000000000038000000640000000a000000000000008800000008",
+            INIT_22 => X"000000000000000000000029000000250000003f000000440000005e00000042",
+            INIT_23 => X"0000002d0000005a000000030000002c00000067000000000000002d00000083",
+            INIT_24 => X"0000006300000000000000000000003200000014000000730000000c00000029",
+            INIT_25 => X"00000024000000150000002900000018000000260000000e0000002000000042",
+            INIT_26 => X"000000410000004f00000008000000000000004700000005000000330000001e",
+            INIT_27 => X"000000220000002300000019000000220000003500000000000000260000002d",
+            INIT_28 => X"000000240000001b000000440000002f000000000000002f000000050000002e",
+            INIT_29 => X"0000002c000000090000001a00000025000000140000002d0000000b0000003b",
+            INIT_2A => X"000000280000004a0000000c0000000e00000034000000000000000a00000000",
+            INIT_2B => X"00000000000000100000001100000017000000130000002d000000220000002f",
+            INIT_2C => X"000000260000003f000000460000000d0000004f00000000000000430000001d",
+            INIT_2D => X"00000020000000070000000d0000001800000002000000120000001c0000005d",
+            INIT_2E => X"000000490000004200000011000000510000000e000000620000003000000051",
+            INIT_2F => X"000000280000003f00000003000000120000002f000000000000000f0000001f",
+            INIT_30 => X"00000000000000310000004f00000026000000290000001f0000004e0000003f",
+            INIT_31 => X"0000000c000000380000002700000001000000000000001b000000130000002a",
+            INIT_32 => X"00000054000000120000003e0000003b00000020000000360000006f00000048",
+            INIT_33 => X"00000029000000000000003a0000006300000000000000000000001e00000029",
+            INIT_34 => X"0000002a000000190000003a000000320000002b000000330000007a00000078",
+            INIT_35 => X"0000001700000015000000080000009e0000003600000002000000000000001b",
+            INIT_36 => X"0000000000000000000000000000000000000000000000120000000000000000",
+            INIT_37 => X"00000000000000000000000f0000000200000001000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000003000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000003400000003",
+            INIT_3A => X"000000000000000100000000000000000000000000000000000000310000002a",
+            INIT_3B => X"0000001b00000018000000000000000000000029000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000001f00000002000000010000000000000000",
+            INIT_3D => X"0000000000000000000000010000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000140000001300000035",
+            INIT_3F => X"000000030000000000000000000000180000001e000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE33;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE34 : if BRAM_NAME = "sample_gold_layer0_instance34" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000700000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000070000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"00000000000000000000000000000000000000000000000d0000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"00000000000000000000000000000018000000420000002f0000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000007",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000006",
+            INIT_11 => X"00000000000000000000000f0000002a0000001e000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"00000000000000000000000000000000000000000000001e0000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000001600000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"000000000000000000000000000000000000000000000000000000000000001e",
+            INIT_18 => X"0000000e00000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000100000000000000000000001a00000000",
+            INIT_1A => X"000000000000000d000000000000000500000000000000000000000000000004",
+            INIT_1B => X"000000000000000200000000000000000000000000000000000000000000000e",
+            INIT_1C => X"0000000d00000000000000170000000000000003000000070000000700000009",
+            INIT_1D => X"0000001a0000000c000000170000001300000002000000000000000000000000",
+            INIT_1E => X"00000000000000000000000000000005000000170000000d000000100000000b",
+            INIT_1F => X"000000200000001a000000120000000f00000017000000000000000000000000",
+            INIT_20 => X"000000000000000000000000000000000000002a0000000c0000001e0000001e",
+            INIT_21 => X"0000001f0000002a0000001c00000019000000180000000c0000000000000000",
+            INIT_22 => X"00000000000000000000000000000000000000030000001a0000002300000016",
+            INIT_23 => X"000000160000003200000021000000210000001f000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000001600000023",
+            INIT_25 => X"0000001c0000001d000000230000002500000030000000040000000000000000",
+            INIT_26 => X"00000000000000000000000e0000001c00000000000000000000000000000013",
+            INIT_27 => X"0000001b00000024000000280000001d000000220000002a0000001d00000000",
+            INIT_28 => X"00000000000000000000000f0000001400000000000000000000000000000000",
+            INIT_29 => X"000000000000001c00000023000000270000001c000000000000002b0000001a",
+            INIT_2A => X"00000000000000000000001a0000000800000000000000000000000000000000",
+            INIT_2B => X"00000000000000000000000c000000250000001a000000230000000000000000",
+            INIT_2C => X"00000007000000090000001c0000000d00000000000000000000000000000000",
+            INIT_2D => X"0000002b00000000000000000000000000000000000000160000001300000000",
+            INIT_2E => X"0000003a000000180000003700000003000000540000002c0000002c00000034",
+            INIT_2F => X"00000036000000260000001d0000000e0000007a00000000000000460000001f",
+            INIT_30 => X"0000002c00000031000000130000001f0000001a000000510000002900000040",
+            INIT_31 => X"00000024000000120000003400000040000000190000005d0000000000000046",
+            INIT_32 => X"0000000700000051000000110000004d000000310000000a000000400000002e",
+            INIT_33 => X"0000002c000000460000000300000041000000340000002f0000004600000000",
+            INIT_34 => X"0000001b000000200000002500000009000000400000005e0000002e00000018",
+            INIT_35 => X"00000000000000450000004800000000000000450000005e000000260000002c",
+            INIT_36 => X"000000340000001d000000470000002a00000040000000020000006300000036",
+            INIT_37 => X"00000017000000310000004f0000001700000000000000480000007300000023",
+            INIT_38 => X"000000150000004b00000007000000300000002e000000370000001200000018",
+            INIT_39 => X"0000000e0000000d0000002a000000290000000b000000100000003f00000078",
+            INIT_3A => X"0000005f000000230000002b0000001500000000000000030000000f0000001e",
+            INIT_3B => X"000000060000000000000037000000000000001e0000001a0000000d00000033",
+            INIT_3C => X"00000018000000620000001d00000030000000000000001a000000110000000a",
+            INIT_3D => X"0000000e0000000000000006000000010000000a0000001d0000002a0000002d",
+            INIT_3E => X"000000280000002d0000003b00000028000000150000000f0000000900000001",
+            INIT_3F => X"0000000f00000003000000000000000000000000000000150000001100000039",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE34;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE35 : if BRAM_NAME = "sample_gold_layer0_instance35" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000044000000000000004c0000000a00000025000000290000001600000006",
+            INIT_01 => X"00000000000000130000000200000009000000000000001e0000003600000012",
+            INIT_02 => X"000000330000006500000029000000030000003100000014000000230000000a",
+            INIT_03 => X"0000001100000000000000130000000000000000000000000000001400000030",
+            INIT_04 => X"0000004d0000005c0000002f000000000000002000000035000000120000002a",
+            INIT_05 => X"0000002e000000160000000700000000000000000000002b000000140000000c",
+            INIT_06 => X"00000050000000610000001a0000000000000025000000450000004300000016",
+            INIT_07 => X"0000000f00000043000000250000000000000000000000160000002a00000036",
+            INIT_08 => X"0000005c000000510000001a000000000000001800000037000000550000000d",
+            INIT_09 => X"0000000f000000310000003b000000070000000a000000010000003500000046",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000017",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000001",
+            INIT_0C => X"0000000b00000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000100000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000100000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000018000000000000000000000002000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"000000000000000000000000000000000000000000000000000000000000000b",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"00000000000000000000000b0000000000000000000000000000000000000000",
+            INIT_1A => X"00000000000000000000000000000000000000100000001f0000000000000000",
+            INIT_1B => X"00000000000000000000000f0000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000050000000000000000000000000000000000000009",
+            INIT_1D => X"0000000000000018000000000000000d00000007000000000000003500000000",
+            INIT_1E => X"0000000000000000000000000000001000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000080000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000007000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000400000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000500000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000001b00000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000900000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE35;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE36 : if BRAM_NAME = "sample_gold_layer0_instance36" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000007000000000000000000000000",
+            INIT_03 => X"0000000f00000008000000000000000200000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000500000001000000080000000600000006000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"00000000000000050000000300000009000000040000000e0000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000400000000000000080000000c00000000000000000000000000000000",
+            INIT_0A => X"0000000500000000000000070000000000000000000000000000000000000000",
+            INIT_0B => X"0000000b00000000000000150000000300000000000000020000000000000000",
+            INIT_0C => X"00000000000000080000000000000003000000000000000a0000000000000000",
+            INIT_0D => X"0000000000000000000000060000002700000007000000000000000400000000",
+            INIT_0E => X"0000000000000000000000130000001b00000000000000000000000900000006",
+            INIT_0F => X"0000000e00000001000000000000002000000002000000040000000300000005",
+            INIT_10 => X"000000020000000000000000000000040000000b000000100000000600000003",
+            INIT_11 => X"0000000800000003000000000000000c0000001c0000000b000000000000000a",
+            INIT_12 => X"0000001600000011000000000000000000000000000000000000000000000000",
+            INIT_13 => X"00000000000000090000000f000000000000000c000000250000000100000000",
+            INIT_14 => X"00000000000000200000000c000000030000000200000000000000000000000f",
+            INIT_15 => X"0000001100000000000000010000000c00000000000000030000001900000008",
+            INIT_16 => X"0000000300000000000000210000000c00000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000120000000f00000000000000050000000300000014",
+            INIT_18 => X"0000000e0000000f000000000000001100000007000000000000000000000000",
+            INIT_19 => X"0000000100000001000000040000000f0000000000000000000000020000000f",
+            INIT_1A => X"00000002000000130000000a00000015000000000000000b0000000300000000",
+            INIT_1B => X"00000007000000080000000b00000001000000160000000c0000000000000007",
+            INIT_1C => X"000000130000000a0000001a0000000d000000000000000f000000060000000f",
+            INIT_1D => X"0000000c0000000c0000000b0000000300000003000000090000000f0000000a",
+            INIT_1E => X"000000120000000a00000010000000000000002c0000000f0000000000000008",
+            INIT_1F => X"00000001000000100000000b0000000900000033000000000000001100000009",
+            INIT_20 => X"0000000a00000007000000090000000300000026000000140000002b00000000",
+            INIT_21 => X"0000001f0000000b0000000d0000000000000012000000260000000200000014",
+            INIT_22 => X"000000150000000c000000070000000600000006000000050000003a0000000c",
+            INIT_23 => X"0000000f0000000f000000120000001c00000000000000260000000c00000000",
+            INIT_24 => X"000000110000001a0000000b00000011000000000000000d0000000a00000028",
+            INIT_25 => X"0000000f0000000c00000000000000110000002f0000000a0000000e00000002",
+            INIT_26 => X"000000280000001000000018000000130000000b000000030000000e00000005",
+            INIT_27 => X"00000013000000000000000e00000011000000010000005c0000000b00000000",
+            INIT_28 => X"000000000000003f000000360000004b00000000000000160000001300000000",
+            INIT_29 => X"0000002b0000000000000000000000040000000b00000000000000450000002a",
+            INIT_2A => X"0000004f00000011000000000000002f0000002f000000190000000000000028",
+            INIT_2B => X"000000130000003400000000000000240000000e000000030000000000000032",
+            INIT_2C => X"000000410000006c0000002f0000002d00000015000000200000003100000000",
+            INIT_2D => X"0000001800000039000000290000000000000027000000380000000000000000",
+            INIT_2E => X"00000000000000220000006b0000003e00000027000000250000005c00000000",
+            INIT_2F => X"0000001100000000000000a70000002d000000000000002c0000007900000000",
+            INIT_30 => X"000000000000000000000020000000110000001e000000550000000000000062",
+            INIT_31 => X"0000001600000001000000000000008f000000370000000000000037000000a5",
+            INIT_32 => X"0000009000000000000000000000000700000014000000210000005100000000",
+            INIT_33 => X"00000039000000070000000500000029000000340000000e0000001000000023",
+            INIT_34 => X"0000000d00000018000000000000000000000000000000140000000900000018",
+            INIT_35 => X"0000002400000032000000040000002e00000042000000030000001600000016",
+            INIT_36 => X"000000000000002d000000000000000000000000000000000000001100000010",
+            INIT_37 => X"0000001e0000001000000037000000000000000700000036000000030000003e",
+            INIT_38 => X"00000023000000090000000f0000002400000003000000120000000100000011",
+            INIT_39 => X"0000000a000000150000001b000000200000001c0000001b000000180000000e",
+            INIT_3A => X"00000019000000050000005f0000001800000000000000270000001b00000008",
+            INIT_3B => X"0000000e0000000000000000000000030000000b000000090000000c0000000b",
+            INIT_3C => X"000000140000001000000008000000000000001100000006000000140000000b",
+            INIT_3D => X"000000080000000000000000000000090000001c00000018000000190000001c",
+            INIT_3E => X"0000000a0000001000000006000000110000000000000005000000030000000b",
+            INIT_3F => X"0000000000000000000000220000004800000049000000180000000800000013",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE36;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE37 : if BRAM_NAME = "sample_gold_layer0_instance37" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000001000000030000000e00000000000000000000000000000010",
+            INIT_01 => X"000000010000000b000000000000001400000011000000000000000000000007",
+            INIT_02 => X"0000002e000000030000000f0000000a000000040000000b0000000c00000000",
+            INIT_03 => X"000000000000000000000000000000000000000000000002000000000000000d",
+            INIT_04 => X"00000000000000000000002a0000001f000000000000000d0000002000000009",
+            INIT_05 => X"000000000000002e000000000000000000000000000000000000000000000006",
+            INIT_06 => X"0000003a00000066000000400000000000000010000000190000000400000000",
+            INIT_07 => X"0000000000000005000000090000000000000006000000030000000000000001",
+            INIT_08 => X"0000002700000008000000010000000f00000025000000120000001b00000000",
+            INIT_09 => X"00000000000000110000001e00000019000000160000002f0000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000030000001200000003000000160000000b00000000",
+            INIT_0C => X"000000030000002a0000000f00000000000000180000003c0000000000000000",
+            INIT_0D => X"0000000000000014000000000000000000000000000000100000002800000015",
+            INIT_0E => X"000000000000001a000000000000000000000000000000000000000000000000",
+            INIT_0F => X"000000450000004f0000002d00000048000000000000001a0000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"000000370000000f0000000000000027000000000000000b0000000000000015",
+            INIT_12 => X"00000001000000000000000000000015000000270000002f000000360000003a",
+            INIT_13 => X"000000210000000c0000000b0000000f00000000000000000000000000000000",
+            INIT_14 => X"0000003300000003000000000000003b000000440000004f0000003400000032",
+            INIT_15 => X"000000000000000000000000000000050000001a000000250000002300000007",
+            INIT_16 => X"0000008900000078000000740000002000000011000000170000001100000016",
+            INIT_17 => X"0000004b0000004a00000069000000740000008c000000930000008f0000008b",
+            INIT_18 => X"0000008d0000008a00000089000000800000004f000000520000004b00000051",
+            INIT_19 => X"0000005400000045000000590000008a00000095000000a10000009a00000096",
+            INIT_1A => X"00000096000000950000008f0000007500000085000000530000006200000056",
+            INIT_1B => X"000000660000006c000000610000006e000000910000009d000000a6000000a0",
+            INIT_1C => X"000000a60000009a000000900000008d00000074000000640000005d0000005e",
+            INIT_1D => X"000000600000006000000087000000870000008e0000009000000099000000a5",
+            INIT_1E => X"000000800000009d0000009d000000920000008b000000770000005e00000060",
+            INIT_1F => X"0000005c0000005b000000510000007f00000083000000880000008e0000007d",
+            INIT_20 => X"0000006600000066000000610000009300000091000000890000007b00000029",
+            INIT_21 => X"0000004a0000005900000055000000430000005a00000078000000620000005e",
+            INIT_22 => X"0000004e000000540000006300000076000000680000007b0000007a0000005a",
+            INIT_23 => X"0000004b00000066000000590000005100000036000000460000006400000056",
+            INIT_24 => X"00000052000000540000005f00000086000000730000005b0000006700000077",
+            INIT_25 => X"0000006d0000004d0000007d000000640000004700000024000000450000006e",
+            INIT_26 => X"000000560000006a0000006600000071000000990000005b0000005c00000076",
+            INIT_27 => X"0000008a00000056000000560000008200000067000000420000002600000033",
+            INIT_28 => X"000000410000003600000045000000890000005c000000770000005c00000022",
+            INIT_29 => X"0000003c000000640000005c0000005e0000008900000063000000330000002f",
+            INIT_2A => X"000000430000002f0000003200000041000000680000006e0000005100000045",
+            INIT_2B => X"0000004f00000065000000670000005000000077000000780000005700000039",
+            INIT_2C => X"000000570000002c000000210000001a00000023000000390000005d0000005c",
+            INIT_2D => X"000000670000006d0000007f000000580000007500000076000000840000003f",
+            INIT_2E => X"000000550000003c000000370000001a000000260000002d000000450000006e",
+            INIT_2F => X"00000082000000710000006600000068000000690000007e0000006700000083",
+            INIT_30 => X"000000700000004f0000005d0000005600000052000000500000005a00000060",
+            INIT_31 => X"0000007900000079000000870000007f0000006d000000760000007d0000007e",
+            INIT_32 => X"000000330000000400000062000000770000007a000000760000007600000073",
+            INIT_33 => X"0000002300000003000000330000002c0000003200000029000000390000002a",
+            INIT_34 => X"00000031000000140000002600000013000000390000002c000000200000002b",
+            INIT_35 => X"00000038000000170000000e0000003b0000002d00000033000000340000002e",
+            INIT_36 => X"000000340000002e0000002d000000030000002c000000200000003500000034",
+            INIT_37 => X"0000002100000039000000050000003100000041000000280000003000000033",
+            INIT_38 => X"0000002f000000390000002b00000027000000080000002d0000003300000035",
+            INIT_39 => X"0000002a000000100000002700000033000000400000002f0000003200000035",
+            INIT_3A => X"00000029000000330000002d0000002b0000003300000023000000330000003d",
+            INIT_3B => X"0000002c0000003600000000000000370000004e0000001d0000002f00000029",
+            INIT_3C => X"000000000000003d000000220000002a0000003a000000180000007f0000002f",
+            INIT_3D => X"000000360000002b0000003600000000000000200000003d000000040000001c",
+            INIT_3E => X"000000000000000800000021000000340000001200000015000000480000006b",
+            INIT_3F => X"000000150000002c0000002d0000002c00000003000000000000001e0000002c",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE37;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE38 : if BRAM_NAME = "sample_gold_layer0_instance38" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001000000026000000220000001100000034000000230000001200000071",
+            INIT_01 => X"0000005c0000002d000000080000003400000033000000000000000000000008",
+            INIT_02 => X"0000001500000022000000240000000700000034000000230000000a0000001c",
+            INIT_03 => X"000000150000006b000000200000000000000047000000500000000900000000",
+            INIT_04 => X"0000001d0000000e000000000000004900000000000000310000006800000000",
+            INIT_05 => X"000000000000000b000000560000002500000000000000600000004a00000019",
+            INIT_06 => X"0000002d0000001d0000001300000008000000510000002c0000002d0000002d",
+            INIT_07 => X"0000000e0000000c000000250000003d0000002f00000000000000730000003d",
+            INIT_08 => X"00000049000000260000000d0000001800000009000000000000003100000033",
+            INIT_09 => X"000000190000000d000000380000002b0000003800000044000000200000004c",
+            INIT_0A => X"00000029000000330000001c0000000b0000000d0000000b0000001700000044",
+            INIT_0B => X"0000004a0000003500000011000000340000001d000000570000002b0000003e",
+            INIT_0C => X"00000016000000320000001d0000003000000023000000230000002e00000020",
+            INIT_0D => X"0000003600000034000000350000002a0000004000000032000000440000003c",
+            INIT_0E => X"0000002300000040000000200000002f0000003f00000041000000370000002f",
+            INIT_0F => X"0000003000000036000000430000003c000000380000002f0000003600000001",
+            INIT_10 => X"0000002200000014000000280000002100000026000000290000002c0000002a",
+            INIT_11 => X"0000002c00000048000000410000003f00000033000000360000002f00000032",
+            INIT_12 => X"00000027000000190000001a0000002d0000002f0000002c000000300000002c",
+            INIT_13 => X"000000180000001d0000003e0000003d0000003e0000003a0000002e00000032",
+            INIT_14 => X"0000002c0000002b000000160000001a0000002b00000039000000360000002d",
+            INIT_15 => X"00000036000000390000003d0000003a0000004000000042000000430000002b",
+            INIT_16 => X"0000002c0000002e00000021000000180000002300000030000000310000003c",
+            INIT_17 => X"0000002a0000002f00000032000000400000002a0000001a0000002600000038",
+            INIT_18 => X"0000000d00000031000000220000001500000022000000230000003000000031",
+            INIT_19 => X"0000002f000000240000003b0000002c000000230000002c0000001400000000",
+            INIT_1A => X"0000001e000000000000000e000000160000000f00000021000000000000002e",
+            INIT_1B => X"0000002e0000002800000019000000280000001e000000000000000000000006",
+            INIT_1C => X"0000000400000011000000000000000000000019000000120000001200000030",
+            INIT_1D => X"000000380000002000000011000000190000001e000000050000000000000000",
+            INIT_1E => X"00000030000000370000001b000000200000000600000017000000030000000f",
+            INIT_1F => X"0000001a00000045000000170000000f00000014000000380000005100000037",
+            INIT_20 => X"0000003e0000002f00000013000000380000000c000000240000002500000000",
+            INIT_21 => X"0000000d0000002a0000003600000000000000090000001b0000001d0000001b",
+            INIT_22 => X"0000002b00000032000000580000004b000000480000003f0000001c00000041",
+            INIT_23 => X"000000000000001f0000002a000000470000000b000000180000001d00000030",
+            INIT_24 => X"0000001e00000020000000250000002f0000003f0000001c0000001a00000028",
+            INIT_25 => X"0000000e00000027000000210000003f000000360000002a0000002b0000002c",
+            INIT_26 => X"000000170000000f00000013000000150000001b0000002e0000003500000034",
+            INIT_27 => X"00000029000000350000003000000036000000390000003b0000001f00000031",
+            INIT_28 => X"000000180000001800000013000000200000001f0000002a0000004100000030",
+            INIT_29 => X"0000003e0000002d000000230000002d0000003b000000270000003e00000032",
+            INIT_2A => X"00000028000000340000003200000034000000360000003e0000003d00000043",
+            INIT_2B => X"00000004000000170000000d0000000f00000011000000180000000000000000",
+            INIT_2C => X"00000011000000120000000400000000000000000000000a0000001300000012",
+            INIT_2D => X"000000020000000a000000100000000a0000000d000000060000000b00000019",
+            INIT_2E => X"00000008000000170000000c0000000d000000140000001f0000000b00000001",
+            INIT_2F => X"0000000000000015000000150000000b000000100000000d0000001300000007",
+            INIT_30 => X"000000120000000f000000120000000b0000001e000000170000000800000000",
+            INIT_31 => X"0000000000000019000000240000001e000000260000001d0000001700000011",
+            INIT_32 => X"000000050000000d00000007000000220000000f000000010000000f00000009",
+            INIT_33 => X"0000002b0000001f000000250000000b00000000000000100000001e00000011",
+            INIT_34 => X"0000001c00000012000000000000000000000004000000130000001e00000015",
+            INIT_35 => X"00000015000000260000001a0000000d000000370000004f0000000100000000",
+            INIT_36 => X"00000007000000000000000d0000001700000023000000000000001000000013",
+            INIT_37 => X"00000002000000000000000c0000001000000000000000000000000000000021",
+            INIT_38 => X"000000090000001000000000000000200000001b000000070000000300000014",
+            INIT_39 => X"0000000a00000000000000070000001f00000009000000070000001200000010",
+            INIT_3A => X"00000047000000300000000c00000018000000220000000c0000000000000019",
+            INIT_3B => X"0000000d0000000b000000000000000000000015000000670000006300000049",
+            INIT_3C => X"0000000d0000000c000000420000002d00000066000000250000001100000000",
+            INIT_3D => X"000000180000001c00000000000000000000000600000000000000000000001b",
+            INIT_3E => X"0000001a0000006200000030000000360000002a000000000000003000000023",
+            INIT_3F => X"00000017000000070000002f000000210000001a000000000000001f00000020",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE38;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE39 : if BRAM_NAME = "sample_gold_layer0_instance39" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000b00000004000000000000001100000000000000000000000100000000",
+            INIT_01 => X"0000003e0000000000000018000000140000002c000000210000000a00000006",
+            INIT_02 => X"0000000000000000000000000000000000000000000000030000002300000023",
+            INIT_03 => X"0000002d0000000900000030000000230000001f000000030000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000170000001000000000",
+            INIT_05 => X"0000000a000000000000000d00000018000000000000000a0000002100000000",
+            INIT_06 => X"0000000f0000000e000000100000000e00000015000000190000003100000021",
+            INIT_07 => X"0000000200000006000000110000001200000015000000030000001a00000003",
+            INIT_08 => X"0000000a00000007000000000000000000000005000000030000000b00000000",
+            INIT_09 => X"0000000000000000000000100000001700000019000000140000003500000038",
+            INIT_0A => X"0000003c00000008000000080000000b0000000a000000060000000000000000",
+            INIT_0B => X"0000000d000000080000000f0000001900000024000000220000001e0000003b",
+            INIT_0C => X"000000360000003e000000080000000d00000004000000000000000000000000",
+            INIT_0D => X"0000001b0000001a0000000d0000001d0000001a0000002c000000270000002b",
+            INIT_0E => X"0000002d00000036000000330000000e00000002000000040000000800000008",
+            INIT_0F => X"0000001f0000001e000000150000002900000033000000270000002c00000026",
+            INIT_10 => X"000000380000003a0000002d00000028000000110000000e0000000c0000001f",
+            INIT_11 => X"0000001600000023000000260000003700000056000000510000004f0000002c",
+            INIT_12 => X"0000003900000049000000570000004d000000070000000e0000000500000009",
+            INIT_13 => X"00000000000000070000002a0000003b0000003100000038000000580000005a",
+            INIT_14 => X"000000690000005f0000004c0000005800000035000000070000000a00000002",
+            INIT_15 => X"00000018000000070000000d0000003c000000690000006e0000006500000038",
+            INIT_16 => X"0000004f0000006000000073000000370000005f000000300000001200000003",
+            INIT_17 => X"0000001d00000034000000000000000000000041000000550000005a0000004e",
+            INIT_18 => X"0000002f00000048000000530000005f0000002f000000780000003600000013",
+            INIT_19 => X"000000200000003f000000410000000000000000000000000000000300000008",
+            INIT_1A => X"0000002b000000260000002600000024000000000000002e0000006b0000002f",
+            INIT_1B => X"0000001d00000025000000640000003e00000000000000090000000700000000",
+            INIT_1C => X"000000000000000000000000000000000000000000000000000000260000004a",
+            INIT_1D => X"0000002200000029000000150000005500000011000000070000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000014000000170000002700000052",
+            INIT_1F => X"000000110000002b000000280000001f0000001c000000000000000000000000",
+            INIT_20 => X"00000000000000000000000000000009000000110000001d0000001100000030",
+            INIT_21 => X"00000016000000130000001e000000150000001e000000150000000000000000",
+            INIT_22 => X"0000001200000015000000090000000c0000000f0000001f000000160000001a",
+            INIT_23 => X"000000000000000000000000000000000000000000000000000000070000000c",
+            INIT_24 => X"0000000000000000000000000000000000000001000000070000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000130000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000019",
+            INIT_28 => X"0000000100000000000000000000000300000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"00000000000000060000000000000000000000000000000b0000000000000000",
+            INIT_2B => X"0000000000000016000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000002000000000",
+            INIT_2D => X"0000001c00000000000000020000003500000004000000000000001000000000",
+            INIT_2E => X"000000000000000000000000000000000000000000000000000000000000002c",
+            INIT_2F => X"0000000d00000018000000000000000000000000000000000000001300000000",
+            INIT_30 => X"0000000000000001000000000000000000000004000000040000000000000000",
+            INIT_31 => X"0000000000000017000000070000000000000000000000000000000000000000",
+            INIT_32 => X"00000000000000030000002f0000000000000000000000000000001b00000000",
+            INIT_33 => X"0000000000000000000000120000005e0000005a000000210000003900000030",
+            INIT_34 => X"0000001c0000000f00000000000000570000000000000000000000000000001d",
+            INIT_35 => X"0000000d00000000000000000000000000000000000000180000002f00000000",
+            INIT_36 => X"0000003f00000021000000590000001400000026000000170000000000000001",
+            INIT_37 => X"0000000000000000000000000000000000000000000000210000002100000035",
+            INIT_38 => X"000000210000001c000000000000000000000000000000000000000000000000",
+            INIT_39 => X"00000000000000000000000000000030000000000000001f0000000a0000000c",
+            INIT_3A => X"0000000000000000000000000000000000000002000000000000000000000012",
+            INIT_3B => X"0000000a00000000000000100000002700000000000000000000000000000000",
+            INIT_3C => X"000000000000000000000000000000000000000000000000000000030000000c",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000020000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE39;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE40 : if BRAM_NAME = "sample_gold_layer0_instance40" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"000000000000001e000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000220000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"00000000000000000000000f0000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000100000000000000000000000000000004",
+            INIT_0F => X"0000001a00000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"000000000000002000000000000000000000000c000000000000000000000003",
+            INIT_11 => X"000000100000000d000000000000000000000000000000000000000000000000",
+            INIT_12 => X"00000000000000190000001b0000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000021000000000000000000000008000000000000000000000004",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"00000000000000000000000a0000000f00000019000000090000000900000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"000000000000000000000006000000000000000e000000060000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000002200000015000000480000000000000000000000000000000000000000",
+            INIT_1C => X"000000100000001600000015000000000000001e0000000b0000001a00000014",
+            INIT_1D => X"0000001d0000001d00000014000000110000001f000000000000002a00000016",
+            INIT_1E => X"00000020000000130000002500000005000000000000001c000000100000001b",
+            INIT_1F => X"000000150000001e0000001c000000200000002c000000000000000d0000000d",
+            INIT_20 => X"0000000f000000190000000a00000034000000000000000e000000200000000d",
+            INIT_21 => X"0000000a000000150000001c000000260000001a000000290000000000000017",
+            INIT_22 => X"00000016000000200000000b000000000000000a000000100000001e00000011",
+            INIT_23 => X"0000001d0000000c000000180000001f0000001f000000200000002b0000000e",
+            INIT_24 => X"0000005900000017000000160000002600000000000000170000002600000004",
+            INIT_25 => X"000000000000001000000007000000380000000c0000001b0000002f0000000c",
+            INIT_26 => X"000000320000008600000020000000180000002a00000000000000050000002e",
+            INIT_27 => X"0000002e0000003c000000000000000000000031000000230000001000000013",
+            INIT_28 => X"0000000900000068000000060000001900000021000000240000000000000000",
+            INIT_29 => X"0000000000000010000000160000002c00000014000000090000004100000011",
+            INIT_2A => X"00000000000000110000005c0000000300000000000000360000002700000000",
+            INIT_2B => X"0000000000000000000000000000001400000014000000000000001700000047",
+            INIT_2C => X"0000005200000000000000180000005a00000000000000000000004e00000049",
+            INIT_2D => X"0000004300000015000000050000000000000000000000420000000000000034",
+            INIT_2E => X"0000000e0000003e000000000000001000000038000000000000000000000069",
+            INIT_2F => X"0000006700000035000000140000001200000000000000000000003100000000",
+            INIT_30 => X"0000002a0000001b000000000000000000000013000000250000000000000000",
+            INIT_31 => X"0000001100000033000000310000002b0000000e0000000b0000000000000000",
+            INIT_32 => X"00000000000000170000000c000000000000001b000000180000000900000019",
+            INIT_33 => X"000000080000003c0000000e0000003c000000270000000e0000000f00000001",
+            INIT_34 => X"0000000c000000000000002b0000001d000000000000001c0000000000000021",
+            INIT_35 => X"0000002e00000007000000030000002e000000160000002e000000110000000c",
+            INIT_36 => X"000000050000000b0000000300000013000000180000000d0000001900000000",
+            INIT_37 => X"000000000000001c000000000000001f000000020000000a0000001c0000001d",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"00000000000000000000001d0000001400000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE40;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE41 : if BRAM_NAME = "sample_gold_layer0_instance41" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000002f00000006000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000010000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000c0000000a00000000000000000000000c000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000002c0000000e000000190000000000000000000000000000000000000000",
+            INIT_0D => X"000000000000000000000000000000000000000000000000000000000000001e",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"000000000000000000000000000000260000001f000000200000001900000007",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"00000000000000000000000c0000001e00000025000000180000000800000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000002800000024000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000100000018000000220000002b00000035000000360000003400000031",
+            INIT_15 => X"0000002e000000390000002e0000000a0000000d000000010000000a00000007",
+            INIT_16 => X"00000001000000010000002a000000350000003d000000390000003a00000036",
+            INIT_17 => X"00000038000000360000002b00000036000000090000001c000000170000000b",
+            INIT_18 => X"0000001e00000018000000220000003700000033000000410000003f0000003c",
+            INIT_19 => X"000000410000003600000036000000320000001f00000017000000140000001e",
+            INIT_1A => X"00000012000000250000002e0000003700000035000000390000004300000045",
+            INIT_1B => X"000000430000003c0000003c0000003900000029000000180000001700000011",
+            INIT_1C => X"000000140000000b0000002e0000002d0000002e000000320000003400000031",
+            INIT_1D => X"0000003900000025000000380000003f00000031000000340000000000000016",
+            INIT_1E => X"000000130000000c000000000000000c0000002a000000200000002400000025",
+            INIT_1F => X"0000002100000020000000420000001f00000039000000400000001d0000000d",
+            INIT_20 => X"00000025000000110000000a000000000000000000000022000000280000001d",
+            INIT_21 => X"000000300000003600000041000000380000002d000000270000003a00000013",
+            INIT_22 => X"000000210000002e000000160000001000000000000000030000002e0000002e",
+            INIT_23 => X"000000240000002800000033000000450000001b000000380000002b00000034",
+            INIT_24 => X"0000002e0000001a000000350000001e0000001500000000000000000000000f",
+            INIT_25 => X"0000000000000000000000440000002d0000002e000000300000000000000040",
+            INIT_26 => X"0000001b0000002e000000230000003c00000033000000120000000000000003",
+            INIT_27 => X"0000000000000000000000000000000800000021000000000000000000000000",
+            INIT_28 => X"000000210000002000000018000000360000002b0000002e0000000e00000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000210000001e0000000b",
+            INIT_2A => X"000000320000002c000000140000002e000000320000002e000000120000000d",
+            INIT_2B => X"0000000000000000000000000000000000000000000000030000002100000020",
+            INIT_2C => X"0000002b000000210000001800000022000000340000001f0000003600000018",
+            INIT_2D => X"000000140000001700000014000000160000000f000000180000001700000032",
+            INIT_2E => X"0000002a0000003400000038000000290000002e0000002f0000003600000024",
+            INIT_2F => X"0000002500000015000000290000002c0000002b000000280000001e0000002b",
+            INIT_30 => X"00000023000000080000000c000000100000000d000000040000000d00000017",
+            INIT_31 => X"00000018000000090000001100000000000000040000000f000000020000000c",
+            INIT_32 => X"000000250000002100000005000000160000000b000000070000000a00000009",
+            INIT_33 => X"0000000c000000000000002b000000030000000c000000000000000000000000",
+            INIT_34 => X"00000002000000230000000a00000008000000120000000d0000000700000006",
+            INIT_35 => X"000000000000000a0000000d0000001300000002000000000000000200000014",
+            INIT_36 => X"000000280000001000000000000000010000000d0000000b000000040000000c",
+            INIT_37 => X"000000050000000a000000080000000000000005000000000000000000000006",
+            INIT_38 => X"000000000000003b000000000000000000000022000000050000000700000010",
+            INIT_39 => X"0000000000000016000000110000000000000013000000000000000000000005",
+            INIT_3A => X"00000007000000000000002c00000016000000000000000c000000110000002e",
+            INIT_3B => X"0000000200000018000000000000000f00000011000000000000000000000000",
+            INIT_3C => X"000000070000000700000007000000210000002d00000011000000060000000f",
+            INIT_3D => X"00000000000000130000000c00000000000000040000000c0000000000000016",
+            INIT_3E => X"0000000300000032000000000000000000000029000000380000000500000006",
+            INIT_3F => X"0000000000000000000000250000000000000000000000280000000500000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE41;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE42 : if BRAM_NAME = "sample_gold_layer0_instance42" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000000900000048000000000000000000000013000000250000000e",
+            INIT_01 => X"0000001200000040000000000000001800000000000000000000006200000000",
+            INIT_02 => X"00000006000000000000000a0000005b00000000000000000000001c0000000b",
+            INIT_03 => X"000000100000001e000000120000000000000000000000010000001000000046",
+            INIT_04 => X"0000001600000000000000000000000000000035000000000000000000000000",
+            INIT_05 => X"000000130000001b00000017000000240000002800000007000000000000002a",
+            INIT_06 => X"00000025000000000000000b0000000000000000000000000000000000000000",
+            INIT_07 => X"0000000d0000000f000000240000001e0000001e0000001a000000000000000f",
+            INIT_08 => X"0000000000000009000000000000000a00000000000000050000000300000000",
+            INIT_09 => X"0000000c0000001200000005000000070000000e000000000000000700000000",
+            INIT_0A => X"000000000000000000000000000000000000000000000000000000000000000b",
+            INIT_0B => X"000000000000000f000000040000000000000000000000000000000300000000",
+            INIT_0C => X"000000110000000b0000001000000016000000130000000c0000000b00000000",
+            INIT_0D => X"0000001300000000000000000000000000000003000000060000001b00000000",
+            INIT_0E => X"0000000000000003000000000000000100000004000000070000000800000009",
+            INIT_0F => X"0000000900000000000000000000000000000004000000000000000400000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000c00000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000090000000000000000000000120000001e00000003",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000010",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000042000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"000000400000000000000000000000000000000000000004000000000000000d",
+            INIT_20 => X"0000000000000000000000000000001e00000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000150000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000f00000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000001c00000000",
+            INIT_25 => X"000000000000000000000002000000000000002b000000000000000000000000",
+            INIT_26 => X"000000000000000000000000000000020000000000000000000000000000000d",
+            INIT_27 => X"0000000000000000000000070000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000600000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000007",
+            INIT_34 => X"000000000000000000000000000000160000001f000000340000002500000008",
+            INIT_35 => X"000000000000000000000000000000000000000000000000000000000000000e",
+            INIT_36 => X"0000000200000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"000000070000001b000000070000000900000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"000000000000000b0000000a000000040000000b000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000140000000000000000",
+            INIT_3B => X"0000000000000000000000000000000100000007000000020000000000000020",
+            INIT_3C => X"00000000000000000000002b00000007000000010000003a000000350000003b",
+            INIT_3D => X"0000000100000000000000000000000500000003000000000000000000000002",
+            INIT_3E => X"0000000d000000030000000000000000000000050000000e0000002800000000",
+            INIT_3F => X"0000000000000003000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE42;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE43 : if BRAM_NAME = "sample_gold_layer0_instance43" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001d0000001a0000000000000000000000030000000e0000002700000000",
+            INIT_01 => X"0000000000000011000000180000002e0000005900000058000000570000003f",
+            INIT_02 => X"0000000000000000000000020000000000000000000000070000000d0000002c",
+            INIT_03 => X"0000000100000007000000060000001900000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000020000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"000000040000000e000000000000000100000001000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000090000000100000000000000120000000000000000",
+            INIT_0A => X"00000002000000050000000b0000000500000004000000020000000400000005",
+            INIT_0B => X"00000008000000070000000000000000000000050000000a0000000000000004",
+            INIT_0C => X"000000210000001800000007000000000000000a000000090000000600000007",
+            INIT_0D => X"0000000500000008000000090000000000000000000000060000000a0000000a",
+            INIT_0E => X"000000150000000000000005000000120000002c0000001f0000000900000004",
+            INIT_0F => X"0000000500000005000000080000000800000002000000000000000500000000",
+            INIT_10 => X"000000000000004c000000390000000000000000000000000000000000000020",
+            INIT_11 => X"0000000300000019000000120000000600000008000000000000000100000008",
+            INIT_12 => X"0000000000000000000000350000005a00000048000000190000000000000012",
+            INIT_13 => X"00000001000000000000000d0000000e0000000c000000090000002100000006",
+            INIT_14 => X"000000440000002c00000000000000190000002c0000002b000000480000002b",
+            INIT_15 => X"00000039000000130000000000000017000000000000004b0000000c0000002c",
+            INIT_16 => X"00000017000000240000003300000014000000130000001d0000003200000034",
+            INIT_17 => X"0000002f00000052000000170000000000000006000000000000000c00000031",
+            INIT_18 => X"0000001400000000000000130000001700000037000000180000000000000011",
+            INIT_19 => X"000000000000003000000047000000290000000b000000000000001500000015",
+            INIT_1A => X"00000013000000100000000000000000000000210000002d000000070000000b",
+            INIT_1B => X"0000001900000000000000300000004a0000003400000031000000010000001a",
+            INIT_1C => X"0000000a000000170000000f00000002000000000000001d000000110000000c",
+            INIT_1D => X"0000000000000016000000000000000000000002000000060000000b00000000",
+            INIT_1E => X"0000000f0000000e000000060000000c00000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000180000000200000006000000090000000a00000009",
+            INIT_20 => X"0000000000000000000000000000000000000000000000010000000000000000",
+            INIT_21 => X"0000003200000003000000030000000d00000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000100000000000000000000000a00000000",
+            INIT_23 => X"0000000000000026000000220000000000000000000000000000000100000000",
+            INIT_24 => X"00000000000000000000000000000006000000030000000e0000000600000009",
+            INIT_25 => X"00000015000000000000000d0000003c0000000f000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000001000000000000000000000000",
+            INIT_27 => X"0000000000000009000000070000000200000000000000520000000000000000",
+            INIT_28 => X"0000000000000000000000030000000300000000000000040000000000000000",
+            INIT_29 => X"0000000100000000000000030000000a00000019000000040000003f00000027",
+            INIT_2A => X"0000006100000053000000450000000a00000000000000000000000400000004",
+            INIT_2B => X"0000000f00000004000000000000000a0000002f00000000000000a400000038",
+            INIT_2C => X"00000000000000000000002000000044000000490000001b0000000000000000",
+            INIT_2D => X"0000001a000000000000000700000001000000150000001300000024000000fb",
+            INIT_2E => X"000000fd0000004e0000000000000000000000000000002f000000060000003a",
+            INIT_2F => X"0000005c000000130000001d000000000000000700000000000000000000006c",
+            INIT_30 => X"00000000000000ad000000960000005700000057000000000000000000000000",
+            INIT_31 => X"000000000000005000000009000000b700000000000000000000001e00000000",
+            INIT_32 => X"0000004c0000002f0000007a00000041000000980000004c0000003400000000",
+            INIT_33 => X"00000000000000000000002400000040000000a4000000360000000000000074",
+            INIT_34 => X"00000092000000800000007f000000000000000000000071000000c200000041",
+            INIT_35 => X"00000051000000000000000000000000000000640000003e0000001000000000",
+            INIT_36 => X"0000000000000013000000b40000002d000000000000002c0000000d0000010c",
+            INIT_37 => X"000000f500000048000000000000000b000000000000004a000000220000000e",
+            INIT_38 => X"0000000f00000001000000000000008f00000000000000110000004e00000000",
+            INIT_39 => X"00000000000000900000004e000000420000003800000015000000410000003b",
+            INIT_3A => X"0000000d0000001b0000000e0000000100000022000000050000004100000045",
+            INIT_3B => X"00000041000000000000001600000016000000140000000f0000000f00000027",
+            INIT_3C => X"0000000000000000000000100000003a00000000000000050000000700000034",
+            INIT_3D => X"0000000200000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000500000000000000070000000000000000",
+            INIT_3F => X"000000000000001e0000000c0000000800000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE43;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE44 : if BRAM_NAME = "sample_gold_layer0_instance44" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000200000000000000000000000000000000000000000000000e0000000d",
+            INIT_01 => X"000000270000001a000000000000003200000011000000110000000b00000007",
+            INIT_02 => X"0000001d0000000f0000000d0000000c0000000700000004000000000000000e",
+            INIT_03 => X"0000000000000000000000010000000000000000000000240000002600000028",
+            INIT_04 => X"0000000e00000006000000200000000900000009000000060000000a00000009",
+            INIT_05 => X"0000000a000000000000000300000009000000290000004b0000008000000042",
+            INIT_06 => X"0000000000000046000000820000003c0000000c000000070000000a0000000c",
+            INIT_07 => X"000000090000000c000000000000000400000000000000440000006400000000",
+            INIT_08 => X"000000000000000000000000000000000000000000000038000000040000000a",
+            INIT_09 => X"000000220000000a0000000500000000000000000000002e0000004f00000025",
+            INIT_0A => X"00000011000000fa000000f300000073000000030000000d0000000000000045",
+            INIT_0B => X"00000000000000120000001800000006000000610000000c0000000000000000",
+            INIT_0C => X"000000000000000000000000000000000000006b000000000000000000000000",
+            INIT_0D => X"000000000000000000000030000000ab000000150000003b000000a80000002f",
+            INIT_0E => X"0000008600000060000000000000000000000000000000000000000600000000",
+            INIT_0F => X"0000002e00000000000000000000000000000000000000200000000000000018",
+            INIT_10 => X"000000000000000000000000000000000000000000000000000000000000004c",
+            INIT_11 => X"0000000f000000240000001b0000000000000000000000000000000300000000",
+            INIT_12 => X"000000000000000000000000000000000000000400000009000000000000000c",
+            INIT_13 => X"000000000000004d000000780000005f00000016000000000000000000000001",
+            INIT_14 => X"0000000d00000000000000000000000000000008000000330000000f00000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000b0000000e000000000000000000000000000000000000000000000000",
+            INIT_17 => X"000000000000000a000000110000001f00000026000000230000004a00000012",
+            INIT_18 => X"000001450000013c0000012f0000000c00000008000000070000000000000000",
+            INIT_19 => X"000000ba000000bb000000f00000010c0000011900000127000001410000014b",
+            INIT_1A => X"000001170000012000000126000001340000008a0000003e0000005c0000009c",
+            INIT_1B => X"000000840000009d000000b9000000ca000000db000000e4000000ec00000102",
+            INIT_1C => X"000000cc000000d8000000de000000df000000e30000009c000000470000002d",
+            INIT_1D => X"00000046000000290000006d000000b2000000bc000000c1000000c5000000c4",
+            INIT_1E => X"000000c3000000c0000000bd000000bb000000b9000000b3000000a300000079",
+            INIT_1F => X"000000a50000007e0000001700000047000000a8000000bc000000c2000000bf",
+            INIT_20 => X"000000a3000000b9000000bd000000bf000000bf000000bd000000af000000a9",
+            INIT_21 => X"000000a1000000a20000008a00000031000000290000008c0000008d000000a1",
+            INIT_22 => X"0000003c0000004f0000006e000000a7000000bd000000bf000000be000000ba",
+            INIT_23 => X"000000c0000000930000006f000000190000005500000000000000000000002e",
+            INIT_24 => X"000000170000001c00000022000000380000007c000000a2000000be000000c0",
+            INIT_25 => X"000000be000000be0000005f0000001f00000027000000330000000000000000",
+            INIT_26 => X"0000000300000000000000000000000b0000001e000000310000007000000085",
+            INIT_27 => X"0000005c00000090000000bd0000001100000000000000170000003500000000",
+            INIT_28 => X"0000002000000000000000000000000000000000000000000000001100000006",
+            INIT_29 => X"0000000000000034000000420000009800000000000000070000001300000045",
+            INIT_2A => X"00000000000000000000001b0000000000000000000000000000000000000013",
+            INIT_2B => X"0000000700000009000000000000000800000075000000220000000000000000",
+            INIT_2C => X"00000000000000000000000e000000000000002a000000000000000000000000",
+            INIT_2D => X"00000000000000000000000e00000000000000010000006b000000190000000a",
+            INIT_2E => X"0000001f000000000000000000000009000000000000002a0000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000004e00000011",
+            INIT_30 => X"0000001900000011000000000000000f0000000d000000000000002b00000000",
+            INIT_31 => X"000000000000000000000000000000000000000000000000000000100000004c",
+            INIT_32 => X"000000450000000a000000060000000100000017000000020000000000000000",
+            INIT_33 => X"0000000600000000000000000000000000000000000000020000000000000018",
+            INIT_34 => X"0000007800000082000000020000000600000007000000070000000600000000",
+            INIT_35 => X"0000004a0000006e000000660000007900000075000000770000008300000088",
+            INIT_36 => X"0000007300000078000000870000004400000041000000150000004600000051",
+            INIT_37 => X"000000550000005a0000006100000062000000700000006d000000770000007a",
+            INIT_38 => X"0000006b0000006e00000062000000650000004e0000004b000000080000002f",
+            INIT_39 => X"000000010000003b0000005f0000005d0000006000000065000000660000006a",
+            INIT_3A => X"0000006a00000063000000650000006900000063000000420000004f00000028",
+            INIT_3B => X"000000490000003a00000000000000500000005d000000600000006b00000067",
+            INIT_3C => X"000000660000006f000000660000006a0000006b000000650000005100000049",
+            INIT_3D => X"0000005700000042000000290000000000000024000000570000005900000053",
+            INIT_3E => X"0000004a000000630000006a00000064000000650000006a0000006900000053",
+            INIT_3F => X"00000050000000280000003f0000000000000000000000000000001200000021",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE44;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE45 : if BRAM_NAME = "sample_gold_layer0_instance45" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000230000005f000000640000005f000000690000006b",
+            INIT_01 => X"0000006c0000003d00000022000000020000000000000036000000720000000e",
+            INIT_02 => X"0000003b00000012000000000000002f000000050000003e0000006300000063",
+            INIT_03 => X"0000006500000068000000360000001f00000000000000000000000000000044",
+            INIT_04 => X"00000000000000000000003e0000005b00000017000000000000002000000022",
+            INIT_05 => X"000000000000007c00000073000000180000004c0000003c0000000000000000",
+            INIT_06 => X"0000000c0000000000000000000000060000007300000031000000000000001f",
+            INIT_07 => X"0000000000000000000000180000009500000000000000000000000d00000000",
+            INIT_08 => X"0000006900000021000000000000000000000000000000720000003000000000",
+            INIT_09 => X"0000001e0000000000000000000000150000005d000000000000000000000000",
+            INIT_0A => X"000000060000005d000000000000001200000000000000000000005600000033",
+            INIT_0B => X"0000000b0000003b000000000000000600000018000000500000001500000000",
+            INIT_0C => X"000000000000002f00000017000000000000002b00000000000000000000002f",
+            INIT_0D => X"0000000300000008000000170000000000000000000000290000003e00000026",
+            INIT_0E => X"0000001b000000020000001400000000000000000000002c0000000000000000",
+            INIT_0F => X"0000000600000007000000080000000800000000000000060000000b00000035",
+            INIT_10 => X"000000ac0000001a000000110000001000000000000000000000003400000007",
+            INIT_11 => X"000000a7000000b1000000b6000000bf000000cc000000cd000000c4000000bf",
+            INIT_12 => X"000000b1000000c40000006800000032000000410000007a000000880000008b",
+            INIT_13 => X"000000860000008f0000009b000000a1000000a8000000b8000000c1000000ba",
+            INIT_14 => X"000000a4000000aa0000009c0000007200000026000000320000005300000072",
+            INIT_15 => X"0000003600000082000000830000008800000091000000900000009a000000a2",
+            INIT_16 => X"0000008b0000008b0000008d0000008900000071000000400000002700000018",
+            INIT_17 => X"00000018000000390000006f000000740000007a000000810000008d0000008c",
+            INIT_18 => X"0000008d0000008f0000008f0000008f00000082000000820000007a00000055",
+            INIT_19 => X"0000004e00000000000000000000001800000046000000680000006000000079",
+            INIT_1A => X"00000042000000860000008d0000008d000000900000008e0000007800000073",
+            INIT_1B => X"000000340000001f000000000000000000000000000000000000000000000000",
+            INIT_1C => X"00000026000000310000003e000000860000008f0000008f000000900000006d",
+            INIT_1D => X"0000004200000025000000000000000000000000000000000000003400000031",
+            INIT_1E => X"000000000000000500000003000000120000002b00000068000000910000008f",
+            INIT_1F => X"0000009000000000000000190000000a00000000000000000000000000000000",
+            INIT_20 => X"00000000000000000000000000000011000000050000000f0000002e00000082",
+            INIT_21 => X"00000000000000950000000000000000000000150000001f0000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000009000000120000000000000000",
+            INIT_23 => X"0000000000000011000000680000000000000000000000000000000000000000",
+            INIT_24 => X"000000120000002d000000000000000000000000000000000000001c00000000",
+            INIT_25 => X"000000000000000000000000000000760000002f000000000000000000000000",
+            INIT_26 => X"0000000000000001000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000100000059000000190000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"00000020000000080000000a0000000000000016000000440000002100000018",
+            INIT_2A => X"0000002200000021000000110000000c000000000000002e0000002700000022",
+            INIT_2B => X"00000000000000000000000000000000000000000000001e0000003500000017",
+            INIT_2C => X"0000000a00000010000000120000001c0000000c0000000b0000000b00000002",
+            INIT_2D => X"0000004a0000004c0000005100000059000000550000004c0000003f00000026",
+            INIT_2E => X"0000004c0000001a0000001b0000002f000000300000002b0000004200000040",
+            INIT_2F => X"000000320000003b0000003f000000460000004f000000530000004f00000045",
+            INIT_30 => X"00000053000000570000001c000000000000000a0000001a0000001400000029",
+            INIT_31 => X"0000001f00000023000000240000002b0000002c000000340000004100000047",
+            INIT_32 => X"000000290000002a0000002b000000250000000100000000000000250000002c",
+            INIT_33 => X"000000290000001e00000015000000120000001c000000280000002600000028",
+            INIT_34 => X"0000002e0000002d0000002b000000250000002b000000270000001000000000",
+            INIT_35 => X"000000000000000000000000000000000000001300000028000000300000002c",
+            INIT_36 => X"000000200000002c0000002b0000002c0000002a00000027000000260000001a",
+            INIT_37 => X"0000002e0000000000000000000000970000008a000000540000000a00000000",
+            INIT_38 => X"0000003a0000002700000025000000320000002d0000002b000000230000000f",
+            INIT_39 => X"0000003200000000000000000000000000000000000000130000002400000029",
+            INIT_3A => X"0000000000000007000000060000000a0000001e0000002e0000002e00000022",
+            INIT_3B => X"00000000000000000000000e0000006b00000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000030000002500000021000000010000001600000031",
+            INIT_3D => X"0000001d0000000000000000000000000000000600000000000000130000001f",
+            INIT_3E => X"0000000300000000000000000000000f00000014000000000000000000000000",
+            INIT_3F => X"000000860000002f000000220000000000000000000000000000008c0000006d",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE45;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE46 : if BRAM_NAME = "sample_gold_layer0_instance46" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000003100000030000000000000000000000000000000060000000000000023",
+            INIT_01 => X"00000000000000000000002900000056000000370000002e0000005300000001",
+            INIT_02 => X"0000000000000000000000300000000000000000000000000000000000000004",
+            INIT_03 => X"0000000000000000000000030000001d00000001000000270000000f00000006",
+            INIT_04 => X"0000000000000000000000000000001200000000000000000000000000000000",
+            INIT_05 => X"0000004f000000470000003e0000001f0000000900000007000000350000002c",
+            INIT_06 => X"00000012000000050000000e000000000000007a000000900000008b0000007e",
+            INIT_07 => X"0000000000000000000000000000000000000000000000130000000000000010",
+            INIT_08 => X"00000000000000000000000e0000003300000010000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"00000000000000000000000000000000000000000000001c0000000700000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000200000012",
+            INIT_11 => X"0000001e0000000b000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"000000020000009d000000ab0000008600000063000000490000000000000000",
+            INIT_14 => X"000000000000000000000000000000000000000000000000000000000000001c",
+            INIT_15 => X"0000000000000078000000d9000000400000002d000000410000006400000036",
+            INIT_16 => X"000000240000002c000000000000000000000000000000000000000000000022",
+            INIT_17 => X"0000000000000016000000ba000000e8000000760000002f0000001f00000030",
+            INIT_18 => X"000000450000002000000036000000490000000500000000000000000000001f",
+            INIT_19 => X"0000007e000000220000001600000051000000e100000102000000ee000000bf",
+            INIT_1A => X"000000df00000053000000090000000c000000270000003e0000003c00000000",
+            INIT_1B => X"00000000000000910000009f0000007900000098000000f1000000d6000000e6",
+            INIT_1C => X"000000c5000000d6000000560000000a000000000000001c0000008700000098",
+            INIT_1D => X"000000290000000000000052000000a5000000c7000000ce000000370000005f",
+            INIT_1E => X"0000001700000093000000d80000009800000040000000000000001600000077",
+            INIT_1F => X"000000750000002e00000000000000000000005b000000a80000002c00000012",
+            INIT_20 => X"000000230000002e0000007e000000d70000009e000000670000003400000022",
+            INIT_21 => X"0000003b000000540000001c0000000000000000000000320000007500000000",
+            INIT_22 => X"00000000000000430000003100000072000000a20000009d0000008d00000056",
+            INIT_23 => X"000000000000000800000019000000030000000000000000000000000000000e",
+            INIT_24 => X"0000000000000000000000290000001600000000000000000000000000000004",
+            INIT_25 => X"0000001500000016000000110000000000000000000000000000000000000000",
+            INIT_26 => X"0000000100000039000000000000000c0000002600000017000000110000000f",
+            INIT_27 => X"0000000a0000000e000000120000001600000018000000050000000800000000",
+            INIT_28 => X"0000000000000000000000000000002700000000000000000000000300000007",
+            INIT_29 => X"000000000000000000000000000000020000000d0000000d0000002800000026",
+            INIT_2A => X"0000000000000000000000000000000000000003000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000004800000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000006000000000000000000000000",
+            INIT_2F => X"000000000000001f0000003b0000000000000000000000000000000000000000",
+            INIT_30 => X"000000000000000000000000000000000000000300000000000000000000005d",
+            INIT_31 => X"0000000000000000000000000000002d00000074000000600000004f00000000",
+            INIT_32 => X"0000001a00000000000000000000000000000000000000090000000e00000031",
+            INIT_33 => X"000000000000006e000000000000000000000000000000000000000000000000",
+            INIT_34 => X"00000018000000390000000c0000003d00000000000000000000000000000000",
+            INIT_35 => X"00000000000000000000003e0000002d00000000000000100000000000000000",
+            INIT_36 => X"00000000000000000000002a0000000500000039000000000000000000000000",
+            INIT_37 => X"0000004200000000000000000000000000000000000000810000000000000000",
+            INIT_38 => X"000000000000000000000000000000060000001e000000020000007700000000",
+            INIT_39 => X"000000140000007a0000004c000000290000000000000075000000590000007a",
+            INIT_3A => X"0000005d00000000000000000000000000000000000000250000000000000000",
+            INIT_3B => X"00000000000000090000000000000061000000000000002b0000000100000000",
+            INIT_3C => X"000000000000003b000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000003900000002000000000000000500000040000000180000002500000000",
+            INIT_3E => X"000000190000000000000048000000a50000009d000000930000006900000038",
+            INIT_3F => X"0000000000000000000000000000000000000000000000070000003f00000021",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE46;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE47 : if BRAM_NAME = "sample_gold_layer0_instance47" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000b000000200000001e0000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000017000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000180000000000000000",
+            INIT_0D => X"0000004600000069000000230000001d0000001c0000000d0000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000130000000b00000000",
+            INIT_0F => X"000000000000001f0000003b0000001100000012000000020000001100000000",
+            INIT_10 => X"000000010000001d0000000000000000000000000000000d0000001b00000000",
+            INIT_11 => X"0000000e00000000000000020000001a0000001c0000003c000000460000002e",
+            INIT_12 => X"000000350000000000000030000000000000000d00000000000000140000001d",
+            INIT_13 => X"0000001800000014000000000000002700000016000000280000003700000076",
+            INIT_14 => X"00000078000000360000000d00000014000000000000002c000000040000000a",
+            INIT_15 => X"000000000000001100000016000000810000005500000005000000060000002e",
+            INIT_16 => X"00000022000000690000004b00000025000000000000001f0000002800000000",
+            INIT_17 => X"00000000000000080000000000000035000000690000000b0000002400000000",
+            INIT_18 => X"000000000000002b000000530000002600000042000000000000003100000026",
+            INIT_19 => X"0000002000000000000000150000000000000052000000260000000000000031",
+            INIT_1A => X"0000004600000000000000490000004f0000005100000054000000250000002d",
+            INIT_1B => X"0000001c0000000b000000000000001900000012000000310000000600000010",
+            INIT_1C => X"000000170000003900000013000000180000001a0000001c0000001d00000010",
+            INIT_1D => X"0000000b00000019000000130000002b0000001a000000150000001400000002",
+            INIT_1E => X"00000005000000000000000000000008000000000000000c0000000200000000",
+            INIT_1F => X"0000000000000000000000000000000200000006000000080000001400000000",
+            INIT_20 => X"0000000000000000000000140000000700000005000000000000000700000000",
+            INIT_21 => X"000000040000000300000000000000000000000000000004000000070000003d",
+            INIT_22 => X"000000340000000900000000000000300000000f0000000c0000000900000007",
+            INIT_23 => X"0000000e0000000a0000000a0000000300000006000000060000000400000005",
+            INIT_24 => X"000000000000000a000000190000002000000000000000150000001200000011",
+            INIT_25 => X"0000000e0000001c000000170000000c0000000300000004000000060000000b",
+            INIT_26 => X"0000000900000008000000040000000d0000002b00000000000000040000001a",
+            INIT_27 => X"0000002c000000330000004c0000002a00000012000000040000000400000004",
+            INIT_28 => X"0000000200000005000000050000000800000025000000000000003c00000000",
+            INIT_29 => X"000000600000000000000000000000000000000e000000340000000b00000000",
+            INIT_2A => X"000000160000000000000003000000070000001c00000000000000000000006c",
+            INIT_2B => X"0000001f0000009c0000005f0000002e00000000000000250000000000000019",
+            INIT_2C => X"00000009000000030000000e00000001000000510000001b0000000000000000",
+            INIT_2D => X"0000000000000000000000060000002200000095000000410000001f00000000",
+            INIT_2E => X"000000000000002300000000000000800000000c000000430000005100000022",
+            INIT_2F => X"00000039000000000000000b0000000000000010000000370000008600000036",
+            INIT_30 => X"000000470000000000000007000000000000000e000000450000000000000015",
+            INIT_31 => X"0000000000000000000000610000002b00000000000000000000002000000093",
+            INIT_32 => X"0000007c000000600000002800000000000000250000000e0000001a00000000",
+            INIT_33 => X"00000002000000000000002000000067000000000000001e0000000000000017",
+            INIT_34 => X"000000090000006a0000003a0000005a00000000000000320000001e00000012",
+            INIT_35 => X"000000160000002200000000000000530000001c000000000000003900000000",
+            INIT_36 => X"0000000000000000000000000000000800000030000000000000001e00000022",
+            INIT_37 => X"000000030000001300000022000000000000002100000000000000000000004d",
+            INIT_38 => X"0000003d0000001000000012000000180000001c000000190000001200000009",
+            INIT_39 => X"000000000000000000000000000000270000001c0000001a0000000000000004",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000001500000000",
+            INIT_3E => X"0000001100000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000011",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE47;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE48 : if BRAM_NAME = "sample_gold_layer0_instance48" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"000000000000000000000000000000270000002b0000002b0000001900000000",
+            INIT_03 => X"000000000000003b000000150000000000000000000000000000000000000000",
+            INIT_04 => X"00000000000000000000000000000000000000020000002a0000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"000000000000000000000000000000000000000f000000020000000000000000",
+            INIT_07 => X"0000006e000000d10000006d0000000000000000000000000000000000000000",
+            INIT_08 => X"000000000000000000000000000000510000000c000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000f0000000d000000000000000000000000",
+            INIT_0A => X"0000000000000000000000450000000000000010000000680000003100000000",
+            INIT_0B => X"0000001800000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"000000000000000000000000000000000000000000000000000000000000002a",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000001f00000030",
+            INIT_0E => X"000000040000001f000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000600000000000000000000000000000000",
+            INIT_10 => X"000000000000004e000000500000001100000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000019000000110000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000f000000120000001e0000002400000025000000380000001d00000000",
+            INIT_15 => X"0000008400000080000000130000000f0000000f000000000000000000000000",
+            INIT_16 => X"0000003c0000005a000000640000006d00000074000000850000008900000089",
+            INIT_17 => X"00000076000000760000007b0000001f000000000000000e0000002800000038",
+            INIT_18 => X"0000002d00000036000000430000004b0000005200000055000000610000006c",
+            INIT_19 => X"000000490000004900000050000000560000002c000000000000000000000021",
+            INIT_1A => X"0000000000000024000000370000003c0000003f000000420000004100000043",
+            INIT_1B => X"0000003f0000003c0000003d0000003900000033000000360000001c00000000",
+            INIT_1C => X"00000018000000000000000c0000003a00000040000000440000004200000042",
+            INIT_1D => X"000000410000003e0000003f0000003f0000003d000000360000002e00000032",
+            INIT_1E => X"0000002b000000270000000000000000000000380000002e000000380000003f",
+            INIT_1F => X"0000002400000020000000330000003e0000003f0000003f0000003c0000002c",
+            INIT_20 => X"000000250000002600000000000000190000000d0000000d0000003800000035",
+            INIT_21 => X"000000000000000000000019000000280000002e000000400000004000000040",
+            INIT_22 => X"0000003f00000008000000000000000000000024000000150000000000000000",
+            INIT_23 => X"000000000000000000000000000000000000000c00000028000000210000003f",
+            INIT_24 => X"000000280000003f0000000000000000000000000000002a000000200000001a",
+            INIT_25 => X"0000001b0000002e0000001d0000000000000000000000000000000000000012",
+            INIT_26 => X"0000001c00000025000000240000001400000000000000000000000000000035",
+            INIT_27 => X"00000000000000210000000a0000001500000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000110000001c000000170000000f0000001a00000015",
+            INIT_29 => X"000000000000000000000000000000300000000a000000000000000000000000",
+            INIT_2A => X"000000000000000000000000000000000000001a00000000000000090000000c",
+            INIT_2B => X"0000000000000000000000000000000000000022000000100000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000040000000000000005",
+            INIT_2D => X"0000000000000000000000000000000000000000000000100000000300000002",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000500000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000004",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000004000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000029000000000000000300000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000190000002700000000",
+            INIT_36 => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"000000000000000000000000000000000000000600000000000000160000001b",
+            INIT_38 => X"000000000000003e000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000b000000140000002f0000002400000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000001",
+            INIT_3C => X"0000000f000000000000008a00000000000000000000000b0000001200000000",
+            INIT_3D => X"0000000a00000005000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000300000000000000440000006000000000000000000000000000000017",
+            INIT_3F => X"0000000000000019000000000000001f0000000e000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE48;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE49 : if BRAM_NAME = "sample_gold_layer0_instance49" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000020000001d0000005d000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000200000033000000000000002500000000",
+            INIT_02 => X"00000000000000000000000000000000000000000000003f0000001a00000000",
+            INIT_03 => X"0000002200000000000000000000000000000000000000320000000000000078",
+            INIT_04 => X"0000001e00000000000000000000001f00000008000000100000000100000000",
+            INIT_05 => X"0000000900000013000000400000000000000000000000000000001900000028",
+            INIT_06 => X"0000004200000000000000000000000000000039000000190000000800000000",
+            INIT_07 => X"0000000000000020000000040000007800000000000000000000000000000003",
+            INIT_08 => X"000000000000002c000000000000000000000000000000030000005900000000",
+            INIT_09 => X"000000000000001e00000030000000000000006d000000000000000000000000",
+            INIT_0A => X"00000000000000000000000c0000000d00000000000000000000000a0000003c",
+            INIT_0B => X"00000010000000140000003100000012000000000000000b0000000000000000",
+            INIT_0C => X"000000200000001c0000001e0000002c00000011000000130000000000000012",
+            INIT_0D => X"000000130000001c0000001d000000210000001200000003000000200000001e",
+            INIT_0E => X"0000000000000000000000030000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"000000000000000b000000100000000100000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000008000000250000001c00000017000000140000000000000000",
+            INIT_13 => X"0000000600000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"000000000000001100000015000000140000001d000000210000001f00000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000006",
+            INIT_16 => X"000000170000001c0000001e0000002000000014000000040000000500000007",
+            INIT_17 => X"0000000c00000000000000070000000000000000000000000000000000000000",
+            INIT_18 => X"00000002000000210000001f0000001b0000001b000000220000001300000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"000000000000000d000000180000001f00000015000000140000001f00000011",
+            INIT_1B => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"000000000000000a0000001d0000001c00000021000000130000000a0000000a",
+            INIT_1D => X"0000000500000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"00000000000000000000000000000019000000220000001c0000001b00000014",
+            INIT_1F => X"0000001300000018000000000000000c00000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000001600000019000000220000001600000016",
+            INIT_21 => X"000000110000000b00000010000000140000002c000000070000002b00000011",
+            INIT_22 => X"0000000000000013000000000000000000000004000000180000002900000016",
+            INIT_23 => X"00000009000000200000001700000000000000100000001c0000000c00000000",
+            INIT_24 => X"0000000000000000000000000000000000000001000000000000001100000014",
+            INIT_25 => X"0000001300000000000000070000000300000018000000000000000000000000",
+            INIT_26 => X"0000000800000000000000000000000000000000000000000000000000000016",
+            INIT_27 => X"000000170000001c000000120000000000000001000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000a00000000000000000000000000000005",
+            INIT_29 => X"000000000000000e000000000000000000000000000000000000000600000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000050000000000000000",
+            INIT_3E => X"000000200000000c000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE49;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE50 : if BRAM_NAME = "sample_gold_layer0_instance50" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000020000000800000000000000020000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000003000000000000000100000000",
+            INIT_09 => X"0000000500000008000000050000000200000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000100000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000001a00000015000000000000000000000001000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000012000000150000000000000003000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"00000000000000080000000d0000000e00000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"00000000000000000000000e000000140000000e000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000008",
+            INIT_15 => X"00000000000000000000001a000000210000001c000000120000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"000000000000000000000000000000000000001d000000330000003800000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000001f0000002c",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000002000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000500000003",
+            INIT_1E => X"0000000000000003000000010000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"000000150000002600000011000000220000001f000000000000000000000000",
+            INIT_23 => X"000000170000001e0000001c0000001d0000001f0000001b0000001e0000000c",
+            INIT_24 => X"00000000000000160000000e00000018000000250000001f000000100000000a",
+            INIT_25 => X"0000000d0000000800000008000000090000001100000011000000090000000e",
+            INIT_26 => X"000000000000000000000005000000050000002f0000001f0000001d00000018",
+            INIT_27 => X"00000025000000270000001d0000001a000000170000000d0000000000000000",
+            INIT_28 => X"00000000000000000000000000000000000000000000002b0000001000000016",
+            INIT_29 => X"000000000000001500000020000000150000001d000000080000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000240000006600000008",
+            INIT_2B => X"0000002e00000021000000110000001400000005000000000000000000000000",
+            INIT_2C => X"000000000000000000000001000000020000000000000000000000230000007b",
+            INIT_2D => X"0000003a000000320000002f0000002000000013000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000010000000000000000000000060",
+            INIT_2F => X"000000310000003b0000001d0000001d0000002f0000000d0000000000000000",
+            INIT_30 => X"00000000000000000000000d00000000000000000000000d0000000000000053",
+            INIT_31 => X"0000003c0000003e0000001e0000000800000015000000110000000000000000",
+            INIT_32 => X"0000000000000000000000000000000400000000000000080000000d00000052",
+            INIT_33 => X"000000690000001f000000a300000065000000380000001b0000002900000004",
+            INIT_34 => X"0000001600000000000000000000000000000000000000000000001700000000",
+            INIT_35 => X"000000000000001d0000001400000033000000970000007b000000510000000d",
+            INIT_36 => X"0000001800000005000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000001900000000000000000000002d0000003800000051000000610000007d",
+            INIT_38 => X"000000340000002c000000000000000300000005000000000000000000000000",
+            INIT_39 => X"00000000000000160000000000000018000000330000001c0000002100000029",
+            INIT_3A => X"00000015000000140000000400000000000000120000000c0000000a00000000",
+            INIT_3B => X"000000000000000000000004000000000000000e0000000a0000002700000025",
+            INIT_3C => X"0000000b0000001e0000002700000000000000030000000c0000000100000000",
+            INIT_3D => X"0000000000000000000000000000000f0000001100000002000000000000000b",
+            INIT_3E => X"0000000000000000000000000000000000000007000000000000000b00000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000040000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE50;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE51 : if BRAM_NAME = "sample_gold_layer0_instance51" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000002000000000000000000000000000000000000000d0000000300000000",
+            INIT_01 => X"000000350000002a000000150000000300000000000000030000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000002a00000036",
+            INIT_03 => X"0000000000000005000000180000002100000032000000180000000000000000",
+            INIT_04 => X"0000000f00000005000000000000001b0000001b000000030000000000000000",
+            INIT_05 => X"0000000b00000007000000000000000000000000000000000000000000000008",
+            INIT_06 => X"00000014000000270000000700000005000000070000004f000000640000004e",
+            INIT_07 => X"0000001b000000210000001b0000000600000000000000000000000000000004",
+            INIT_08 => X"000000070000000000000000000000250000001a000000120000000000000003",
+            INIT_09 => X"0000000000000000000000050000000200000000000000000000000500000008",
+            INIT_0A => X"000000100000000d000000000000000000000000000000000000003b00000000",
+            INIT_0B => X"0000000f00000011000000000000000000000000000000000000000000000005",
+            INIT_0C => X"000000050000000b0000000d0000000f0000001f000000480000005400000000",
+            INIT_0D => X"0000006b0000005e00000025000000140000000b000000000000000000000004",
+            INIT_0E => X"0000000b0000000f00000000000000000000001b000000150000003f00000031",
+            INIT_0F => X"000000000000000000000000000000580000007b000000000000000000000000",
+            INIT_10 => X"00000000000000080000000b0000000000000005000000050000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000e00000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000300000000000000000000000000000000000000000000000000000015",
+            INIT_14 => X"0000001000000000000000000000000b0000001200000000000000000000000d",
+            INIT_15 => X"0000000000000000000000230000001300000001000000000000000000000000",
+            INIT_16 => X"00000000000000000000000100000008000000000000001d0000000a00000013",
+            INIT_17 => X"00000000000000000000000f0000000400000000000000000000000000000005",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000200000000000000000000000000000000",
+            INIT_1A => X"0000000a0000000c000000080000000000000000000000000000000000000000",
+            INIT_1B => X"0000000f00000012000000100000001100000025000000250000001b00000010",
+            INIT_1C => X"00000011000000110000000c000000080000000e0000000b0000000d0000000e",
+            INIT_1D => X"0000001b0000001b000000130000001f0000003300000033000000350000002d",
+            INIT_1E => X"00000033000000150000001e0000000a0000000a0000001d0000001a0000001a",
+            INIT_1F => X"0000002a0000002b000000250000002100000032000000510000004c00000041",
+            INIT_20 => X"00000042000000330000002d0000001b0000000c0000000d0000002900000027",
+            INIT_21 => X"00000029000000290000003a0000002d0000003b0000005f0000005e0000004f",
+            INIT_22 => X"0000003f00000028000000390000002e000000370000000e0000000b00000030",
+            INIT_23 => X"00000047000000430000003900000047000000520000005f000000620000005a",
+            INIT_24 => X"0000004b000000420000002e0000002a00000032000000270000001b00000017",
+            INIT_25 => X"000000160000004e000000510000004f0000004e000000670000006100000052",
+            INIT_26 => X"00000044000000470000004300000028000000380000003d0000001500000018",
+            INIT_27 => X"00000019000000130000003c0000004400000056000000510000005d00000050",
+            INIT_28 => X"00000045000000400000004f0000004c00000030000000370000001d0000002c",
+            INIT_29 => X"0000001b00000015000000180000003600000039000000470000005900000055",
+            INIT_2A => X"0000004c0000003d0000003d000000580000003a000000550000003300000049",
+            INIT_2B => X"000000370000002d000000210000001900000052000000490000004100000055",
+            INIT_2C => X"00000053000000460000003a0000003e0000005700000038000000480000002e",
+            INIT_2D => X"0000003e00000034000000440000002d0000001a000000500000005300000049",
+            INIT_2E => X"00000052000000510000004b000000450000004400000042000000480000003f",
+            INIT_2F => X"0000003b0000003c0000002000000022000000150000001e0000005a0000004c",
+            INIT_30 => X"0000004f000000600000004c0000003d0000003b00000037000000400000002e",
+            INIT_31 => X"0000003800000034000000290000002500000017000000140000001a0000005d",
+            INIT_32 => X"0000004f000000620000006000000045000000340000002a0000002f00000039",
+            INIT_33 => X"000000490000003c000000400000003f0000004000000035000000260000001c",
+            INIT_34 => X"000000350000005a000000600000005b0000003b0000002b0000003e00000043",
+            INIT_35 => X"0000005b0000005a00000051000000490000004f00000053000000470000003e",
+            INIT_36 => X"00000000000000000000005f00000063000000580000004e0000004800000051",
+            INIT_37 => X"000000000000000000000000000000000000000000000000000000000000000a",
+            INIT_38 => X"000000050000000000000000000000050000000b000000010000000000000000",
+            INIT_39 => X"0000000600000003000000000000000000000000000000020000000000000005",
+            INIT_3A => X"00000009000000000000000000000000000000090000000f0000000d0000000a",
+            INIT_3B => X"0000000600000005000000030000000a00000000000000000000000000000000",
+            INIT_3C => X"000000000000000f000000000000000000000000000000060000000700000008",
+            INIT_3D => X"0000000d00000000000000000000000800000000000000060000000000000000",
+            INIT_3E => X"0000000a0000000000000000000000000000000e000000100000000c00000006",
+            INIT_3F => X"0000001300000011000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE51;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE52 : if BRAM_NAME = "sample_gold_layer0_instance52" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000015000000000000000000000000000000000000000600000015",
+            INIT_01 => X"00000012000000190000001a0000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000100000001800000000000000000000000000000000",
+            INIT_03 => X"0000000100000003000000180000000000000005000000000000000000000000",
+            INIT_04 => X"0000000000000002000000000000002400000000000000000000000000000007",
+            INIT_05 => X"0000000f00000007000000100000000900000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000900000000000000000000000000000000",
+            INIT_07 => X"0000000000000008000000140000000600000005000000000000000000000000",
+            INIT_08 => X"000000000000000000000000000000000000000f000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000022000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000002000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000170000000e00000000",
+            INIT_0C => X"0000000000000000000000000000000000000007000000000000000a00000000",
+            INIT_0D => X"000000000000000000000009000000000000000000000000000000000000002c",
+            INIT_0E => X"0000002300000000000000000000000000000009000000000000000000000007",
+            INIT_0F => X"0000000f000000130000001400000001000000010000000c0000000800000020",
+            INIT_10 => X"0000002a0000001c000000000000000000000000000000060000000100000004",
+            INIT_11 => X"000000120000000e00000022000000340000001a000000160000000900000003",
+            INIT_12 => X"00000000000000270000002600000009000000120000001a000000170000001e",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000040000000400000003000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"000000000000000000000000000000000000000c000000010000000000000000",
+            INIT_19 => X"0000000000000000000000030000000500000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000080000000000000003",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000700000007",
+            INIT_1D => X"0000001200000006000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000010",
+            INIT_1F => X"0000001300000013000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000006000000080000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"00000000000000000000002b0000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000003300000016000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000100000000000000010000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000026000000100000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000200000001d0000000c",
+            INIT_2A => X"0000000300000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"000000130000002b0000001d0000000000000000000000000000002200000024",
+            INIT_2C => X"0000002e00000001000000000000000000000000000000080000000300000006",
+            INIT_2D => X"000000110000001d0000002c0000002b0000002e000000270000000a0000002e",
+            INIT_2E => X"0000003b00000036000000280000001e0000001a000000210000002f00000029",
+            INIT_2F => X"000000000000000000000000000000000000000a000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000030000000a00000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000700000012",
+            INIT_34 => X"0000000000000000000000000000000d0000000e000000050000000000000000",
+            INIT_35 => X"0000000000000008000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000090000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000001e000000030000000000000000000000090000000d0000000c00000008",
+            INIT_3B => X"0000001800000002000000000000000000000000000000000000000000000006",
+            INIT_3C => X"0000000000000000000000000000001d0000000000000000000000000000001c",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000027000000080000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE52;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE53 : if BRAM_NAME = "sample_gold_layer0_instance53" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000000000000000000000210000001a000000350000003d00000000",
+            INIT_01 => X"0000001e000000030000000e0000000200000000000000000000000000000000",
+            INIT_02 => X"00000000000000000000001a000000060000002500000018000000130000001b",
+            INIT_03 => X"00000021000000430000006a0000000200000000000000000000000000000000",
+            INIT_04 => X"000000000000000000000000000000000000000000000000000000000000000f",
+            INIT_05 => X"0000000000000000000000130000001d000000000000000f0000000000000000",
+            INIT_06 => X"00000000000000000000000000000000000000000000000b0000000000000012",
+            INIT_07 => X"0000001300000025000000170000000000000000000000120000000300000000",
+            INIT_08 => X"0000000500000000000000190000000800000002000000020000000000000001",
+            INIT_09 => X"0000000b0000000a0000000a0000000f00000022000000200000001100000013",
+            INIT_0A => X"0000001100000012000000140000000300000001000000070000000e00000003",
+            INIT_0B => X"0000003c00000042000000400000004900000046000000440000004a00000015",
+            INIT_0C => X"00000002000000080000000f00000019000000240000002a0000002f0000003b",
+            INIT_0D => X"0000002a00000038000000350000003100000030000000400000004200000048",
+            INIT_0E => X"000000430000001400000012000000110000001300000019000000220000002a",
+            INIT_0F => X"000000280000001c0000001700000016000000210000001f0000003300000042",
+            INIT_10 => X"0000003a00000039000000250000003100000031000000340000003500000033",
+            INIT_11 => X"0000004200000019000000110000000c00000011000000120000000000000022",
+            INIT_12 => X"0000005900000055000000450000001600000024000000320000003b00000043",
+            INIT_13 => X"0000002a0000001700000016000000160000002d0000002c0000000d00000006",
+            INIT_14 => X"0000000b000000880000008f000000810000001900000020000000330000003a",
+            INIT_15 => X"0000002b0000001100000011000000220000002d0000003c0000002700000013",
+            INIT_16 => X"0000001c00000022000000860000008b0000008f0000002c0000003000000035",
+            INIT_17 => X"000000340000001c000000180000002400000032000000280000003800000038",
+            INIT_18 => X"0000000e000000270000007300000081000000800000007e000000340000003c",
+            INIT_19 => X"0000002b00000031000000160000001d0000003b000000410000001f00000020",
+            INIT_1A => X"000000480000005000000087000000650000009b000000910000008300000023",
+            INIT_1B => X"000000170000002a000000290000001d0000002900000044000000430000001d",
+            INIT_1C => X"0000002f000000490000008500000093000000c6000000e0000000ce000000b3",
+            INIT_1D => X"000001010000000000000016000000230000002300000036000000440000003c",
+            INIT_1E => X"0000003700000034000000420000005b000000620000008900000094000000fb",
+            INIT_1F => X"000000cb000000e800000000000000140000001a000000240000003300000040",
+            INIT_20 => X"00000033000000230000000c0000003300000019000000220000005600000082",
+            INIT_21 => X"0000005c00000065000000750000000600000017000000110000002d00000037",
+            INIT_22 => X"0000004f000000380000001b0000002e00000023000000100000003b0000004d",
+            INIT_23 => X"0000002f0000003d0000003e000000450000001a000000040000001e0000003f",
+            INIT_24 => X"000000370000004b000000220000000c00000019000000070000001e0000001c",
+            INIT_25 => X"00000000000000000000000c0000001e0000002e000000010000000200000026",
+            INIT_26 => X"000000030000000d000000000000000000000000000000020000001000000013",
+            INIT_27 => X"0000000000000003000000070000000000000002000000000000000000000000",
+            INIT_28 => X"0000000000000000000000040000000400000001000000000000000000000005",
+            INIT_29 => X"000000000000000c000000000000000900000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000009000000000000000400000000000000220000000000000004",
+            INIT_2C => X"000000000000000c000000070000000000000000000000000000000000000000",
+            INIT_2D => X"0000000c000000000000000000000000000000000000000d0000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000060000000000000001",
+            INIT_2F => X"0000000100000000000000000000000000000000000000010000000900000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000400000000000000000000000000000011000000000000000000000015",
+            INIT_32 => X"0000000000000000000000070000000a00000000000000000000000000000000",
+            INIT_33 => X"0000000000000001000000000000000000000000000000020000000b00000019",
+            INIT_34 => X"00000000000000000000000000000000000000000000001d0000000800000005",
+            INIT_35 => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000001",
+            INIT_37 => X"0000000b00000000000000000000000000000000000000000000000500000000",
+            INIT_38 => X"000000000000000300000018000000040000002d000000000000000000000025",
+            INIT_39 => X"0000000000000013000000050000000000000000000000000000000000000002",
+            INIT_3A => X"000000120000001a0000002c0000002e000000460000007b0000001b00000000",
+            INIT_3B => X"0000007300000002000000000000000000000000000000090000000200000000",
+            INIT_3C => X"0000000a0000001a000000000000000f0000002500000000000000020000005e",
+            INIT_3D => X"000000190000001f00000000000000000000000a000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000b00000000000000000000000000000005",
+            INIT_3F => X"0000001600000000000000000000000000000007000000000000000200000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE53;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE54 : if BRAM_NAME = "sample_gold_layer0_instance54" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000150000002300000009000000080000000000000000000000110000002a",
+            INIT_01 => X"0000000000000009000000250000001e0000000a000000070000001000000003",
+            INIT_02 => X"000000140000000d000000000000000100000004000000010000000000000000",
+            INIT_03 => X"000000060000000e000000160000000d00000010000000070000000300000007",
+            INIT_04 => X"0000000d0000000b0000000c00000009000000090000000d0000000300000000",
+            INIT_05 => X"00000000000000000000000a000000120000000b000000100000000a00000011",
+            INIT_06 => X"0000000000000000000000010000000300000007000000090000000000000000",
+            INIT_07 => X"0000000000000000000000000000000d000000040000000e0000001200000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000003000000000000000f0000000e",
+            INIT_0A => X"0000000900000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_0C => X"0000000800000009000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000005000000000000000000000000",
+            INIT_0E => X"000000000000000a0000000e0000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000300000000",
+            INIT_10 => X"0000000000000000000000090000000d00000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000200000000",
+            INIT_12 => X"0000000000000000000000000000000a00000008000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000900000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000f0000000e",
+            INIT_19 => X"0000000e00000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000020000000b00000010",
+            INIT_1B => X"0000000200000007000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000001700000025000000180000001c00000000000000000000000000000000",
+            INIT_20 => X"00000010000000140000001a00000016000000190000001a0000002700000028",
+            INIT_21 => X"0000002d0000001300000026000000170000001b000000130000001b00000014",
+            INIT_22 => X"00000024000000200000001c0000001b00000017000000290000002b0000003d",
+            INIT_23 => X"0000003d0000002a0000002b0000000f0000001a0000001c0000001c00000026",
+            INIT_24 => X"00000012000000180000002300000026000000330000003a0000003f00000040",
+            INIT_25 => X"00000044000000420000003a0000002b00000003000000210000001e0000000b",
+            INIT_26 => X"0000001600000011000000150000001600000032000000360000004000000047",
+            INIT_27 => X"0000003200000047000000580000003f00000000000000150000003e00000036",
+            INIT_28 => X"0000002e0000001e000000190000002700000032000000480000004400000043",
+            INIT_29 => X"0000004400000031000000330000006400000033000000000000000000000021",
+            INIT_2A => X"0000001200000019000000110000001b0000003500000046000000420000003d",
+            INIT_2B => X"00000035000000480000003f0000002a00000047000000340000000000000008",
+            INIT_2C => X"0000001e00000026000000240000000200000023000000330000005100000037",
+            INIT_2D => X"00000034000000300000004d000000470000002b000000450000000000000004",
+            INIT_2E => X"0000001600000023000000300000002e00000015000000240000003b00000045",
+            INIT_2F => X"0000003a0000003900000033000000490000002a000000330000001300000028",
+            INIT_30 => X"00000026000000000000000e0000003e00000043000000050000002a00000048",
+            INIT_31 => X"0000003f000000320000003d0000003f00000049000000190000003c00000000",
+            INIT_32 => X"000000180000002a000000030000000000000001000000180000000d0000000b",
+            INIT_33 => X"00000022000000310000002e000000300000003e000000440000002400000037",
+            INIT_34 => X"00000047000000350000000a0000000c0000000000000000000000000000000a",
+            INIT_35 => X"00000001000000330000001a0000002f00000041000000410000003f00000015",
+            INIT_36 => X"0000001d0000003e000000270000000b0000001d000000100000001200000005",
+            INIT_37 => X"000000180000001e000000280000001d00000030000000400000005800000046",
+            INIT_38 => X"0000002d00000026000000240000001e0000000c000000090000001d00000026",
+            INIT_39 => X"00000008000000130000002600000016000000230000002d000000320000003f",
+            INIT_3A => X"00000021000000170000000e0000001f0000002900000026000000110000000d",
+            INIT_3B => X"000000000000000000000000000000160000001c00000011000000220000002c",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"000000000000000000000000000000000000000a000000000000000000000000",
+            INIT_3E => X"0000001900000009000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000110000001d00000023",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE54;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE55 : if BRAM_NAME = "sample_gold_layer0_instance55" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000d00000004000000000000000000000000",
+            INIT_01 => X"0000000000000000000000010000000a00000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000004",
+            INIT_03 => X"000000080000000000000000000000000000000a000000340000002d00000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"00000000000000000000000c0000000900000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"000000000000000000000000000000000000002d0000001b0000000000000000",
+            INIT_0A => X"0000002300000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000012",
+            INIT_0C => X"0000000000000000000000000000002400000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000001",
+            INIT_12 => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000005000000000000000000000008000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000002200000000000000000000000000000000",
+            INIT_20 => X"0000000800000004000000010000000000000001000000040000000200000002",
+            INIT_21 => X"000000000000000000000000000000000000001800000011000000100000000b",
+            INIT_22 => X"0000001200000016000000060000000000000007000000040000000100000000",
+            INIT_23 => X"0000000000000000000000000000000000000009000000060000000900000009",
+            INIT_24 => X"00000002000000050000000a0000000c00000000000000030000000000000000",
+            INIT_25 => X"00000001000000000000000b0000000000000018000000000000001700000008",
+            INIT_26 => X"000000100000000d000000000000000000000000000000000000000000000001",
+            INIT_27 => X"00000000000000000000000b0000000700000029000000230000002200000017",
+            INIT_28 => X"000000360000003c000000260000000d00000003000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000800000002000000240000001400000030",
+            INIT_2A => X"000000000000001b0000003b0000003400000000000000040000000000000000",
+            INIT_2B => X"0000000000000002000000000000000000000000000000000000000000000000",
+            INIT_2C => X"00000000000000060000000000000009000000240000000a0000000600000000",
+            INIT_2D => X"0000000600000007000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000500000000000000000000000000000000000000000000001200000007",
+            INIT_2F => X"0000000d0000000c000000000000000400000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000400000005000000000000000000000007",
+            INIT_31 => X"0000000c0000000a0000000a0000000000000000000000000000000000000000",
+            INIT_32 => X"0000000900000008000000090000000000000000000000000000000000000002",
+            INIT_33 => X"000000180000000b000000080000000600000001000000000000000000000006",
+            INIT_34 => X"0000001f000000180000002a000000210000001c000000140000000c0000001c",
+            INIT_35 => X"0000001d000000190000001c000000160000001e000000200000001e0000001f",
+            INIT_36 => X"000000190000002200000036000000310000002e0000002f0000001800000015",
+            INIT_37 => X"00000029000000190000001a0000001c000000180000001a0000001a0000001d",
+            INIT_38 => X"0000001d0000001c000000200000003e00000046000000410000003900000013",
+            INIT_39 => X"0000003200000026000000170000001a0000001900000018000000190000001c",
+            INIT_3A => X"0000002b0000001e000000200000004200000045000000440000004600000041",
+            INIT_3B => X"0000004700000040000000450000000d0000000a00000017000000170000000e",
+            INIT_3C => X"00000014000000310000003a0000004a0000004d000000580000004100000025",
+            INIT_3D => X"0000002900000034000000410000003600000009000000070000001600000012",
+            INIT_3E => X"0000000c000000180000003c0000005400000051000000460000004d0000004d",
+            INIT_3F => X"000000450000001d000000280000004a0000000b000000060000000600000015",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE55;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE56 : if BRAM_NAME = "sample_gold_layer0_instance56" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001c0000000e0000003300000041000000550000004d0000003c00000044",
+            INIT_01 => X"0000003b00000044000000200000004a00000008000000170000000200000006",
+            INIT_02 => X"000000030000001300000023000000390000005300000057000000500000003c",
+            INIT_03 => X"0000003f00000051000000120000004000000019000000410000000000000000",
+            INIT_04 => X"00000000000000000000001f000000320000003f0000005c0000005200000049",
+            INIT_05 => X"00000044000000430000004e0000001f000000390000001d0000002b0000000e",
+            INIT_06 => X"0000004c00000009000000000000000d000000360000004b000000600000004b",
+            INIT_07 => X"00000045000000430000003f0000002e00000039000000370000002e00000023",
+            INIT_08 => X"000000290000000b000000040000000f00000025000000190000004500000053",
+            INIT_09 => X"0000004d00000038000000350000002e00000049000000230000004200000053",
+            INIT_0A => X"000000220000000f0000000a0000000f0000000d00000026000000090000003f",
+            INIT_0B => X"000000400000004b000000400000002c0000003b000000360000002900000038",
+            INIT_0C => X"0000000e0000000a0000001d00000020000000120000000f000000080000001d",
+            INIT_0D => X"0000001c00000045000000410000002600000030000000340000003000000028",
+            INIT_0E => X"000000220000000d00000008000000170000000f000000160000001e00000010",
+            INIT_0F => X"0000001200000015000000230000002200000023000000200000001d0000001f",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000008",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000010000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000040000000200000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000400000001",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000020000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE56;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE57 : if BRAM_NAME = "sample_gold_layer0_instance57" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000200000007000000030000000900000026000000000000000000000000",
+            INIT_09 => X"000000060000000a000000130000002300000000000000000000000600000000",
+            INIT_0A => X"0000000b0000001200000019000000100000000d000000170000000200000003",
+            INIT_0B => X"0000000a0000000c0000000c0000000f00000039000000000000000e0000000b",
+            INIT_0C => X"000000110000000a000000060000002f0000001c000000170000000700000002",
+            INIT_0D => X"000000070000000f000000140000001100000012000000250000000c00000000",
+            INIT_0E => X"000000140000000a000000150000001700000028000000010000002d00000027",
+            INIT_0F => X"00000018000000010000000f0000000c0000002200000029000000140000002e",
+            INIT_10 => X"000000230000001500000000000000150000002100000030000000000000000d",
+            INIT_11 => X"000000020000000e000000070000000b0000000000000017000000210000001b",
+            INIT_12 => X"0000001b000000280000001d0000000e000000090000001d0000002400000004",
+            INIT_13 => X"0000000e00000000000000090000000200000000000000000000001000000023",
+            INIT_14 => X"00000021000000230000001a000000160000001f000000140000002400000014",
+            INIT_15 => X"000000190000002a000000000000000a00000000000000000000000800000015",
+            INIT_16 => X"00000009000000100000000d0000001c0000000e000000200000001800000016",
+            INIT_17 => X"000000220000001b00000030000000180000000a000000000000000800000009",
+            INIT_18 => X"000000000000001b000000000000000f00000008000000210000000800000024",
+            INIT_19 => X"0000001c0000001f0000001d000000140000001a0000000d000000000000000f",
+            INIT_1A => X"0000000c0000000c000000150000000a000000010000001d0000001300000016",
+            INIT_1B => X"0000002100000021000000080000001c0000001d0000001a0000000300000005",
+            INIT_1C => X"000000070000000c00000006000000120000001500000007000000040000000d",
+            INIT_1D => X"000000130000001a0000001d0000000c0000001a0000001f0000002300000000",
+            INIT_1E => X"0000000000000001000000020000000b000000140000000e0000001800000000",
+            INIT_1F => X"00000000000000050000000f0000001b0000001c000000090000001c00000013",
+            INIT_20 => X"0000000a000000000000000000000009000000050000000d0000000a0000000f",
+            INIT_21 => X"0000000d0000000000000003000000060000000a000000270000000c0000001c",
+            INIT_22 => X"0000001e0000000800000000000000000000001000000011000000030000000a",
+            INIT_23 => X"0000000c000000080000000d0000000000000003000000000000000e00000012",
+            INIT_24 => X"0000002800000025000000060000000000000014000000080000001100000005",
+            INIT_25 => X"0000002000000019000000000000005800000037000000100000001e0000000e",
+            INIT_26 => X"000000370000002f00000003000000000000000000000011000000230000001d",
+            INIT_27 => X"000000270000002e0000002e00000000000000790000003a0000001a00000020",
+            INIT_28 => X"0000002c0000008600000016000000010000000000000000000000110000002c",
+            INIT_29 => X"0000003500000031000000350000001c000000000000000b0000003d00000017",
+            INIT_2A => X"000000420000004b00000062000000020000004b000000000000000000000035",
+            INIT_2B => X"0000004a0000001d0000006300000049000000000000003c0000000000000017",
+            INIT_2C => X"0000001b0000006a0000005e0000003c000000000000005d0000003100000001",
+            INIT_2D => X"0000002300000035000000090000006800000046000000090000001600000000",
+            INIT_2E => X"00000002000000270000003a0000006500000044000000140000003f0000003e",
+            INIT_2F => X"0000005000000022000000330000001f00000064000000440000000000000016",
+            INIT_30 => X"000000140000001b0000004f000000100000006300000018000000310000001e",
+            INIT_31 => X"000000000000007100000023000000410000003a0000004f0000003700000002",
+            INIT_32 => X"00000011000000450000001f0000001f0000004d000000480000004100000054",
+            INIT_33 => X"0000003f0000000a0000003c000000140000005a000000250000005900000014",
+            INIT_34 => X"00000000000000340000003a0000003300000000000000780000004a0000003e",
+            INIT_35 => X"000000440000002b0000003c0000003200000022000000490000000000000038",
+            INIT_36 => X"000000340000000e0000001f00000050000000130000004b0000004f00000046",
+            INIT_37 => X"00000014000000650000003700000036000000130000004f000000360000000a",
+            INIT_38 => X"0000002d000000400000002800000016000000180000005f0000005c00000032",
+            INIT_39 => X"0000003400000026000000500000005600000042000000000000005c00000032",
+            INIT_3A => X"000000390000003600000042000000280000002e00000000000000610000004d",
+            INIT_3B => X"000000500000003900000025000000100000007d0000003f0000000000000045",
+            INIT_3C => X"000000400000003f0000002c0000002700000033000000290000000b00000044",
+            INIT_3D => X"0000002100000040000000320000004600000029000000670000003000000000",
+            INIT_3E => X"0000000000000030000000360000002100000000000000390000002200000012",
+            INIT_3F => X"0000001900000000000000450000002700000052000000570000004c0000001c",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE57;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE58 : if BRAM_NAME = "sample_gold_layer0_instance58" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000010000000000000000000000000000001e00000016000000280000001f",
+            INIT_01 => X"00000029000000000000002b0000002c000000140000000d0000000000000004",
+            INIT_02 => X"0000002500000000000000000000000000000001000000140000001a0000001f",
+            INIT_03 => X"000000150000001a000000500000000700000002000000090000000000000013",
+            INIT_04 => X"0000000e0000000a000000180000000000000000000000030000000b00000010",
+            INIT_05 => X"0000001700000005000000000000003a00000000000000000000000000000000",
+            INIT_06 => X"0000004e0000001200000000000000000000008d0000007d000000970000001f",
+            INIT_07 => X"00000000000000010000001f0000000e000000000000000a0000000800000021",
+            INIT_08 => X"0000000000000001000000000000000600000000000000120000005c00000034",
+            INIT_09 => X"0000000800000000000000000000000b00000013000000000000000000000000",
+            INIT_0A => X"00000027000000000000000000000000000000120000000a0000000000000005",
+            INIT_0B => X"0000000000000000000000050000000e00000000000000000000000000000017",
+            INIT_0C => X"0000000b00000018000000090000000700000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000002200000014000000000000000100000007",
+            INIT_0E => X"0000000000000000000000000000002000000000000000000000001500000008",
+            INIT_0F => X"0000002400000012000000000000000200000000000000000000000000000000",
+            INIT_10 => X"000000120000000a000000000000000000000008000000310000003a00000008",
+            INIT_11 => X"000000000000000e000000060000001c00000008000000000000000000000000",
+            INIT_12 => X"0000002200000000000000000000001b0000004c000000180000000000000000",
+            INIT_13 => X"00000000000000180000000e0000000000000002000000000000000000000010",
+            INIT_14 => X"0000000000000009000000160000000000000000000000000000000000000000",
+            INIT_15 => X"0000001700000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000006000000000000000000000016000000000000000000000006",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000004000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000005400000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000070000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000005500000007000000060000000000000011000000030000000000000000",
+            INIT_1D => X"00000007000000580000004e00000059000000670000005d000000530000005c",
+            INIT_1E => X"0000003f000000400000000d00000008000000740000006f0000006e00000054",
+            INIT_1F => X"000000490000000f000000470000004f000000410000003d000000450000001d",
+            INIT_20 => X"0000000e0000004f000000180000000d0000000c0000006c000000660000005e",
+            INIT_21 => X"0000003f0000003200000026000000170000003e0000003e0000003800000039",
+            INIT_22 => X"0000002000000007000000550000002a00000001000000380000004600000040",
+            INIT_23 => X"0000003c0000002d0000001d0000002200000015000000280000003800000031",
+            INIT_24 => X"000000310000001d000000140000004f000000370000002c0000003a00000027",
+            INIT_25 => X"0000003a0000004d000000360000002700000018000000140000002000000039",
+            INIT_26 => X"0000002600000031000000220000001f000000450000003e000000350000003c",
+            INIT_27 => X"00000046000000470000004c00000032000000210000001d000000140000001e",
+            INIT_28 => X"000000210000000f000000340000001b00000031000000370000005b0000003e",
+            INIT_29 => X"0000003e0000004a0000003e0000003300000031000000210000001a00000014",
+            INIT_2A => X"0000002c00000014000000360000001800000020000000320000002000000066",
+            INIT_2B => X"0000003f0000003a0000004c0000002a000000410000001b000000350000002f",
+            INIT_2C => X"000000390000003b0000002d00000033000000280000001b0000001a00000032",
+            INIT_2D => X"0000003000000030000000370000003d000000260000003b0000003d0000004f",
+            INIT_2E => X"0000004300000048000000380000004a0000001a00000015000000290000002b",
+            INIT_2F => X"0000002f000000320000001b000000430000003400000042000000490000003b",
+            INIT_30 => X"0000003c0000003c00000031000000530000002e00000029000000240000003e",
+            INIT_31 => X"0000003800000037000000290000001d00000041000000360000004600000043",
+            INIT_32 => X"00000045000000340000003c00000035000000490000003d0000003300000030",
+            INIT_33 => X"000000390000003e0000004d0000002600000025000000430000003a0000003c",
+            INIT_34 => X"00000040000000320000003e0000003b00000036000000460000004600000041",
+            INIT_35 => X"000000490000004800000046000000390000001f0000002c000000490000003e",
+            INIT_36 => X"0000003b00000039000000310000003f0000003b00000039000000380000004c",
+            INIT_37 => X"0000004b000000410000004c000000460000002e00000010000000380000003f",
+            INIT_38 => X"0000007e0000000e000000350000003d000000380000003a0000003600000034",
+            INIT_39 => X"00000000000000000000001b0000001500000024000000120000000c00000031",
+            INIT_3A => X"00000049000000500000001100000014000000170000001a0000001d00000065",
+            INIT_3B => X"0000006c0000000000000003000000160000001b000000050000000600000026",
+            INIT_3C => X"0000002b00000067000000240000001200000012000000120000000900000004",
+            INIT_3D => X"0000000b000000230000001a00000004000000260000000b0000000000000027",
+            INIT_3E => X"0000003200000000000000430000004200000000000000000000000500000000",
+            INIT_3F => X"0000000000000026000000000000004a00000018000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE58;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE59 : if BRAM_NAME = "sample_gold_layer0_instance59" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000070000003c000000000000000000000019000000000000000800000000",
+            INIT_01 => X"0000000000000000000000160000001b00000034000000190000000000000000",
+            INIT_02 => X"00000000000000020000001f000000000000000000000002000000000000000c",
+            INIT_03 => X"0000000000000000000000000000002300000019000000290000000d00000000",
+            INIT_04 => X"000000280000000000000016000000000000000c000000000000000100000000",
+            INIT_05 => X"00000000000000000000000000000000000000200000001b0000001000000000",
+            INIT_06 => X"00000013000000000000000000000000000000000000004b0000000000000006",
+            INIT_07 => X"000000090000000000000000000000000000000f0000002b0000000000000012",
+            INIT_08 => X"000000000000003e00000000000000000000000000000000000000300000000b",
+            INIT_09 => X"0000000700000000000000000000002700000000000000410000000000000005",
+            INIT_0A => X"0000000000000024000000000000000000000000000000020000000500000000",
+            INIT_0B => X"000000000000001500000000000000000000001b000000060000001e00000016",
+            INIT_0C => X"0000001b0000001300000000000000000000000d0000001d0000000000000002",
+            INIT_0D => X"00000000000000010000002500000000000000000000000f0000000000000011",
+            INIT_0E => X"000000130000000a0000002f0000000000000000000000080000000f00000000",
+            INIT_0F => X"0000002f00000000000000000000001500000000000000000000000000000000",
+            INIT_10 => X"0000000d0000000c0000000b000000210000000000000000000000050000001c",
+            INIT_11 => X"0000000000000022000000000000000500000016000000000000000000000007",
+            INIT_12 => X"0000001500000027000000000000000f0000001b0000000a0000000000000006",
+            INIT_13 => X"00000011000000000000000000000000000000130000000f0000000000000000",
+            INIT_14 => X"0000000d000000120000001d0000000600000013000000130000002700000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000050000000000000001",
+            INIT_16 => X"000000040000000f000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000300000000000000000000000000000000000000000000000c00000009",
+            INIT_18 => X"000000000000000b000000110000000000000000000000000000000000000000",
+            INIT_19 => X"00000000000000000000000d0000000500000001000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000018",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"000000000000000000000000000000000000000a000000030000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000c00000007",
+            INIT_31 => X"00000002000000060000001200000003000000130000000b0000000000000000",
+            INIT_32 => X"0000000000000003000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000e00000007000000210000000000000000000000160000001600000000",
+            INIT_34 => X"00000000000000000000000a0000000000000000000000000000000000000010",
+            INIT_35 => X"000000010000003b0000002b0000000f00000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000700000000000000000000000000000000000000000000001300000017",
+            INIT_38 => X"000000080000000000000000000000000000000c000000150000000200000000",
+            INIT_39 => X"0000000000000006000000000000000300000016000000110000000800000000",
+            INIT_3A => X"0000000300000000000000070000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000001000000017",
+            INIT_3C => X"0000000000000000000000000000001e00000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000f00000002",
+            INIT_3E => X"00000010000000010000000b0000000900000010000000100000000500000000",
+            INIT_3F => X"0000000000000012000000290000005f000000110000000b0000001400000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE59;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE60 : if BRAM_NAME = "sample_gold_layer0_instance60" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000200000000000000010000000000000000",
+            INIT_01 => X"000000000000001a000000390000001500000000000000090000000900000009",
+            INIT_02 => X"00000000000000000000001b0000001f00000000000000000000000000000000",
+            INIT_03 => X"00000000000000000000000b00000007000000000000000d0000001c00000000",
+            INIT_04 => X"00000018000000190000000f0000000300000000000000000000000000000000",
+            INIT_05 => X"000000000000000000000000000000140000000c00000001000000000000000e",
+            INIT_06 => X"00000000000000160000000b00000003000000000000002b000000100000000c",
+            INIT_07 => X"00000000000000000000000900000000000000010000000a0000000b00000010",
+            INIT_08 => X"00000011000000070000001800000021000000180000000f0000001700000010",
+            INIT_09 => X"0000000800000002000000000000000400000005000000000000001b00000022",
+            INIT_0A => X"0000000d0000000500000003000000130000001e000000170000001600000000",
+            INIT_0B => X"0000000d000000040000000a0000000700000000000000170000000600000000",
+            INIT_0C => X"0000000100000000000000050000000900000000000000190000002100000031",
+            INIT_0D => X"0000005e000000620000006100000065000000620000000e0000000000000010",
+            INIT_0E => X"0000006b0000006e0000006e000000750000004c000000230000006200000064",
+            INIT_0F => X"0000007f0000007d0000006c000000880000006b0000005f0000000000000000",
+            INIT_10 => X"000000000000008100000087000000910000009d0000005c0000005500000088",
+            INIT_11 => X"00000080000000760000005d00000087000000ae0000005f0000004900000000",
+            INIT_12 => X"0000000a00000000000000a6000000b1000000b6000000b80000008b00000070",
+            INIT_13 => X"0000006e000000530000004f00000062000000ab000000b00000007600000057",
+            INIT_14 => X"000000a1000000730000008e000000c3000000c3000000ca000000c0000000b1",
+            INIT_15 => X"000000aa00000071000000600000006d000000a2000000b40000009000000071",
+            INIT_16 => X"0000007d000000ac000000a2000000a8000000a7000000b4000000da000000cb",
+            INIT_17 => X"000000d80000009800000072000000690000006900000096000000aa00000098",
+            INIT_18 => X"0000008a0000009100000088000000a0000000a900000098000000bb000000e3",
+            INIT_19 => X"000000e5000000cb000000990000008b000000870000007b0000009000000097",
+            INIT_1A => X"0000009f000000a80000009500000070000000a3000000a9000000a3000000da",
+            INIT_1B => X"000000e1000000e0000000ae00000097000000840000009400000072000000a3",
+            INIT_1C => X"0000009c000000b2000000c2000000870000009300000091000000a7000000ca",
+            INIT_1D => X"000000bb000000b700000080000000470000008d00000075000000660000008d",
+            INIT_1E => X"000000a6000000cd000000cb000000b4000000a7000000af00000096000000b8",
+            INIT_1F => X"000000c4000000760000006e0000005c0000006b0000007a0000007d00000062",
+            INIT_20 => X"000000b1000000b2000000a80000009e000000b3000000af000000ba000000a6",
+            INIT_21 => X"000000ae000000c000000065000000720000007c0000006d0000006b0000007a",
+            INIT_22 => X"0000006e0000009d000000a0000000960000009d000000be000000ca000000b2",
+            INIT_23 => X"000000ad000000a9000000b70000005d00000071000000890000007800000060",
+            INIT_24 => X"00000067000000630000008d000000990000009e00000063000000ae000000c8",
+            INIT_25 => X"000000cc0000009c00000095000000ae0000006000000072000000760000006d",
+            INIT_26 => X"0000005f0000005d000000500000006b0000007a0000008300000069000000af",
+            INIT_27 => X"000000b5000000c700000083000000900000009f0000006d0000005500000056",
+            INIT_28 => X"000000520000005e00000056000000430000004f00000064000000730000009b",
+            INIT_29 => X"0000000000000001000000000000000000000000000000000000006700000053",
+            INIT_2A => X"000000000000000000000000000000000000002d000000000000000000000000",
+            INIT_2B => X"0000000000000012000000000000000000000000000000050000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000002c0000002c000000100000000000000000000000000000000500000000",
+            INIT_2E => X"000000000000000000000000000000000000000000000000000000000000002b",
+            INIT_2F => X"0000000000000000000000000000000000000000000000210000000000000000",
+            INIT_30 => X"0000000000000000000000000000001100000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000180000000000000000000000000000001100000000",
+            INIT_32 => X"0000000000000000000000000000000400000013000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000017000000060000000000000000",
+            INIT_34 => X"0000000000000036000000000000000000000001000000000000000000000000",
+            INIT_35 => X"00000000000000000000000000000000000000000000000a000000000000000b",
+            INIT_36 => X"000000000000000000000011000000000000000c000000000000000000000000",
+            INIT_37 => X"0000000000000043000000100000000700000000000000130000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000070000000000000015",
+            INIT_39 => X"0000002d000000430000000100000000000000000000000a0000000000000000",
+            INIT_3A => X"000000000000001e0000000c0000000000000000000000000000000000000000",
+            INIT_3B => X"0000002b00000000000000000000000000000020000000000000000000000000",
+            INIT_3C => X"0000000600000000000000180000000000000000000000000000001100000000",
+            INIT_3D => X"0000000000000009000000070000000000000000000000000000002d00000000",
+            INIT_3E => X"0000000400000000000000000000000000000007000000000000000000000000",
+            INIT_3F => X"000000070000000100000000000000000000000000000004000000000000000f",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE60;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE61 : if BRAM_NAME = "sample_gold_layer0_instance61" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000d000000180000000e0000000000000021000000290000000000000000",
+            INIT_01 => X"000000000000000e000000070000000000000000000000220000000300000000",
+            INIT_02 => X"00000000000000080000001a000000110000001b000000000000000000000000",
+            INIT_03 => X"0000000000000014000000000000001900000000000000000000000a00000000",
+            INIT_04 => X"0000000000000000000000000000001c00000006000000250000001400000000",
+            INIT_05 => X"0000000000000000000000000000004900000013000000030000000000000000",
+            INIT_06 => X"00000000000000000000002e0000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000800000038000000140000000000000000",
+            INIT_08 => X"0000000000000000000000000000003a00000000000000000000000000000000",
+            INIT_09 => X"00000003000000000000001d0000000000000027000000220000001200000000",
+            INIT_0A => X"000000000000000000000000000000000000001700000000000000000000000e",
+            INIT_0B => X"0000000000000000000000000000002b00000000000000190000001a00000000",
+            INIT_0C => X"0000000000000004000000000000000000000013000000000000002c00000005",
+            INIT_0D => X"0000000d00000000000000000000000900000030000000000000000000000001",
+            INIT_0E => X"00000000000000000000000800000000000000000000000f0000000a00000024",
+            INIT_0F => X"0000001d00000007000000000000000000000005000000130000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000001800000012",
+            INIT_11 => X"0000001200000016000000000000001000000000000000150000000300000000",
+            INIT_12 => X"0000001a00000000000000000000000000000000000000000000000000000014",
+            INIT_13 => X"0000001600000000000000050000000700000000000000000000000500000000",
+            INIT_14 => X"0000000000000010000000000000000000000000000000000000000000000009",
+            INIT_15 => X"0000002b00000000000000000000000000000018000000000000000000000000",
+            INIT_16 => X"0000000e0000000d000000000000000000000000000000000000001300000000",
+            INIT_17 => X"0000000000000000000000000000000000000001000000000000000000000005",
+            INIT_18 => X"000000170000000000000000000000000000000d000000000000000000000009",
+            INIT_19 => X"000000000000000000000000000000000000000000000000000000000000000c",
+            INIT_1A => X"00000000000000000000000000000000000000000000001e0000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000080000000000000000",
+            INIT_1C => X"0000000000000000000000010000000500000000000000040000001400000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000400000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000800000013",
+            INIT_1F => X"0000000c00000000000000000000000000000008000000000000000000000000",
+            INIT_20 => X"0000000000000005000000000000000000000000000000000000000000000018",
+            INIT_21 => X"0000000f000000440000007b0000001400000000000000000000000000000000",
+            INIT_22 => X"00000036000000620000000000000001000000260000001c000000240000001b",
+            INIT_23 => X"0000001d000000160000006200000053000000160000001b0000002300000021",
+            INIT_24 => X"00000019000000240000009c00000000000000150000002c0000002400000010",
+            INIT_25 => X"000000000000003900000028000000800000002e00000014000000170000001c",
+            INIT_26 => X"000000210000001a000000270000006100000013000000020000002600000006",
+            INIT_27 => X"00000002000000000000004700000000000000910000004f000000050000001b",
+            INIT_28 => X"000000290000000c0000001a0000004800000027000000530000001c00000000",
+            INIT_29 => X"0000000000000000000000120000005700000000000000290000005600000006",
+            INIT_2A => X"0000001b0000003e000000000000001a00000053000000370000003900000020",
+            INIT_2B => X"000000280000000000000000000000110000003e000000000000001a00000029",
+            INIT_2C => X"0000001d0000001c0000002a000000000000001d000000560000003300000039",
+            INIT_2D => X"0000002d000000100000001e00000000000000150000000f0000002d00000000",
+            INIT_2E => X"0000000000000021000000120000000c00000011000000240000005800000030",
+            INIT_2F => X"0000001c0000001d000000210000001b0000000000000019000000070000005f",
+            INIT_30 => X"00000042000000040000001f0000000000000024000000140000003d00000034",
+            INIT_31 => X"0000000400000022000000010000003b00000000000000080000001e00000012",
+            INIT_32 => X"000000200000001500000028000000240000000c0000004f0000000a00000048",
+            INIT_33 => X"0000002500000019000000000000003100000009000000000000000d00000014",
+            INIT_34 => X"000000000000001d0000001800000033000000070000001c000000320000001a",
+            INIT_35 => X"00000000000000230000002c0000000f00000000000000000000001800000032",
+            INIT_36 => X"00000031000000000000000d000000160000004c000000000000002200000017",
+            INIT_37 => X"0000000200000007000000260000001300000043000000000000000c00000017",
+            INIT_38 => X"0000000f00000030000000000000000000000019000000420000000d0000001c",
+            INIT_39 => X"00000013000000110000000b000000150000000e000000330000000000000000",
+            INIT_3A => X"000000000000000c0000000b000000270000000000000029000000410000000f",
+            INIT_3B => X"0000001d0000000c000000200000002f00000000000000150000002a00000000",
+            INIT_3C => X"0000002e00000000000000140000000000000006000000050000003b0000002f",
+            INIT_3D => X"0000000000000000000000020000001b0000002c0000000b0000001f0000001b",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000200000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE61;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE62 : if BRAM_NAME = "sample_gold_layer0_instance62" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"000000000000000e000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000001000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"00000000000000000000000000000037000000730000005e0000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000009",
+            INIT_05 => X"0000000000000000000000000000000000000000000000020000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000001b0000002b000000290000003000000025000000250000002c0000002a",
+            INIT_1B => X"0000001d00000000000000000000003d0000003b0000003c0000003600000000",
+            INIT_1C => X"000000020000001600000032000000290000001e000000230000001800000016",
+            INIT_1D => X"0000001e0000000000000000000000000000003c0000003a0000003900000033",
+            INIT_1E => X"0000002100000025000000000000001b000000120000000d0000002800000015",
+            INIT_1F => X"000000120000002e0000001f000000000000000b00000034000000310000002e",
+            INIT_20 => X"000000360000001e000000240000000200000005000000190000001c0000001c",
+            INIT_21 => X"0000001b0000000f000000210000002800000022000000200000001e00000039",
+            INIT_22 => X"0000003000000030000000310000001300000001000000030000001b00000024",
+            INIT_23 => X"00000024000000200000001d0000001d0000002b000000230000002700000020",
+            INIT_24 => X"0000002200000032000000330000002600000013000000060000001000000002",
+            INIT_25 => X"000000000000002100000004000000200000002300000030000000230000002b",
+            INIT_26 => X"0000002b0000002900000033000000320000002b0000000c0000000f00000021",
+            INIT_27 => X"0000000a000000250000000c000000230000002a0000001e0000003800000023",
+            INIT_28 => X"000000170000002f0000001b0000003c00000028000000180000002600000012",
+            INIT_29 => X"000000160000000900000022000000220000002a0000001c0000002e00000024",
+            INIT_2A => X"0000002b0000001f0000002a000000160000001b0000000f0000002000000024",
+            INIT_2B => X"0000002c000000160000002a0000001c0000001b000000240000002300000026",
+            INIT_2C => X"0000002b000000180000002a000000280000002200000028000000160000001b",
+            INIT_2D => X"000000200000000800000036000000230000001d000000170000003000000027",
+            INIT_2E => X"000000360000002a000000180000002a000000270000001b0000001d00000024",
+            INIT_2F => X"0000001f0000001e000000130000001e0000002c000000260000002a00000021",
+            INIT_30 => X"000000060000003a000000270000001900000025000000260000001800000021",
+            INIT_31 => X"000000100000001d000000150000001500000016000000260000002700000027",
+            INIT_32 => X"00000032000000230000002b0000002200000011000000230000002600000019",
+            INIT_33 => X"000000160000000b000000110000001200000014000000060000001b00000021",
+            INIT_34 => X"000000190000001e0000002f000000230000001b000000100000001b00000019",
+            INIT_35 => X"0000001600000015000000150000000f000000130000000f0000000100000017",
+            INIT_36 => X"00000018000000060000001000000000000000100000000d0000000000000000",
+            INIT_37 => X"00000000000000140000000b0000000a0000000600000003000000000000004b",
+            INIT_38 => X"0000002f0000000c00000000000000000000001f000000000000000000000000",
+            INIT_39 => X"00000000000000090000001500000008000000080000000c0000000700000000",
+            INIT_3A => X"000000000000000000000000000000000000000e0000002e0000000000000001",
+            INIT_3B => X"0000002d0000000000000000000000510000000b000000020000000200000000",
+            INIT_3C => X"00000000000000000000000000000000000000230000001c0000000000000000",
+            INIT_3D => X"000000000000003500000011000000090000001f000000000000001900000000",
+            INIT_3E => X"0000000100000000000000000000000000000000000000250000000900000000",
+            INIT_3F => X"00000000000000000000001900000013000000090000000f0000000700000034",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE62;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE63 : if BRAM_NAME = "sample_gold_layer0_instance63" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000003500000008000000000000000000000000000000010000000700000012",
+            INIT_01 => X"0000001a000000000000000e00000000000000290000000a0000001b00000027",
+            INIT_02 => X"0000002f00000010000000000000000000000000000000000000001300000000",
+            INIT_03 => X"0000001500000000000000020000001300000000000000240000000300000026",
+            INIT_04 => X"0000003600000000000000160000000000000000000000090000000600000000",
+            INIT_05 => X"00000000000000210000000f0000000000000000000000000000000000000007",
+            INIT_06 => X"0000001500000024000000000000000000000000000000210000000100000007",
+            INIT_07 => X"000000000000002a000000020000000000000000000000000000000000000000",
+            INIT_08 => X"000000000000002a00000011000000030000001400000000000000000000001d",
+            INIT_09 => X"000000000000002a000000010000000000000000000000240000000000000002",
+            INIT_0A => X"00000000000000000000002a000000110000000d0000000f0000000000000000",
+            INIT_0B => X"0000000600000000000000220000000a00000000000000000000000000000005",
+            INIT_0C => X"0000002100000000000000000000002900000019000000110000001100000000",
+            INIT_0D => X"000000080000000500000000000000140000000e000000010000000000000000",
+            INIT_0E => X"000000000000001400000000000000000000002f0000001e0000000c00000000",
+            INIT_0F => X"0000000000000014000000050000000100000009000000110000000500000016",
+            INIT_10 => X"0000001900000018000000050000000000000015000000200000001a00000000",
+            INIT_11 => X"00000000000000080000000c0000000300000006000000000000001e00000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"000000000000000000000000000000000000000f000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000001500000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"000000250000001e000000190000001200000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000015",
+            INIT_32 => X"000000180000000100000000000000090000001b000000000000000000000000",
+            INIT_33 => X"000000000000000000000000000000000000000000000000000000000000001e",
+            INIT_34 => X"00000000000000080000001c0000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_36 => X"0000000a00000016000000180000001d0000001d000000240000001a0000000d",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000002800000029000000280000003000000028000000160000001f00000035",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"000000180000000d000000090000000d0000000e000000150000001a00000012",
+            INIT_3B => X"0000002100000022000000000000000000000000000000000000000000000003",
+            INIT_3C => X"00000029000000450000002f0000001f000000330000002a0000001000000018",
+            INIT_3D => X"00000000000000000000000a0000001700000000000000000000000000000000",
+            INIT_3E => X"0000000d00000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"000000120000002a000000170000002700000000000000110000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE63;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE64 : if BRAM_NAME = "sample_gold_layer0_instance64" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000000000000150000001e000000160000002d0000002c0000002700000029",
+            INIT_01 => X"0000002f00000000000000000000001700000005000000000000000000000000",
+            INIT_02 => X"0000000000000000000000060000000000000003000000060000001400000009",
+            INIT_03 => X"000000050000000f0000001a000000310000000900000000000000000000000b",
+            INIT_04 => X"0000000000000000000000040000001a000000320000000b0000000000000000",
+            INIT_05 => X"00000000000000000000000d0000000b00000006000000000000000000000003",
+            INIT_06 => X"000000000000000000000000000000000000000a0000000c0000000100000000",
+            INIT_07 => X"0000000400000026000000350000000000000000000000000000000000000005",
+            INIT_08 => X"0000000a0000000a00000000000000040000000a000000160000000a00000000",
+            INIT_09 => X"000000000000000e000000180000000d00000005000000000000000000000000",
+            INIT_0A => X"000000280000001d000000120000002500000022000000220000000c0000000c",
+            INIT_0B => X"00000019000000160000001e000000190000001c000000270000002b00000023",
+            INIT_0C => X"0000002b0000002c0000001f0000000b000000230000002b0000002b00000009",
+            INIT_0D => X"00000015000000040000001c000000240000000f0000000f0000002200000021",
+            INIT_0E => X"0000004a0000005100000050000000480000000c0000001f0000002e0000002d",
+            INIT_0F => X"0000002d0000000f000000000000001b000000270000002b0000003e00000048",
+            INIT_10 => X"0000004d0000004d000000420000004a000000600000000e0000002800000028",
+            INIT_11 => X"000000270000002c0000000800000011000000190000002c0000003400000054",
+            INIT_12 => X"0000004e00000051000000500000003a0000004d0000004f000000180000001b",
+            INIT_13 => X"0000002200000020000000320000002f000000180000002b000000440000003e",
+            INIT_14 => X"00000040000000470000003d000000420000004c000000460000003f00000020",
+            INIT_15 => X"000000220000002400000015000000340000002e0000002c0000004300000035",
+            INIT_16 => X"0000003500000025000000370000004a0000003e0000003e0000004d0000004a",
+            INIT_17 => X"000000340000001b000000310000000b000000210000002c0000002c00000031",
+            INIT_18 => X"0000002f0000001e00000028000000200000002200000033000000400000002f",
+            INIT_19 => X"000000380000003800000003000000330000000a0000002a0000004700000043",
+            INIT_1A => X"0000004300000051000000330000002300000047000000400000001f0000002a",
+            INIT_1B => X"0000002b0000001d000000290000000d0000001a000000070000002300000048",
+            INIT_1C => X"0000005700000020000000320000002e0000002b0000003d0000001f00000045",
+            INIT_1D => X"000000240000003700000025000000190000001300000023000000000000002f",
+            INIT_1E => X"000000340000004e0000003c000000300000003e00000032000000320000002f",
+            INIT_1F => X"0000003e0000000000000026000000150000000d000000310000002000000000",
+            INIT_20 => X"000000200000003c000000530000001e00000000000000340000002700000013",
+            INIT_21 => X"0000004e00000020000000110000000b0000000d00000014000000290000003d",
+            INIT_22 => X"0000002700000032000000450000005b000000200000000a0000000e0000002c",
+            INIT_23 => X"000000330000002d00000022000000190000000f000000050000002500000020",
+            INIT_24 => X"0000001b0000002b0000003a0000003e000000530000002d0000000600000008",
+            INIT_25 => X"00000014000000320000002a0000002000000019000000140000001000000020",
+            INIT_26 => X"0000003d00000060000000550000003a0000004600000062000000250000000b",
+            INIT_27 => X"00000052000000390000004a0000004c000000340000002b000000330000003a",
+            INIT_28 => X"000000490000005a00000099000000740000004d000000500000004000000035",
+            INIT_29 => X"0000005d000000440000002f00000036000000380000004f0000005600000046",
+            INIT_2A => X"000000460000004500000025000000c700000075000000520000005300000016",
+            INIT_2B => X"000000000000005e0000005d0000003500000000000000320000004b0000005b",
+            INIT_2C => X"0000006c000000930000005600000012000000da000000560000006300000052",
+            INIT_2D => X"0000004d0000002d000000650000004c000000100000004d000000550000006a",
+            INIT_2E => X"0000005e0000005e0000007c0000004b0000002d000000ab000000860000006c",
+            INIT_2F => X"0000008300000031000000300000006700000035000000100000007300000055",
+            INIT_30 => X"00000048000000590000005d000000680000004500000018000000b500000071",
+            INIT_31 => X"0000004a00000080000000360000005100000054000000010000001f00000051",
+            INIT_32 => X"0000005e000000690000004b0000005e0000007d0000005c0000003a0000006e",
+            INIT_33 => X"0000008d00000000000000800000005f0000004300000031000000250000001f",
+            INIT_34 => X"0000003a0000004d0000003600000047000000630000003c0000004e00000057",
+            INIT_35 => X"0000001e000000830000000e0000008700000062000000000000001e00000006",
+            INIT_36 => X"0000000800000023000000610000000c00000019000000520000004900000041",
+            INIT_37 => X"00000049000000180000005500000025000000af000000690000000000000056",
+            INIT_38 => X"000000670000004f000000460000005c0000003a00000069000000040000001e",
+            INIT_39 => X"000000060000000b000000310000004400000031000000bd0000005500000000",
+            INIT_3A => X"000000000000002b0000005a00000005000000390000004e0000000000000071",
+            INIT_3B => X"000000690000000900000019000000690000003c00000002000000d100000068",
+            INIT_3C => X"000000570000000000000027000000850000004a000000410000004e00000000",
+            INIT_3D => X"00000000000000100000001c0000004b000000600000005e0000002900000093",
+            INIT_3E => X"0000007a00000050000000000000000000000056000000ba0000006000000000",
+            INIT_3F => X"000000060000000a0000000d0000001500000068000000460000006600000080",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE64;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE65 : if BRAM_NAME = "sample_gold_layer0_instance65" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"00000080000000610000006600000000000000000000003f000000bf00000028",
+            INIT_01 => X"000000220000001e000000190000001d00000020000000460000003d00000063",
+            INIT_02 => X"0000000000000017000000210000001c00000000000000000000004200000077",
+            INIT_03 => X"0000000000000004000000070000003000000061000000360000001d00000000",
+            INIT_04 => X"0000000000000000000000020000000d0000000d000000130000002e00000026",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000003200000000000000010000000000000000000000000000000100000000",
+            INIT_07 => X"00000000000000000000000a00000000000000000000000e0000003d0000003a",
+            INIT_08 => X"0000000700000000000000120000000000000000000000000000000000000000",
+            INIT_09 => X"000000000000002a0000000000000000000000020000001d0000000600000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"000000000000006a000000210000000c00000007000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000020000000600000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"00000000000000040000000000000000000000000000004a0000000000000000",
+            INIT_0F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000000000000020",
+            INIT_11 => X"00000000000000090000000d0000001f00000000000000000000000000000000",
+            INIT_12 => X"000000bd000000ab000000b5000000b80000003a000000060000000500000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000002e000000a0",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000f00000001000000000000000000000000",
+            INIT_16 => X"0000001f000000000000001e0000000000000004000000000000001c0000002e",
+            INIT_17 => X"00000000000000000000001f0000004300000000000000000000000000000007",
+            INIT_18 => X"000000000000000000000000000000000000000e000000000000000000000000",
+            INIT_19 => X"00000000000000000000001a0000000a000000000000006b0000005300000000",
+            INIT_1A => X"000000060000001d00000000000000000000003a0000005b0000006200000000",
+            INIT_1B => X"0000001a00000014000000130000000400000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000700000000000000000000000000000000",
+            INIT_1D => X"00000000000000040000000f0000001100000000000000000000000000000002",
+            INIT_1E => X"00000027000000220000001d0000001b000000000000000c0000000000000000",
+            INIT_1F => X"000000290000001b000000140000000c000000060000000d0000001b00000032",
+            INIT_20 => X"00000028000000250000001700000016000000220000002a000000200000001b",
+            INIT_21 => X"0000001f0000001f000000040000000000000000000000000000000000000000",
+            INIT_22 => X"00000000000000310000001d0000001700000017000000220000003a00000024",
+            INIT_23 => X"000000390000001b000000000000000000000000000000000000000000000000",
+            INIT_24 => X"00000000000000000000001c000000160000001e00000017000000240000003c",
+            INIT_25 => X"0000003d0000001b0000000c0000000000000000000000000000000000000000",
+            INIT_26 => X"00000000000000000000000000000000000000220000001f0000001500000034",
+            INIT_27 => X"00000024000000200000000b0000000000000000000000000000000000000000",
+            INIT_28 => X"00000000000000000000000000000000000000030000000a0000002900000011",
+            INIT_29 => X"0000001d00000017000000160000000000000000000000000000000000000000",
+            INIT_2A => X"000000000000000000000000000000000000000000000000000000210000002d",
+            INIT_2B => X"0000003800000033000000040000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000002f00000000",
+            INIT_2D => X"00000014000000270000002c0000000000000000000000000000000000000000",
+            INIT_2E => X"000000000000000000000000000000000000000000000000000000000000001a",
+            INIT_2F => X"0000000f000000020000003a0000001f00000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000400000000000000070000002700000018000000000000000000000000",
+            INIT_32 => X"0000000f00000000000000000000000000000000000000190000000000000000",
+            INIT_33 => X"000000040000000d000000000000000000000033000000040000000000000000",
+            INIT_34 => X"00000000000000040000000b0000000000000000000000000000000000000000",
+            INIT_35 => X"000000000000000f000000000000000000000005000000000000000000000000",
+            INIT_36 => X"0000000000000000000000090000001800000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000060000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000700000015000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"000000000000000000000000000000000000000a000000000000000000000000",
+            INIT_3B => X"000000000000000000000007000000050000000d000000020000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"00000000000000080000000f0000000a00000014000000120000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000008000000000000000000000009",
+            INIT_3F => X"000000020000003e0000001900000006000000000000000e0000000c00000022",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE65;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE66 : if BRAM_NAME = "sample_gold_layer0_instance66" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000004a000000000000000000000000000000000000001a0000000000000000",
+            INIT_01 => X"000000000000002d000000000000000d00000000000000000000000000000019",
+            INIT_02 => X"000000160000002a000000000000000000000000000000000000000000000000",
+            INIT_03 => X"000000000000000b0000003c000000000000000c0000000c0000000a00000000",
+            INIT_04 => X"00000007000000110000002b0000000000000000000000000000001700000005",
+            INIT_05 => X"0000000000000000000000390000001b0000000f000000130000000400000008",
+            INIT_06 => X"00000005000000000000000f0000001900000000000000080000000000000019",
+            INIT_07 => X"0000000100000003000000240000002a0000002d00000000000000060000001f",
+            INIT_08 => X"0000000e00000004000000120000000000000006000000000000004a00000000",
+            INIT_09 => X"000000000000000000000050000000330000002e000000160000000c0000000f",
+            INIT_0A => X"000000270000001c00000000000000050000001f0000002a0000000000000035",
+            INIT_0B => X"0000002300000000000000000000005b0000000f0000002f0000000900000000",
+            INIT_0C => X"000000000000001c000000000000004f0000001f000000000000002500000000",
+            INIT_0D => X"000000000000000a00000000000000010000008100000000000000130000000a",
+            INIT_0E => X"000000290000000a0000000000000039000000000000002b000000290000000d",
+            INIT_0F => X"0000000000000009000000340000000000000000000000630000002000000000",
+            INIT_10 => X"0000000000000019000000080000000000000065000000000000003500000019",
+            INIT_11 => X"0000000000000000000000000000001d00000000000000060000008500000018",
+            INIT_12 => X"000000290000000000000000000000000000006a0000002d0000001a00000011",
+            INIT_13 => X"000000120000000000000007000000000000000000000000000000110000007a",
+            INIT_14 => X"000000650000003e0000000000000000000000230000002e0000002d0000001f",
+            INIT_15 => X"000000140000000e000000000000000900000000000000000000000000000000",
+            INIT_16 => X"000000000000007200000032000000000000000000000027000000200000001b",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000001200000000",
+            INIT_25 => X"0000000000000000000000000000000d0000000d000000030000001b00000014",
+            INIT_26 => X"00000000000000000000000000000000000000000000002a0000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000600000000000000030000000000000007",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"00000000000000000000000700000000000000000000000e0000000700000000",
+            INIT_2B => X"0000000000000009000000010000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000022000000150000000700000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000001200000012",
+            INIT_2E => X"00000006000000000000000000000000000000010000000a0000000c00000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000003",
+            INIT_30 => X"000000000000000f000000000000000000000000000000000000000000000003",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000010000000000000000000000000000000000000000",
+            INIT_33 => X"000000000000000000000005000000120000000e000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000003000000000000000500000000",
+            INIT_35 => X"00000066000000630000004a0000004100000041000000460000000f00000000",
+            INIT_36 => X"000000030000000200000000000000060000000800000000000000170000003e",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000017",
+            INIT_38 => X"0000000600000004000000010000000c0000001300000007000000000000000b",
+            INIT_39 => X"00000000000000020000000200000014000000120000002e0000001100000031",
+            INIT_3A => X"0000003d0000004100000009000000050000000400000000000000010000001b",
+            INIT_3B => X"0000000600000009000000130000001600000012000000310000001400000009",
+            INIT_3C => X"000000130000000c0000000b0000002400000016000000000000000000000001",
+            INIT_3D => X"000000000000000100000029000000020000001b0000001f0000000800000004",
+            INIT_3E => X"00000014000000000000000b0000002100000033000000090000000100000002",
+            INIT_3F => X"000000530000003e000000260000002600000040000000240000001300000028",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE66;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE67 : if BRAM_NAME = "sample_gold_layer0_instance67" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000160000001a0000000e00000037000000280000000e",
+            INIT_01 => X"0000000a0000000e00000029000000410000002200000029000000360000000b",
+            INIT_02 => X"000000000000001a000000340000000000000051000000000000001b00000008",
+            INIT_03 => X"00000007000000180000000f0000000000000000000000000000000000000000",
+            INIT_04 => X"0000001f00000030000000070000000a0000001e00000008000000350000001d",
+            INIT_05 => X"000000220000000e000000000000001c000000340000001b0000002700000014",
+            INIT_06 => X"0000000000000000000000000000000000000010000000000000000400000000",
+            INIT_07 => X"000000230000002d0000001c0000000000000000000000000000000000000000",
+            INIT_08 => X"0000000a0000003e0000002a000000390000002f000000010000000000000000",
+            INIT_09 => X"0000000e00000000000000000000000f00000000000000220000003600000036",
+            INIT_0A => X"0000000e00000002000000000000000000000000000000060000000000000000",
+            INIT_0B => X"0000000e0000001f000000090000001f00000006000000000000000000000013",
+            INIT_0C => X"0000000b00000026000000290000001b0000000a000000000000000000000003",
+            INIT_0D => X"000000090000000b0000001d0000000400000009000000170000000000000000",
+            INIT_0E => X"0000000000000000000000290000001100000000000000000000000000000000",
+            INIT_0F => X"000000a9000000a2000000b0000000a8000000d6000000cb000000d500000000",
+            INIT_10 => X"000000b0000000b3000000c7000000e0000000d7000000e2000000cf000000af",
+            INIT_11 => X"000000ca000000b2000000b5000000a8000000a5000000ee000000f0000000f2",
+            INIT_12 => X"000000fb000000cd000000c3000000e1000000da000000d8000000d7000000e1",
+            INIT_13 => X"0000008c000000880000008d0000008e0000008c0000008a000000ef000000fc",
+            INIT_14 => X"000000f8000000fa000000b7000000b1000000ce000000de000000bb0000008d",
+            INIT_15 => X"000000b9000000be000000c9000000c0000000d2000000ab000000ae000000dd",
+            INIT_16 => X"000000cb000000f7000000f80000008d000000ae000000d5000000de0000009b",
+            INIT_17 => X"000000c9000000c1000000be000000b5000000c4000000ad000000a1000000a8",
+            INIT_18 => X"00000078000000b0000000ef000000eb000000ab000000d9000000e1000000bf",
+            INIT_19 => X"000000ac000000b10000009e0000009800000096000000930000009800000078",
+            INIT_1A => X"0000006a0000008500000097000000c1000000c6000000fb000000fc000000e8",
+            INIT_1B => X"000000cc0000008e00000078000000970000008400000076000000990000008a",
+            INIT_1C => X"000000690000008800000081000000870000007b000000b2000000ff000000f2",
+            INIT_1D => X"000000920000007a000000520000004d00000055000000560000005b00000066",
+            INIT_1E => X"0000007b00000075000000700000006c0000006f00000062000000aa000000e9",
+            INIT_1F => X"000000c100000088000000540000003000000050000000410000003800000055",
+            INIT_20 => X"0000007e000000530000004f00000052000000300000007200000064000000c2",
+            INIT_21 => X"000000c90000009800000077000000ad0000009a000000a00000009b0000009d",
+            INIT_22 => X"0000006e000000350000004f000000400000001d0000003d000000390000006f",
+            INIT_23 => X"00000060000000cb0000007b0000007400000057000000700000006400000063",
+            INIT_24 => X"00000081000000470000004b0000004b000000140000001d000000560000005d",
+            INIT_25 => X"0000003e0000007c000000c20000007d0000005d000000500000008c0000007a",
+            INIT_26 => X"0000009c000000850000001c0000000f000000080000000d0000004700000086",
+            INIT_27 => X"0000007d00000089000000bd000000bb000000690000002e0000001d00000083",
+            INIT_28 => X"00000090000000ac000000730000002b0000001100000005000000250000005b",
+            INIT_29 => X"000000500000005800000092000000ad000000be0000007b0000002c00000016",
+            INIT_2A => X"0000000c0000007900000067000000460000002b000000200000001800000031",
+            INIT_2B => X"00000000000000000000001e000000000000000000000000000000830000002d",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"00000054000000310000003d0000005200000001000000000000000000000000",
+            INIT_2E => X"00000000000000110000000000000000000000080000001c0000004700000069",
+            INIT_2F => X"000000000000000000000000000000000000003a000000010000000000000000",
+            INIT_30 => X"00000000000000020000001c0000001600000000000000000000002900000000",
+            INIT_31 => X"00000000000000000000001900000000000000000000003d0000000500000000",
+            INIT_32 => X"00000000000000000000001a0000000000000000000000000000002900000000",
+            INIT_33 => X"000000040000000300000000000000160000002300000000000000310000005d",
+            INIT_34 => X"000000000000001b000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000001b0000000c0000001c0000001a0000001800000000000000190000003e",
+            INIT_36 => X"000000000000002c000000360000000a00000000000000000000000000000003",
+            INIT_37 => X"000000240000001e000000040000000000000000000000000000000e00000000",
+            INIT_38 => X"000000210000001d000000000000006500000013000000000000002900000047",
+            INIT_39 => X"000000140000003a000000310000002400000038000000320000001e0000000e",
+            INIT_3A => X"00000000000000000000006e000000000000001300000000000000000000001c",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"00000037000000170000001c0000000e00000013000000540000000000000000",
+            INIT_3D => X"000000000000003d000000250000003600000046000000390000003a00000009",
+            INIT_3E => X"0000004800000000000000000000002000000000000000030000001e00000000",
+            INIT_3F => X"0000000f00000000000000000000004300000000000000000000001300000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE67;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE68 : if BRAM_NAME = "sample_gold_layer0_instance68" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000001400000014000000530000001f0000001000000000000000000000006f",
+            INIT_01 => X"0000000000000000000000000000004800000037000000380000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000010000000000000000200000000",
+            INIT_03 => X"00000009000000160000000000000000000000000000002b0000000000000000",
+            INIT_04 => X"0000001d00000043000000000000000000000000000000040000000000000009",
+            INIT_05 => X"0000002d00000004000000000000000e0000000000000000000000080000003b",
+            INIT_06 => X"000000030000001a000000050000000000000000000000000000000000000002",
+            INIT_07 => X"000000040000000000000000000000010000000000000000000000000000000f",
+            INIT_08 => X"0000000000000004000000000000000000000006000000000000000000000000",
+            INIT_09 => X"0000003a00000024000000000000000000000004000000040000000000000000",
+            INIT_0A => X"00000000000000010000000c00000007000000190000002e0000002f00000037",
+            INIT_0B => X"00000044000000420000004f00000000000000000000000b0000000a0000000a",
+            INIT_0C => X"0000001400000000000000000000000b00000030000000430000004200000039",
+            INIT_0D => X"0000004d0000002a00000031000000610000000000000008000000060000000a",
+            INIT_0E => X"0000000c0000000000000000000000000000002b0000002f0000004200000043",
+            INIT_0F => X"0000005000000054000000390000005c0000005f000000030000000a00000000",
+            INIT_10 => X"000000000000001b000000000000000000000010000000350000003300000051",
+            INIT_11 => X"0000005a00000051000000520000004500000052000000610000000000000000",
+            INIT_12 => X"0000001300000000000000190000000b000000090000003f0000005300000054",
+            INIT_13 => X"0000002500000038000000480000003b0000003d000000450000003e00000002",
+            INIT_14 => X"00000000000000290000000000000000000000150000002e0000004200000046",
+            INIT_15 => X"0000004700000038000000480000004300000032000000420000003900000043",
+            INIT_16 => X"00000042000000000000002e00000000000000000000004d0000005a00000065",
+            INIT_17 => X"0000002e0000000000000000000000110000000a00000004000000220000002c",
+            INIT_18 => X"0000002700000048000000030000002900000000000000000000005b0000002d",
+            INIT_19 => X"0000001f0000003c00000040000000380000004b000000270000005a0000004a",
+            INIT_1A => X"0000003b0000003d00000022000000140000001700000000000000090000007c",
+            INIT_1B => X"00000062000000380000002000000045000000380000002c0000005800000016",
+            INIT_1C => X"00000007000000560000002e0000000000000014000000350000000000000015",
+            INIT_1D => X"0000002d0000008200000040000000000000003000000020000000140000005d",
+            INIT_1E => X"00000033000000260000001d00000003000000060000001e0000002000000000",
+            INIT_1F => X"0000001b0000002d0000007b000000330000000800000000000000000000004b",
+            INIT_20 => X"000000530000002f00000022000000180000000000000025000000160000000f",
+            INIT_21 => X"0000000c0000002b0000002f00000074000000460000000a0000000000000043",
+            INIT_22 => X"00000045000000350000002a0000001f000000180000000f0000002700000011",
+            INIT_23 => X"000000000000001000000020000000170000007d0000003e0000000600000008",
+            INIT_24 => X"0000001e0000001b0000001d0000004200000044000000250000001c00000015",
+            INIT_25 => X"0000000000000000000000020000001700000015000000080000002d00000005",
+            INIT_26 => X"0000001800000031000000140000001d0000000e000000000000000000000009",
+            INIT_27 => X"0000000a00000013000000000000000000000013000000110000003900000001",
+            INIT_28 => X"00000000000000090000002c0000004700000015000000000000000000000000",
+            INIT_29 => X"00000000000000140000005500000000000000000000000a0000001000000043",
+            INIT_2A => X"0000001f00000004000000010000003d00000022000000030000000000000000",
+            INIT_2B => X"00000000000000000000000d0000003100000000000000000000000200000014",
+            INIT_2C => X"000000230000001f000000000000002d00000048000000000000000000000003",
+            INIT_2D => X"0000000000000000000000000000000000000015000000000000000000000000",
+            INIT_2E => X"000000000000001f00000013000000100000004f000000210000000000000007",
+            INIT_2F => X"000000080000000f000000000000000000000000000000120000000000000000",
+            INIT_30 => X"00000032000000000000000200000026000000140000002e0000002a00000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"00000000000000540000000000000000000000600000001a0000001e0000000e",
+            INIT_33 => X"00000026000000020000003c0000003000000000000000060000001700000028",
+            INIT_34 => X"0000002000000000000000210000000000000000000000640000001100000051",
+            INIT_35 => X"00000000000000000000000000000000000000000000002a0000000c00000000",
+            INIT_36 => X"0000001100000000000000000000001900000000000000000000007700000000",
+            INIT_37 => X"0000002600000000000000260000000000000000000000270000000000000023",
+            INIT_38 => X"0000002a00000017000000000000001a0000002000000000000000000000005a",
+            INIT_39 => X"0000006600000012000000000000002e00000014000000000000006900000000",
+            INIT_3A => X"000000170000001100000000000000000000000a000000270000000000000000",
+            INIT_3B => X"0000000d0000007a0000001f00000000000000000000001d0000009400000020",
+            INIT_3C => X"0000003100000021000000140000000000000000000000000000000000000000",
+            INIT_3D => X"00000000000000000000005b0000003f0000000000000000000000020000003b",
+            INIT_3E => X"0000001800000016000000130000000d00000000000000050000000000000000",
+            INIT_3F => X"000000000000000000000000000000790000003100000000000000000000001c",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE68;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE69 : if BRAM_NAME = "sample_gold_layer0_instance69" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000700000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000050000000700000006",
+            INIT_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_08 => X"0000001a00000000000000000000000000000000000000000000000000000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0B => X"000000000000000000000000000000000000000d000000000000000000000000",
+            INIT_0C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_0F => X"0000006a0000007a000000830000002400000000000000000000000000000000",
+            INIT_10 => X"0000000000000000000000000000000000000000000000000000005400000088",
+            INIT_11 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_12 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_13 => X"0000000000000000000000000000000000000000000000000000001700000000",
+            INIT_14 => X"00000000000000000000001a0000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000006000000000000000000000026000000200000000000000000",
+            INIT_17 => X"000000000000000000000000000000000000000a000000350000000000000000",
+            INIT_18 => X"0000000c0000000e000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000002000000060000000000000000000000000000000000000000",
+            INIT_1B => X"0000002c00000027000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000002b00000034000000250000001a0000001800000017000000200000002d",
+            INIT_1D => X"0000003a00000031000000300000001e0000002a00000026000000270000002f",
+            INIT_1E => X"0000001b0000000e000000100000000600000000000000020000000f0000001c",
+            INIT_1F => X"000000220000002e000000300000002f0000001c0000002a0000002b0000002a",
+            INIT_20 => X"0000002e00000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"000000000000001b0000001e000000360000002f000000140000002800000036",
+            INIT_22 => X"000000220000000f000000150000000000000000000000000000001300000000",
+            INIT_23 => X"00000000000000000000000000000022000000360000002e0000002600000032",
+            INIT_24 => X"0000002f0000002a0000000b0000000000000000000000000000000000000000",
+            INIT_25 => X"000000000000000000000000000000070000000b0000003a0000002300000024",
+            INIT_26 => X"00000030000000300000000d0000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000130000002500000029",
+            INIT_28 => X"000000310000002a000000080000000c00000000000000000000000000000000",
+            INIT_29 => X"00000000000000000000000000000000000000000000002f0000000000000012",
+            INIT_2A => X"000000090000002c000000070000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000019",
+            INIT_2C => X"000000000000000f00000027000000000000000100000006000000000000000d",
+            INIT_2D => X"00000000000000000000000d0000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000001000000070000002200000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"000000000000000000000000000000080000001e000000000000000000000000",
+            INIT_31 => X"0000000000000012000000000000000000000000000000000000000000000000",
+            INIT_32 => X"00000000000000000000000a0000000400000000000000070000000000000000",
+            INIT_33 => X"00000000000000000000002a0000002300000000000000000000000000000000",
+            INIT_34 => X"00000000000000000000000000000006000000000000000f0000000c00000000",
+            INIT_35 => X"0000000000000000000000000000001500000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000060000000000000004",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"00000000000000000000000000000000000000000000001a0000000000000001",
+            INIT_39 => X"0000000000000000000000150000001400000009000000000000000900000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000002f00000008",
+            INIT_3B => X"000000000000000000000000000000000000001f000000000000000000000000",
+            INIT_3C => X"000000000000000000000000000000000000000000000000000000000000004a",
+            INIT_3D => X"0000003d000000000000000000000000000000000000001d0000000f00000000",
+            INIT_3E => X"0000000000000001000000000000000000000000000000010000000000000000",
+            INIT_3F => X"0000000000000004000000170000000000000000000000190000002300000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE69;
+
+
+    MEM_SAMPLE_GOLD_LAYER0_INSTANCE70 : if BRAM_NAME = "sample_gold_layer0_instance70" generate
+        BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
+        generic map (
+            BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"
+            DEVICE => DEVICE,                -- Target Device: "VIRTEX5", "7SERIES", "VIRTEX6, "SPARTAN6"
+            DO_REG => 0,                     -- Optional output register (0 or 1)
+            INIT => X"000000000000000000",   -- Initial values on output port
+            INIT_FILE => "NONE",
+            WRITE_WIDTH => 36, -- 0, -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            READ_WIDTH => 36, -- 0,  -- Valid values are 1-72 (37-72 only valid when BRAM_SIZE="36Kb")
+            SRVAL => X"000000000000000000",  -- Set/Reset value for port output
+            WRITE_MODE => "WRITE_FIRST",     -- "WRITE_FIRST", "READ_FIRST" or "NO_CHANGE"
+            -- The following INIT_xx declarations specify the initial contents of the RAM
+            INIT_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_01 => X"0000000000000000000000310000000000000006000000000000000000000006",
+            INIT_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_03 => X"0000000000000000000000000000000000000000000000070000000000000000",
+            INIT_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_05 => X"0000000000000000000000000000000000000026000000000000002000000000",
+            INIT_06 => X"0000000100000000000000000000000000000000000000000000000000000000",
+            INIT_07 => X"000000000000000000000000000000000000000000000026000000000000002a",
+            INIT_08 => X"00000049000000000000000000000000000000000000000f0000001900000000",
+            INIT_09 => X"0000000000000000000000000000000000000000000000000000001500000000",
+            INIT_0A => X"0000000a0000003f000000000000000000000000000000000000000000000000",
+            INIT_0B => X"0000000000000002000000000000003500000000000000000000000e00000003",
+            INIT_0C => X"0000000000000000000000510000000000000000000000000000001c00000000",
+            INIT_0D => X"0000000000000000000000000000000000000000000000000000000b00000032",
+            INIT_0E => X"0000000800000000000000100000000700000000000000000000000000000015",
+            INIT_0F => X"0000002600000038000000050000000000000000000000010000000c0000002c",
+            INIT_10 => X"0000002200000000000000000000000100000000000000000000000000000000",
+            INIT_11 => X"000000000000001300000028000000000000000000000000000000020000000e",
+            INIT_12 => X"0000000c00000009000000000000001300000003000000000000000000000000",
+            INIT_13 => X"0000000000000000000000240000000000000000000000000000000000000004",
+            INIT_14 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_15 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_16 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_17 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_18 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_19 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_1F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_20 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_21 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_22 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_23 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_24 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_25 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_26 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_27 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_28 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_29 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_2F => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_30 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_31 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_32 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_33 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_34 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_35 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_36 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_37 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_38 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_39 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3A => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3B => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3C => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3D => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3E => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INIT_3F => X"0000000000000000000000000000000000000000000000000000000000000000",
+
+            -- The next set of INITP_xx are for the parity bits
+            INITP_00 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_01 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_02 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_03 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_04 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_05 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_06 => X"0000000000000000000000000000000000000000000000000000000000000000",
+            INITP_07 => X"0000000000000000000000000000000000000000000000000000000000000000"
+        )
+        port map (
+            DO => DO,      -- Output data, width defined by READ_WIDTH parameter
+            ADDR => bram_addr,  -- Input address, width defined by read/write port depth
+            CLK => CLK,    -- 1-bit input clock
+            DI => DI,      -- Input data port, width defined by WRITE_WIDTH parameter
+            EN => EN,      -- 1-bit input RAM enable
+            REGCE => '1', -- 1-bit input output register enable
+            RST => RST,    -- 1-bit input reset
+            WE => bram_wr_en       -- Input write enable, width defined by write port depth
+        );
+    -- End of BRAM_SINGLE_MACRO_inst instantiation
+    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE70;
 
     MEM_EMPTY_18Kb : if BRAM_NAME = "default" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO

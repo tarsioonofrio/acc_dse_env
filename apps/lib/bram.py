@@ -100,22 +100,27 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
     bram_addr = bram_config["BRAM_ADDR"]
 
     wght_data, wght_size = generate_data_formated(
-        "iwght", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "iwght", "iwght", bram_config, bram_size, input_path / "layer", max_bits, n_layers
     )
     fmap_data, fmap_size = generate_data_formated(
-        "ifmap", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "ifmap", "ifmap", bram_config, bram_size, input_path / "layer", max_bits, n_layers
     )
     gold_data, gold_size = generate_data_formated(
-        "gold", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "gold", "gold", bram_config, bram_size, input_path / "layer", max_bits, n_layers
     )
 
-    sample_data, sample_size = generate_data_formated(
-        "ifmap", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+    sample_fmap_data, sample_fmap_size = generate_data_formated(
+        "ifmap", "sample_ifmap", bram_config, bram_size, input_path / "samples", max_bits, n_layers
     )
+
+    sample_gold_data, sample_gold_size = generate_data_formated(
+        "gold", "sample_gold", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+    )
+
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
         empty = f.read().format(data_width=max_bits)
 
-    bram36k = "".join(wght_data + fmap_data + gold_data + sample_data) + empty
+    bram36k = "".join(wght_data + fmap_data + gold_data + sample_fmap_data + sample_gold_data) + empty
 
     write_bram_pkg(bram36k, path_output / f"bram_{bram_size}.vhd", max_bits, bram_config)
 
@@ -140,10 +145,10 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
         )
 
 
-def generate_data_formated(file_name, bram_config, bram_size, input_path, max_bits, n_layers):
+def generate_data_formated(file_name, entity_name, bram_config, bram_size, input_path, max_bits, n_layers):
     files = [open_file(p) for p in input_path.glob(f"**/{file_name}.txt")]
     formated = [
-        format_bram_pkg(f"{file_name}_layer{i}", d, bram_config, max_bits, bram_size)
+        format_bram_pkg(f"{entity_name}_layer{i}", d, bram_config, max_bits, bram_size)
         for i, d in zip(range(n_layers), files)
     ]
     data = [y for x in formated for y in x[0]]
