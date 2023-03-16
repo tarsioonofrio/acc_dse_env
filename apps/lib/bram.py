@@ -110,11 +110,11 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
     )
 
     sample_fmap_data, sample_fmap_size = generate_data_formated(
-        "ifmap", "sample_ifmap", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+        "ifmap", "sampleifmap", bram_config, bram_size, input_path / "samples", max_bits, n_layers
     )
 
     sample_gold_data, sample_gold_size = generate_data_formated(
-        "gold", "sample_gold", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+        "gold", "samplegold", bram_config, bram_size, input_path / "samples", max_bits, n_layers
     )
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:

@@ -7360,7 +7360,7 @@ entity bram_single is
     end generate MEM_GOLD_LAYER2_INSTANCE1;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE0 : if BRAM_NAME = "sample_ifmap_layer0_instance0" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE0 : if BRAM_NAME = "sampleifmap_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7535,10 +7535,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE0;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE0;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE1 : if BRAM_NAME = "sample_ifmap_layer0_instance1" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE1 : if BRAM_NAME = "sampleifmap_layer0_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7713,10 +7713,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE1;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE1;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE2 : if BRAM_NAME = "sample_ifmap_layer0_instance2" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE2 : if BRAM_NAME = "sampleifmap_layer0_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -7891,10 +7891,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE2;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE2;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE3 : if BRAM_NAME = "sample_ifmap_layer0_instance3" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE3 : if BRAM_NAME = "sampleifmap_layer0_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8069,10 +8069,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE3;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE3;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE4 : if BRAM_NAME = "sample_ifmap_layer0_instance4" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE4 : if BRAM_NAME = "sampleifmap_layer0_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8247,10 +8247,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE4;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE4;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE5 : if BRAM_NAME = "sample_ifmap_layer0_instance5" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE5 : if BRAM_NAME = "sampleifmap_layer0_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8425,10 +8425,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE5;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE5;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE6 : if BRAM_NAME = "sample_ifmap_layer0_instance6" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE6 : if BRAM_NAME = "sampleifmap_layer0_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8603,10 +8603,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE6;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE6;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE7 : if BRAM_NAME = "sample_ifmap_layer0_instance7" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE7 : if BRAM_NAME = "sampleifmap_layer0_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8781,10 +8781,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE7;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE7;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE8 : if BRAM_NAME = "sample_ifmap_layer0_instance8" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE8 : if BRAM_NAME = "sampleifmap_layer0_instance8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -8959,10 +8959,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE8;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE8;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE9 : if BRAM_NAME = "sample_ifmap_layer0_instance9" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE9 : if BRAM_NAME = "sampleifmap_layer0_instance9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9137,10 +9137,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE9;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE9;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE10 : if BRAM_NAME = "sample_ifmap_layer0_instance10" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE10 : if BRAM_NAME = "sampleifmap_layer0_instance10" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9315,10 +9315,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE10;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE10;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE11 : if BRAM_NAME = "sample_ifmap_layer0_instance11" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE11 : if BRAM_NAME = "sampleifmap_layer0_instance11" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9493,10 +9493,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE11;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE11;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE12 : if BRAM_NAME = "sample_ifmap_layer0_instance12" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE12 : if BRAM_NAME = "sampleifmap_layer0_instance12" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9671,10 +9671,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE12;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE12;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE13 : if BRAM_NAME = "sample_ifmap_layer0_instance13" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE13 : if BRAM_NAME = "sampleifmap_layer0_instance13" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -9849,10 +9849,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE13;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE13;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE14 : if BRAM_NAME = "sample_ifmap_layer0_instance14" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE14 : if BRAM_NAME = "sampleifmap_layer0_instance14" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10027,10 +10027,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE14;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE14;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE15 : if BRAM_NAME = "sample_ifmap_layer0_instance15" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE15 : if BRAM_NAME = "sampleifmap_layer0_instance15" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10205,10 +10205,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE15;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE15;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE16 : if BRAM_NAME = "sample_ifmap_layer0_instance16" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE16 : if BRAM_NAME = "sampleifmap_layer0_instance16" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10383,10 +10383,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE16;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE16;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE17 : if BRAM_NAME = "sample_ifmap_layer0_instance17" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE17 : if BRAM_NAME = "sampleifmap_layer0_instance17" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10561,10 +10561,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE17;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE17;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE18 : if BRAM_NAME = "sample_ifmap_layer0_instance18" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE18 : if BRAM_NAME = "sampleifmap_layer0_instance18" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10739,10 +10739,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE18;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE18;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE19 : if BRAM_NAME = "sample_ifmap_layer0_instance19" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE19 : if BRAM_NAME = "sampleifmap_layer0_instance19" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -10917,10 +10917,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE19;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE19;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE20 : if BRAM_NAME = "sample_ifmap_layer0_instance20" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE20 : if BRAM_NAME = "sampleifmap_layer0_instance20" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11095,10 +11095,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE20;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE20;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE21 : if BRAM_NAME = "sample_ifmap_layer0_instance21" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE21 : if BRAM_NAME = "sampleifmap_layer0_instance21" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11273,10 +11273,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE21;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE21;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE22 : if BRAM_NAME = "sample_ifmap_layer0_instance22" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE22 : if BRAM_NAME = "sampleifmap_layer0_instance22" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11451,10 +11451,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE22;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE22;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE23 : if BRAM_NAME = "sample_ifmap_layer0_instance23" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE23 : if BRAM_NAME = "sampleifmap_layer0_instance23" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11629,10 +11629,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE23;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE23;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE24 : if BRAM_NAME = "sample_ifmap_layer0_instance24" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE24 : if BRAM_NAME = "sampleifmap_layer0_instance24" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11807,10 +11807,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE24;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE24;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE25 : if BRAM_NAME = "sample_ifmap_layer0_instance25" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE25 : if BRAM_NAME = "sampleifmap_layer0_instance25" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -11985,10 +11985,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE25;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE25;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE26 : if BRAM_NAME = "sample_ifmap_layer0_instance26" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE26 : if BRAM_NAME = "sampleifmap_layer0_instance26" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12163,10 +12163,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE26;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE26;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE27 : if BRAM_NAME = "sample_ifmap_layer0_instance27" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE27 : if BRAM_NAME = "sampleifmap_layer0_instance27" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12341,10 +12341,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE27;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE27;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE28 : if BRAM_NAME = "sample_ifmap_layer0_instance28" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE28 : if BRAM_NAME = "sampleifmap_layer0_instance28" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12519,10 +12519,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE28;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE28;
 
 
-    MEM_SAMPLE_IFMAP_LAYER0_INSTANCE29 : if BRAM_NAME = "sample_ifmap_layer0_instance29" generate
+    MEM_SAMPLEIFMAP_LAYER0_INSTANCE29 : if BRAM_NAME = "sampleifmap_layer0_instance29" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12697,10 +12697,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_IFMAP_LAYER0_INSTANCE29;
+    end generate MEM_SAMPLEIFMAP_LAYER0_INSTANCE29;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE0 : if BRAM_NAME = "sample_gold_layer0_instance0" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE0 : if BRAM_NAME = "samplegold_layer0_instance0" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -12875,10 +12875,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE0;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE0;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE1 : if BRAM_NAME = "sample_gold_layer0_instance1" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE1 : if BRAM_NAME = "samplegold_layer0_instance1" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13053,10 +13053,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE1;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE1;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE2 : if BRAM_NAME = "sample_gold_layer0_instance2" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE2 : if BRAM_NAME = "samplegold_layer0_instance2" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13231,10 +13231,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE2;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE2;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE3 : if BRAM_NAME = "sample_gold_layer0_instance3" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE3 : if BRAM_NAME = "samplegold_layer0_instance3" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13409,10 +13409,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE3;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE3;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE4 : if BRAM_NAME = "sample_gold_layer0_instance4" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE4 : if BRAM_NAME = "samplegold_layer0_instance4" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13587,10 +13587,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE4;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE4;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE5 : if BRAM_NAME = "sample_gold_layer0_instance5" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE5 : if BRAM_NAME = "samplegold_layer0_instance5" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13765,10 +13765,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE5;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE5;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE6 : if BRAM_NAME = "sample_gold_layer0_instance6" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE6 : if BRAM_NAME = "samplegold_layer0_instance6" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -13943,10 +13943,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE6;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE6;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE7 : if BRAM_NAME = "sample_gold_layer0_instance7" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE7 : if BRAM_NAME = "samplegold_layer0_instance7" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14121,10 +14121,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE7;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE7;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE8 : if BRAM_NAME = "sample_gold_layer0_instance8" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE8 : if BRAM_NAME = "samplegold_layer0_instance8" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14299,10 +14299,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE8;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE8;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE9 : if BRAM_NAME = "sample_gold_layer0_instance9" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE9 : if BRAM_NAME = "samplegold_layer0_instance9" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14477,10 +14477,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE9;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE9;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE10 : if BRAM_NAME = "sample_gold_layer0_instance10" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE10 : if BRAM_NAME = "samplegold_layer0_instance10" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14655,10 +14655,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE10;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE10;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE11 : if BRAM_NAME = "sample_gold_layer0_instance11" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE11 : if BRAM_NAME = "samplegold_layer0_instance11" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -14833,10 +14833,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE11;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE11;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE12 : if BRAM_NAME = "sample_gold_layer0_instance12" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE12 : if BRAM_NAME = "samplegold_layer0_instance12" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15011,10 +15011,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE12;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE12;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE13 : if BRAM_NAME = "sample_gold_layer0_instance13" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE13 : if BRAM_NAME = "samplegold_layer0_instance13" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15189,10 +15189,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE13;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE13;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE14 : if BRAM_NAME = "sample_gold_layer0_instance14" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE14 : if BRAM_NAME = "samplegold_layer0_instance14" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15367,10 +15367,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE14;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE14;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE15 : if BRAM_NAME = "sample_gold_layer0_instance15" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE15 : if BRAM_NAME = "samplegold_layer0_instance15" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15545,10 +15545,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE15;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE15;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE16 : if BRAM_NAME = "sample_gold_layer0_instance16" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE16 : if BRAM_NAME = "samplegold_layer0_instance16" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15723,10 +15723,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE16;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE16;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE17 : if BRAM_NAME = "sample_gold_layer0_instance17" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE17 : if BRAM_NAME = "samplegold_layer0_instance17" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -15901,10 +15901,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE17;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE17;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE18 : if BRAM_NAME = "sample_gold_layer0_instance18" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE18 : if BRAM_NAME = "samplegold_layer0_instance18" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16079,10 +16079,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE18;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE18;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE19 : if BRAM_NAME = "sample_gold_layer0_instance19" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE19 : if BRAM_NAME = "samplegold_layer0_instance19" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16257,10 +16257,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE19;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE19;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE20 : if BRAM_NAME = "sample_gold_layer0_instance20" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE20 : if BRAM_NAME = "samplegold_layer0_instance20" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16435,10 +16435,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE20;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE20;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE21 : if BRAM_NAME = "sample_gold_layer0_instance21" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE21 : if BRAM_NAME = "samplegold_layer0_instance21" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16613,10 +16613,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE21;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE21;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE22 : if BRAM_NAME = "sample_gold_layer0_instance22" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE22 : if BRAM_NAME = "samplegold_layer0_instance22" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16791,10 +16791,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE22;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE22;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE23 : if BRAM_NAME = "sample_gold_layer0_instance23" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE23 : if BRAM_NAME = "samplegold_layer0_instance23" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -16969,10 +16969,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE23;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE23;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE24 : if BRAM_NAME = "sample_gold_layer0_instance24" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE24 : if BRAM_NAME = "samplegold_layer0_instance24" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -17147,10 +17147,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE24;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE24;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE25 : if BRAM_NAME = "sample_gold_layer0_instance25" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE25 : if BRAM_NAME = "samplegold_layer0_instance25" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -17325,10 +17325,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE25;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE25;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE26 : if BRAM_NAME = "sample_gold_layer0_instance26" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE26 : if BRAM_NAME = "samplegold_layer0_instance26" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -17503,10 +17503,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE26;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE26;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE27 : if BRAM_NAME = "sample_gold_layer0_instance27" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE27 : if BRAM_NAME = "samplegold_layer0_instance27" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -17681,10 +17681,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE27;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE27;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE28 : if BRAM_NAME = "sample_gold_layer0_instance28" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE28 : if BRAM_NAME = "samplegold_layer0_instance28" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -17859,10 +17859,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE28;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE28;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE29 : if BRAM_NAME = "sample_gold_layer0_instance29" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE29 : if BRAM_NAME = "samplegold_layer0_instance29" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18037,10 +18037,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE29;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE29;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE30 : if BRAM_NAME = "sample_gold_layer0_instance30" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE30 : if BRAM_NAME = "samplegold_layer0_instance30" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18215,10 +18215,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE30;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE30;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE31 : if BRAM_NAME = "sample_gold_layer0_instance31" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE31 : if BRAM_NAME = "samplegold_layer0_instance31" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18393,10 +18393,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE31;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE31;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE32 : if BRAM_NAME = "sample_gold_layer0_instance32" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE32 : if BRAM_NAME = "samplegold_layer0_instance32" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18571,10 +18571,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE32;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE32;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE33 : if BRAM_NAME = "sample_gold_layer0_instance33" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE33 : if BRAM_NAME = "samplegold_layer0_instance33" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18749,10 +18749,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE33;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE33;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE34 : if BRAM_NAME = "sample_gold_layer0_instance34" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE34 : if BRAM_NAME = "samplegold_layer0_instance34" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -18927,10 +18927,10 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE34;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE34;
 
 
-    MEM_SAMPLE_GOLD_LAYER0_INSTANCE35 : if BRAM_NAME = "sample_gold_layer0_instance35" generate
+    MEM_SAMPLEGOLD_LAYER0_INSTANCE35 : if BRAM_NAME = "samplegold_layer0_instance35" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"
@@ -19105,7 +19105,7 @@ entity bram_single is
             WE => bram_wr_en       -- Input write enable, width defined by write port depth
         );
     -- End of BRAM_SINGLE_MACRO_inst instantiation
-    end generate MEM_SAMPLE_GOLD_LAYER0_INSTANCE35;
+    end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE35;
 
 MEM_EMPTY_36Kb : if BRAM_NAME = "default" generate
     BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
