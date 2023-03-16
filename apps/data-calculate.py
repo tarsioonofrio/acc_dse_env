@@ -25,12 +25,19 @@ def main():
         config_hw = json.load(f)
 
     path_layer = path / "layer"
-
     layer = {
         p.relative_to(path_layer).as_posix(): len(open_file(p))
         for name in ["iwght", "ifmap", "gold"]
         for p in path_layer.glob(f"**/{name}.txt")
     }
+
+    path_samples = path / "samples"
+    samples = {
+        p.relative_to(path_samples).as_posix(): len(open_file(p))
+        for name in ["ifmap", "gold"]
+        for p in path_samples.glob(f"**/{name}.txt")
+    }
+    print()
 
 
 def open_file(path):
