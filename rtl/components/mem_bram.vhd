@@ -50,30 +50,11 @@ begin
   bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
   data_out <= bram_data_out(bram_select);
 
-  LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
+  LOOP_EN : for i in 0 to BRAM_NUM -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';
     bram_wr_en(i) <= wr_en when i = bram_select else '0';
   end generate; 
 
-    
-  IF_MEM_DEFAULT: if BRAM_NAME = "default" generate
-    LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
-      BRAM_SINGLE_INST: entity work.bram_single
-      generic map (
-        BRAM_NAME => "default"
-      )
-      port map(
-        CLK  => clock,
-        RST  => reset,
-        EN   => bram_chip_en(i),
-        WE   => bram_wr_en(i),
-        DI   => data_in,
-        ADDR => address(BRAM_ADDR-1 downto 0),
-        DO   => bram_data_out(i)
-        );
-    end generate; 
-  end generate; 
-  IF_MEM_NOT_DEFAULT: if BRAM_NAME /= "default" generate
     LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
@@ -88,8 +69,7 @@ begin
         ADDR => address(BRAM_ADDR-1 downto 0),
         DO   => bram_data_out(i)
         );
-    end generate; 
-  end generate; 
+    end generate;
 
   process(reset, clock)
   begin

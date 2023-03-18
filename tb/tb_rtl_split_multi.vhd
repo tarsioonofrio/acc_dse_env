@@ -34,7 +34,7 @@ architecture a1 of tb is
 
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal iwght_value, ifmap_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal iwght_value, ifmap_value : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
@@ -47,7 +47,7 @@ begin
   IWGHT : entity work.memory
     generic map(
       ROM => "weight",
-      INPUT_SIZE => INPUT_SIZE*2,
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
       )
@@ -67,7 +67,7 @@ begin
   IFMAP : entity work.memory
     generic map(
       ROM => "map",
-      INPUT_SIZE => INPUT_SIZE*2,
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
       )
@@ -126,12 +126,12 @@ begin
       config        => config,
 
       iwght_valid   => iwght_valid,
-      iwght_value   => iwght_value,
+      iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
       iwght_address => iwght_address,
       iwght_ce      => iwght_ce,
 
       ifmap_valid   => ifmap_valid,
-      ifmap_value   => ifmap_value,
+      ifmap_value   => ifmap_value(INPUT_SIZE*2-1 downto 0),
       ifmap_address => ifmap_address,
       ifmap_ce      => ifmap_ce,
 

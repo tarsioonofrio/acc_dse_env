@@ -1,4 +1,4 @@
-    MEM_EMPTY_18Kb : if BRAM_NAME = "default" generate
+    MEM_EMPTY_18Kb : if BRAM_NAME(1 to 7) = "default" generate
         BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
         generic map (
             BRAM_SIZE => "18Kb",             -- Target BRAM, "18Kb" or "36Kb"

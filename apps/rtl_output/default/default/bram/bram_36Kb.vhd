@@ -19107,7 +19107,7 @@ entity bram_single is
     -- End of BRAM_SINGLE_MACRO_inst instantiation
     end generate MEM_SAMPLEGOLD_LAYER0_INSTANCE35;
 
-MEM_EMPTY_36Kb : if BRAM_NAME = "default" generate
+MEM_EMPTY_36Kb : if BRAM_NAME(1 to 7) = "default" generate
     BRAM_SINGLE_MACRO_inst : BRAM_SINGLE_MACRO
     generic map (
         BRAM_SIZE => "36Kb",             -- Target BRAM, "18Kb" or "36Kb"

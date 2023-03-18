@@ -11,7 +11,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME  : string  := "ifmap_layer0"; -- "default", "ifmap_layer0", "iwght_layer0"
+    BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0", "iwght_layer0"
     PATH_DATA  : string  := "/layer/0/ifmap.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
