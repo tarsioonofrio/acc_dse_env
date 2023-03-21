@@ -14,23 +14,25 @@ use work.config_package_array.all;
 
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8;
-           LAT            : integer := 2;
-           N_LAYER        : integer := 0;
-           PATH           : string  := "";
-           BRAM_ADDR      : integer := 10;
-           BRAM_NUM_IWGHT : string  := "";
-           BRAM_NUM_IFMAP : string  := "";
-           BRAM_NUM_GOLD  : string  := ""
-           );
+  generic (
+    LAYER_NUM        : integer := 0;
+    N_FILTER       : integer := 16;
+    N_CHANNEL      : integer := 3;
+    X_SIZE         : integer := 32;
+    FILTER_WIDTH   : integer := 3;
+    CONVS_PER_LINE : integer := 15;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8;
+    LAT            : integer := 2;
+    N_LAYER        : integer := 0;
+    PATH           : string  := "";
+    BRAM_ADDR      : integer := 10;
+    BRAM_NUM_IWGHT : string  := "";
+    BRAM_NUM_IFMAP : string  := "";
+    BRAM_NUM_GOLD  : string  := ""
+    );
 end tb;
 
 architecture a1 of tb is
@@ -64,9 +66,8 @@ begin
       IFMAP_PATH     => PATH & "/ifmap.txt",
       N_LAYER        => N_LAYER,
       BRAM_ADDR      => BRAM_ADDR,
-      BRAM_NUM_IWGHT => BRAM_NUM_IWGHT(1 downto 2),
-      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP(1 downto 2),
-      BRAM_NUM_GOLD  => BRAM_NUM_GOLD(1 downto 2)
+      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT(1 to 2)),
+      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP(1 to 2))
  )
     port map(
       clock         => clock,
@@ -75,7 +76,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => type_config_logic_vector_const(0),
+      config          => config_logic_vector_const(LAYER_NUM),
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -98,6 +99,8 @@ begin
   OFMAP : entity work.memory
     generic map(
       ROM_PATH => "",
+      BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -118,7 +121,7 @@ begin
   MGOLD : entity work.memory
     generic map(
       BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 4,
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -129,7 +132,7 @@ begin
       chip_en  => ofmap_ce,
       wr_en    => ofmap_we,
       data_in  => (others => '0'),
-      address  => ofmap_address,
+      address  => address_out,
       data_av  => ofmap_valid,
       data_out => gold,
       n_read   => gold_n_read,
@@ -151,12 +154,12 @@ begin
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).n_filter))) then
         if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
-          report "expected value: " & integer'image(gold);
+          report "expected value: " & integer'image(CONV_INTEGER(gold));
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));

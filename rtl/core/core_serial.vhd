@@ -28,8 +28,7 @@ entity core is
     N_LAYER        : integer   := 0;
     BRAM_ADDR      : integer   := 10;
     BRAM_NUM_IWGHT : integer   := 1;
-    BRAM_NUM_IFMAP : integer   := 1;
-    BRAM_NUM_GOLD  : integer   := 1
+    BRAM_NUM_IFMAP : integer   := 1
     );
   port (
     clock : in std_logic;

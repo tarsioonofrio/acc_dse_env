@@ -8,7 +8,7 @@ use work.config_package.all;
 package config_package_array is
     type type_config_logic_vector is array (natural range 0 to {size}) of type_config_logic;
 
-  constant type_config_logic_vector_const: type_config_logic_vector := (
+  constant config_logic_vector_const: type_config_logic_vector := (
 {array}
    );
 
