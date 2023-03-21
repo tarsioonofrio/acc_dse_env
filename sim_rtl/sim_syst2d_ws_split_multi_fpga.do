@@ -19,7 +19,7 @@ vcom -work work ../rtl/core/util_pkg.vhd
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_split_multi_bram.vhd
+vcom -work work ../tb/tb_rtl_split_multi_fpga.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/layer/0/generic_file.txt

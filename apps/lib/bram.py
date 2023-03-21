@@ -124,12 +124,10 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
 
     write_bram_pkg(bram36k, path_output / f"bram_{bram_size}.vhd", max_bits, bram_config)
 
-    # generic36k = " ".join(
-    #     f"-gN_BRAM_{n}={i}" for i, n in
-    #     zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
-    # )
-    # with open(path_output / "generic_file_bram36k.txt", "w") as f:
-    #     f.write(generic36k)
+    generic_size = " ".join(
+        f' -gBRAM_NUM_{n}="{" ".join(i)}"' for i, n in
+        zip([wght_size, gold_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
+    )
 
     rw_depth_generics = (
         f" -gBRAM_RW_DEPTH={config_hw['BRAM_RW_DEPTH']}"
@@ -141,7 +139,7 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
 
     with open(path_output / f"generic_file{bram_size}.txt", "w") as f:
         f.writelines(
-            generics + rw_depth_generics + f" -gBRAM_ADDR={bram_addr}"
+            generics + rw_depth_generics + generic_size + f" -gBRAM_ADDR={bram_addr}"
         )
 
 
@@ -152,5 +150,5 @@ def generate_data_formated(file_name, entity_name, bram_config, bram_size, input
         for i, d in zip(range(n_layers), files)
     ]
     data = [y for x in formated for y in x[0]]
-    size = [x[1] for x in formated]
+    size = [f"{x[1]:02d}" for x in formated]
     return data, size
