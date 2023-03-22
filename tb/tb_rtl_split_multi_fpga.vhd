@@ -118,10 +118,10 @@ begin
       clock    => clock,
       reset    => reset,
       chip_en  => ofmap_ce,
-      wr_en    => ofmap_we,
+      wr_en    => '0',
       data_in  => (others => '0'),
       address  => ofmap_address,
-      data_av  => ofmap_valid,
+      data_av  => gold_valid,
       data_out => gold,
       n_read   => gold_n_read,
       n_write  => gold_n_write

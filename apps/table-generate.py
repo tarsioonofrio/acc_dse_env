@@ -72,7 +72,7 @@ def main():
     }
 
     bram_count = {
-        k: {s.split("layer")[1]: len(list(li[1] for li in bram_layer[k] if s == li[0]))
+        k: {s.split("layer")[1]: (list(li[1] for li in bram_layer[k] if s == li[0]))
             for s in bram_layer_name[k]}
         for k in bram_names
     }
@@ -81,12 +81,12 @@ def main():
         k: dict(sorted(v.items()))
         for k, v in bram_count.items()
     }
-    df_ba = pd.DataFrame.from_dict({k: v for k, v in bram_count_sorted.items() if k in name_layer})
-    df_ba.insert(0, 'layer', dfp.index)
-    df_ba = dfp.reset_index(drop=True)
-    df_ba.to_csv(path_output / 'bram_layer.csv', index=False)
+    dfb = pd.DataFrame.from_dict({k: v for k, v in bram_count_sorted.items() if k in name_layer})
+    dfb.insert(0, 'layer', dfb.index)
+    dfb = dfb.reset_index(drop=True)
+    dfb.to_csv(path_output / 'bram_layer.csv', index=False)
     with open(path_output / 'bram_layer.tex', 'w') as f:
-        f.write(df_ba.to_latex(index=False))
+        f.write(dfb.to_latex(index=False))
 
     with open(path_output / 'bram_samples.json', 'w') as f:
         json.dump(
