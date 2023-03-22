@@ -1,8 +1,8 @@
 import json
 import argparse
-from pathlib import Path
+import pandas as pd
 
-from lib.bram import generate_bram_files
+from pathlib import Path
 
 
 def main():
@@ -18,25 +18,40 @@ def main():
     file_hw = root / "rtl_config" / f"{args.rtl_config}.json"
     path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 
-    path_output = path / "bram"
+    path_output = path / "table"
     path_output.mkdir(parents=True, exist_ok=True)
 
     with open(file_hw) as f:
         config_hw = json.load(f)
 
     path_layer = path / "layer"
+    name_layer = ["iwght", "ifmap", "gold"]
     param_layer = {
         p.relative_to(path_layer).as_posix(): len(open_file(p))
-        for name in ["iwght", "ifmap", "gold"]
-        for p in path_layer.glob(f"**/{name}.txt")
+        for name in name_layer
+        for p in sorted(path_layer.glob(f"**/{name}.txt"))
     }
+
+    param_name_layer = {
+        n: {(k.split("/")[0]): v for k, v in param_layer.items() if n in k}
+        for n in name_layer
+    }
+    dfp = pd.DataFrame.from_dict(param_name_layer)
+    dfp.insert(0, 'layer', dfp.index)
+    dfp = dfp.reset_index(drop=True)
+    dfp.to_csv(path_output / 'param_layer.csv', index=False)
+    with open(path_output / 'param_layer.tex', 'w') as f:
+        f.write(dfp.to_latex(index=False))
 
     path_samples = path / "samples"
     param_samples = {
-        p.relative_to(path_samples).as_posix(): len(open_file(p))
+        p.relative_to(path_samples).stem: len(open_file(p))
         for name in ["ifmap", "gold"]
         for p in path_samples.glob(f"**/{name}.txt")
     }
+    with open(path_output / 'param_samples.json', 'w') as f:
+        json.dump(param_samples, f, ensure_ascii=False, indent=4)
+
 
     with open(path / "bram/bram_36Kb.vhd", "r") as f:
         bram_36Kb = f.readlines()
@@ -55,11 +70,10 @@ def main():
         k: {d[0] for d in v}
         for k, v in bram_layer.items()
     }
-    # .split("layer")[1]
 
     bram_count = {
         k: {s.split("layer")[1]: len(list(li[1] for li in bram_layer[k] if s == li[0]))
-         for s in bram_layer_name[k]}
+            for s in bram_layer_name[k]}
         for k in bram_names
     }
 
@@ -67,8 +81,17 @@ def main():
         k: dict(sorted(v.items()))
         for k, v in bram_count.items()
     }
+    df_ba = pd.DataFrame.from_dict({k: v for k, v in bram_count_sorted.items() if k in name_layer})
+    df_ba.insert(0, 'layer', dfp.index)
+    df_ba = dfp.reset_index(drop=True)
+    df_ba.to_csv(path_output / 'bram_layer.csv', index=False)
+    with open(path_output / 'bram_layer.tex', 'w') as f:
+        f.write(df_ba.to_latex(index=False))
 
-    print()
+    with open(path_output / 'bram_samples.json', 'w') as f:
+        json.dump(
+            {k: v for k, v in bram_count_sorted.items() if k not in name_layer}, f, ensure_ascii=False, indent=4
+        )
 
 
 def open_file(path):
