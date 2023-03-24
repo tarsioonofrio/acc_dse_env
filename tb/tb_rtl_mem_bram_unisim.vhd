@@ -10,8 +10,8 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME       : string  := "default"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
-    PATH_DATA       : string  := "/layer/0/ifmap.txt";
+    BRAM_NAME       : string  := "iwght_layer0_instance0"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
+    PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     MAX_MEM_SIZE    : integer := 36;
@@ -35,7 +35,7 @@ signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
 signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
 signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data     : type_array_int := read_data(PATH & PATH_DATA);
+signal input     : type_array_int := read_data(PATH & PATH_DATA);
 
 
 begin
@@ -76,7 +76,7 @@ begin
 
         for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
           address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
-          data_in <= std_logic_vector(to_unsigned(data(i), BRAM_RW_DEPTH));
+          data_in <= std_logic_vector(to_signed(input(i), BRAM_RW_DEPTH));
           wait until rising_edge(clock);
         end loop;
     end if;
@@ -91,7 +91,7 @@ begin
     for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
       address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
       wait until rising_edge(clock);
-      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
+      report "input: " & integer'image(input(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
     report "end of simulation without error!" severity failure;

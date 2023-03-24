@@ -44,6 +44,10 @@ signal bram_select   : integer range 0 to 2**(BRAM_NUM);
 type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
+type type_state is (WAITCE, WAITLATENCY);
+signal state : type_state;
+
+
 begin
   nclock <= not clock;
   -- data_av <= '1' when chip_en = '1' and nclock = '1' else '0';
@@ -72,15 +76,26 @@ begin
         );
     end generate;
 
-  data_av <= data_valid;
-  process(reset, clock)
-  begin
-    if reset = '1' then
-        data_valid <= '0';
-    elsif rising_edge(clock) then
-      data_valid <= chip_en;
-        -- data_av <= data_valid;
-    end if;
-  end process;
+   data_av <= '1';
+
+--   data_av <= data_valid;
+--   process(reset, clock)
+--   begin
+--     if reset = '1' then
+--         data_valid <= '0';
+--     elsif rising_edge(clock) then
+--         case state is
+--           when WAITCE =>
+--             if chip_en = '1' then
+--               data_valid <= '1';
+--               state <= WAITLATENCY;
+--             end if;
+--           when WAITLATENCY =>
+--               data_valid <= '0';
+--               state <= WAITCE;
+--         end case;
+--     end if;
+--
+--   end process;
 
 end a1;
