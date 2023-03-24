@@ -35,6 +35,7 @@ end memory;
 
 architecture a1 of memory is
 
+signal nclock   : std_logic := '0';
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(BRAM_NUM downto 0);
 signal bram_wr_en    : std_logic_vector(BRAM_NUM downto 0);
@@ -44,13 +45,16 @@ type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto
 signal bram_data_out: type_data;
 
 begin
+  nclock <= not clock;
+  -- data_av <= '1' when chip_en = '1' and nclock = '1' else '0';
+
   bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
   data_out <= bram_data_out(bram_select);
 
   LOOP_EN : for i in 0 to BRAM_NUM -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';
     bram_wr_en(i) <= wr_en when i = bram_select else '0';
-  end generate; 
+  end generate;
 
     LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
@@ -58,7 +62,7 @@ begin
         BRAM_NAME => BRAM_NAME & "_instance" & integer'image(i)
       )
       port map(
-        CLK  => clock,
+        CLK  => nclock,
         RST  => reset,
         EN   => bram_chip_en(i),
         WE   => bram_wr_en(i),
@@ -68,13 +72,14 @@ begin
         );
     end generate;
 
+  data_av <= data_valid;
   process(reset, clock)
   begin
     if reset = '1' then
         data_valid <= '0';
     elsif rising_edge(clock) then
-        data_valid <= chip_en;
-        data_av <= data_valid;
+      data_valid <= chip_en;
+        -- data_av <= data_valid;
     end if;
   end process;
 

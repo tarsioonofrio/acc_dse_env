@@ -10,7 +10,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME       : string  := "ifmap_layer0_instance0"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
+    BRAM_NAME       : string  := "default"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
     PATH_DATA       : string  := "/layer/0/ifmap.txt";
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
@@ -29,6 +29,7 @@ architecture a1 of tb is
 
 signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
+signal nclock   : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
@@ -44,7 +45,7 @@ begin
     BRAM_NAME => BRAM_NAME
   )
   port map(
-    CLK  => clock,
+    CLK  => nclock,
     RST  => reset,
     EN   => chip_en,
     WE   => wr_en,
@@ -54,7 +55,8 @@ begin
   );
 
 
-  clock <= not clock after 0.5 ns;
+  clock <= not clock after 10 ns;
+  nclock <= not clock;
 
   process
 
@@ -88,7 +90,6 @@ begin
     wr_en <= '0';
     for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
       address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
-      wait until rising_edge(clock);
       wait until rising_edge(clock);
       report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
     end loop;

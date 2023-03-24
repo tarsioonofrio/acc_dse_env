@@ -29,6 +29,7 @@ architecture a1 of tb is
 
 signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
+signal nclock   : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal valid    : std_logic := '0';
@@ -64,6 +65,7 @@ begin
     );
 
   clock <= not clock after 0.5 ns;
+  nclock <= not clock;
 
   process
 
@@ -100,7 +102,7 @@ begin
     for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
       address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
-      wait until rising_edge(clock);
+      -- wait until rising_edge(clock);
       report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
@@ -108,9 +110,8 @@ begin
     wr_en <= '0';
     wait until rising_edge(clock);
     wait until rising_edge(clock);
-  
+
     report "end of simulation without error!" severity failure;
 
   end process;
 end a1;
-
