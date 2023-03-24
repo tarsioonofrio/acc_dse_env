@@ -52,7 +52,6 @@ def main():
     with open(path_output / 'param_samples.json', 'w') as f:
         json.dump(param_samples, f, ensure_ascii=False, indent=4)
 
-
     with open(path / "bram/bram_36Kb.vhd", "r") as f:
         bram_36Kb = f.readlines()
 
