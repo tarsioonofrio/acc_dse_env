@@ -19,7 +19,7 @@ entity tb is
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NUM        : integer := 2;
-    BRAM_RW_DEPTH   : integer := 16;
+    MAX_MEM_SIZE   : integer := 16;
     BRAM_ADDR       : integer := 11
   );
 end tb;
@@ -33,8 +33,8 @@ signal nclock   : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
-signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
+signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
+signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal input     : type_array_int := read_data(PATH & PATH_DATA);
 
 
@@ -76,7 +76,7 @@ begin
 
         for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
           address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
-          data_in <= std_logic_vector(to_signed(input(i), BRAM_RW_DEPTH));
+          data_in <= std_logic_vector(to_signed(input(i), MAX_MEM_SIZE));
           wait until rising_edge(clock);
         end loop;
     end if;

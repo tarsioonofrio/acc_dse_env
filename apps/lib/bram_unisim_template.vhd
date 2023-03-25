@@ -47,20 +47,24 @@ entity bram_single is
         CLK  : in std_logic;
         EN   : in std_logic;
         WE   : in std_logic;
-        DI   : in std_logic_vector({bram_data}-1 downto 0);
+        DI   : in std_logic_vector({mem_width}-1 downto 0);
         ADDR : in std_logic_vector({bram_addr}-1 downto 0);
-        DO   : out std_logic_vector({bram_data}-1 downto 0)
+        DO   : out std_logic_vector({mem_width}-1 downto 0)
     );
  end bram_single;
 
   architecture a1 of bram_single is
     signal bram_wr_en    : std_logic_vector({bram_we}-1 downto 0);
     signal bram_addr     : std_logic_vector({bram_addr}-1 downto 0);
+    signal bram_di     : std_logic_vector({bram_width}-1 downto 0);
+    signal bram_do     : std_logic_vector({bram_width}-1 downto 0);
 
     begin
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
     bram_addr <= ADDR({bram_addr}-1 downto 0);
-          
+    bram_di <= DI({bram_width}-1 downto 0);
+    DO <= bram_do({mem_width}-1 downto 0)
+
 {code}
 
 end a1;

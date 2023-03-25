@@ -30,7 +30,7 @@ def main():
     with open(file_hw) as f:
         config_hw = json.load(f)
 
-    generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "18Kb")
+    # generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "18Kb")
     generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "36Kb")
 
     with open(Path(__file__).parent.resolve() / "lib/template_config_const_array.vhd", "r") as f:

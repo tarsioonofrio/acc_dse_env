@@ -67,7 +67,7 @@ begin
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 3,
+      BRAM_NUM => 8,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -88,7 +88,7 @@ begin
   OFMAP : entity work.memory
     generic map(
       BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 4,
+      BRAM_NUM => 8,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -109,7 +109,7 @@ begin
   MGOLD : entity work.memory
     generic map(
       BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 4,
+      BRAM_NUM => 8,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
