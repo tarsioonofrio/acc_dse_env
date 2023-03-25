@@ -10,7 +10,10 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME       : string  := "iwght_layer0_instance0"; -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
+--     BRAM_NAME       : string  := "default";
+--     BRAM_NAME       : string  := "ifmap_layer0_instance0";
+    BRAM_NAME       : string  := "iwght_layer0_instance0";
+--     PATH_DATA       : string  := "/layer/0/ifmap.txt";
     PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
@@ -19,7 +22,6 @@ entity tb is
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_NUM        : integer := 2;
-    MAX_MEM_SIZE   : integer := 16;
     BRAM_ADDR       : integer := 11
   );
 end tb;
@@ -91,7 +93,7 @@ begin
     for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
       address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
       wait until rising_edge(clock);
-      report "input: " & integer'image(input(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
+      report "input: " & integer'image(input(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
     report "end of simulation without error!" severity failure;

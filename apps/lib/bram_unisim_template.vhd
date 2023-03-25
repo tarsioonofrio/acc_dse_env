@@ -58,12 +58,13 @@ entity bram_single is
     signal bram_addr     : std_logic_vector({bram_addr}-1 downto 0);
     signal bram_di     : std_logic_vector({bram_width}-1 downto 0);
     signal bram_do     : std_logic_vector({bram_width}-1 downto 0);
+    constant bram_par     : std_logic_vector({bram_par}-1 downto 0) := "{bram_const}";
 
     begin
     bram_wr_en <= (others => '1') when WE = '1' else (others => '0');
     bram_addr <= ADDR({bram_addr}-1 downto 0);
-    bram_di <= DI({bram_width}-1 downto 0);
-    DO <= bram_do({mem_width}-1 downto 0)
+    bram_di <= bram_par & DI;
+    DO <= bram_do({mem_width}-1 downto 0);
 
 {code}
 

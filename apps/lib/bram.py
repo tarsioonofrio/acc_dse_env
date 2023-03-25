@@ -25,6 +25,10 @@ bram36kb_dict = {
     (1, 1):   {"BRAM_WIDTH": (1, 1),   "BRAM_DEPTH": 32768, "BRAM_ADDR": 15, "BRAM_WE": 1, "BRAM_PAR": 0},
 }
 
+dict_fun_ordenate_bits = {
+    36: lambda i: i[8:-1] + i[-1] + i[:8]
+}
+
 
 def two_comp(val, nbits):
     # https://stackoverflow.com/questions/7822956/how-to-convert-negative-integer-value-to-hex-in-python
@@ -38,8 +42,9 @@ def format_bram_pkg(name, feat_list, bram_config, bits=32, bram_size="36Kb"):
     bytes_per_value = 64 // values_per_line
 
     feat_hex = [format(two_comp(int(feat), bytes_per_value*4), f'0{bytes_per_value}x') for feat in feat_list]
-    feat_line = ["".join(reversed(feat_hex[i:i + values_per_line])) for i in range(0, len(feat_hex), values_per_line)]
-    feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
+    feat_line = [list(reversed(feat_hex[i:i + values_per_line])) for i in range(0, len(feat_hex), values_per_line)]
+    feat_shuffle = ["".join(dict_fun_ordenate_bits[bits](i) for i in line) for line in feat_line]
+    feat_file = [feat_shuffle[i:i + lines_per_file] for i in range(0, len(feat_shuffle), lines_per_file)]
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
@@ -64,9 +69,12 @@ def write_bram_pkg(blocks_string, path, bits, bram_config):
     bram_we = bram_config["BRAM_WE"]
     with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
+
+    bram_width = bits + bram_config["BRAM_PAR"]
+    bram_const = '0' * bram_config["BRAM_PAR"]
     text_out = bram_wrapper.format(
-        code=blocks_string, mem_width=bits, bram_addr=bram_addr, bram_we=bram_we,
-        bram_width=bits + bram_config["BRAM_PAR"]
+        code=blocks_string, mem_width=bits, bram_addr=bram_addr, bram_we=bram_we, bram_const=bram_const,
+        bram_width=bram_width, bram_par=bram_config["BRAM_PAR"],
     )
     with open(path, "w") as f:
         f.writelines(text_out)
@@ -120,7 +128,7 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
     )
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
-        empty = f.read().format(data_width=max_bits)
+        empty = f.read().format(bram_width=max_bits + bram_config["BRAM_PAR"])
 
     bram36k = "".join(wght_data + fmap_data + gold_data + sample_fmap_data + sample_gold_data) + empty
 
