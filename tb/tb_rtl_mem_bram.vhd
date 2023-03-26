@@ -11,11 +11,11 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    -- "default", "ifmap_layer0_instance0", "iwght_layer0_instance0"
-    LAYER_NAME      : string  := "default"; -- "default", "ifmap", "iwght"
-    LAYER_NUM       : string  := "";
---     BRAM_NAME  : string  := "default"; -- "default", "ifmap_layer0", "iwght_layer0"
---     PATH_DATA  : string  := "/layer/0/ifmap.txt";
+--     BRAM_NAME       : string  := "default";
+--     BRAM_NAME       : string  := "ifmap_layer0";
+    BRAM_NAME       : string  := "iwght_layer0";
+--     PATH_DATA       : string  := "/layer/0/ifmap.txt";
+    PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
@@ -39,7 +39,7 @@ signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
 signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
-signal data     : type_array_int := read_data(PATH & "/layer" & LAYER_NUM & "/" & LAYER_NAME & ".txt" ); --  "/layer/0/ifmap.txt";
+signal data     : type_array_int := read_data(PATH & PATH_DATA);
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
 
@@ -48,7 +48,7 @@ begin
 
   MEM : entity work.memory
   generic map(
-    BRAM_NAME => LAYER_NAME & "_layer" & LAYER_NUM,
+    BRAM_NAME => BRAM_NAME,
     BRAM_NUM => BRAM_NUM,
     INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
@@ -83,7 +83,7 @@ begin
     report "*** reset";
 
     -- write stage
-    if LAYER_NAME = "default" then
+    if BRAM_NAME = "default" then
         chip_en <= '1';
         wr_en <= '1';
         for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop

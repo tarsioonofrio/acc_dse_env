@@ -1,16 +1,16 @@
 library ieee;
-library std;
-
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
+-- use ieee.numeric_std.all;
 use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use ieee.math_real.all;
 
+library std;
 use std.textio.all;
 
 use work.config_package.all;
-
+use work.config_package_array.all;
 
 entity tb is
   generic (N_FILTER       : integer := 16;
@@ -47,6 +47,7 @@ begin
     generic map(
       BRAM_NAME => "iwght_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
       BRAM_NUM => 1,
+      BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -68,6 +69,7 @@ begin
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
       BRAM_NUM => 8,
+      BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -89,6 +91,7 @@ begin
     generic map(
       BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
       BRAM_NUM => 8,
+      BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -110,6 +113,7 @@ begin
     generic map(
       BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
       BRAM_NUM => 8,
+      BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -146,7 +150,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
-      config        => config,
+      config        => config_logic_vector_const(0),
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
@@ -166,23 +170,6 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
-  config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
-  config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
-  config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
-  config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
-  --config.filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH, config.filter_width'LENGTH);
-  --config.filter_width_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH*FILTER_WIDTH, config.filter_width_filter_width'LENGTH);
-  --config.filter_width_filter_width_1 <= CONV_STD_LOGIC_VECTOR((FILTER_WIDTH*FILTER_WIDTH)-1, config.filter_width_filter_width_1'LENGTH);
-  --config.input_size <= CONV_STD_LOGIC_VECTOR(INPUT_SIZE, config.input_size'LENGTH);
-  --config.carry_size <= CONV_STD_LOGIC_VECTOR(CARRY_SIZE, config.carry_size'LENGTH);
-  config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
-  config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
-  config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
-
-  config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-  config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-  config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
-
   clock <= not clock after 0.5 ns;
 
   reset <= '1', '0' after 2.5 ns;
@@ -197,17 +184,21 @@ begin
   begin
 
     if clock'event and clock = '0' then
+      if ofmap_ce = '1' then
+          report "ofmap_out: " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
+      end if;
+
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
         if ofmap_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
-          report "expected value: " & integer'image(CONV_INTEGER(gold));
+          report "expected value: " & integer'image(CONV_INTEGER((gold(31 downto 0))));
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
+            report "obtained value: " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
           else
-            report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out));
+            report "obtained value: " & integer'image(CONV_INTEGER((ofmap_out)));
           end if;
 
           assert false severity failure;

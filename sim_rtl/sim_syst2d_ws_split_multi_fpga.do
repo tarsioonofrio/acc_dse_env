@@ -4,7 +4,8 @@ vmap work work
 
 # Packages for CNN layer simualtion
 vcom -work work ../apps/rtl_output/default/default/bram/bram_36Kb.vhd
-vcom -work work ../apps/rtl_output/default/default/layer/0/config_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
