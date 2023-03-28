@@ -17,22 +17,18 @@ def main():
     args = parser.parse_args()
 
     root = Path(__file__).parent.resolve()
-    file_nn = root / "cnn_config" / f"{args.rtl_config}.json"
-    file_hw = root / "rtl_config" / f"{args.rtl_config}.json"
+    file_rtl = root / "rtl_config" / f"{args.rtl_config}.json"
     path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 
     path_output = path / "bram"
     path_output.mkdir(parents=True, exist_ok=True)
 
-    with open(file_nn) as f:
-        config_nn = json.load(f)
+    with open(file_rtl) as f:
+        config_rtl = json.load(f)
 
-    with open(file_hw) as f:
-        config_hw = json.load(f)
-
-    if config_hw["MAX_MEM_SIZE"] <= 32:
-        generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "18Kb")
-    generate_bram_files(len(config_nn["filter_channel"]), path, path_output, config_hw, "36Kb")
+    if config_rtl["MAX_MEM_SIZE"] <= 32:
+        generate_bram_files(path, path_output, config_rtl, "18Kb")
+    generate_bram_files(path, path_output, config_rtl, "36Kb")
 
     with open(Path(__file__).parent.resolve() / "lib/template_config_const_array.vhd", "r") as f:
         template_config_array = f.read()

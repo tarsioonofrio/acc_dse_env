@@ -174,8 +174,16 @@ begin
   begin
 
     if clock'event and clock = '0' then
+      if iwght_valid = '1' then
+          report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
+      end if;
+
+      if ifmap_valid = '1' then
+          report "ifmap_value " &  integer'image(CONV_INTEGER(ifmap_value(31 downto 0)));
+      end if;
+
       if ofmap_ce = '1' then
-          report "ofmap_out: " &  integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
+          report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
       end if;
 
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then

@@ -35,9 +35,9 @@ def two_comp(val, nbits):
     return (val + (1 << nbits)) % (1 << nbits)
 
 
-def format_bram_pkg(name, feat_list, bram_config, bits=32, bram_size="36Kb"):
+def format_bram_pkg(name, feat_list, config_rtl, bits=32, bram_size="36Kb"):
     lines_per_file = bram_lines[bram_size]
-    bram_depth = bram_config["BRAM_DEPTH"]
+    bram_depth = config_rtl["BRAM_DEPTH"]
     values_per_line = bram_depth // lines_per_file
     bytes_per_value = 64 // values_per_line
 
@@ -54,7 +54,7 @@ def format_bram_pkg(name, feat_list, bram_config, bits=32, bram_size="36Kb"):
     list_text_out = [
         text.format(
             label=f"MEM_{entity.upper()}", bram_name=entity, init_xx=init_data(file, lines_per_file),
-            bram_width=bits + bram_config["BRAM_PAR"]
+            bram_width=bits + config_rtl["BRAM_PAR"]
         )
         for i, (file, entity) in enumerate(zip(feat_file, list_entity))
     ]
@@ -104,27 +104,27 @@ def open_file(path):
     return data_int
 
 
-def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size):
+def generate_bram_files(input_path, path_output, config_hw, bram_size):
     max_bits = config_hw["MAX_MEM_SIZE"]
     bram_config = get_bram_config(max_bits, bram_size)
     bram_addr = bram_config["BRAM_ADDR"]
 
     wght_data, wght_size = generate_data_formated(
-        "iwght", "iwght", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "iwght", "iwght", bram_config, bram_size, input_path / "layer", max_bits
     )
     fmap_data, fmap_size = generate_data_formated(
-        "ifmap", "ifmap", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "ifmap", "ifmap", bram_config, bram_size, input_path / "layer", max_bits
     )
     gold_data, gold_size = generate_data_formated(
-        "gold", "gold", bram_config, bram_size, input_path / "layer", max_bits, n_layers
+        "gold", "gold", bram_config, bram_size, input_path / "layer", max_bits
     )
 
     sample_fmap_data, sample_fmap_size = generate_data_formated(
-        "ifmap", "sampleifmap", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+        "ifmap", "sampleifmap", bram_config, bram_size, input_path / "samples", max_bits
     )
 
     sample_gold_data, sample_gold_size = generate_data_formated(
-        "gold", "samplegold", bram_config, bram_size, input_path / "samples", max_bits, n_layers
+        "gold", "samplegold", bram_config, bram_size, input_path / "samples", max_bits
     )
 
     with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
@@ -153,11 +153,10 @@ def generate_bram_files(n_layers, input_path, path_output, config_hw, bram_size)
         )
 
 
-def generate_data_formated(file_name, entity_name, bram_config, bram_size, input_path, max_bits, n_layers):
-    files = [open_file(p) for p in input_path.glob(f"**/{file_name}.txt")]
+def generate_data_formated(file_name, entity_name, bram_config, bram_size, input_path, max_bits):
     formated = [
-        format_bram_pkg(f"{entity_name}_layer{i}", d, bram_config, max_bits, bram_size)
-        for i, d in zip(range(n_layers), files)
+        format_bram_pkg(f"{entity_name}_layer{f.parent.name}", open_file(f), bram_config, max_bits, bram_size)
+        for f in input_path.glob(f"**/{file_name}.txt")
     ]
     data = [y for x in formated for y in x[0]]
     size = [f"{x[1]:02d}" for x in formated]

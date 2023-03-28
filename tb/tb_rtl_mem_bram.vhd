@@ -12,10 +12,10 @@ use work.util_package.all;
 entity tb is
   generic (
 --     BRAM_NAME       : string  := "default";
---     BRAM_NAME       : string  := "ifmap_layer0";
-    BRAM_NAME       : string  := "iwght_layer0";
---     PATH_DATA       : string  := "/layer/0/ifmap.txt";
-    PATH_DATA       : string  := "/layer/0/iwght.txt";
+    BRAM_NAME       : string  := "ifmap_layer0";
+--     BRAM_NAME       : string  := "iwght_layer0";
+    PATH_DATA       : string  := "/layer/0/ifmap.txt";
+--     PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
@@ -23,7 +23,7 @@ entity tb is
     BRAM_NUM   : integer := 9;
     BRAM_SIZE  : integer := 16;
     MAX_MEM_SIZE : integer := 16;
-    BRAM_ADDR  : integer := 11
+    BRAM_ADDR  : integer := 9
   );
 end tb;
 
@@ -86,7 +86,7 @@ begin
     if BRAM_NAME = "default" then
         chip_en <= '1';
         wr_en <= '1';
-        for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+        for i in 0 to (BRAM_NUM*((2**BRAM_ADDR)-1)) loop
           address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
           data_in <= std_logic_vector(to_unsigned(data(i), MAX_MEM_SIZE));
           wait until rising_edge(clock);
@@ -102,11 +102,14 @@ begin
     -- read stage
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+    for i in 0 to (BRAM_NUM*((2**BRAM_ADDR)-1)) loop
       address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       -- wait until rising_edge(clock);
       report "input: " & integer'image(data(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+      if data(i) /= to_integer(signed(data_out)) then
+--         assert false severity failure;
+      end if;
     end loop;
 
     chip_en <= '0';

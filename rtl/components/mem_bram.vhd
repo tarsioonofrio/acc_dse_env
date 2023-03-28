@@ -35,7 +35,7 @@ end memory;
 
 architecture a1 of memory is
 
-signal nclock   : std_logic := '0';
+signal nclock   : std_logic;
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(BRAM_NUM downto 0);
 signal bram_wr_en    : std_logic_vector(BRAM_NUM downto 0);
@@ -89,6 +89,8 @@ begin
 --             if chip_en = '1' then
 --               data_valid <= '1';
 --               state <= WAITLATENCY;
+--             else
+--               data_valid <= '0';
 --             end if;
 --           when WAITLATENCY =>
 --               data_valid <= '0';
