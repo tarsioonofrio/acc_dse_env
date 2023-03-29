@@ -28,8 +28,7 @@ entity core is
     N_LAYER        : integer   := 0;
     BRAM_ADDR      : integer   := 10;
     BRAM_NUM_IWGHT : integer   := 1;
-    BRAM_NUM_IFMAP : integer   := 1;
-    BRAM_NUM_GOLD  : integer   := 1
+    BRAM_NUM_IFMAP : integer   := 1
     );
   port (
     clock : in std_logic;
@@ -53,7 +52,7 @@ entity core is
     p_ofmap_valid : in std_logic;
     
     p_address_in  : in std_logic_vector(MEM_SIZE-1 downto 0);
-    p_value_in    : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0); -- tem q ser a mesma configuração do p_value_out
+    p_value_in    : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
     p_address_out : out std_logic_vector(MEM_SIZE-1 downto 0);
     p_value_out   : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
   );
@@ -88,7 +87,7 @@ begin
   start_conv <= p_start_conv ;
   ofmap_valid <= p_ofmap_valid;
   ofmap_in <= p_value_in;
-  mem_iwght_value((INPUT_SIZE*2)-1 downto 0) <=  p_value_in((INPUT_SIZE*2)-1 downto 0);
+  mem_iwght_value <=  p_value_in;
 
   -- map conditional input port
   mem_iwght_ce <= '1' when p_iwght_ce ='1' or iwght_ce = '1' else '0';
@@ -110,7 +109,7 @@ begin
   p_value_out <= mem_ifmap_value when p_ifmap_ce = '1' else ofmap_out; -- and p_ifmap_we = '1'
 
   -- map mem value to conv 
-  ifmap_value((INPUT_SIZE*2)-1 downto 0) <= mem_ifmap_value((INPUT_SIZE*2)-1 downto 0);
+  ifmap_value <= mem_ifmap_value;
 
 
   IWGHT : entity work.memory

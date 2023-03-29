@@ -9,43 +9,44 @@ use ieee.std_logic_textio.all;
 use std.textio.all;
 
 use work.config_package.all;
-use work.iwght_package.all;
-use work.ifmap_package.all;
-use work.gold_package.all;
 use work.util_package.all;
+use work.config_package_array.all;
 
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8;
-           LAT            : integer := 2;
-           N_LAYER        : integer := 0;
-           PATH           : string  := "";
-           BRAM_NUM_IWGHT : integer := 2;
-           BRAM_NUM_IFMAP : integer := 2;
-           BRAM_NUM_GOLD  : integer := 2
-           );
+  generic (
+    LAYER_NUM        : integer := 0;
+    N_FILTER       : integer := 16;
+    N_CHANNEL      : integer := 3;
+    X_SIZE         : integer := 32;
+    FILTER_WIDTH   : integer := 3;
+    CONVS_PER_LINE : integer := 15;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8;
+    LAT            : integer := 2;
+    N_LAYER        : integer := 0;
+    PATH           : string  := "";
+    BRAM_ADDR      : integer := 10;
+    BRAM_NUM_IWGHT : string  := "";
+    BRAM_NUM_IFMAP : string  := "";
+    BRAM_NUM_GOLD  : string  := ""
+    );
 end tb;
 
 architecture a1 of tb is
   signal clock, reset, start_conv, debug : std_logic := '0';
 
-  signal iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
+  signal gold_valid, iwght_valid, ifmap_valid, ofmap_valid, ofmap_ce, ofmap_we, end_conv : std_logic := '0';
 
   signal address_in, address_out : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal value_in, value_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal value_in, value_out, gold : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
+  signal ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
+--   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
 
 begin
 
@@ -63,7 +64,10 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       IWGHT_PATH     => PATH & "/iwght.txt",
       IFMAP_PATH     => PATH & "/ifmap.txt",
-      N_LAYER        => N_LAYER
+      N_LAYER        => N_LAYER,
+      BRAM_ADDR      => BRAM_ADDR,
+      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT(1 to 2)),
+      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP(1 to 2))
  )
     port map(
       clock         => clock,
@@ -72,7 +76,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => config,
+      config          => config_logic_vector_const(LAYER_NUM),
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -95,6 +99,8 @@ begin
   OFMAP : entity work.memory
     generic map(
       ROM_PATH => "",
+      BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -112,6 +118,26 @@ begin
       n_write  => ofmap_n_write
       );
 
+  MGOLD : entity work.memory
+    generic map(
+      BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => LAT
+      )
+    port map(
+      clock    => clock,
+      reset    => reset,
+      chip_en  => ofmap_ce,
+      wr_en    => '0',
+      data_in  => (others => '0'),
+      address  => address_out,
+      data_av  => gold_valid,
+      data_out => gold,
+      n_read   => gold_n_read,
+      n_write  => gold_n_write
+      );
 
   clock <= not clock after 0.5 ns;
 
@@ -128,13 +154,12 @@ begin
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
-          --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).n_filter))) then
+        if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out))));
+          report "expected value: " & integer'image(CONV_INTEGER(gold));
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));

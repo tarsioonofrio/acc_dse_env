@@ -10,19 +10,13 @@ use work.util_package.all;
 
 entity tb is
   generic (
---     BRAM_NAME       : string  := "default";
---     BRAM_NAME       : string  := "ifmap_layer0_instance0";
-    BRAM_NAME       : string  := "iwght_layer0_instance0";
---     PATH_DATA       : string  := "/layer/0/ifmap.txt";
-    PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     MAX_MEM_SIZE    : integer := 36;
     MEM_SIZE        : integer := 12;
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
-    BRAM_NUM        : integer := 2;
-    BRAM_ADDR       : integer := 11
+    BRAM_ADDR       : integer := 9
   );
 end tb;
 
@@ -37,14 +31,13 @@ signal wr_en    : std_logic := '0';
 signal address  : std_logic_vector(BRAM_ADDR-1 downto 0);
 signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
-signal input     : type_array_int := read_data(PATH & PATH_DATA);
 
 
 begin
 
   BRAM_SINGLE_INST: entity work.bram_single
   generic map (
-    BRAM_NAME => BRAM_NAME
+    BRAM_NAME => "default"
   )
   port map(
     CLK  => nclock,
@@ -70,18 +63,15 @@ begin
     wait until rising_edge(clock);
 
     reset <= '0';
-    report "*** reser";
+    report "*** reset";
 
-    if BRAM_NAME = "default" then
-        chip_en <= '1';
-        wr_en <= '1';
-
-        for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
-          address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
-          data_in <= std_logic_vector(to_signed(input(i), MAX_MEM_SIZE));
-          wait until rising_edge(clock);
-        end loop;
-    end if;
+    chip_en <= '1';
+    wr_en <= '1';
+    for i in 0 to (2**(BRAM_ADDR))-1 loop
+      address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
+      data_in <= std_logic_vector(to_signed(i - 2**(BRAM_ADDR-1), MAX_MEM_SIZE));
+      wait until rising_edge(clock);
+    end loop;
 
     chip_en <= '0';
     wr_en <= '0';
@@ -90,13 +80,13 @@ begin
 
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (BRAM_ADDR*BRAM_ADDR-1) loop
+    for i in 0 to (2**(BRAM_ADDR))-1 loop
       address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
       wait until rising_edge(clock);
-      report "input: " & integer'image(input(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+      report "input: " & integer'image(i - 2**(BRAM_ADDR-1)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
     end loop;
 
-    report "end of simulation without error!" severity failure;
+--     report "end of simulation without error!" severity failure;
 
   end process;
 end a1;

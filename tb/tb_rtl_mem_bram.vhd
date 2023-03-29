@@ -11,16 +11,19 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    BRAM_NAME  : string  := "ifmap_layer0"; -- "default", "ifmap_layer0", "iwght_layer0"
-    PATH_DATA  : string  := "/layer/0/ifmap.txt";
+--     BRAM_NAME       : string  := "default";
+    BRAM_NAME       : string  := "ifmap_layer0";
+--     BRAM_NAME       : string  := "iwght_layer0";
+    PATH_DATA       : string  := "/layer/0/ifmap.txt";
+--     PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
     BRAM_NUM   : integer := 9;
     BRAM_SIZE  : integer := 16;
-    BRAM_RW_DEPTH : integer := 16;
-    BRAM_ADDR  : integer := 11
+    MAX_MEM_SIZE : integer := 16;
+    BRAM_ADDR  : integer := 9
   );
 end tb;
 
@@ -29,12 +32,13 @@ architecture a1 of tb is
 
 signal reset    : std_logic := '0';
 signal clock    : std_logic := '0';
+signal nclock   : std_logic := '0';
 signal chip_en  : std_logic := '0';
 signal wr_en    : std_logic := '0';
 signal valid    : std_logic := '0';
 signal address  : std_logic_vector(MEM_SIZE-1 downto 0);
-signal data_in  : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
-signal data_out : std_logic_vector(BRAM_RW_DEPTH-1 downto 0);
+signal data_in  : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
+signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 signal data     : type_array_int := read_data(PATH & PATH_DATA);
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
@@ -46,7 +50,7 @@ begin
   generic map(
     BRAM_NAME => BRAM_NAME,
     BRAM_NUM => BRAM_NUM,
-    INPUT_SIZE => BRAM_RW_DEPTH,
+    INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
     )
@@ -64,6 +68,7 @@ begin
     );
 
   clock <= not clock after 0.5 ns;
+  nclock <= not clock;
 
   process
 
@@ -81,15 +86,15 @@ begin
     if BRAM_NAME = "default" then
         chip_en <= '1';
         wr_en <= '1';
-        for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+        for i in 0 to (BRAM_NUM*((2**BRAM_ADDR)-1)) loop
           address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
-          data_in <= std_logic_vector(to_unsigned(data(i), BRAM_RW_DEPTH));
+          data_in <= std_logic_vector(to_unsigned(data(i), MAX_MEM_SIZE));
           wait until rising_edge(clock);
         end loop;
 
         chip_en <= '0';
         wr_en <= '0';
-        data_in <= std_logic_vector(to_unsigned(0, BRAM_RW_DEPTH));
+        data_in <= std_logic_vector(to_unsigned(0, MAX_MEM_SIZE));
         wait until rising_edge(clock);
         wait until rising_edge(clock);
     end if;
@@ -97,20 +102,22 @@ begin
     -- read stage
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (BRAM_NUM*((BRAM_ADDR**2)-1)) loop
+    for i in 0 to (BRAM_NUM*((2**BRAM_ADDR)-1)) loop
       address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
-      wait until rising_edge(clock);
-      report "data: " & integer'image(data(i)) & ", " & "data_out: " & integer'image(to_integer(signed(data_out)));
+      -- wait until rising_edge(clock);
+      report "input: " & integer'image(data(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+      if data(i) /= to_integer(signed(data_out)) then
+--         assert false severity failure;
+      end if;
     end loop;
 
     chip_en <= '0';
     wr_en <= '0';
     wait until rising_edge(clock);
     wait until rising_edge(clock);
-  
+
     report "end of simulation without error!" severity failure;
 
   end process;
 end a1;
-

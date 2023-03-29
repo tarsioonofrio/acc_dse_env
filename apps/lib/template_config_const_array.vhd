@@ -1,0 +1,10 @@
+    {num} =>    (n_filter => "{data[0]}",
+                n_channel => "{data[1]}",
+                x_size => "{data[2]}",
+                x_size_x_size => "{data[3]}",
+                convs_per_line => "{data[4]}",
+                convs_per_line_convs_per_line => "{data[5]}",
+                convs_per_line_convs_per_line_1 => "{data[6]}",
+                convs_per_line_convs_per_line_n_channel => "{data[7]}",
+                convs_per_line_convs_per_line_n_channel_1 => "{data[8]}",
+                convs_per_line_convs_per_line_n_channel_n_filter => "{data[9]}")
