@@ -1,4 +1,3 @@
-from math import ceil, floor
 from pathlib import Path
 
 bram_lines = {
@@ -136,7 +135,7 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
 
     generic_size = " ".join(
         f' -gBRAM_NUM_{n}="{" ".join(i)}"' for i, n in
-        zip([wght_size, gold_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
+        zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
     )
 
     rw_depth_generics = (
