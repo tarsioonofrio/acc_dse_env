@@ -173,19 +173,21 @@ begin
 
   begin
 
-    if clock'event and clock = '0' then
-      if iwght_valid = '1' then
-          report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
-      end if;
-
-      if ifmap_valid = '1' then
-          report "ifmap_value " &  integer'image(CONV_INTEGER(ifmap_value(31 downto 0)));
-      end if;
-
-      if ofmap_ce = '1' then
+    if clock'event and clock = '1' then
+--       if iwght_valid = '1' then
+--           report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
+--       end if;
+--
+      -- if ifmap_valid = '1' then
+      --     report "ifmap_value " &  integer'image(CONV_INTEGER(ifmap_value(31 downto 0)));-- & " idx: " & integer'image(CONV_INTEGER(unsigned(ifmap_address)));
+      -- end if;
+--
+      if ofmap_valid = '1' then
           report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
       end if;
+    end if;
 
+    if clock'event and clock = '0' then
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then

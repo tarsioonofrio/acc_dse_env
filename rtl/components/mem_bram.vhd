@@ -44,13 +44,13 @@ signal bram_select   : integer range 0 to 2**(BRAM_NUM);
 type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
-type type_state is (WAITCE, WAITLATENCY);
-signal state : type_state;
-
+type statesDataAv is (WAITCE, WAITLATENCY);
+signal EA_dataav, PE_dataav : statesDataAv;
+signal cont_read, cont_write, cont_av_cycles : integer;
+signal data_av_signal : std_logic;
 
 begin
   nclock <= not clock;
-  -- data_av <= '1' when chip_en = '1' and nclock = '1' else '0';
 
   bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
   data_out <= bram_data_out(bram_select);
@@ -76,28 +76,109 @@ begin
         );
     end generate;
 
-   data_av <= '1';
+  process(reset, clock)
+  begin
+    if reset = '1' then
+      EA_dataav <= WAITCE;
+    elsif rising_edge(clock) then
+      if chip_en = '0' then
+        EA_dataav <= WAITCE;
+      else
+        EA_dataav <= PE_dataav;
+      end if;
+    end if;
+  end process;
 
---   data_av <= data_valid;
---   process(reset, clock)
---   begin
---     if reset = '1' then
---         data_valid <= '0';
---     elsif rising_edge(clock) then
---         case state is
---           when WAITCE =>
---             if chip_en = '1' then
---               data_valid <= '1';
---               state <= WAITLATENCY;
---             else
---               data_valid <= '0';
---             end if;
---           when WAITLATENCY =>
---               data_valid <= '0';
---               state <= WAITCE;
---         end case;
---     end if;
---
---   end process;
+  process (EA_dataav, chip_en, cont_av_cycles)
+  begin
+    case EA_dataav is
+      when WAITCE =>
+        if chip_en = '1' then
+          PE_dataav <= WAITLATENCY;
+        end if;
+      when WAITLATENCY =>
+        if cont_av_cycles = DATA_AV_LATENCY-1 then
+          PE_dataav <= WAITCE;
+        end if;
+    end case;
+  end process;
+
+  process (clock, reset)
+  begin
+    if reset = '1' then
+      cont_av_cycles <= 0;
+    elsif rising_edge(clock) then
+      if chip_en = '1' then
+        case EA_dataav is
+          when WAITLATENCY =>
+
+            cont_av_cycles <= cont_av_cycles + 1;
+
+            if cont_av_cycles = DATA_AV_LATENCY-1 then
+              cont_av_cycles <= 0;
+            end if;
+
+          when others => null;
+        end case;
+      else
+        cont_av_cycles <= 0;
+      end if;
+
+    end if;
+  end process;
+
+  process(clock, reset)
+  begin
+    if reset = '1' then
+      data_av_signal <= '0';
+    elsif clock'event and clock = '1' then
+      if DATA_AV_LATENCY = 0 then
+        data_av_signal <= '1';
+      else
+        if chip_en = '1' then
+          if DATA_AV_LATENCY = 1 and EA_dataav = WAITCE then
+            data_av_signal <= '1';
+          elsif DATA_AV_LATENCY > 1 and EA_dataav = WAITLATENCY and cont_av_cycles = DATA_AV_LATENCY-2 then
+            data_av_signal <= '1';
+          else
+            data_av_signal <= '0';
+          end if;
+        else
+          data_av_signal <= '0';
+        end if;
+      end if;
+    end if;
+  end process;
+
+  data_av <= (data_av_signal and chip_en) when DATA_AV_LATENCY = 1 else
+             data_av_signal;
+
+  process(clock, reset)
+  begin
+    if reset = '1' then
+      cont_write <= 0;
+      cont_read  <= 0;
+    elsif clock'event and clock = '1' then
+      if chip_en = '1' then
+        if DATA_AV_LATENCY > 0 then
+          if wr_en = '1' then
+            cont_write <= cont_write + 1;
+          elsif wr_en = '0' and EA_dataav = WAITLATENCY and cont_av_cycles = DATA_AV_LATENCY-1 then
+            cont_read <= cont_read + 1;
+          end if;
+        else
+          if wr_en = '1' then
+            cont_write <= cont_write + 1;
+          else
+            cont_read <= cont_read + 1;
+          end if;
+        end if;
+      end if;
+    end if;
+  end process;
+
+  n_read <= CONV_STD_LOGIC_VECTOR(cont_read, 32);
+
+  n_write <= CONV_STD_LOGIC_VECTOR(cont_write, 32);
 
 end a1;

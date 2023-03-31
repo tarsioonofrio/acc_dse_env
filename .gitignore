@@ -25,4 +25,7 @@ weights.*
 
 wlft*
 *.wlf
-
+work/
+.nfs*
+transcript
+modelsim.ini

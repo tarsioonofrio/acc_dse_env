@@ -21,8 +21,7 @@ entity tb is
            MEM_SIZE       : integer := 12;
            INPUT_SIZE     : integer := 8;
            CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8;
-           LAT            : integer := 2
+           SHIFT          : integer := 8
            );
 end tb;
 
@@ -39,8 +38,6 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic;
-
 begin
 
   IWGHT : entity work.memory
@@ -49,8 +46,7 @@ begin
       BRAM_NUM => 1,
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -71,8 +67,7 @@ begin
       BRAM_NUM => 8,
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -93,8 +88,7 @@ begin
       BRAM_NUM => 8,
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -103,7 +97,7 @@ begin
       wr_en    => ofmap_we,
       data_in  => ofmap_out,
       address  => ofmap_address,
-      data_av  => gold_valid,
+      data_av  => ofmap_valid,
       data_out => ofmap_in,
       n_read   => ofmap_n_read,
       n_write  => ofmap_n_write
@@ -115,8 +109,7 @@ begin
       BRAM_NUM => 8,
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -170,6 +163,7 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
+
   clock <= not clock after 0.5 ns;
 
   reset <= '1', '0' after 2.5 ns;
@@ -183,19 +177,7 @@ begin
 
   begin
 
-    if clock'event and clock = '0' then
-      if iwght_valid = '1' then
-          report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
-      end if;
-
-      if ifmap_valid = '1' then
-          report "ifmap_value " & integer'image(CONV_INTEGER((ifmap_value(31 downto 0))));
-      end if;
-
-      if ofmap_ce = '1' then
-          report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
-      end if;
-
+  if clock'event and clock = '1' then
 
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
         if ofmap_out /= gold then
