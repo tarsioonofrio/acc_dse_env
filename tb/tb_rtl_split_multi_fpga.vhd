@@ -28,17 +28,15 @@ end tb;
 architecture a1 of tb is
   signal clock, reset, start_conv, debug : std_logic := '0';
 
-  signal gold_valid, ofmap_valid, ofmap_valid2, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
+  signal gold_valid, ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
 
   signal iwght_address, ifmap_address, ofmap_address : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal iwght_value, ifmap_value : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal ofmap_out, ofmap_in, ofmap_in2, gold : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal ofmap_out, ofmap_in, gold : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write, ofmap_n_read2, ofmap_n_write2, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
-
-  signal config : type_config_logic;
+  signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
 begin
 
@@ -179,24 +177,7 @@ begin
 
   begin
 
-    if clock'event and clock = '1' then
---       if iwght_valid = '1' then
---           report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
---       end if;
-
-      -- if ifmap_valid = '1' then
-      --     report "ifmap_value " & integer'image(CONV_INTEGER((ifmap_value(31 downto 0))));-- & " idx: " & integer'image(CONV_INTEGER(unsigned(ifmap_address)));
-      -- end if;
-
-      -- if ofmap_we = '1' then
-      --     report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0)))) & " " & integer'image(CONV_INTEGER((ofmap_out2(31 downto 0))));
-      -- end if;
-    --   if ofmap_we = '1' then
-    --     report "ofmap_in " & integer'image(CONV_INTEGER((ofmap_in(31 downto 0)))) & " " & integer'image(CONV_INTEGER((ofmap_in2(31 downto 0))));
-    -- end if;
-end if;
-
-if clock'event and clock = '1' then
+  if clock'event and clock = '1' then
 
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
         if ofmap_out /= gold then
