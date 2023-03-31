@@ -40,6 +40,7 @@ signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(BRAM_NUM downto 0);
 signal bram_wr_en    : std_logic_vector(BRAM_NUM downto 0);
 signal bram_select   : integer range 0 to 2**(BRAM_NUM);
+signal bram_select_reg   : integer range 0 to 2**(BRAM_NUM);
 
 type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
@@ -52,8 +53,17 @@ signal data_av_signal : std_logic;
 begin
   nclock <= not clock;
 
-  bram_select <= CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
-  data_out <= bram_data_out(bram_select);
+  data_out <= bram_data_out(bram_select_reg);
+  bram_select <= 0 when reset = '1' else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
+
+  process(reset, clock)
+  begin
+    if reset = '1' then
+      bram_select_reg <= 0;
+    elsif falling_edge(clock) then
+      bram_select_reg <= bram_select;
+    end if;
+  end process;
 
   LOOP_EN : for i in 0 to BRAM_NUM -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';

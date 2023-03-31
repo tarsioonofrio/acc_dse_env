@@ -13,16 +13,21 @@ use work.config_package.all;
 use work.config_package_array.all;
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8
-           );
+  generic (
+    FPGA       : std_logic := '0';
+    N_FILTER       : integer := 16;
+    N_CHANNEL      : integer := 3;
+    X_SIZE         : integer := 32;
+    FILTER_WIDTH   : integer := 3;
+    CONVS_PER_LINE : integer := 15;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8
+  );
+  port (
+    p_clock : in std_logic
+  );
 end tb;
 
 architecture a1 of tb is
@@ -39,6 +44,9 @@ architecture a1 of tb is
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
 
   IWGHT : entity work.memory
     generic map(

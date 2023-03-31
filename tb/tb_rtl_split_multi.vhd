@@ -109,6 +109,7 @@ begin
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
       X_SIZE         => X_SIZE,
+      LAT            => LAT,
       FILTER_WIDTH   => FILTER_WIDTH,
       CONVS_PER_LINE => CONVS_PER_LINE,
       MEM_SIZE       => MEM_SIZE,
@@ -173,19 +174,18 @@ begin
 
   begin
 
-    if clock'event and clock = '1' then
+--     if clock'event and clock = '1' then
 --       if iwght_valid = '1' then
 --           report "iwght_value " &  integer'image(CONV_INTEGER(iwght_value(31 downto 0)));
 --       end if;
 --
-      -- if ifmap_valid = '1' then
-      --     report "ifmap_value " &  integer'image(CONV_INTEGER(ifmap_value(31 downto 0)));-- & " idx: " & integer'image(CONV_INTEGER(unsigned(ifmap_address)));
-      -- end if;
---
-      if ofmap_valid = '1' then
-          report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
-      end if;
-    end if;
+--       if ifmap_valid = '1' then
+--           report "ifmap_value " &  integer'image(CONV_INTEGER(ifmap_value(31 downto 0)));-- & " idx: " & integer'image(CONV_INTEGER(unsigned(ifmap_address)));
+--       end if;
+--       if ofmap_valid = '1' then
+--           report "ofmap_out " & integer'image(CONV_INTEGER((ofmap_out(31 downto 0))));
+--       end if;
+--     end if;
 
     if clock'event and clock = '0' then
       if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then

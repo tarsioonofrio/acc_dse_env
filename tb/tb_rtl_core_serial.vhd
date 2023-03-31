@@ -26,11 +26,7 @@ entity tb is
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
            LAT            : integer := 2;
-           N_LAYER        : integer := 0;
-           PATH           : string  := "";
-           BRAM_NUM_IWGHT : integer := 2;
-           BRAM_NUM_IFMAP : integer := 2;
-           BRAM_NUM_GOLD  : integer := 2
+           PATH           : string  := ""
            );
 end tb;
 
@@ -60,10 +56,10 @@ begin
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
+      LAT            => LAT,
       CARRY_SIZE     => CARRY_SIZE,
       IWGHT_PATH     => PATH & "/iwght.txt",
-      IFMAP_PATH     => PATH & "/ifmap.txt",
-      N_LAYER        => N_LAYER
+      IFMAP_PATH     => PATH & "/ifmap.txt"
  )
     port map(
       clock         => clock,

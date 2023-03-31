@@ -10,6 +10,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
+    FPGA       : std_logic := '0';
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     MAX_MEM_SIZE    : integer := 36;
@@ -17,6 +18,9 @@ entity tb is
     PATH            : string  := "";
     DEVICE          : string := "7SERIES";
     BRAM_ADDR       : integer := 9
+  );
+  port (
+    p_clock : in std_logic
   );
 end tb;
 
@@ -34,6 +38,9 @@ signal data_out : std_logic_vector(MAX_MEM_SIZE-1 downto 0);
 
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
 
   BRAM_SINGLE_INST: entity work.bram_single
   generic map (
@@ -83,10 +90,13 @@ begin
     for i in 0 to (2**(BRAM_ADDR))-1 loop
       address <= std_logic_vector(to_unsigned(i, BRAM_ADDR));
       wait until rising_edge(clock);
-      report "input: " & integer'image(i - 2**(BRAM_ADDR-1)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+--       report "input: " & integer'image(i - 2**(BRAM_ADDR-1)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+      if (i - 2**(BRAM_ADDR-1)) /= to_integer(signed(data_out)) then
+        assert false severity failure;
+      end if;
     end loop;
 
---     report "end of simulation without error!" severity failure;
+    report "end of simulation without error!" severity failure;
 
   end process;
 end a1;
