@@ -30,9 +30,6 @@ entity tb is
     BRAM_LAT       : integer := 2;
     BRAM_NAME_LAYER : integer := 0;
     BRAM_ADDR      : integer := 10
---     BRAM_NUM_IWGHT : string  := "";
---     BRAM_NUM_IFMAP : string  := "";
---     BRAM_NUM_GOLD  : string  := ""
     );
   port (
     p_clock : in std_logic
@@ -70,8 +67,8 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR      => BRAM_ADDR,
-      BRAM_NUM_IWGHT => 1,
-      BRAM_NUM_IFMAP => 6
+      BRAM_NUM_IWGHT => bram_iwght(BRAM_NAME_LAYER),
+      BRAM_NUM_IFMAP => bram_ifmap(BRAM_NAME_LAYER)
  )
     port map(
       clock         => clock,
@@ -104,7 +101,7 @@ begin
     generic map(
       DATA_AV_LATENCY            => BRAM_LAT,
       BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 8,
+      BRAM_NUM => bram_gold(BRAM_NAME_LAYER),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
@@ -123,9 +120,9 @@ begin
 
   MGOLD : entity work.memory
     generic map(
-      DATA_AV_LATENCY            => BRAM_LAT,
-      BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 8,
+      DATA_AV_LATENCY => BRAM_LAT,
+      BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NUM => bram_gold(BRAM_NAME_LAYER),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
