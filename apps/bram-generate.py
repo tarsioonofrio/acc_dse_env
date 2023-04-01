@@ -27,8 +27,8 @@ def main():
         config_rtl = json.load(f)
 
     if config_rtl["MAX_MEM_SIZE"] <= 32:
-        dict_bram18k = generate_bram_files(path, path_output, config_rtl, "18Kb")
-    dict_bram36k = generate_bram_files(path, path_output, config_rtl, "36Kb")
+        generate_bram_files(path, path_output, config_rtl, "18Kb")
+    generate_bram_files(path, path_output, config_rtl, "36Kb")
 
     with open(Path(__file__).parent.resolve() / "lib/template_config_const_array.vhd", "r") as f:
         template_config_array = f.read()
@@ -43,13 +43,9 @@ def main():
         template_config_array.format(num=e, data=d) for e, d in enumerate(config_data)
     ]
 
-    bram_layer = ', '.join(str(i) for i in range(len(dict_bram36k['wght'])))
+    # bram_layer = ', '.join(str(i) for i in range(len(dict_bram36k['wght'])))
     with open(Path(__file__).parent.resolve() / "lib/template_config_const_pkg.vhd", "r") as f:
-        output = f.read().format(
-            size=len(config_data)-1, array=",\n".join(config_format), bram_layer=bram_layer,
-            bram_iwght=', '.join(dict_bram36k['wght']), bram_ifmap=', '.join(dict_bram36k['fmap']),
-            bram_gold=', '.join(dict_bram36k['gold'])
-        )
+        output = f.read().format(size=len(config_data)-1, array=",\n".join(config_format))
 
     with open(path_output / f"config_const_pkg.vhd", "w") as f:
         f.write(output)

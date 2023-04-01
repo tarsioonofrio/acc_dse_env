@@ -6,15 +6,7 @@ use work.config_package.all;
 
 
 package config_package_array is
-
-    type type_array_int is array(0 to 127) of integer;
-
-    constant bram_layer: type_array_int := (0, 1, 2, others=> 0);
-    constant bram_iwght: type_array_int := (01, 37, 10, others=> 0);
-    constant bram_ifmap: type_array_int := (06, 04, 08, others=> 0);
-    constant bram_gold: type_array_int := (08, 02, 04, others => 0);
-
-    type type_config_logic_vector is array (natural range 0 to 2) of type_config_logic;
+  type type_config_logic_vector is array (natural range 0 to 2) of type_config_logic;
 
   constant const_config_logic_vector: type_config_logic_vector := (
     0 =>    (n_filter => "00010000",

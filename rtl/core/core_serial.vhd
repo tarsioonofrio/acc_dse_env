@@ -23,6 +23,7 @@ entity core is
     IWGHT_PATH     : string    := "";
     IFMAP_PATH     : string    := "";
     PATH           : string    := "";
+    TEST_LAYER     : integer   := 0;
     BRAM_NAME_LAYER : integer   := 0;
     BRAM_ADDR      : integer   := 10;
     BRAM_NUM_IWGHT : integer   := 1;

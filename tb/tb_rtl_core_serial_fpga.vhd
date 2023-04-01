@@ -29,7 +29,10 @@ entity tb is
     PATH           : string  := "";
     BRAM_LAT       : integer := 2;
     BRAM_NAME_LAYER : integer := 0;
-    BRAM_ADDR      : integer := 10
+    BRAM_ADDR      : integer := 10;
+    BRAM_NUM_IWGHT : string  := "";
+    BRAM_NUM_IFMAP : string  := "";
+    BRAM_NUM_GOLD  : string  := ""
     );
   port (
     p_clock : in std_logic
@@ -53,6 +56,10 @@ begin
     clock <= p_clock;
   end generate IF_FPGA;
 
+  IF_NO_FPGA : if FPGA = '0' generate
+    clock <= not clock after 0.5 ns;
+  end generate IF_NO_FPGA;
+
   DUT : entity work.core
     generic map(
       N_FILTER       => N_FILTER,
@@ -65,10 +72,10 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR      => BRAM_ADDR,
-      BRAM_NUM_IWGHT => bram_iwght(BRAM_NAME_LAYER),
-      BRAM_NUM_IFMAP => bram_ifmap(BRAM_NAME_LAYER)
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT(1 to 2)),
+      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP(1 to 2))
  )
     port map(
       clock         => clock,
@@ -101,7 +108,7 @@ begin
     generic map(
       DATA_AV_LATENCY            => BRAM_LAT,
       BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => bram_gold(BRAM_NAME_LAYER),
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
@@ -122,7 +129,7 @@ begin
     generic map(
       DATA_AV_LATENCY => BRAM_LAT,
       BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => bram_gold(BRAM_NAME_LAYER),
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
