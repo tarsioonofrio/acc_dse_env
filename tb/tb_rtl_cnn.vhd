@@ -112,12 +112,9 @@ begin
     ifmap_we <= '1';
 
     for i in 0 to (conv_integer(unsigned(config_inpt.x_size_x_size)) * conv_integer(unsigned(config_inpt.n_channel))) loop
-
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-
       value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE * 2);
       wait until rising_edge(clock);
-
     end loop;
 
     ifmap_ce <= '0';

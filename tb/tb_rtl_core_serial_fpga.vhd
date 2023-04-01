@@ -74,8 +74,8 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
-      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT(1 to 2)),
-      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP(1 to 2))
+      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
+      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER)))
  )
     port map(
       clock         => clock,
@@ -107,8 +107,8 @@ begin
   OFMAP : entity work.memory
     generic map(
       DATA_AV_LATENCY            => BRAM_LAT,
-      BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      BRAM_NAME => "default",
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
@@ -129,7 +129,7 @@ begin
     generic map(
       DATA_AV_LATENCY => BRAM_LAT,
       BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      BRAM_NUM => integer'value(BRAM_NUM_GOLD((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )

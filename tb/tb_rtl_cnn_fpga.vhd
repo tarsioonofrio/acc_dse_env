@@ -27,10 +27,12 @@ entity tb is
     LAT            : integer := 2;
     N_LAYER        : integer := 0;
     PATH           : string  := "";
-    BRAM_ADDR      : integer := 10;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
+    BRAM_LAT       : integer := 2;
+    BRAM_NAME_LAYER : integer := 0;
+    BRAM_ADDR      : integer := 10
+  );
+  port (
+    p_clock : in std_logic
   );
 end entity tb;
 
@@ -62,21 +64,23 @@ architecture a1 of tb is
   signal ofmap_n_write : std_logic_vector(31 downto 0);
   signal gold_n_write : std_logic_vector(31 downto 0);
 
---   signal config_inpt : type_config_logic := read_config(PATH & "/layer/0/config_pkg.txt");
---   signal config_gold : type_config_logic := read_config(PATH & "/layer/2/config_pkg.txt");
---
---   signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap.txt");
---   signal gold      : type_array_int := read_data(PATH & "/layer/2/gold.txt");
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
+
+  IF_NO_FPGA : if FPGA = '0' generate
+    clock <= not clock after 0.5 ns;
+  end generate IF_NO_FPGA;
 
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      BRAM_NUM => integer'value(BRAM_NUM_IFMAP(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => BRAM_LAT
       )
     port map(
       clock    => clock,
@@ -86,7 +90,7 @@ begin
       data_in  => (others => '0'),
       address  => address,
       data_av  => ifmap_valid,
-      data_out => ifmap,
+      data_out => value_in,
       n_read   => ifmap_n_read,
       n_write  => ifmap_n_write
       );
@@ -132,11 +136,11 @@ begin
 
   MGOLD : entity work.memory
     generic map(
-      BRAM_NAME => "gold_layer2", -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NAME => "gold_layer" & integer'image(N_LAYER),
       BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => BRAM_LAT
       )
     port map(
       clock    => clock,
@@ -168,11 +172,11 @@ begin
     ifmap_ce <= '1';
     ifmap_we <= '1';
 
-    for i in 0 to (conv_integer(unsigned(config_inpt.x_size_x_size)) * conv_integer(unsigned(config_inpt.n_channel))) loop
+    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel))) loop
 
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
 
-      value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE * 2);
+      value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(ifmap(i), INPUT_SIZE * 2);
       wait until rising_edge(clock);
 
     end loop;
@@ -190,7 +194,7 @@ begin
     wait until rising_edge(clock);
     wait until rising_edge(clock);
 
-    for i in 0 to (conv_integer(unsigned(config_gold.convs_per_line_convs_per_line)) * conv_integer(unsigned(config_gold.n_filter))) loop
+    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(N_LAYER).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER).n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
