@@ -28,7 +28,7 @@ entity tb is
     SHIFT          : integer := 8;
     PATH           : string  := "";
     BRAM_LAT       : integer := 2;
-    BRAM_NAME_LAYER : string := "";
+    BRAM_NAME_LAYER : integer := 0;
     BRAM_ADDR      : integer := 10
 --     BRAM_NUM_IWGHT : string  := "";
 --     BRAM_NUM_IFMAP : string  := "";
@@ -68,7 +68,7 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      BRAM_NAME_LAYER => "0",
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NUM_IWGHT => 1,
       BRAM_NUM_IFMAP => 6
@@ -80,7 +80,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => config_logic_vector_const(LAYER_NUM),
+      config          => const_config_logic_vector(LAYER_NUM),
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -148,16 +148,11 @@ begin
 
   start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
-
   process(clock)
-
   variable cont_conv : integer := 0;
-
-
   begin
-
     if clock'event and clock = '1' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).n_filter))) then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(const_config_logic_vector(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(const_config_logic_vector(LAYER_NUM).n_filter))) then
         if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
@@ -181,7 +176,5 @@ begin
         report "end of simulation without error!" severity failure;
       end if;
     end if;
-
   end process;
-
 end a1;

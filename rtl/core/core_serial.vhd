@@ -22,10 +22,8 @@ entity core is
     LAT            : integer   := 2;
     IWGHT_PATH     : string    := "";
     IFMAP_PATH     : string    := "";
-    TEST_BENCH     : std_logic := '0';
-    TEST_LAYER     : integer   := 0;
     PATH           : string    := "";
-    BRAM_NAME_LAYER : string   := "";
+    BRAM_NAME_LAYER : integer   := 0;
     BRAM_ADDR      : integer   := 10;
     BRAM_NUM_IWGHT : integer   := 1;
     BRAM_NUM_IFMAP : integer   := 1
@@ -120,7 +118,7 @@ begin
       DATA_AV_LATENCY => LAT,
       BRAM_ADDR => BRAM_ADDR,
       BRAM_NUM => BRAM_NUM_IWGHT,
-      BRAM_NAME => "iwght_layer" & BRAM_NAME_LAYER
+      BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)
       )
     port map(
       clock    => clock,
@@ -143,7 +141,7 @@ begin
       DATA_AV_LATENCY => LAT,
       BRAM_ADDR => BRAM_ADDR,
       BRAM_NUM => BRAM_NUM_IFMAP,
-      BRAM_NAME => "ifmap_layer" & BRAM_NAME_LAYER
+      BRAM_NAME => "ifmap_layer" & integer'image(BRAM_NAME_LAYER)
       )
     port map(
       clock    => clock,

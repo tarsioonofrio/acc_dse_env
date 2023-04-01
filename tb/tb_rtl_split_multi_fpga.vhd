@@ -151,7 +151,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
-      config        => config_logic_vector_const(0),
+      config        => const_config_logic_vector(0),
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
