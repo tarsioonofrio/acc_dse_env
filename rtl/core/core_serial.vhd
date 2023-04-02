@@ -141,6 +141,7 @@ begin
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT,
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR => BRAM_ADDR,
       BRAM_NUM => BRAM_NUM_IFMAP,
       BRAM_NAME => "ifmap_layer" & integer'image(BRAM_NAME_LAYER)

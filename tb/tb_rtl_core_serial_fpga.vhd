@@ -28,7 +28,7 @@ entity tb is
     SHIFT          : integer := 8;
     PATH           : string  := "";
     BRAM_LAT       : integer := 0;
-    BRAM_NAME_LAYER : integer := 2;
+    BRAM_NAME_LAYER : integer := 1;
     BRAM_ADDR      : integer := 10;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
@@ -108,6 +108,7 @@ begin
     generic map(
       DATA_AV_LATENCY            => BRAM_LAT,
       BRAM_NAME => "default",
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
@@ -129,6 +130,7 @@ begin
     generic map(
       DATA_AV_LATENCY => BRAM_LAT,
       BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
