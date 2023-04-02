@@ -16,7 +16,6 @@ use work.config_package_array.all;
 entity tb is
   generic (
     FPGA       : std_logic := '0';
-    LAYER_NUM        : integer := 0;
     N_FILTER       : integer := 16;
     N_CHANNEL      : integer := 3;
     X_SIZE         : integer := 32;
@@ -84,7 +83,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => const_config_logic_vector(LAYER_NUM),
+      config          => const_config_logic_vector(BRAM_NAME_LAYER),
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -158,7 +157,7 @@ begin
   variable cont_conv : integer := 0;
   begin
     if clock'event and clock = '1' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(const_config_logic_vector(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(const_config_logic_vector(LAYER_NUM).n_filter))) then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(const_config_logic_vector(BRAM_NAME_LAYER).convs_per_line_convs_per_line))*conv_integer(unsigned(const_config_logic_vector(BRAM_NAME_LAYER).n_filter))) then
         if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
