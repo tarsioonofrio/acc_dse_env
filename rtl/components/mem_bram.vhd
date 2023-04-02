@@ -12,8 +12,9 @@ entity memory is
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
     DEVICE          : string := "7SERIES";
+    BRAM_NAME_LAYER : integer   := 0;
     BRAM_NAME       : string := "default";
-    BRAM_NUM        : integer := 2;
+    BRAM_NUM        : string := "";
     BRAM_ADDR       : integer := 10
   );
   port(
@@ -35,20 +36,29 @@ end memory;
 
 architecture a1 of memory is
 
+function FBRAM_NUM return integer is
+  variable index : integer;
+begin
+  index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
+  return index;
+end function;
+
 signal nclock   : std_logic;
 signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(BRAM_NUM downto 0);
-signal bram_wr_en    : std_logic_vector(BRAM_NUM downto 0);
-signal bram_select   : integer range 0 to 2**(BRAM_NUM);
-signal bram_select_reg   : integer range 0 to 2**(BRAM_NUM);
+signal bram_chip_en  : std_logic_vector(FBRAM_NUM downto 0);
+signal bram_wr_en    : std_logic_vector(FBRAM_NUM downto 0);
+signal bram_select   : integer range 0 to 2**(FBRAM_NUM);
+signal bram_select_reg   : integer range 0 to 2**(FBRAM_NUM);
 
-type type_data is array (0 to BRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
+type type_data is array (0 to FBRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
 type statesDataAv is (WAITCE, WAITLATENCY);
 signal EA_dataav, PE_dataav : statesDataAv;
 signal cont_read, cont_write, cont_av_cycles : integer;
 signal data_av_signal : std_logic;
+
+
 
 begin
   nclock <= not clock;
@@ -65,12 +75,12 @@ begin
     end if;
   end process;
 
-  LOOP_EN : for i in 0 to BRAM_NUM -1 generate
+  LOOP_EN : for i in 0 to FBRAM_NUM -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';
     bram_wr_en(i) <= wr_en when i = bram_select else '0';
   end generate;
 
-    LOOP_MEM : for i in 0 to BRAM_NUM -1 generate
+    LOOP_MEM : for i in 0 to FBRAM_NUM -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
         BRAM_NAME => BRAM_NAME & "_instance" & integer'image(i)

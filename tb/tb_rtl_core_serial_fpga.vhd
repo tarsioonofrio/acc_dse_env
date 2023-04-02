@@ -27,8 +27,8 @@ entity tb is
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
     PATH           : string  := "";
-    BRAM_LAT       : integer := 2;
-    BRAM_NAME_LAYER : integer := 0;
+    BRAM_LAT       : integer := 0;
+    BRAM_NAME_LAYER : integer := 2;
     BRAM_ADDR      : integer := 10;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
@@ -74,8 +74,8 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
-      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
-      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER)))
+      BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
  )
     port map(
       clock         => clock,
@@ -108,7 +108,7 @@ begin
     generic map(
       DATA_AV_LATENCY            => BRAM_LAT,
       BRAM_NAME => "default",
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
+      BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )
@@ -129,7 +129,7 @@ begin
     generic map(
       DATA_AV_LATENCY => BRAM_LAT,
       BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD((1 + 3*BRAM_NAME_LAYER) to (2 + 3*BRAM_NAME_LAYER))),
+      BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
       )

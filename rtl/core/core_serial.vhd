@@ -26,8 +26,8 @@ entity core is
     TEST_LAYER     : integer   := 0;
     BRAM_NAME_LAYER : integer   := 0;
     BRAM_ADDR      : integer   := 10;
-    BRAM_NUM_IWGHT : integer   := 1;
-    BRAM_NUM_IFMAP : integer   := 1
+    BRAM_NUM_IWGHT : string    := "";
+    BRAM_NUM_IFMAP : string    := ""
     );
   port (
     clock : in std_logic;
@@ -117,6 +117,7 @@ begin
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE, 
       DATA_AV_LATENCY => LAT,
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR => BRAM_ADDR,
       BRAM_NUM => BRAM_NUM_IWGHT,
       BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)

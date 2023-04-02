@@ -140,9 +140,9 @@ begin
         TEST_LAYER     => i,
         PATH           => PATH,
         BRAM_ADDR      => BRAM_ADDR,
-        BRAM_NAME_LAYER => i,
-        BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT((1 + 3*i) to (2 + 3*i))),
-        BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP((1 + 3*i) to (2 + 3*i)))
+        BRAM_NAME_LAYER => i - 1,
+        BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+        BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
         )
       port map(
         clock         => clock,
@@ -176,7 +176,7 @@ begin
     generic map(
       ROM_PATH => "",
       BRAM_NAME => "default",
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD((1 + 3*N_LAYER) to (2 + 3*N_LAYER))),
+      BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
