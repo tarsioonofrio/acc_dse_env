@@ -47,8 +47,8 @@ signal nclock   : std_logic;
 signal data_valid    : std_logic;
 signal bram_chip_en  : std_logic_vector(FBRAM_NUM downto 0);
 signal bram_wr_en    : std_logic_vector(FBRAM_NUM downto 0);
-signal bram_select   : integer range 0 to 2**(FBRAM_NUM);
-signal bram_select_reg   : integer range 0 to 2**(FBRAM_NUM);
+signal bram_select   : integer range 0 to FBRAM_NUM;
+signal bram_select_reg   : integer range 0 to FBRAM_NUM;
 
 type type_data is array (0 to FBRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;

@@ -109,7 +109,6 @@ begin
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
       X_SIZE         => X_SIZE,
-      LAT            => LAT,
       FILTER_WIDTH   => FILTER_WIDTH,
       CONVS_PER_LINE => CONVS_PER_LINE,
       MEM_SIZE       => MEM_SIZE,

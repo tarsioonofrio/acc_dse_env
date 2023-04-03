@@ -37,7 +37,7 @@ def main():
     path_layer = path / "layer"
     config_data = [
         [format(d,  f'0{n}b') for d, n in zip(open_file(p), num_words)]
-        for p in path_layer.glob(f"**/config_pkg.txt")
+        for p in sorted(path_layer.glob(f"**/config_pkg.txt"))
     ]
     config_format = [
         template_config_array.format(num=e, data=d) for e, d in enumerate(config_data)
