@@ -24,12 +24,10 @@ entity tb is
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    LAT            : integer := 2;
     N_LAYER        : integer := 0;
     PATH           : string  := "";
-    BRAM_LAT       : integer := 2;
-    BRAM_NAME_LAYER : integer := 0;
-    BRAM_ADDR      : integer := 10;
+    BRAM_LAT       : integer := 0;
+    BRAM_ADDR      : integer := 9;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
     BRAM_NUM_GOLD  : string  := ""
@@ -138,7 +136,7 @@ begin
 
   MGOLD : entity work.memory
     generic map(
-      BRAM_NAME => "gold_layer" & integer'image(N_LAYER),
+      BRAM_NAME => "gold_layer" & integer'image(N_LAYER - 1),
       BRAM_NUM =>BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
@@ -197,8 +195,7 @@ begin
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
-      -- input_map(i) <= conv_integer(unsigned(value_out(31 downto 0)));
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE * 2)) then
+        if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
