@@ -88,14 +88,12 @@ begin
         wr_en <= '1';
         for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1)  loop
           address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
-          data_in <= std_logic_vector(to_unsigned(data(i), MAX_MEM_SIZE));
+          data_in <= std_logic_vector(to_signed(data(i), MAX_MEM_SIZE));
           wait until rising_edge(clock);
         end loop;
 
         chip_en <= '0';
         wr_en <= '0';
-        data_in <= std_logic_vector(to_unsigned(0, MAX_MEM_SIZE));
-        wait until rising_edge(clock);
         wait until rising_edge(clock);
     end if;
 

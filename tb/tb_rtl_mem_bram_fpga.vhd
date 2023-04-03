@@ -18,7 +18,8 @@ entity tb is
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
-    BRAM_NUM   : integer := 6;
+    BRAM_NUM   : string := "06";
+--     BRAM_NUM   : string := "01";
     BRAM_SIZE  : integer := 16;
     MAX_MEM_SIZE : integer := 16;
     BRAM_ADDR  : integer := 9
@@ -117,7 +118,7 @@ begin
 
     -- write stage
     chip_en_in <= '1';
-    for i in 0 to (BRAM_NUM*(2**BRAM_ADDR)-1) loop
+    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       chip_en_out <= '1';
@@ -134,7 +135,7 @@ begin
     -- read stage
     chip_en_in <= '1';
     chip_en_out <= '1';
-    for i in 0 to (BRAM_NUM*(2**BRAM_ADDR)-1) loop
+    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       address_out <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
