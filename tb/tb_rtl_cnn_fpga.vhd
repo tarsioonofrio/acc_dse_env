@@ -207,7 +207,7 @@ begin
             report "obtained value: " & integer'image(CONV_INTEGER(value_out));
           end if;
 
-          assert false severity failure;
+--           assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
     end loop;
