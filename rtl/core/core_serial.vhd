@@ -25,6 +25,7 @@ entity core is
     PATH           : string    := "";
     TEST_LAYER     : integer   := 0;
     BRAM_NAME_LAYER : integer   := 0;
+    BRAM_NAME_IFMAP : string   := "default";
     BRAM_ADDR      : integer   := 10;
     BRAM_NUM_IWGHT : string    := "";
     BRAM_NUM_IFMAP : string    := ""
@@ -144,7 +145,7 @@ begin
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR => BRAM_ADDR,
       BRAM_NUM => BRAM_NUM_IFMAP,
-      BRAM_NAME => "ifmap_layer" & integer'image(BRAM_NAME_LAYER)
+      BRAM_NAME => BRAM_NAME_IFMAP & integer'image(BRAM_NAME_LAYER)
       )
     port map(
       clock    => clock,

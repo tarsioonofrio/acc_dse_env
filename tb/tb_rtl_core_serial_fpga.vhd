@@ -28,6 +28,7 @@ entity tb is
     PATH           : string  := "";
     BRAM_LAT       : integer := 0;
     BRAM_NAME_LAYER : integer := 1;
+    BRAM_NAME_IFMAP : string  := "ifmap_layer";
     BRAM_ADDR      : integer := 10;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
@@ -74,6 +75,7 @@ begin
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+      BRAM_NAME_IFMAP => BRAM_NAME_IFMAP,
       BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
  )
     port map(
