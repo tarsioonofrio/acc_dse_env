@@ -14,7 +14,6 @@ vcom -work work ../rtl/core/util_pkg.vhd
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_bram.vhd
-vcom -work work ../rtl/components/mem_file2.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
@@ -30,6 +29,8 @@ vcom -work work ../tb/tb_rtl_cnn_fpga.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/bram/generic_file36Kb.txt
+set StdArithNoWarnings 1
+set NumericStdNoWarnings 1
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit

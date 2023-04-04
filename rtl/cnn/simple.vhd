@@ -84,10 +84,10 @@ architecture a1 of cnn is
 
 begin
 
-  -- init config array
-  gen_init_config: for i in 1 to N_LAYER generate
-    config(i) <= read_config(PATH & "/layer/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
-  end generate;   
+--   -- init config array
+--   gen_init_config: for i in 1 to N_LAYER generate
+--     config(i) <= read_config(PATH & "/layer/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
+--   end generate;
 
   -- input map port to 0 index signal
   ofmap_ce(0) <= p_ifmap_ce;

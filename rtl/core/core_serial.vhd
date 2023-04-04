@@ -4,8 +4,9 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.all;
 
-use work.config_package.all;
 use work.util_package.all;
+use work.config_package.all;
+use work.config_package_array.all;
 
 
 entity core is
@@ -203,7 +204,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
-      config        => config,
+      config        => const_config_logic_vector(BRAM_NAME_LAYER),
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),

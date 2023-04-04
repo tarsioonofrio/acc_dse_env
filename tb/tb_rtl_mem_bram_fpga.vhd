@@ -5,8 +5,8 @@ use ieee.numeric_std.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
-use work.config_package.all;
 use work.util_package.all;
+use work.config_package.all;
 
 
 entity tb is
