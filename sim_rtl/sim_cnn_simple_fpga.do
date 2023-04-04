@@ -14,6 +14,7 @@ vcom -work work ../rtl/core/util_pkg.vhd
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_bram.vhd
+vcom -work work ../rtl/components/mem_file2.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd

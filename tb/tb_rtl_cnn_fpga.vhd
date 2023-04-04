@@ -87,7 +87,7 @@ begin
       clock    => clock,
       reset    => reset,
       chip_en  => ifmap_ce,
-      wr_en    => ifmap_we,
+      wr_en    => '0',
       data_in  => (others => '0'),
       address  => address,
       data_av  => ifmap_valid,
@@ -174,7 +174,7 @@ begin
 
     for i in 0 to (conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
---       value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(ifmap(i), INPUT_SIZE * 2);
+      wait until rising_edge(clock);
       wait until rising_edge(clock);
     end loop;
 
@@ -187,7 +187,6 @@ begin
     wait until rising_edge(clock);
     wait until end_conv = '1';
 
-    -- input_map <= (others => 0);
     wait until rising_edge(clock);
     wait until rising_edge(clock);
 
@@ -207,7 +206,7 @@ begin
             report "obtained value: " & integer'image(CONV_INTEGER(value_out));
           end if;
 
---           assert false severity failure;
+          assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
     end loop;
