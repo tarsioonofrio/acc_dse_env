@@ -14,7 +14,7 @@ library work;
 
 entity tb is
   generic (
-    FPGA           : std_logic := '1';
+    FPGA           : std_logic := '0';
     N_FILTER       : integer := 16;
     N_CHANNEL      : integer := 3;
     X_SIZE         : integer := 32;
@@ -24,13 +24,16 @@ entity tb is
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    LAT            : integer := 2;
     N_LAYER        : integer := 0;
     PATH           : string  := "";
-    BRAM_ADDR      : integer := 10;
+    BRAM_LAT       : integer := 0;
+    BRAM_ADDR      : integer := 9;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
     BRAM_NUM_GOLD  : string  := ""
+  );
+  port (
+    p_clock : in std_logic
   );
 end entity tb;
 
@@ -57,36 +60,38 @@ architecture a1 of tb is
   signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
   signal gold : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
 
-  signal ofmap_n_read  : std_logic_vector(31 downto 0);
+  signal ifmap_n_read  : std_logic_vector(31 downto 0);
   signal gold_n_read  : std_logic_vector(31 downto 0);
-  signal ofmap_n_write : std_logic_vector(31 downto 0);
+  signal ifmap_n_write : std_logic_vector(31 downto 0);
   signal gold_n_write : std_logic_vector(31 downto 0);
 
---   signal config_inpt : type_config_logic := read_config(PATH & "/layer/0/config_pkg.txt");
---   signal config_gold : type_config_logic := read_config(PATH & "/layer/2/config_pkg.txt");
---
---   signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap.txt");
---   signal gold      : type_array_int := read_data(PATH & "/layer/2/gold.txt");
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
+
+  IF_NO_FPGA : if FPGA = '0' generate
+    clock <= not clock after 0.5 ns;
+  end generate IF_NO_FPGA;
 
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      BRAM_NUM => BRAM_NUM_IFMAP,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => BRAM_LAT
       )
     port map(
       clock    => clock,
       reset    => reset,
       chip_en  => ifmap_ce,
-      wr_en    => ifmap_we,
+      wr_en    => '0',
       data_in  => (others => '0'),
       address  => address,
       data_av  => ifmap_valid,
-      data_out => ifmap,
+      data_out => value_in,
       n_read   => ifmap_n_read,
       n_write  => ifmap_n_write
       );
@@ -94,7 +99,6 @@ begin
 
   DUT : entity work.cnn
     generic map(
-      FPGA           => FPGA,
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
       X_SIZE         => X_SIZE,
@@ -132,11 +136,11 @@ begin
 
   MGOLD : entity work.memory
     generic map(
-      BRAM_NAME => "gold_layer2", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      BRAM_NAME => "gold_layer" & integer'image(N_LAYER - 1),
+      BRAM_NUM =>BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      DATA_AV_LATENCY => BRAM_LAT
       )
     port map(
       clock    => clock,
@@ -144,7 +148,7 @@ begin
       chip_en  => ofmap_ce,
       wr_en    => '0',
       data_in  => (others => '0'),
-      address  => address_out,
+      address  => address,
       data_av  => gold_valid,
       data_out => gold,
       n_read   => gold_n_read,
@@ -168,13 +172,10 @@ begin
     ifmap_ce <= '1';
     ifmap_we <= '1';
 
-    for i in 0 to (conv_integer(unsigned(config_inpt.x_size_x_size)) * conv_integer(unsigned(config_inpt.n_channel))) loop
-
+    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-
-      value_in(31 downto 0) <= CONV_STD_LOGIC_VECTOR(input_map(i), INPUT_SIZE * 2);
       wait until rising_edge(clock);
-
+      wait until rising_edge(clock);
     end loop;
 
     ifmap_ce <= '0';
@@ -186,20 +187,18 @@ begin
     wait until rising_edge(clock);
     wait until end_conv = '1';
 
-    -- input_map <= (others => 0);
     wait until rising_edge(clock);
     wait until rising_edge(clock);
 
-    for i in 0 to (conv_integer(unsigned(config_gold.convs_per_line_convs_per_line)) * conv_integer(unsigned(config_gold.n_filter))) loop
+    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
-      -- input_map(i) <= conv_integer(unsigned(value_out(31 downto 0)));
-        if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address))), (INPUT_SIZE * 2)) then
+        if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address))));
+          report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
 
           if (INPUT_SIZE * 2) + CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));

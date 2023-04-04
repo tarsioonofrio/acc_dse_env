@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 bram_lines = {
@@ -151,11 +152,20 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
             generics + rw_depth_generics + generic_size + f" -gBRAM_ADDR={bram_addr}"
         )
 
+    dict_bram = {
+        "wght": wght_size,
+        "fmap": fmap_size,
+        "gold": gold_size
+    }
+    with open(path_output / 'bram_size.json', 'w') as f:
+        json.dump(dict_bram, f, indent=4)
+    return dict_bram
+
 
 def generate_data_formated(file_name, entity_name, bram_config, bram_size, input_path, max_bits):
     formated = [
         format_bram_pkg(f"{entity_name}_layer{f.parent.name}", open_file(f), bram_config, max_bits, bram_size)
-        for f in input_path.glob(f"**/{file_name}.txt")
+        for f in sorted(input_path.glob(f"**/{file_name}.txt"))
     ]
     data = [y for x in formated for y in x[0]]
     size = [f"{x[1]:02d}" for x in formated]

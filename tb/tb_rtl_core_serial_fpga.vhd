@@ -15,7 +15,7 @@ use work.config_package_array.all;
 
 entity tb is
   generic (
-    LAYER_NUM        : integer := 0;
+    FPGA       : std_logic := '0';
     N_FILTER       : integer := 16;
     N_CHANNEL      : integer := 3;
     X_SIZE         : integer := 32;
@@ -25,14 +25,18 @@ entity tb is
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    LAT            : integer := 2;
-    N_LAYER        : integer := 0;
     PATH           : string  := "";
+    BRAM_LAT       : integer := 0;
+    BRAM_NAME_LAYER : integer := 1;
+    BRAM_NAME_IFMAP : string  := "ifmap_layer";
     BRAM_ADDR      : integer := 10;
     BRAM_NUM_IWGHT : string  := "";
     BRAM_NUM_IFMAP : string  := "";
     BRAM_NUM_GOLD  : string  := ""
     );
+  port (
+    p_clock : in std_logic
+  );
 end tb;
 
 architecture a1 of tb is
@@ -46,28 +50,33 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
---   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
 
+  IF_NO_FPGA : if FPGA = '0' generate
+    clock <= not clock after 0.5 ns;
+  end generate IF_NO_FPGA;
 
   DUT : entity work.core
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
       X_SIZE         => X_SIZE,
+      LAT            => BRAM_LAT,
       FILTER_WIDTH   => FILTER_WIDTH,
       CONVS_PER_LINE => CONVS_PER_LINE,
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH     => PATH & "/iwght.txt",
-      IFMAP_PATH     => PATH & "/ifmap.txt",
-      N_LAYER        => N_LAYER,
       BRAM_ADDR      => BRAM_ADDR,
-      BRAM_NUM_IWGHT => integer'value(BRAM_NUM_IWGHT(1 to 2)),
-      BRAM_NUM_IFMAP => integer'value(BRAM_NUM_IFMAP(1 to 2))
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+      BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+      BRAM_NAME_IFMAP => BRAM_NAME_IFMAP,
+      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
  )
     port map(
       clock         => clock,
@@ -76,7 +85,7 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => config_logic_vector_const(LAYER_NUM),
+      config          => const_config_logic_vector(BRAM_NAME_LAYER),
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -98,12 +107,12 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      ROM_PATH => "",
-      BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      DATA_AV_LATENCY            => BRAM_LAT,
+      BRAM_NAME => "default",
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+      BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -120,11 +129,12 @@ begin
 
   MGOLD : entity work.memory
     generic map(
-      BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => integer'value(BRAM_NUM_GOLD(1 to 2)),
+      DATA_AV_LATENCY => BRAM_LAT,
+      BRAM_NAME => "gold_layer" & integer'image(BRAM_NAME_LAYER), -- "default", "ifmap_layer0", "iwght_layer0"
+      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+      BRAM_NUM => BRAM_NUM_GOLD,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE,
-      DATA_AV_LATENCY => LAT
+      ADDRESS_SIZE => MEM_SIZE
       )
     port map(
       clock    => clock,
@@ -145,21 +155,16 @@ begin
 
   start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
-
   process(clock)
-
   variable cont_conv : integer := 0;
-
-
   begin
-
-    if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).convs_per_line_convs_per_line))*conv_integer(unsigned(config_logic_vector_const(LAYER_NUM).n_filter))) then
+    if clock'event and clock = '1' then
+      if debug = '1' and cont_conv < (conv_integer(unsigned(const_config_logic_vector(BRAM_NAME_LAYER).convs_per_line_convs_per_line))*conv_integer(unsigned(const_config_logic_vector(BRAM_NAME_LAYER).n_filter))) then
         if value_out /= gold then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
-          report "expected value: " & integer'image(CONV_INTEGER(gold));
+          report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
@@ -178,7 +183,5 @@ begin
         report "end of simulation without error!" severity failure;
       end if;
     end if;
-
   end process;
-
 end a1;

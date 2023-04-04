@@ -1,100 +1,75 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use ieee.std_logic_arith.all;
+use IEEE.std_logic_arith.all;
+use std.textio.all;
 use ieee.std_logic_textio.all;
 
+use work.util_package.all;
 
-entity memory is
+
+entity memory2 is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
-    DEVICE          : string := "7SERIES";
-    BRAM_NAME_LAYER : integer   := 0;
-    BRAM_NAME       : string := "default";
-    BRAM_NUM        : string := "";
-    BRAM_ADDR       : integer := 10
-  );
-  port(
-    reset   : in std_logic;
-    clock   : in std_logic;
-    chip_en : in std_logic;
-    wr_en   : in std_logic;
-    data_in : in std_logic_vector(INPUT_SIZE-1 downto 0);
-    address : in std_logic_vector(ADDRESS_SIZE-1 downto 0);
+    BRAM_NAME       : string := "";
+    BRAM_NUM        : integer := 0;
+    BRAM_ADDR       : integer := 0
+    );
 
-    data_av  : out std_logic;
-    data_out : out std_logic_vector(INPUT_SIZE-1 downto 0);
+  port (reset   : in std_logic;
+        clock   : in std_logic;
+        chip_en : in std_logic;
+        wr_en   : in std_logic;
+        data_in : in std_logic_vector(INPUT_SIZE-1 downto 0);
+        address : in std_logic_vector(ADDRESS_SIZE-1 downto 0);
 
-    n_read  : out std_logic_vector(31 downto 0);
-    n_write : out std_logic_vector(31 downto 0)
-  );
-end memory;
+        data_av  : out std_logic;
+        data_out : out std_logic_vector(INPUT_SIZE-1 downto 0);
 
+        n_read  : out std_logic_vector(31 downto 0);
+        n_write : out std_logic_vector(31 downto 0)
+        );
+end memory2;
 
-architecture a1 of memory is
+architecture a1 of memory2 is
 
-function FBRAM_NUM return integer is
-  variable index : integer;
-begin
-  index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
-  return index;
-end function;
+  type ofmap is array(0 to 2**ADDRESS_SIZE) of std_logic_vector(INPUT_SIZE-1 downto 0);
+  signal mem : ofmap := (others => (others => '0'));
 
-signal nclock   : std_logic;
-signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(FBRAM_NUM downto 0);
-signal bram_wr_en    : std_logic_vector(FBRAM_NUM downto 0);
-signal bram_select   : integer range 0 to FBRAM_NUM;
-signal bram_select_reg   : integer range 0 to FBRAM_NUM;
+  type statesDataAv is (WAITCE, WAITLATENCY);
+  signal EA_dataav, PE_dataav : statesDataAv;
 
-type type_data is array (0 to FBRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
-signal bram_data_out: type_data;
+  signal cont_read, cont_write, cont_av_cycles : integer;
 
-type statesDataAv is (WAITCE, WAITLATENCY);
-signal EA_dataav, PE_dataav : statesDataAv;
-signal cont_read, cont_write, cont_av_cycles : integer;
-signal data_av_signal : std_logic;
-
-
+  signal data_av_signal : std_logic;
+  signal ROM :type_array_int;
 
 begin
-  nclock <= not clock;
 
-  data_out <= bram_data_out(bram_select_reg);
-  bram_select <= 0 when reset = '1' else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
+  GEN_READ: if ROM_PATH /= "" generate
+    ROM <= read_data(ROM_PATH) when reset = '1';
+  end generate;
 
-  process(reset, clock)
+  -- Process to write in memory
+  process(clock)
   begin
-    if reset = '1' then
-      bram_select_reg <= 0;
-    elsif falling_edge(clock) then
-      bram_select_reg <= bram_select;
+    if clock'event and clock = '1' then
+      if ROM_PATH = "" then
+        if chip_en = '1' then
+          if wr_en = '1' then
+            mem(CONV_INTEGER(unsigned(address))) <= data_in;
+          end if;
+        end if;
+      end if;
     end if;
   end process;
 
-  LOOP_EN : for i in 0 to FBRAM_NUM -1 generate
-    bram_chip_en(i) <= chip_en when i = bram_select else '0';
-    bram_wr_en(i) <= wr_en when i = bram_select else '0';
-  end generate;
-
-    LOOP_MEM : for i in 0 to FBRAM_NUM -1 generate
-      BRAM_SINGLE_INST: entity work.bram_single
-      generic map (
-        BRAM_NAME => BRAM_NAME & "_instance" & integer'image(i)
-      )
-      port map(
-        CLK  => nclock,
-        RST  => reset,
-        EN   => bram_chip_en(i),
-        WE   => bram_wr_en(i),
-        DI   => data_in,
-        ADDR => address(BRAM_ADDR-1 downto 0),
-        DO   => bram_data_out(i)
-        );
-    end generate;
+  -- Read from memory
+  data_out <= mem(CONV_INTEGER(unsigned(address))) when chip_en = '1' and ROM_PATH = "" else
+              CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM_PATH /= "" ;
 
   process(reset, clock)
   begin

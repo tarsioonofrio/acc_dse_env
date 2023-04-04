@@ -6,9 +6,9 @@ use work.config_package.all;
 
 
 package config_package_array is
-    type type_config_logic_vector is array (natural range 0 to {size}) of type_config_logic;
+  type type_config_logic_vector is array (natural range 0 to {size}) of type_config_logic;
 
-  constant config_logic_vector_const: type_config_logic_vector := (
+  constant const_config_logic_vector: type_config_logic_vector := (
 {array}
    );
 

@@ -37,12 +37,13 @@ def main():
     path_layer = path / "layer"
     config_data = [
         [format(d,  f'0{n}b') for d, n in zip(open_file(p), num_words)]
-        for p in path_layer.glob(f"**/config_pkg.txt")
+        for p in sorted(path_layer.glob(f"**/config_pkg.txt"))
     ]
     config_format = [
         template_config_array.format(num=e, data=d) for e, d in enumerate(config_data)
     ]
 
+    # bram_layer = ', '.join(str(i) for i in range(len(dict_bram36k['wght'])))
     with open(Path(__file__).parent.resolve() / "lib/template_config_const_pkg.vhd", "r") as f:
         output = f.read().format(size=len(config_data)-1, array=",\n".join(config_format))
 

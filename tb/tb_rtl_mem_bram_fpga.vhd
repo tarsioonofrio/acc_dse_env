@@ -5,22 +5,27 @@ use ieee.numeric_std.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
-use work.config_package.all;
 use work.util_package.all;
+use work.config_package.all;
 
 
 entity tb is
   generic (
-    BRAM_NAME       : string  := "ifmap_layer0";
---     BRAM_NAME       : string  := "iwght_layer0";
+    FPGA       : std_logic := '0';
+    BRAM_NAME  : string  := "ifmap_layer0";
+--     BRAM_NAME  : string  := "iwght_layer0";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
-    BRAM_NUM   : integer := 6;
+    BRAM_NUM   : string := "06";
+--     BRAM_NUM   : string := "01";
     BRAM_SIZE  : integer := 16;
     MAX_MEM_SIZE : integer := 16;
     BRAM_ADDR  : integer := 9
+  );
+  port (
+    p_clock : in std_logic
   );
 end tb;
 
@@ -46,6 +51,16 @@ signal n_write_out  : std_logic_vector(31 downto 0);
 
 
 begin
+
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
+
+  IF_NO_FPGA : if FPGA = '0' generate
+    clock <= not clock after 0.5 ns;
+  end generate IF_NO_FPGA;
+
+  nclock <= not clock;
 
   INMEM : entity work.memory
   generic map(
@@ -89,11 +104,8 @@ begin
     n_write  => n_write_out
     );
 
-  clock <= not clock after 0.5 ns;
-  nclock <= not clock;
 
   process
-
   begin
 
     report "*** start";
@@ -106,7 +118,7 @@ begin
 
     -- write stage
     chip_en_in <= '1';
-    for i in 0 to (BRAM_NUM*(2**BRAM_ADDR)-1) loop
+    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       chip_en_out <= '1';
@@ -123,15 +135,14 @@ begin
     -- read stage
     chip_en_in <= '1';
     chip_en_out <= '1';
-    for i in 0 to (BRAM_NUM*(2**BRAM_ADDR)-1) loop
+    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       address_out <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
-      -- wait until rising_edge(clock);
-      report "input: " & integer'image(to_integer(signed(data_in))) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
---       if data(i) /= to_integer(signed(data_out)) then
+      if data_in /= data_out then
+        report "input: " & integer'image(to_integer(signed(data_in(31 downto 0)))) & ", " & "output: " & integer'image(to_integer(signed(data_out(31 downto 0))));
 --         assert false severity failure;
---       end if;
+      end if;
     end loop;
 
     chip_en_in <= '0';

@@ -13,16 +13,21 @@ use work.config_package.all;
 use work.config_package_array.all;
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8
-           );
+  generic (
+    FPGA       : std_logic := '0';
+    N_FILTER       : integer := 16;
+    N_CHANNEL      : integer := 3;
+    X_SIZE         : integer := 32;
+    FILTER_WIDTH   : integer := 3;
+    CONVS_PER_LINE : integer := 15;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8
+  );
+  port (
+    p_clock : in std_logic
+  );
 end tb;
 
 architecture a1 of tb is
@@ -39,11 +44,14 @@ architecture a1 of tb is
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write, gold_n_read, gold_n_write : std_logic_vector(31 downto 0);
 
 begin
+  IF_FPGA : if FPGA = '1' generate
+    clock <= p_clock;
+  end generate IF_FPGA;
 
   IWGHT : entity work.memory
     generic map(
       BRAM_NAME => "iwght_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 1,
+      BRAM_NUM => "01",
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
@@ -64,7 +72,7 @@ begin
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 8,
+      BRAM_NUM => "06",
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
@@ -85,7 +93,7 @@ begin
   OFMAP : entity work.memory
     generic map(
       BRAM_NAME => "default", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 8,
+      BRAM_NUM => "08",
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
@@ -106,7 +114,7 @@ begin
   MGOLD : entity work.memory
     generic map(
       BRAM_NAME => "gold_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => 8,
+      BRAM_NUM => "08",
       BRAM_ADDR => 9,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE
@@ -143,7 +151,7 @@ begin
       start_conv    => start_conv,
       end_conv      => end_conv,
       debug         => debug,
-      config        => config_logic_vector_const(0),
+      config        => const_config_logic_vector(0),
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
