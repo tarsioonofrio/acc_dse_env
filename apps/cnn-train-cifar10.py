@@ -36,8 +36,8 @@ def main():
         "input_c": 3,
         "classes": 10,
     }
-
-    model = keras_models.default(cnn_config, config_dataset)
+    km = vars(keras_models)
+    model = km[cnn_config["name"]](cnn_config, config_dataset)
 
     model.fit(x_train, y_train, epochs=cnn_config["n_epochs"])
     # Save model

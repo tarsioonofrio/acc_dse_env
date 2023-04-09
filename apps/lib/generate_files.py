@@ -2,7 +2,10 @@ from pathlib import Path
 from os.path import relpath
 from math import log2, ceil
 
-from .model import convolution_from_weights, generate_ifmem_vhd_pkg
+import numpy as np
+from numpy.lib.stride_tricks import as_strided
+
+from .model import convolution_from_weights, generate_ifmem_vhd_pkg, pool2d
 
 
 def log2ceil(x):
