@@ -39,7 +39,7 @@ entity maxpool is
     
     -- output feature map memory interface
     ofmap_valid   : in  std_logic;
-    -- ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+    ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
     ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
     ofmap_we      : out std_logic;
     ofmap_ce      : out std_logic
@@ -93,7 +93,7 @@ begin
   ofmap_we <=  cw_reg;
   ofmap_ce <= cw_reg;
   ofmap_address <= add_reg;
-  -- ofmap_out(INPUT_SIZE*2)-1 downto 0) <= value_reg;
+  ofmap_out((INPUT_SIZE*2)-1 downto 0) <= value_reg;
 
   process(reset, clock)
   begin
@@ -156,7 +156,7 @@ elsif rising_edge(clock) then
                   value_reg <= ifmap_value;
                 end if;
             end if;
-            if (idx < 4-1) then -- pool_size*2=2*2
+            if (idx < 4-1) then -- pool_size*2=2*2=4
               idx <= idx + 1;
             else
               idx <= 0;
@@ -170,6 +170,7 @@ elsif rising_edge(clock) then
         when WAITVALID =>
           if T < 3*3*64 -1 then -- image max size
             EA_read <= UPDATEADD;
+            report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
             -- debug_reg <= '1';
           else
             debug_reg <= '1';

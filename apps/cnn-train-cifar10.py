@@ -1,7 +1,10 @@
+import os
 import json
 import pickle
 import argparse
 from pathlib import Path
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 from tensorflow import keras
 from lib import keras_models

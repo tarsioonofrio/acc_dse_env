@@ -351,31 +351,31 @@ def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                     ifmap.append(copy.deepcopy(ofmap))
 
 
-def pool2d(image, kernel_size=2, stride=2, padding=0, pool_mode='max'):
+def pool2d(image, kernel_size=2, stride=1, padding=0, pool_mode='max'):
     '''
      2D Pooling
 
      Parameters:
-         image: input 2D array
+         image_pad: input 2D array
          kernel_size: int, the size of the window over which we take pool
          stride: int, the stride of the window
          padding: int, implicit zero paddings on both sides of the input
          pool_mode: string, 'max' or 'avg'
      '''
     # Padding
-    image = np.pad(image, padding, mode='constant')
-
+    # image_pad = np.pad(image, padding, pad_with)
+    image_pad = np.pad(image, (0, padding))
     # Window view of image
-    output_shape = ((image.shape[1] - kernel_size) // stride + 1,
-                    (image.shape[2] - kernel_size) // stride + 1)
+    output_shape = ((image_pad.shape[1] - kernel_size) // stride + 1,
+                    (image_pad.shape[2] - kernel_size) // stride + 1)
 
-    shape_w = (image.shape[0], output_shape[0], output_shape[1], kernel_size, kernel_size)
-    strides_w = (image.shape[0], stride * image.strides[0], stride * image.strides[1], image.strides[0], image.strides[1])
+    shape_w = (image_pad.shape[0], output_shape[0], output_shape[1], kernel_size, kernel_size)
+    strides_w = (image_pad.strides[0], stride * image_pad.strides[1], stride * image_pad.strides[2], image_pad.strides[1], image_pad.strides[2])
 
-    image_w = as_strided(image, shape_w, strides_w)
+    image_w = as_strided(image_pad, shape_w, strides_w)
 
     # Return the result of pooling
     if pool_mode == 'max':
-        return image_w.max(axis=(2, 3))
+        return image_w.max(axis=(3, 4))
     elif pool_mode == 'avg':
-        return image_w.mean(axis=(2, 3))
+        return image_w.mean(axis=(3, 4))

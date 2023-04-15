@@ -111,7 +111,7 @@ begin
       ifmap_ce      => ifmap_ce,
 
       ofmap_valid   => ofmap_valid,
-      -- ofmap_out     => ofmap_out,
+      ofmap_out     => ofmap_out,
       ofmap_address => ofmap_address,
       ofmap_we      => ofmap_we,
       ofmap_ce      => ofmap_ce
