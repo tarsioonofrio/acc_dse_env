@@ -1,6 +1,10 @@
 import copy
 from math import log2
 
+import numpy as np
+from numpy.lib.stride_tricks import as_strided
+
+
 
 def dictionary_from_model(model):
     # Create dictionary
@@ -362,11 +366,11 @@ def pool2d(image, kernel_size=2, stride=2, padding=0, pool_mode='max'):
     image = np.pad(image, padding, mode='constant')
 
     # Window view of image
-    output_shape = ((image.shape[0] - kernel_size) // stride + 1,
-                    (image.shape[1] - kernel_size) // stride + 1)
+    output_shape = ((image.shape[1] - kernel_size) // stride + 1,
+                    (image.shape[2] - kernel_size) // stride + 1)
 
-    shape_w = (output_shape[0], output_shape[1], kernel_size, kernel_size)
-    strides_w = (stride * image.strides[0], stride * image.strides[1], image.strides[0], image.strides[1])
+    shape_w = (image.shape[0], output_shape[0], output_shape[1], kernel_size, kernel_size)
+    strides_w = (image.shape[0], stride * image.strides[0], stride * image.strides[1], image.strides[0], image.strides[1])
 
     image_w = as_strided(image, shape_w, strides_w)
 
