@@ -1,4 +1,5 @@
 library ieee;
+library std;
 
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
@@ -49,24 +50,29 @@ end entity maxpool;
 
 architecture a1 of maxpool is
   signal end_reg, ce_reg, cw_reg, debug_reg : std_logic;
-  signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
+  -- signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal value_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+  signal output_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
-  signal idx  : integer range 0 to 2*2;
+  signal idx  : integer range 0 to 3*3-1;
   signal H : integer range 0 to X_SIZE;
   signal V : integer range 0 to X_SIZE;
-  signal T : integer range 0 to 2**(MEM_SIZE);
+  signal T : integer range 0 to 2**(MEM_SIZE) - 1;
+  signal add_reg : integer range -1 to 2**(MEM_SIZE) - 2;
 
   -- signal reg_config : type_config_integer;
 
-  type address is array (0 to 3) of std_logic_vector(MEM_SIZE-1 downto 0);
+  type address is array (0 to 8) of std_logic_vector(MEM_SIZE-1 downto 0);
   signal add : address;
 
   -- Macro state machine signals to control input values flags
   type statesReadValues is (WAITSTART, UPDATEADD, READFEATURES, POOLING, WAITVALID);
   signal EA_read : statesReadValues;
   
+  constant const_output     : std_logic_vector(CARRY_SIZE-1 downto 0) := (others => '0');
+
+
 begin
 
   -- process(reset, clock)
@@ -90,10 +96,10 @@ begin
   ifmap_ce <= ce_reg;
   ifmap_address <= add(idx);
 
-  ofmap_we <=  cw_reg;
+  ofmap_we <= cw_reg;
   ofmap_ce <= cw_reg;
-  ofmap_address <= add_reg;
-  ofmap_out((INPUT_SIZE*2)-1 downto 0) <= value_reg;
+  ofmap_address <= CONV_STD_LOGIC_VECTOR(add_reg, MEM_SIZE);
+  ofmap_out <= const_output & output_reg;
 
   process(reset, clock)
   begin
@@ -103,46 +109,60 @@ begin
       V <= 0;
       T <= 0;
       debug_reg <= '0';
-      end_pool <= '0';
+      end_reg <= '0';
       ce_reg <= '0';
       cw_reg <= '0';
-      add_reg <= (others => '0');
+      add_reg <= -1;
       value_reg <= (others => '0');
       add(0) <= (others => '0');
       add(1) <= (others => '0');
       add(2) <= (others => '0');
       add(3) <= (others => '0');
-elsif rising_edge(clock) then
+      add(4) <= (others => '0');
+      add(5) <= (others => '0');
+      add(6) <= (others => '0');
+      add(7) <= (others => '0');
+      add(8) <= (others => '0');
+    elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
           debug_reg <= '0';
-          end_pool <= '0';
+          end_reg <= '0';
+          add_reg <= -1;
+          debug_reg <= '0';
+          cw_reg <= '0';
+          ce_reg <= '1';
 
           if start_pool = '1' then
             EA_read <= UPDATEADD;
           end if;
 
         when UPDATEADD =>
-          idx <= 0;
           debug_reg <= '0';
           cw_reg <= '0';
+          idx <= 0;
           value_reg <= (others => '0');
           EA_read <= READFEATURES;
 
-          add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE);
-          add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 1;
-          add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3; -- X_SIZE=3
-          add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3 + 1; -- X_SIZE=3
+          add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 0;
+          add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 1;
+          add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 2;
+          add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 0; -- X_SIZE=3
+          add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 1; -- X_SIZE=3
+          add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 2; -- X_SIZE=3
+          add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 0; -- X_SIZE=3
+          add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 1; -- X_SIZE=3
+          add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 2; -- X_SIZE=3
 
-          if (H+2) >= 3 then -- STRIDE=2, X_SIZE=3
+          if (H+3) >= 3 then -- X_SIZE=3
             H <= 0;
-            V <= V + 2;
-            T <= T+2*3; -- STRIDE=2, X_SIZE=3
+            V <= V + 3; -- X_SIZE=3
+            T <= T+3*3; -- X_SIZE=3
           else
-            H <= H+2; -- STRIDE=2
+            H <= H+3; -- X_SIZE=3
           end if;
 
-          if (V+2) >= 3 then -- STRIDE=2, X_SIZE=3
+          if (V+3) >= 3 then -- X_SIZE=3
             V <= 0;
           end if;
 
@@ -156,11 +176,12 @@ elsif rising_edge(clock) then
                   value_reg <= ifmap_value;
                 end if;
             end if;
-            if (idx < 4-1) then -- pool_size*2=2*2=4
+            if (idx < 3*3-1) then -- pool_size**2=3*3=9-1
               idx <= idx + 1;
             else
               idx <= 0;
               EA_read <= WAITVALID;
+              ce_reg <= '0';
             end if;
           end if;
         -- when STARTMAC =>
@@ -168,17 +189,17 @@ elsif rising_edge(clock) then
         --     EA_read <= WAITVALID;
         --   end if;
         when WAITVALID =>
+          -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
+          output_reg <= value_reg;
+          add_reg <= add_reg + 1;
+          debug_reg <= '1';
+          cw_reg <= '1';
+  
           if T < 3*3*64 -1 then -- image max size
             EA_read <= UPDATEADD;
-            report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
-            -- debug_reg <= '1';
           else
-            debug_reg <= '1';
             EA_read <= WAITSTART;
             end_reg <= '1';
-            add_reg <= (others => '0');
-            cw_reg <= '1';
-            ce_reg <= '0';
           end if;
         when others => null;
       end case;

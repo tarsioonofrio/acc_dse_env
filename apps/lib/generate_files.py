@@ -348,18 +348,18 @@ def generate_gold_maxpool_vhd_pkg(layer, path):
     feature = open_file(path.parent / str(layer) / 'gold.txt')
     arr = np.array(feature).reshape(-1, 3, 3)
 
-    gold = pool2d(arr, kernel_size=2, stride=2, padding=1, pool_mode='max').reshape(-1).tolist()
+    gold = pool2d(arr, kernel_size=3, stride=3, padding=0, pool_mode='max').reshape(-1).tolist()
 
     package = "ifmap_package"
     constant = "input_map"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature)
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
 
     write_mem_txt([[feature]], "ifmap", path)
     write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
     package = "gold_package"
     constant = "gold"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold)
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
     write_mem_txt([[gold]], "gold", path)
     write_mem_pkg(constant, data, "gold_pkg", package, path)
 

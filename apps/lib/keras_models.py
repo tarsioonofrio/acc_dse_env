@@ -71,7 +71,7 @@ def pool(config_model, config_data):
         )
         # model.add(keras.layers.MaxPooling2D((2, 2), strides=(2, 2)))
 
-    model.add(keras.layers.MaxPooling2D(pool_size=(2, 2), strides=(2, 2), padding='same'))
+    model.add(keras.layers.MaxPooling2D(pool_size=(3, 3), strides=(3, 3), padding='same'))
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(config_data["classes"], activation='softmax'))
 
