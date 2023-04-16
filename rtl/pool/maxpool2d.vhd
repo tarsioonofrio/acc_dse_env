@@ -117,15 +117,7 @@ begin
       cw_reg <= '0';
       add_reg <= -1;
       value_reg <= (others => '0'); 
-      add(0) <= (others => '0'); -- (others=> (others=>'0'))
-      add(1) <= (others => '0');
-      add(2) <= (others => '0');
-      add(3) <= (others => '0');
-      add(4) <= (others => '0');
-      add(5) <= (others => '0');
-      add(6) <= (others => '0');
-      add(7) <= (others => '0');
-      add(8) <= (others => '0');
+      add <= (others=> (others=>'0'));
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
@@ -146,16 +138,21 @@ begin
           idx <= 0;
           value_reg <= (others => '0');
           EA_read <= READFEATURES;
+          ouside_add_loop: for u in 0 to P_SIZE - 1 loop
+            inside_add_loop: for i in 0 to P_SIZE - 1 loop
+              add(P_SIZE*u + i) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*u + i;
+            end loop inside_add_loop; 
+          end loop ouside_add_loop;
 
-          add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 0;
-          add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 1;
-          add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 2;
-          add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 0;
-          add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 1;
-          add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 2;
-          add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 0;
-          add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 1;
-          add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 2;
+          -- add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 0;
+          -- add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 1;
+          -- add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 2;
+          -- add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 0;
+          -- add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 1;
+          -- add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 2;
+          -- add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 0;
+          -- add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 1;
+          -- add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 2;
 
           -- TODO: maybe is possible to replace I_SIZE in (H+X_SIZE) by 1 or STRIDE
           if (H+P_SIZE) >= I_SIZE then 
