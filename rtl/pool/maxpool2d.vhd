@@ -127,7 +127,6 @@ begin
       case EA_read is
         when WAITSTART =>
           debug_reg <= '0';
-          end_reg <= '0';
           add_reg <= -1;
           debug_reg <= '0';
           cw_reg <= '0';
@@ -138,6 +137,7 @@ begin
           end if;
 
         when UPDATEADD =>
+          end_reg <= '0';
           debug_reg <= '0';
           cw_reg <= '0';
           idx <= 0;
@@ -169,13 +169,11 @@ begin
         when READFEATURES =>
           ce_reg <= '1';
           if ifmap_valid = '1' then
-            -- report "integer: " & integer'image(CONV_INTEGER(signed(ifmap_value))) & " " & integer'image(CONV_INTEGER(signed(value_reg)));
-            -- report "boolean: " & boolean'image(CONV_INTEGER(signed(ifmap_value)) > CONV_INTEGER(signed(value_reg)));
-            if (H <= 3-1) or (V <= 3-1) then -- X_SIZE=3
-                if CONV_INTEGER(signed(ifmap_value)) > CONV_INTEGER(signed(value_reg)) then
-                  value_reg <= ifmap_value;
-                end if;
+            -- if (H <= 3-1) or (V <= 3-1) then -- X_SIZE=3
+            if CONV_INTEGER(signed(ifmap_value)) > CONV_INTEGER(signed(value_reg)) then
+              value_reg <= ifmap_value;
             end if;
+            -- end if;
             if (idx < 3*3-1) then -- pool_size**2=3*3=9-1
               idx <= idx + 1;
             else
