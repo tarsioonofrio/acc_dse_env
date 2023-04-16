@@ -11,10 +11,13 @@ use ieee.std_logic_arith.all;
 
 entity maxpool is
   generic (
-    N_FILTER       : integer := 16;
-    N_CHANNEL      : integer := 3;
+    N_FILTER       : integer := 64;
+    N_CHANNEL      : integer := 64;
+    I_CHANNEL      : integer := 64;
     STRIDE         : integer := 2;
-    X_SIZE         : integer := 32;
+    X_SIZE         : integer := 3;
+    I_SIZE         : integer := 3;
+    P_SIZE         : integer := 3;
     FILTER_WIDTH   : integer := 3;
     CONVS_PER_LINE : integer := 15;
     MEM_SIZE       : integer := 12;
@@ -55,9 +58,9 @@ architecture a1 of maxpool is
   signal value_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal output_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
-  signal idx  : integer range 0 to 3*3-1;
-  signal H : integer range 0 to X_SIZE;
-  signal V : integer range 0 to X_SIZE;
+  signal idx  : integer range 0 to P_SIZE*P_SIZE-1;
+  signal H : integer range 0 to I_SIZE;
+  signal V : integer range 0 to I_SIZE;
   signal T : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_reg : integer range -1 to 2**(MEM_SIZE) - 2;
 
@@ -113,8 +116,8 @@ begin
       ce_reg <= '0';
       cw_reg <= '0';
       add_reg <= -1;
-      value_reg <= (others => '0');
-      add(0) <= (others => '0');
+      value_reg <= (others => '0'); 
+      add(0) <= (others => '0'); -- (others=> (others=>'0'))
       add(1) <= (others => '0');
       add(2) <= (others => '0');
       add(3) <= (others => '0');
@@ -144,37 +147,38 @@ begin
           value_reg <= (others => '0');
           EA_read <= READFEATURES;
 
-          add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 0;
-          add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 1;
-          add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*0 + 2;
-          add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 0; -- X_SIZE=3
-          add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 1; -- X_SIZE=3
-          add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*1 + 2; -- X_SIZE=3
-          add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 0; -- X_SIZE=3
-          add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 1; -- X_SIZE=3
-          add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + 3*2 + 2; -- X_SIZE=3
+          add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 0;
+          add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 1;
+          add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 2;
+          add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 0;
+          add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 1;
+          add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 2;
+          add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 0;
+          add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 1;
+          add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 2;
 
-          if (H+3) >= 3 then -- X_SIZE=3
+          -- TODO: maybe is possible to replace I_SIZE in (H+X_SIZE) by 1 or STRIDE
+          if (H+P_SIZE) >= I_SIZE then 
             H <= 0;
-            V <= V + 3; -- X_SIZE=3
-            T <= T+3*3; -- X_SIZE=3
+            V <= V + P_SIZE; 
+            T <= T+P_SIZE**2;
           else
-            H <= H+3; -- X_SIZE=3
+            H <= H+P_SIZE;
           end if;
 
-          if (V+3) >= 3 then -- X_SIZE=3
+          if (V+P_SIZE) >= I_SIZE then
             V <= 0;
           end if;
 
         when READFEATURES =>
           ce_reg <= '1';
           if ifmap_valid = '1' then
-            -- if (H <= 3-1) or (V <= 3-1) then -- X_SIZE=3
+            -- if (H <= 3-1) or (V <= 3-1) then 
             if CONV_INTEGER(signed(ifmap_value)) > CONV_INTEGER(signed(value_reg)) then
               value_reg <= ifmap_value;
             end if;
             -- end if;
-            if (idx < 3*3-1) then -- pool_size**2=3*3=9-1
+            if (idx < P_SIZE*P_SIZE-1) then -- pool_size**2=3*3=9-1
               idx <= idx + 1;
             else
               idx <= 0;
@@ -193,7 +197,7 @@ begin
           debug_reg <= '1';
           cw_reg <= '1';
   
-          if T < 3*3*64 -1 then -- image max size
+          if T < I_SIZE*I_SIZE*I_CHANNEL - 1 then -- image max size
             EA_read <= UPDATEADD;
           else
             EA_read <= WAITSTART;
