@@ -144,16 +144,6 @@ begin
             end loop inside_add_loop; 
           end loop ouside_add_loop;
 
-          -- add(0) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 0;
-          -- add(1) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 1;
-          -- add(2) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*0 + 2;
-          -- add(3) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 0;
-          -- add(4) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 1;
-          -- add(5) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*1 + 2;
-          -- add(6) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 0;
-          -- add(7) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 1;
-          -- add(8) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*2 + 2;
-
           -- TODO: maybe is possible to replace I_SIZE in (H+X_SIZE) by 1 or STRIDE
           if (H+P_SIZE) >= I_SIZE then 
             H <= 0;

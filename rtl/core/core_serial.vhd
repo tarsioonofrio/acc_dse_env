@@ -11,6 +11,7 @@ use work.config_package_array.all;
 
 entity core is
   generic (
+    OP_TYPE        : string   := "C";
     N_FILTER       : integer   := 16;
     N_CHANNEL      : integer   := 3;
     X_SIZE         : integer   := 32;
@@ -112,30 +113,31 @@ begin
   -- map mem value to conv 
   ifmap_value <= mem_ifmap_value;
 
-
-  IWGHT : entity work.memory
-    generic map(
-      ROM_PATH => IWGHT_PATH,
-      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
-      ADDRESS_SIZE => MEM_SIZE, 
-      DATA_AV_LATENCY => LAT,
-      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
-      BRAM_ADDR => BRAM_ADDR,
-      BRAM_NUM => BRAM_NUM_IWGHT,
-      BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)
-      )
-    port map(
-      clock    => clock,
-      reset    => reset,
-      chip_en  => mem_iwght_ce,
-      wr_en    => p_iwght_we,
-      data_in  => mem_iwght_value,
-      address  => mem_iwght_address,
-      data_av  => iwght_valid,
-      data_out => iwght_value,
-      n_read   => iwght_n_read,
-      n_write  => iwght_n_write
-      );
+  GEN_IWGHT: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'C' generate
+    IWGHT : entity work.memory
+      generic map(
+        ROM_PATH => IWGHT_PATH,
+        INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+        ADDRESS_SIZE => MEM_SIZE, 
+        DATA_AV_LATENCY => LAT,
+        BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+        BRAM_ADDR => BRAM_ADDR,
+        BRAM_NUM => BRAM_NUM_IWGHT,
+        BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)
+        )
+      port map(
+        clock    => clock,
+        reset    => reset,
+        chip_en  => mem_iwght_ce,
+        wr_en    => p_iwght_we,
+        data_in  => mem_iwght_value,
+        address  => mem_iwght_address,
+        data_av  => iwght_valid,
+        data_out => iwght_value,
+        n_read   => iwght_n_read,
+        n_write  => iwght_n_write
+        );
+  end generate;
 
   IFMAP : entity work.memory
     generic map(
@@ -185,46 +187,88 @@ begin
 -- --       n_write  => ifmap_n_write
 --       );
 
-  CONV : entity work.convolution
-    generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
-      MEM_SIZE       => MEM_SIZE,
-      INPUT_SIZE     => INPUT_SIZE,
-      SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
-      )
-    port map(
-      clock         => clock,
-      reset         => reset,
+  GEN_CONV: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'C' generate
+    CONV : entity work.convolution
+      generic map(
+        N_FILTER       => N_FILTER,
+        N_CHANNEL      => N_CHANNEL,
+        X_SIZE         => X_SIZE,
+        FILTER_WIDTH   => FILTER_WIDTH,
+        CONVS_PER_LINE => CONVS_PER_LINE,
+        MEM_SIZE       => MEM_SIZE,
+        INPUT_SIZE     => INPUT_SIZE,
+        SHIFT          => SHIFT,
+        CARRY_SIZE     => CARRY_SIZE
+        )
+      port map(
+        clock         => clock,
+        reset         => reset,
 
-      start_conv    => start_conv,
-      end_conv      => end_conv,
-      debug         => debug,
-      config        => const_config_logic_vector(BRAM_NAME_LAYER),
+        start_conv    => start_conv,
+        end_conv      => end_conv,
+        debug         => debug,
+        config        => const_config_logic_vector(BRAM_NAME_LAYER),
 
-      iwght_valid   => iwght_valid,
-      iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
-      iwght_address => iwght_address,
-      iwght_ce      => iwght_ce,
+        iwght_valid   => iwght_valid,
+        iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
+        iwght_address => iwght_address,
+        iwght_ce      => iwght_ce,
 
-      ifmap_valid   => ifmap_valid,
-      ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
-      ifmap_address => ifmap_address,
-      ifmap_ce      => ifmap_ce,
+        ifmap_valid   => ifmap_valid,
+        ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+        ifmap_address => ifmap_address,
+        ifmap_ce      => ifmap_ce,
 
-      ofmap_valid   => ofmap_valid,
-      ofmap_in      => ofmap_in,
-      ofmap_out     => ofmap_out,
-      ofmap_address => ofmap_address,
-      ofmap_we      => ofmap_we,
-      ofmap_ce      => ofmap_ce
-      );
+        ofmap_valid   => ofmap_valid,
+        ofmap_in      => ofmap_in,
+        ofmap_out     => ofmap_out,
+        ofmap_address => ofmap_address,
+        ofmap_we      => ofmap_we,
+        ofmap_ce      => ofmap_ce
+        );
+    end generate;
 
-
+    GEN_MAXPOOL: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'M' generate
+      CONV : entity work.maxpool
+        generic map(
+          N_FILTER       => N_FILTER,
+          N_CHANNEL      => N_CHANNEL,
+          X_SIZE         => X_SIZE,
+          FILTER_WIDTH   => FILTER_WIDTH,
+          CONVS_PER_LINE => CONVS_PER_LINE,
+          MEM_SIZE       => MEM_SIZE,
+          INPUT_SIZE     => INPUT_SIZE,
+          SHIFT          => SHIFT,
+          CARRY_SIZE     => CARRY_SIZE
+          )
+        port map(
+          clock         => clock,
+          reset         => reset,
+  
+          start_pool    => start_conv,
+          end_pool      => end_conv,
+          debug         => debug,
+          -- config        => const_config_logic_vector(BRAM_NAME_LAYER),
+  
+          -- iwght_valid   => iwght_valid,
+          -- iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
+          -- iwght_address => iwght_address,
+          -- iwght_ce      => iwght_ce,
+  
+          ifmap_valid   => ifmap_valid,
+          ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+          ifmap_address => ifmap_address,
+          ifmap_ce      => ifmap_ce,
+  
+          ofmap_valid   => ofmap_valid,
+          -- ofmap_in      => ofmap_in,
+          ofmap_out     => ofmap_out,
+          ofmap_address => ofmap_address,
+          ofmap_we      => ofmap_we,
+          ofmap_ce      => ofmap_ce
+          );
+      end generate;
+    
 --     process(clock)
 --       -- convolution counter
 --       variable cont_conv : integer := 0;
