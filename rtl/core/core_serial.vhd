@@ -11,7 +11,7 @@ use work.config_package_array.all;
 
 entity core is
   generic (
-    OP_TYPE        : string   := "C";
+    OP_TYPE        : character   := 'C';
     N_FILTER       : integer   := 16;
     N_CHANNEL      : integer   := 3;
     X_SIZE         : integer   := 32;
@@ -113,7 +113,7 @@ begin
   -- map mem value to conv 
   ifmap_value <= mem_ifmap_value;
 
-  GEN_IWGHT: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'C' generate
+  GEN_IWGHT: if OP_TYPE = 'C' generate
     IWGHT : entity work.memory
       generic map(
         ROM_PATH => IWGHT_PATH,
@@ -187,7 +187,7 @@ begin
 -- --       n_write  => ifmap_n_write
 --       );
 
-  GEN_CONV: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'C' generate
+  GEN_CONV: if OP_TYPE = 'C' generate
     CONV : entity work.convolution
       generic map(
         N_FILTER       => N_FILTER,
@@ -228,7 +228,7 @@ begin
         );
     end generate;
 
-    GEN_MAXPOOL: if OP_TYPE(BRAM_NAME_LAYER + 1) = 'M' generate
+    GEN_MAXPOOL: if OP_TYPE = 'M' generate
       CONV : entity work.maxpool
         generic map(
           N_FILTER       => N_FILTER,
