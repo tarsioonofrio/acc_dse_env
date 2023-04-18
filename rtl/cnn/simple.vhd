@@ -25,6 +25,7 @@ entity cnn is
     LAT            : integer   := 2;
     N_LAYER        : integer   := 1;
     PATH           : string    := "";
+    OP_TYPE        : string    := "CCC";
     TEST_LAYER     : integer   := 0;
     BRAM_ADDR      : integer := 10;
     BRAM_NUM_IWGHT : string  := "";
@@ -139,6 +140,7 @@ begin
         IWGHT_PATH     => PATH & "/layer/" & integer'image(i - 1) & "/iwght.txt",
         TEST_LAYER     => i,
         PATH           => PATH,
+        OP_TYPE        => OP_TYPE(i),
         BRAM_ADDR      => BRAM_ADDR,
         BRAM_NAME_LAYER => i - 1,
         BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
