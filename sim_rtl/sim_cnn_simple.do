@@ -3,7 +3,7 @@ vlib work
 vmap work work
 
 vcom -work work ../apps/rtl_output/maxpool/default/core/config_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
+vcom -work work ../apps/rtl_output/maxpool/default/bram/config_const_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd

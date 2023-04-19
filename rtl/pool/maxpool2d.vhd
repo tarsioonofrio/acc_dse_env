@@ -52,7 +52,7 @@ end entity maxpool;
 
 
 architecture a1 of maxpool is
-  signal end_reg, ce_reg, cw_reg, debug_reg : std_logic;
+  signal start_reg, end_reg, ce_reg, cw_reg, debug_reg : std_logic;
   -- signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal value_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
@@ -112,6 +112,7 @@ begin
       V <= 0;
       T <= 0;
       debug_reg <= '0';
+      start_reg <= '0';
       end_reg <= '0';
       ce_reg <= '0';
       cw_reg <= '0';
@@ -126,8 +127,9 @@ begin
           debug_reg <= '0';
           cw_reg <= '0';
           ce_reg <= '1';
-
-          if start_pool = '1' then
+          start_reg <= start_pool;
+          
+          if start_pool = '1' and start_reg = '0' then
             EA_read <= UPDATEADD;
           end if;
 

@@ -229,7 +229,7 @@ begin
     end generate;
 
     GEN_MAXPOOL: if OP_TYPE = 'M' generate
-      CONV : entity work.maxpool
+      MAXPOOL : entity work.maxpool
         generic map(
           N_FILTER       => N_FILTER,
           N_CHANNEL      => N_CHANNEL,
