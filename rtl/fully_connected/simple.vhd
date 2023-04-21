@@ -9,7 +9,7 @@ use ieee.std_logic_arith.all;
 -- use work.util_package.all;
 
 
-entity fullyconected is
+entity fully_conected is
   generic (
     N_FILTER       : integer := 10;
     N_CHANNEL      : integer := 64;
@@ -27,8 +27,8 @@ entity fullyconected is
     reset : in std_logic;
 
     -- Accelerator interface
-    start_pool : in  std_logic;
-    end_pool   : out std_logic;
+    start_op : in  std_logic;
+    end_op   : out std_logic;
     debug      : out std_logic;
     -- config     : in  type_config_logic;
 
@@ -51,18 +51,28 @@ entity fullyconected is
     ofmap_we      : out std_logic;
     ofmap_ce      : out std_logic
     );
-end entity fullyconected;
+end entity fully_conected;
 
 
-architecture a1 of fullyconected is
-  signal start_reg, end_reg, ce_reg, cw_reg, debug_reg : std_logic;
+architecture a1 of fully_conected is
+  signal start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset,en_reg: std_logic;
   -- signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
-  signal value_reg : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
-  signal output_reg : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal features : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal weight : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal res_mac : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal reg_mac : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
 
-  signal add_fmap : integer range 0 to 2**(MEM_SIZE) - 1;
-  signal add_wght : integer range 0 to 2**(MEM_SIZE) - 1;
+  signal add_ifmap : integer range 0 to 2**(MEM_SIZE) - 1;
+  signal add_ofmap : integer range 0 to 2**(MEM_SIZE) - 1;
+  signal add_iwght : integer range 0 to 2**(MEM_SIZE) - 1;
+  signal idx_mac : integer;
+  signal idx_wght : integer;
+  signal idx_ifmap : integer;
+
+  type type_mac_arr is array (0 to 10-1) of std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal res_mac_arr : type_mac_arr;
+  signal reg_mac_arr : type_mac_arr;
 
   -- signal reg_config : type_config_integer;
 
@@ -90,18 +100,18 @@ begin
   ----------------------------------------------------------------------------
   -- input values control
   ----------------------------------------------------------------------------
-  end_pool <= end_reg;
+  end_op <= end_reg;
   debug <= debug_reg;
 
-  iwght_ce <= ce_wght;
-  iwght_address <= CONV_STD_LOGIC_VECTOR(add_wght, MEM_SIZE);
+  iwght_ce <= ce_iwght;
+  iwght_address <= CONV_STD_LOGIC_VECTOR(add_iwght, MEM_SIZE);
 
-  ifmap_ce <= ce_fmap;
-  ifmap_address <= CONV_STD_LOGIC_VECTOR(add_fmap, MEM_SIZE);
+  ifmap_ce <= ce_ifmap;
+  ifmap_address <= CONV_STD_LOGIC_VECTOR(add_ifmap, MEM_SIZE);
 
-  ofmap_we <= cw_reg;
-  ofmap_ce <= cw_reg;
-  ofmap_address <= CONV_STD_LOGIC_VECTOR(add_reg, MEM_SIZE);
+  ofmap_we <= ce_ofmap;
+  ofmap_ce <= ce_ofmap;
+  ofmap_address <= CONV_STD_LOGIC_VECTOR(add_ofmap, MEM_SIZE);
   ofmap_out <= const_output & output_reg;
 
   process(reset, clock)
@@ -114,8 +124,9 @@ begin
       debug_reg <= '0';
       start_reg <= '0';
       end_reg <= '0';
-      ce_reg <= '0';
-      cw_reg <= '0';
+      ce_ifmap <= '0';
+      ce_iwght <= '0';
+      ce_ofmap <= '0';
       add_reg <= -1;
       value_reg <= (others => '0'); 
     elsif rising_edge(clock) then
@@ -124,41 +135,42 @@ begin
           debug_reg <= '0';
           add_reg <= -1;
           debug_reg <= '0';
-          cw_reg <= '0';
-          ce_reg <= '1';
-          start_reg <= start_pool;
+          ce_ifmap <= '0';
+          ce_iwght <= '0';
+          ce_ofmap <= '0';
+          start_reg <= start_op;
           
-          if start_pool = '1' and start_reg = '0' then
+          if start_op = '1' and start_reg = '0' then
             EA_read <= READFEATURES;
           end if;
 
         when READFEATURES =>
-          ce_fmap <= '1';
+          ce_ifmap <= '1';
           if ifmap_valid = '1' then
             features <= ifmap_value;
-            add_feat <= add_feat + 1;
+            add_ifmap <= add_ifmap + 1;
             EA_read <= READWEIGHTS;
-            ce_reg <= '0';
+            ce_ifmap <= '0';
           end if;
 
         when READWEIGHTS =>
-          ce_reg <= '1';
+          ce_iwght <= '1';
           idx_mac <= idx_wght;
           if iwght_valid = '1' then
-            wght_reg <= iwght_value;
+            weight <= iwght_value;
             if (idx_wght < 10) then -- number of classes
               weight <= iwght_value;
-              add_feat <= add_feat + P_SIZE;
+              add_ifmap <= add_ifmap + P_SIZE;
               idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
               EA_read <= WAITVALID;
-              ce_reg <= '0';
+              ce_ifmap <= '0';
             end if;
           end if;
         when WAITVALID =>
-          idx_feat <= idx_feat + 1; -- count number of 
-          add_wght <= idx_feat + 1;
+          idx_ifmap <= idx_ifmap + 1; -- count number of 
+          add_iwght <= idx_ifmap + 1;
         -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
           output_reg <= value_reg;
           add_reg <= add_reg + 1;
@@ -176,9 +188,8 @@ begin
     end if;
   end process;
 
-  weight <= iwght_value;
-  d_res_mac(idx_mac) <= res_mac;
-  reg_mac <= q_reg_mac(idx_mac);
+  reg_mac <= reg_mac_arr(idx_mac);
+  reg_mac_arr(idx_mac) <= res_mac;
 
   mac0 : entity work.mac
   generic map(INPUT_SIZE => INPUT_SIZE,
@@ -194,8 +205,8 @@ begin
     ireg : entity work.reg
       generic map(INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE))
       port map(clock => clock, reset => pipe_reset, enable => en_reg,
-                D     => d_res_mac(i),
-                Q     => q_reg_mac(i)
+                D     => res_mac_arr(i),
+                Q     => reg_mac_arr(i)
                 );
   end generate reg_c;
 
