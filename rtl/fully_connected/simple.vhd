@@ -77,7 +77,7 @@ architecture a1 of fully_connected is
   -- signal reg_config : type_config_integer;
 
   -- Macro state machine signals to control input values flags
-  type statesReadValues is (WAITSTART, READWEIGHTS, READFEATURES, CALC, WAITVALID);
+  type statesReadValues is (WAITSTART, READBIAS, READFEATURES, READWEIGHTS, WAITVALID);
   signal EA_read : statesReadValues;
   
   constant const_output     : std_logic_vector(CARRY_SIZE-1 downto 0) := (others => '0');
@@ -146,7 +146,24 @@ begin
         
           start_reg <= start_op;
           if start_op = '1' and start_reg = '0' then
-            EA_read <= READFEATURES;
+            EA_read <= READBIAS;
+          end if;
+
+        when READBIAS =>
+          ce_iwght <= '1';
+          idx_mac <= idx_wght;
+          if iwght_valid = '1' then
+            en_reg(idx_wght) <= '1';
+            weight <= 1;
+            if (idx_wght < 10 - 1) then -- number of classes
+              add_iwght <= add_iwght + 1;
+            else
+              idx_wght <= 0;
+              EA_read <= WAITVALID;
+              ce_ifmap <= '0';
+            end if;
+          else
+            en_reg <= (others => '0') ;
           end if;
 
         when READFEATURES =>
@@ -175,6 +192,7 @@ begin
           else
             en_reg <= (others => '0') ;
           end if;
+
         when WAITVALID =>
           add_iwght <= add_ifmap;
           en_reg <= (others => '0');
