@@ -63,11 +63,13 @@ architecture a1 of fully_connected is
   signal weight : std_logic_vector(INPUT_SIZE - 1 downto 0);
   signal res_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal reg_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal reg_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal add_ifmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_ofmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_iwght : integer range 0 to 2**(MEM_SIZE) - 1;
   signal idx_mac : integer range 0 to 10 - 1;
+  signal idx_output : integer range 0 to 10 - 1;
   signal idx_wght : integer;
 
   type type_mac_arr is array (0 to 10-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -77,7 +79,7 @@ architecture a1 of fully_connected is
   -- signal reg_config : type_config_integer;
 
   -- Macro state machine signals to control input values flags
-  type statesReadValues is (WAITSTART, READBIAS, READFEATURES, READWEIGHTS, WAITVALID);
+  type statesReadValues is (WAITSTART, READBIAS, READFEATURES, READWEIGHTS, WAITVALID, WRITEFEATURES);
   signal EA_read : statesReadValues;
   
   constant const_output     : std_logic_vector(INPUT_SIZE + CARRY_SIZE-1 downto 0) := (others => '0');
@@ -111,8 +113,8 @@ begin
 
   ofmap_we <= ce_ofmap;
   ofmap_ce <= ce_ofmap;
-  ofmap_address <= CONV_STD_LOGIC_VECTOR(add_ofmap, MEM_SIZE);
-  -- ofmap_out <= const_output & output_reg;
+  ofmap_address <= CONV_STD_LOGIC_VECTOR(idx_mac, MEM_SIZE);
+  ofmap_out <= reg_out;
 
   process(reset, clock)
   begin
@@ -121,6 +123,7 @@ begin
       EA_read <= WAITSTART;
       start_reg <= '0';
       debug_reg <= '0';
+      end_reg <= '0';
       en_reg <= (others => '0');
       ce_ifmap <= '0';
       ce_iwght <= '0';
@@ -130,6 +133,7 @@ begin
       add_iwght <= 0;
       idx_mac <= 0;
       idx_wght <= 0;
+      idx_output <= 0;
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
@@ -142,10 +146,13 @@ begin
           add_ifmap <= 0;
           add_ofmap <= 0;
           add_iwght <= 0;
+          idx_mac <= 0;
           idx_wght <= 0;
-        
+          idx_output <= 0;
+
           start_reg <= start_op;
           if start_op = '1' and start_reg = '0' then
+            end_reg <= '0';
             EA_read <= READBIAS;
           end if;
         
@@ -204,9 +211,24 @@ begin
           if add_iwght < 576 * 10 + 10 then -- image max size
             EA_read <= READFEATURES;
           else
-            EA_read <= WAITSTART;
-            end_reg <= '1';
+            EA_read <= WRITEFEATURES;
           end if;
+        
+        when WRITEFEATURES =>
+          debug_reg <= '1';
+          ce_ofmap <= '1';
+          idx_mac <= idx_output;
+          reg_out <= reg_mac_arr(idx_output);
+          if (idx_output < 10 - 1) then -- number of classes
+            idx_output <= idx_output + 1;
+          else
+            end_reg <= '1';
+            idx_output <= 0;
+            EA_read <= WAITSTART;
+            ce_iwght <= '0';
+            pipe_reset <= '1';
+          end if;
+
         when others => null;
       end case;
     end if;
