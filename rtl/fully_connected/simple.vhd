@@ -80,7 +80,7 @@ architecture a1 of fully_connected is
   type statesReadValues is (WAITSTART, READBIAS, READFEATURES, READWEIGHTS, WAITVALID);
   signal EA_read : statesReadValues;
   
-  constant const_output     : std_logic_vector(CARRY_SIZE-1 downto 0) := (others => '0');
+  constant const_output     : std_logic_vector(INPUT_SIZE + CARRY_SIZE-1 downto 0) := (others => '0');
 
 
 begin
@@ -148,25 +148,29 @@ begin
           if start_op = '1' and start_reg = '0' then
             EA_read <= READBIAS;
           end if;
-
+        
+        -- TODO READBIAS block is almost the same as READWEIGHTS, add to READWEIGHTS a flag about read bias
         when READBIAS =>
           ce_iwght <= '1';
-          idx_mac <= idx_wght;
           if iwght_valid = '1' then
+            idx_mac <= idx_wght;
             en_reg(idx_wght) <= '1';
-            weight <= 1;
+            features <= CONV_STD_LOGIC_VECTOR(1, INPUT_SIZE);
+            weight <= iwght_value(INPUT_SIZE-1 downto 0);
+            add_iwght <= add_iwght + 1;
             if (idx_wght < 10 - 1) then -- number of classes
-              add_iwght <= add_iwght + 1;
+              idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
-              EA_read <= WAITVALID;
-              ce_ifmap <= '0';
+              EA_read <= READFEATURES;
+              ce_iwght <= '0';
             end if;
           else
             en_reg <= (others => '0') ;
           end if;
 
         when READFEATURES =>
+          en_reg <= (others => '0') ;
           ce_ifmap <= '1';
           if ifmap_valid = '1' then
             features <= ifmap_value(INPUT_SIZE-1 downto 0);
@@ -177,8 +181,8 @@ begin
 
         when READWEIGHTS =>
           ce_iwght <= '1';
-          idx_mac <= idx_wght;
           if iwght_valid = '1' then
+            idx_mac <= idx_wght;
             en_reg(idx_wght) <= '1';
             weight <= iwght_value(INPUT_SIZE-1 downto 0);
             if (idx_wght < 10 - 1) then -- number of classes
@@ -187,14 +191,14 @@ begin
             else
               idx_wght <= 0;
               EA_read <= WAITVALID;
-              ce_ifmap <= '0';
+              ce_iwght <= '0';
             end if;
           else
             en_reg <= (others => '0') ;
           end if;
 
         when WAITVALID =>
-          add_iwght <= add_ifmap;
+          add_iwght <= add_ifmap + 10;
           en_reg <= (others => '0');
         -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
           if add_iwght < 576 * 10 then -- image max size
@@ -208,7 +212,6 @@ begin
     end if;
   end process;
 
-  -- reg_mac <= (others => '0');
   reg_mac <= reg_mac_arr(idx_mac);
   res_mac_arr(idx_mac) <= res_mac;
 
