@@ -4,10 +4,12 @@ import pickle
 import argparse
 from pathlib import Path
 
+import numpy as np
+
 from lib import util, keras_cifar10
 from lib.generate_files import (
     generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,
-    generate_samples, generate_gold_maxpool_vhd_pkg
+    generate_samples, generate_gold_maxpool_vhd_pkg, generate_gold_fc_vhd_pkg
 )
 from lib.model import dictionary_from_model
 
@@ -55,6 +57,8 @@ def main():
         with open(cnn_output_path / 'weights.pkl', 'wb') as f:
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, f)
+
+    model_dict = {k: v for k, v in model_dict.items() if v["type"] != "Flatten"}
 
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
@@ -116,6 +120,11 @@ def main():
         path_layer = rtl_output_path / "layer" / str(size + 1)
         path_layer.mkdir(parents=True, exist_ok=True)
         generate_gold_maxpool_vhd_pkg(size, path_layer)
+
+    size = len(model_dict.keys()) - 1
+    path_layer = rtl_output_path / "layer" / str(size)
+    path_layer.mkdir(parents=True, exist_ok=True)
+    generate_gold_fc_vhd_pkg(model_dict, shift, size, path_layer)
 
     generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, rtl_output_path, single_file=False)
 

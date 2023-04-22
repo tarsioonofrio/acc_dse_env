@@ -343,6 +343,36 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
 
+def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
+    tab = "    "
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        [(v["weights"] * shift).astype(int), int(v["bias"] * shift * shift)]
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in weights
+    ]
+
+    package = "ifmap_package"
+    constant = "input_map"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+
+    write_mem_txt([[feature]], "ifmap", path)
+    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+    package = "gold_package"
+    constant = "gold"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+    write_mem_txt([[gold]], "gold", path)
+    write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+
 def generate_gold_maxpool_vhd_pkg(layer, path):
     tab = "    "
     feature = open_file(path.parent / str(layer) / 'gold.txt')
