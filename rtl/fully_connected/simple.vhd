@@ -56,21 +56,21 @@ end entity fully_connected;
 
 
 architecture a1 of fully_connected is
-  signal iwght_reg, start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset,en_reg: std_logic;
-  -- signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
+  signal iwght_reg, start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset: std_logic;
 
-  signal features : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
-  signal weight : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
-  signal res_mac : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
-  signal reg_mac : std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  signal en_reg : std_logic_vector(10 - 1 downto 0);
+  signal features : std_logic_vector(INPUT_SIZE - 1 downto 0);
+  signal weight : std_logic_vector(INPUT_SIZE - 1 downto 0);
+  signal res_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  signal reg_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal add_ifmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_ofmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_iwght : integer range 0 to 2**(MEM_SIZE) - 1;
-  signal idx_mac : integer;
+  signal idx_mac : integer range 0 to 10 - 1;
   signal idx_wght : integer;
 
-  type type_mac_arr is array (0 to 10-1) of std_logic_vector((INPUT_SIZE*2) - 1 downto 0);
+  type type_mac_arr is array (0 to 10-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal res_mac_arr : type_mac_arr;
   signal reg_mac_arr : type_mac_arr;
 
@@ -121,7 +121,7 @@ begin
       EA_read <= WAITSTART;
       start_reg <= '0';
       debug_reg <= '0';
-      end_reg <= '0';
+      en_reg <= (others => '0');
       ce_ifmap <= '0';
       ce_iwght <= '0';
       ce_ofmap <= '0';
@@ -130,14 +130,12 @@ begin
       add_iwght <= 0;
       idx_mac <= 0;
       idx_wght <= 0;
-      res_mac_arr <= (others => (others => '0')); 
-      reg_mac_arr <= (others => (others => '0')); 
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
+          en_reg <= (others => '0');
           pipe_reset <= '0';
           debug_reg <= '0';
-          end_reg <= '0';
           ce_ifmap <= '0';
           ce_iwght <= '0';
           ce_ofmap <= '0';
@@ -154,7 +152,7 @@ begin
         when READFEATURES =>
           ce_ifmap <= '1';
           if ifmap_valid = '1' then
-            features <= ifmap_value;
+            features <= ifmap_value(INPUT_SIZE-1 downto 0);
             add_ifmap <= add_ifmap + 1;
             EA_read <= READWEIGHTS;
             ce_ifmap <= '0';
@@ -163,21 +161,23 @@ begin
         when READWEIGHTS =>
           ce_iwght <= '1';
           idx_mac <= idx_wght;
-          iwght_reg <= iwght_valid;
-          en_reg <= iwght_reg;
           if iwght_valid = '1' then
-            weight <= iwght_value;
-            if (idx_wght < 10) then -- number of classes
-              weight <= iwght_value;
-              idx_wght <= idx_wght + 576;
+            en_reg(idx_wght) <= '1';
+            weight <= iwght_value(INPUT_SIZE-1 downto 0);
+            if (idx_wght < 10 - 1) then -- number of classes
+              add_iwght <= add_iwght + (576 - 1);
+              idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
               EA_read <= WAITVALID;
               ce_ifmap <= '0';
             end if;
+          else
+            en_reg <= (others => '0') ;
           end if;
         when WAITVALID =>
-          add_iwght <= add_ifmap + 1;
+          add_iwght <= add_ifmap;
+          en_reg <= (others => '0');
         -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
           if add_iwght < 576 * 10 then -- image max size
             EA_read <= READFEATURES;
@@ -190,8 +190,9 @@ begin
     end if;
   end process;
 
+  -- reg_mac <= (others => '0');
   reg_mac <= reg_mac_arr(idx_mac);
-  reg_mac_arr(idx_mac) <= res_mac;
+  res_mac_arr(idx_mac) <= res_mac;
 
   mac0 : entity work.mac
   generic map(INPUT_SIZE => INPUT_SIZE,
@@ -203,10 +204,10 @@ begin
            res_mac => res_mac
            );
 
-  reg_c : for i in 0 to FILTER_WIDTH-1 generate
+  reg_c : for i in 0 to 10 - 1 generate
     ireg : entity work.reg
       generic map(INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE))
-      port map(clock => clock, reset => pipe_reset, enable => en_reg,
+      port map(clock => clock, reset => pipe_reset, enable => en_reg(i),
                 D     => res_mac_arr(i),
                 Q     => reg_mac_arr(i)
                 );
