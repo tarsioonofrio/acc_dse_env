@@ -26,6 +26,8 @@ entity tb is
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
            LAT            : integer := 2;
+           BRAM_NAME_LAYER: integer := 1;
+           OP_TYPE       : character  := 'C';
            PATH           : string  := ""
            );
 end tb;
@@ -58,6 +60,8 @@ begin
       SHIFT          => SHIFT,
       LAT            => LAT,
       CARRY_SIZE     => CARRY_SIZE,
+      OP_TYPE        => OP_TYPE,
+      -- BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       IWGHT_PATH     => PATH & "/iwght.txt",
       IFMAP_PATH     => PATH & "/ifmap.txt"
  )

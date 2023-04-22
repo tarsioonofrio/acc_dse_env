@@ -7,9 +7,8 @@ from pathlib import Path
 from lib import util, keras_cifar10
 from lib.generate_files import (
     generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,
-    generate_samples
+    generate_samples, generate_gold_maxpool_vhd_pkg
 )
-
 from lib.model import dictionary_from_model
 
 
@@ -108,8 +107,15 @@ def main():
     input_channel = util.get_input_channel(cnn_config["input_c"], n_conv_layers, vhd_dict["filter_channel"])
     for e, _ in enumerate(cnn_config["filter_channel"]):
         generate_files(
-            cnn_config["input_c"], cnn_config["input_w"], input_channel, generic_dict, vhd_dict_files, e, rtl_output_path
+            cnn_config["input_c"], cnn_config["input_w"], input_channel, generic_dict, vhd_dict_files, e,
+            rtl_output_path
         )
+
+    size = len(cnn_config["filter_channel"]) - 1
+    if "pool" in cnn_config:
+        path_layer = rtl_output_path / "layer" / str(size + 1)
+        path_layer.mkdir(parents=True, exist_ok=True)
+        generate_gold_maxpool_vhd_pkg(size, path_layer)
 
     generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, rtl_output_path, single_file=False)
 

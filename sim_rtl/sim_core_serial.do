@@ -8,8 +8,9 @@ vmap work work
 vcom -work work ../apps/rtl_output/default/default/layer/0/ifmap_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/0/iwght_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/0/gold_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/layer/0/config_pkg.vhd
 
+vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
@@ -21,6 +22,7 @@ vcom -work work ../rtl/components/mem_file.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/pool/maxpool2d.vhd
 
 # Processing element
 vcom -work work ../rtl/core/core_serial.vhd

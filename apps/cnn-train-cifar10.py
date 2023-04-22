@@ -1,7 +1,10 @@
+import os
 import json
 import pickle
 import argparse
 from pathlib import Path
+
+# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 from tensorflow import keras
 from lib import keras_models
@@ -36,8 +39,8 @@ def main():
         "input_c": 3,
         "classes": 10,
     }
-
-    model = keras_models.default(cnn_config, config_dataset)
+    km = vars(keras_models)
+    model = km[cnn_config["name"]](cnn_config, config_dataset)
 
     model.fit(x_train, y_train, epochs=cnn_config["n_epochs"])
     # Save model

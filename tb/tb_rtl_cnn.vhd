@@ -24,6 +24,7 @@ entity tb is
     SHIFT          : integer := 8;
     LAT            : integer := 2;
     N_LAYER        : integer := 0;
+    OP_TYPE        : string  := "CCCC";
     PATH           : string  := ""
   );
 end entity tb;
@@ -53,10 +54,10 @@ architecture a1 of tb is
   signal ofmap_n_write : std_logic_vector(31 downto 0);
 
   signal config_inpt : type_config_logic := read_config(PATH & "/layer/0/config_pkg.txt");
-  signal config_gold : type_config_logic := read_config(PATH & "/layer/2/config_pkg.txt");
+  signal config_gold : type_config_logic := read_config(PATH & "/layer/3/config_pkg.txt");
 
   signal input_map : type_array_int := read_data(PATH & "/layer/0/ifmap.txt");
-  signal gold      : type_array_int := read_data(PATH & "/layer/2/gold.txt");
+  signal gold      : type_array_int := read_data(PATH & "/layer/3/gold.txt");
 
 begin
 
@@ -71,6 +72,7 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
+      OP_TYPE        => OP_TYPE,
       PATH           => PATH
     )
     port map (

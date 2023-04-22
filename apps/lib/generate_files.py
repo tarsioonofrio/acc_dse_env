@@ -2,7 +2,11 @@ from pathlib import Path
 from os.path import relpath
 from math import log2, ceil
 
-from .model import convolution_from_weights, generate_ifmem_vhd_pkg
+import numpy as np
+from numpy.lib.stride_tricks import as_strided
+
+from .model import convolution_from_weights, generate_ifmem_vhd_pkg, pool2d
+from .bram import open_file
 
 
 def log2ceil(x):
@@ -107,6 +111,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     # Generate VHDL tensorflow package
     generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
     generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
+    generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
@@ -336,6 +341,27 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
     write_mem_txt(feat_list, "ifmap", path)
     write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+
+def generate_gold_maxpool_vhd_pkg(layer, path):
+    tab = "    "
+    feature = open_file(path.parent / str(layer) / 'gold.txt')
+    arr = np.array(feature).reshape(-1, 3, 3)
+
+    gold = pool2d(arr, kernel_size=3, stride=3, padding=0, pool_mode='max').reshape(-1).tolist()
+
+    package = "ifmap_package"
+    constant = "input_map"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+
+    write_mem_txt([[feature]], "ifmap", path)
+    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+    package = "gold_package"
+    constant = "gold"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+    write_mem_txt([[gold]], "gold", path)
+    write_mem_pkg(constant, data, "gold_pkg", package, path)
 
 
 def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
