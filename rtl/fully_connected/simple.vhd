@@ -46,6 +46,7 @@ entity fully_connected is
     
     -- output feature map memory interface
     ofmap_valid   : in  std_logic;
+    ofmap_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
     ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
     ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
     ofmap_we      : out std_logic;

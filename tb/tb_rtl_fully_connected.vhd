@@ -120,8 +120,8 @@ begin
       clock         => clock,
       reset         => reset,
 
-      start_conv    => start_conv,
-      end_conv      => end_conv,
+      start_op    => start_conv,
+      end_op      => end_conv,
       debug         => debug,
       config        => config,
 
