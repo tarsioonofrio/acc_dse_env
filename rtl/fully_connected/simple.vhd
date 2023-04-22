@@ -9,7 +9,7 @@ use ieee.std_logic_arith.all;
 -- use work.util_package.all;
 
 
-entity fully_conected is
+entity fully_connected is
   generic (
     N_FILTER       : integer := 10;
     N_CHANNEL      : integer := 64;
@@ -51,10 +51,10 @@ entity fully_conected is
     ofmap_we      : out std_logic;
     ofmap_ce      : out std_logic
     );
-end entity fully_conected;
+end entity fully_connected;
 
 
-architecture a1 of fully_conected is
+architecture a1 of fully_connected is
   signal iwght_reg, start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset,en_reg: std_logic;
   -- signal add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
