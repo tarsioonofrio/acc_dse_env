@@ -186,7 +186,7 @@ begin
             en_reg(idx_wght) <= '1';
             weight <= iwght_value(INPUT_SIZE-1 downto 0);
             if (idx_wght < 10 - 1) then -- number of classes
-              add_iwght <= add_iwght + (576 - 1);
+              add_iwght <= add_iwght + 576;
               idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
@@ -201,7 +201,7 @@ begin
           add_iwght <= add_ifmap + 10;
           en_reg <= (others => '0');
         -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
-          if add_iwght < 576 * 10 then -- image max size
+          if add_iwght < 576 * 10 + 10 then -- image max size
             EA_read <= READFEATURES;
           else
             EA_read <= WAITSTART;
