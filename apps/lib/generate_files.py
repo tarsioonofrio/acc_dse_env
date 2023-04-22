@@ -348,7 +348,13 @@ def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
     feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
 
     weights = [
-        [(v["weights"] * shift).astype(int), int(v["bias"] * shift * shift)]
+        (v["weights"] * shift).astype(int)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
         for k, v
         in modelDict[layer]["neuron"].items()
     ]
@@ -356,8 +362,16 @@ def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
     gold = [
         np.dot(feature, w) + b
         for w, b
-        in weights
+        in zip(weights, bias)
     ]
+
+    weights_bias_plain = bias + [ww for w in weights for ww in w]
+    package = "iwght_package"
+    constant = "weights"
+    data = f"\n{tab}-- iwght\n{tab}" + ", ".join(str(i) for i in weights_bias_plain) + ","
+
+    write_mem_txt([[weights_bias_plain]], "iwght", path)
+    write_mem_pkg(constant, data, "iwght_pkg", package, path)
 
     package = "ifmap_package"
     constant = "input_map"

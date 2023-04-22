@@ -2,13 +2,11 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-vcom -work work ../apps/rtl_output/maxpool/default/layer/2/iwght_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/layer/2/config_pkg.vhd
-
 # Packages for CNN layer simualtion
-vcom -work work ../apps/rtl_output/maxpool/default/layer/3/ifmap_pkg.vhd
-vcom -work work ../apps/rtl_output/maxpool/default/layer/3/gold_pkg.vhd
-# vcom -work work ../apps/rtl_output/maxpool/default/layer/3/config_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/layer/3/iwght_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/layer/3/ifmap_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/layer/3/gold_pkg.vhd
+vcom -work work ../apps/rtl_output/maxpool/default/layer/2/config_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd

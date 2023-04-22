@@ -123,7 +123,7 @@ begin
       start_op    => start_conv,
       end_op      => end_conv,
       debug         => debug,
-      config        => config,
+      -- config        => config,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
