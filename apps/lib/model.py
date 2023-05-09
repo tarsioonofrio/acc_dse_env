@@ -5,7 +5,6 @@ import numpy as np
 from numpy.lib.stride_tricks import as_strided
 
 
-
 def dictionary_from_model(model):
     # Create dictionary
     modelDict = {}
@@ -15,13 +14,15 @@ def dictionary_from_model(model):
 
     # Iterate through model layers to populate dictionary
     for layer in list(model.layers):
-        # Initialize layer in dictionary
-        modelDict[layerId] = {}
-        layerName = layer.name
-        modelDict[layerId]["name"] = layerName
         # Get type of layer
         layerType = type(layer).__name__
+        if layerType == "Flatten":
+            continue
+        # Initialize layer in dictionary
+        modelDict[layerId] = {}
         modelDict[layerId]["type"] = layerType
+        layerName = layer.name
+        modelDict[layerId]["name"] = layerName
         # If layer is dense
         if layerType == "Dense":
             # Collect activation function
@@ -154,6 +155,7 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
                                 acc_input = acc[filterId] >> int(log2(shift))
 
                             ofmap[filterId][m][n] = max(0, int(acc_input))
+
                     if layerId == layer - int(gen_features):
                         matrix = []
                         for m in range(layer_dimension[layerId]):
@@ -222,7 +224,6 @@ def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     f.writelines(string_weight_list)
 
     if layer == 0:
-
         pixel = [
             [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
              for z in range(image_shift.shape[2])
@@ -378,3 +379,5 @@ def pool2d(image, kernel_size=2, stride=1, padding=0, pool_mode='max'):
         return image_w.max(axis=(3, 4))
     elif pool_mode == 'avg':
         return image_w.mean(axis=(3, 4))
+
+

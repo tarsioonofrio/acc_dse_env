@@ -343,6 +343,55 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
 
+def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
+    tab = "    "
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        (v["weights"] * shift).astype(int).tolist()
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in zip(weights, bias)
+    ]
+
+    weights_bias_plain = bias + [ww for w in weights for ww in w]
+    bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
+    weight_string = [
+        f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
+        for c, s in enumerate(weights)
+    ]
+    package = "iwght_package"
+    constant = "input_wght"
+    data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
+
+    write_mem_txt([[weights_bias_plain]], "iwght", path)
+    write_mem_pkg(constant, data, "iwght_pkg", package, path)
+
+    package = "ifmap_package"
+    constant = "input_map"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+
+    write_mem_txt([[feature]], "ifmap", path)
+    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+    package = "gold_package"
+    constant = "gold"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+    write_mem_txt([[gold]], "gold", path)
+    write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+
 def generate_gold_maxpool_vhd_pkg(layer, path):
     tab = "    "
     feature = open_file(path.parent / str(layer) / 'gold.txt')
