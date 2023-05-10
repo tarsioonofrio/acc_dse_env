@@ -60,4 +60,10 @@ begin
 
   start <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
+  process
+  begin
+    wait until rising_edge(stop);
+    report "end of simulation without error!" severity failure;
+  end process;
+
 end a1;

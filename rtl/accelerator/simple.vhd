@@ -144,10 +144,6 @@ begin
     wait until rising_edge(start);
     -- Image input
     wait until rising_edge(clock);
-    reset <= '1';
-    wait until rising_edge(clock);
-
-    reset <= '0';
 
     ifmap_ce <= '1';
     ifmap_we <= '1';
