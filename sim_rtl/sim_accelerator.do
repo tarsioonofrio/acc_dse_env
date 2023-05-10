@@ -17,13 +17,15 @@ vcom -work work ../rtl/components/mem_bram.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/pool/maxpool2d.vhd
+vcom -work work ../rtl/fully_connected/simple.vhd
+
 
 # Processing element
 vcom -work work ../rtl/core/core_serial.vhd
 
 # Network
 vcom -work work ../rtl/cnn/simple.vhd
-
 vcom -work work ../rtl/accelerator/simple.vhd
 
 # Testbench

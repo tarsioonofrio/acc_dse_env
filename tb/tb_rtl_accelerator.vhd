@@ -31,7 +31,9 @@ end tb;
 architecture a1 of tb is
   signal clock, reset, start, stop : std_logic := '0';
 
-  DUT : entity work.convolution
+begin
+
+  DUT : entity work.accelerator
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,

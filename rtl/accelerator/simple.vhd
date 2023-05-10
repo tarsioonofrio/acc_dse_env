@@ -36,15 +36,15 @@ entity accelerator is
     p_clock : in std_logic;
     p_reset : in std_logic;
     p_start : in std_logic;
-    p_stop  : in std_logic
+    p_stop  : out std_logic
     );
 end entity accelerator;
 
-architecture accelerator of tb is
+architecture a1 of accelerator is
 
   signal clock       : std_logic := '0';
   signal reset       : std_logic := '0';
-  signal s_reset       : std_logic := '0';
+  signal s_reset     : std_logic := '0';
   signal start       : std_logic := '0';
   signal start_conv  : std_logic := '0';
   signal debug       : std_logic := '0';
@@ -74,7 +74,7 @@ begin
 
   clock <= p_clock;  
   start <= p_start;
-  reset <= '1' when (p_reset or s_reset) else '0';
+  reset <= '1' when (p_reset = '1' or s_reset = '1') else '0';
 
   IFMAP : entity work.memory
     generic map(
@@ -151,7 +151,7 @@ begin
 
     ifmap_ce <= '1';
     ifmap_we <= '1';
-
+    p_stop <= '0';
     for i in 0 to (conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel))) loop
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(clock);
