@@ -15,22 +15,21 @@ library work;
 entity accelerator is
   generic (
     FPGA           : std_logic := '0';
-    N_FILTER       : integer := 16;
-    N_CHANNEL      : integer := 3;
+    N_FILTER       : integer := 64;
+    N_CHANNEL      : integer := 64;
     X_SIZE         : integer := 32;
     FILTER_WIDTH   : integer := 3;
     CONVS_PER_LINE : integer := 15;
-    MEM_SIZE       : integer := 12;
-    INPUT_SIZE     : integer := 8;
+    MEM_SIZE       : integer := 16;
+    INPUT_SIZE     : integer := 16;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    N_LAYER        : integer := 0;
-    PATH           : string  := "";
+    N_LAYER        : integer := 2;
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
+    BRAM_NUM_IWGHT : string  := "01 10 37";
+    BRAM_NUM_IFMAP : string  := "06 08 04";
+    BRAM_NUM_GOLD  : string  := "08 04 02"
   );
   port (
     p_clock : in std_logic;
@@ -109,7 +108,6 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      PATH           => PATH,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
       BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
