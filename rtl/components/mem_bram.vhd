@@ -37,9 +37,20 @@ end memory;
 architecture a1 of memory is
 
 function FBRAM_NUM return integer is
-  variable index : integer;
+  variable index : integer:= 0;
+  variable char_int_arr : string(1 to 10) := "0123456789";
+  variable input_string : string(1 to 2):= "  ";
 begin
-  index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
+--   index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
+--   index := character'pos(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
+      input_string := BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER));
+      for p in input_string'range loop
+        for v in char_int_arr'range loop
+          if input_string(p) = char_int_arr(v) then
+            index := 10**(2-p) * v;
+          end if;
+        end loop;
+    end loop;
   return index;
 end function;
 

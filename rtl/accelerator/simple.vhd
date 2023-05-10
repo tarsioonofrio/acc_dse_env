@@ -26,6 +26,7 @@ entity accelerator is
     N_LAYER        : integer := 3;
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
+    PATH           : string  := "../apps/rtl_output/default/default";
     BRAM_NUM_IWGHT : string  := "01 10 37";
     BRAM_NUM_IFMAP : string  := "06 08 04";
     BRAM_NUM_GOLD  : string  := "08 04 02"
@@ -108,6 +109,7 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
+      PATH           => PATH,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
       BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
