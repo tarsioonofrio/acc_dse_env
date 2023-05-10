@@ -32,7 +32,7 @@ vcom -work work ../rtl/accelerator/simple.vhd
 vcom -work work ../tb/tb_rtl_accelerator.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/bram/generic_file36Kb.txt
+vsim -voptargs=+acc=lprn -t ps work.tb
 set StdArithNoWarnings 1
 set NumericStdNoWarnings 1
 #do wave_syst2d_ws.do

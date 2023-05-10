@@ -7,25 +7,24 @@ use ieee.std_logic_arith.all;
 library std;
 
 entity tb is
-  generic (
-    FPGA           : std_logic := '0';
-    N_FILTER       : integer := 16;
-    N_CHANNEL      : integer := 3;
-    X_SIZE         : integer := 32;
-    FILTER_WIDTH   : integer := 3;
-    CONVS_PER_LINE : integer := 15;
-    MEM_SIZE       : integer := 12;
-    INPUT_SIZE     : integer := 8;
-    CARRY_SIZE     : integer := 4;
-    SHIFT          : integer := 8;
-    N_LAYER        : integer := 0;
-    PATH           : string  := "";
-    BRAM_LAT       : integer := 0;
-    BRAM_ADDR      : integer := 9;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
-  );
+--   generic (
+--     N_FILTER       : integer := 16;
+--     N_CHANNEL      : integer := 3;
+--     X_SIZE         : integer := 32;
+--     FILTER_WIDTH   : integer := 3;
+--     CONVS_PER_LINE : integer := 15;
+--     MEM_SIZE       : integer := 12;
+--     INPUT_SIZE     : integer := 8;
+--     CARRY_SIZE     : integer := 4;
+--     SHIFT          : integer := 8;
+--     N_LAYER        : integer := 0;
+--     PATH           : string  := "";
+--     BRAM_LAT       : integer := 0;
+--     BRAM_ADDR      : integer := 9;
+--     BRAM_NUM_IWGHT : string  := "";
+--     BRAM_NUM_IFMAP : string  := "";
+--     BRAM_NUM_GOLD  : string  := ""
+--   );
 end tb;
 
 architecture a1 of tb is
@@ -34,17 +33,23 @@ architecture a1 of tb is
 begin
 
   DUT : entity work.accelerator
-    generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
-      MEM_SIZE       => MEM_SIZE,
-      INPUT_SIZE     => INPUT_SIZE,
-      SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
-      )
+--     generic map(
+--     N_FILTER       => N_FILTER,
+--     N_CHANNEL      => N_CHANNEL,
+--     X_SIZE         => X_SIZE,
+--     FILTER_WIDTH   => FILTER_WIDTH,
+--     CONVS_PER_LINE => CONVS_PER_LINE,
+--     MEM_SIZE       => MEM_SIZE,
+--     INPUT_SIZE     => INPUT_SIZE,
+--     CARRY_SIZE     => CARRY_SIZE,
+--     SHIFT          => SHIFT,
+--     N_LAYER        => N_LAYER,
+--     BRAM_LAT       => BRAM_LAT,
+--     BRAM_ADDR      => BRAM_ADDR,
+--     BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
+--     BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
+--     BRAM_NUM_GOLD  => BRAM_NUM_GOLD
+--       )
     port map(
       p_clock         => clock,
       p_reset         => reset,

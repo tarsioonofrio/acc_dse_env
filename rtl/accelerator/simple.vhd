@@ -14,7 +14,6 @@ library work;
 
 entity accelerator is
   generic (
-    FPGA           : std_logic := '0';
     N_FILTER       : integer := 64;
     N_CHANNEL      : integer := 64;
     X_SIZE         : integer := 32;
@@ -24,7 +23,7 @@ entity accelerator is
     INPUT_SIZE     : integer := 16;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    N_LAYER        : integer := 2;
+    N_LAYER        : integer := 3;
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
     BRAM_NUM_IWGHT : string  := "01 10 37";
@@ -79,6 +78,7 @@ begin
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
       BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => BRAM_LAT
@@ -110,7 +110,8 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
-      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
+      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
+      BRAM_NUM_GOLD  => BRAM_NUM_GOLD
     )
     port map (
       clock => clock,
