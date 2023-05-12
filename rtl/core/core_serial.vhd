@@ -29,8 +29,8 @@ entity core is
     BRAM_NAME_LAYER : integer   := 0;
     BRAM_NAME_IFMAP : string   := "default";
     BRAM_ADDR      : integer   := 10;
-    BRAM_NUM_IWGHT : string    := "";
-    BRAM_NUM_IFMAP : string    := ""
+    BRAM_NUM_IWGHT : integer    := 0;
+    BRAM_NUM_IFMAP : integer    := 0 
     );
   port (
     clock : in std_logic;

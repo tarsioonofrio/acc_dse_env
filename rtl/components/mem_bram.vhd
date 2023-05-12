@@ -1,8 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
+use ieee.std_logic_unsigned.all;
 use ieee.std_logic_arith.all;
-use ieee.std_logic_textio.all;
 
 
 entity memory is
@@ -14,7 +14,7 @@ entity memory is
     DEVICE          : string := "7SERIES";
     BRAM_NAME_LAYER : integer   := 0;
     BRAM_NAME       : string := "default";
-    BRAM_NUM        : string := "";
+    BRAM_NUM        : integer := 0;
     BRAM_ADDR       : integer := 10
   );
   port(
@@ -36,32 +36,14 @@ end memory;
 
 architecture a1 of memory is
 
-function FBRAM_NUM return integer is
-  variable index : integer:= 0;
-  variable char_int_arr : string(1 to 10) := "0123456789";
-  variable input_string : string(1 to 2):= "  ";
-begin
---   index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
---   index := character'pos(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
-      input_string := BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER));
-      for p in input_string'range loop
-        for v in char_int_arr'range loop
-          if input_string(p) = char_int_arr(v) then
-            index := 10**(2-p) * v;
-          end if;
-        end loop;
-    end loop;
-  return index;
-end function;
-
 signal nclock   : std_logic;
 signal data_valid    : std_logic;
-signal bram_chip_en  : std_logic_vector(FBRAM_NUM downto 0);
-signal bram_wr_en    : std_logic_vector(FBRAM_NUM downto 0);
-signal bram_select   : integer range 0 to FBRAM_NUM;
-signal bram_select_reg   : integer range 0 to FBRAM_NUM;
+signal bram_chip_en  : std_logic_vector(conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))) downto 0);
+signal bram_wr_en    : std_logic_vector(conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))) downto 0);
+signal bram_select   : integer range 0 to (conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))));
+signal bram_select_reg   : integer range 0 to (conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))));
 
-type type_data is array (0 to FBRAM_NUM) of std_logic_vector(INPUT_SIZE-1  downto 0);
+type type_data is array (0 to (conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))))) of std_logic_vector(INPUT_SIZE-1  downto 0);
 signal bram_data_out: type_data;
 
 type statesDataAv is (WAITCE, WAITLATENCY);
@@ -75,7 +57,7 @@ begin
   nclock <= not clock;
 
   data_out <= bram_data_out(bram_select_reg);
-  bram_select <= 0 when reset = '1' else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
+  bram_select <= 0 when reset = '1' else conv_integer(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
 
   process(reset, clock)
   begin
@@ -86,12 +68,12 @@ begin
     end if;
   end process;
 
-  LOOP_EN : for i in 0 to FBRAM_NUM -1 generate
+  LOOP_EN : for i in 0 to (conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER)))) -1 generate
     bram_chip_en(i) <= chip_en when i = bram_select else '0';
     bram_wr_en(i) <= wr_en when i = bram_select else '0';
   end generate;
 
-    LOOP_MEM : for i in 0 to FBRAM_NUM -1 generate
+    LOOP_MEM : for i in 0 to (conv_integer((BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER)))) -1 generate
       BRAM_SINGLE_INST: entity work.bram_single
       generic map (
         BRAM_NAME => BRAM_NAME & "_instance" & integer'image(i)
