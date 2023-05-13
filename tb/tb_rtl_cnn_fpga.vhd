@@ -137,7 +137,9 @@ begin
   MGOLD : entity work.memory
     generic map(
       BRAM_NAME => "gold_layer" & integer'image(N_LAYER - 1),
-      BRAM_NUM =>BRAM_NUM_GOLD,
+      BRAM_NUM  => BRAM_NUM_GOLD,
+      BRAM_NAME_LAYER => N_LAYER - 1,
+      BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => BRAM_LAT

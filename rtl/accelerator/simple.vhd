@@ -27,9 +27,9 @@ entity accelerator is
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
     PATH           : string  := "../apps/rtl_output/default/default";
-    BRAM_NUM_IWGHT : integer := 371001;
-    BRAM_NUM_IFMAP : integer := 040806;
-    BRAM_NUM_GOLD  : integer := 020408
+    BRAM_NUM_IWGHT : string  := "01 10 37";
+    BRAM_NUM_IFMAP : string  := "06 08 04";
+    BRAM_NUM_GOLD  : string  := "08 04 02"
   );
   port (
     p_clock : in std_logic;
