@@ -13,7 +13,7 @@ entity tb is
   generic (
     BRAM_NAME       : string  := "default";
 --     BRAM_NAME       : string  := "ifmap_layer0";
-    -- BRAM_NAME       : string  := "iwght_layer0";
+--     BRAM_NAME       : string  := "iwght_layer0";
 --     PATH_DATA       : string  := "/layer/0/ifmap.txt";
     PATH_DATA       : string  := "/layer/0/iwght.txt";
     INPUT_SIZE : integer := 8;
@@ -21,8 +21,8 @@ entity tb is
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
     MAX_MEM_SIZE : integer := 16;
---     BRAM_NUM   : integer := "06";
-    BRAM_NUM   : string := "01";
+    BRAM_NAME_LAYER   : integer := 0;
+    BRAM_NUM   : integer :=371001;
     BRAM_ADDR  : integer := 9
   );
 end tb;
@@ -43,13 +43,15 @@ signal data     : type_array_int := read_data(PATH & PATH_DATA);
 signal n_read   : std_logic_vector(31 downto 0);
 signal n_write  : std_logic_vector(31 downto 0);
 
+constant const_bram_num : integer := (integer(BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER)));
 
 begin
 
   MEM : entity work.memory
   generic map(
     BRAM_NAME => BRAM_NAME,
-    BRAM_NUM => BRAM_NUM,
+    BRAM_NUM => const_bram_num,
+    BRAM_NAME_LAYER => BRAM_NAME_LAYER,
     INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
@@ -86,7 +88,7 @@ begin
     if BRAM_NAME = "default" then
         chip_en <= '1';
         wr_en <= '1';
-        for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1)  loop
+        for i in 0 to ((const_bram_num)*(2**BRAM_ADDR)-1)  loop
           address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
           data_in <= std_logic_vector(to_signed(data(i), MAX_MEM_SIZE));
           wait until rising_edge(clock);
@@ -100,11 +102,11 @@ begin
     -- read stage
     chip_en <= '1';
     wr_en <= '0';
-    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1)  loop
+    for i in 0 to ((const_bram_num)*(2**BRAM_ADDR)-1)  loop
       address <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       -- wait until rising_edge(clock);
-      report "input: " & integer'image(data(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
+--       report "input: " & integer'image(data(i)) & ", " & "output: " & integer'image(to_integer(signed(data_out)));
       if data(i) /= to_integer(signed(data_out)) then
         assert false report "end of simulation with error!"  severity failure;
       end if;
