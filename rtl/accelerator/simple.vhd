@@ -14,6 +14,7 @@ library work;
 
 entity accelerator is
   generic (
+    FPGA           : std_logic := '1';
     N_FILTER       : integer := 64;
     N_CHANNEL      : integer := 64;
     X_SIZE         : integer := 32;
@@ -60,6 +61,7 @@ architecture a1 of accelerator is
 
   signal value_in  : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
   signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
+  signal gold      : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
   signal index : integer range 0 to 2**(MEM_SIZE) := 0;
 
   -- Macro state machine signals to control input values flags
@@ -71,12 +73,11 @@ begin
   start <= p_start;
   clock <= p_clock;
   reset <= p_reset;
-  p_stop <= stop;
 
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_NUM =>  (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (0 + 1)) / 10 ** (2*0))),
       BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
@@ -136,92 +137,107 @@ begin
 
 
     
-  -- process(reset, clock)
-  -- begin
-  --   if reset = '1' then
-  --     stop        <= '0';
-  --     start_conv  <= '0';
-  --     debug       <= '0';
-  --     iwght_valid <= '0';
-  --     ifmap_valid <= '0';
-  --     ofmap_valid <= '0';
-  --     ofmap_ce    <= '0';
-  --     ofmap_we    <= '0';
-  --     ifmap_ce    <= '0';
-  --     ifmap_we    <= '0';
-  --     end_conv    <= '0';
-  --     index       <= 0;
-  --   elsif rising_edge(clock) then
-  --     case EA_read is
-  --       when WAITSTART =>
-  --         stop        <= '0';
-  --         start_conv  <= '0';
-  --         debug       <= '0';
-  --         iwght_valid <= '0';
-  --         ifmap_valid <= '0';
-  --         ofmap_valid <= '0';
-  --         ofmap_ce    <= '0';
-  --         ofmap_we    <= '0';
-  --         ifmap_ce    <= '0';
-  --         ifmap_we    <= '0';
-  --         end_conv    <= '0';
-  --         index       <= 0;
-  --         if p_start = '1' then
-  --           start_conv <= '1';
-  --           EA_read <= WRITEFEATURES;
-  --         end if;
-        
-  --       when WRITEFEATURES =>
-  --         start_conv <= '0';
-  --         ifmap_ce <= '1';
-  --         ifmap_we <= '1';
-  --         address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
-  --         index <= index + 1;
-  --         if index = conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel)) then
-  --           EA_read <= START_CNN;
-  --         end if;
-
-  --       when START_CNN =>
-  --         ifmap_ce <= '0';
-  --         ifmap_we <= '0';
-  --         start_conv <= '1';
-  --         EA_read <= STOP_CNN;
-
-  --       when STOP_CNN =>
-  --         if end_conv = '1' then
-  --           EA_read <= WAITSTART;
-  --           stop <= '1';
-  --         end if;
-
-  --       when others => null;
-  --     end case;
-  --   end if;
-  -- end process;
-
-  process
+  process(reset, clock)
   begin
-    wait until rising_edge(start);
+    if reset = '1' then
+      stop        <= '0';
+      start_conv  <= '0';
+      debug       <= '0';
+      ofmap_we    <= '0';
+      ifmap_ce    <= '0';
+      ifmap_we    <= '0';
+      end_conv    <= '0';
+      index       <= 0;
+    elsif rising_edge(clock) then
+      case EA_read is
+        when WAITSTART =>
+          stop        <= '0';
+          start_conv  <= '0';
+          debug       <= '0';
+          ofmap_we    <= '0';
+          ifmap_ce    <= '0';
+          ifmap_we    <= '0';
+          end_conv    <= '0';
+          index       <= 0;
+          if p_start = '1' then
+            start_conv <= '1';
+            EA_read <= WRITEFEATURES;
+          end if;
+        
+        when WRITEFEATURES =>
+          start_conv <= '0';
+          ifmap_ce <= '1';
+          ifmap_we <= '1';
+          address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+          index <= index + 1;
+          if index = conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel)) then
+            EA_read <= START_CNN;
+          end if;
 
-    -- Image input
+        when START_CNN =>
+          ifmap_ce <= '0';
+          ifmap_we <= '0';
+          start_conv <= '1';
+          EA_read <= STOP_CNN;
+
+        when STOP_CNN =>
+          if end_conv = '1' then
+            EA_read <= WAITSTART;
+            stop <= '1';
+          end if;
+
+        when others => null;
+      end case;
+    end if;
+  end process;
+
+  IF_FPGA : if FPGA = '1' generate
+    p_stop <= stop;
+  end generate IF_FPGA;
+
+
+  IF_NO_FPGA : if FPGA = '0' generate
+  process
+    -- convolution counter
+    variable cont_conv : integer := 0;
+
+  begin
+    wait until end_conv = '1';
+
     wait until rising_edge(clock);
-    ifmap_ce <= '1';
-    ifmap_we <= '1';
-    p_stop <= '0';
-    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel))) loop
+    wait until rising_edge(clock);
+
+    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) loop
+      ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(clock);
+      wait until rising_edge(ofmap_valid);
+        if value_out /= gold then
+          report "end of simulation with error!";
+          report "number of convolutions executed: " & integer'image(cont_conv);
+          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
+          report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
+
+          if (INPUT_SIZE * 2) + CARRY_SIZE > 32 then
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+          else
+            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+          end if;
+
+          assert false severity failure;
+        end if;
+        cont_conv := cont_conv + 1;
     end loop;
 
-    ifmap_ce <= '0';
-    ifmap_we <= '0';
-    start_conv <= '1';
-    wait until rising_edge(clock);
+    report "number of convolutions: " & integer'image(cont_conv);
+    report "end of conv without error!";
 
-    start_conv <= '0';
-    wait until rising_edge(clock);
-    wait until end_conv = '1';
+    ofmap_ce <= '0';
+
+    -- stop simulation
     stop <= '1';
+    report "end of simulation without error!" severity failure;
 
   end process;
+  end generate IF_NO_FPGA;
 
 end a1;

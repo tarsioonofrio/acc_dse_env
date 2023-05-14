@@ -7,7 +7,7 @@ use ieee.std_logic_arith.all;
 library std;
 
 entity tb is
---   generic (
+  generic (
 --     N_FILTER       : integer := 16;
 --     N_CHANNEL      : integer := 3;
 --     X_SIZE         : integer := 32;
@@ -24,7 +24,8 @@ entity tb is
 --     BRAM_NUM_IWGHT : string  := "";
 --     BRAM_NUM_IFMAP : string  := "";
 --     BRAM_NUM_GOLD  : string  := ""
---   );
+      FPGA           : std_logic := '0'
+  );
 end tb;
 
 architecture a1 of tb is
@@ -33,7 +34,7 @@ architecture a1 of tb is
 begin
 
   DUT : entity work.accelerator
---     generic map(
+    generic map(
 --     N_FILTER       => N_FILTER,
 --     N_CHANNEL      => N_CHANNEL,
 --     X_SIZE         => X_SIZE,
@@ -49,7 +50,8 @@ begin
 --     BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
 --     BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
 --     BRAM_NUM_GOLD  => BRAM_NUM_GOLD
---       )
+      FPGA => FPGA
+      )
     port map(
       p_clock         => clock,
       p_reset         => reset,
