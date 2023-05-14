@@ -135,7 +135,7 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
     write_bram_pkg(bram36k, path_output / f"bram_{bram_size}.vhd", max_bits, bram_config)
 
     generic_size = " ".join(
-        f' -gBRAM_NUM_{n}="{" ".join(i)}"' for i, n in
+        f' -gBRAM_NUM_{n}={"".join(reversed(i))}' for (i), n in
         zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
     )
 
@@ -153,7 +153,7 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
         )
 
     generic_size_synth = " ".join(
-        f' {{BRAM_NUM_{n} "{" ".join(i)}"}}' for i, n in
+        f' {{BRAM_NUM_{n} {"".join(reversed(i))}}}' for i, n in
         zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
     )
 

@@ -28,9 +28,9 @@ entity cnn is
     OP_TYPE        : string    := "CCC";
     TEST_LAYER     : integer   := 0;
     BRAM_ADDR      : integer := 10;
-    BRAM_NUM_IWGHT : integer  := 0;
-    BRAM_NUM_IFMAP : integer  := 0;
-    BRAM_NUM_GOLD  : integer  := 0
+    BRAM_NUM_IWGHT : integer;
+    BRAM_NUM_IFMAP : integer;
+    BRAM_NUM_GOLD  : integer
   );
   port (reset   : in std_logic;
         clock   : in std_logic;
@@ -178,7 +178,7 @@ begin
     generic map(
       ROM_PATH => "",
       BRAM_NAME => "default",
-      BRAM_NUM => BRAM_NUM_GOLD,
+      BRAM_NUM =>  4,--(integer(BRAM_NUM_IFMAP mod  10 ** (2 * ((N_LAYER) + 1)) / 10 ** (2*(N_LAYER)))),
       BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,

@@ -120,9 +120,8 @@ begin
         INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
         ADDRESS_SIZE => MEM_SIZE, 
         DATA_AV_LATENCY => LAT,
-        BRAM_NAME_LAYER => BRAM_NAME_LAYER,
         BRAM_ADDR => BRAM_ADDR,
-        BRAM_NUM => BRAM_NUM_IWGHT,
+        BRAM_NUM => (integer(BRAM_NUM_IWGHT mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
         BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)
         )
       port map(
@@ -145,9 +144,8 @@ begin
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT,
-      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR => BRAM_ADDR,
-      BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
       BRAM_NAME => BRAM_NAME_IFMAP & integer'image(BRAM_NAME_LAYER)
       )
     port map(
@@ -169,9 +167,8 @@ begin
 --       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
 --       ADDRESS_SIZE => MEM_SIZE,
 --       DATA_AV_LATENCY => LAT,
---       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
 --       BRAM_ADDR => BRAM_ADDR,
---       BRAM_NUM => BRAM_NUM_IFMAP,
+--       BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
 --       BRAM_NAME => BRAM_NAME_IFMAP & integer'image(BRAM_NAME_LAYER)
 --       )
 --     port map(

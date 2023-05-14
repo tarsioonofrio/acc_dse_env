@@ -12,7 +12,6 @@ entity memory is
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
     DEVICE          : string := "7SERIES";
-    BRAM_NAME_LAYER : integer;
     BRAM_NAME       : string := "default";
     BRAM_NUM        : integer;
     BRAM_ADDR       : integer
@@ -35,13 +34,6 @@ end memory;
 
 
 architecture a1 of memory is
-
--- function BRAM_NUM return integer is
---   variable index : integer;
--- begin
---   index := integer'value(BRAM_NUM((1 + 3 * BRAM_NAME_LAYER) to (2 + 3 * BRAM_NAME_LAYER)));
---   return index;
--- end function;
 
 signal nclock   : std_logic;
 signal data_valid    : std_logic;

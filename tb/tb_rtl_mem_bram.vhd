@@ -51,7 +51,6 @@ begin
   generic map(
     BRAM_NAME => BRAM_NAME,
     BRAM_NUM => const_bram_num,
-    BRAM_NAME_LAYER => BRAM_NAME_LAYER,
     INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
