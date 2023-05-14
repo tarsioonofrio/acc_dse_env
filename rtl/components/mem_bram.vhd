@@ -58,7 +58,7 @@ begin
   bram_select <= 0 when reset = '1' or
                  (CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR))) > BRAM_NUM)
                  else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
-                 
+
   process(reset, clock)
   begin
     if reset = '1' then
