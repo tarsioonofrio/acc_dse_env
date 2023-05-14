@@ -178,7 +178,7 @@ begin
     generic map(
       ROM_PATH => "",
       BRAM_NAME => "default",
-      BRAM_NUM =>  4,--(integer(BRAM_NUM_IFMAP mod  10 ** (2 * ((N_LAYER) + 1)) / 10 ** (2*(N_LAYER)))),
+      BRAM_NUM =>  (integer(BRAM_NUM_IFMAP mod  10 ** (2 * ((N_LAYER) + 1)) / 10 ** (2*(N_LAYER)))),
       BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,

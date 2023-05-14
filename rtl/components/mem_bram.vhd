@@ -55,8 +55,10 @@ begin
   nclock <= not clock;
 
   data_out <= bram_data_out(bram_select_reg);
-  bram_select <= 0 when reset = '1' else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
-
+  bram_select <= 0 when reset = '1' or
+                 (CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR))) > BRAM_NUM)
+                 else CONV_INTEGER(unsigned(address(ADDRESS_SIZE-1 downto BRAM_ADDR)));
+                 
   process(reset, clock)
   begin
     if reset = '1' then
