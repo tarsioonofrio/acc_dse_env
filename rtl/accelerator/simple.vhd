@@ -59,6 +59,7 @@ architecture a1 of accelerator is
   signal end_conv    : std_logic;
 
   signal address : std_logic_vector(MEM_SIZE - 1 downto 0);
+  signal address_mem : std_logic_vector(MEM_SIZE - 1 downto 0);
 
   signal value_in  : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0);
   signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0);
@@ -92,7 +93,7 @@ begin
       chip_en  => ifmap_ce,
       wr_en    => '0',
       data_in  => (others => '0'),
-      address  => address,
+      address  => address_mem,
       data_av  => ifmap_valid,
       data_out => value_in
       );
@@ -165,8 +166,11 @@ begin
         when WRITEFEATURES =>
           ifmap_ce <= '1';
           ifmap_we <= '1';
-          address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
           index <= index + 1;
+          address_mem <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+          if index > 0 then
+            address <= CONV_STD_LOGIC_VECTOR(index - 1, INPUT_SIZE);
+          end if;
           if index = conv_integer(unsigned(const_config_logic_vector(0).x_size_x_size)) * conv_integer(unsigned(const_config_logic_vector(0).n_channel)) then
             EA_read <= START_CNN;
           end if;
@@ -186,10 +190,12 @@ begin
             EA_read <= VALIDATE;
           end if;
 
+
         when VALIDATE =>
           ofmap_ce <= '1';
-          address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
           index <= index + 1;
+          address_mem <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+          address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
           if FPGA = '0' and ofmap_valid = '1' and index < (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) then
             if value_out /= gold then
               report "end of simulation with error!";
