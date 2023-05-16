@@ -42,45 +42,48 @@ end entity accelerator;
 
 architecture a1 of accelerator is
 
-  signal clock       : std_logic := '0';
-  signal reset       : std_logic := '0';
-  signal start       : std_logic := '0';
-  signal stop        : std_logic := '0';
-  signal start_conv  : std_logic := '0';
-  signal debug       : std_logic := '0';
-  signal iwght_valid : std_logic := '0';
-  signal ifmap_valid : std_logic := '0';
-  signal ofmap_valid : std_logic := '0';
-  signal ofmap_ce    : std_logic := '0';
-  signal ofmap_we    : std_logic := '0';
-  signal ifmap_ce    : std_logic := '0';
-  signal ifmap_we    : std_logic := '0';
-  signal end_conv    : std_logic := '0';
+  signal clock       : std_logic;
+  signal reset       : std_logic;
+  signal start       : std_logic;
+  signal stop        : std_logic;
+  signal start_conv  : std_logic;
+  signal debug       : std_logic;
+  signal iwght_valid : std_logic;
+  signal ifmap_valid : std_logic;
+  signal ofmap_valid : std_logic;
+  signal gold_valid  : std_logic;
+  signal ofmap_ce    : std_logic;
+  signal ofmap_we    : std_logic;
+  signal ifmap_ce    : std_logic;
+  signal ifmap_we    : std_logic;
+  signal end_conv    : std_logic;
 
   signal address : std_logic_vector(MEM_SIZE - 1 downto 0);
 
-  signal value_in  : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
-  signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
-  signal gold      : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
-  signal index : integer range 0 to 2**(MEM_SIZE) := 0;
+  signal value_in  : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0);
+  signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0);
+  signal gold      : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0);
+  signal index : integer range 0 to 2**(MEM_SIZE);
 
   -- Macro state machine signals to control input values flags
-  type statesReadValues is (WAITSTART, WRITEFEATURES, READFEATURES, START_CNN, STOP_CNN);
+  type statesReadValues is (WAITSTART, WRITEFEATURES, READFEATURES, START_CNN, STOP_CNN, VALIDATE);
   signal EA_read : statesReadValues;
 
 begin
     
-  start <= p_start;
-  clock <= p_clock;
-  reset <= p_reset;
+  start  <= p_start;
+  clock  <= p_clock;
+  reset  <= p_reset;
+  p_stop <= stop;
 
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM =>  (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (0 + 1)) / 10 ** (2*0))),
+      BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (0 + 1)) / 10 ** (2*0))),
       BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
+      ROM_PATH => PATH & "/layer/0/ifmap.txt",
       DATA_AV_LATENCY => BRAM_LAT
       )
     port map(
@@ -142,30 +145,24 @@ begin
     if reset = '1' then
       stop        <= '0';
       start_conv  <= '0';
-      debug       <= '0';
       ofmap_we    <= '0';
       ifmap_ce    <= '0';
       ifmap_we    <= '0';
-      end_conv    <= '0';
       index       <= 0;
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
           stop        <= '0';
           start_conv  <= '0';
-          debug       <= '0';
           ofmap_we    <= '0';
           ifmap_ce    <= '0';
           ifmap_we    <= '0';
-          end_conv    <= '0';
           index       <= 0;
           if p_start = '1' then
-            start_conv <= '1';
             EA_read <= WRITEFEATURES;
           end if;
         
         when WRITEFEATURES =>
-          start_conv <= '0';
           ifmap_ce <= '1';
           ifmap_we <= '1';
           address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
@@ -175,15 +172,43 @@ begin
           end if;
 
         when START_CNN =>
+          index    <= 0;
           ifmap_ce <= '0';
           ifmap_we <= '0';
           start_conv <= '1';
           EA_read <= STOP_CNN;
 
         when STOP_CNN =>
+          start_conv <= '0';
           if end_conv = '1' then
-            EA_read <= WAITSTART;
+            ofmap_ce <= '1';
+            address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+            EA_read <= VALIDATE;
+          end if;
+
+        when VALIDATE =>
+          ofmap_ce <= '1';
+          address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+          index <= index + 1;
+          if FPGA = '0' and ofmap_valid = '1' and index < (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) then
+            if value_out /= gold then
+              report "end of simulation with error!";
+              report "number of convolutions executed: " & integer'image(index);
+              report "address: " & integer'image(CONV_INTEGER(unsigned(address)));
+              report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
+
+              if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+                report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+              else
+                report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+              end if;
+
+            report "end of simulation with error!" severity failure;
+            end if;
+          else
+            EA_read <= START_CNN;
             stop <= '1';
+            report "number of convolutions: " & integer'image(index);
           end if;
 
         when others => null;
@@ -191,53 +216,29 @@ begin
     end if;
   end process;
 
-  IF_FPGA : if FPGA = '1' generate
-    p_stop <= stop;
-  end generate IF_FPGA;
-
 
   IF_NO_FPGA : if FPGA = '0' generate
-  process
-    -- convolution counter
-    variable cont_conv : integer := 0;
+  MGOLD : entity work.memory
+    generic map(
+      BRAM_NAME => "gold_layer" & integer'image(N_LAYER - 1),
+      BRAM_NUM =>  (integer(BRAM_NUM_GOLD mod  10 ** (2 * ((N_LAYER - 1) + 1)) / 10 ** (2*(N_LAYER - 1)))),
+      BRAM_ADDR => BRAM_ADDR,
+      ROM_PATH  => PATH & "/layer/" & integer'image(N_LAYER - 1) & "/gold.txt",
+      INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
+      ADDRESS_SIZE => MEM_SIZE,
+      DATA_AV_LATENCY => BRAM_LAT
+      )
+    port map(
+      clock    => clock,
+      reset    => reset,
+      chip_en  => ofmap_ce,
+      wr_en    => '0',
+      data_in  => (others => '0'),
+      address  => address,
+      data_av  => gold_valid,
+      data_out => gold
+      );
 
-  begin
-    wait until end_conv = '1';
-
-    wait until rising_edge(clock);
-    wait until rising_edge(clock);
-
-    for i in 0 to (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) loop
-      ofmap_ce <= '1';
-      address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
-      wait until rising_edge(ofmap_valid);
-        if value_out /= gold then
-          report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
-          report "idx: " & integer'image(CONV_INTEGER(unsigned(address)));
-          report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
-
-          if (INPUT_SIZE * 2) + CARRY_SIZE > 32 then
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-          else
-            report "obtained value: " & integer'image(CONV_INTEGER(value_out));
-          end if;
-
-          assert false severity failure;
-        end if;
-        cont_conv := cont_conv + 1;
-    end loop;
-
-    report "number of convolutions: " & integer'image(cont_conv);
-    report "end of conv without error!";
-
-    ofmap_ce <= '0';
-
-    -- stop simulation
-    stop <= '1';
-    report "end of simulation without error!" severity failure;
-
-  end process;
   end generate IF_NO_FPGA;
 
 end a1;
