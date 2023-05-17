@@ -150,6 +150,7 @@ begin
       ifmap_ce    <= '0';
       ifmap_we    <= '0';
       index       <= 0;
+      EA_read <= WAITSTART;
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
@@ -211,7 +212,7 @@ begin
             report "end of simulation with error!" severity failure;
             end if;
           else
-            EA_read <= START_CNN;
+            EA_read <= WAITSTART;
             stop <= '1';
             report "number of convolutions: " & integer'image(index);
           end if;
