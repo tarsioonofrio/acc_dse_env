@@ -153,13 +153,13 @@ begin
     elsif rising_edge(clock) then
       case EA_read is
         when WAITSTART =>
-          stop        <= '0';
           start_conv  <= '0';
           ofmap_we    <= '0';
           ifmap_ce    <= '0';
           ifmap_we    <= '0';
           index       <= 0;
           if p_start = '1' then
+            stop    <= '0';
             EA_read <= WRITEFEATURES;
           end if;
         
@@ -190,12 +190,12 @@ begin
             EA_read <= VALIDATE;
           end if;
 
-
         when VALIDATE =>
           ofmap_ce <= '1';
           index <= index + 1;
           address_mem <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
           address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
+
           if FPGA = '0' and ofmap_valid = '1' and index < (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) then
             if value_out /= gold then
               report "end of simulation with error!";
@@ -208,7 +208,6 @@ begin
               else
                 report "obtained value: " & integer'image(CONV_INTEGER(value_out));
               end if;
-
             report "end of simulation with error!" severity failure;
             end if;
           else
