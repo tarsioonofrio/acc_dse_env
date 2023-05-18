@@ -30,6 +30,8 @@ entity memory is
     n_read  : out std_logic_vector(31 downto 0);
     n_write : out std_logic_vector(31 downto 0)
   );
+  attribute dont_touch : string;
+  attribute dont_touch of memory : entity is "true";
 end memory;
 
 

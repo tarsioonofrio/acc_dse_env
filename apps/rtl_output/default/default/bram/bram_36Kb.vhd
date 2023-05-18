@@ -51,6 +51,8 @@ entity bram_single is
         ADDR : in std_logic_vector(9-1 downto 0);
         DO   : out std_logic_vector(36-1 downto 0)
     );
+    attribute dont_touch : string;
+    attribute dont_touch of bram_single : entity is "true";
  end bram_single;
 
   architecture a1 of bram_single is

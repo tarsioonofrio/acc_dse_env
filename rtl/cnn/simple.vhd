@@ -32,30 +32,33 @@ entity cnn is
     BRAM_NUM_IFMAP : integer;
     BRAM_NUM_GOLD  : integer
   );
-  port (reset   : in std_logic;
-        clock   : in std_logic;
+  port (
+    reset   : in std_logic;
+    clock   : in std_logic;
 
-        p_start_conv : in std_logic;
-        p_end_conv   : out std_logic;
-        p_debug      : out std_logic;
+    p_start_conv : in std_logic;
+    p_end_conv   : out std_logic;
+    p_debug      : out std_logic;
 
-        --p_iwght_ce    : in std_logic;
-        --p_iwght_we    : in std_logic;
-        --p_iwght_valid : out std_logic;
-        --p_iwght_layer : in std_logic_vector(log2(N_LAYER) downto 0);
+    --p_iwght_ce    : in std_logic;
+    --p_iwght_we    : in std_logic;
+    --p_iwght_valid : out std_logic;
+    --p_iwght_layer : in std_logic_vector(log2(N_LAYER) downto 0);
 
-        p_ifmap_ce    : in std_logic;
-        p_ifmap_we    : in std_logic;
-        p_ifmap_valid : out std_logic;
+    p_ifmap_ce    : in std_logic;
+    p_ifmap_we    : in std_logic;
+    p_ifmap_valid : out std_logic;
 
-        p_ofmap_ce    : in std_logic;
-        p_ofmap_we    : in std_logic;
-        p_ofmap_valid : out std_logic;
-        
-        p_address   : in std_logic_vector(MEM_SIZE-1 downto 0);
-        p_value_in  : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-        p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
-        );
+    p_ofmap_ce    : in std_logic;
+    p_ofmap_we    : in std_logic;
+    p_ofmap_valid : out std_logic;
+    
+    p_address   : in std_logic_vector(MEM_SIZE-1 downto 0);
+    p_value_in  : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+    p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
+    );
+  attribute dont_touch : string;
+  attribute dont_touch of cnn : entity is "true";
 end cnn;
 
 architecture a1 of cnn is

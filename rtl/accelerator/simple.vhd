@@ -38,6 +38,8 @@ entity accelerator is
     p_start : in std_logic;
     p_stop  : out std_logic
     );
+  attribute dont_touch : string;
+  attribute dont_touch of accelerator : entity is "true";           
 end entity accelerator;
 
 architecture a1 of accelerator is

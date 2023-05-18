@@ -51,7 +51,9 @@ entity bram_single is
         ADDR : in std_logic_vector({bram_addr}-1 downto 0);
         DO   : out std_logic_vector({mem_width}-1 downto 0)
     );
- end bram_single;
+    attribute dont_touch : string;
+    attribute dont_touch of bram_single : entity is "true";
+   end bram_single;
 
   architecture a1 of bram_single is
     signal bram_wr_en    : std_logic_vector({bram_we}-1 downto 0);

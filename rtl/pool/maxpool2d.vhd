@@ -48,6 +48,8 @@ entity maxpool is
     ofmap_we      : out std_logic;
     ofmap_ce      : out std_logic
     );
+  attribute dont_touch : string;
+  attribute dont_touch of maxpool : entity is "true";         
 end entity maxpool;
 
 
