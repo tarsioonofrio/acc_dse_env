@@ -199,19 +199,21 @@ begin
           address_mem <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
           address <= CONV_STD_LOGIC_VECTOR(index, INPUT_SIZE);
 
-          if FPGA = '0' and ofmap_valid = '1' and index < (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) then
-            if value_out /= gold then
-              report "end of simulation with error!";
-              report "number of convolutions executed: " & integer'image(index);
-              report "address: " & integer'image(CONV_INTEGER(unsigned(address)));
-              report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
+          if ofmap_valid = '1' and index < (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) then
+            if FPGA = '0' then
+                if value_out /= gold then
+                  report "end of simulation with error!";
+                  report "number of convolutions executed: " & integer'image(index);
+                  report "address: " & integer'image(CONV_INTEGER(unsigned(address)));
+                  report "expected value: " & integer'image(CONV_INTEGER(gold(31 downto 0)));
 
-              if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
-                report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
-              else
-                report "obtained value: " & integer'image(CONV_INTEGER(value_out));
-              end if;
-            report "end of simulation with error!" severity failure;
+                  if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
+                    report "obtained value: " & integer'image(CONV_INTEGER(value_out(31 downto 0)));
+                  else
+                    report "obtained value: " & integer'image(CONV_INTEGER(value_out));
+                  end if;
+                report "end of simulation with error!" severity failure;
+                end if;
             end if;
           else
             EA_read <= WAITSTART;
