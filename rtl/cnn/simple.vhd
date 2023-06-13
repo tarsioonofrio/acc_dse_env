@@ -28,9 +28,9 @@ entity cnn is
     OP_TYPE        : string    := "CCC";
     TEST_LAYER     : integer   := 0;
     BRAM_ADDR      : integer := 10;
-    BRAM_NUM_IWGHT : integer;
-    BRAM_NUM_IFMAP : integer;
-    BRAM_NUM_GOLD  : integer
+    BRAM_NUM_IWGHT : integer :=0;
+    BRAM_NUM_IFMAP : integer :=0;
+    BRAM_NUM_GOLD  : integer :=0
   );
   port (
     reset   : in std_logic;
