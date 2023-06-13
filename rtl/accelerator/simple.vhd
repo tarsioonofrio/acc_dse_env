@@ -52,6 +52,7 @@ architecture a1 of accelerator is
   signal debug       : std_logic;
   signal iwght_valid : std_logic;
   signal ifmap_valid : std_logic;
+  signal mem_ifmap_valid : std_logic;
   signal ofmap_valid : std_logic;
   signal gold_valid  : std_logic;
   signal ofmap_ce    : std_logic;
@@ -111,7 +112,7 @@ begin
       wr_en    => '0',
       data_in  => (others => '0'),
       address  => address_mem,
-      data_av  => ifmap_valid,
+      data_av  => mem_ifmap_valid,
       data_out => value_in
       );
 
