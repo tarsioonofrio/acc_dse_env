@@ -72,13 +72,12 @@ architecture a1 of accelerator is
   type statesReadValues is (WAITSTART, WRITEFEATURES, READFEATURES, START_CNN, STOP_CNN, VALIDATE);
   signal EA_read : statesReadValues;
 
-  signal observer_ifmap_valid : std_logic_vector(1 downto 0);
-  signal observer_ofmap_valid : std_logic_vector(1 downto 0);
+  signal observer_ifmap_valid : std_logic_vector(0 downto 0);
+  signal observer_ofmap_valid : std_logic_vector(0 downto 0);
   signal observer_EA_read : std_logic_vector(2 downto 0);
 
 
 begin
-    
   start  <= p_start;
   clock  <= p_clock;
   reset  <= p_reset;
