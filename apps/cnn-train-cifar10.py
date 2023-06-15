@@ -42,7 +42,8 @@ def main():
     km = vars(keras_models)
     model = km[cnn_config["name"]](cnn_config, config_dataset)
 
-    model.fit(x_train, y_train, epochs=cnn_config["n_epochs"])
+    callback = keras.callbacks.EarlyStopping(monitor='accuracy', patience=10)
+    model.fit(x_train, y_train, epochs=cnn_config["n_epochs"], callbacks=[callback])
     # Save model
     model.save(output_path / 'weights')
     model_dict = dictionary_from_model(model)

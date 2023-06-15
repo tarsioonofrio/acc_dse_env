@@ -38,7 +38,6 @@ entity accelerator is
     INPUT_SIZE     : integer := 16;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    N_LAYER        : integer := 3;
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
     BRAM_NUM_IWGHT : integer := 371001;
