@@ -113,7 +113,7 @@ begin
   -- map mem value to conv 
   ifmap_value <= mem_ifmap_value;
 
-  GEN_IWGHT: if OP_TYPE = 'C' generate
+  GEN_IWGHT: if OP_TYPE = 'C' or OP_TYPE = 'F' generate
     IWGHT : entity work.memory
       generic map(
         ROM_PATH => IWGHT_PATH,
@@ -223,9 +223,9 @@ begin
         ofmap_we      => ofmap_we,
         ofmap_ce      => ofmap_ce
         );
-    end generate;
+  end generate;
 
-    GEN_MAXPOOL: if OP_TYPE = 'M' generate
+    GEN_MP2D: if OP_TYPE = 'M' generate
       MAXPOOL : entity work.maxpool
         generic map(
           N_FILTER       => N_FILTER,
@@ -264,8 +264,49 @@ begin
           ofmap_we      => ofmap_we,
           ofmap_ce      => ofmap_ce
           );
+    end generate;
+
+    GEN_FC: if OP_TYPE = 'F' generate
+      CONV : entity work.fully_connected
+        generic map(
+          N_FILTER       => N_FILTER,
+          N_CHANNEL      => N_CHANNEL,
+          X_SIZE         => X_SIZE,
+          FILTER_WIDTH   => FILTER_WIDTH,
+          CONVS_PER_LINE => CONVS_PER_LINE,
+          MEM_SIZE       => MEM_SIZE,
+          INPUT_SIZE     => INPUT_SIZE,
+          SHIFT          => SHIFT,
+          CARRY_SIZE     => CARRY_SIZE
+          )
+        port map(
+          clock         => clock,
+          reset         => reset,
+  
+          start_op    => start_conv,
+          end_op      => end_conv,
+          debug         => debug,
+          -- config        => const_config_logic_vector(BRAM_NAME_LAYER),
+  
+          iwght_valid   => iwght_valid,
+          iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
+          iwght_address => iwght_address,
+          iwght_ce      => iwght_ce,
+  
+          ifmap_valid   => ifmap_valid,
+          ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+          ifmap_address => ifmap_address,
+          ifmap_ce      => ifmap_ce,
+  
+          ofmap_valid   => ofmap_valid,
+          ofmap_in      => ofmap_in,
+          ofmap_out     => ofmap_out,
+          ofmap_address => ofmap_address,
+          ofmap_we      => ofmap_we,
+          ofmap_ce      => ofmap_ce
+          );
       end generate;
-    
+      
 --     process(clock)
 --       -- convolution counter
 --       variable cont_conv : integer := 0;

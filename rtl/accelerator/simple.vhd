@@ -14,6 +14,20 @@ library work;
 
 entity accelerator is
   generic (
+        -- START SECTION
+        -- 3 CONV
+        -- OP_TYPE        : string    := "CCC";
+        -- N_LAYER        : integer := 3;
+        -- PATH           : string  := "../apps/rtl_output/default/default";
+        -- 3 CONV + FULLY
+        N_LAYER        : integer := 4;
+        OP_TYPE        : string    := "CCCF";
+        PATH           : string  := "../apps/rtl_output/default/default";
+        -- 3 CONV + MAX POOL + FULLY
+        -- N_LAYER        : integer := 5;
+        -- OP_TYPE        : string    := "CCCMF";
+        -- PATH           : string  := "../apps/rtl_output/maxpool/default";
+        -- END SECTION
     FPGA           : std_logic := '1';
     N_FILTER       : integer := 64;
     N_CHANNEL      : integer := 64;
@@ -24,10 +38,8 @@ entity accelerator is
     INPUT_SIZE     : integer := 16;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
-    N_LAYER        : integer := 3;
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
-    PATH           : string  := "../apps/rtl_output/default/default";
     BRAM_NUM_IWGHT : integer := 371001;
     BRAM_NUM_IFMAP : integer := 040806;
     BRAM_NUM_GOLD  : integer := 020408
@@ -129,9 +141,10 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       SHIFT          => SHIFT,
       N_LAYER        => N_LAYER,
+      OP_TYPE        => OP_TYPE,
+      PATH           => PATH,
       LAT            => BRAM_LAT,
       BRAM_ADDR      => BRAM_ADDR,
-      PATH           => PATH,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
       BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
       BRAM_NUM_GOLD  => BRAM_NUM_GOLD
