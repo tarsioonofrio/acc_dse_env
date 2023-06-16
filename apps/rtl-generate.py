@@ -139,7 +139,7 @@ def main():
         "ARRAY_TYPE": rtl_config["ARRAY_TYPE"],
 
         "X_SIZE": max([model_dict[0]["input_shape"][0]] + vhd_dict["layer_dimension"]),
-        "C_SIZE": max(model_dict[0]["input_shape"][-1] + vhd_dict["filter_channel"]),
+        "C_SIZE": max([model_dict[0]["input_shape"][-1]] + vhd_dict["filter_channel"]),
         "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
         "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
         "LAYER": 0,

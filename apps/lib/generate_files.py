@@ -330,7 +330,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
 
     format_feat = format_feature(feat_list, tab)
 
@@ -391,7 +391,7 @@ def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
     write_mem_pkg(constant, data, "gold_pkg", package, path)
 
 
-def fc(modelDict, shift, layer, path):
+def fc(modelDict, shift, layer, gen_features, path):
     feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
 
     weights = [
@@ -411,7 +411,10 @@ def fc(modelDict, shift, layer, path):
         for w, b
         in zip(weights, bias)
     ]
-    return [[gold]]
+    if gen_features:
+        return [[feature]]
+    else:
+        return [[gold]]
 
 
 def generate_gold_maxpool_vhd_pkg(layer, path):
@@ -439,13 +442,13 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
                         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     return feat_unpack
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                     stride_h, stride_w, tab, testSet, testSetSize):
+                     stride_h, stride_w, tab, testSet, testSetSize, path):
     gen_features = True
     if layer == 0:
         feat_list = [
@@ -459,7 +462,7 @@ def get_feature_data(filter_channel, filter_dimension, input_channel, layer, lay
         ]
     else:
         if modelDict[layer]["type"] == "Dense":
-            pass
+            feat_list = fc(modelDict, shift, layer, gen_features, path)
         if modelDict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
                 gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -473,10 +476,13 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    feat_list = conv2d(
-        gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-        stride_h, stride_w, tab, testSet, testSetSize
-    )
+    if modelDict[layer]["type"] == "Dense":
+        feat_list = fc(modelDict, shift, layer, gen_features, path)
+    if modelDict[layer]["type"] == "Conv2D":
+        feat_list = conv2d(
+            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+            stride_h, stride_w, tab, testSet, testSetSize
+        )
 
     format_feat = format_feature(feat_list, tab)
 
