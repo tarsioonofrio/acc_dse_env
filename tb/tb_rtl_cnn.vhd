@@ -24,7 +24,7 @@ entity tb is
     SHIFT          : integer := 8;
     LAT            : integer := 2;
     N_LAYER        : integer := 0;
-    OP_TYPE        : string  := "CCCC";
+    OP_TYPE        : string  := "CCC";
     PATH           : string  := ""
   );
 end entity tb;

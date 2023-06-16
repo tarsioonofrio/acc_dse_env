@@ -3,11 +3,16 @@ from os.path import relpath
 from math import log2, ceil
 
 import numpy as np
-from numpy.lib.stride_tricks import as_strided
 
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d
 from .bram import open_file
 
+
+dict_op_type = {
+    'Conv2D': 'C',
+    'Dense': 'F',
+    'Maxpool': 'M',
+}
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
@@ -81,7 +86,7 @@ def format_feature(feat_list, tab):
     return format_feat
 
 
-def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
+def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path, opt_type):
     # Compute HW parameters
     if layer == 0:
         X_SIZE = input_w
@@ -98,6 +103,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
         "FILTER_WIDTH": FILTER_WIDTH,
         "CONVS_PER_LINE": CONVS_PER_LINE,
         "LAYER": layer,
+        "OP_TYPE": opt_type
     }
     path.mkdir(parents=True, exist_ok=True)
     path_layer = path / 'layer' / str(layer)
@@ -172,7 +178,8 @@ def generate_generic_file(generate_dict, path, n_layer):
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
         "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
         "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH}"
+        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH} "
+        "-gOP_TYPE={OP_TYPE}"
         "\n"
     ).format(**generate_dict2)
 

@@ -9,7 +9,7 @@ import numpy as np
 from lib import util, keras_cifar10
 from lib.generate_files import (
     generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,
-    generate_samples, generate_gold_maxpool_vhd_pkg, fc
+    generate_samples, generate_gold_maxpool_vhd_pkg, fc, dict_op_type
 )
 from lib.model import dictionary_from_model
 
@@ -108,8 +108,8 @@ def main():
     input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
     for e, _ in enumerate(list(model_dict.keys())):
         generate_files(
-            model_dict[0]["input_shape"][-1], model_dict[0]["input_shape"][0], input_channel, generic_dict, vhd_dict_files, e,
-            rtl_output_path
+            model_dict[0]["input_shape"][-1], model_dict[0]["input_shape"][0], input_channel, generic_dict,
+            vhd_dict_files, e, rtl_output_path, dict_op_type[model_dict[e]["type"]]
         )
 
     size = len([v["filter_channel"] for k, v in model_dict.items()]) - 1
@@ -143,6 +143,7 @@ def main():
         "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
         "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
         "LAYER": 0,
+        "OP_TYPE": "".join([dict_op_type[v["type"]] for k, v in model_dict.items()]),
     }
     pe_path = rtl_output_path / "core"
     pe_path.mkdir(parents=True, exist_ok=True)
