@@ -5,7 +5,7 @@ from math import log2, ceil
 import numpy as np
 from numpy.lib.stride_tricks import as_strided
 
-from .model import layer_op, generate_ifmem_vhd_pkg, pool2d
+from .model import conv2d, generate_ifmem_vhd_pkg, pool2d
 from .bram import open_file
 
 
@@ -391,6 +391,29 @@ def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
     write_mem_pkg(constant, data, "gold_pkg", package, path)
 
 
+def fc(modelDict, shift, layer, path):
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        (v["weights"] * shift).astype(int).tolist()
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in zip(weights, bias)
+    ]
+    return [[gold]]
+
+
 def generate_gold_maxpool_vhd_pkg(layer, path):
     tab = "    "
     feature = open_file(path.parent / str(layer) / 'gold.txt')
@@ -435,10 +458,13 @@ def get_feature_data(filter_channel, filter_dimension, input_channel, layer, lay
             for z in range(image_shift.shape[2])
         ]
     else:
-        feat_list = layer_op(
-            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-            stride_h, stride_w, tab, testSet, testSetSize
-        )
+        if modelDict[layer]["type"] == "Dense":
+            pass
+        if modelDict[layer]["type"] == "Conv2D":
+            feat_list = conv2d(
+                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+                stride_h, stride_w, tab, testSet, testSetSize
+            )
     return feat_list
 
 
@@ -447,7 +473,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    feat_list = layer_op(
+    feat_list = conv2d(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )
@@ -466,7 +492,7 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     tab = "    "
     gen_features = False
 
-    feat_list = layer_op(
+    feat_list = conv2d(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )

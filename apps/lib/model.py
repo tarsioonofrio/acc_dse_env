@@ -23,11 +23,18 @@ def dictionary_from_model(model):
         modelDict[layerId]["type"] = layerType
         layerName = layer.name
         modelDict[layerId]["name"] = layerName
+        modelDict[layerId]["input_shape"] = layer.input.shape.as_list()[1:]
+        modelDict[layerId]["output_shape"] = layer.output.shape.as_list()[1:]
         # If layer is dense
         if layerType == "Dense":
             # Collect activation function
             layerActivation = str(layer.activation).split(" ")[1]
+
             modelDict[layerId]["activation"] = layerActivation
+            modelDict[layerId]["filter_channel"] = layer.units
+            modelDict[layerId]["filter_dimension"] = 1
+            modelDict[layerId]["stride_h"] = 1
+            modelDict[layerId]["stride_w"] = 1
             # Initialize neuron dict
             modelDict[layerId]["neuron"] = {}
             # Iterate through variables of this layer
@@ -52,9 +59,14 @@ def dictionary_from_model(model):
         # If layer is conv
         elif layerType == "Conv2D":
             layerActivation = str(layer.activation).split(" ")[1]
-            modelDict[layerId]["activation"] = layerActivation
             # Initialize filter dict
             modelDict[layerId]["filter"] = {}
+
+            modelDict[layerId]["activation"] = layerActivation
+            modelDict[layerId]["filter_channel"] = layer.filters
+            modelDict[layerId]["filter_dimension"] = layer.kernel_size[0]
+            modelDict[layerId]["stride_h"] = layer.strides[0]
+            modelDict[layerId]["stride_w"] = layer.strides[1]
             # Iterate through variables of this layer
             for layerVar in layer.trainable_variables:
                 # Check if weights
@@ -78,8 +90,8 @@ def dictionary_from_model(model):
     return modelDict
 
 
-def layer_op(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
-             modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
+def conv2d(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
+           modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
     image_list = []
     # Dataset test variables
     cont_match = 0
@@ -153,7 +165,6 @@ def layer_op(gen_features, filter_channel, filter_dimension, input_channel, laye
                                 acc_input = int((acc[filterId] / shift))
                             else:
                                 acc_input = acc[filterId] >> int(log2(shift))
-
                             ofmap[filterId][m][n] = max(0, int(acc_input))
 
                     if layerId == layer - int(gen_features):
