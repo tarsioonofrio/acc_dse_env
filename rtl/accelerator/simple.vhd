@@ -19,15 +19,15 @@ entity accelerator is
         OP_TYPE        : string    := "CCC";
         N_LAYER        : integer := 3;
         PATH           : string  := "../apps/rtl_output/default/default";
-        -- 3 CONV + FULLY
+--         3 CONV + FULLY
 --         N_LAYER        : integer := 4;
 --         OP_TYPE        : string    := "CCCF";
 --         PATH           : string  := "../apps/rtl_output/default/default";
-        -- 3 CONV + MAX POOL + FULLY
-        -- N_LAYER        : integer := 5;
-        -- OP_TYPE        : string    := "CCCMF";
-        -- PATH           : string  := "../apps/rtl_output/maxpool/default";
-        -- END SECTION
+--         3 CONV + MAX POOL + FULLY
+--         N_LAYER        : integer := 5;
+--         OP_TYPE        : string    := "CCCMF";
+--         PATH           : string  := "../apps/rtl_output/maxpool/default";
+--         END SECTION
     FPGA           : std_logic := '1';
     N_FILTER       : integer := 64;
     N_CHANNEL      : integer := 64;
