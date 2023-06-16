@@ -112,7 +112,6 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
     generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
     generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)

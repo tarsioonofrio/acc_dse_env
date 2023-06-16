@@ -16,13 +16,13 @@ entity accelerator is
   generic (
         -- START SECTION
         -- 3 CONV
-        -- OP_TYPE        : string    := "CCC";
-        -- N_LAYER        : integer := 3;
-        -- PATH           : string  := "../apps/rtl_output/default/default";
-        -- 3 CONV + FULLY
-        N_LAYER        : integer := 4;
-        OP_TYPE        : string    := "CCCF";
+        OP_TYPE        : string    := "CCC";
+        N_LAYER        : integer := 3;
         PATH           : string  := "../apps/rtl_output/default/default";
+        -- 3 CONV + FULLY
+--         N_LAYER        : integer := 4;
+--         OP_TYPE        : string    := "CCCF";
+--         PATH           : string  := "../apps/rtl_output/default/default";
         -- 3 CONV + MAX POOL + FULLY
         -- N_LAYER        : integer := 5;
         -- OP_TYPE        : string    := "CCCMF";
