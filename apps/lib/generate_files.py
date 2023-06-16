@@ -289,31 +289,49 @@ def generate_iwght_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 
 def get_wght(layer, modelDict, shift):
-    weight_list = [
-        [[[str(int(weights[x, y, z].reshape(-1)))
-           for x in range(weights.shape[0])
-           for y in range(weights.shape[1])]
+    if modelDict[layer]["type"] == "Dense":
+        weight_list = [[[
+            [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
+            for k, v
+            in modelDict[layer]["neuron"].items()
+        ]]]
+    elif modelDict[layer]["type"] == "Conv2D":
+        weight_list = [
+            [[[str(int(weights[x, y, z].reshape(-1)))
+               for x in range(weights.shape[0])
+               for y in range(weights.shape[1])]
 
-          for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
-          for z in range(weights.shape[2])]
+              for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+              for z in range(weights.shape[2])]
 
-         for filterId in modelDict[layerId]["filter"]
-         ]
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-    ]
+             for filterId in modelDict[layerId]["filter"]
+             ]
+            for layerId in modelDict
+            if modelDict[layerId]["type"] in ["Conv2D", "Dense"]
+            if layerId == layer
+        ]
+    else:
+        weight_list = []
     return weight_list
 
 
 def get_bias(layer, modelDict, shift):
-    bias_list = [
-        str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-        for filterId in modelDict[layerId]["filter"]
-    ]
+    if modelDict[layer]["type"] == "Dense":
+        bias_list = [
+            str(int(v["bias"] * shift * shift))
+            for k, v
+            in modelDict[layer]["neuron"].items()
+        ]
+    elif modelDict[layer]["type"] == "Conv2D":
+        bias_list = [
+            str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
+            for layerId in modelDict
+            if modelDict[layerId]["type"] == "Conv2D"
+            if layerId == layer
+            for filterId in modelDict[layerId]["filter"]
+        ]
+    else:
+        bias_list = []
     return bias_list
 
 
@@ -463,11 +481,13 @@ def get_feature_data(filter_channel, filter_dimension, input_channel, layer, lay
     else:
         if modelDict[layer]["type"] == "Dense":
             feat_list = fc(modelDict, shift, layer, gen_features, path)
-        if modelDict[layer]["type"] == "Conv2D":
+        elif modelDict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
                 gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
                 stride_h, stride_w, tab, testSet, testSetSize
             )
+        else:
+            feat_list = []
     return feat_list
 
 

@@ -29,14 +29,14 @@ def dictionary_from_model(model):
         if layerType == "Dense":
             # Collect activation function
             layerActivation = str(layer.activation).split(" ")[1]
+            # Initialize neuron dict
+            modelDict[layerId]["neuron"] = {}
 
             modelDict[layerId]["activation"] = layerActivation
             modelDict[layerId]["filter_channel"] = layer.units
             modelDict[layerId]["filter_dimension"] = 1
             modelDict[layerId]["stride_h"] = 1
             modelDict[layerId]["stride_w"] = 1
-            # Initialize neuron dict
-            modelDict[layerId]["neuron"] = {}
             # Iterate through variables of this layer
             for layerVar in layer.trainable_variables:
                 # Check if weights
