@@ -226,7 +226,7 @@ begin
   end generate;
 
     GEN_MP2D: if OP_TYPE = 'M' generate
-      MAXPOOL : entity work.maxpool
+      MP2D : entity work.maxpool
         generic map(
           N_FILTER       => N_FILTER,
           N_CHANNEL      => N_CHANNEL,
@@ -267,7 +267,7 @@ begin
     end generate;
 
     GEN_FC: if OP_TYPE = 'F' generate
-      CONV : entity work.fully_connected
+      FC : entity work.fully_connected
         generic map(
           N_FILTER       => N_FILTER,
           N_CHANNEL      => N_CHANNEL,
