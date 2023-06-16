@@ -5,7 +5,7 @@ from math import log2, ceil
 import numpy as np
 from numpy.lib.stride_tricks import as_strided
 
-from .model import convolution_from_weights, generate_ifmem_vhd_pkg, pool2d
+from .model import layer_op, generate_ifmem_vhd_pkg, pool2d
 from .bram import open_file
 
 
@@ -435,7 +435,7 @@ def get_feature_data(filter_channel, filter_dimension, input_channel, layer, lay
             for z in range(image_shift.shape[2])
         ]
     else:
-        feat_list = convolution_from_weights(
+        feat_list = layer_op(
             gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
             stride_h, stride_w, tab, testSet, testSetSize
         )
@@ -447,7 +447,7 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    feat_list = convolution_from_weights(
+    feat_list = layer_op(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )
@@ -466,7 +466,7 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     tab = "    "
     gen_features = False
 
-    feat_list = convolution_from_weights(
+    feat_list = layer_op(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )

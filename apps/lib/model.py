@@ -78,8 +78,8 @@ def dictionary_from_model(model):
     return modelDict
 
 
-def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
-                             modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
+def layer_op(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
+             modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
     image_list = []
     # Dataset test variables
     cont_match = 0
@@ -88,8 +88,6 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
     m = 0
     n = 0
     idx = 0
-    filter_i = 0
-    filter_j = 0
     # feature maps
     ifmap = []
     ofmap = []
@@ -116,6 +114,8 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
         for layerId in modelDict:
             string_pixel = [tab]
             if modelDict[layerId]["type"] == "Conv2D":
+                filter_i = 0
+                filter_j = 0
                 for filterId in modelDict[layerId]["filter"]:
                     for m in range(layer_dimension[layerId]):
                         for n in range(layer_dimension[layerId]):
