@@ -5,10 +5,6 @@ vmap work work
 # Packages for CNN layer simualtion
 # inmem_pkg is not used in simulation
 
-vcom -work work ../apps/rtl_output/default/default/layer/0/ifmap_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/layer/0/iwght_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/layer/0/gold_pkg.vhd
-
 vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
 

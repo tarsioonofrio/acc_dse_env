@@ -3,15 +3,12 @@ library std;
 
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
 use work.config_package.all;
-use work.iwght_package.all;
-use work.ifmap_package.all;
-use work.gold_package.all;
 use work.util_package.all;
 
 
@@ -44,6 +41,7 @@ architecture a1 of tb is
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
+  signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
 begin
 
