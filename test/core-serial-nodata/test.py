@@ -42,13 +42,14 @@ async def test(dut):
         "rtl": rtl,
         "name": name,
         "units": units,
-        "clock_time": clock_time,
-        "start_time": start_time,
-        "start_steps": start_steps,
-        "ifmap_time": ifmap_time,
-        "ifmap_steps": ifmap_steps,
-        "conv_time": conv_time,
-        "conv_steps": conv_steps,
+        "layer": layer,
+        "clocktime": clock_time,
+        "starttime": start_time,
+        "startsteps": start_steps,
+        "ifmaptime": ifmap_time,
+        "ifmapsteps": ifmap_steps,
+        "convtime": conv_time,
+        "convsteps": conv_steps,
     }
 
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:

@@ -38,11 +38,11 @@ async def test(dut):
         "rtl": rtl,
         "name": name,
         "units": units,
-        "clock_time": clock_time,
-        "start_time": start_time,
-        "start_steps": start_steps,
-        "end_time": end_time,
-        "end_steps": end_steps
+        "clocktime": clock_time,
+        "starttime": start_time,
+        "startsteps": start_steps,
+        "endtime": end_time,
+        "endsteps": end_steps
     }
 
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
