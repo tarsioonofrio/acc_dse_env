@@ -59,3 +59,6 @@ For:
 
 If you want to use other hw settings, you need to change `default_default`
 to the desired project folder. It is necessary to change the other paths to the same folder.
+
+
+https://github.com/mentax/csv2xlsx/releases

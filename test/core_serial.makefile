@@ -1,5 +1,5 @@
 $(shell rm -rf sim_build)
-MODULE=core_serial
+MODULE=basic
 TESTCASE=test
 TOPLEVEL=tb
 TOPLEVEL_LANG ?= vhdl
