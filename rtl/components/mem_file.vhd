@@ -14,9 +14,9 @@ entity memory is
     ADDRESS_SIZE    : integer := 12;
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
-    BRAM_NAME_LAYER : integer   := 0;
-    BRAM_NAME       : string := "default";
-    BRAM_NUM        : integer;
+    BRAM_NAME_LAYER : integer := 0;
+    BRAM_NAME       : string  := "default";
+    BRAM_NUM        : integer := 0;
     BRAM_ADDR       : integer := 10
     );
 
