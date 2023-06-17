@@ -26,7 +26,6 @@ async def test(dut):
     end_time = get_sim_time(units=units)
     end_steps = get_sim_steps(end_time, units=units)
 
-
     name = os.getenv("MAKEFILE_LIST").strip().split(" ")[0].split(".")[0]
     cnn = os.getenv("C")
     rtl = os.getenv("R")
