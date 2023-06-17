@@ -28,6 +28,7 @@ async def conv_normal(dut):
 
     data = {
         "units": units,
+        "clock_time": clock_time,
         "start_time": start_time,
         "start_steps": start_steps,
         "end_time": end_time,
@@ -45,4 +46,3 @@ async def conv_normal(dut):
         wr = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
         wr.writerow(list(data.keys()))
         wr.writerow(list(data.values()))
-
