@@ -8,7 +8,7 @@ export C
 export R
 
 
-MODULE=test
+MODULE=basic
 TOPLEVEL_LANG ?= vhdl
 
 VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/inmem_pkg.vhd
