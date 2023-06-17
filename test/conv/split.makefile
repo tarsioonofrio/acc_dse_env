@@ -2,6 +2,7 @@ $(shell rm -rf sim_build)
 TESTCASE=conv_normal
 TOPLEVEL=tb
 
+export MAKEFILE_LIST
 export L
 export C
 export R

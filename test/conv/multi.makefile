@@ -11,16 +11,19 @@ export R
 MODULE=test
 TOPLEVEL_LANG ?= vhdl
 
-VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/inmem_pkg.vhd
-VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/inmem_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/ifmap_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/iwght_pkg.vhd
 VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/gold_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/config_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../../apps/rtl_output/$(C)/$(R)/layer/$(L)/config_pkg.vhd
 
+VHDL_SOURCES += $(shell pwd)/../../rtl/core/util_pkg.vhd
 VHDL_SOURCES += $(shell pwd)/../../rtl/components/mac.vhd
 VHDL_SOURCES += $(shell pwd)/../../rtl/components/reg.vhd
-VHDL_SOURCES += $(shell pwd)/../../rtl/components/mem.vhd
-VHDL_SOURCES += $(shell pwd)/../../rtl/convolution/syst2d_ws.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/components/mem_split.vhd
+VHDL_SOURCES += $(shell pwd)/../../rtl/convolution/syst2d_ws_split_multi.vhd
 
-VHDL_SOURCES += $(shell pwd)/../../tb/tb_rtl.vhd
+VHDL_SOURCES += $(shell pwd)/../../tb/tb_rtl_split_multi.vhd
 
 
 COCOTB_HDL_TIMESTEP=1

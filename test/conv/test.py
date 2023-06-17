@@ -28,9 +28,10 @@ async def conv_normal(dut):
         "end_time": end_time,
         "end_steps": end_steps
     }
+    name = os.getenv("MAKEFILE_LIST").strip().split(" ")[0].split(".")[0]
     cnn = os.getenv("C")
     rtl = os.getenv("R")
-    root = Path(__file__).parent / "data" / cnn / rtl
+    root = Path(__file__).parent / "data" / cnn / rtl / name
     root.mkdir(parents=True, exist_ok=True)
     layer = os.getenv("L")
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
