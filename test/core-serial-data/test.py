@@ -10,7 +10,7 @@ from cocotb.utils import get_sim_time, get_sim_steps
 
 
 @cocotb.test()
-async def conv_normal(dut):
+async def test(dut):
     units = "ns"
 
     await triggers.RisingEdge(dut.clock)

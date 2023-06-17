@@ -1,5 +1,5 @@
 $(shell rm -rf sim_build)
-TESTCASE=conv_normal
+TESTCASE=test
 TOPLEVEL=tb
 
 export MAKEFILE_LIST
