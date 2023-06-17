@@ -1,11 +1,10 @@
 import os
+import csv
 import json
-import random
 from pathlib import Path
 
 import cocotb
 from cocotb import triggers
-from cocotb.types import Logic
 from cocotb.clock import Clock
 from cocotb.utils import get_sim_time, get_sim_steps
 
@@ -13,6 +12,12 @@ from cocotb.utils import get_sim_time, get_sim_steps
 @cocotb.test()
 async def conv_normal(dut):
     units = "ns"
+
+    await triggers.RisingEdge(dut.clock)
+    time0 = get_sim_time(units=units)
+    await triggers.RisingEdge(dut.clock)
+    clock_time = get_sim_time(units=units) - time0
+
     await triggers.RisingEdge(dut.start_conv)
     start_time = get_sim_time(units=units)
     start_steps = get_sim_steps(start_time, units=units)
@@ -36,4 +41,8 @@ async def conv_normal(dut):
     layer = os.getenv("L")
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+    with open(root / f'{layer}.csv', 'w', encoding='utf-8') as f:
+        wr = csv.writer(f, quoting=csv.QUOTE_MINIMAL)
+        wr.writerow(list(data.keys()))
+        wr.writerow(list(data.values()))
 
