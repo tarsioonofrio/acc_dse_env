@@ -1,4 +1,5 @@
 if {[file isdirectory work]} { vdel -all -lib work }
+set num_layer 0
 vlib work
 vmap work work
 
@@ -28,7 +29,10 @@ vcom -work work ../rtl/core/core_serial.vhd
 vcom -work work ../tb/tb_rtl_core_serial.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/layer/0/generic_file.txt
+set fp [open "../apps/rtl_output/default/default/core/generic_file.txt" r]
+set generic_file [read $fp]
+set generics "-gN_LAYER_ERR=$num_layer $generic_file"
+vsim -voptargs=+acc=lprn -t ps work.tb {*}$generics
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit

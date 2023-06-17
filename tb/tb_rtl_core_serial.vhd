@@ -24,8 +24,9 @@ entity tb is
            SHIFT          : integer := 8;
            LAT            : integer := 2;
            BRAM_NAME_LAYER: integer := 1;
-           OP_TYPE       : character  := 'C';
-           PATH           : string  := ""
+           OP_TYPE        : character  := 'C';
+           PATH           : string  := "";
+           N_LAYER_ERR    : integer := 0
            );
 end tb;
 
@@ -40,8 +41,8 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
-  signal gold : type_array_int := read_data(PATH & "/gold.txt");
+  signal config : type_config_logic := read_config(PATH & "/layer/" & integer'image(N_LAYER_ERR) & "/config_pkg.txt");
+  signal gold : type_array_int := read_data(PATH & "/layer/" & integer'image(N_LAYER_ERR) & "/gold.txt");
 
 begin
 
@@ -60,8 +61,8 @@ begin
       CARRY_SIZE     => CARRY_SIZE,
       OP_TYPE        => OP_TYPE,
       -- BRAM_NAME_LAYER => BRAM_NAME_LAYER,
-      IWGHT_PATH     => PATH & "/iwght.txt",
-      IFMAP_PATH     => PATH & "/ifmap.txt"
+      IWGHT_PATH     => PATH  & "/layer/" & integer'image(N_LAYER_ERR) &  "/iwght.txt",
+      IFMAP_PATH     => PATH  & "/layer/" & integer'image(N_LAYER_ERR) &  "/ifmap.txt"
  )
     port map(
       clock         => clock,
