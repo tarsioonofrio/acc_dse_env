@@ -45,8 +45,8 @@ async def test(dut):
         "startsteps": start_steps,
         "endtime": end_time,
         "endsteps": end_steps,
-        "diffendtime": end_time - start_time,
-        "diffendsteps": end_steps - start_steps,
+        "totaltime": end_time - start_time,
+        "totalsteps": end_steps - start_steps,
     }
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
