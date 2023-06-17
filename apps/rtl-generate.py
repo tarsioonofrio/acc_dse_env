@@ -23,15 +23,15 @@ def main():
     args = parser.parse_args()
 
     root = Path(__file__).parent.resolve()
-    # cnn_config_path = root / "cnn_config" / f"{args.cnn_config}.json"
+    cnn_config_path = root / "cnn_config" / f"{args.cnn_config}.json"
     cnn_output_path = root / "cnn_output" / args.cnn_config
     rtl_config_path = root / "rtl_config" / f"{args.rtl_config}.json"
     rtl_output_path = root / "rtl_output" / args.cnn_config / args.rtl_config
 
     rtl_output_path.mkdir(parents=True, exist_ok=True)
 
-    # with open(cnn_config_path) as f:
-    #     cnn_config = json.load(f)
+    with open(cnn_config_path) as f:
+        cnn_config = json.load(f)
 
     with open(rtl_config_path) as f:
         rtl_config = json.load(f)
@@ -147,7 +147,11 @@ def main():
     }
     pe_path = rtl_output_path / "core"
     pe_path.mkdir(parents=True, exist_ok=True)
-    generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, pe_path, 0)
+    # TODO use len(vhd_dict["filter_dimension"]) and no len(cnn_config["filter_dimension"])
+    # TODO to get N_LAYER, using cnn_config we get size only with conv layer
+    # TODO because only that work in CNN now
+    # generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, pe_path, 0)
+    generate_generic_file({**generic_dict2, "N_LAYER": len(cnn_config["filter_dimension"])}, pe_path, 0)
     generate_tcl_generic(generic_dict2, pe_path, 0)
     generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, pe_path, 0)
 
