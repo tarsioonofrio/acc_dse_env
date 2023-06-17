@@ -43,7 +43,7 @@ architecture a1 of tb is
 
   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
 
-  signal input_map : type_array_int := read_data(PATH & "/ifmap_pkg.txt");
+  signal input_map : type_array_int := read_data(PATH & "/ifmap.txt");
 
 begin
 
@@ -59,7 +59,7 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH      => PATH & "/iwght_pkg.txt"
+      IWGHT_PATH      => PATH & "/iwght.txt"
       --IFMAP_PATH      => PATH & "/ifmap_pkg.txt" 
       )
     port map(

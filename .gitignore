@@ -29,3 +29,6 @@ work/
 .nfs*
 transcript
 modelsim.ini
+.run/
+
+.vscode/
