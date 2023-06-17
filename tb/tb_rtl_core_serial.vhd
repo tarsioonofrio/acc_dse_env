@@ -24,7 +24,7 @@ entity tb is
            SHIFT          : integer := 8;
            LAT            : integer := 2;
            BRAM_NAME_LAYER: integer := 1;
-           OP_TYPE        : character  := 'C';
+           OP_TYPE        : string  := "C";
            PATH           : string  := "";
            N_LAYER_ERR    : integer := 0
            );
@@ -59,7 +59,8 @@ begin
       SHIFT          => SHIFT,
       LAT            => LAT,
       CARRY_SIZE     => CARRY_SIZE,
-      OP_TYPE        => OP_TYPE,
+--       OP_TYPE        => OP_TYPE(N_LAYER_ERR),
+      OP_TYPE        => 'C',
       -- BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       IWGHT_PATH     => PATH  & "/layer/" & integer'image(N_LAYER_ERR) &  "/iwght.txt",
       IFMAP_PATH     => PATH  & "/layer/" & integer'image(N_LAYER_ERR) &  "/ifmap.txt"

@@ -1,5 +1,5 @@
 if {[file isdirectory work]} { vdel -all -lib work }
-set num_layer 0
+set num_layer 1
 vlib work
 vmap work work
 

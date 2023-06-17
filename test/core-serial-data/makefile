@@ -31,7 +31,7 @@ VHDL_SOURCES += $(shell pwd)/../../rtl/fully_connected/simple.vhd
 
 VHDL_SOURCES += $(shell pwd)/../../rtl/core/core_serial.vhd
 
-VHDL_SOURCES += $(shell pwd)/../../tb/tb_rtl_core_serial_input.vhd
+VHDL_SOURCES += $(shell pwd)/../../tb/tb_rtl_core_serial.vhd
 
 SIM_ARGS += -voptargs=+acc=lprn -t ps -f $(shell pwd)/tmp/generic_file.txt -wlf vsim.wlf
 
