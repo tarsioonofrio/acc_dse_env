@@ -31,7 +31,7 @@ VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws_split_multi.vhd
 
 VHDL_SOURCES += $(shell pwd)/../rtl/core/core_serial.vhd
 
-VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl_core_serial.vhd
+VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl_core_serial_input.vhd
 
 SIM_ARGS += -voptargs=+acc=lprn -t ps -f $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt -wlf vsim.wlf
 

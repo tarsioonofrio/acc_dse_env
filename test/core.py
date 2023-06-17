@@ -34,25 +34,35 @@ async def test(dut):
     conv_time = get_sim_time(units=units)
     conv_steps = get_sim_steps(conv_time, units=units)
 
-    data = {
-        "units": units,
-        "clock_time": clock_time,
-        "start_time": start_time,
-        "start_steps": start_steps,
-        "iwght_time": iwght_time,
-        "iwght_steps": iwght_steps,
-        "ifmap_time": ifmap_time,
-        "ifmap_steps": ifmap_steps,
-        "conv_time": conv_time,
-        "conv_steps": conv_steps,
-    }
-
     name = os.getenv("MAKEFILE_LIST").strip().split(" ")[0].split(".")[0]
     cnn = os.getenv("C")
     rtl = os.getenv("R")
-    root = Path(__file__).parent / "data" / cnn / rtl / name
+    filename = Path(__file__).stem
+    root = Path(__file__).parent / "data" / filename / cnn / rtl / name
     root.mkdir(parents=True, exist_ok=True)
     layer = os.getenv("L")
+    data = {
+        "cnn": cnn,
+        "rtl": rtl,
+        "name": name,
+        "units": units,
+        "layer": layer,
+        "clocktime": clock_time,
+        "starttime": start_time,
+        "startsteps": start_steps,
+        "iwghttime": iwght_time,
+        "iwghtsteps": iwght_steps,
+        "diffiwghttime": iwght_time - clock_time,
+        "diffiwghtsteps": iwght_steps - start_steps,
+        "ifmaptime": ifmap_time,
+        "ifmapsteps": ifmap_steps,
+        "diffifmaptime": ifmap_time - iwght_time,
+        "diffifmapsteps": ifmap_steps - iwght_steps,
+        "convtime": conv_time,
+        "convsteps": conv_steps,
+        "diffconvtime": conv_time - ifmap_time,
+        "diffconvsteps": conv_steps - ifmap_steps,
+    }
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
     with open(root / f'{layer}.csv', 'w', encoding='utf-8') as f:
