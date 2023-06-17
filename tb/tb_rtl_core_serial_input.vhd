@@ -9,8 +9,6 @@ use ieee.std_logic_textio.all;
 use std.textio.all;
 
 use work.config_package.all;
-use work.iwght_package.all;
-use work.ifmap_package.all;
 use work.gold_package.all;
 use work.util_package.all;
 
