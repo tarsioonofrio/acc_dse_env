@@ -9,7 +9,7 @@ package config_package is
     --N_FILTER
     n_filter : std_logic_vector(5 downto 0);
     --N_CHANNEL
-    n_channel : std_logic_vector(8 downto 0);
+    n_channel : std_logic_vector(5 downto 0);
     --X_SIZE
     x_size : std_logic_vector(3 downto 0);
     --X_SIZE*X_SIZE
@@ -21,11 +21,11 @@ package config_package is
     --(CONVS_PER_LINE*CONVS_PER_LINE)+1
     convs_per_line_convs_per_line_1: std_logic_vector(8 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
-    convs_per_line_convs_per_line_n_channel: std_logic_vector(15 downto 0);
+    convs_per_line_convs_per_line_n_channel: std_logic_vector(12 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
-    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(15 downto 0);
+    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(12 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
-    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (18 downto 0);
+    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (15 downto 0);
     --INPUT_SIZE
     --input_size : std_logic_vector(INPUT_SIZE downto 0);
     --CARRY_SIZE
@@ -46,7 +46,7 @@ package config_package is
   type type_config_integer is record
     n_filter : integer range 0 to 10;
 
-    n_channel : integer range 0 to 128;
+    n_channel : integer range 0 to 16;
 
     x_size : integer range 0 to 3;
 
@@ -58,11 +58,11 @@ package config_package is
 
     convs_per_line_convs_per_line_1: integer range 0 to 101;
 
-    convs_per_line_convs_per_line_n_channel: integer range 0 to 12800;
+    convs_per_line_convs_per_line_n_channel: integer range 0 to 1600;
 
-    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 12700;
+    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 1500;
 
-    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 128000;
+    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 16000;
 
     --input_size : integer range 0 to INPUT_SIZE;
     --carry_size : integer range 0 to CARRY_SIZE;

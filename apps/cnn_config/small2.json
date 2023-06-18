@@ -1,6 +1,6 @@
 {
   "name": "default",
-  "filter_channel": [64, 128],
+  "filter_channel": [32, 64],
   "filter_dimension": [3, 3],
   "stride_h": [2, 2],
   "stride_w": [2, 2],

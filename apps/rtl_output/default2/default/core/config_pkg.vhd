@@ -7,9 +7,9 @@ use IEEE.std_logic_arith.all;
 package config_package is
     type type_config_logic is record
     --N_FILTER
-    n_filter : std_logic_vector(8 downto 0);
+    n_filter : std_logic_vector(5 downto 0);
     --N_CHANNEL
-    n_channel : std_logic_vector(8 downto 0);
+    n_channel : std_logic_vector(5 downto 0);
     --X_SIZE
     x_size : std_logic_vector(6 downto 0);
     --X_SIZE*X_SIZE
@@ -21,11 +21,11 @@ package config_package is
     --(CONVS_PER_LINE*CONVS_PER_LINE)+1
     convs_per_line_convs_per_line_1: std_logic_vector(9 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL
-    convs_per_line_convs_per_line_n_channel: std_logic_vector(16 downto 0);
+    convs_per_line_convs_per_line_n_channel: std_logic_vector(13 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1)
-    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(16 downto 0);
+    convs_per_line_convs_per_line_n_channel_1: std_logic_vector(13 downto 0);
     --CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER
-    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (23 downto 0);
+    convs_per_line_convs_per_line_n_channel_n_filter : std_logic_vector (17 downto 0);
     --INPUT_SIZE
     --input_size : std_logic_vector(INPUT_SIZE downto 0);
     --CARRY_SIZE
@@ -44,9 +44,9 @@ package config_package is
   --  );
 
   type type_config_integer is record
-    n_filter : integer range 0 to 128;
+    n_filter : integer range 0 to 16;
 
-    n_channel : integer range 0 to 128;
+    n_channel : integer range 0 to 16;
 
     x_size : integer range 0 to 32;
 
@@ -58,11 +58,11 @@ package config_package is
 
     convs_per_line_convs_per_line_1: integer range 0 to 226;
 
-    convs_per_line_convs_per_line_n_channel: integer range 0 to 28800;
+    convs_per_line_convs_per_line_n_channel: integer range 0 to 3600;
 
-    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 28575;
+    convs_per_line_convs_per_line_n_channel_1: integer range 0 to 3375;
 
-    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 3686400;
+    convs_per_line_convs_per_line_n_channel_n_filter : integer range 0 to 57600;
 
     --input_size : integer range 0 to INPUT_SIZE;
     --carry_size : integer range 0 to CARRY_SIZE;
