@@ -1,10 +1,12 @@
 import os
 import json
 import copy
+import pickle
 import argparse
 from pathlib import Path
 
-from tensorflow import keras
+from lib import util, keras_cifar10
+from lib.model import dictionary_from_model
 
 
 parser = argparse.ArgumentParser(
@@ -31,9 +33,8 @@ n_bits = int(rtl_config["INPUT_SIZE"] / 2)
 shift = 2 ** n_bits
 
 # Get CIFAR10 dataset
-cifar10 = keras.datasets.cifar10
 # Load its data into training and test vectors
-(x_train, y_train), (x_test, y_test) = cifar10.load_data()
+(x_train, y_train), (x_test, y_test) = keras_cifar10.load_data()
 # Reshape
 numTrainImages = len(x_train)
 x_train = x_train.reshape(numTrainImages, 32, 32, 3)
@@ -51,8 +52,6 @@ print("Training dataset has " + str(numTrainImages))
 print("Testing dataset has " + str(numTestImages))
 print("Feature shape is " + str(featureShape))
 
-# Clearup everything before running
-keras.backend.clear_session()
 
 # if not (os.path.exists("./model")):
 #     # Create model
@@ -91,78 +90,90 @@ keras.backend.clear_session()
 #     model = keras.models.load_model("./model")
 #     model.summary()
 
-model = keras.models.load_model(cnn_output_path / "weights")
-model.summary()
 
+if os.path.exists(cnn_output_path / "weights.pkl"):
+    with open(cnn_output_path / 'weights.pkl', "rb") as f:
+        modelDict = pickle.load(f)
+else:
+    from tensorflow import keras
+    # Clearup everything before running
+    keras.backend.clear_session()
+    model = keras.models.load_model(cnn_output_path / "weights")
+    # Generate dictionary
+    modelDict = dictionary_from_model(model)
+    # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
+    with open(cnn_output_path / 'weights.pkl', 'wb') as f:
+        # Pickle dictionary using protocol 0.
+        pickle.dump(modelDict, f)
 
 # Accuracy
 test_set_size = numTestImages
-test_loss, test_acc = model.evaluate(x_test[0:test_set_size], y_test[0:test_set_size], verbose=2)
+# test_loss, test_acc = model.evaluate(x_test[0:test_set_size], y_test[0:test_set_size], verbose=2)
 
 # Create dictionary
-modelDict = {}
-# Initialize layer id to insert layers to dictionary
-layerId = 0
-# Iterate through model layers to populate dictionary
-for layer in list(model.layers):
-    # Initialize layer in dictionary
-    modelDict[layerId] = {}
-    layerName = layer.name
-    modelDict[layerId]["name"] = layerName
-    # Get type of layer
-    layerType = type(layer).__name__
-    modelDict[layerId]["type"] = layerType
-    # If layer is dense
-    if layerType == "Dense":
-        # Collect activation function
-        layerActivation = str(layer.activation).split(" ")[1]
-        modelDict[layerId]["activation"] = layerActivation
-        # Initialize neuron dict
-        modelDict[layerId]["neuron"] = {}
-        # Iterate through variables of this layer
-        for layerVar in layer.trainable_variables:
-            # Check if weights
-            if layerVar.name.split("/")[1] == "kernel:0":
-                numNeurons = layerVar.shape[1]
-                for neuronId in range(numNeurons):
-                    # Add to dict
-                    if not neuronId in modelDict[layerId]["neuron"]:
-                        modelDict[layerId]["neuron"][neuronId] = {}
-                    # Change matrix to represent weights per neuron instead of weights per input feature
-                    modelDict[layerId]["neuron"][neuronId]["weights"] = layerVar[:, neuronId].numpy()
-            # Check if bias
-            elif layerVar.name.split("/")[1] == "bias:0":
-                numNeurons = layerVar.shape[0]
-                for neuronId in range(numNeurons):
-                    # Add to dict
-                    if not neuronId in modelDict[layerId]["neuron"]:
-                        modelDict[layerId]["neuron"][neuronId] = {}
-                    modelDict[layerId]["neuron"][neuronId]["bias"] = layerVar[neuronId].numpy()
-    # If layer is conv
-    elif layerType == "Conv2D":
-        layerActivation = str(layer.activation).split(" ")[1]
-        modelDict[layerId]["activation"] = layerActivation
-        # Initialize filter dict
-        modelDict[layerId]["filter"] = {}
-        # Iterate through variables of this layer
-        for layerVar in layer.trainable_variables:
-            # Check if weights
-            if layerVar.name.split("/")[1] == "kernel:0":
-                numFilters = layerVar.shape[3]
-                for filterId in range(numFilters):
-                    # Add to dict
-                    if not filterId in modelDict[layerId]["filter"]:
-                        modelDict[layerId]["filter"][filterId] = {}
-                    modelDict[layerId]["filter"][filterId]["weights"] = layerVar[:, :, :, filterId].numpy()
-            # Check if bias
-            elif layerVar.name.split("/")[1] == "bias:0":
-                numFilters = layerVar.shape[0]
-                for filterId in range(numFilters):
-                    # Add to dict
-                    if not filterId in modelDict[layerId]["filter"]:
-                        modelDict[layerId]["filter"][filterId] = {}
-                    modelDict[layerId]["filter"][filterId]["bias"] = layerVar[filterId].numpy()
-    layerId += 1
+# modelDict = {}
+# # Initialize layer id to insert layers to dictionary
+# layerId = 0
+# # Iterate through model layers to populate dictionary
+# for layer in list(model.layers):
+#     # Initialize layer in dictionary
+#     modelDict[layerId] = {}
+#     layerName = layer.name
+#     modelDict[layerId]["name"] = layerName
+#     # Get type of layer
+#     layerType = type(layer).__name__
+#     modelDict[layerId]["type"] = layerType
+#     # If layer is dense
+#     if layerType == "Dense":
+#         # Collect activation function
+#         layerActivation = str(layer.activation).split(" ")[1]
+#         modelDict[layerId]["activation"] = layerActivation
+#         # Initialize neuron dict
+#         modelDict[layerId]["neuron"] = {}
+#         # Iterate through variables of this layer
+#         for layerVar in layer.trainable_variables:
+#             # Check if weights
+#             if layerVar.name.split("/")[1] == "kernel:0":
+#                 numNeurons = layerVar.shape[1]
+#                 for neuronId in range(numNeurons):
+#                     # Add to dict
+#                     if not neuronId in modelDict[layerId]["neuron"]:
+#                         modelDict[layerId]["neuron"][neuronId] = {}
+#                     # Change matrix to represent weights per neuron instead of weights per input feature
+#                     modelDict[layerId]["neuron"][neuronId]["weights"] = layerVar[:, neuronId].numpy()
+#             # Check if bias
+#             elif layerVar.name.split("/")[1] == "bias:0":
+#                 numNeurons = layerVar.shape[0]
+#                 for neuronId in range(numNeurons):
+#                     # Add to dict
+#                     if not neuronId in modelDict[layerId]["neuron"]:
+#                         modelDict[layerId]["neuron"][neuronId] = {}
+#                     modelDict[layerId]["neuron"][neuronId]["bias"] = layerVar[neuronId].numpy()
+#     # If layer is conv
+#     elif layerType == "Conv2D":
+#         layerActivation = str(layer.activation).split(" ")[1]
+#         modelDict[layerId]["activation"] = layerActivation
+#         # Initialize filter dict
+#         modelDict[layerId]["filter"] = {}
+#         # Iterate through variables of this layer
+#         for layerVar in layer.trainable_variables:
+#             # Check if weights
+#             if layerVar.name.split("/")[1] == "kernel:0":
+#                 numFilters = layerVar.shape[3]
+#                 for filterId in range(numFilters):
+#                     # Add to dict
+#                     if not filterId in modelDict[layerId]["filter"]:
+#                         modelDict[layerId]["filter"][filterId] = {}
+#                     modelDict[layerId]["filter"][filterId]["weights"] = layerVar[:, :, :, filterId].numpy()
+#             # Check if bias
+#             elif layerVar.name.split("/")[1] == "bias:0":
+#                 numFilters = layerVar.shape[0]
+#                 for filterId in range(numFilters):
+#                     # Add to dict
+#                     if not filterId in modelDict[layerId]["filter"]:
+#                         modelDict[layerId]["filter"][filterId] = {}
+#                     modelDict[layerId]["filter"][filterId]["bias"] = layerVar[filterId].numpy()
+#     layerId += 1
 
 # importing copy module
 

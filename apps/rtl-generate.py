@@ -48,7 +48,6 @@ def main():
             model_dict = pickle.load(f)
     else:
         from tensorflow import keras
-        from lib import keras_models
         model = keras.models.load_model(cnn_output_path / "weights")
         # Generate dictionary
         model_dict = dictionary_from_model(model)
