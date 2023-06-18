@@ -26,8 +26,8 @@ VHDL_SOURCES += $(shell pwd)/../rtl/components/reg.vhd
 VHDL_SOURCES += $(shell pwd)/../rtl/components/mem_file.vhd
 
 VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws_split_multi.vhd
-#VHDL_SOURCES += $(shell pwd)/../rtl/pool/maxpool2d.vhd
-#VHDL_SOURCES += $(shell pwd)/../rtl/fully_connected/simple.vhd
+VHDL_SOURCES += $(shell pwd)/../rtl/pool/maxpool2d.vhd
+VHDL_SOURCES += $(shell pwd)/../rtl/fully_connected/simple.vhd
 
 VHDL_SOURCES += $(shell pwd)/../rtl/core/core_serial.vhd
 
