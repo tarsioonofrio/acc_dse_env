@@ -1,0 +1,14 @@
+{
+    "cnn": "default3",
+    "rtl": "default",
+    "name": "core_serial",
+    "units": "ns",
+    "layer": "1",
+    "clocktime": 1.0,
+    "starttime": 2.5,
+    "startsteps": 2500,
+    "endtime": 1220710.5,
+    "endsteps": 1220710500,
+    "totaltime": 1220708.0,
+    "totalsteps": 1220708000
+}

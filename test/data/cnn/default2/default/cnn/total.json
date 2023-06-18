@@ -1,0 +1,13 @@
+{
+    "cnn": "default2",
+    "rtl": "default",
+    "name": "cnn",
+    "units": "ns",
+    "clocktime": 1.0,
+    "startcnntime": 3074.5,
+    "startcnnsteps": 3074500,
+    "endcnntime": 624542.5,
+    "endcnnsteps": 624542500,
+    "totalcnntime": 621468.0,
+    "totalcnnsteps": 621468000
+}
