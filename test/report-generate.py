@@ -52,15 +52,32 @@ def main():
     with open(path_output / 'param_samples.json', 'w') as f:
         json.dump(param_samples, f, ensure_ascii=False, indent=4)
 
-    with open(path / "bram/bram_size.json", "r") as f:
-        bram_dict = json.load(f)
+    with open(path / "bram/generic_file36Kb.txt", "r") as f:
+        generics = f.read()
 
-    dfb = pd.DataFrame.from_dict(bram_dict)
+    bram_names = ['iwght', 'ifmap', 'gold']
+
+    bram_layer = {
+        n: g.strip().split("=")[1].replace('"', '').split(" ")
+        for n in bram_names
+        for g in generics.split("-g")
+        if n.upper() in g
+    }
+
+    bram_layer_num = {
+        k: [int(vv) for vv in v]
+        for k, v in bram_layer.items()
+    }
+
+    dfb = pd.DataFrame.from_dict(bram_layer_num)
     dfb.insert(0, 'layer', dfb.index)
     dfb = dfb.reset_index(drop=True)
     dfb.to_csv(path_output / 'bram_layer.csv', index=False)
     with open(path_output / 'bram_layer.tex', 'w') as f:
         f.write(dfb.to_latex(index=False))
+
+    with open(path_output / 'bram_samples.json', 'w') as f:
+        json.dump(bram_layer_num, f, ensure_ascii=False, indent=4)
 
 
 def open_file(path):
