@@ -29,20 +29,24 @@ async def test(dut):
     name = os.getenv("MAKEFILE_LIST").strip().split(" ")[0].split(".")[0]
     cnn = os.getenv("C")
     rtl = os.getenv("R")
-    root = Path(__file__).parent / "data" / cnn / rtl / name
+
+    filename = Path(__file__).stem
+    root = Path(__file__).parent / "data" / filename / cnn / rtl / name
     root.mkdir(parents=True, exist_ok=True)
     layer = os.getenv("L")
     data = {
         "cnn": cnn,
         "rtl": rtl,
         "name": name,
-        "layer": layer,
         "units": units,
-        "clock_time": clock_time,
-        "start_time": start_time,
-        "start_steps": start_steps,
-        "end_time": end_time,
-        "end_steps": end_steps
+        "layer": layer,
+        "clocktime": clock_time,
+        "starttime": start_time,
+        "startsteps": start_steps,
+        "endtime": end_time,
+        "endsteps": end_steps,
+        "totaltime": end_time - start_time,
+        "totalsteps": end_steps - start_steps,
     }
     with open(root / f'{layer}.json', 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
