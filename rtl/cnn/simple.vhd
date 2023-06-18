@@ -9,6 +9,7 @@ use std.textio.all;
 
 use work.config_package.all;
 use work.util_package.all;
+use work.config_package_array.all;
 
 
 entity cnn is
@@ -77,14 +78,14 @@ architecture a1 of cnn is
  
   signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
-  signal config : type_config_logic_array;
 
   signal n_read, n_write : std_logic_vector(31 downto 0);
 
+--   type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
+--   signal config : type_config_logic_array;
+
 --   signal config_test : type_config_logic := read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");;
 --   signal gold        : type_array_int :=  read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold.txt");;
-
 
 begin
 
@@ -156,7 +157,7 @@ begin
         p_start_conv    => start_conv(i),
         p_end_conv      => end_conv(i),
         p_debug         => debug(i),
-        config          => config(i),
+        config          => const_config_logic_vector(i-1),
 
         p_iwght_ce      => '0',
         p_iwght_we      => '0',

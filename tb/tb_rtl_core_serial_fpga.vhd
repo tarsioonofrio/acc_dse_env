@@ -30,9 +30,9 @@ entity tb is
     BRAM_NAME_LAYER : integer := 1;
     BRAM_NAME_IFMAP : string  := "ifmap_layer";
     BRAM_ADDR      : integer := 10;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
+    BRAM_NUM_IWGHT : integer  := 0;
+    BRAM_NUM_IFMAP : integer  := 0;
+    BRAM_NUM_GOLD  : integer  := 0
     );
   port (
     p_clock : in std_logic
@@ -107,7 +107,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      DATA_AV_LATENCY            => BRAM_LAT,
+      DATA_AV_LATENCY  => BRAM_LAT,
       BRAM_NAME => "default",
       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_NUM => BRAM_NUM_GOLD,
