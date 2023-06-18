@@ -1,0 +1,11 @@
+{
+  "name": "default",
+  "filter_channel": [32, 64, 128],
+  "filter_dimension": [3, 3, 3],
+  "stride_h": [2, 2, 2],
+  "stride_w": [2, 2, 2],
+  "input_w": 32,
+  "input_h": 32,
+  "input_c": 3,
+  "n_epochs": 50
+}
