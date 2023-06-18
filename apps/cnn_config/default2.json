@@ -7,5 +7,5 @@
   "input_w": 32,
   "input_h": 32,
   "input_c": 3,
-  "n_epochs": 5
+  "n_epochs": 10
 }
