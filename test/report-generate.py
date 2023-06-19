@@ -121,7 +121,7 @@ def main():
         hrules=True,
     )
     string_split = string.splitlines()
-    cmidrule = r"\cmidrule(r){1} \cmidrule(lr){2-3} \cmidrule(l){4-5}"
+    cmidrule = r"\cmidrule(lr){2-3} \cmidrule(l){4-5}"
     string_split_new = string_split[:7] + [cmidrule] + string_split[7:]
     with open(path_output / "cnn-benchmark.tex", 'w') as f:
         f.write("\n".join(string_split_new))
