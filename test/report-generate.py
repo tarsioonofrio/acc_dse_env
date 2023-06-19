@@ -14,7 +14,7 @@ def main():
         'default': '$D_1$',
         'small2': '$S_2$',
     }
-    cmidrule = r"\cmidrule(r){2-4} \cmidrule(lr){5-7} \cmidrule(l){8-8}"
+    cmidrule = r"\cmidrule(r){2-3} \cmidrule(l){5-6}"
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
@@ -43,17 +43,18 @@ def main():
     columns = {
         'wght_bram': 'Weights',
         'fmap_bram': 'Features',
-        'input_bram': 'Input',
+        # 'input_bram': 'Input',
         'wght_param': 'Weights',
         'fmap_param': 'Features',
-        'input_param': 'Input',
-        'totalcnntime': 'Time(ns)'
+        # 'input_param': 'Input',
+        # 'totalcnntime': 'Time(ns)'
     }
     cidx = pd.MultiIndex.from_arrays([
-        ['BRAMs', 'BRAMs', 'BRAMs', 'Parameters', 'Parameters', 'Parameters', 'Simulation'],
+        ['BRAMs', 'BRAMs', 'Parameters', 'Parameters'],
         list(columns.values())
     ])
-    caption = "Características projetadas das DNN."
+    caption = r"Características projetadas das DNN. Há mais 6 BRAMs e 3072 parâmetros que correspondem aos dados de " \
+              r"entrada na memória do \textit{accelerator}"
     styler = pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index).sort_index().style
     string = styler.to_latex(
         label='tab:5-dnn-report',
