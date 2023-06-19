@@ -14,7 +14,6 @@ def main():
         'default': '$D_1$',
         'small2': '$S_2$',
     }
-    cmidrule = r"\cmidrule(r){2-3} \cmidrule(l){4-5}"
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
@@ -33,10 +32,10 @@ def main():
     bram_param_data = pd.merge(bram_data, param_data, on="cnn", suffixes=("_bram", "_param"))
 
     # benchmark_csv = list(path_table.glob("*.csv"))
-    benchmark_data = pd.read_csv(path_table / "cnn-model.csv")
-    benchmark_data['totalcnntime'] = (benchmark_data['totalcnntime'] * 10).astype(int)
+    simulation_data = pd.read_csv(path_table / "cnn-model.csv")
+    simulation_data['totalcnntime'] = (simulation_data['totalcnntime'] * 10).astype(int)
     # benchmark_layer = pd.read_csv(path_table / "cnn-layer.csv")
-    cnn_data = pd.merge(bram_param_data, benchmark_data, on="cnn")
+    cnn_data = pd.merge(bram_param_data, simulation_data, on="cnn")
     old_index = cnn_data['cnn'].to_list()
     new_index = [dict_names[i] for i in old_index]
     cnn_data = cnn_data.drop(columns=['cnn'])
@@ -53,9 +52,9 @@ def main():
         ['BRAMs', 'BRAMs', 'Parameters', 'Parameters'],
         list(columns.values())
     ])
-    caption = r"Características projetadas das DNN. Há mais 6 BRAMs e 3072 parâmetros que correspondem aos dados de " \
-              r"entrada na memória do \textit{accelerator}"
     styler = pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index).sort_index().style
+    caption = r"Características das memórias projetadas das DNN. Há mais 6 BRAMs e 3072 parâmetros que correspondem " \
+              r"aos dados de entrada na memória do \textit{accelerator}"
     string = styler.to_latex(
         label='tab:5-dnn-report',
         caption=caption,
@@ -67,10 +66,66 @@ def main():
         hrules=True,
     )
     string_split = string.splitlines()
+    cmidrule = r"\cmidrule(r){2-3} \cmidrule(l){4-5}"
     string_split_new = string_split[:7] + [cmidrule] + string_split[7:]
     with open(path_output / "cnn-data.tex", 'w') as f:
         f.write("\n".join(string_split_new))
     cnn_data.to_csv(path_output / "cnn-data.csv")
+
+    # report do tempo de execução
+    gpu_data = pd.read_csv(path_table / "gpu.csv")
+    gpu_data = gpu_data.rename(columns={gpu_data.columns[0]: 'cnn'})
+    index = gpu_data['cnn'].isin(dict_names.keys())
+    gpu_data = gpu_data[index]
+
+    cpu_data = pd.read_csv(path_table / "cpu.csv")
+    cpu_data = cpu_data.rename(columns={cpu_data.columns[0]: 'cnn'})
+    index = cpu_data['cnn'].isin(dict_names.keys())
+    cpu_data = cpu_data[index]
+
+    cpu_gpu_data = pd.merge(gpu_data, cpu_data, on='cnn', suffixes=("_gpu", "_cpu"))
+    sim_cpu_gpu_data = pd.merge(simulation_data[["cnn", "totalcnntime"]], cpu_gpu_data, on='cnn')
+
+    old_index = sim_cpu_gpu_data['cnn'].to_list()
+    new_index = [dict_names[i] for i in old_index]
+    sim_cpu_gpu_data = sim_cpu_gpu_data.drop(columns=['cnn'])
+    sim_cpu_gpu_data = sim_cpu_gpu_data.astype(int)
+    columns = {
+        'totalcnntime': '$batch_{1}$',
+        'batch1_gpu': '$batch_{1}$',
+        'batch10_gpu': '$batch_{10}$',
+        # 'batch100_gpu': '$batch_{100}$',
+        'batch1_cpu': '$batch_{1}$',
+        'batch10_cpu': '$batch_{10}$',
+        # 'batch100_cpu': '$batch_{100}$',
+    }
+    cidx = pd.MultiIndex.from_arrays([
+        ['Simulation', 'GPU', 'GPU', 'CPU', 'CPU'],
+        list(columns.values())
+    ])
+    styler = pd.DataFrame(
+        sim_cpu_gpu_data[columns.keys()].to_numpy(), columns=cidx, index=new_index
+    ).sort_index().style
+    caption = r"Benchmark da simulação no Modelsim em ns (nano segundos) pressupondo \textit{Acelerator} clock de " \
+              r"100 MHz em relação a " \
+              r"GPU (Nvidia GeForce GTX 980 Ti e Intel® Core™ i5-2320 CPU @ 3.00GHz × 4) e uma " \
+              r"CPU (Intel(R) Core(TM) i9-7940X CPU @ 3.10GHz)."
+    string = styler.to_latex(
+        label='tab:5-dnn-benchmark',
+        caption=caption,
+        column_format='l' + 'r' * (len(columns)),
+        position_float="centering",
+        position='ht!',
+        clines="skip-last;data",
+        multicol_align="c",
+        hrules=True,
+    )
+    string_split = string.splitlines()
+    cmidrule = r"\cmidrule(r){1} \cmidrule(lr){2-3} \cmidrule(l){4-5}"
+    string_split_new = string_split[:7] + [cmidrule] + string_split[7:]
+    with open(path_output / "cnn-benchmark.tex", 'w') as f:
+        f.write("\n".join(string_split_new))
+    cnn_data.to_csv(path_output / "cnn-benchmark.csv")
 
 
 def sum_data(csv):

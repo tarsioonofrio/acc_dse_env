@@ -1,0 +1,19 @@
+\begin{table}[ht!]
+\centering
+\caption{Benchmark da simulação no Modelsim em ns (nano segundos) pressupondo clock de 100 MHz em relação a uma GPU (Nvidia GeForce GTX 980 Ti e Intel® Core™ i5-2320 CPU @ 3.00GHz × 4) e uma CPU (Intel(R) Core(TM) i9-7940X CPU @ 3.10GHz).}
+\label{tab:5-dnn-benchmark}
+\begin{tabular}{lrrrrr}
+\toprule
+ & Simulation & \multicolumn{2}{c}{GPU} & \multicolumn{2}{c}{CPU} \\
+\cmidrule(r){1} \cmidrule(lr){2-3} \cmidrule(l){4-5}
+ & $batch_{1}$ & $batch_{1}$ & $batch_{10}$ & $batch_{1}$ & $batch_{10}$ \\
+\midrule
+$D_1$ & 15647630 & 33380915 & 3527244 & 46928075 & 4401414 \\
+$D_2$ & 6214680 & 34653563 & 17056288 & 44916605 & 4395149 \\
+$D_3$ & 20355000 & 33434134 & 17417809 & 48216661 & 4684521 \\
+$D_4$ & 72412920 & 33722612 & 17798151 & 46544614 & 4976464 \\
+$S_1$ & 8354790 & 34350506 & 4648583 & 44718919 & 4988457 \\
+$S_2$ & 28915590 & 34606203 & 8247962 & 45716312 & 5065043 \\
+\bottomrule
+\end{tabular}
+\end{table}

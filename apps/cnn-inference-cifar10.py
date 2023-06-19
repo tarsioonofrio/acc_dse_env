@@ -59,7 +59,7 @@ for path in cnn_output_path.glob('**/weights'):
         start = time.time_ns()
         model.predict(x_test[:100], batch_size=100)
         end = time.time_ns()
-        benchmark10[name].append(end - start)
+        benchmark100[name].append(end - start)
 
 df1 = pd.DataFrame.from_dict(benchmark1).mean()
 df10 = pd.DataFrame.from_dict(benchmark10).mean() / 10
