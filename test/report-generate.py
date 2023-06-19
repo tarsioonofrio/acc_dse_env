@@ -14,7 +14,7 @@ def main():
         'default': '$D_1$',
         'small2': '$S_2$',
     }
-    cmidrule = r"\cmidrule(r){2-3} \cmidrule(l){5-6}"
+    cmidrule = r"\cmidrule(r){2-3} \cmidrule(l){4-5}"
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
