@@ -43,5 +43,30 @@
         3074500,
         450147000,
         2441412000
+    ],
+    "cnn": [
+        "small2",
+        "small2",
+        "small2"
+    ],
+    "rtl": [
+        "default",
+        "default",
+        "default"
+    ],
+    "name": [
+        "cnn",
+        "cnn",
+        "cnn"
+    ],
+    "units": [
+        "ns",
+        "ns",
+        "ns"
+    ],
+    "clock_time": [
+        1.0,
+        1.0,
+        1.0
     ]
 }

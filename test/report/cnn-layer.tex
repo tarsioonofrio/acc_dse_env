@@ -1,0 +1,19 @@
+\begin{table}[ht!]
+\centering
+\caption{Tempo de execução das operações de convolução e escrita do OFMAP (paralela a convolução).}
+\label{tab:5-dnn-layer}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{$Layer_1$} & \multicolumn{2}{c}{$Layer_2$} & \multicolumn{2}{c}{$Layer_3$} \\
+\cmidrule(r){2-3} \cmidrule(lr){4-5} \cmidrule(l){6-7}
+ & Convolution & OFMAP & Convolution & OFMAP & Convolution & OFMAP \\
+\midrule
+$D_1$ & 2250750 & 2249070 & 6104040 & 6102360 & 7292840 & 7291160 \\
+$D_2$ & 2250750 & 2249070 & 3052050 & 3050370 & 911880 & 910200 \\
+$D_3$ & 4501470 & 4499790 & 12207090 & 12205410 & 3646440 & 3644760 \\
+$D_4$ & 9002910 & 9001230 & 48826290 & 48824610 & 14583720 & 14582040 \\
+$S_1$ & 2250750 & 2249070 & 6104040 & 6102360 & 0 & 0 \\
+$S_2$ & 4501470 & 4499790 & 24414120 & 24412440 & 0 & 0 \\
+\bottomrule
+\end{tabular}
+\end{table}

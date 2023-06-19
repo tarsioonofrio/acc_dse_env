@@ -83,6 +83,13 @@ async def test(dut):
     root = Path(__file__).parent / "data" / filename / cnn / rtl / name
     root.mkdir(parents=True, exist_ok=True)
 
+    size = len(layer_data['totalconvsteps'])
+    layer_data["cnn"] = [cnn] * size
+    layer_data["rtl"] = [rtl] * size
+    layer_data["name"] = [name] * size
+    layer_data["units"] = [units] * size
+    layer_data["clock_time"] = [clock_time] * size
+
     data = {
         "cnn": cnn,
         "rtl": rtl,
