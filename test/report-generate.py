@@ -34,7 +34,7 @@ def main():
 
     # benchmark_csv = list(path_table.glob("*.csv"))
     benchmark_data = pd.read_csv(path_table / "cnn-model.csv")
-    benchmark_data['totalcnnsteps'] = (benchmark_data['totalcnnsteps'] / 1000).astype(int)
+    benchmark_data['totalcnntime'] = (benchmark_data['totalcnntime'] * 10).astype(int)
     # benchmark_layer = pd.read_csv(path_table / "cnn-layer.csv")
     cnn_data = pd.merge(bram_param_data, benchmark_data, on="cnn")
     old_index = cnn_data['cnn'].to_list()
@@ -43,19 +43,18 @@ def main():
     columns = {
         'wght_bram': 'Weights',
         'fmap_bram': 'Features',
-        'total_bram': 'Total',
+        'input_bram': 'Input',
         'wght_param': 'Weights',
         'fmap_param': 'Features',
-        'total_param': 'Total',
-        'totalcnnsteps': 'Time $(\\mu s)$'
+        'input_param': 'Input',
+        'totalcnntime': 'Time(ns)'
     }
     cidx = pd.MultiIndex.from_arrays([
         ['BRAMs', 'BRAMs', 'BRAMs', 'Parameters', 'Parameters', 'Parameters', 'Simulation'],
         list(columns.values())
     ])
-    caption = "Características das DNN. Ao 'Total' foram adicionadas a quantidade referentes a BRAM do Accelerator."
-    cnn_data = cnn_data[columns.keys()]
-    styler = pd.DataFrame(cnn_data.to_numpy(), columns=cidx, index=new_index).sort_index().style
+    caption = "Características projetadas das DNN."
+    styler = pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index).sort_index().style
     string = styler.to_latex(
         label='tab:5-dnn-report',
         caption=caption,
@@ -67,7 +66,6 @@ def main():
         hrules=True,
     )
     string_split = string.splitlines()
-
     string_split_new = string_split[:7] + [cmidrule] + string_split[7:]
     with open(path_output / "cnn-data.tex", 'w') as f:
         f.write("\n".join(string_split_new))
@@ -81,7 +79,7 @@ def sum_data(csv):
         new_name = {'ifmap': 'fmap', 'iwght': 'wght'}
         df = [d.rename(columns=new_name) for d in df]
     df_sum = [b.sum() for b in df]
-    df_input = [pd.Series({**s.to_dict(), "total": p["fmap"][0] + s["fmap"]}) for p, s in zip(df, df_sum)]
+    df_input = [pd.Series({**s.to_dict(), "input": p["fmap"][0]}) for p, s in zip(df, df_sum)]
     concat_sum = pd.concat(df_input, axis=1).T
     concat = pd.concat([pd.Series(name), concat_sum], axis=1).drop(['layer', 'gold'], axis=1)
     return concat.rename(columns={0: "cnn"})
