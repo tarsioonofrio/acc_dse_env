@@ -60,6 +60,8 @@ def main():
         'totalofmaptime3': 'OFMAP',
 
     }
+    cnn_data[list(columns.keys())] = cnn_data[list(columns.keys())] / 10**6
+
     cidx = pd.MultiIndex.from_arrays([
         ['$Layer_1$', '$Layer_1$', '$Layer_2$', '$Layer_2$', '$Layer_3$', '$Layer_3$'],
         list(columns.values())
@@ -67,11 +69,10 @@ def main():
     styler = (pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index)
               .sort_index()
               .fillna(0)
-              .astype(int)
               .style
               )
     caption = "Tempo simulação das execução das operações de convolução e escrita do OFMAP (paralela a convolução)."
-    string = styler.to_latex(
+    string = styler.format(decimal=',', precision=2).to_latex(
         label='tab:5-dnn-layer',
         caption=caption,
         column_format='l' + 'r' * (len(columns)),

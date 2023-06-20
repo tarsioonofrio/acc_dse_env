@@ -48,14 +48,14 @@ def main():
         # 'input_param': 'Input',
         # 'totalcnntime': 'Time(ns)'
     }
+    # cnn_data[list(columns.keys())] = cnn_data[list(columns.keys())] / 10**6
     cidx = pd.MultiIndex.from_arrays([
         ['BRAMs', 'BRAMs', 'Parameters', 'Parameters'],
         list(columns.values())
     ])
     styler = pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index).sort_index().style
-    caption = r"Características das memórias projetadas das DNN. Há mais 6 BRAMs e 3072 parâmetros que correspondem " \
-              r"aos dados de entrada na memória do \textit{accelerator}"
-    string = styler.to_latex(
+    caption = "Quantidade de BRAMs e parâmetros gerados para as DNN."
+    string = styler.format(decimal=',', precision=2).to_latex(
         label='tab:5-dnn-report',
         caption=caption,
         column_format='l' + 'r' * (len(columns)),
@@ -74,11 +74,15 @@ def main():
 
     # report do tempo de execução
     gpu_data = pd.read_csv(path_table / "gpu.csv")
+    gpu_data["batch1"] = gpu_data["batch1"]
+    gpu_data["batch10"] = gpu_data["batch10"]
     gpu_data = gpu_data.rename(columns={gpu_data.columns[0]: 'cnn'})
     index = gpu_data['cnn'].isin(dict_names.keys())
     gpu_data = gpu_data[index]
 
     cpu_data = pd.read_csv(path_table / "cpu.csv")
+    cpu_data["batch1"] = cpu_data["batch1"]
+    cpu_data["batch10"] = cpu_data["batch10"]
     cpu_data = cpu_data.rename(columns={cpu_data.columns[0]: 'cnn'})
     index = cpu_data['cnn'].isin(dict_names.keys())
     cpu_data = cpu_data[index]
@@ -89,7 +93,7 @@ def main():
     old_index = sim_cpu_gpu_data['cnn'].to_list()
     new_index = [dict_names[i] for i in old_index]
     sim_cpu_gpu_data = sim_cpu_gpu_data.drop(columns=['cnn'])
-    sim_cpu_gpu_data = sim_cpu_gpu_data.astype(int)
+    # sim_cpu_gpu_data = sim_cpu_gpu_data.astype(int)
     columns = {
         'totalcnntime': '$batch_{1}$',
         'batch1_gpu': '$batch_{1}$',
@@ -99,18 +103,20 @@ def main():
         'batch10_cpu': '$batch_{10}$',
         # 'batch100_cpu': '$batch_{100}$',
     }
+    sim_cpu_gpu_data[list(columns.keys())] = sim_cpu_gpu_data[list(columns.keys())] / 10**6
+
     cidx = pd.MultiIndex.from_arrays([
         ['Simulation', 'GPU', 'GPU', 'CPU', 'CPU'],
         list(columns.values())
     ])
-    styler = pd.DataFrame(
+    cnn_data2 = pd.DataFrame(
         sim_cpu_gpu_data[columns.keys()].to_numpy(), columns=cidx, index=new_index
-    ).sort_index().style
-    caption = r"Benchmark da simulação no Modelsim em ns (nano segundos) pressupondo \textit{Acelerator} clock de " \
+    ).sort_index()
+    caption = r"Benchmark da simulação no Modelsim em milisegundo (ms) pressupondo \textit{Acelerator} clock de " \
               r"100 MHz em relação a " \
               r"GPU (Nvidia GeForce GTX 980 Ti e Intel® Core™ i5-2320 CPU @ 3.00GHz × 4) e uma " \
               r"CPU (Intel(R) Core(TM) i9-7940X CPU @ 3.10GHz)."
-    string = styler.to_latex(
+    string = cnn_data2.style.format(decimal=',', precision=2).to_latex(
         label='tab:5-dnn-benchmark',
         caption=caption,
         column_format='l' + 'r' * (len(columns)),
