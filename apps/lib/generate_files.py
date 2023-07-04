@@ -3,11 +3,16 @@ from os.path import relpath
 from math import log2, ceil
 
 import numpy as np
-from numpy.lib.stride_tricks import as_strided
 
-from .model import convolution_from_weights, generate_ifmem_vhd_pkg, pool2d
+from .model import conv2d, generate_ifmem_vhd_pkg, pool2d
 from .bram import open_file
 
+
+dict_op_type = {
+    'Conv2D': 'C',
+    'Dense': 'F',
+    'Maxpool': 'M',
+}
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
@@ -81,7 +86,7 @@ def format_feature(feat_list, tab):
     return format_feat
 
 
-def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
+def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path, opt_type):
     # Compute HW parameters
     if layer == 0:
         X_SIZE = input_w
@@ -98,6 +103,7 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
         "FILTER_WIDTH": FILTER_WIDTH,
         "CONVS_PER_LINE": CONVS_PER_LINE,
         "LAYER": layer,
+        "OP_TYPE": opt_type
     }
     path.mkdir(parents=True, exist_ok=True)
     path_layer = path / 'layer' / str(layer)
@@ -111,7 +117,6 @@ def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, laye
     # Generate VHDL tensorflow package
     generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
     generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
     # Generate VHDL gold output package
     generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
@@ -173,7 +178,8 @@ def generate_generic_file(generate_dict, path, n_layer):
         "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
         "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
         "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH}"
+        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH} "
+        "-gOP_TYPE={OP_TYPE}"
         "\n"
     ).format(**generate_dict2)
 
@@ -290,31 +296,49 @@ def generate_iwght_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
 
 def get_wght(layer, modelDict, shift):
-    weight_list = [
-        [[[str(int(weights[x, y, z].reshape(-1)))
-           for x in range(weights.shape[0])
-           for y in range(weights.shape[1])]
+    if modelDict[layer]["type"] == "Dense":
+        weight_list = [[[
+            [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
+            for k, v
+            in modelDict[layer]["neuron"].items()
+        ]]]
+    elif modelDict[layer]["type"] == "Conv2D":
+        weight_list = [
+            [[[str(int(weights[x, y, z].reshape(-1)))
+               for x in range(weights.shape[0])
+               for y in range(weights.shape[1])]
 
-          for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
-          for z in range(weights.shape[2])]
+              for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+              for z in range(weights.shape[2])]
 
-         for filterId in modelDict[layerId]["filter"]
-         ]
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-    ]
+             for filterId in modelDict[layerId]["filter"]
+             ]
+            for layerId in modelDict
+            if modelDict[layerId]["type"] in ["Conv2D", "Dense"]
+            if layerId == layer
+        ]
+    else:
+        weight_list = []
     return weight_list
 
 
 def get_bias(layer, modelDict, shift):
-    bias_list = [
-        str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-        for layerId in modelDict
-        if modelDict[layerId]["type"] == "Conv2D"
-        if layerId == layer
-        for filterId in modelDict[layerId]["filter"]
-    ]
+    if modelDict[layer]["type"] == "Dense":
+        bias_list = [
+            str(int(v["bias"] * shift * shift))
+            for k, v
+            in modelDict[layer]["neuron"].items()
+        ]
+    elif modelDict[layer]["type"] == "Conv2D":
+        bias_list = [
+            str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
+            for layerId in modelDict
+            if modelDict[layerId]["type"] == "Conv2D"
+            if layerId == layer
+            for filterId in modelDict[layerId]["filter"]
+        ]
+    else:
+        bias_list = []
     return bias_list
 
 
@@ -331,7 +355,7 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
                            input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
 
     format_feat = format_feature(feat_list, tab)
 
@@ -341,6 +365,81 @@ def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
 
     write_mem_txt(feat_list, "ifmap", path)
     write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+
+def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
+    tab = "    "
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        (v["weights"] * shift).astype(int).tolist()
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in zip(weights, bias)
+    ]
+
+    weights_bias_plain = bias + [ww for w in weights for ww in w]
+    bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
+    weight_string = [
+        f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
+        for c, s in enumerate(weights)
+    ]
+    package = "iwght_package"
+    constant = "input_wght"
+    data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
+
+    write_mem_txt([[weights_bias_plain]], "iwght", path)
+    write_mem_pkg(constant, data, "iwght_pkg", package, path)
+
+    package = "ifmap_package"
+    constant = "input_map"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+
+    write_mem_txt([[feature]], "ifmap", path)
+    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+    package = "gold_package"
+    constant = "gold"
+    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+    write_mem_txt([[gold]], "gold", path)
+    write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+
+def fc(modelDict, shift, layer, gen_features, path):
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        (v["weights"] * shift).astype(int).tolist()
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in zip(weights, bias)
+    ]
+    if gen_features:
+        return [[feature]]
+    else:
+        return [[gold]]
 
 
 def generate_gold_maxpool_vhd_pkg(layer, path):
@@ -368,13 +467,13 @@ def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_c
                         testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
     tab = "    "
     feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize)
+                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     return feat_unpack
 
 
 def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                     stride_h, stride_w, tab, testSet, testSetSize):
+                     stride_h, stride_w, tab, testSet, testSetSize, path):
     gen_features = True
     if layer == 0:
         feat_list = [
@@ -387,10 +486,15 @@ def get_feature_data(filter_channel, filter_dimension, input_channel, layer, lay
             for z in range(image_shift.shape[2])
         ]
     else:
-        feat_list = convolution_from_weights(
-            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-            stride_h, stride_w, tab, testSet, testSetSize
-        )
+        if modelDict[layer]["type"] == "Dense":
+            feat_list = fc(modelDict, shift, layer, gen_features, path)
+        elif modelDict[layer]["type"] == "Conv2D":
+            feat_list = conv2d(
+                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+                stride_h, stride_w, tab, testSet, testSetSize
+            )
+        else:
+            feat_list = []
     return feat_list
 
 
@@ -399,10 +503,13 @@ def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter
     tab = "    "
     gen_features = False
 
-    feat_list = convolution_from_weights(
-        gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-        stride_h, stride_w, tab, testSet, testSetSize
-    )
+    if modelDict[layer]["type"] == "Dense":
+        feat_list = fc(modelDict, shift, layer, gen_features, path)
+    if modelDict[layer]["type"] == "Conv2D":
+        feat_list = conv2d(
+            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
+            stride_h, stride_w, tab, testSet, testSetSize
+        )
 
     format_feat = format_feature(feat_list, tab)
 
@@ -418,7 +525,7 @@ def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_ch
     tab = "    "
     gen_features = False
 
-    feat_list = convolution_from_weights(
+    feat_list = conv2d(
         gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
         stride_h, stride_w, tab, testSet, testSetSize
     )

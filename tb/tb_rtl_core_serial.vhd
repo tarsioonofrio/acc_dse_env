@@ -3,15 +3,13 @@ library std;
 
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
+use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
 use work.config_package.all;
-use work.iwght_package.all;
-use work.ifmap_package.all;
-use work.gold_package.all;
+-- use work.gold_package.all;
 use work.util_package.all;
 
 
@@ -27,7 +25,7 @@ entity tb is
            SHIFT          : integer := 8;
            LAT            : integer := 2;
            BRAM_NAME_LAYER: integer := 1;
-           OP_TYPE       : character  := 'C';
+           OP_TYPE        : character  := 'C';
            PATH           : string  := ""
            );
 end tb;
@@ -44,6 +42,7 @@ architecture a1 of tb is
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
+  signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
 begin
 
@@ -60,11 +59,12 @@ begin
       SHIFT          => SHIFT,
       LAT            => LAT,
       CARRY_SIZE     => CARRY_SIZE,
-      OP_TYPE        => OP_TYPE,
-      -- BRAM_NAME_LAYER => BRAM_NAME_LAYER,
-      IWGHT_PATH     => PATH & "/iwght.txt",
-      IFMAP_PATH     => PATH & "/ifmap.txt"
- )
+      IWGHT_PATH     => PATH  & "/iwght.txt",
+      IFMAP_PATH     => PATH  & "/ifmap.txt",
+      OP_TYPE        => OP_TYPE
+--       OP_TYPE        => OP_TYPE(N_LAYER_ERR),
+--       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
+)
     port map(
       clock         => clock,
       reset         => reset,

@@ -135,7 +135,7 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
     write_bram_pkg(bram36k, path_output / f"bram_{bram_size}.vhd", max_bits, bram_config)
 
     generic_size = " ".join(
-        f' -gBRAM_NUM_{n}="{" ".join(i)}"' for i, n in
+        f' -gBRAM_NUM_{n}={"".join(reversed(i))}' for (i), n in
         zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
     )
 
@@ -150,6 +150,24 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
     with open(path_output / f"generic_file{bram_size}.txt", "w") as f:
         f.writelines(
             generics + rw_depth_generics + generic_size + f" -gBRAM_ADDR={bram_addr}"
+        )
+
+    generic_size_synth = " ".join(
+        f' {{BRAM_NUM_{n} {"".join(reversed(i))}}}' for i, n in
+        zip([wght_size, fmap_size, gold_size], ["IWGHT", "IFMAP", "GOLD"])
+    )
+
+    rw_depth_generics_synth = (
+        f" {{MAX_MEM_SIZE {config_hw['MAX_MEM_SIZE']}}}"
+        # f" -gBRAM_RW_DEPTH_SAMPLES={config_hw['BRAM_RW_DEPTH_SAMPLES']}"
+    )
+
+    with open(path_output.parent / "core/generic_synth.tcl", "r") as f:
+        generics_synth = f.read().strip()
+
+    with open(path_output / f"generic_synth{bram_size}.txt", "w") as f:
+        f.writelines(
+            generics_synth[:-1] + rw_depth_generics_synth + generic_size_synth + f" {{BRAM_ADDR={bram_addr}}}" + "}"
         )
 
     dict_bram = {

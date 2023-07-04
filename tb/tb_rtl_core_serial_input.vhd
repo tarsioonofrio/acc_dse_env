@@ -9,9 +9,6 @@ use ieee.std_logic_textio.all;
 use std.textio.all;
 
 use work.config_package.all;
-use work.iwght_package.all;
-use work.ifmap_package.all;
-use work.gold_package.all;
 use work.util_package.all;
 
 
@@ -42,8 +39,8 @@ architecture a1 of tb is
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
-
-  signal input_map : type_array_int := read_data(PATH & "/ifmap_pkg.txt");
+  signal gold : type_array_int := read_data(PATH &  "/gold.txt");
+  signal input_map : type_array_int := read_data(PATH  &  "/ifmap.txt");
 
 begin
 
@@ -59,8 +56,8 @@ begin
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
       CARRY_SIZE     => CARRY_SIZE,
-      IWGHT_PATH      => PATH & "/iwght_pkg.txt"
-      --IFMAP_PATH      => PATH & "/ifmap_pkg.txt" 
+      IWGHT_PATH      => PATH & "/iwght.txt"
+      --IFMAP_PATH      => PATH & "/ifmap.txt"
       )
     port map(
       clock         => clock,

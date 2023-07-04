@@ -9,6 +9,7 @@ use std.textio.all;
 
 use work.config_package.all;
 use work.util_package.all;
+use work.config_package_array.all;
 
 
 entity cnn is
@@ -28,34 +29,37 @@ entity cnn is
     OP_TYPE        : string    := "CCC";
     TEST_LAYER     : integer   := 0;
     BRAM_ADDR      : integer := 10;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
+    BRAM_NUM_IWGHT : integer :=0;
+    BRAM_NUM_IFMAP : integer :=0;
+    BRAM_NUM_GOLD  : integer :=0
   );
-  port (reset   : in std_logic;
-        clock   : in std_logic;
+  port (
+    reset   : in std_logic;
+    clock   : in std_logic;
 
-        p_start_conv : in std_logic;
-        p_end_conv   : out std_logic;
-        p_debug      : out std_logic;
+    p_start_conv : in std_logic;
+    p_end_conv   : out std_logic;
+    p_debug      : out std_logic;
 
-        --p_iwght_ce    : in std_logic;
-        --p_iwght_we    : in std_logic;
-        --p_iwght_valid : out std_logic;
-        --p_iwght_layer : in std_logic_vector(log2(N_LAYER) downto 0);
+    --p_iwght_ce    : in std_logic;
+    --p_iwght_we    : in std_logic;
+    --p_iwght_valid : out std_logic;
+    --p_iwght_layer : in std_logic_vector(log2(N_LAYER) downto 0);
 
-        p_ifmap_ce    : in std_logic;
-        p_ifmap_we    : in std_logic;
-        p_ifmap_valid : out std_logic;
+    p_ifmap_ce    : in std_logic;
+    p_ifmap_we    : in std_logic;
+    p_ifmap_valid : out std_logic;
 
-        p_ofmap_ce    : in std_logic;
-        p_ofmap_we    : in std_logic;
-        p_ofmap_valid : out std_logic;
-        
-        p_address   : in std_logic_vector(MEM_SIZE-1 downto 0);
-        p_value_in  : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-        p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
-        );
+    p_ofmap_ce    : in std_logic;
+    p_ofmap_we    : in std_logic;
+    p_ofmap_valid : out std_logic;
+    
+    p_address   : in std_logic_vector(MEM_SIZE-1 downto 0);
+    p_value_in  : in std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+    p_value_out : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0)
+    );
+  attribute dont_touch : string;
+  attribute dont_touch of cnn : entity is "true";
 end cnn;
 
 architecture a1 of cnn is
@@ -74,14 +78,14 @@ architecture a1 of cnn is
  
   signal mem_ofmap_in, mem_ofmap_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
-  type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
-  signal config : type_config_logic_array;
 
   signal n_read, n_write : std_logic_vector(31 downto 0);
 
+--   type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
+--   signal config : type_config_logic_array;
+
 --   signal config_test : type_config_logic := read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");;
 --   signal gold        : type_array_int :=  read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold.txt");;
-
 
 begin
 
@@ -153,7 +157,7 @@ begin
         p_start_conv    => start_conv(i),
         p_end_conv      => end_conv(i),
         p_debug         => debug(i),
-        config          => config(i),
+        config          => const_config_logic_vector(i-1),
 
         p_iwght_ce      => '0',
         p_iwght_we      => '0',
@@ -178,7 +182,8 @@ begin
     generic map(
       ROM_PATH => "",
       BRAM_NAME => "default",
-      BRAM_NUM => BRAM_NUM_GOLD,
+      BRAM_NUM =>  (integer(BRAM_NUM_GOLD mod  10 ** (2 * ((N_LAYER - 1) + 1)) / 10 ** (2*(N_LAYER - 1)))),
+      BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT

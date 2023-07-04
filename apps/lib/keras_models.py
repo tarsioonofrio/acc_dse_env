@@ -37,7 +37,7 @@ def default(config_model, config_data):
     model.summary()
 
     # Compile model
-    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
     return model
 

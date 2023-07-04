@@ -38,6 +38,8 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+  file out_file      : text open write_mode is "tb_rtl_split.txt";
+
 begin
 
   IWGHT : entity work.memory
@@ -147,7 +149,8 @@ begin
   process(clock)
 
     -- convolution counter
-    variable cont_conv : integer := 0;
+  variable cont_conv : integer := 0;
+  variable out_line          : line;
 
   begin
 
@@ -171,6 +174,10 @@ begin
         cont_conv := cont_conv + 1;
 
       elsif end_conv = '1' then
+        write(out_line, string'("clock, start, total"));
+        writeline(out_file, out_line);
+        write(out_line, string'("0.5 ns, 2.5 ns, " & time'image(now)));
+        writeline(out_file, out_line);
         report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
         report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
         report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));

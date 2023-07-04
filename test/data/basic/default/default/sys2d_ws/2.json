@@ -1,0 +1,14 @@
+{
+    "cnn": "default",
+    "rtl": "default",
+    "name": "sys2d_ws",
+    "units": "ns",
+    "layer": "2",
+    "clocktime": 1.0,
+    "starttime": 2.5,
+    "startsteps": 2500,
+    "endtime": 729285.5,
+    "endsteps": 729285500,
+    "totaltime": 729283.0,
+    "totalsteps": 729283000
+}

@@ -1,0 +1,72 @@
+{
+    "n": [
+        0,
+        1,
+        2
+    ],
+    "startofmaptime": [
+        1.5,
+        3242.5,
+        453389.5
+    ],
+    "startofmapsteps": [
+        1500,
+        3242500,
+        453389500
+    ],
+    "totalofmaptime": [
+        3073.0,
+        449979.0,
+        2441244.0
+    ],
+    "totalofmapsteps": [
+        3073000,
+        449979000,
+        2441244000
+    ],
+    "endconvtime": [
+        3074.5,
+        453221.5,
+        2894633.5
+    ],
+    "endconvsteps": [
+        3074500,
+        453221500,
+        2894633500
+    ],
+    "totalconvtime": [
+        3074.5,
+        450147.0,
+        2441412.0
+    ],
+    "totalconvsteps": [
+        3074500,
+        450147000,
+        2441412000
+    ],
+    "cnn": [
+        "small2",
+        "small2",
+        "small2"
+    ],
+    "rtl": [
+        "default",
+        "default",
+        "default"
+    ],
+    "name": [
+        "cnn",
+        "cnn",
+        "cnn"
+    ],
+    "units": [
+        "ns",
+        "ns",
+        "ns"
+    ],
+    "clock_time": [
+        1.0,
+        1.0,
+        1.0
+    ]
+}

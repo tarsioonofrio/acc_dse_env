@@ -108,3 +108,6 @@ For:
 
 If you want to use other rtl settings, you need to change `default/default`
 to the desired project folder. It is necessary to change the other paths to the same folder.
+
+
+https://github.com/mentax/csv2xlsx/releases

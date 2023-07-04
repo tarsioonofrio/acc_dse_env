@@ -1,0 +1,16 @@
+\begin{table}[ht!]
+\centering
+\caption{Utilização de recursos da FPGA por instância de MEM por \textit{layer} e DNN.}
+\label{tab:5-vivado-conv}
+\begin{tabular}{lrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
+\toprule
+DNN & \multicolumn{10}{c}{D1} & \multicolumn{10}{c}{D2} & \multicolumn{10}{c}{D3} & \multicolumn{10}{c}{D4} & \multicolumn{8}{c}{S1} & \multicolumn{8}{c}{S2} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10} \cmidrule(lr){11-13} \cmidrule(lr){14-15} \cmidrule(l){16-17}
+Layer & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 & 3 & 3 & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 & 0 & 0 & 0 & 0 & 1 & 1 & 2 & 2 \\
+\midrule
+RAMB36 &      2 &      0 &      6 &      0 &      1 &      6 &     10 &      8 &     37 &      4 &      1 &      0 &      6 &      0 &      1 &      6 &      5 &      8 &      5 &      2 &      1 &      0 &      6 &      0 &      2 &      6 &     19 &     15 &     19 &      4 &      1 &      0 &      6 &      0 &      2 &      6 &     19 &     15 &     19 &      4 &      4 &      0 &      6 &      0 &      1 &      6 &     10 &      8 &      7 &      0 &      6 &      0 &      2 &      6 &     37 &     15 \\
+Logic LUTs &         46 &         46 &         85 &         85 &         40 &         91 &        174 &        131 &        473 &         87 &         45 &         45 &         92 &         92 &         43 &         92 &         91 &        132 &         91 &         47 &         37 &         37 &         85 &         85 &         47 &         91 &        266 &        183 &        265 &         86 &         44 &         44 &         85 &         85 &         47 &         91 &        266 &        183 &        266 &         87 &         87 &         87 &         86 &         86 &         37 &         92 &        178 &        131 &         94 &         94 &         85 &         85 &         47 &         91 &        471 &        183 \\
+FFs &   67 &   67 &   68 &   68 &   66 &   68 &   69 &   69 &   75 &   68 &   66 &   66 &   68 &   68 &   66 &   68 &   68 &   69 &   68 &   67 &   66 &   66 &   68 &   68 &   67 &   68 &   70 &   69 &   70 &   68 &   66 &   66 &   68 &   68 &   67 &   68 &   70 &   69 &   70 &   68 &   68 &   68 &   68 &   68 &   66 &   68 &   69 &   69 &   68 &   68 &   68 &   68 &   67 &   68 &   75 &   69 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,2 @@
+cnn,rtl,name,units,layer,clocktime,starttime,startsteps,endtime,endsteps,totaltime,totalsteps
+small,default,core_serial,ns,1,1.0,2.5,2500,610406.5,610406500,610404.0,610404000

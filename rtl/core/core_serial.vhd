@@ -6,7 +6,7 @@ use IEEE.std_logic_arith.all;
 
 use work.util_package.all;
 use work.config_package.all;
-use work.config_package_array.all;
+-- use work.config_package_array.all;
 
 
 entity core is
@@ -29,8 +29,8 @@ entity core is
     BRAM_NAME_LAYER : integer   := 0;
     BRAM_NAME_IFMAP : string   := "default";
     BRAM_ADDR      : integer   := 10;
-    BRAM_NUM_IWGHT : string    := "";
-    BRAM_NUM_IFMAP : string    := ""
+    BRAM_NUM_IWGHT : integer    := 0;
+    BRAM_NUM_IFMAP : integer    := 0 
     );
   port (
     clock : in std_logic;
@@ -113,16 +113,15 @@ begin
   -- map mem value to conv 
   ifmap_value <= mem_ifmap_value;
 
-  GEN_IWGHT: if OP_TYPE = 'C' generate
+  GEN_IWGHT: if OP_TYPE = 'C' or OP_TYPE = 'F' generate
     IWGHT : entity work.memory
       generic map(
         ROM_PATH => IWGHT_PATH,
         INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
         ADDRESS_SIZE => MEM_SIZE, 
         DATA_AV_LATENCY => LAT,
-        BRAM_NAME_LAYER => BRAM_NAME_LAYER,
         BRAM_ADDR => BRAM_ADDR,
-        BRAM_NUM => BRAM_NUM_IWGHT,
+        BRAM_NUM => (integer(BRAM_NUM_IWGHT mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
         BRAM_NAME => "iwght_layer" & integer'image(BRAM_NAME_LAYER)
         )
       port map(
@@ -145,9 +144,8 @@ begin
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT,
-      BRAM_NAME_LAYER => BRAM_NAME_LAYER,
       BRAM_ADDR => BRAM_ADDR,
-      BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
       BRAM_NAME => BRAM_NAME_IFMAP & integer'image(BRAM_NAME_LAYER)
       )
     port map(
@@ -169,9 +167,8 @@ begin
 --       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
 --       ADDRESS_SIZE => MEM_SIZE,
 --       DATA_AV_LATENCY => LAT,
---       BRAM_NAME_LAYER => BRAM_NAME_LAYER,
 --       BRAM_ADDR => BRAM_ADDR,
---       BRAM_NUM => BRAM_NUM_IFMAP,
+--       BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER))),
 --       BRAM_NAME => BRAM_NAME_IFMAP & integer'image(BRAM_NAME_LAYER)
 --       )
 --     port map(
@@ -207,7 +204,8 @@ begin
         start_conv    => start_conv,
         end_conv      => end_conv,
         debug         => debug,
-        config        => const_config_logic_vector(BRAM_NAME_LAYER),
+--         config        => const_config_logic_vector(BRAM_NAME_LAYER),
+        config        => config,
 
         iwght_valid   => iwght_valid,
         iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
@@ -226,10 +224,10 @@ begin
         ofmap_we      => ofmap_we,
         ofmap_ce      => ofmap_ce
         );
-    end generate;
+  end generate;
 
-    GEN_MAXPOOL: if OP_TYPE = 'M' generate
-      MAXPOOL : entity work.maxpool
+    GEN_MP2D: if OP_TYPE = 'M' generate
+      MP2D : entity work.maxpool
         generic map(
           N_FILTER       => N_FILTER,
           N_CHANNEL      => N_CHANNEL,
@@ -267,8 +265,49 @@ begin
           ofmap_we      => ofmap_we,
           ofmap_ce      => ofmap_ce
           );
+    end generate;
+
+    GEN_FC: if OP_TYPE = 'F' generate
+      FC : entity work.fully_connected
+        generic map(
+          N_FILTER       => N_FILTER,
+          N_CHANNEL      => N_CHANNEL,
+          X_SIZE         => X_SIZE,
+          FILTER_WIDTH   => FILTER_WIDTH,
+          CONVS_PER_LINE => CONVS_PER_LINE,
+          MEM_SIZE       => MEM_SIZE,
+          INPUT_SIZE     => INPUT_SIZE,
+          SHIFT          => SHIFT,
+          CARRY_SIZE     => CARRY_SIZE
+          )
+        port map(
+          clock         => clock,
+          reset         => reset,
+  
+          start_op    => start_conv,
+          end_op      => end_conv,
+          debug         => debug,
+          -- config        => const_config_logic_vector(BRAM_NAME_LAYER),
+  
+          iwght_valid   => iwght_valid,
+          iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
+          iwght_address => iwght_address,
+          iwght_ce      => iwght_ce,
+  
+          ifmap_valid   => ifmap_valid,
+          ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+          ifmap_address => ifmap_address,
+          ifmap_ce      => ifmap_ce,
+  
+          ofmap_valid   => ofmap_valid,
+          ofmap_in      => ofmap_in,
+          ofmap_out     => ofmap_out,
+          ofmap_address => ofmap_address,
+          ofmap_we      => ofmap_we,
+          ofmap_ce      => ofmap_ce
+          );
       end generate;
-    
+      
 --     process(clock)
 --       -- convolution counter
 --       variable cont_conv : integer := 0;

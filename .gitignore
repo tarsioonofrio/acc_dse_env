@@ -29,3 +29,10 @@ work/
 .nfs*
 transcript
 modelsim.ini
+.vscode/
+
+.run/
+
+qshift/model/
+
+*.png

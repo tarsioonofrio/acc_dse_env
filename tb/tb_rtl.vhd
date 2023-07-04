@@ -7,30 +7,29 @@ use ieee.std_logic_textio.all;
 use work.gold_package.all;
 
 entity tb is
-   generic ( N_FILTER : integer := 16;
-       N_CHANNEL : integer := 3;
-       X_SIZE : integer := 32 ;  
-             FILTER_WIDTH : integer := 3 ;
-             CONVS_PER_LINE  : integer := 15 ;
-             MEM_SIZE  : integer := 12 ;
-             INPUT_SIZE  : integer := 8 ;
-             CARRY_SIZE : integer := 4 ;
-       SHIFT : integer := 8;
-       LAT : integer := 2
+   generic (
+        N_FILTER : integer := 16;
+        N_CHANNEL : integer := 3;
+        X_SIZE : integer := 32 ;
+        FILTER_WIDTH : integer := 3 ;
+        CONVS_PER_LINE  : integer := 15 ;
+        MEM_SIZE  : integer := 12 ;
+        INPUT_SIZE  : integer := 8 ;
+        CARRY_SIZE : integer := 4 ;
+        SHIFT : integer := 8;
+        LAT : integer := 2
     );
 end tb;
 
 architecture a1 of tb is
   signal inmem_value: std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal inmem_address, ofmap_address: std_logic_vector(MEM_SIZE-1 downto 0);
-
   signal clock, reset, start_conv, debug : std_logic := '0';
-  
   signal ofmap_valid, ofmap_ce, ofmap_we, inmem_ce, inmem_valid, end_conv : std_logic := '0';
   signal pixel_out, pixel_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-
   signal inmem_n_read, inmem_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+--   file out_file      : text open write_mode is "tb_rtl.txt";
   begin
 
    INMEM: entity work.memory
@@ -108,7 +107,8 @@ architecture a1 of tb is
       
    -- convolution counter
    variable cont_conv : integer := 0;
-         
+--    variable out_line          : line;
+
    begin
             
   if clock'event and clock = '0' then
@@ -131,12 +131,16 @@ architecture a1 of tb is
       cont_conv := cont_conv + 1;
       
     elsif end_conv = '1' then
+--         write(out_line, string'("clock, start, total"));
+--         writeline(out_file, out_line);
+--         write(out_line, string'("0.5 ns, 2.5 ns, " & time'image(now)));
+--         writeline(out_file, out_line);
         report "number of inmem read: " & integer'image(CONV_INTEGER(unsigned(inmem_n_read)));
         report "number of inmem write: " & integer'image(CONV_INTEGER(unsigned(inmem_n_write)));
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
         report "number of convolutions: " & integer'image(cont_conv);
-        report "end of simulation without error!" severity failure;   
+        report "end of simulation without error!" severity failure;
     end if;
   end if;
       

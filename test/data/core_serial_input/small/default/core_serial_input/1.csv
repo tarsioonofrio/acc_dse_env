@@ -1,0 +1,2 @@
+cnn,rtl,name,units,layer,clocktime,starttime,startsteps,startifmaptime,startifmapsteps,totalifmaptime,totalifmapsteps,startconvtime,startconvsteps,totalconvtime,totalconvsteps,endconvtime,endconvsteps,totaltime,totalsteps,endtime,endsteps
+small,default,core_serial_input,ns,1,1.0,2.5,2500,2.5,2500,3601.0,3601000,3603.5,3603500,610404.0,610404000,614007.5,614007500,614005.0,614005000,614007.5,614007500

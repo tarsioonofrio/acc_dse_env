@@ -28,9 +28,9 @@ entity tb is
     PATH           : string  := "";
     BRAM_LAT       : integer := 0;
     BRAM_ADDR      : integer := 9;
-    BRAM_NUM_IWGHT : string  := "";
-    BRAM_NUM_IFMAP : string  := "";
-    BRAM_NUM_GOLD  : string  := ""
+    BRAM_NUM_IWGHT : integer;
+    BRAM_NUM_IFMAP : integer;
+    BRAM_NUM_GOLD  : integer
   );
   port (
     p_clock : in std_logic
@@ -54,7 +54,7 @@ architecture a1 of tb is
   signal ifmap_we    : std_logic := '0';
   signal end_conv    : std_logic := '0';
 
-  signal address : std_logic_vector(MEM_SIZE - 1 downto 0);
+  signal address, address_gold : std_logic_vector(MEM_SIZE - 1 downto 0);
 
   signal value_in  : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
   signal value_out : std_logic_vector(((INPUT_SIZE * 2) + CARRY_SIZE) - 1 downto 0) := (others => '0');
@@ -78,7 +78,8 @@ begin
   IFMAP : entity work.memory
     generic map(
       BRAM_NAME => "ifmap_layer0", -- "default", "ifmap_layer0", "iwght_layer0"
-      BRAM_NUM => BRAM_NUM_IFMAP,
+      BRAM_ADDR => BRAM_ADDR,
+      BRAM_NUM => (integer(BRAM_NUM_IFMAP mod  10 ** (2 * (0 + 1)) / 10 ** (2*0))),
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => BRAM_LAT
@@ -111,7 +112,8 @@ begin
       PATH           => PATH,
       BRAM_ADDR      => BRAM_ADDR,
       BRAM_NUM_IWGHT => BRAM_NUM_IWGHT,
-      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
+      BRAM_NUM_IFMAP => BRAM_NUM_IFMAP,
+      BRAM_NUM_GOLD  => BRAM_NUM_GOLD
     )
     port map (
       clock => clock,
@@ -137,7 +139,8 @@ begin
   MGOLD : entity work.memory
     generic map(
       BRAM_NAME => "gold_layer" & integer'image(N_LAYER - 1),
-      BRAM_NUM =>BRAM_NUM_GOLD,
+      BRAM_NUM =>  (integer(BRAM_NUM_GOLD mod  10 ** (2 * ((N_LAYER - 1) + 1)) / 10 ** (2*(N_LAYER - 1)))),
+      BRAM_ADDR => BRAM_ADDR,
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => BRAM_LAT
@@ -148,7 +151,7 @@ begin
       chip_en  => ofmap_ce,
       wr_en    => '0',
       data_in  => (others => '0'),
-      address  => address,
+      address  => address_gold,
       data_av  => gold_valid,
       data_out => gold,
       n_read   => gold_n_read,
@@ -193,6 +196,7 @@ begin
     for i in 0 to (conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).convs_per_line_convs_per_line)) * conv_integer(unsigned(const_config_logic_vector(N_LAYER - 1).n_filter))) loop
       ofmap_ce <= '1';
       address <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
+      address_gold <= CONV_STD_LOGIC_VECTOR(i, INPUT_SIZE);
       wait until rising_edge(ofmap_valid);
         if value_out /= gold then
           report "end of simulation with error!";

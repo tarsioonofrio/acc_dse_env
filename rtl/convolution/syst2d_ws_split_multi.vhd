@@ -16,46 +16,49 @@ use work.util_package.all;
 
 entity convolution is
   generic (
-           N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           STRIDE         : integer := 2;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           SHIFT          : integer := 4;
-           CARRY_SIZE     : integer := 4
+    N_FILTER       : integer := 16;
+    N_CHANNEL      : integer := 3;
+    STRIDE         : integer := 2;
+    X_SIZE         : integer := 32;
+    FILTER_WIDTH   : integer := 3;
+    CONVS_PER_LINE : integer := 15;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    SHIFT          : integer := 4;
+    CARRY_SIZE     : integer := 4
            );
-  port (clock : in std_logic;
-        reset : in std_logic;
+  port (
+    clock : in std_logic;
+    reset : in std_logic;
 
-        -- Accelerator interface
-        start_conv : in  std_logic;
-        end_conv   : out std_logic;
-        debug      : out std_logic;
-        config     : in  type_config_logic;
+    -- Accelerator interface
+    start_conv : in  std_logic;
+    end_conv   : out std_logic;
+    debug      : out std_logic;
+    config     : in  type_config_logic;
 
-        -- Input weight memory interface
-        iwght_valid   : in  std_logic;
-        iwght_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-        iwght_address : out std_logic_vector(MEM_SIZE-1 downto 0);
-        iwght_ce      : out std_logic;
+    -- Input weight memory interface
+    iwght_valid   : in  std_logic;
+    iwght_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+    iwght_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+    iwght_ce      : out std_logic;
 
-        -- input feature map memory interface
-        ifmap_valid   : in  std_logic;
-        ifmap_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
-        ifmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
-        ifmap_ce      : out std_logic;
+    -- input feature map memory interface
+    ifmap_valid   : in  std_logic;
+    ifmap_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+    ifmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+    ifmap_ce      : out std_logic;
 
-        -- output feature map memory interface
-        ofmap_valid   : in  std_logic;
-        ofmap_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-        ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
-        ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
-        ofmap_we      : out std_logic;
-        ofmap_ce      : out std_logic
-        );
+    -- output feature map memory interface
+    ofmap_valid   : in  std_logic;
+    ofmap_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+    ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+    ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+    ofmap_we      : out std_logic;
+    ofmap_ce      : out std_logic
+    );
+  attribute dont_touch : string;
+  attribute dont_touch of convolution : entity is "true";     
 end entity convolution;
 
 

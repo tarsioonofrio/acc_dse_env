@@ -5,23 +5,25 @@ use ieee.numeric_std.all;
 use std.textio.all;
 use ieee.std_logic_textio.all;
 
-use work.util_package.all;
 use work.config_package.all;
+use work.util_package.all;
 
 
 entity tb is
   generic (
     FPGA       : std_logic := '0';
-    BRAM_NAME  : string  := "ifmap_layer0";
---     BRAM_NAME  : string  := "iwght_layer0";
+    BRAM_NAME       : string  := "default";
+--     BRAM_NAME       : string  := "ifmap_layer0";
+--     BRAM_NAME       : string  := "iwght_layer0";
+--     PATH_DATA       : string  := "/layer/0/ifmap.txt";
     INPUT_SIZE : integer := 8;
     MEM_SIZE   : integer := 12 ;
     PATH       : string  := "";
     DEVICE     : string  := "7SERIES";
-    BRAM_NUM   : string := "06";
---     BRAM_NUM   : string := "01";
-    BRAM_SIZE  : integer := 16;
     MAX_MEM_SIZE : integer := 16;
+    BRAM_NAME_LAYER   : integer := 0;
+    BRAM_NUM   : integer :=371001;
+    BRAM_SIZE  : integer := 16;
     BRAM_ADDR  : integer := 9
   );
   port (
@@ -49,6 +51,8 @@ signal n_read_out   : std_logic_vector(31 downto 0);
 signal n_write_in  : std_logic_vector(31 downto 0);
 signal n_write_out  : std_logic_vector(31 downto 0);
 
+constant const_bram_num : integer := (integer(BRAM_NUM mod  10 ** (2 * (BRAM_NAME_LAYER + 1)) / 10 ** (2*BRAM_NAME_LAYER)));
+
 
 begin
 
@@ -65,7 +69,7 @@ begin
   INMEM : entity work.memory
   generic map(
     BRAM_NAME => BRAM_NAME,
-    BRAM_NUM => BRAM_NUM,
+    BRAM_NUM => const_bram_num,
     INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
@@ -86,7 +90,7 @@ begin
   OUTMEM : entity work.memory
   generic map(
     BRAM_NAME => "default",
-    BRAM_NUM => BRAM_NUM,
+    BRAM_NUM => const_bram_num,
     INPUT_SIZE => MAX_MEM_SIZE,
     ADDRESS_SIZE => MEM_SIZE,
     BRAM_ADDR => BRAM_ADDR
@@ -118,7 +122,7 @@ begin
 
     -- write stage
     chip_en_in <= '1';
-    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
+    for i in 0 to ((const_bram_num)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);
       chip_en_out <= '1';
@@ -135,7 +139,7 @@ begin
     -- read stage
     chip_en_in <= '1';
     chip_en_out <= '1';
-    for i in 0 to (integer'value(BRAM_NUM)*(2**BRAM_ADDR)-1) loop
+    for i in 0 to ((const_bram_num)*(2**BRAM_ADDR)-1) loop
       address_in <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       address_out <= std_logic_vector(to_unsigned(i, MEM_SIZE));
       wait until rising_edge(clock);

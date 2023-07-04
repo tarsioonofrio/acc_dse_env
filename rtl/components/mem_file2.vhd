@@ -8,15 +8,16 @@ use ieee.std_logic_textio.all;
 use work.util_package.all;
 
 
-entity memory2 is
+entity memory is
   generic (
     INPUT_SIZE      : integer := 8;
     ADDRESS_SIZE    : integer := 12;
     DATA_AV_LATENCY : integer := 0;
     ROM_PATH        : string  := "";
-    BRAM_NAME       : string := "";
-    BRAM_NUM        : integer := 0;
-    BRAM_ADDR       : integer := 0
+    BRAM_NAME_LAYER : integer   := 0;
+    BRAM_NAME       : string := "default";
+    BRAM_NUM        : integer;
+    BRAM_ADDR       : integer := 10
     );
 
   port (reset   : in std_logic;
@@ -32,9 +33,9 @@ entity memory2 is
         n_read  : out std_logic_vector(31 downto 0);
         n_write : out std_logic_vector(31 downto 0)
         );
-end memory2;
+end memory;
 
-architecture a1 of memory2 is
+architecture a1 of memory is
 
   type ofmap is array(0 to 2**ADDRESS_SIZE) of std_logic_vector(INPUT_SIZE-1 downto 0);
   signal mem : ofmap := (others => (others => '0'));
@@ -45,31 +46,31 @@ architecture a1 of memory2 is
   signal cont_read, cont_write, cont_av_cycles : integer;
 
   signal data_av_signal : std_logic;
-  signal ROM :type_array_int;
+  signal ROM :type_array_int := read_data(ROM_PATH);
 
 begin
 
-  GEN_READ: if ROM_PATH /= "" generate
-    ROM <= read_data(ROM_PATH) when reset = '1';
-  end generate;
-
+  GEN_RAM: if ROM_PATH = "" generate
   -- Process to write in memory
   process(clock)
   begin
     if clock'event and clock = '1' then
-      if ROM_PATH = "" then
         if chip_en = '1' then
           if wr_en = '1' then
             mem(CONV_INTEGER(unsigned(address))) <= data_in;
           end if;
         end if;
-      end if;
     end if;
   end process;
 
   -- Read from memory
-  data_out <= mem(CONV_INTEGER(unsigned(address))) when chip_en = '1' and ROM_PATH = "" else
-              CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1' and ROM_PATH /= "" ;
+  data_out <= mem(CONV_INTEGER(unsigned(address))) when chip_en = '1';
+  end generate;
+
+  GEN_ROM: if ROM_PATH /= "" generate
+  -- Read from memory
+  data_out <= CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1';
+  end generate;
 
   process(reset, clock)
   begin

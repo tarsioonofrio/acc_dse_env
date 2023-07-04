@@ -1,0 +1,5 @@
+n,startofmaptime,startofmapsteps,totalofmaptime,totalofmapsteps,endconvtime,endconvsteps,totalconvtime,totalconvsteps,cnn,rtl,name,units,clock_time
+0,1.5,1500,3073.0,3073000,3074.5,3074500,3074.5,3074500,default3,default,cnn,ns,1.0
+1,3242.5,3242500,449979.0,449979000,453221.5,453221500,450147.0,450147000,default3,default,cnn,ns,1.0
+2,453389.5,453389500,1220541.0,1220541000,1673930.5,1673930500,1220709.0,1220709000,default3,default,cnn,ns,1.0
+3,1674098.5,1674098500,364476.0,364476000,2038574.5,2038574500,364644.0,364644000,default3,default,cnn,ns,1.0

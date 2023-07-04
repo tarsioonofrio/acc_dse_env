@@ -1,0 +1,14 @@
+{
+    "cnn": "default",
+    "rtl": "default",
+    "name": "sys2d_ws_split_multi",
+    "units": "ns",
+    "layer": "2",
+    "clocktime": 1.0,
+    "starttime": 2.5,
+    "startsteps": 2500,
+    "endtime": 729286.5,
+    "endsteps": 729286500,
+    "totaltime": 729284.0,
+    "totalsteps": 729284000
+}

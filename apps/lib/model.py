@@ -5,7 +5,6 @@ import numpy as np
 from numpy.lib.stride_tricks import as_strided
 
 
-
 def dictionary_from_model(model):
     # Create dictionary
     modelDict = {}
@@ -15,20 +14,29 @@ def dictionary_from_model(model):
 
     # Iterate through model layers to populate dictionary
     for layer in list(model.layers):
-        # Initialize layer in dictionary
-        modelDict[layerId] = {}
-        layerName = layer.name
-        modelDict[layerId]["name"] = layerName
         # Get type of layer
         layerType = type(layer).__name__
+        if layerType == "Flatten":
+            continue
+        # Initialize layer in dictionary
+        modelDict[layerId] = {}
         modelDict[layerId]["type"] = layerType
+        layerName = layer.name
+        modelDict[layerId]["name"] = layerName
+        modelDict[layerId]["input_shape"] = layer.input.shape.as_list()[1:]
+        modelDict[layerId]["output_shape"] = layer.output.shape.as_list()[1:]
         # If layer is dense
         if layerType == "Dense":
             # Collect activation function
             layerActivation = str(layer.activation).split(" ")[1]
-            modelDict[layerId]["activation"] = layerActivation
             # Initialize neuron dict
             modelDict[layerId]["neuron"] = {}
+
+            modelDict[layerId]["activation"] = layerActivation
+            modelDict[layerId]["filter_channel"] = layer.units
+            modelDict[layerId]["filter_dimension"] = 1
+            modelDict[layerId]["stride_h"] = 1
+            modelDict[layerId]["stride_w"] = 1
             # Iterate through variables of this layer
             for layerVar in layer.trainable_variables:
                 # Check if weights
@@ -51,9 +59,14 @@ def dictionary_from_model(model):
         # If layer is conv
         elif layerType == "Conv2D":
             layerActivation = str(layer.activation).split(" ")[1]
-            modelDict[layerId]["activation"] = layerActivation
             # Initialize filter dict
             modelDict[layerId]["filter"] = {}
+
+            modelDict[layerId]["activation"] = layerActivation
+            modelDict[layerId]["filter_channel"] = layer.filters
+            modelDict[layerId]["filter_dimension"] = layer.kernel_size[0]
+            modelDict[layerId]["stride_h"] = layer.strides[0]
+            modelDict[layerId]["stride_w"] = layer.strides[1]
             # Iterate through variables of this layer
             for layerVar in layer.trainable_variables:
                 # Check if weights
@@ -77,9 +90,8 @@ def dictionary_from_model(model):
     return modelDict
 
 
-def convolution_from_weights(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
-                             modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
-    string_pixel = [tab]
+def conv2d(gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension,
+           modelDict, shift, stride_h, stride_w, tab, testSet, testSetSize):
     image_list = []
     # Dataset test variables
     cont_match = 0
@@ -88,8 +100,6 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
     m = 0
     n = 0
     idx = 0
-    filter_i = 0
-    filter_j = 0
     # feature maps
     ifmap = []
     ofmap = []
@@ -114,7 +124,10 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
         flatten_output = [0.0] * layer_dimension[len(layer_dimension) - 2]
 
         for layerId in modelDict:
+            string_pixel = [tab]
             if modelDict[layerId]["type"] == "Conv2D":
+                filter_i = 0
+                filter_j = 0
                 for filterId in modelDict[layerId]["filter"]:
                     for m in range(layer_dimension[layerId]):
                         for n in range(layer_dimension[layerId]):
@@ -152,8 +165,8 @@ def convolution_from_weights(gen_features, filter_channel, filter_dimension, inp
                                 acc_input = int((acc[filterId] / shift))
                             else:
                                 acc_input = acc[filterId] >> int(log2(shift))
-
                             ofmap[filterId][m][n] = max(0, int(acc_input))
+
                     if layerId == layer - int(gen_features):
                         matrix = []
                         for m in range(layer_dimension[layerId]):
@@ -222,7 +235,6 @@ def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
     f.writelines(string_weight_list)
 
     if layer == 0:
-
         pixel = [
             [[i, z, x, [str(int(image_shift[x, y, z])) for y in range(image_shift.shape[1])]]
              for z in range(image_shift.shape[2])
@@ -378,3 +390,5 @@ def pool2d(image, kernel_size=2, stride=1, padding=0, pool_mode='max'):
         return image_w.max(axis=(3, 4))
     elif pool_mode == 'avg':
         return image_w.mean(axis=(3, 4))
+
+

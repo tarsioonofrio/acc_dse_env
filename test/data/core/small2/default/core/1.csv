@@ -1,0 +1,2 @@
+cnn,rtl,name,units,layer,clocktime,starttime,startsteps,startiwghttime,startiwghtsteps,totaliwghttime,totaliwghtsteps,startifmaptime,startifmapsteps,totalifmaptime,totalifmapsteps,startconvtime,startconvsteps,totalconvtime,totalconvsteps,endconvtime,endconvsteps,totaltime,totalsteps,endtime,endsteps
+small2,default,core,ns,1,1.0,2.5,2500,2.5,2500,18497.0,18497000,18499.5,18499500,7201.0,7201000,25700.5,25700500,2441412.0,2441412000,2467112.5,2467112500,2467110.0,2467110000,2467112.5,2467112500

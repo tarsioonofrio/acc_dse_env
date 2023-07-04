@@ -1,0 +1,2 @@
+cnn,rtl,name,units,layer,clocktime,starttime,startsteps,endtime,endsteps,totaltime,totalsteps
+small2,default,sys2d_ws_split_multi,ns,0,1.0,2.5,2500,450150.5,450150500,450148.0,450148000

@@ -1,0 +1,2 @@
+cnn,rtl,name,units,clocktime,startcnntime,startcnnsteps,endcnntime,endcnnsteps,totalcnntime,totalcnnsteps
+default,default,cnn,ns,1.0,3074.5,3074500,1567837.5,1567837500,1564763.0,1564763000
