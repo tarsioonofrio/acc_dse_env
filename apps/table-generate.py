@@ -18,7 +18,7 @@ def main():
     file_hw = root / "rtl_config" / f"{args.rtl_config}.json"
     path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 
-    path_output = path / "table"
+    path_output = path / "run-time"
     path_output.mkdir(parents=True, exist_ok=True)
 
     with open(file_hw) as f:

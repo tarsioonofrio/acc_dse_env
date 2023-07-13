@@ -21,7 +21,7 @@ def main():
     path_output.mkdir(parents=True, exist_ok=True)
 
     path_apps = root / "apps"
-    path_table = root / "test/table"
+    path_table = root / "sim_coroutine/run-time"
 
     dnn_names = [f for f in path_apps.glob("*") if f.is_dir()]
     bram_csv = list(path_apps.glob(f"**/bram_layer.csv"))

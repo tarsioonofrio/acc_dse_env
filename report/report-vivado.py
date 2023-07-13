@@ -28,7 +28,7 @@ def main():
     path_output = Path(__file__).parent / "vivado-format"
     path_output.mkdir(parents=True, exist_ok=True)
 
-    path_vivado = root / "test/vivado"
+    path_vivado = root / "sim_coroutine/vivado"
     list_utilization = list(path_vivado.glob("report-util*.txt"))
 
     list_df = {
