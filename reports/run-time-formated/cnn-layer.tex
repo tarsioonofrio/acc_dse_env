@@ -1,0 +1,19 @@
+\begin{table}[ht!]
+\centering
+\caption{Tempo simulação das execução das operações de convolução e escrita do OFMAP (paralela a convolução).}
+\label{tab:5-dnn-layer}
+\begin{tabular}{lrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{$Layer_1$} & \multicolumn{2}{c}{$Layer_2$} & \multicolumn{2}{c}{$Layer_3$} \\
+\cmidrule(r){2-3} \cmidrule(lr){4-5} \cmidrule(l){6-7}
+ & Convolution & OFMAP & Convolution & OFMAP & Convolution & OFMAP \\
+\midrule
+$D_1$ & 2,25 & 2,25 & 6,10 & 6,10 & 7,29 & 7,29 \\
+$D_2$ & 2,25 & 2,25 & 3,05 & 3,05 & 0,91 & 0,91 \\
+$D_3$ & 4,50 & 4,50 & 12,21 & 12,21 & 3,65 & 3,64 \\
+$D_4$ & 9,00 & 9,00 & 48,83 & 48,82 & 14,58 & 14,58 \\
+$S_1$ & 2,25 & 2,25 & 6,10 & 6,10 & 0,00 & 0,00 \\
+$S_2$ & 4,50 & 4,50 & 24,41 & 24,41 & 0,00 & 0,00 \\
+\bottomrule
+\end{tabular}
+\end{table}

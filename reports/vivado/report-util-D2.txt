@@ -1,0 +1,68 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+-------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.1 (lin64) Build 3247384 Thu Jun 10 19:36:07 MDT 2021
+| Date         : Mon Jun 19 01:57:18 2023
+| Host         : paxos.inf.pucrs.br running 64-bit CentOS Linux release 7.9.2009 (Core)
+| Command      : report_utilization -hierarchical -hierarchical_depth 3 -file report-util-D2.txt
+| Design       : accelerator
+| Device       : 7a100tcsg324-1
+| Design State : Synthesized
+-------------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. Utilization by Hierarchy
+
+1. Utilization by Hierarchy
+---------------------------
+
++---------------------------------------------------------+--------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+|                         Instance                        |                   Module                   | Total LUTs | Logic LUTs | LUTRAMs | SRLs |  FFs | RAMB36 | RAMB18 | DSP Blocks |
++---------------------------------------------------------+--------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+| accelerator                                             |                                      (top) |       3923 |       3923 |       0 |    0 | 5307 |     34 |      0 |         27 |
+|   (accelerator)                                         |                                      (top) |         55 |         55 |       0 |    0 |   56 |      0 |      0 |          0 |
+|   CNN                                                   |                                        cnn |       3776 |       3776 |       0 |    0 | 5183 |     28 |      0 |         27 |
+|     (CNN)                                               |                                        cnn |        126 |        126 |       0 |    0 |    0 |      0 |      0 |          0 |
+|     OFMAP                                               |                     memory__parameterized6 |         45 |         45 |       0 |    0 |   66 |      1 |      0 |          0 |
+|       (OFMAP)                                           |                     memory__parameterized6 |         45 |         45 |       0 |    0 |   66 |      0 |      0 |          0 |
+|       LOOP_MEM[0].BRAM_SINGLE_INST                      |               bram_single__parameterized32 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     gen_core[1].core                                    |                                       core |       1174 |       1174 |       0 |    0 | 1704 |      7 |      0 |          9 |
+|       (gen_core[1].core)                                |                                       core |         69 |         69 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       GEN_CONV.CONV                                     |                             convolution__1 |        970 |        970 |       0 |    0 | 1570 |      0 |      0 |          9 |
+|       GEN_IWGHT.IWGHT                                   |                     memory__parameterized0 |         43 |         43 |       0 |    0 |   66 |      1 |      0 |          0 |
+|       IFMAP                                             |                     memory__parameterized1 |         92 |         92 |       0 |    0 |   68 |      6 |      0 |          0 |
+|     gen_core[2].core                                    |                       core__parameterized0 |       1254 |       1254 |       0 |    0 | 1708 |     13 |      0 |          9 |
+|       (gen_core[2].core)                                |                       core__parameterized0 |         69 |         69 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       GEN_CONV.CONV                                     |                             convolution__2 |        962 |        962 |       0 |    0 | 1571 |      0 |      0 |          9 |
+|       GEN_IWGHT.IWGHT                                   |                     memory__parameterized2 |         91 |         91 |       0 |    0 |   68 |      5 |      0 |          0 |
+|       IFMAP                                             |                     memory__parameterized3 |        132 |        132 |       0 |    0 |   69 |      8 |      0 |          0 |
+|     gen_core[3].core                                    |                       core__parameterized1 |       1177 |       1177 |       0 |    0 | 1705 |      7 |      0 |          9 |
+|       (gen_core[3].core)                                |                       core__parameterized1 |         69 |         69 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       GEN_CONV.CONV                                     |                                convolution |        970 |        970 |       0 |    0 | 1570 |      0 |      0 |          9 |
+|       GEN_IWGHT.IWGHT                                   |                     memory__parameterized4 |         91 |         91 |       0 |    0 |   68 |      5 |      0 |          0 |
+|       IFMAP                                             |                     memory__parameterized5 |         47 |         47 |       0 |    0 |   67 |      2 |      0 |          0 |
+|   IFMAP                                                 |                                     memory |         92 |         92 |       0 |    0 |   68 |      6 |      0 |          0 |
+|     (IFMAP)                                             |                                     memory |         92 |         92 |       0 |    0 |   68 |      0 |      0 |          0 |
+|     LOOP_MEM[0].BRAM_SINGLE_INST                        |                                bram_single |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[0].BRAM_SINGLE_INST)                    |                                bram_single |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE0.BRAM_SINGLE_MACRO_inst |                 unimacro_BRAM_SINGLE_MACRO |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     LOOP_MEM[1].BRAM_SINGLE_INST                        |                bram_single__parameterized0 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[1].BRAM_SINGLE_INST)                    |                bram_single__parameterized0 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE1.BRAM_SINGLE_MACRO_inst | unimacro_BRAM_SINGLE_MACRO__parameterized0 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     LOOP_MEM[2].BRAM_SINGLE_INST                        |                bram_single__parameterized1 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[2].BRAM_SINGLE_INST)                    |                bram_single__parameterized1 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE2.BRAM_SINGLE_MACRO_inst | unimacro_BRAM_SINGLE_MACRO__parameterized1 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     LOOP_MEM[3].BRAM_SINGLE_INST                        |                bram_single__parameterized2 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[3].BRAM_SINGLE_INST)                    |                bram_single__parameterized2 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE3.BRAM_SINGLE_MACRO_inst | unimacro_BRAM_SINGLE_MACRO__parameterized2 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     LOOP_MEM[4].BRAM_SINGLE_INST                        |                bram_single__parameterized3 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[4].BRAM_SINGLE_INST)                    |                bram_single__parameterized3 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE4.BRAM_SINGLE_MACRO_inst | unimacro_BRAM_SINGLE_MACRO__parameterized3 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|     LOOP_MEM[5].BRAM_SINGLE_INST                        |                bram_single__parameterized4 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
+|       (LOOP_MEM[5].BRAM_SINGLE_INST)                    |                bram_single__parameterized4 |          0 |          0 |       0 |    0 |    0 |      0 |      0 |          0 |
+|       MEM_IFMAP_LAYER0_INSTANCE5.BRAM_SINGLE_MACRO_inst | unimacro_BRAM_SINGLE_MACRO__parameterized4 |          0 |          0 |       0 |    0 |    0 |      1 |      0 |          0 |
++---------------------------------------------------------+--------------------------------------------+------------+------------+---------+------+------+--------+--------+------------+
+
+
