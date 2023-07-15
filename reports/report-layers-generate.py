@@ -17,11 +17,11 @@ def main():
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
-    path_output = Path(__file__).parent / "run-time-formated"
+    path_output = Path(__file__).parent / "benchmark-formated"
     path_output.mkdir(parents=True, exist_ok=True)
 
     path_apps = root / "apps"
-    path_table = root / "sim_coroutine/run-time"
+    path_table = root / "sim_coroutine/benchmark"
 
     # dnn_names = [f for f in path_apps.glob("*") if f.is_dir()]
     # bram_csv = list(path_apps.glob(f"**/bram_layer.csv"))

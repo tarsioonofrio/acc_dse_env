@@ -17,11 +17,11 @@ def main():
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
-    path_output = Path(__file__).parent / "run-time-formated"
+    path_output = Path(__file__).parent / "benchmark-formated"
     path_output.mkdir(parents=True, exist_ok=True)
 
     path_apps = root / "apps"
-    path_table = root / "reports/run-time"
+    path_table = root / "reports/benchmark"
 
     dnn_names = [f for f in path_apps.glob("*") if f.is_dir()]
     bram_csv = list(path_apps.glob(f"**/bram_layer.csv"))
@@ -56,7 +56,7 @@ def main():
     styler = pd.DataFrame(cnn_data[columns.keys()].to_numpy(), columns=cidx, index=new_index).sort_index().style
     caption = "Quantidade de BRAMs e parâmetros gerados para as DNN."
     string = styler.format(decimal=',', precision=2).to_latex(
-        label='tab:5-dnn-run-time-formated',
+        label='tab:5-dnn-benchmark',
         caption=caption,
         column_format='l' + 'r' * (len(columns)),
         position_float="centering",
@@ -72,7 +72,7 @@ def main():
         f.write("\n".join(string_split_new))
     cnn_data.to_csv(path_output / "cnn-data.csv")
 
-    # run-time-formated do tempo de execução
+    # benchmark-formated do tempo de execução
     gpu_data = pd.read_csv(path_table / "gpu.csv")
     gpu_data["batch1"] = gpu_data["batch1"]
     gpu_data["batch10"] = gpu_data["batch10"]
@@ -117,7 +117,7 @@ def main():
               r"GPU (Nvidia GeForce GTX 980 Ti e Intel® Core™ i5-2320 CPU @ 3.00GHz × 4) e uma " \
               r"CPU (Intel(R) Core(TM) i9-7940X CPU @ 3.10GHz)."
     string = cnn_data2.style.format(decimal=',', precision=2).to_latex(
-        label='tab:5-dnn-benchmark',
+        label='tab:5-cnn-benchmark',
         caption=caption,
         column_format='l' + 'r' * (len(columns)),
         position_float="centering",
