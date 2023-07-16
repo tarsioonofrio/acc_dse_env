@@ -28,8 +28,8 @@ def main():
     path_output = Path(__file__).parent / "vivado-formated"
     path_output.mkdir(parents=True, exist_ok=True)
 
-    path_vivado = root / "sim_coroutine/vivado"
-    list_utilization = list(path_vivado.glob("benchmark-formated-util*.txt"))
+    path_vivado = root / "reports/vivado"
+    list_utilization = list(path_vivado.glob("report-util*.txt"))
 
     list_df = {
         p.stem.split("-")[-1]: parse_report_util(p)
