@@ -111,3 +111,7 @@ to the desired project folder. It is necessary to change the other paths to the 
 
 
 https://github.com/mentax/csv2xlsx/releases
+
+## TODO:
+
+* Add PyInvoke
