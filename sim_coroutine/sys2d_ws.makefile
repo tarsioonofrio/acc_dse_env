@@ -1,5 +1,5 @@
 $(shell rm -rf sim_build)
-TESTCASE=test
+TESTCASE=basic
 TOPLEVEL=tb
 
 export MAKEFILE_LIST
@@ -8,7 +8,7 @@ export C
 export R
 
 
-MODULE=basic
+MODULE=test
 TOPLEVEL_LANG ?= vhdl
 
 VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/inmem_pkg.vhd
@@ -21,7 +21,6 @@ VHDL_SOURCES += $(shell pwd)/../rtl/components/mem.vhd
 VHDL_SOURCES += $(shell pwd)/../rtl/convolution/syst2d_ws.vhd
 
 VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl.vhd
-
 
 COCOTB_HDL_TIMESTEP=1
 COCOTB_HDL_TIMEPRECISION=ps

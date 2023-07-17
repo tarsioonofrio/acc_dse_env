@@ -55,5 +55,3 @@ done
 #for i in $(seq 0 2); do make -f core_serial_input.makefile C=default R=default L="$i"; done
 
 #make -f cnn.makefile C=default R=default
-
-bash merge.sh

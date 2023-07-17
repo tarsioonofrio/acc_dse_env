@@ -1,12 +1,13 @@
 $(shell rm -rf sim_build)
-MODULE=cnn
-TESTCASE=test
+TESTCASE=cnn
 TOPLEVEL=tb
-TOPLEVEL_LANG ?= vhdl
 
 export MAKEFILE_LIST
 export C
 export R
+
+MODULE=test
+TOPLEVEL_LANG ?= vhdl
 
 VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/core/config_pkg.vhd
 VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/bram/config_const_pkg.vhd

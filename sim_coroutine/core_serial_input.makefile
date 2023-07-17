@@ -1,14 +1,15 @@
 $(shell rm -rf sim_build)
-MODULE=core_serial_input
-TESTCASE=test
+TESTCASE=core_serial_input
 TOPLEVEL=tb
-TOPLEVEL_LANG ?= vhdl
 
 export MAKEFILE_LIST
 export L
 export C
 export R
 
+
+MODULE=test
+TOPLEVEL_LANG ?= vhdl
 
 #filename = $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt
 #new_generics = $(shell bash ../write_generics_file.sh $(filename)) -gPATH=$(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)
