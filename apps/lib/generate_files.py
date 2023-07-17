@@ -20,7 +20,7 @@ def log2ceil(x):
 
 
 def write_mem_pkg(constant, data, file_name, package, path):
-    with open(Path(__file__).parent.resolve() / "template/template_inmem_pkg.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
         text = f.read()
     text_out = text.format(package=package, constant=constant, data=data)
     with open(path / f"{file_name}.vhd", "w") as f:
@@ -28,7 +28,7 @@ def write_mem_pkg(constant, data, file_name, package, path):
 
 
 def write_dist_bram(entity, file_name, init, path, bram_size='18Kb', device="SERIES"):
-    with open(Path(__file__).parent.resolve() / "template/bram_unisim_template.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/bram_unisim.vhd", "r") as f:
         text = f.read()
     text_out = text.format(entity=entity, bram_size=bram_size, device=device, init=init)
     with open(path / f"{file_name}.vhd", "w") as f:
@@ -36,7 +36,7 @@ def write_dist_bram(entity, file_name, init, path, bram_size='18Kb', device="SER
 
 
 def write_bram(entity, init, bram_size, device, file_name, path):
-    with open(Path(__file__).parent.resolve() / "template/bram_unisim_template.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/bram_unisim.vhd", "r") as f:
         text = f.read()
     text_out = text.format(entity=entity, bram_size=bram_size, device=device, init=init)
     with open(path / f"{file_name}.vhd", "w") as f:
@@ -251,7 +251,7 @@ def generate_config_file(generate_dict, path, n_layer):
                 n_layer]),
     }
 
-    with open(Path(__file__).parent.resolve() / "template/template_config_pkg.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
         text = f.read()
 
     text_out = text.format(**generate_dict2)
