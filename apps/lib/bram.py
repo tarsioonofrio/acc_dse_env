@@ -46,7 +46,7 @@ def format_bram_pkg(name, feat_list, config_rtl, bits=32, bram_size="36Kb"):
     feat_shuffle = ["".join(dict_fun_ordenate_bits[bits](i) for i in line) for line in feat_line]
     feat_file = [feat_shuffle[i:i + lines_per_file] for i in range(0, len(feat_shuffle), lines_per_file)]
 
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / f"template/bram_unisim_{bram_size}_template.vhd", "r") as f:
         text = f.read()
 
     list_entity = [f"{name}_instance{i}" for i, file in enumerate(feat_file)]
@@ -67,7 +67,7 @@ def format_bram_pkg(name, feat_list, config_rtl, bits=32, bram_size="36Kb"):
 def write_bram_pkg(blocks_string, path, bits, bram_config):
     bram_addr = bram_config["BRAM_ADDR"]
     bram_we = bram_config["BRAM_WE"]
-    with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/bram_unisim_template.vhd", "r") as f:
         bram_wrapper = f.read()
 
     bram_width = bits + bram_config["BRAM_PAR"]
@@ -127,7 +127,7 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
         "gold", "samplegold", bram_config, bram_size, input_path / "samples", max_bits
     )
 
-    with open(Path(__file__).parent.resolve() / f"bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / f"template/bram_unisim_{bram_size}_template_empty.vhd", "r") as f:
         empty = f.read().format(bram_width=max_bits + bram_config["BRAM_PAR"])
 
     bram36k = "".join(wght_data + fmap_data + gold_data + sample_fmap_data + sample_gold_data) + empty

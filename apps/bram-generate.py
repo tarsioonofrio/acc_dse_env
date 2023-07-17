@@ -30,7 +30,7 @@ def main():
         generate_bram_files(path, path_output, config_rtl, "18Kb")
     generate_bram_files(path, path_output, config_rtl, "36Kb")
 
-    with open(Path(__file__).parent.resolve() / "lib/template_config_const_array.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "lib/template/template_config_const_array.vhd", "r") as f:
         template_config_array = f.read()
 
     num_words = [ceil(log2(d))+2 for d in open_file(path / "core/config_pkg.txt")]
@@ -44,7 +44,7 @@ def main():
     ]
 
     # bram_layer = ', '.join(str(i) for i in range(len(dict_bram36k['wght'])))
-    with open(Path(__file__).parent.resolve() / "lib/template_config_const_pkg.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "lib/template/template_config_const_pkg.vhd", "r") as f:
         output = f.read().format(size=len(config_data)-1, array=",\n".join(config_format))
 
     with open(path_output / f"config_const_pkg.vhd", "w") as f:
