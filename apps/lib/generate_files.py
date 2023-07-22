@@ -128,17 +128,17 @@ class GenerateRTL:
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         generate_generic_dict = {**generic_dict, **generic_dict2}
-        generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
         self.generate_generic_file(generate_generic_dict, path_layer, layer)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(generate_generic_dict, path_layer, layer)
         # Generate VHDL tensorflow package
-        generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
-        self.generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
-        self.generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
+        generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
+        self.generate_iwght_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
+        self.generate_ifmap_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
         # Generate VHDL gold output package
-        self.generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
+        self.generate_gold_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
         self.generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
 
     def generate_all_bram_files(self, input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
