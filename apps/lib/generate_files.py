@@ -96,6 +96,7 @@ class GenerateRTL:
     def run(self):
         for e, _ in enumerate(list(self.model_dict.keys())):
             self.generate_files(e)
+        self.generate_samples()
 
     def generate_files(self, layer):
         input_c = self.model_dict[0]["input_shape"][-1]
@@ -160,13 +161,13 @@ class GenerateRTL:
     #     # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
     #     self.generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
 
-    def generate_samples(self, input_channel, generic_dict, vhd_dict, layer, path, single_file):
-        path_samples = path / 'samples'
+    def generate_samples(self):
+        path_samples = self.rtl_output_path / 'samples'
         path_samples.mkdir(parents=True, exist_ok=True)
-        generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
-        self.generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
-        self.generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
+        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, testSetSize=self.samples)
+        self.generate_gold_vhd_pkg(path=path_samples, layer=0, testSetSize=self.samples)
 
     def generate_generic_file(self, generate_layer_dict, path, n_layer):
         CLK_HALF = self.generic_dict["CLK_PERIOD"] / 2
@@ -358,9 +359,9 @@ class GenerateRTL:
     #     data = bias_list + weight_unpack
     #     return data
 
-    def generate_ifmap_vhd_pkg(self, path, layer):
+    def generate_ifmap_vhd_pkg(self, path, layer, testSetSize=1):
         tab = "    "
-        feat_list = self.get_feature_data(layer, tab, path)
+        feat_list = self.get_feature_data(layer, tab, path, testSetSize)
 
         format_feat = format_feature(feat_list, tab)
 
@@ -473,7 +474,7 @@ class GenerateRTL:
     #     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     #     return feat_unpack
 
-    def get_feature_data(self, layer, tab, path):
+    def get_feature_data(self, layer, tab, path, testSetSize=1):
         filter_channel = self.vhd_dict["filter_channel"]
         filter_dimension = self.vhd_dict["filter_dimension"]
         input_channel = self.input_channel
@@ -483,7 +484,7 @@ class GenerateRTL:
         stride_h = self.vhd_dict["stride_h"]
         stride_w = self.vhd_dict["stride_w"]
         testSet = self.vhd_dict["testSet"]
-        testSetSize = self.vhd_dict["testSetSize"]
+        # testSetSize = self.vhd_dict["testSetSize"]
         gen_features = True
         if layer == 0:
             feat_list = [
@@ -507,7 +508,7 @@ class GenerateRTL:
                 feat_list = []
         return feat_list
 
-    def generate_gold_vhd_pkg(self, layer, path):
+    def generate_gold_vhd_pkg(self, layer, path, testSetSize=1):
         tab = "    "
         gen_features = False
         filter_channel = self.vhd_dict["filter_channel"]
@@ -519,7 +520,7 @@ class GenerateRTL:
         stride_h = self.vhd_dict["stride_h"]
         stride_w = self.vhd_dict["stride_w"]
         testSet = self.vhd_dict["testSet"]
-        testSetSize = self.vhd_dict["testSetSize"]
+        # testSetSize = self.vhd_dict["testSetSize"]
 
         if self.model_dict[layer]["type"] == "Dense":
             feat_list = self.fc(self.model_dict, shift, layer, gen_features, path)
