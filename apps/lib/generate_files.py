@@ -101,44 +101,39 @@ class GenerateRTL:
         input_c = self.model_dict[0]["input_shape"][-1]
         input_w = self.model_dict[0]["input_shape"][0]
         input_channel = self.input_channel
-        generic_dict = self.generic_dict
-        vhd_dict = self.vhd_dict
         path = self.rtl_output_path
-        opt_type = self.dict_op_type[self.model_dict[layer]["type"]]
 
         # Compute HW parameters
         if layer == 0:
             X_SIZE = input_w
             C_SIZE = input_c
         else:
-            X_SIZE = vhd_dict["layer_dimension"][layer - 1]
-            C_SIZE = vhd_dict["filter_channel"][layer - 1]
+            X_SIZE = self.vhd_dict["layer_dimension"][layer - 1]
+            C_SIZE = self.vhd_dict["filter_channel"][layer - 1]
 
-        FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
-        CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
+        FILTER_WIDTH = self.vhd_dict["filter_dimension"][layer]
+        CONVS_PER_LINE = self.vhd_dict["layer_dimension"][layer]
         generic_dict2 = {
             "X_SIZE": X_SIZE,
             "C_SIZE": C_SIZE,
             "FILTER_WIDTH": FILTER_WIDTH,
             "CONVS_PER_LINE": CONVS_PER_LINE,
             "LAYER": layer,
-            "OP_TYPE": opt_type
+            "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]]
         }
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
-        # generate_generic_dict = {**generic_dict, **generic_dict2}
-        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
         self.generate_generic_file(generic_dict2, path_layer, layer)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(generic_dict2, path_layer, layer)
         # Generate VHDL tensorflow package
         generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
-        self.generate_iwght_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
-        self.generate_ifmap_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
+        self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
-        self.generate_gold_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
+        self.generate_gold_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
         self.generate_config_file(
             X_SIZE=X_SIZE,  CONVS_PER_LINE=CONVS_PER_LINE, N_CHANNEL=C_SIZE, path=path_layer, n_layer=layer
         )
@@ -287,8 +282,9 @@ class GenerateRTL:
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
-    def generate_iwght_vhd_pkg(self, modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                               input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+    def generate_iwght_vhd_pkg(self, layer, path):
+        modelDict = self.model_dict
+        shift = self.vhd_dict["shift"]
         tab = "    "
 
         bias_list = self.get_bias(layer, modelDict, shift)
@@ -363,11 +359,9 @@ class GenerateRTL:
         data = bias_list + weight_unpack
         return data
 
-    def generate_ifmap_vhd_pkg(self, modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                               input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+    def generate_ifmap_vhd_pkg(self, path, layer):
         tab = "    "
-        feat_list = self.get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                     shift, stride_h, stride_w, tab, testSet, testSetSize, path)
+        feat_list = self.get_feature_data(layer, tab, path)
 
         format_feat = format_feature(feat_list, tab)
 
@@ -480,8 +474,17 @@ class GenerateRTL:
         feat_unpack = [feat for c in feat_list for col in c for feat in col]
         return feat_unpack
 
-    def get_feature_data(self, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                         shift, stride_h, stride_w, tab, testSet, testSetSize, path):
+    def get_feature_data(self, layer, tab, path):
+        filter_channel = self.vhd_dict["filter_channel"]
+        filter_dimension = self.vhd_dict["filter_dimension"]
+        input_channel = self.input_channel
+        layer_dimension = self.vhd_dict["layer_dimension"]
+        modelDict = self.vhd_dict["modelDict"]
+        shift = self.vhd_dict["shift"]
+        stride_h = self.vhd_dict["stride_h"]
+        stride_w = self.vhd_dict["stride_w"]
+        testSet = self.vhd_dict["testSet"]
+        testSetSize = self.vhd_dict["testSetSize"]
         gen_features = True
         if layer == 0:
             feat_list = [
