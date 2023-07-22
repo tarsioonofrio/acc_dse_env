@@ -133,7 +133,7 @@ class GenerateRTL:
         self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
-        self.generate_gold_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
+        self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
         self.generate_config_file(
             X_SIZE=X_SIZE,  CONVS_PER_LINE=CONVS_PER_LINE, N_CHANNEL=C_SIZE, path=path_layer, n_layer=layer
         )
@@ -508,14 +508,23 @@ class GenerateRTL:
                 feat_list = []
         return feat_list
 
-    def generate_gold_vhd_pkg(self, modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                              input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
+    def generate_gold_vhd_pkg(self, layer, path):
         tab = "    "
         gen_features = False
+        filter_channel = self.vhd_dict["filter_channel"]
+        filter_dimension = self.vhd_dict["filter_dimension"]
+        input_channel = self.input_channel
+        layer_dimension = self.vhd_dict["layer_dimension"]
+        modelDict = self.vhd_dict["modelDict"]
+        shift = self.vhd_dict["shift"]
+        stride_h = self.vhd_dict["stride_h"]
+        stride_w = self.vhd_dict["stride_w"]
+        testSet = self.vhd_dict["testSet"]
+        testSetSize = self.vhd_dict["testSetSize"]
 
-        if modelDict[layer]["type"] == "Dense":
-            feat_list = self.fc(modelDict, shift, layer, gen_features, path)
-        elif modelDict[layer]["type"] == "Conv2D":
+        if self.model_dict[layer]["type"] == "Dense":
+            feat_list = self.fc(self.model_dict, shift, layer, gen_features, path)
+        elif self.model_dict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
                 gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
                 stride_h, stride_w, tab, testSet, testSetSize
