@@ -2,8 +2,10 @@ import os
 import json
 import pickle
 import argparse
+
 from pathlib import Path
 
+import torch
 import numpy as np
 
 from lib import util, keras_cifar10
@@ -12,7 +14,7 @@ from lib.generate_files import (
     generate_samples, generate_gold_maxpool_vhd_pkg, fc, dict_op_type
 )
 from lib.model import dictionary_from_model
-
+from lib.pytorch_models import Default
 
 def main():
     parser = argparse.ArgumentParser(
@@ -41,6 +43,14 @@ def main():
     shift = 2 ** shift_bits
 
     # Compute number of convolutional layers
+    config_dataset = {
+        "input_w": 32,
+        "input_h": 32,
+        "input_c": 3,
+        "classes": 10,
+    }
+    model = Default(cnn_config, config_dataset)
+    model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
     if os.path.exists(cnn_output_path / "weights.pkl"):
         # model_dict = {int(k): v for k, v in loadmat(str(path / "model.mat")).items() if k[0] != '_'}
@@ -58,7 +68,7 @@ def main():
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, f)
 
-    model_dict = {k: v for k, v in model_dict.items() if v["type"] != "Flatten"}
+    # model_dict = {k: v for k, v in model_dict.items() if v["type"] != "Flatten"}
 
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
