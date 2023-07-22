@@ -115,9 +115,9 @@ def main():
         "testSetSize": 10,
     }
     # Compute input channels
-    input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
-    generate_rtl = GenerateRTL(model_dict, input_channel, generic_dict, vhd_dict, rtl_output_path, samples=10)
+    generate_rtl = GenerateRTL(model_dict, generic_dict, vhd_dict, rtl_output_path, samples=10)
     generate_rtl.run()
+
     # for e, _ in enumerate(list(model_dict.keys())):
     #     generate_files(
     #         model_dict[0]["input_shape"][-1], model_dict[0]["input_shape"][0], input_channel, generic_dict,

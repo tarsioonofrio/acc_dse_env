@@ -80,9 +80,9 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, input_channel, generic_dict, vhd_dict, rtl_output_path, samples=10):
+    def __init__(self, model_dict, generic_dict, vhd_dict, rtl_output_path, samples=10):
         self.model_dict = model_dict
-        self.input_channel = input_channel
+        self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
         self.generic_dict = generic_dict
         self.vhd_dict = vhd_dict
         self.rtl_output_path = rtl_output_path
@@ -95,13 +95,17 @@ class GenerateRTL:
 
     def run(self):
         for e, _ in enumerate(list(self.model_dict.keys())):
-            self.generate_files(
-                self.model_dict[0]["input_shape"][-1], self.model_dict[0]["input_shape"][0], self.input_channel,
-                self.generic_dict,
-                self.vhd_dict, e, self.rtl_output_path, self.dict_op_type[self.model_dict[e]["type"]]
-            )
+            self.generate_files(e)
 
-    def generate_files(self, input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path, opt_type):
+    def generate_files(self, layer):
+        input_c = self.model_dict[0]["input_shape"][-1]
+        input_w = self.model_dict[0]["input_shape"][0]
+        input_channel = self.input_channel
+        generic_dict = self.generic_dict
+        vhd_dict = self.vhd_dict
+        path = self.rtl_output_path
+        opt_type = self.dict_op_type[self.model_dict[layer]["type"]]
+
         # Compute HW parameters
         if layer == 0:
             X_SIZE = input_w
@@ -157,7 +161,7 @@ class GenerateRTL:
         }
         path.mkdir(parents=True, exist_ok=True)
         generate_generic_dict = {**generic_dict, **generic_dict2}
-        generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         self.generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
 
     def generate_samples(self, input_channel, generic_dict, vhd_dict, layer, path, single_file):
