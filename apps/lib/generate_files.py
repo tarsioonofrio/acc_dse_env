@@ -127,19 +127,21 @@ class GenerateRTL:
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
-        generate_generic_dict = {**generic_dict, **generic_dict2}
+        # generate_generic_dict = {**generic_dict, **generic_dict2}
         # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
-        self.generate_generic_file(generate_generic_dict, path_layer, layer)
+        self.generate_generic_file(generic_dict2, path_layer, layer)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(generate_generic_dict, path_layer, layer)
+        self.generate_tcl_generic(generic_dict2, path_layer, layer)
         # Generate VHDL tensorflow package
-        generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
+        generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
         self.generate_iwght_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
         self.generate_ifmap_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **vhd_dict)
-        self.generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
+        self.generate_config_file(
+            X_SIZE=X_SIZE,  CONVS_PER_LINE=CONVS_PER_LINE, N_CHANNEL=C_SIZE, path=path_layer, n_layer=layer
+        )
 
     def generate_all_bram_files(self, input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
         # Compute HW parameters
@@ -172,8 +174,8 @@ class GenerateRTL:
         self.generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
         self.generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
 
-    def generate_generic_file(self, generate_dict, path, n_layer):
-        CLK_HALF = generate_dict["CLK_PERIOD"] / 2
+    def generate_generic_file(self, generate_layer_dict, path, n_layer):
+        CLK_HALF = self.generic_dict["CLK_PERIOD"] / 2
         RST_TIME = CLK_HALF * 5
         if "core" in path.as_posix():
             data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
@@ -181,13 +183,14 @@ class GenerateRTL:
             data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
 
         generate_dict2 = {
-            **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+            **{k: v for k, v in self.generic_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+            ** generate_layer_dict,
             "CLK_HALF": CLK_HALF,
             "RST_TIME": RST_TIME,
-            "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
-            "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
-            "N_FILTER": generate_dict["N_FILTER"][n_layer],
-            "STRIDE": generate_dict["STRIDE"][n_layer],
+            "RISE_START": CLK_HALF * 2.0 + RST_TIME + self.generic_dict["IN_DELAY"],
+            "FALL_START": CLK_HALF * 4.0 + RST_TIME + self.generic_dict["IN_DELAY"],
+            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
+            "STRIDE": self.generic_dict["STRIDE"][n_layer],
             "PATH": data_path,
         }
         line = (
@@ -202,11 +205,12 @@ class GenerateRTL:
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
-    def generate_tcl_generic(self, generate_dict, path, n_layer):
+    def generate_tcl_generic(self, generic_dict_layer, path, n_layer):
         generate_dict2 = {
-            **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
-            "N_FILTER": generate_dict["N_FILTER"][n_layer],
-            "STRIDE": generate_dict["STRIDE"][n_layer],
+            **{k: v for k, v in self.generic_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+            **generic_dict_layer,
+            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
+            "STRIDE": self.generic_dict["STRIDE"][n_layer],
         }
         line = (
             "set CLK_PERIOD {CLK_PERIOD}\n"
@@ -232,36 +236,35 @@ class GenerateRTL:
         with open(path / "generic_synth.tcl", "w") as f:
             f.write(line)
 
-    def generate_config_file(self, generate_dict, path, n_layer):
+    def generate_config_file(self, X_SIZE, CONVS_PER_LINE, N_CHANNEL, path, n_layer):
         generate_dict2 = {
-            "N_FILTER": generate_dict["N_FILTER"][n_layer],
-            "N_CHANNEL": generate_dict["N_CHANNEL"],
-            "X_SIZE": generate_dict["X_SIZE"],
-            "X_SIZE_X_SIZE": generate_dict["X_SIZE"] ** 2,
-            "CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"],
-            "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"] ** 2,
-            "CONVS_PER_LINE_CONVS_PER_LINE_1": (generate_dict["CONVS_PER_LINE"] ** 2) + 1,
+            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
+            "N_CHANNEL": N_CHANNEL,
+            "X_SIZE": X_SIZE,
+            "X_SIZE_X_SIZE": X_SIZE ** 2,
+            "CONVS_PER_LINE": CONVS_PER_LINE,
+            "CONVS_PER_LINE_CONVS_PER_LINE": CONVS_PER_LINE ** 2,
+            "CONVS_PER_LINE_CONVS_PER_LINE_1": (CONVS_PER_LINE ** 2) + 1,
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"],
+                (CONVS_PER_LINE ** 2) * N_CHANNEL,
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                (generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1),
+                (CONVS_PER_LINE ** 2) * (N_CHANNEL - 1),
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][n_layer],
+                (CONVS_PER_LINE ** 2) * N_CHANNEL * self.generic_dict["N_FILTER"][n_layer],
 
-            "LOG_N_FILTER": log2ceil(generate_dict["N_FILTER"][n_layer]),
-            "LOG_N_CHANNEL": log2ceil(generate_dict["N_CHANNEL"]),
-            "LOG_X_SIZE": log2ceil(generate_dict["X_SIZE"]),
-            "LOG_X_SIZE_X_SIZE": log2ceil(generate_dict["X_SIZE"] ** 2),
-            "LOG_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"] ** 2),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) + 1),
+            "LOG_N_FILTER": log2ceil(self.generic_dict["N_FILTER"][n_layer]),
+            "LOG_N_CHANNEL": log2ceil(N_CHANNEL),
+            "LOG_X_SIZE": log2ceil(X_SIZE),
+            "LOG_X_SIZE_X_SIZE": log2ceil(X_SIZE ** 2),
+            "LOG_CONVS_PER_LINE": log2ceil(CONVS_PER_LINE),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(CONVS_PER_LINE ** 2),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((CONVS_PER_LINE ** 2) + 1),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"]),
+                log2ceil((CONVS_PER_LINE ** 2) * N_CHANNEL),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1)),
+                log2ceil((CONVS_PER_LINE ** 2) * (N_CHANNEL - 1)),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][
-                    n_layer]),
+                log2ceil((CONVS_PER_LINE ** 2) * N_CHANNEL * self.generic_dict["N_FILTER"][n_layer]),
         }
 
         with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
