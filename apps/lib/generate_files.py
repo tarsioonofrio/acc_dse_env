@@ -105,19 +105,18 @@ class GenerateRTL:
 
         # Compute HW parameters
         if layer == 0:
-            X_SIZE = input_w
-            C_SIZE = input_c
+            x_size = input_w
+            c_size = input_c
         else:
-            X_SIZE = self.vhd_dict["layer_dimension"][layer - 1]
-            C_SIZE = self.vhd_dict["filter_channel"][layer - 1]
+            x_size = self.vhd_dict["layer_dimension"][layer - 1]
+            c_size = self.vhd_dict["filter_channel"][layer - 1]
 
-        FILTER_WIDTH = self.vhd_dict["filter_dimension"][layer]
-        CONVS_PER_LINE = self.vhd_dict["layer_dimension"][layer]
+        conv_per_line = self.vhd_dict["layer_dimension"][layer]
         generic_dict2 = {
-            "X_SIZE": X_SIZE,
-            "C_SIZE": C_SIZE,
-            "FILTER_WIDTH": FILTER_WIDTH,
-            "CONVS_PER_LINE": CONVS_PER_LINE,
+            "X_SIZE": x_size,
+            "C_SIZE": c_size,
+            "FILTER_WIDTH": self.vhd_dict["filter_dimension"][layer],
+            "CONVS_PER_LINE": conv_per_line,
             "LAYER": layer,
             "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]]
         }
@@ -135,7 +134,7 @@ class GenerateRTL:
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
         self.generate_config_file(
-            X_SIZE=X_SIZE,  CONVS_PER_LINE=CONVS_PER_LINE, N_CHANNEL=C_SIZE, path=path_layer, n_layer=layer
+            x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer, n_layer=layer
         )
 
     def generate_all_bram_files(self, input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
@@ -231,35 +230,35 @@ class GenerateRTL:
         with open(path / "generic_synth.tcl", "w") as f:
             f.write(line)
 
-    def generate_config_file(self, X_SIZE, CONVS_PER_LINE, N_CHANNEL, path, n_layer):
+    def generate_config_file(self, x_size, conv_per_line, n_channel, path, n_layer):
         generate_dict2 = {
             "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
-            "N_CHANNEL": N_CHANNEL,
-            "X_SIZE": X_SIZE,
-            "X_SIZE_X_SIZE": X_SIZE ** 2,
-            "CONVS_PER_LINE": CONVS_PER_LINE,
-            "CONVS_PER_LINE_CONVS_PER_LINE": CONVS_PER_LINE ** 2,
-            "CONVS_PER_LINE_CONVS_PER_LINE_1": (CONVS_PER_LINE ** 2) + 1,
+            "N_CHANNEL": n_channel,
+            "X_SIZE": x_size,
+            "X_SIZE_X_SIZE": x_size ** 2,
+            "CONVS_PER_LINE": conv_per_line,
+            "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line ** 2,
+            "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line ** 2) + 1,
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                (CONVS_PER_LINE ** 2) * N_CHANNEL,
+                (conv_per_line ** 2) * n_channel,
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                (CONVS_PER_LINE ** 2) * (N_CHANNEL - 1),
+                (conv_per_line ** 2) * (n_channel - 1),
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                (CONVS_PER_LINE ** 2) * N_CHANNEL * self.generic_dict["N_FILTER"][n_layer],
+                (conv_per_line ** 2) * n_channel * self.generic_dict["N_FILTER"][n_layer],
 
             "LOG_N_FILTER": log2ceil(self.generic_dict["N_FILTER"][n_layer]),
-            "LOG_N_CHANNEL": log2ceil(N_CHANNEL),
-            "LOG_X_SIZE": log2ceil(X_SIZE),
-            "LOG_X_SIZE_X_SIZE": log2ceil(X_SIZE ** 2),
-            "LOG_CONVS_PER_LINE": log2ceil(CONVS_PER_LINE),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(CONVS_PER_LINE ** 2),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((CONVS_PER_LINE ** 2) + 1),
+            "LOG_N_CHANNEL": log2ceil(n_channel),
+            "LOG_X_SIZE": log2ceil(x_size),
+            "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
+            "LOG_CONVS_PER_LINE": log2ceil(conv_per_line),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line ** 2),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((conv_per_line ** 2) + 1),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                log2ceil((CONVS_PER_LINE ** 2) * N_CHANNEL),
+                log2ceil((conv_per_line ** 2) * n_channel),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                log2ceil((CONVS_PER_LINE ** 2) * (N_CHANNEL - 1)),
+                log2ceil((conv_per_line ** 2) * (n_channel - 1)),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                log2ceil((CONVS_PER_LINE ** 2) * N_CHANNEL * self.generic_dict["N_FILTER"][n_layer]),
+                log2ceil((conv_per_line ** 2) * n_channel * self.generic_dict["N_FILTER"][n_layer]),
         }
 
         with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
