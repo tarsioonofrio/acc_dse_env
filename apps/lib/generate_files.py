@@ -49,7 +49,7 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, stride, n_filter, n_layer=0, samples=10):
+    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10, core=False):
         self.tab = "    "
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
@@ -72,11 +72,9 @@ class GenerateRTL:
         self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
         self.dataloader = dataloader
         # change for core
-        self.stride = stride
-        # self.stride = [v["stride_h"] for k, v in model_dict.items()]
-        self.n_filter = n_filter
-        # self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
-        self.n_layer = n_layer
+        self.n_layer = 0
+        self.stride = [v["stride_h"] for k, v in model_dict.items()]
+        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
 
     def __call__(self, samples=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -111,18 +109,23 @@ class GenerateRTL:
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
-        self.generate_generic_file(generic_dict2, path_layer, layer)
+        self.generate_generic_file(
+            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer]
+        )
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(generic_dict2, path_layer, layer)
+        self.generate_tcl_generic(
+            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer]
+        )
+        self.generate_config_file(
+            x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
+            n_filter=self.stride[layer],
+        )
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
-        self.generate_config_file(
-            x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer, n_layer=layer
-        )
 
     def generate_samples(self):
         path_samples = self.rtl_output_path / 'samples'
@@ -132,7 +135,7 @@ class GenerateRTL:
         self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
         self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
 
-    def generate_generic_file(self, generate_layer_dict, path, n_layer):
+    def generate_generic_file(self, generate_layer_dict, path, n_filter, stride):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
         rst_time = clk_half * 5
         if "core" in path.as_posix():
@@ -146,8 +149,8 @@ class GenerateRTL:
             "RST_TIME": rst_time,
             "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
             "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
-            "N_FILTER": self.n_filter[n_layer],
-            "STRIDE": self.stride[n_layer],
+            "N_FILTER": n_filter,
+            "STRIDE": stride,
             "PATH": data_path,
             "SHIFT": self.shift_bits,
             "N_LAYER": self.n_layer,
@@ -163,12 +166,12 @@ class GenerateRTL:
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
-    def generate_tcl_generic(self, generic_dict_layer, path, n_layer):
+    def generate_tcl_generic(self, generic_dict_layer, path, n_filter, stride):
         generate_dict2 = {
             **{k: v for k, v in self.rtl_config.items()},
             **generic_dict_layer,
-            "N_FILTER": self.n_filter[n_layer],
-            "STRIDE": self.stride[n_layer],
+            "N_FILTER": n_filter,
+            "STRIDE": stride,
             "SHIFT": self.shift_bits,
             "N_LAYER": self.n_layer,
         }
@@ -196,9 +199,9 @@ class GenerateRTL:
         with open(path / "generic_synth.tcl", "w") as f:
             f.write(line)
 
-    def generate_config_file(self, x_size, conv_per_line, n_channel, path, n_layer):
+    def generate_config_file(self, x_size, conv_per_line, n_channel, path, n_filter):
         generate_dict2 = {
-            "N_FILTER": self.n_filter[n_layer],
+            "N_FILTER": n_filter,
             "N_CHANNEL": n_channel,
             "X_SIZE": x_size,
             "X_SIZE_X_SIZE": x_size ** 2,
@@ -210,9 +213,9 @@ class GenerateRTL:
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
                 (conv_per_line ** 2) * (n_channel - 1),
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                (conv_per_line ** 2) * n_channel * self.n_filter[n_layer],
+                (conv_per_line ** 2) * n_channel * n_filter,
 
-            "LOG_N_FILTER": log2ceil(self.n_filter[n_layer]),
+            "LOG_N_FILTER": log2ceil(n_filter),
             "LOG_N_CHANNEL": log2ceil(n_channel),
             "LOG_X_SIZE": log2ceil(x_size),
             "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
@@ -224,7 +227,7 @@ class GenerateRTL:
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
                 log2ceil((conv_per_line ** 2) * (n_channel - 1)),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                log2ceil((conv_per_line ** 2) * n_channel * self.n_filter[n_layer]),
+                log2ceil((conv_per_line ** 2) * n_channel * n_filter),
         }
 
         with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:

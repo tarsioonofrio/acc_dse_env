@@ -107,11 +107,8 @@ def main():
     # }
 
     # Compute input channels
-    stride = [v["stride_h"] for k, v in model_dict.items()]
-    n_filter = [v["filter_channel"] for k, v in model_dict.items()]
     generate_rtl = GenerateRTL(
-        model_dict, rtl_config, rtl_output_path, dataloader,
-        stride=stride, n_filter=n_filter, n_layer=0, samples=10
+        model_dict, rtl_config, rtl_output_path, dataloader, samples=10
     )
     generate_rtl(samples=True)
 
@@ -135,18 +132,8 @@ def main():
     # generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, rtl_output_path, single_file=False)
     #
     # generic_dict2 = {
-    #     "MEM_SIZE": rtl_config["MEM_SIZE"],
-    #     "INPUT_SIZE": rtl_config["INPUT_SIZE"],
-    #     "CARRY_SIZE": rtl_config["CARRY_SIZE"],
-    #     "CLK_PERIOD": rtl_config["CLK_PERIOD"],
     #     "STRIDE": [max([v["stride_h"] for k, v in model_dict.items()])],
     #     "N_FILTER": [max([v["filter_channel"] for k, v in model_dict.items()])],
-    #     "DATAFLOW_TYPE": rtl_config["DATAFLOW_TYPE"],
-    #     "LAT": rtl_config["LAT"],
-    #     "SHIFT": int(shift_bits),
-    #     "IN_DELAY": rtl_config["IN_DELAY"],
-    #     "ARRAY_TYPE": rtl_config["ARRAY_TYPE"],
-    #
     #     "X_SIZE": max([model_dict[0]["input_shape"][0]] + vhd_dict["layer_dimension"]),
     #     "C_SIZE": max([model_dict[0]["input_shape"][-1]] + vhd_dict["filter_channel"]),
     #     "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
