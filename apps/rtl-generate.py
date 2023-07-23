@@ -77,20 +77,20 @@ def main():
 
     # Compute output layer dimensions
     layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
-    generic_dict = {
-        "MEM_SIZE": rtl_config["MEM_SIZE"],
-        "INPUT_SIZE": rtl_config["INPUT_SIZE"],
-        "CARRY_SIZE": rtl_config["CARRY_SIZE"],
-        "CLK_PERIOD": rtl_config["CLK_PERIOD"],
-        "STRIDE": [v["stride_h"] for k, v in model_dict.items()],
-        "N_FILTER": [v["filter_channel"] for k, v in model_dict.items()],
-        "DATAFLOW_TYPE": rtl_config["DATAFLOW_TYPE"],
-        "LAT": rtl_config["LAT"],
-        "SHIFT": int(shift_bits),
-        "IN_DELAY": rtl_config["IN_DELAY"],
-        "ARRAY_TYPE": rtl_config["ARRAY_TYPE"],
-        "N_LAYER": 0,
-    }
+    # generic_dict = {
+    #     "MEM_SIZE": rtl_config["MEM_SIZE"],
+    #     "INPUT_SIZE": rtl_config["INPUT_SIZE"],
+    #     "CARRY_SIZE": rtl_config["CARRY_SIZE"],
+    #     "CLK_PERIOD": rtl_config["CLK_PERIOD"],
+    #     "STRIDE": [v["stride_h"] for k, v in model_dict.items()],
+    #     "N_FILTER": [v["filter_channel"] for k, v in model_dict.items()],
+    #     "DATAFLOW_TYPE": rtl_config["DATAFLOW_TYPE"],
+    #     "LAT": rtl_config["LAT"],
+    #     "SHIFT": int(shift_bits),
+    #     "IN_DELAY": rtl_config["IN_DELAY"],
+    #     "ARRAY_TYPE": rtl_config["ARRAY_TYPE"],
+    #     "N_LAYER": 0,
+    # }
 
     vhd_dict = {
         "modelDict": model_dict,
@@ -105,17 +105,9 @@ def main():
         "stride_w": [v["stride_w"] for k, v in model_dict.items()],
         "testSetSize": 1,
     }
-    vhd_dict_files = {
-        ** vhd_dict,
-        "testSetSize": 1,
-    }
 
-    vhd_dict_samples = {
-        ** vhd_dict,
-        "testSetSize": 10,
-    }
     # Compute input channels
-    generate_rtl = GenerateRTL(model_dict, generic_dict, vhd_dict, rtl_output_path, samples=10)
+    generate_rtl = GenerateRTL(model_dict, rtl_config, vhd_dict, rtl_output_path, samples=10)
     generate_rtl.run()
 
     # for e, _ in enumerate(list(model_dict.keys())):

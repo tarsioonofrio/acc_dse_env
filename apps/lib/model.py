@@ -4,6 +4,8 @@ from math import log2
 import numpy as np
 from numpy.lib.stride_tricks import as_strided
 
+from apps.lib.bram import open_file
+
 
 def dictionary_from_model(model):
     # Create dictionary
@@ -392,3 +394,27 @@ def pool2d(image, kernel_size=2, stride=1, padding=0, pool_mode='max'):
         return image_w.mean(axis=(3, 4))
 
 
+def fc(modelDict, shift, layer, gen_features, path):
+    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+    weights = [
+        (v["weights"] * shift).astype(int).tolist()
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    bias = [
+        int(v["bias"] * shift * shift)
+        for k, v
+        in modelDict[layer]["neuron"].items()
+    ]
+
+    gold = [
+        np.dot(feature, w) + b
+        for w, b
+        in zip(weights, bias)
+    ]
+    if gen_features:
+        return [[feature]]
+    else:
+        return [[gold]]

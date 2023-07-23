@@ -4,8 +4,9 @@ from math import log2, ceil
 
 import numpy as np
 
-from .model import conv2d, generate_ifmem_vhd_pkg, pool2d
+from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 from .bram import open_file
+
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
@@ -80,10 +81,10 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, generic_dict, vhd_dict, rtl_output_path, samples=10):
+    def __init__(self, model_dict, rtl_config, vhd_dict, rtl_output_path, samples=10):
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
-        self.generic_dict = generic_dict
+        self.rtl_config = rtl_config
         self.vhd_dict = vhd_dict
         self.rtl_output_path = rtl_output_path
         self.samples = samples
@@ -92,6 +93,12 @@ class GenerateRTL:
             'Dense': 'F',
             'Maxpool': 'M',
         }
+        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
+        # Adjust shift
+        self.shift = 2 ** self.shift_bits
+        self.n_layer = 0
+        self.stride = [v["stride_h"] for k, v in model_dict.items()]
+        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
 
     def run(self):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -170,23 +177,24 @@ class GenerateRTL:
         self.generate_gold_vhd_pkg(path=path_samples, layer=0, testSetSize=self.samples)
 
     def generate_generic_file(self, generate_layer_dict, path, n_layer):
-        CLK_HALF = self.generic_dict["CLK_PERIOD"] / 2
+        CLK_HALF = self.rtl_config["CLK_PERIOD"] / 2
         RST_TIME = CLK_HALF * 5
         if "core" in path.as_posix():
             data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
         else:
             data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
-
         generate_dict2 = {
-            **{k: v for k, v in self.generic_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+            **{k: v for k, v in self.rtl_config.items()},
             ** generate_layer_dict,
             "CLK_HALF": CLK_HALF,
             "RST_TIME": RST_TIME,
-            "RISE_START": CLK_HALF * 2.0 + RST_TIME + self.generic_dict["IN_DELAY"],
-            "FALL_START": CLK_HALF * 4.0 + RST_TIME + self.generic_dict["IN_DELAY"],
-            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
-            "STRIDE": self.generic_dict["STRIDE"][n_layer],
+            "RISE_START": CLK_HALF * 2.0 + RST_TIME + self.rtl_config["IN_DELAY"],
+            "FALL_START": CLK_HALF * 4.0 + RST_TIME + self.rtl_config["IN_DELAY"],
+            "N_FILTER": self.n_filter[n_layer],
+            "STRIDE": self.stride[n_layer],
             "PATH": data_path,
+            "SHIFT": self.shift_bits,
+            "N_LAYER": self.n_layer,
         }
         line = (
             "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
@@ -196,16 +204,17 @@ class GenerateRTL:
             "-gOP_TYPE={OP_TYPE}"
             "\n"
         ).format(**generate_dict2)
-
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
     def generate_tcl_generic(self, generic_dict_layer, path, n_layer):
         generate_dict2 = {
-            **{k: v for k, v in self.generic_dict.items() if k not in ["N_FILTER", "STRIDE"]},
+            **{k: v for k, v in self.rtl_config.items()},
             **generic_dict_layer,
-            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
-            "STRIDE": self.generic_dict["STRIDE"][n_layer],
+            "N_FILTER": self.n_filter[n_layer],
+            "STRIDE": self.stride[n_layer],
+            "SHIFT": self.shift_bits,
+            "N_LAYER": self.n_layer,
         }
         line = (
             "set CLK_PERIOD {CLK_PERIOD}\n"
@@ -233,7 +242,7 @@ class GenerateRTL:
 
     def generate_config_file(self, x_size, conv_per_line, n_channel, path, n_layer):
         generate_dict2 = {
-            "N_FILTER": self.generic_dict["N_FILTER"][n_layer],
+            "N_FILTER": self.n_filter[n_layer],
             "N_CHANNEL": n_channel,
             "X_SIZE": x_size,
             "X_SIZE_X_SIZE": x_size ** 2,
@@ -245,9 +254,9 @@ class GenerateRTL:
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
                 (conv_per_line ** 2) * (n_channel - 1),
             "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                (conv_per_line ** 2) * n_channel * self.generic_dict["N_FILTER"][n_layer],
+                (conv_per_line ** 2) * n_channel * self.n_filter[n_layer],
 
-            "LOG_N_FILTER": log2ceil(self.generic_dict["N_FILTER"][n_layer]),
+            "LOG_N_FILTER": log2ceil(self.n_filter[n_layer]),
             "LOG_N_CHANNEL": log2ceil(n_channel),
             "LOG_X_SIZE": log2ceil(x_size),
             "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
@@ -259,7 +268,7 @@ class GenerateRTL:
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
                 log2ceil((conv_per_line ** 2) * (n_channel - 1)),
             "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                log2ceil((conv_per_line ** 2) * n_channel * self.generic_dict["N_FILTER"][n_layer]),
+                log2ceil((conv_per_line ** 2) * n_channel * self.n_filter[n_layer]),
         }
 
         with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
@@ -420,32 +429,6 @@ class GenerateRTL:
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
-
-    def fc(self, modelDict, shift, layer, gen_features, path):
-        feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
-
-        weights = [
-            (v["weights"] * shift).astype(int).tolist()
-            for k, v
-            in modelDict[layer]["neuron"].items()
-        ]
-
-        bias = [
-            int(v["bias"] * shift * shift)
-            for k, v
-            in modelDict[layer]["neuron"].items()
-        ]
-
-        gold = [
-            np.dot(feature, w) + b
-            for w, b
-            in zip(weights, bias)
-        ]
-        if gen_features:
-            return [[feature]]
-        else:
-            return [[gold]]
-
     def generate_gold_maxpool_vhd_pkg(self, layer, path):
         tab = "    "
         feature = open_file(path.parent / str(layer) / 'gold.txt')
@@ -479,7 +462,7 @@ class GenerateRTL:
         filter_dimension = self.vhd_dict["filter_dimension"]
         input_channel = self.input_channel
         layer_dimension = self.vhd_dict["layer_dimension"]
-        modelDict = self.vhd_dict["modelDict"]
+        modelDict = self.model_dict
         shift = self.vhd_dict["shift"]
         stride_h = self.vhd_dict["stride_h"]
         stride_w = self.vhd_dict["stride_w"]
@@ -498,7 +481,7 @@ class GenerateRTL:
             ]
         else:
             if modelDict[layer]["type"] == "Dense":
-                feat_list = self.fc(modelDict, shift, layer, gen_features, path)
+                feat_list = fc(modelDict, shift, layer, gen_features, path)
             elif modelDict[layer]["type"] == "Conv2D":
                 feat_list = conv2d(
                     gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -515,7 +498,7 @@ class GenerateRTL:
         filter_dimension = self.vhd_dict["filter_dimension"]
         input_channel = self.input_channel
         layer_dimension = self.vhd_dict["layer_dimension"]
-        modelDict = self.vhd_dict["modelDict"]
+        modelDict = self.model_dict
         shift = self.vhd_dict["shift"]
         stride_h = self.vhd_dict["stride_h"]
         stride_w = self.vhd_dict["stride_w"]
@@ -523,7 +506,7 @@ class GenerateRTL:
         # testSetSize = self.vhd_dict["testSetSize"]
 
         if self.model_dict[layer]["type"] == "Dense":
-            feat_list = self.fc(self.model_dict, shift, layer, gen_features, path)
+            feat_list = fc(self.model_dict, shift, layer, gen_features, path)
         elif self.model_dict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
                 gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
@@ -551,4 +534,5 @@ class GenerateRTL:
     #     )
     #     feat_unpack = [feat for c in feat_list for col in c for feat in col]
     #     return feat_unpack
+
 
