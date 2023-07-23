@@ -1,8 +1,6 @@
 $(shell rm -rf sim_build)
-MODULE=core
-TESTCASE=test
+TESTCASE=core
 TOPLEVEL=tb
-TOPLEVEL_LANG ?= vhdl
 
 export MAKEFILE_LIST
 export L
@@ -10,6 +8,8 @@ export C
 export R
 
 
+MODULE=test
+TOPLEVEL_LANG ?= vhdl
 
 VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/ifmap_pkg.vhd
 VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/iwght_pkg.vhd

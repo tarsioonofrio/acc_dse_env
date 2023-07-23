@@ -14,7 +14,7 @@ else:
 
 # Get CIFAR10 dataset
 cifar10 = keras.datasets.cifar10
-# Load its data into training and test vectors
+# Load its data into training and sim_coroutine vectors
 (_, _), (x_test, _) = cifar10.load_data()
 # Reshape
 x_test = x_test.reshape(-1, 32, 32, 3)

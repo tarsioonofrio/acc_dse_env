@@ -110,4 +110,83 @@ If you want to use other rtl settings, you need to change `default/default`
 to the desired project folder. It is necessary to change the other paths to the same folder.
 
 
-https://github.com/mentax/csv2xlsx/releases
+
+## TODO:
+
+* Add PyInvoke
+* https://github.com/mentax/csv2xlsx/releases
+
+
+From Tarsio's Bachelor Thesis:
+
+* Finalizar a integração da camada FC e MP2P com o framework.
+* Prototipar a rede completa, ou seja, incluir as camadas adicionais: Max polling 2D e Fully Connected.
+* Implementar a função de ativação da camada FC (Fully Connected), que não foi implementada por falta de tempo no TCC. A FC é uma camada importante em redes neurais convolucionais, e sua ativação é necessária para que o acelerador funcione corretamente.
+* Refatorar/organizar o framework desenvolvido. Refatorar o framework é importante para melhorar a organização e manutenção do código. Isso pode facilitar o desenvolvimento de novas funcionalidades e correção de bugs, além de tornar o código mais legível e compreensível .
+* Aumentar a integração com o TensorFlow, utilizando-o diretamente para gerar as inicializações de memória. A sua integração com o acelerador pode trazer benefícios em termos de desempenho e facilidade de uso. Utilizar o TensorFlow diretamente para gerar as features pode ser uma forma de melhorar a integração.
+* Integração com o PyTorch, por ser mais flexível que Keras (TensorFlow).
+* Avaliar a utilização de memória unificada. Uma memória unificada pode trazer benefícios em termos de desempenho e eficiência. Testá-la pode ajudar a avaliar sua viabilidade e identificar possíveis melhorias ou limitações para trabalhos futuros.
+* Traduzir o código para Verilog. O uso de Verilog simplifica a integração com IPs gerados ou disponibilizados pela XILINX, facilitar sua integração em projetos de maior complexidade.
+* Tornar a ferramenta de inicialização das BRAMs genérica, para possa ser utilizada em outros projetos.
+* Alterar o CONVWS ou desenvolver um novo módulo com suporte a stride 1 e tamanho de filtros parametrizáveis (hoje há suporte apenas para filtro 3 x 3. Estas modificações permitirão a avaliação de uma maior número de arquiteturas de CNN.
+* Paralelizar os Cores. Essa abordagem pode melhorar o desempenho do acelerador, permitindo paralelismo temporal (na forma de um pipeline) ou espacial (vários CONVWS operando sobre a mesma camada, mas em diferentes canais).
+* Remover clock com deslocamento de 180 graus do módulo memory das BRAMs (i.e., borda de descida), e alterar todos os módulos para que façam a leitura em borda de subida.
+* Melhorar o pipeline entre os cores para que a vazão aumente, ou seja, desenvolver uma arquitetura multiciclo.
+* Avaliar a arquitetura de convolução 1D. A arquitetura de convolução 1D é utilizada em aplicações que envolvem processamento de sinais unidimensionais, como processamento de áudio ou séries temporais. Testar essa arquitetura pode ajudar a avaliar sua eficácia e identificar possíveis melhorias para aplicações futuras.
+* Integrar o este trabalho com o fluxo de DSE do proposto na Tese de Loeonardo Juracy JuracyLeonardoRezende2022thesis.
+
+From Juracy's Doctoral Thesis:
+* **[Working on]** **Accelerator Prototyping.** Prototype the proposed accelerators in FPGAs, considering the
+entire CNN.
+  * **[Working on]** Analyzes and implementation of an entire CNN accelerated in hardware: this work
+    requires analyzing how to connect the output from a layer to the input of the next layer
+    of a CNN application using the hardware accelerators. These analyses include the use
+    of memories, buffers, and memory hierarchy to connect these layers; 
+  * **[Working on]** FPGA prototyping of hardware accelerators: this work allows verification of the accel-
+    erators at a circuit level. Besides, prototyping and integrating the accelerators with
+    microprocessors to explore analyzes of an entire system. 
+
+* **System Level DSE.** Extend the use of system simulators to perform DSE regarding an entire
+system composed by CPUs, DMA, and CNN accelerators. As mentioned on Chapter 3, system simulators, 
+such as URSA, help in estimating  PPA values of an entire system. This Thesis does not cover DSE 
+regarding an entire system. Thus, one of the future works is to extend the proposed frameworks to 
+cover systems  composed of CPUs, DMA, and CNN accelerators, for example, as illustrated in 
+Figure 7.1. Also, it is possible to combine the system simulator with the analytic flow to 
+improve the  accuracy of the PPA results, like clock cycles estimation. 
+Thus, we proposed the following future works:
+  * Integrate the DSE analytic flow with a system simulator to deliver accurate PPA results
+  with simulation results as convolution engine behavior. To make this integration, it is 
+  possible to use simulators like Gem5 [Gem5, 2022], which allow the reuse of hardware blocks, 
+  such as microprocessors, memories, and bus architectures.
+  * Software and hardware accelerators integration. Integrate the accelerator with microprocessors,
+  and develop APIs to access the accelerators.
+  
+* **Accelerator Design.** Extend the set of accelerators and functions implemented in hardware.
+  * Implementation of other dataflow types: the literature shows other dataflows like 
+  Row Stationary (RS), No Local Reuse (NRL), and Fine-Grained (FG) 
+  [Moolchandani et al., 2021, Xiang et al., 2018]. The implementation of these dataflows allows 
+  to extend the  comparison proposed on Chapter 5, to analyze their trade-offs compared to 
+  Weight Stationary (WS), Input Stationary (IS), and Output Stationary (OS);
+  * Implementation of larger accelerators arrangement: the 3x3 matrix used in this work is
+  an initial step for DSE. We can extend the analyzes for larger arrays as 16x16, like in
+  [Udupa et al., 2020]. Larger arrays allow to improve the analysis of the array parallelism
+  and the array utilization in terms of array percentage;
+  * Integration of Imagenet dataset on DSE flow: thus, it is possible to simulate the ac
+  celerators using more complex CNNs, like AlexNet and VGG16. Also, it is required
+  to implement hardware pooling functions, like max-pooling and average pooling, to
+  execute these CNNs.
+  * A benchmark approach to compare hardware accelerators: build an accelerator repos
+  itory that allows project decisions regarding specific targets, such as low power, high
+  throughput, and small area.
+
+* **Accelerator Optimization.** Optimize the accelerator design using low power techniques,
+pruning, quantization, and memory types.
+  * Application of low power techniques: evaluate, e.g., approximate computing [Arme-
+  niakos et al., 2022]. Also, other CNNs optimization techniques can be applied, like
+  pruning [Bavikadi et al., 2022], and different types of CNN, like the all-convolutional
+  neural networks [Benevenuti et al., 2021]. All-convolutional neural networks are candi-
+  dates to reduce hardware area, once they do not present a fully-connected layer, which
+  is the more expensive network component;
+  * Explore the use of different memories in the same project. For example, build acceler-
+  ators that use both SRAM and DRAM. Also, explore memory hierarchies, like the use
+  of cache memories.

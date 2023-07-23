@@ -1,14 +1,15 @@
 $(shell rm -rf sim_build)
-MODULE=basic
-TESTCASE=test
+TESTCASE=core_serial_input
 TOPLEVEL=tb
-TOPLEVEL_LANG ?= vhdl
 
 export MAKEFILE_LIST
 export L
 export C
 export R
 
+
+MODULE=test
+TOPLEVEL_LANG ?= vhdl
 
 #filename = $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt
 #new_generics = $(shell bash ../write_generics_file.sh $(filename)) -gPATH=$(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)
@@ -31,7 +32,7 @@ VHDL_SOURCES += $(shell pwd)/../rtl/fully_connected/simple.vhd
 
 VHDL_SOURCES += $(shell pwd)/../rtl/core/core_serial.vhd
 
-VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl_core_serial.vhd
+VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl_core_serial_input.vhd
 
 SIM_ARGS += -voptargs=+acc=lprn -t ps -f $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt -wlf vsim.wlf
 

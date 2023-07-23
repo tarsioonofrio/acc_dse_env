@@ -4,40 +4,18 @@ from math import log2, ceil
 
 import numpy as np
 
-from .model import conv2d, generate_ifmem_vhd_pkg, pool2d
-from .bram import open_file
+from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
+from .util import open_file
 
-
-dict_op_type = {
-    'Conv2D': 'C',
-    'Dense': 'F',
-    'Maxpool': 'M',
-}
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
 
 
 def write_mem_pkg(constant, data, file_name, package, path):
-    with open(Path(__file__).parent.resolve() / "template_inmem_pkg.vhd", "r") as f:
+    with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
         text = f.read()
     text_out = text.format(package=package, constant=constant, data=data)
-    with open(path / f"{file_name}.vhd", "w") as f:
-        f.write(text_out)
-
-
-def write_dist_bram(entity, file_name, init, path, bram_size='18Kb', device="SERIES"):
-    with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
-        text = f.read()
-    text_out = text.format(entity=entity, bram_size=bram_size, device=device, init=init)
-    with open(path / f"{file_name}.vhd", "w") as f:
-        f.write(text_out)
-
-
-def write_bram(entity, init, bram_size, device, file_name, path):
-    with open(Path(__file__).parent.resolve() / "bram_unisim_template.vhd", "r") as f:
-        text = f.read()
-    text_out = text.format(entity=entity, bram_size=bram_size, device=device, init=init)
     with open(path / f"{file_name}.vhd", "w") as f:
         f.write(text_out)
 
@@ -45,22 +23,6 @@ def write_bram(entity, init, bram_size, device, file_name, path):
 def write_mem_txt(feat_list, file_name, path):
     with open(path / f"{file_name}.txt", "w") as f:
         f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
-
-
-def write_bram_txt(feat_list, path, bits=8, lines_per_file=64, single_file=True):
-    word = ceil(bits / 4)
-    feat_hex = [format(int(feat), f'0{word}x') for feat in feat_list]
-    if single_file:
-        with open(path, "w") as f:
-            f.write("".join(feat_hex))
-    else:
-        total_words = ceil(64 / word)
-        feat_line = ["".join(feat_hex[i:i + total_words]) + "\n" for i in range(0, len(feat_hex), total_words)]
-        feat_file = [feat_line[i:i + lines_per_file] for i in range(0, len(feat_line), lines_per_file)]
-        path.mkdir(parents=True, exist_ok=True)
-        for i, file in enumerate(feat_file):
-            with open(path / f"{i}.txt", "w") as f:
-                f.writelines(file)
 
 
 def format_feature2(feat_list, tab):
@@ -86,449 +48,458 @@ def format_feature(feat_list, tab):
     return format_feat
 
 
-def generate_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path, opt_type):
-    # Compute HW parameters
-    if layer == 0:
-        X_SIZE = input_w
-        C_SIZE = input_c
-    else:
-        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
-        C_SIZE = vhd_dict["filter_channel"][layer - 1]
+class GenerateRTL:
+    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
+        self.tab = "    "
+        self.model_dict = model_dict
+        self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
+        self.rtl_config = rtl_config
+        self.rtl_output_path = rtl_output_path
+        self.samples = samples
+        self.dict_op_type = {
+            'Conv2D': 'C',
+            'Dense': 'F',
+            'Maxpool': 'M',
+        }
+        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
+        # Adjust shift
+        self.shift = 2 ** self.shift_bits
+        self.input_size = np.prod(model_dict[0]["input_shape"])
+        self.filter_dimension = [v["filter_dimension"] for k, v in model_dict.items()]
+        self.filter_channel = [v["filter_channel"] for k, v in model_dict.items()]
+        self.layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
+        self.stride_h = [v["stride_h"] for k, v in model_dict.items()]
+        self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
+        self.dataloader = dataloader
+        self.stride = [v["stride_h"] for k, v in model_dict.items()]
+        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        # change for core
+        self.n_layer = 0
 
-    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
-    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
-    generic_dict2 = {
-        "X_SIZE": X_SIZE,
-        "C_SIZE": C_SIZE,
-        "FILTER_WIDTH": FILTER_WIDTH,
-        "CONVS_PER_LINE": CONVS_PER_LINE,
-        "LAYER": layer,
-        "OP_TYPE": opt_type
-    }
-    path.mkdir(parents=True, exist_ok=True)
-    path_layer = path / 'layer' / str(layer)
-    path_layer.mkdir(parents=True, exist_ok=True)
-    generate_generic_dict = {**generic_dict, **generic_dict2}
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-    # Generate generic file for rtl simulation
-    generate_generic_file(generate_generic_dict, path_layer, layer)
-    # Generate TCL file with generics for logic synthesis
-    generate_tcl_generic(generate_generic_dict, path_layer, layer)
-    # Generate VHDL tensorflow package
-    generate_ifmem_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_iwght_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_ifmap_vhd_pkg(path=path_layer, **generate_vhd)
-    # Generate VHDL gold output package
-    generate_gold_vhd_pkg(path=path_layer, **generate_vhd)
-    generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path_layer, layer)
+    def __call__(self, samples=False, core=False):
+        for e, _ in enumerate(list(self.model_dict.keys())):
+            self.generate_layer(e)
+        if samples:
+            self.generate_samples()
+        if core:
+            self.generate_core()
 
+    def generate_layer(self, layer):
+        input_c = self.model_dict[0]["input_shape"][-1]
+        input_w = self.model_dict[0]["input_shape"][0]
+        path = self.rtl_output_path
 
-def generate_all_bram_files(input_c, input_w, input_channel, generic_dict, vhd_dict, layer, path):
-    # Compute HW parameters
-    if layer == 0:
-        X_SIZE = input_w
-        C_SIZE = input_c
-    else:
-        X_SIZE = vhd_dict["layer_dimension"][layer - 1]
-        C_SIZE = vhd_dict["filter_channel"][layer - 1]
+        # Compute HW parameters
+        if layer == 0:
+            x_size = input_w
+            c_size = input_c
+        else:
+            x_size = self.layer_dimension[layer - 1]
+            c_size = self.filter_channel[layer - 1]
 
-    FILTER_WIDTH = vhd_dict["filter_dimension"][layer]
-    CONVS_PER_LINE = vhd_dict["layer_dimension"][layer]
-    generic_dict2 = {
-        "X_SIZE": X_SIZE,
-        "C_SIZE": C_SIZE,
-        "FILTER_WIDTH": FILTER_WIDTH,
-        "CONVS_PER_LINE": CONVS_PER_LINE,
-        "LAYER": layer,
-    }
-    path.mkdir(parents=True, exist_ok=True)
-    generate_generic_dict = {**generic_dict, **generic_dict2}
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-    generate_config_file({**generate_generic_dict, "N_CHANNEL": C_SIZE}, path, layer)
+        conv_per_line = self.layer_dimension[layer]
+        generic_dict2 = {
+            "X_SIZE": x_size,
+            "C_SIZE": c_size,
+            "FILTER_WIDTH": self.filter_dimension[layer],
+            "CONVS_PER_LINE": conv_per_line,
+            "LAYER": layer,
+            "N_FILTER": self.n_filter[layer],
+            "STRIDE": self.stride[layer],
+            "SHIFT": self.shift_bits,
+            "N_LAYER": 0,
+            "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]],
+        }
+        path.mkdir(parents=True, exist_ok=True)
+        path_layer = path / 'layer' / str(layer)
+        path_layer.mkdir(parents=True, exist_ok=True)
+        # Generate generic file for rtl simulation
+        self.generate_generic_file(generic_dict2, path_layer)
+        # Generate TCL file with generics for logic synthesis
+        self.generate_tcl_generic(generic_dict2, path_layer)
+        self.generate_config_file(
+            x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
+            n_filter=self.n_filter[layer],
+        )
+        # Generate VHDL tensorflow package
+        self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
+        # Generate VHDL gold output package
+        self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
 
+    def generate_generic_file(self, generate_layer_dict, path, core=False):
+        clk_half = self.rtl_config["CLK_PERIOD"] / 2
+        rst_time = clk_half * 5
+        if core:
+            data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
+        else:
+            data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+        generate_dict2 = {
+            ** self.rtl_config,
+            ** generate_layer_dict,
+            "CLK_HALF": clk_half,
+            "RST_TIME": rst_time,
+            "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "PATH": data_path,
+        }
+        line = (
+            "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+            "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
+            "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
+            "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} "
+            "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
+            "\n"
+        ).format(**generate_dict2)
+        with open(path / "generic_file.txt", "w") as f:
+            f.write(line)
 
-def generate_samples(input_channel, generic_dict, vhd_dict, layer, path, single_file):
-    path_samples = path / 'samples'
-    path_samples.mkdir(parents=True, exist_ok=True)
-    generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-    # Generate generic file for rtl simulation
-    generate_ifmap_vhd_pkg(path=path_samples, **generate_vhd)
-    generate_gold_vhd_pkg(path=path_samples, **generate_vhd)
+    def generate_tcl_generic(self, generic_dict_layer, path):
+        generate_dict2 = {
+            ** self.rtl_config,
+            ** generic_dict_layer,
+        }
+        line = (
+            "set CLK_PERIOD {CLK_PERIOD}\n"
+            "set INPUT_SIZE {INPUT_SIZE}\n"
+            "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
+            "set ARRAY_TYPE {ARRAY_TYPE}\n"
+            "set LAT {LAT}\n"
+            "set LAYER {LAYER}\n"
+            "set parameters "
+            "{{{{N_FILTER {N_FILTER}}} "
+            "{{N_CHANNEL {C_SIZE}}} "
+            "{{STRIDE {STRIDE}}} "
+            "{{X_SIZE {X_SIZE}}} "
+            "{{FILTER_WIDTH {FILTER_WIDTH}}} "
+            "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
+            "{{MEM_SIZE {MEM_SIZE}}} "
+            "{{INPUT_SIZE {INPUT_SIZE}}} "
+            "{{CARRY_SIZE {CARRY_SIZE}}} "
+            "{{SHIFT {SHIFT}"
+            "}}}}\n"
+        ).format(**generate_dict2)
 
+        with open(path / "generic_synth.tcl", "w") as f:
+            f.write(line)
 
-def generate_generic_file(generate_dict, path, n_layer):
-    CLK_HALF = generate_dict["CLK_PERIOD"] / 2
-    RST_TIME = CLK_HALF * 5
-    if "core" in path.as_posix():
-        data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
-    else:
-        data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+    @staticmethod
+    def generate_config_file(x_size, conv_per_line, n_channel, path, n_filter):
+        generate_dict2 = {
+            "N_FILTER": n_filter,
+            "N_CHANNEL": n_channel,
+            "X_SIZE": x_size,
+            "X_SIZE_X_SIZE": x_size ** 2,
+            "CONVS_PER_LINE": conv_per_line,
+            "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line ** 2,
+            "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line ** 2) + 1,
+            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+                (conv_per_line ** 2) * n_channel,
+            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+                (conv_per_line ** 2) * (n_channel - 1),
+            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+                (conv_per_line ** 2) * n_channel * n_filter,
 
-    generate_dict2 = {
-        **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
-        "CLK_HALF": CLK_HALF,
-        "RST_TIME": RST_TIME,
-        "RISE_START": CLK_HALF * 2.0 + RST_TIME + generate_dict["IN_DELAY"],
-        "FALL_START": CLK_HALF * 4.0 + RST_TIME + generate_dict["IN_DELAY"],
-        "N_FILTER": generate_dict["N_FILTER"][n_layer],
-        "STRIDE": generate_dict["STRIDE"][n_layer],
-        "PATH": data_path,
-    }
-    line = (
-        "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-        "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
-        "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-        "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH} "
-        "-gOP_TYPE={OP_TYPE}"
-        "\n"
-    ).format(**generate_dict2)
+            "LOG_N_FILTER": log2ceil(n_filter),
+            "LOG_N_CHANNEL": log2ceil(n_channel),
+            "LOG_X_SIZE": log2ceil(x_size),
+            "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
+            "LOG_CONVS_PER_LINE": log2ceil(conv_per_line),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line ** 2),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((conv_per_line ** 2) + 1),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+                log2ceil((conv_per_line ** 2) * n_channel),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+                log2ceil((conv_per_line ** 2) * (n_channel - 1)),
+            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+                log2ceil((conv_per_line ** 2) * n_channel * n_filter),
+        }
 
-    with open(path / "generic_file.txt", "w") as f:
-        f.write(line)
+        with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
+            text = f.read()
 
+        text_out = text.format(**generate_dict2)
 
-def generate_tcl_generic(generate_dict, path, n_layer):
-    generate_dict2 = {
-        **{k: v for k, v in generate_dict.items() if k not in ["N_FILTER", "STRIDE"]},
-        "N_FILTER": generate_dict["N_FILTER"][n_layer],
-        "STRIDE": generate_dict["STRIDE"][n_layer],
-    }
-    line = (
-        "set CLK_PERIOD {CLK_PERIOD}\n"
-        "set INPUT_SIZE {INPUT_SIZE}\n"
-        "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
-        "set ARRAY_TYPE {ARRAY_TYPE}\n"
-        "set LAT {LAT}\n"
-        "set LAYER {LAYER}\n"
-        "set parameters "
-        "{{{{N_FILTER {N_FILTER}}} "
-        "{{N_CHANNEL {C_SIZE}}} "
-        "{{STRIDE {STRIDE}}} "
-        "{{X_SIZE {X_SIZE}}} "
-        "{{FILTER_WIDTH {FILTER_WIDTH}}} "
-        "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
-        "{{MEM_SIZE {MEM_SIZE}}} "
-        "{{INPUT_SIZE {INPUT_SIZE}}} "
-        "{{CARRY_SIZE {CARRY_SIZE}}} "
-        "{{SHIFT {SHIFT}"
-        "}}}}\n"
-    ).format(**generate_dict2)
+        with open(path / "config_pkg.vhd", "w") as f:
+            f.write(text_out)
 
-    with open(path / "generic_synth.tcl", "w") as f:
-        f.write(line)
+        with open(path / "config_pkg.txt", "w") as f:
+            f.write(f'{generate_dict2["N_FILTER"]}\n')
+            f.write(f'{generate_dict2["N_CHANNEL"]}\n')
+            f.write(f'{generate_dict2["X_SIZE"]}\n')
+            f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
+            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
+    def generate_samples(self):
+        path_samples = self.rtl_output_path / 'samples'
+        path_samples.mkdir(parents=True, exist_ok=True)
+        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+        # Generate generic file for rtl simulation
+        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+        self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
 
-def generate_config_file(generate_dict, path, n_layer):
-    generate_dict2 = {
-        "N_FILTER": generate_dict["N_FILTER"][n_layer],
-        "N_CHANNEL": generate_dict["N_CHANNEL"],
-        "X_SIZE": generate_dict["X_SIZE"],
-        "X_SIZE_X_SIZE": generate_dict["X_SIZE"] ** 2,
-        "CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"],
-        "CONVS_PER_LINE_CONVS_PER_LINE": generate_dict["CONVS_PER_LINE"] ** 2,
-        "CONVS_PER_LINE_CONVS_PER_LINE_1": (generate_dict["CONVS_PER_LINE"] ** 2) + 1,
-        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-            (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"],
-        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-            (generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1),
-        "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-            (generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][n_layer],
+    def generate_core(self):
+        # TODO remove -1 in future after integrate FC (and max pool)
+        layer = len(self.layer_dimension) - 1
+        path_core = self.rtl_output_path / "core"
+        stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
+        n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
+        x_size = max([self.model_dict[0]["input_shape"][0]] + self.layer_dimension)
+        c_size = max([self.model_dict[0]["input_shape"][-1]] + self.filter_channel)
+        conv_per_line = max(self.layer_dimension)
+        generic_dict2 = {
+            "STRIDE": stride[0],
+            "N_FILTER": n_filter[0],
+            "X_SIZE": x_size,
+            "C_SIZE": c_size,
+            "FILTER_WIDTH": max(self.filter_dimension),
+            "CONVS_PER_LINE": max(self.layer_dimension),
+            "LAYER": 0,
+            "SHIFT": self.shift_bits,
+            "N_LAYER": layer,
+            "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
+        }
+        self.generate_generic_file(generic_dict2, path_core, core=True)
+        # Generate TCL file with generics for logic synthesis
+        self.generate_tcl_generic(generic_dict2, path_core)
+        self.generate_config_file(
+            x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
+            n_filter=n_filter[0],
+        )
 
-        "LOG_N_FILTER": log2ceil(generate_dict["N_FILTER"][n_layer]),
-        "LOG_N_CHANNEL": log2ceil(generate_dict["N_CHANNEL"]),
-        "LOG_X_SIZE": log2ceil(generate_dict["X_SIZE"]),
-        "LOG_X_SIZE_X_SIZE": log2ceil(generate_dict["X_SIZE"] ** 2),
-        "LOG_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"]),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(generate_dict["CONVS_PER_LINE"] ** 2),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) + 1),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"]),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * (generate_dict["N_CHANNEL"] - 1)),
-        "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-            log2ceil((generate_dict["CONVS_PER_LINE"] ** 2) * generate_dict["N_CHANNEL"] * generate_dict["N_FILTER"][
-                n_layer]),
-    }
+    def generate_ifmem_vhd_pkg(self, layer, path):
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
+        input_channel = self.input_channel
+        input_size = self.input_size
+        layer_dimension = self.layer_dimension
+        modelDict = self.model_dict
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        testSet = self.dataloader.x
+        testSetSize = 1
+        testLabel = self.dataloader.y
+        generate_ifmem_vhd_pkg(
+            modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
+            testLabel, stride_h, stride_w, testSetSize, layer, path
+        )
 
-    with open(Path(__file__).parent.resolve() / "template_config_pkg.vhd", "r") as f:
-        text = f.read()
+    def generate_iwght_vhd_pkg(self, layer, path):
+        bias_list = self.get_bias(layer)
+        weight_list = self.get_wght(layer)
 
-    text_out = text.format(**generate_dict2)
+        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(bias_list)},\n"
+        weight_string = [
+            f"{self.tab}-- layer={layer} filter={f} channel={c}\n{self.tab}{', '.join(s)},\n"
+            for filters in weight_list
+            for f, channel in enumerate(filters)
+            for c, s in enumerate(channel)
+        ]
 
-    with open(path / "config_pkg.vhd", "w") as f:
-        f.write(text_out)
+        package = "iwght_package"
+        constant = "input_wght"
+        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+        write_mem_pkg(constant, data, "iwght_pkg", package, path)
+        with open(path / "iwght.txt", "w") as f:
+            f.writelines([f"{b}\n" for b in bias_list])
+            f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
 
-    with open(path / "config_pkg.txt", "w") as f:
-        f.write(f'{generate_dict2["N_FILTER"]}\n')
-        f.write(f'{generate_dict2["N_CHANNEL"]}\n')
-        f.write(f'{generate_dict2["X_SIZE"]}\n')
-        f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
-        f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
+    def get_wght(self, layer):
+        model_dict = self.model_dict
+        shift = self.shift
+        if model_dict[layer]["type"] == "Dense":
+            weight_list = [[[
+                [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
+                for k, v
+                in model_dict[layer]["neuron"].items()
+            ]]]
+        elif model_dict[layer]["type"] == "Conv2D":
+            weight_list = [
+                [[[str(int(weights[x, y, z].reshape(-1)))
+                   for x in range(weights.shape[0])
+                   for y in range(weights.shape[1])]
 
+                  for weights in [model_dict[layerId]["filter"][filterId]["weights"] * shift]
+                  for z in range(weights.shape[2])]
 
-def generate_iwght_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
-    tab = "    "
+                 for filterId in model_dict[layerId]["filter"]
+                 ]
+                for layerId in model_dict
+                if model_dict[layerId]["type"] in ["Conv2D", "Dense"]
+                if layerId == layer
+            ]
+        else:
+            weight_list = []
+        return weight_list
 
-    bias_list = get_bias(layer, modelDict, shift)
-    weight_list = get_wght(layer, modelDict, shift)
+    def get_bias(self, layer):
+        model_dict = self.model_dict
+        shift = self.shift
+        if model_dict[layer]["type"] == "Dense":
+            bias_list = [
+                str(int(v["bias"] * shift * shift))
+                for k, v
+                in model_dict[layer]["neuron"].items()
+            ]
+        elif model_dict[layer]["type"] == "Conv2D":
+            bias_list = [
+                str(int(model_dict[layerId]["filter"][filterId]["bias"] * shift * shift))
+                for layerId in model_dict
+                if model_dict[layerId]["type"] == "Conv2D"
+                if layerId == layer
+                for filterId in model_dict[layerId]["filter"]
+            ]
+        else:
+            bias_list = []
+        return bias_list
 
-    bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(bias_list)},\n"
-    weight_string = [
-        f"{tab}-- layer={layer} filter={f} channel={c}\n{tab}{', '.join(s)},\n"
-        for filters in weight_list
-        for f, channel in enumerate(filters)
-        for c, s in enumerate(channel)
-    ]
+    def generate_ifmap_vhd_pkg(self, path, layer, dataset_size=1):
+        feat_list = self.get_feature_data(layer, path, dataset_size)
 
-    package = "iwght_package"
-    constant = "input_wght"
-    data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
-    write_mem_pkg(constant, data, "iwght_pkg", package, path)
-    with open(path / "iwght.txt", "w") as f:
-        f.writelines([f"{b}\n" for b in bias_list])
-        f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
+        format_feat = format_feature(feat_list, self.tab)
 
+        package = "ifmap_package"
+        constant = "input_map"
+        data = "".join([f"\n{self.tab}-- ifmap\n"] + format_feat)
 
-def get_wght(layer, modelDict, shift):
-    if modelDict[layer]["type"] == "Dense":
-        weight_list = [[[
-            [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
+        write_mem_txt(feat_list, "ifmap", path)
+        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+    def generate_gold_fc_vhd_pkg(self, layer, path):
+        model_dict = self.model_dict
+        shift = self.shift
+        feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
+
+        weights = [
+            (v["weights"] * shift).astype(int).tolist()
             for k, v
-            in modelDict[layer]["neuron"].items()
-        ]]]
-    elif modelDict[layer]["type"] == "Conv2D":
-        weight_list = [
-            [[[str(int(weights[x, y, z].reshape(-1)))
-               for x in range(weights.shape[0])
-               for y in range(weights.shape[1])]
-
-              for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
-              for z in range(weights.shape[2])]
-
-             for filterId in modelDict[layerId]["filter"]
-             ]
-            for layerId in modelDict
-            if modelDict[layerId]["type"] in ["Conv2D", "Dense"]
-            if layerId == layer
+            in model_dict[layer]["neuron"].items()
         ]
-    else:
-        weight_list = []
-    return weight_list
 
-
-def get_bias(layer, modelDict, shift):
-    if modelDict[layer]["type"] == "Dense":
-        bias_list = [
-            str(int(v["bias"] * shift * shift))
+        bias = [
+            int(v["bias"] * shift * shift)
             for k, v
-            in modelDict[layer]["neuron"].items()
+            in model_dict[layer]["neuron"].items()
         ]
-    elif modelDict[layer]["type"] == "Conv2D":
-        bias_list = [
-            str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-            for layerId in modelDict
-            if modelDict[layerId]["type"] == "Conv2D"
-            if layerId == layer
-            for filterId in modelDict[layerId]["filter"]
+
+        gold = [
+            np.dot(feature, w) + b
+            for w, b
+            in zip(weights, bias)
         ]
-    else:
-        bias_list = []
-    return bias_list
 
-
-def generate_iwght_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-    bias_list = get_bias(layer, modelDict, shift)
-    weight_list = get_wght(layer, modelDict, shift)
-    weight_unpack = [feat for c in weight_list for col in c for line in col for feat in line]
-    data = bias_list + weight_unpack
-    return data
-
-
-def generate_ifmap_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                           input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
-    tab = "    "
-    feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
-
-    format_feat = format_feature(feat_list, tab)
-
-    package = "ifmap_package"
-    constant = "input_map"
-    data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
-
-    write_mem_txt(feat_list, "ifmap", path)
-    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
-
-
-def generate_gold_fc_vhd_pkg(modelDict, shift, layer, path):
-    tab = "    "
-    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
-
-    weights = [
-        (v["weights"] * shift).astype(int).tolist()
-        for k, v
-        in modelDict[layer]["neuron"].items()
-    ]
-
-    bias = [
-        int(v["bias"] * shift * shift)
-        for k, v
-        in modelDict[layer]["neuron"].items()
-    ]
-
-    gold = [
-        np.dot(feature, w) + b
-        for w, b
-        in zip(weights, bias)
-    ]
-
-    weights_bias_plain = bias + [ww for w in weights for ww in w]
-    bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
-    weight_string = [
-        f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
-        for c, s in enumerate(weights)
-    ]
-    package = "iwght_package"
-    constant = "input_wght"
-    data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
-
-    write_mem_txt([[weights_bias_plain]], "iwght", path)
-    write_mem_pkg(constant, data, "iwght_pkg", package, path)
-
-    package = "ifmap_package"
-    constant = "input_map"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
-
-    write_mem_txt([[feature]], "ifmap", path)
-    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
-
-    package = "gold_package"
-    constant = "gold"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
-    write_mem_txt([[gold]], "gold", path)
-    write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-
-def fc(modelDict, shift, layer, gen_features, path):
-    feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
-
-    weights = [
-        (v["weights"] * shift).astype(int).tolist()
-        for k, v
-        in modelDict[layer]["neuron"].items()
-    ]
-
-    bias = [
-        int(v["bias"] * shift * shift)
-        for k, v
-        in modelDict[layer]["neuron"].items()
-    ]
-
-    gold = [
-        np.dot(feature, w) + b
-        for w, b
-        in zip(weights, bias)
-    ]
-    if gen_features:
-        return [[feature]]
-    else:
-        return [[gold]]
-
-
-def generate_gold_maxpool_vhd_pkg(layer, path):
-    tab = "    "
-    feature = open_file(path.parent / str(layer) / 'gold.txt')
-    arr = np.array(feature).reshape(-1, 3, 3)
-
-    gold = pool2d(arr, kernel_size=3, stride=3, padding=0, pool_mode='max').reshape(-1).tolist()
-
-    package = "ifmap_package"
-    constant = "input_map"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
-
-    write_mem_txt([[feature]], "ifmap", path)
-    write_mem_pkg(constant, data, "ifmap_pkg", package, path)
-
-    package = "gold_package"
-    constant = "gold"
-    data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
-    write_mem_txt([[gold]], "gold", path)
-    write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-
-def generate_ifmap_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-    tab = "    "
-    feat_list = get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict,
-                                 shift, stride_h, stride_w, tab, testSet, testSetSize, path)
-    feat_unpack = [feat for c in feat_list for col in c for feat in col]
-    return feat_unpack
-
-
-def get_feature_data(filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                     stride_h, stride_w, tab, testSet, testSetSize, path):
-    gen_features = True
-    if layer == 0:
-        feat_list = [
-            [[str(int(image_shift[x, y, z]))
-              for y in range(image_shift.shape[1])]
-             for x in range(image_shift.shape[0])]
-            for i, image in enumerate(testSet)
-            if i in range(testSetSize)
-            for image_shift in [image * shift]
-            for z in range(image_shift.shape[2])
+        weights_bias_plain = bias + [ww for w in weights for ww in w]
+        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(map(str, bias))},\n"
+        weight_string = [
+            f"{self.tab}-- layer={layer} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+            for c, s in enumerate(weights)
         ]
-    else:
-        if modelDict[layer]["type"] == "Dense":
-            feat_list = fc(modelDict, shift, layer, gen_features, path)
-        elif modelDict[layer]["type"] == "Conv2D":
+        package = "iwght_package"
+        constant = "input_wght"
+        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+
+        write_mem_txt([[weights_bias_plain]], "iwght", path)
+        write_mem_pkg(constant, data, "iwght_pkg", package, path)
+
+        package = "ifmap_package"
+        constant = "input_map"
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
+
+        write_mem_txt([[feature]], "ifmap", path)
+        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+        package = "gold_package"
+        constant = "gold"
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
+        write_mem_txt([[gold]], "gold", path)
+        write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+    def generate_gold_maxpool_vhd_pkg(self, layer, path):
+        feature = open_file(path.parent / str(layer) / 'gold.txt')
+        arr = np.array(feature).reshape(-1, 3, 3)
+
+        gold = pool2d(arr, kernel_size=3, stride=3, padding=0, pool_mode='max').reshape(-1).tolist()
+
+        package = "ifmap_package"
+        constant = "input_map"
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
+
+        write_mem_txt([[feature]], "ifmap", path)
+        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+
+        package = "gold_package"
+        constant = "gold"
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
+        write_mem_txt([[gold]], "gold", path)
+        write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+    def get_feature_data(self, layer, path, dataset_size=1):
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
+        input_channel = self.input_channel
+        layer_dimension = self.layer_dimension
+        model_dict = self.model_dict
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        dataset = self.dataloader.x
+        gen_features = True
+        if layer == 0:
+            feat_list = [
+                [[str(int(image_shift[x, y, z]))
+                  for y in range(image_shift.shape[1])]
+                 for x in range(image_shift.shape[0])]
+                for i, image in enumerate(dataset)
+                if i in range(dataset_size)
+                for image_shift in [image * shift]
+                for z in range(image_shift.shape[2])
+            ]
+        else:
+            if model_dict[layer]["type"] == "Dense":
+                feat_list = fc(model_dict, shift, layer, gen_features, path)
+            elif model_dict[layer]["type"] == "Conv2D":
+                feat_list = conv2d(
+                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
+                    stride_h, stride_w, self.tab, dataset, dataset_size
+                )
+            else:
+                feat_list = []
+        return feat_list
+
+    def generate_gold_vhd_pkg(self, layer, path, dataset_size=1):
+        gen_features = False
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
+        input_channel = self.input_channel
+        layer_dimension = self.layer_dimension
+        model_dict = self.model_dict
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        dataset = self.dataloader.x
+        # testSetSize = self.vhd_dict["testSetSize"]
+
+        if self.model_dict[layer]["type"] == "Dense":
+            feat_list = fc(self.model_dict, shift, layer, gen_features, path)
+        elif self.model_dict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
-                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                stride_h, stride_w, tab, testSet, testSetSize
+                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
+                stride_h, stride_w, self.tab, dataset, dataset_size
             )
         else:
             feat_list = []
-    return feat_list
 
+        format_feat = format_feature(feat_list, self.tab)
 
-def generate_gold_vhd_pkg(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension,
-                          input_channel, testSet, testLabel, stride_h, stride_w, testSetSize, layer, path):
-    tab = "    "
-    gen_features = False
-
-    if modelDict[layer]["type"] == "Dense":
-        feat_list = fc(modelDict, shift, layer, gen_features, path)
-    if modelDict[layer]["type"] == "Conv2D":
-        feat_list = conv2d(
-            gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-            stride_h, stride_w, tab, testSet, testSetSize
-        )
-
-    format_feat = format_feature(feat_list, tab)
-
-    package = "gold_package"
-    constant = "gold"
-    data = "".join([f"\n{tab}-- gold\n"] + format_feat)
-    write_mem_txt(feat_list, "gold", path)
-    write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-
-def generate_gold_bram(modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                       testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
-    tab = "    "
-    gen_features = False
-
-    feat_list = conv2d(
-        gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-        stride_h, stride_w, tab, testSet, testSetSize
-    )
-    feat_unpack = [feat for c in feat_list for col in c for feat in col]
-    return feat_unpack
-
+        package = "gold_package"
+        constant = "gold"
+        data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
+        write_mem_txt(feat_list, "gold", path)
+        write_mem_pkg(constant, data, "gold_pkg", package, path)

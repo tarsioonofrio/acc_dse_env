@@ -6,7 +6,7 @@ use work.config_package.all;
 
 
 package config_package_array is
-  type type_config_logic_vector is array (natural range 0 to 2) of type_config_logic;
+  type type_config_logic_vector is array (natural range 0 to 3) of type_config_logic;
 
   constant const_config_logic_vector: type_config_logic_vector := (
     0 =>    (n_filter => "00010000",
@@ -38,7 +38,17 @@ package config_package_array is
                 convs_per_line_convs_per_line_1 => "0000001010",
                 convs_per_line_convs_per_line_n_channel => "0000000100100000",
                 convs_per_line_convs_per_line_n_channel_1 => "0000000100010111",
-                convs_per_line_convs_per_line_n_channel_n_filter => "0000000100100000000000")
+                convs_per_line_convs_per_line_n_channel_n_filter => "0000000100100000000000"),
+    3 =>    (n_filter => "00001010",
+                n_channel => "01000000",
+                x_size => "0000011",
+                x_size_x_size => "000000001001",
+                convs_per_line => "001010",
+                convs_per_line_convs_per_line => "0001100100",
+                convs_per_line_convs_per_line_1 => "0001100101",
+                convs_per_line_convs_per_line_n_channel => "0001100100000000",
+                convs_per_line_convs_per_line_n_channel_1 => "0001100010011100",
+                convs_per_line_convs_per_line_n_channel_n_filter => "0000001111101000000000")
    );
 
 end package config_package_array;

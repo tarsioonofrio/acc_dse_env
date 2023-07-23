@@ -25,10 +25,10 @@ def main():
     root = Path(__file__).parent.parent.resolve()
     # path = root / "apps"
 
-    path_output = Path(__file__).parent / "vivado-format"
+    path_output = Path(__file__).parent / "vivado-formated"
     path_output.mkdir(parents=True, exist_ok=True)
 
-    path_vivado = root / "test/vivado"
+    path_vivado = root / "reports/vivado"
     list_utilization = list(path_vivado.glob("report-util*.txt"))
 
     list_df = {
