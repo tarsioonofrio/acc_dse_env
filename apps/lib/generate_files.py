@@ -5,7 +5,7 @@ from math import log2, ceil
 import numpy as np
 
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
-from .bram import open_file
+from .util import open_file
 
 
 def log2ceil(x):
@@ -49,7 +49,7 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10, core=False):
+    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
         self.tab = "    "
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
@@ -87,7 +87,6 @@ class GenerateRTL:
     def generate_layer(self, layer):
         input_c = self.model_dict[0]["input_shape"][-1]
         input_w = self.model_dict[0]["input_shape"][0]
-        input_channel = self.input_channel
         path = self.rtl_output_path
 
         # Compute HW parameters
@@ -115,13 +114,9 @@ class GenerateRTL:
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
-        self.generate_generic_file(
-            generic_dict2, path_layer, n_layer=0, layer=layer,
-        )
+        self.generate_generic_file(generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(
-            generic_dict2, path_layer, n_layer=0, layer=layer,
-        )
+        self.generate_tcl_generic(generic_dict2, path_layer)
         self.generate_config_file(
             x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
             n_filter=self.n_filter[layer],
@@ -133,7 +128,7 @@ class GenerateRTL:
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
 
-    def generate_generic_file(self, generate_layer_dict, path, n_layer, layer=0, core=False):
+    def generate_generic_file(self, generate_layer_dict, path, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
         rst_time = clk_half * 5
         if core:
@@ -160,7 +155,7 @@ class GenerateRTL:
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
-    def generate_tcl_generic(self, generic_dict_layer, path, n_layer, layer=0):
+    def generate_tcl_generic(self, generic_dict_layer, path):
         generate_dict2 = {
             ** self.rtl_config,
             ** generic_dict_layer,
@@ -270,9 +265,9 @@ class GenerateRTL:
             "N_LAYER": layer,
             "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
         }
-        self.generate_generic_file(generic_dict2, path_core, n_layer=layer, core=True)
+        self.generate_generic_file(generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(generic_dict2, path_core, n_layer=layer)
+        self.generate_tcl_generic(generic_dict2, path_core)
         self.generate_config_file(
             x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
             n_filter=n_filter[0],
