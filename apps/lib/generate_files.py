@@ -50,6 +50,7 @@ def format_feature(feat_list, tab):
 
 class GenerateRTL:
     def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
+        self.tab = "    "
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
         self.rtl_config = rtl_config
@@ -125,12 +126,12 @@ class GenerateRTL:
         path_samples.mkdir(parents=True, exist_ok=True)
         # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
-        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, testSetSize=self.samples)
-        self.generate_gold_vhd_pkg(path=path_samples, layer=0, testSetSize=self.samples)
+        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+        self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
 
     def generate_generic_file(self, generate_layer_dict, path, n_layer):
-        CLK_HALF = self.rtl_config["CLK_PERIOD"] / 2
-        RST_TIME = CLK_HALF * 5
+        clk_half = self.rtl_config["CLK_PERIOD"] / 2
+        rst_time = clk_half * 5
         if "core" in path.as_posix():
             data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
         else:
@@ -138,10 +139,10 @@ class GenerateRTL:
         generate_dict2 = {
             **{k: v for k, v in self.rtl_config.items()},
             ** generate_layer_dict,
-            "CLK_HALF": CLK_HALF,
-            "RST_TIME": RST_TIME,
-            "RISE_START": CLK_HALF * 2.0 + RST_TIME + self.rtl_config["IN_DELAY"],
-            "FALL_START": CLK_HALF * 4.0 + RST_TIME + self.rtl_config["IN_DELAY"],
+            "CLK_HALF": clk_half,
+            "RST_TIME": rst_time,
+            "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
             "N_FILTER": self.n_filter[n_layer],
             "STRIDE": self.stride[n_layer],
             "PATH": data_path,
@@ -150,10 +151,10 @@ class GenerateRTL:
         }
         line = (
             "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-            "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} -gCARRY_SIZE={CARRY_SIZE} "
-            "-gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns -gFALL_START={FALL_START}ns "
-            "-gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} -gN_LAYER={N_LAYER} -gPATH={PATH} "
-            "-gOP_TYPE={OP_TYPE}"
+            "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
+            "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
+            "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} "
+            "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
             "\n"
         ).format(**generate_dict2)
         with open(path / "generic_file.txt", "w") as f:
@@ -262,16 +263,12 @@ class GenerateRTL:
         )
 
     def generate_iwght_vhd_pkg(self, layer, path):
-        modelDict = self.model_dict
-        shift = self.shift
-        tab = "    "
+        bias_list = self.get_bias(layer)
+        weight_list = self.get_wght(layer)
 
-        bias_list = self.get_bias(layer, modelDict, shift)
-        weight_list = self.get_wght(layer, modelDict, shift)
-
-        bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(bias_list)},\n"
+        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(bias_list)},\n"
         weight_string = [
-            f"{tab}-- layer={layer} filter={f} channel={c}\n{tab}{', '.join(s)},\n"
+            f"{self.tab}-- layer={layer} filter={f} channel={c}\n{self.tab}{', '.join(s)},\n"
             for filters in weight_list
             for f, channel in enumerate(filters)
             for c, s in enumerate(channel)
@@ -279,84 +276,88 @@ class GenerateRTL:
 
         package = "iwght_package"
         constant = "input_wght"
-        data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
+        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
         write_mem_pkg(constant, data, "iwght_pkg", package, path)
         with open(path / "iwght.txt", "w") as f:
             f.writelines([f"{b}\n" for b in bias_list])
             f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
 
-    def get_wght(self, layer, modelDict, shift):
-        if modelDict[layer]["type"] == "Dense":
+    def get_wght(self, layer):
+        model_dict = self.model_dict
+        shift = self.shift
+        if model_dict[layer]["type"] == "Dense":
             weight_list = [[[
                 [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
                 for k, v
-                in modelDict[layer]["neuron"].items()
+                in model_dict[layer]["neuron"].items()
             ]]]
-        elif modelDict[layer]["type"] == "Conv2D":
+        elif model_dict[layer]["type"] == "Conv2D":
             weight_list = [
                 [[[str(int(weights[x, y, z].reshape(-1)))
                    for x in range(weights.shape[0])
                    for y in range(weights.shape[1])]
 
-                  for weights in [modelDict[layerId]["filter"][filterId]["weights"] * shift]
+                  for weights in [model_dict[layerId]["filter"][filterId]["weights"] * shift]
                   for z in range(weights.shape[2])]
 
-                 for filterId in modelDict[layerId]["filter"]
+                 for filterId in model_dict[layerId]["filter"]
                  ]
-                for layerId in modelDict
-                if modelDict[layerId]["type"] in ["Conv2D", "Dense"]
+                for layerId in model_dict
+                if model_dict[layerId]["type"] in ["Conv2D", "Dense"]
                 if layerId == layer
             ]
         else:
             weight_list = []
         return weight_list
 
-    def get_bias(self, layer, modelDict, shift):
-        if modelDict[layer]["type"] == "Dense":
+    def get_bias(self, layer):
+        model_dict = self.model_dict
+        shift = self.shift
+        if model_dict[layer]["type"] == "Dense":
             bias_list = [
                 str(int(v["bias"] * shift * shift))
                 for k, v
-                in modelDict[layer]["neuron"].items()
+                in model_dict[layer]["neuron"].items()
             ]
-        elif modelDict[layer]["type"] == "Conv2D":
+        elif model_dict[layer]["type"] == "Conv2D":
             bias_list = [
-                str(int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift))
-                for layerId in modelDict
-                if modelDict[layerId]["type"] == "Conv2D"
+                str(int(model_dict[layerId]["filter"][filterId]["bias"] * shift * shift))
+                for layerId in model_dict
+                if model_dict[layerId]["type"] == "Conv2D"
                 if layerId == layer
-                for filterId in modelDict[layerId]["filter"]
+                for filterId in model_dict[layerId]["filter"]
             ]
         else:
             bias_list = []
         return bias_list
 
-    def generate_ifmap_vhd_pkg(self, path, layer, testSetSize=1):
-        tab = "    "
-        feat_list = self.get_feature_data(layer, tab, path, testSetSize)
+    def generate_ifmap_vhd_pkg(self, path, layer, dataset_size=1):
+        feat_list = self.get_feature_data(layer, path, dataset_size)
 
-        format_feat = format_feature(feat_list, tab)
+        format_feat = format_feature(feat_list, self.tab)
 
         package = "ifmap_package"
         constant = "input_map"
-        data = "".join([f"\n{tab}-- ifmap\n"] + format_feat)
+        data = "".join([f"\n{self.tab}-- ifmap\n"] + format_feat)
 
         write_mem_txt(feat_list, "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
-    def generate_gold_fc_vhd_pkg(self, modelDict, shift, layer, path):
-        tab = "    "
+    def generate_gold_fc_vhd_pkg(self, layer, path):
+        model_dict = self.model_dict
+        shift = self.shift
         feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
 
         weights = [
             (v["weights"] * shift).astype(int).tolist()
             for k, v
-            in modelDict[layer]["neuron"].items()
+            in model_dict[layer]["neuron"].items()
         ]
 
         bias = [
             int(v["bias"] * shift * shift)
             for k, v
-            in modelDict[layer]["neuron"].items()
+            in model_dict[layer]["neuron"].items()
         ]
 
         gold = [
@@ -366,33 +367,32 @@ class GenerateRTL:
         ]
 
         weights_bias_plain = bias + [ww for w in weights for ww in w]
-        bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
+        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(map(str, bias))},\n"
         weight_string = [
-            f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
+            f"{self.tab}-- layer={layer} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
             for c, s in enumerate(weights)
         ]
         package = "iwght_package"
         constant = "input_wght"
-        data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
+        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
 
         write_mem_txt([[weights_bias_plain]], "iwght", path)
         write_mem_pkg(constant, data, "iwght_pkg", package, path)
 
         package = "ifmap_package"
         constant = "input_map"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
 
         write_mem_txt([[feature]], "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
         package = "gold_package"
         constant = "gold"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
     def generate_gold_maxpool_vhd_pkg(self, layer, path):
-        tab = "    "
         feature = open_file(path.parent / str(layer) / 'gold.txt')
         arr = np.array(feature).reshape(-1, 3, 3)
 
@@ -400,79 +400,78 @@ class GenerateRTL:
 
         package = "ifmap_package"
         constant = "input_map"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
 
         write_mem_txt([[feature]], "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
         package = "gold_package"
         constant = "gold"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
+        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
-    def get_feature_data(self, layer, tab, path, testSetSize=1):
+    def get_feature_data(self, layer, path, dataset_size=1):
         filter_channel = self.filter_channel
         filter_dimension = self.filter_dimension
         input_channel = self.input_channel
         layer_dimension = self.layer_dimension
-        modelDict = self.model_dict
+        model_dict = self.model_dict
         shift = self.shift
         stride_h = self.stride_h
         stride_w = self.stride_w
-        testSet = self.dataloader.x
+        dataset = self.dataloader.x
         gen_features = True
         if layer == 0:
             feat_list = [
                 [[str(int(image_shift[x, y, z]))
                   for y in range(image_shift.shape[1])]
                  for x in range(image_shift.shape[0])]
-                for i, image in enumerate(testSet)
-                if i in range(testSetSize)
+                for i, image in enumerate(dataset)
+                if i in range(dataset_size)
                 for image_shift in [image * shift]
                 for z in range(image_shift.shape[2])
             ]
         else:
-            if modelDict[layer]["type"] == "Dense":
-                feat_list = fc(modelDict, shift, layer, gen_features, path)
-            elif modelDict[layer]["type"] == "Conv2D":
+            if model_dict[layer]["type"] == "Dense":
+                feat_list = fc(model_dict, shift, layer, gen_features, path)
+            elif model_dict[layer]["type"] == "Conv2D":
                 feat_list = conv2d(
-                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                    stride_h, stride_w, tab, testSet, testSetSize
+                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
+                    stride_h, stride_w, self.tab, dataset, dataset_size
                 )
             else:
                 feat_list = []
         return feat_list
 
-    def generate_gold_vhd_pkg(self, layer, path, testSetSize=1):
-        tab = "    "
+    def generate_gold_vhd_pkg(self, layer, path, dataset_size=1):
         gen_features = False
         filter_channel = self.filter_channel
         filter_dimension = self.filter_dimension
         input_channel = self.input_channel
         layer_dimension = self.layer_dimension
-        modelDict = self.model_dict
+        model_dict = self.model_dict
         shift = self.shift
         stride_h = self.stride_h
         stride_w = self.stride_w
-        testSet = self.dataloader.x
+        dataset = self.dataloader.x
         # testSetSize = self.vhd_dict["testSetSize"]
 
         if self.model_dict[layer]["type"] == "Dense":
             feat_list = fc(self.model_dict, shift, layer, gen_features, path)
         elif self.model_dict[layer]["type"] == "Conv2D":
             feat_list = conv2d(
-                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, modelDict, shift,
-                stride_h, stride_w, tab, testSet, testSetSize
+                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
+                stride_h, stride_w, self.tab, dataset, dataset_size
             )
         else:
             feat_list = []
 
-        format_feat = format_feature(feat_list, tab)
+        format_feat = format_feature(feat_list, self.tab)
 
         package = "gold_package"
         constant = "gold"
-        data = "".join([f"\n{tab}-- gold\n"] + format_feat)
+        data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
