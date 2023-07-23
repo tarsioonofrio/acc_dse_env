@@ -71,10 +71,10 @@ class GenerateRTL:
         self.stride_h = [v["stride_h"] for k, v in model_dict.items()]
         self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
         self.dataloader = dataloader
-        # change for core
-        self.n_layer = 0
         self.stride = [v["stride_h"] for k, v in model_dict.items()]
         self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        # change for core
+        self.n_layer = 0
 
     def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -82,6 +82,8 @@ class GenerateRTL:
         if samples:
             self.generate_samples()
         if core:
+            # remove -1 in future after integrate FC (and max pool)
+            layer = len(self.layer_dimension) - 1
             path_core = self.rtl_output_path / "core"
             stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
             n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
@@ -99,15 +101,15 @@ class GenerateRTL:
                 "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
             }
             self.generate_generic_file(
-                generic_dict2, path_core, n_filter=n_filter, stride=stride
+                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0]
             )
             # Generate TCL file with generics for logic synthesis
             self.generate_tcl_generic(
-                generic_dict2, path_core, n_filter=n_filter, stride=stride
+                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0]
             )
             self.generate_config_file(
                 x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
-                n_filter=n_filter,
+                n_filter=n_filter[0],
             )
 
     def generate_files(self, layer):

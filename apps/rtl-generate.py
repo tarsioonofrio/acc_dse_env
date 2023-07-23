@@ -110,7 +110,7 @@ def main():
     generate_rtl = GenerateRTL(
         model_dict, rtl_config, rtl_output_path, dataloader, samples=10
     )
-    generate_rtl(samples=True)
+    generate_rtl(samples=True, core=True)
 
     # for e, _ in enumerate(list(model_dict.keys())):
     #     generate_files(
