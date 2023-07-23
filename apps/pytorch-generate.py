@@ -12,10 +12,6 @@ from lib import keras_models
 from lib import util, keras_cifar10
 from lib.pytorch_models import Default
 from lib.model import dictionary_from_model
-from lib.generate_files import (
-    generate_files, generate_generic_file, generate_tcl_generic, generate_config_file,
-    generate_samples, generate_gold_maxpool_vhd_pkg, fc, dict_op_type
-)
 
 
 def main():

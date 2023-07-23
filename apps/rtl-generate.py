@@ -18,6 +18,7 @@ from lib.generate_files import GenerateRTL
 from lib.model import dictionary_from_model
 from lib.pytorch_models import Default
 
+
 def main():
     parser = argparse.ArgumentParser(
         usage='use "python %(prog)s --help" for more information.\n'
