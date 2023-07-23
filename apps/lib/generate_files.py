@@ -101,11 +101,11 @@ class GenerateRTL:
                 "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
             }
             self.generate_generic_file(
-                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0]
+                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0], n_layer=3
             )
             # Generate TCL file with generics for logic synthesis
             self.generate_tcl_generic(
-                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0]
+                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0], n_layer=3
             )
             self.generate_config_file(
                 x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
@@ -140,11 +140,11 @@ class GenerateRTL:
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
         self.generate_generic_file(
-            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer]
+            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer], n_layer=0
         )
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(
-            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer]
+            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer], n_layer=0
         )
         self.generate_config_file(
             x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
@@ -165,7 +165,7 @@ class GenerateRTL:
         self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
         self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
 
-    def generate_generic_file(self, generate_layer_dict, path, n_filter, stride):
+    def generate_generic_file(self, generate_layer_dict, path, n_filter, stride, n_layer):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
         rst_time = clk_half * 5
         if "core" in path.as_posix():
@@ -183,7 +183,7 @@ class GenerateRTL:
             "STRIDE": stride,
             "PATH": data_path,
             "SHIFT": self.shift_bits,
-            "N_LAYER": self.n_layer,
+            "N_LAYER": n_layer,
         }
         line = (
             "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
@@ -196,14 +196,14 @@ class GenerateRTL:
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
-    def generate_tcl_generic(self, generic_dict_layer, path, n_filter, stride):
+    def generate_tcl_generic(self, generic_dict_layer, path, n_filter, stride, n_layer):
         generate_dict2 = {
             **{k: v for k, v in self.rtl_config.items()},
             **generic_dict_layer,
             "N_FILTER": n_filter,
             "STRIDE": stride,
             "SHIFT": self.shift_bits,
-            "N_LAYER": self.n_layer,
+            "N_LAYER": n_layer,
         }
         line = (
             "set CLK_PERIOD {CLK_PERIOD}\n"
