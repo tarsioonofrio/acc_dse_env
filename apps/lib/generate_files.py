@@ -118,7 +118,7 @@ class GenerateRTL:
         )
         self.generate_config_file(
             x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
-            n_filter=self.stride[layer],
+            n_filter=self.n_filter[layer],
         )
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
