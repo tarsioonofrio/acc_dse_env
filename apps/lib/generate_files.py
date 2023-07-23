@@ -49,7 +49,7 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
+    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, stride, n_filter, n_layer=0, samples=10):
         self.tab = "    "
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
@@ -72,14 +72,17 @@ class GenerateRTL:
         self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
         self.dataloader = dataloader
         # change for core
-        self.n_layer = 0
-        self.stride = [v["stride_h"] for k, v in model_dict.items()]
-        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        self.stride = stride
+        # self.stride = [v["stride_h"] for k, v in model_dict.items()]
+        self.n_filter = n_filter
+        # self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        self.n_layer = n_layer
 
-    def run(self):
+    def __call__(self, samples=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
             self.generate_files(e)
-        self.generate_samples()
+        if samples:
+            self.generate_samples()
 
     def generate_files(self, layer):
         input_c = self.model_dict[0]["input_shape"][-1]
