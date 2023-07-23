@@ -76,11 +76,39 @@ class GenerateRTL:
         self.stride = [v["stride_h"] for k, v in model_dict.items()]
         self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
 
-    def __call__(self, samples=False):
+    def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
             self.generate_files(e)
         if samples:
             self.generate_samples()
+        if core:
+            path_core = self.rtl_output_path / "core"
+            stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
+            n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
+            x_size = max([self.model_dict[0]["input_shape"][0]] + self.layer_dimension)
+            c_size = max([self.model_dict[0]["input_shape"][-1]] + self.filter_channel)
+            conv_per_line = max(self.layer_dimension)
+            generic_dict2 = {
+                "STRIDE": [max([v["stride_h"] for k, v in self.model_dict.items()])],
+                "N_FILTER": [max([v["filter_channel"] for k, v in self.model_dict.items()])],
+                "X_SIZE": x_size,
+                "C_SIZE": c_size,
+                "FILTER_WIDTH": max(self.filter_dimension),
+                "CONVS_PER_LINE": max(self.layer_dimension),
+                "LAYER": 0,
+                "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
+            }
+            self.generate_generic_file(
+                generic_dict2, path_core, n_filter=n_filter, stride=stride
+            )
+            # Generate TCL file with generics for logic synthesis
+            self.generate_tcl_generic(
+                generic_dict2, path_core, n_filter=n_filter, stride=stride
+            )
+            self.generate_config_file(
+                x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
+                n_filter=n_filter,
+            )
 
     def generate_files(self, layer):
         input_c = self.model_dict[0]["input_shape"][-1]
@@ -480,5 +508,3 @@ class GenerateRTL:
         data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-
