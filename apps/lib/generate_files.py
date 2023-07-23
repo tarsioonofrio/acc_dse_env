@@ -72,10 +72,8 @@ class GenerateRTL:
         self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
         self.dataloader = dataloader
         # change for core
-        self.stride = stride
-        # self.stride = [v["stride_h"] for k, v in model_dict.items()]
-        self.n_filter = n_filter
-        # self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        self.stride = [v["stride_h"] for k, v in model_dict.items()]
+        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
         self.n_layer = n_layer
 
     def __call__(self, samples=False):
