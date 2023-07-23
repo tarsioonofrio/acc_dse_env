@@ -143,7 +143,7 @@ class GenerateRTL:
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(generic_dict2, path_layer, layer)
         # Generate VHDL tensorflow package
-        # generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
+        self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
@@ -299,7 +299,22 @@ class GenerateRTL:
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
     def generate_ifmem_vhd_pkg(self, layer, path):
-        pass
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
+        input_channel = self.input_channel
+        input_size = self.input_size
+        layer_dimension = self.layer_dimension
+        modelDict = self.model_dict
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        testSet = self.dataloader.x
+        testSetSize = 1
+        testLabel = self.dataloader.y
+        generate_ifmem_vhd_pkg(
+            modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
+            testLabel, stride_h, stride_w, testSetSize, layer, path
+        )
 
     def generate_iwght_vhd_pkg(self, layer, path):
         modelDict = self.model_dict
@@ -477,8 +492,6 @@ class GenerateRTL:
         stride_h = self.stride_h
         stride_w = self.stride_w
         testSet = self.dataloader.x
-        self.dataloader.x
-        # testSetSize = self.vhd_dict["testSetSize"]
         gen_features = True
         if layer == 0:
             feat_list = [
