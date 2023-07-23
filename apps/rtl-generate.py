@@ -4,6 +4,7 @@ import pickle
 import argparse
 
 from pathlib import Path
+from types import SimpleNamespace
 
 import torch
 import numpy as np
@@ -73,10 +74,9 @@ def main():
 
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
-    input_size = np.prod(model_dict[0]["input_shape"])
+    dataloader = SimpleNamespace(x=x_test, y=y_test)
 
     # Compute output layer dimensions
-    layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
     # generic_dict = {
     #     "MEM_SIZE": rtl_config["MEM_SIZE"],
     #     "INPUT_SIZE": rtl_config["INPUT_SIZE"],
@@ -92,22 +92,22 @@ def main():
     #     "N_LAYER": 0,
     # }
 
-    vhd_dict = {
-        "modelDict": model_dict,
-        "shift": shift,
-        "input_size": input_size,
-        "filter_dimension": [v["filter_dimension"] for k, v in model_dict.items()],
-        "filter_channel": [v["filter_channel"] for k, v in model_dict.items()],
-        "layer_dimension": layer_dimension,
-        "testSet": x_test,
-        "testLabel": y_test,
-        "stride_h": [v["stride_h"] for k, v in model_dict.items()],
-        "stride_w": [v["stride_w"] for k, v in model_dict.items()],
-        "testSetSize": 1,
-    }
+    # vhd_dict = {
+    #     "modelDict": model_dict,
+    #     "shift": shift,
+    #     "input_size": np.prod(model_dict[0]["input_shape"]),
+    #     "filter_dimension": [v["filter_dimension"] for k, v in model_dict.items()],
+    #     "filter_channel": [v["filter_channel"] for k, v in model_dict.items()],
+    #     "layer_dimension":  [v["output_shape"][0] for k, v in model_dict.items()],
+    #     "testSet": x_test,
+    #     "testLabel": y_test,
+    #     "stride_h": [v["stride_h"] for k, v in model_dict.items()],
+    #     "stride_w": [v["stride_w"] for k, v in model_dict.items()],
+    #     "testSetSize": 1,
+    # }
 
     # Compute input channels
-    generate_rtl = GenerateRTL(model_dict, rtl_config, vhd_dict, rtl_output_path, samples=10)
+    generate_rtl = GenerateRTL(model_dict, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl.run()
 
     # for e, _ in enumerate(list(model_dict.keys())):

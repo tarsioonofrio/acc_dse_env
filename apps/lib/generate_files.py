@@ -81,11 +81,10 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, rtl_config, vhd_dict, rtl_output_path, samples=10):
+    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
         self.model_dict = model_dict
         self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
         self.rtl_config = rtl_config
-        self.vhd_dict = vhd_dict
         self.rtl_output_path = rtl_output_path
         self.samples = samples
         self.dict_op_type = {
@@ -96,6 +95,14 @@ class GenerateRTL:
         self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
         # Adjust shift
         self.shift = 2 ** self.shift_bits
+        self.input_size = np.prod(model_dict[0]["input_shape"])
+        self.filter_dimension = [v["filter_dimension"] for k, v in model_dict.items()]
+        self.filter_channel = [v["filter_channel"] for k, v in model_dict.items()]
+        self.layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
+        self.stride_h = [v["stride_h"] for k, v in model_dict.items()]
+        self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
+        self.dataloader = dataloader
+        # change for core
         self.n_layer = 0
         self.stride = [v["stride_h"] for k, v in model_dict.items()]
         self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
@@ -116,14 +123,14 @@ class GenerateRTL:
             x_size = input_w
             c_size = input_c
         else:
-            x_size = self.vhd_dict["layer_dimension"][layer - 1]
-            c_size = self.vhd_dict["filter_channel"][layer - 1]
+            x_size = self.layer_dimension[layer - 1]
+            c_size = self.filter_channel[layer - 1]
 
-        conv_per_line = self.vhd_dict["layer_dimension"][layer]
+        conv_per_line = self.layer_dimension[layer]
         generic_dict2 = {
             "X_SIZE": x_size,
             "C_SIZE": c_size,
-            "FILTER_WIDTH": self.vhd_dict["filter_dimension"][layer],
+            "FILTER_WIDTH": self.filter_dimension[layer],
             "CONVS_PER_LINE": conv_per_line,
             "LAYER": layer,
             "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]]
@@ -136,7 +143,7 @@ class GenerateRTL:
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(generic_dict2, path_layer, layer)
         # Generate VHDL tensorflow package
-        generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
+        # generate_ifmem_vhd_pkg(path=path_layer, input_channel=input_channel, layer=layer, **self.vhd_dict)
         self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
@@ -291,9 +298,12 @@ class GenerateRTL:
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
+    def generate_ifmem_vhd_pkg(self, layer, path):
+        pass
+
     def generate_iwght_vhd_pkg(self, layer, path):
         modelDict = self.model_dict
-        shift = self.vhd_dict["shift"]
+        shift = self.shift
         tab = "    "
 
         bias_list = self.get_bias(layer, modelDict, shift)
@@ -458,15 +468,16 @@ class GenerateRTL:
     #     return feat_unpack
 
     def get_feature_data(self, layer, tab, path, testSetSize=1):
-        filter_channel = self.vhd_dict["filter_channel"]
-        filter_dimension = self.vhd_dict["filter_dimension"]
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
         input_channel = self.input_channel
-        layer_dimension = self.vhd_dict["layer_dimension"]
+        layer_dimension = self.layer_dimension
         modelDict = self.model_dict
-        shift = self.vhd_dict["shift"]
-        stride_h = self.vhd_dict["stride_h"]
-        stride_w = self.vhd_dict["stride_w"]
-        testSet = self.vhd_dict["testSet"]
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        testSet = self.dataloader.x
+        self.dataloader.x
         # testSetSize = self.vhd_dict["testSetSize"]
         gen_features = True
         if layer == 0:
@@ -494,15 +505,15 @@ class GenerateRTL:
     def generate_gold_vhd_pkg(self, layer, path, testSetSize=1):
         tab = "    "
         gen_features = False
-        filter_channel = self.vhd_dict["filter_channel"]
-        filter_dimension = self.vhd_dict["filter_dimension"]
+        filter_channel = self.filter_channel
+        filter_dimension = self.filter_dimension
         input_channel = self.input_channel
-        layer_dimension = self.vhd_dict["layer_dimension"]
+        layer_dimension = self.layer_dimension
         modelDict = self.model_dict
-        shift = self.vhd_dict["shift"]
-        stride_h = self.vhd_dict["stride_h"]
-        stride_w = self.vhd_dict["stride_w"]
-        testSet = self.vhd_dict["testSet"]
+        shift = self.shift
+        stride_h = self.stride_h
+        stride_w = self.stride_w
+        testSet = self.dataloader.x
         # testSetSize = self.vhd_dict["testSetSize"]
 
         if self.model_dict[layer]["type"] == "Dense":
@@ -522,7 +533,6 @@ class GenerateRTL:
         data = "".join([f"\n{tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
-
     # def generate_gold_bram(self, modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
     #                        testSet, testLabel, stride_h, stride_w, testSetSize, layer, path, bits):
     #     tab = "    "
