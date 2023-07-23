@@ -70,86 +70,14 @@ def main():
             # Pickle dictionary using protocol 0.
             pickle.dump(model_dict, f)
 
-    # model_dict = {k: v for k, v in model_dict.items() if v["type"] != "Flatten"}
-
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
     dataloader = SimpleNamespace(x=x_test, y=y_test)
 
-    # Compute output layer dimensions
-    # generic_dict = {
-    #     "MEM_SIZE": rtl_config["MEM_SIZE"],
-    #     "INPUT_SIZE": rtl_config["INPUT_SIZE"],
-    #     "CARRY_SIZE": rtl_config["CARRY_SIZE"],
-    #     "CLK_PERIOD": rtl_config["CLK_PERIOD"],
-    #     "STRIDE": [v["stride_h"] for k, v in model_dict.items()],
-    #     "N_FILTER": [v["filter_channel"] for k, v in model_dict.items()],
-    #     "DATAFLOW_TYPE": rtl_config["DATAFLOW_TYPE"],
-    #     "LAT": rtl_config["LAT"],
-    #     "SHIFT": int(shift_bits),
-    #     "IN_DELAY": rtl_config["IN_DELAY"],
-    #     "ARRAY_TYPE": rtl_config["ARRAY_TYPE"],
-    #     "N_LAYER": 0,
-    # }
-
-    # vhd_dict = {
-    #     "modelDict": model_dict,
-    #     "shift": shift,
-    #     "input_size": np.prod(model_dict[0]["input_shape"]),
-    #     "filter_dimension": [v["filter_dimension"] for k, v in model_dict.items()],
-    #     "filter_channel": [v["filter_channel"] for k, v in model_dict.items()],
-    #     "layer_dimension":  [v["output_shape"][0] for k, v in model_dict.items()],
-    #     "testSet": x_test,
-    #     "testLabel": y_test,
-    #     "stride_h": [v["stride_h"] for k, v in model_dict.items()],
-    #     "stride_w": [v["stride_w"] for k, v in model_dict.items()],
-    #     "testSetSize": 1,
-    # }
-
-    # Compute input channels
     generate_rtl = GenerateRTL(
         model_dict, rtl_config, rtl_output_path, dataloader, samples=10
     )
     generate_rtl(samples=True, core=True)
-
-    # for e, _ in enumerate(list(model_dict.keys())):
-    #     generate_files(
-    #         model_dict[0]["input_shape"][-1], model_dict[0]["input_shape"][0], input_channel, generic_dict,
-    #         vhd_dict_files, e, rtl_output_path, dict_op_type[model_dict[e]["type"]]
-    #     )
-    #
-    # size = len([v["filter_channel"] for k, v in model_dict.items()]) - 1
-    # # if "pool" in cnn_config:
-    # #     path_layer = rtl_output_path / "layer" / str(size + 1)
-    # #     path_layer.mkdir(parents=True, exist_ok=True)
-    # #     generate_gold_maxpool_vhd_pkg(size, path_layer)
-    #
-    # size = len(model_dict.keys()) - 1
-    # path_layer = rtl_output_path / "layer" / str(size)
-    # path_layer.mkdir(parents=True, exist_ok=True)
-    # # fc(model_dict, shift, size, path_layer)
-    #
-    # generate_samples(input_channel, generic_dict, vhd_dict_samples, 0, rtl_output_path, single_file=False)
-    #
-    # generic_dict2 = {
-    #     "STRIDE": [max([v["stride_h"] for k, v in model_dict.items()])],
-    #     "N_FILTER": [max([v["filter_channel"] for k, v in model_dict.items()])],
-    #     "X_SIZE": max([model_dict[0]["input_shape"][0]] + vhd_dict["layer_dimension"]),
-    #     "C_SIZE": max([model_dict[0]["input_shape"][-1]] + vhd_dict["filter_channel"]),
-    #     "FILTER_WIDTH": max(vhd_dict["filter_dimension"]),
-    #     "CONVS_PER_LINE": max(vhd_dict["layer_dimension"]),
-    #     "LAYER": 0,
-    #     "OP_TYPE": "".join([dict_op_type[v["type"]] for k, v in model_dict.items()]),
-    # }
-    # pe_path = rtl_output_path / "core"
-    # pe_path.mkdir(parents=True, exist_ok=True)
-    # # TODO use len(vhd_dict["filter_dimension"]) and no len(cnn_config["filter_dimension"])
-    # # TODO to get N_LAYER, using cnn_config we get size only with conv layer
-    # # TODO because only that work in CNN now
-    # # generate_generic_file({**generic_dict2, "N_LAYER": len(vhd_dict["filter_dimension"])}, pe_path, 0)
-    # generate_generic_file({**generic_dict2, "N_LAYER": len(cnn_config["filter_dimension"])}, pe_path, 0)
-    # generate_tcl_generic(generic_dict2, pe_path, 0)
-    # generate_config_file({**generic_dict2, "N_CHANNEL": max(vhd_dict["filter_channel"])}, pe_path, 0)
 
 
 if __name__ == '__main__':

@@ -78,41 +78,13 @@ class GenerateRTL:
 
     def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
-            self.generate_files(e)
+            self.generate_layer(e)
         if samples:
             self.generate_samples()
         if core:
-            # remove -1 in future after integrate FC (and max pool)
-            layer = len(self.layer_dimension) - 1
-            path_core = self.rtl_output_path / "core"
-            stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
-            n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
-            x_size = max([self.model_dict[0]["input_shape"][0]] + self.layer_dimension)
-            c_size = max([self.model_dict[0]["input_shape"][-1]] + self.filter_channel)
-            conv_per_line = max(self.layer_dimension)
-            generic_dict2 = {
-                "STRIDE": [max([v["stride_h"] for k, v in self.model_dict.items()])],
-                "N_FILTER": [max([v["filter_channel"] for k, v in self.model_dict.items()])],
-                "X_SIZE": x_size,
-                "C_SIZE": c_size,
-                "FILTER_WIDTH": max(self.filter_dimension),
-                "CONVS_PER_LINE": max(self.layer_dimension),
-                "LAYER": 0,
-                "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
-            }
-            self.generate_generic_file(
-                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0], n_layer=3
-            )
-            # Generate TCL file with generics for logic synthesis
-            self.generate_tcl_generic(
-                generic_dict2, path_core, n_filter=n_filter[0], stride=stride[0], n_layer=3
-            )
-            self.generate_config_file(
-                x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
-                n_filter=n_filter[0],
-            )
+            self.generate_core()
 
-    def generate_files(self, layer):
+    def generate_layer(self, layer):
         input_c = self.model_dict[0]["input_shape"][-1]
         input_w = self.model_dict[0]["input_shape"][0]
         input_channel = self.input_channel
@@ -133,18 +105,22 @@ class GenerateRTL:
             "FILTER_WIDTH": self.filter_dimension[layer],
             "CONVS_PER_LINE": conv_per_line,
             "LAYER": layer,
-            "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]]
+            "N_FILTER": self.n_filter[layer],
+            "STRIDE": self.stride[layer],
+            "SHIFT": self.shift_bits,
+            "N_LAYER": 0,
+            "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]],
         }
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
         self.generate_generic_file(
-            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer], n_layer=0
+            generic_dict2, path_layer, n_layer=0, layer=layer,
         )
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(
-            generic_dict2, path_layer, n_filter=self.n_filter[layer], stride=self.stride[layer], n_layer=0
+            generic_dict2, path_layer, n_layer=0, layer=layer,
         )
         self.generate_config_file(
             x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
@@ -157,33 +133,21 @@ class GenerateRTL:
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
 
-    def generate_samples(self):
-        path_samples = self.rtl_output_path / 'samples'
-        path_samples.mkdir(parents=True, exist_ok=True)
-        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-        # Generate generic file for rtl simulation
-        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
-        self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
-
-    def generate_generic_file(self, generate_layer_dict, path, n_filter, stride, n_layer):
+    def generate_generic_file(self, generate_layer_dict, path, n_layer, layer=0, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
         rst_time = clk_half * 5
-        if "core" in path.as_posix():
+        if core:
             data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
         else:
             data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
         generate_dict2 = {
-            **{k: v for k, v in self.rtl_config.items()},
+            ** self.rtl_config,
             ** generate_layer_dict,
             "CLK_HALF": clk_half,
             "RST_TIME": rst_time,
             "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
             "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
-            "N_FILTER": n_filter,
-            "STRIDE": stride,
             "PATH": data_path,
-            "SHIFT": self.shift_bits,
-            "N_LAYER": n_layer,
         }
         line = (
             "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
@@ -196,14 +160,10 @@ class GenerateRTL:
         with open(path / "generic_file.txt", "w") as f:
             f.write(line)
 
-    def generate_tcl_generic(self, generic_dict_layer, path, n_filter, stride, n_layer):
+    def generate_tcl_generic(self, generic_dict_layer, path, n_layer, layer=0):
         generate_dict2 = {
-            **{k: v for k, v in self.rtl_config.items()},
-            **generic_dict_layer,
-            "N_FILTER": n_filter,
-            "STRIDE": stride,
-            "SHIFT": self.shift_bits,
-            "N_LAYER": n_layer,
+            ** self.rtl_config,
+            ** generic_dict_layer,
         }
         line = (
             "set CLK_PERIOD {CLK_PERIOD}\n"
@@ -229,7 +189,8 @@ class GenerateRTL:
         with open(path / "generic_synth.tcl", "w") as f:
             f.write(line)
 
-    def generate_config_file(self, x_size, conv_per_line, n_channel, path, n_filter):
+    @staticmethod
+    def generate_config_file(x_size, conv_per_line, n_channel, path, n_filter):
         generate_dict2 = {
             "N_FILTER": n_filter,
             "N_CHANNEL": n_channel,
@@ -279,6 +240,43 @@ class GenerateRTL:
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
             f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
+
+    def generate_samples(self):
+        path_samples = self.rtl_output_path / 'samples'
+        path_samples.mkdir(parents=True, exist_ok=True)
+        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
+        # Generate generic file for rtl simulation
+        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+        self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+
+    def generate_core(self):
+        # TODO remove -1 in future after integrate FC (and max pool)
+        layer = len(self.layer_dimension) - 1
+        path_core = self.rtl_output_path / "core"
+        stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
+        n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
+        x_size = max([self.model_dict[0]["input_shape"][0]] + self.layer_dimension)
+        c_size = max([self.model_dict[0]["input_shape"][-1]] + self.filter_channel)
+        conv_per_line = max(self.layer_dimension)
+        generic_dict2 = {
+            "STRIDE": stride[0],
+            "N_FILTER": n_filter[0],
+            "X_SIZE": x_size,
+            "C_SIZE": c_size,
+            "FILTER_WIDTH": max(self.filter_dimension),
+            "CONVS_PER_LINE": max(self.layer_dimension),
+            "LAYER": 0,
+            "SHIFT": self.shift_bits,
+            "N_LAYER": layer,
+            "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
+        }
+        self.generate_generic_file(generic_dict2, path_core, n_layer=layer, core=True)
+        # Generate TCL file with generics for logic synthesis
+        self.generate_tcl_generic(generic_dict2, path_core, n_layer=layer)
+        self.generate_config_file(
+            x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
+            n_filter=n_filter[0],
+        )
 
     def generate_ifmem_vhd_pkg(self, layer, path):
         filter_channel = self.filter_channel
