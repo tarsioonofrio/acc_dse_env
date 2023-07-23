@@ -109,10 +109,7 @@ def main():
     # Compute input channels
     stride = [v["stride_h"] for k, v in model_dict.items()]
     n_filter = [v["filter_channel"] for k, v in model_dict.items()]
-    generate_rtl = GenerateRTL(
-        model_dict, rtl_config, rtl_output_path, dataloader,
-        stride=stride, n_filter=n_filter, n_layer=0, samples=10
-    )
+    generate_rtl = GenerateRTL(model_dict, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl(samples=True)
 
     # for e, _ in enumerate(list(model_dict.keys())):
