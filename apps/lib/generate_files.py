@@ -69,6 +69,7 @@ class GenerateRTL:
             if layer._get_name() in self.map_layer_props.keys()
         }
         self.layer_rtl = list(self.layer_torch.values())
+        self.map_rtl_torch = list(self.layer_torch.keys())
         self.dataloader = dataloader
         model.requires_grad_(False)
         model.type(torch.int)
@@ -315,7 +316,7 @@ class GenerateRTL:
         input_channel = self.input_channel
         input_size = self.input_size
         layer_dimension = self.layer_dimension
-        modelDict = self.model_dict
+        model_dict = self.model_dict
         shift = self.shift
         stride_h = self.stride_h
         stride_w = self.stride_w
@@ -323,13 +324,15 @@ class GenerateRTL:
         testSetSize = 1
         testLabel = self.dataloader.y
         generate_ifmem_vhd_pkg(
-            modelDict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
+            model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
             testLabel, stride_h, stride_w, testSetSize, layer, path
         )
 
     def generate_iwght_vhd_pkg(self, layer, path):
-        bias_list = self.get_bias(layer)
+        # bias_list = self.get_bias(layer)
+        bias_list = [str(n) for n in self.model.sequential[self.map_rtl_torch[layer]].bias.data.cpu().detach().tolist()]
         weight_list = self.get_wght(layer)
+        # w = [str(n) for n in self.model.sequential[layer].weight.data.cpu().detach().numpy().T]
 
         bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(bias_list)},\n"
         weight_string = [

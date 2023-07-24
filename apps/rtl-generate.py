@@ -47,7 +47,7 @@ def main():
         "classes": 10,
     }
     model = Default(cnn_config, config_dataset)
-    model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
+    model.load_state_dict(torch.load(cnn_output_path / 'model_quantized.pth'))
 
     if os.path.exists(cnn_output_path / "weights.pkl"):
         # model_dict = {int(k): v for k, v in loadmat(str(path / "model.mat")).items() if k[0] != '_'}
