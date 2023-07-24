@@ -2,10 +2,11 @@ from pathlib import Path
 from os.path import relpath
 from math import log2, ceil
 
+import torch
 import numpy as np
 
+
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
-from .util import open_file
 
 
 def log2ceil(x):
@@ -49,30 +50,65 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
-    def __init__(self, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
+    def __init__(self, model, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
         self.tab = "    "
+        self.map_layer_props = {
+            'Conv2d': {
+                "op": 'C', "input_shape": lambda x: x.in_channels, 'filter_dimension': lambda x: x.kernel_size[0],
+                "filter_channel": lambda x: x.out_channels, "stride": lambda x: x.stride[0]
+            },
+            'Linear': {
+                "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
+                "filter_channel": lambda x: x.out_features, "stride": lambda x: 1
+            },
+            # 'Maxpool': 'M',
+        }
+        self.layer_torch = {
+            e: layer._get_name()
+            for e, layer in enumerate(model.sequential)
+            if layer._get_name() in self.map_layer_props.keys()
+        }
+        self.layer_rtl = list(self.layer_torch.values())
+        self.dataloader = dataloader
+        model.requires_grad_(False)
+        model.type(torch.int)
+        self.model = model
         self.model_dict = model_dict
-        self.input_channel = [v["input_shape"][-1] for k, v in model_dict.items()]
+        self.input_channel = [
+            # vars(self.model.sequential[k])[self.map_layer_props[v]['input_shape']] for k, v in self.model_layer.items()
+            self.map_layer_props[v]['input_shape'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
         self.rtl_config = rtl_config
         self.rtl_output_path = rtl_output_path
         self.samples = samples
-        self.dict_op_type = {
-            'Conv2D': 'C',
-            'Dense': 'F',
-            'Maxpool': 'M',
-        }
         self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
         # Adjust shift
         self.shift = 2 ** self.shift_bits
-        self.input_size = np.prod(model_dict[0]["input_shape"])
-        self.filter_dimension = [v["filter_dimension"] for k, v in model_dict.items()]
-        self.filter_channel = [v["filter_channel"] for k, v in model_dict.items()]
-        self.layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
-        self.stride_h = [v["stride_h"] for k, v in model_dict.items()]
-        self.stride_w = [v["stride_w"] for k, v in model_dict.items()]
-        self.dataloader = dataloader
-        self.stride = [v["stride_h"] for k, v in model_dict.items()]
-        self.n_filter = [v["filter_channel"] for k, v in model_dict.items()]
+        self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
+        # self.filter_dimension = [v["filter_dimension"] for k, v in model_dict.items()]
+        self.filter_dimension = [
+            self.map_layer_props[v]['filter_dimension'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
+        # self.filter_channel = [v["filter_channel"] for k, v in model_dict.items()]
+        self.filter_channel = [
+            self.map_layer_props[v]['filter_channel'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
+        # self.layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
+        input_tensor = torch.ones(
+            1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
+        )
+        self.layer_dimension = []
+        for e, layer in enumerate(model.sequential[0:-1]):
+            input_tensor = layer(input_tensor)
+            if e in self.layer_torch:
+                self.layer_dimension.append(input_tensor.shape[-1])
+
+        self.stride = [
+            self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
+        self.stride_h = self.stride
+        self.stride_w = self.stride
+        self.n_filter = self.filter_channel
         # change for core
         self.n_layer = 0
 
@@ -85,8 +121,8 @@ class GenerateRTL:
             self.generate_core()
 
     def generate_layer(self, layer):
-        input_c = self.model_dict[0]["input_shape"][-1]
-        input_w = self.model_dict[0]["input_shape"][0]
+        input_c = self.dataloader.config["input_c"]
+        input_w = self.dataloader.config["input_w"]
         path = self.rtl_output_path
 
         # Compute HW parameters
@@ -108,7 +144,7 @@ class GenerateRTL:
             "STRIDE": self.stride[layer],
             "SHIFT": self.shift_bits,
             "N_LAYER": 0,
-            "OP_TYPE": self.dict_op_type[self.model_dict[layer]["type"]],
+            "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
         }
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
@@ -248,10 +284,10 @@ class GenerateRTL:
         # TODO remove -1 in future after integrate FC (and max pool)
         layer = len(self.layer_dimension) - 1
         path_core = self.rtl_output_path / "core"
-        stride = [max([v["stride_h"] for k, v in self.model_dict.items()])]
-        n_filter = [max([v["filter_channel"] for k, v in self.model_dict.items()])]
-        x_size = max([self.model_dict[0]["input_shape"][0]] + self.layer_dimension)
-        c_size = max([self.model_dict[0]["input_shape"][-1]] + self.filter_channel)
+        stride = [max(self.stride)]
+        n_filter = [max(self.n_filter)]
+        x_size = max([self.dataloader.config["input_w"]] + self.layer_dimension)
+        c_size = max([self.dataloader.config["input_c"]] + self.filter_channel)
         conv_per_line = max(self.layer_dimension)
         generic_dict2 = {
             "STRIDE": stride[0],
@@ -263,7 +299,7 @@ class GenerateRTL:
             "LAYER": 0,
             "SHIFT": self.shift_bits,
             "N_LAYER": layer,
-            "OP_TYPE": "".join([self.dict_op_type[v["type"]] for k, v in self.model_dict.items()])
+            "OP_TYPE": "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
         }
         self.generate_generic_file(generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
