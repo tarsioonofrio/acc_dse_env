@@ -70,6 +70,7 @@ class GenerateRTL:
         }
         self.layer_rtl = list(self.layer_torch.values())
         self.map_rtl_torch = list(self.layer_torch.keys())
+        self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
         self.dataloader = dataloader
         model.requires_grad_(False)
         model.type(torch.int)
@@ -159,7 +160,7 @@ class GenerateRTL:
         self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
         # Generate VHDL gold output package
-        self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
+        self.generate_gold_vhd_pkg(n_layer=layer, path=path_layer)
 
     def generate_generic_file(self, generate_layer_dict, path, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
@@ -275,7 +276,7 @@ class GenerateRTL:
         # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
         self.generate_ifmap_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
-        self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+        self.generate_gold_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
 
     def generate_core(self):
         # TODO remove -1 in future after integrate FC (and max pool)
@@ -545,28 +546,29 @@ class GenerateRTL:
                 feat_list = []
         return feat_list
 
-    def generate_gold_vhd_pkg(self, layer, path, dataset_size=1):
-        gen_features = False
-        filter_channel = self.filter_channel
-        filter_dimension = self.filter_dimension
-        input_channel = self.input_channel
-        layer_dimension = self.layer_dimension
-        model_dict = self.model_dict
-        shift = self.shift
-        stride_h = self.stride_h
-        stride_w = self.stride_w
-        dataset = self.dataloader.x
-        # testSetSize = self.vhd_dict["testSetSize"]
+    def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
+        # n_layer = n_layer + 1
+        x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
+        x = x.astype(np.int32)
+        x = torch.from_numpy(x.astype(np.int32))
 
-        if self.model_dict[layer]["type"] == "Dense":
-            feat_list = fc(self.model_dict, shift, layer, gen_features, path)
-        elif self.model_dict[layer]["type"] == "Conv2D":
-            feat_list = conv2d(
-                gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
-                stride_h, stride_w, self.tab, dataset, dataset_size
-            )
+        loop = list(range(self.map_gold_torch[n_layer]))
+
+        for i in loop:
+            x = self.model.sequential[i](x)
+            if self.model.sequential[i]._get_name() == 'Conv2d':
+                x = x // self.shift
+
+        feat_list = x
+        if self.layer_rtl[n_layer] == 'Linear':
+            feat_list = feat_list.cpu().reshape(1, -1).detach().numpy()
+            feat_list = np.expand_dims(feat_list, 0)
         else:
-            feat_list = []
+            feat_list = feat_list.squeeze().transpose(-2, -1).cpu().detach().numpy()
+
+        if dataset_size > 1:
+            s = feat_list.shape
+            feat_list = feat_list.reshape(-1, s[-2], s[-1]).astype(int)
 
         format_feat = format_feature(feat_list, self.tab)
 
