@@ -5,7 +5,7 @@ from math import log2, ceil
 import torch
 import numpy as np
 
-
+from .bram import open_file
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 
 
