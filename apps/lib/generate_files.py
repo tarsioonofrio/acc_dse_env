@@ -419,8 +419,8 @@ class GenerateRTL:
 
             for i in loop:
                 x = self.model.sequential[i](x)
-                # if self.layer_rtl[n_layer] == 'Conv2d':
-            x = x // self.shift
+                if self.model.sequential[i]._get_name() == 'Conv2d':
+                    x = x // self.shift
 
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
