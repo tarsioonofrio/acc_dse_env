@@ -43,7 +43,7 @@ def format_feature(feat_list, tab):
         format_feat.append(f"-- channel={c}\n{tab}")
         for column in channel:
             for feat in column:
-                format_feat.append(f"{feat}, ")
+                format_feat.append(f"{str(feat)}, ")
             format_feat.append(f"\n{tab}")
         format_feat.append(f"\n{tab}")
     return format_feat
@@ -76,7 +76,6 @@ class GenerateRTL:
         self.model = model
         self.model_dict = model_dict
         self.input_channel = [
-            # vars(self.model.sequential[k])[self.map_layer_props[v]['input_shape']] for k, v in self.model_layer.items()
             self.map_layer_props[v]['input_shape'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
         self.rtl_config = rtl_config
@@ -86,15 +85,12 @@ class GenerateRTL:
         # Adjust shift
         self.shift = 2 ** self.shift_bits
         self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
-        # self.filter_dimension = [v["filter_dimension"] for k, v in model_dict.items()]
         self.filter_dimension = [
             self.map_layer_props[v]['filter_dimension'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
-        # self.filter_channel = [v["filter_channel"] for k, v in model_dict.items()]
         self.filter_channel = [
             self.map_layer_props[v]['filter_channel'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
-        # self.layer_dimension = [v["output_shape"][0] for k, v in model_dict.items()]
         input_tensor = torch.ones(
             1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
         )
@@ -161,7 +157,7 @@ class GenerateRTL:
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
-        self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
 
@@ -278,7 +274,7 @@ class GenerateRTL:
         path_samples.mkdir(parents=True, exist_ok=True)
         # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
         # Generate generic file for rtl simulation
-        self.generate_ifmap_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
+        self.generate_ifmap_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
         self.generate_gold_vhd_pkg(path=path_samples, layer=0, dataset_size=self.samples)
 
     def generate_core(self):
@@ -338,6 +334,8 @@ class GenerateRTL:
         elif self.layer_rtl[n_layer] == 'Linear':
             layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
             weight_list = np.expand_dims(layer, [0, 1]).tolist()
+        else:
+            weight_list = []
 
         bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
         weight_string = [
@@ -404,9 +402,18 @@ class GenerateRTL:
             bias_list = []
         return bias_list
 
-    def generate_ifmap_vhd_pkg(self, path, layer, dataset_size=1):
-        feat_list = self.get_feature_data(layer, path, dataset_size)
-
+    def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
+        # feat_list = self.get_feature_data(n_layer, path, dataset_size)
+        if n_layer == 0:
+            x = self.dataloader.x[0].transpose([2, 0, 1]) * self.shift
+            feat_list = x.astype(int)
+        else:
+            if self.layer_rtl[n_layer] == 'Conv2d':
+                feat_list = []
+            elif self.layer_rtl[n_layer] == 'Linear':
+                feat_list = []
+            else:
+                feat_list = []
         format_feat = format_feature(feat_list, self.tab)
 
         package = "ifmap_package"
