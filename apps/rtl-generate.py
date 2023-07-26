@@ -66,7 +66,7 @@ def main():
 
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
-    dataloader = SimpleNamespace(x=x_test, y=y_test, config=config_dataset)
+    dataloader = SimpleNamespace(x=x_test, x_int=x_test_int, y=y_test, config=config_dataset)
 
     generate_rtl = GenerateRTL(
         model, model_dict, rtl_config, rtl_output_path, dataloader, samples=10

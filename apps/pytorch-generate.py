@@ -68,6 +68,7 @@ def main():
 
     y0 = model_pth.sequential[0](torch.from_numpy(np.transpose(x_test_int[0:1].astype(np.int32), (0, 3, 2, 1))))//shift
     y1 = model_pth.sequential[1](y0)
+    print()
 
     # torch.save(model_pth.state_dict(), cnn_output_path / "model_quantized.pth")
 
