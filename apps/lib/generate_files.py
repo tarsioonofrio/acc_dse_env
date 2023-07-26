@@ -405,8 +405,13 @@ class GenerateRTL:
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         # feat_list = self.get_feature_data(n_layer, path, dataset_size)
         if n_layer == 0:
-            x = self.dataloader.x[0].transpose([2, 0, 1]) * self.shift
-            feat_list = x.astype(int)
+            # x = self.dataloader.x[0].transpose([2, 0, 1]) * self.shift
+            x = self.dataloader.x[0:dataset_size].transpose(0, 3, 1, 2) * self.shift
+            if dataset_size == 1:
+                feat_list = np.squeeze(x.astype(int))
+            else:
+                s = x.shape
+                feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
         else:
             x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
             x = x.astype(np.int32)
