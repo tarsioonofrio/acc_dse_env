@@ -408,7 +408,7 @@ class GenerateRTL:
             x = self.dataloader.x[0].transpose([2, 0, 1]) * self.shift
             feat_list = x.astype(int)
         else:
-            x = self.dataloader.x_int[0:dataset_size].transpose(0, 3, 2, 1)
+            x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
             x = x.astype(np.int32)
             x = torch.from_numpy(x.astype(np.int32))
 
@@ -419,8 +419,10 @@ class GenerateRTL:
 
             for i in loop:
                 x = self.model.sequential[i](x)
+                # if self.layer_rtl[n_layer] == 'Conv2d':
+            x = x // self.shift
 
-            feat_list = x // self.shift
+            feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
                 feat_list = feat_list.cpu().detach().numpy()
                 feat_list = np.expand_dims(feat_list, 0)
