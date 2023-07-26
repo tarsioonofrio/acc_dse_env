@@ -160,7 +160,7 @@ class GenerateRTL:
         )
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
-        self.generate_iwght_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, layer=layer)
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(layer=layer, path=path_layer)
@@ -328,15 +328,20 @@ class GenerateRTL:
             testLabel, stride_h, stride_w, testSetSize, layer, path
         )
 
-    def generate_iwght_vhd_pkg(self, layer, path):
+    def generate_iwght_vhd_pkg(self, n_layer, path):
         # bias_list = self.get_bias(layer)
-        bias_list = [str(n) for n in self.model.sequential[self.map_rtl_torch[layer]].bias.data.cpu().detach().tolist()]
-        weight_list = self.get_wght(layer)
-        # w = [str(n) for n in self.model.sequential[layer].weight.data.cpu().detach().numpy().T]
+        bias_list = [str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()]
+        # weight_list = self.get_wght(n_layer)
+        if self.layer_rtl[n_layer] == 'Conv2d':
+            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
+            weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
+        elif self.layer_rtl[n_layer] == 'Linear':
+            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
+            weight_list = np.expand_dims(layer, [0, 1]).tolist()
 
-        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(bias_list)},\n"
+        bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
         weight_string = [
-            f"{self.tab}-- layer={layer} filter={f} channel={c}\n{self.tab}{', '.join(s)},\n"
+            f"{self.tab}-- layer={n_layer} filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
             for filters in weight_list
             for f, channel in enumerate(filters)
             for c, s in enumerate(channel)
