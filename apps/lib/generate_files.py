@@ -411,10 +411,21 @@ class GenerateRTL:
             x = self.dataloader.x_int[0:dataset_size].transpose(0, 3, 2, 1)
             x = x.astype(np.int32)
             x = torch.from_numpy(x.astype(np.int32))
-            for i in range(self.map_rtl_torch[n_layer]-1):
+
+            if self.layer_rtl[n_layer] == 'Linear':
+                loop = list(range(self.map_rtl_torch[n_layer] + 1))
+            else:
+                loop = list(range(self.map_rtl_torch[n_layer]))
+
+            for i in loop:
                 x = self.model.sequential[i](x)
+
             feat_list = x // self.shift
-            feat_list = feat_list.squeeze()
+            if self.layer_rtl[n_layer] == 'Linear':
+                feat_list = feat_list.cpu().detach().numpy()
+                feat_list = np.expand_dims(feat_list, 0)
+            else:
+                feat_list = feat_list.squeeze().transpose(-2, -1).cpu().detach().numpy()
 
         format_feat = format_feature(feat_list, self.tab)
 
