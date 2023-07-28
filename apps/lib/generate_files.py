@@ -333,8 +333,12 @@ class GenerateRTL:
             layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
             weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
         elif self.layer_rtl[n_layer] == 'Linear':
-            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
-            weight_list = np.expand_dims(layer, [0, 1]).tolist()
+            ch = self.filter_channel[n_layer - 1]
+            d = self.filter_dimension[n_layer - 1]
+            c = self.dataloader.config["classes"]
+            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data
+            layer1 = layer.reshape(-1, ch, d, d).transpose(-2, -1).reshape(c, -1).cpu().detach().numpy()
+            weight_list = np.expand_dims(layer1, [0, 1]).tolist()
         else:
             weight_list = []
 
@@ -427,12 +431,12 @@ class GenerateRTL:
 
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
-                feat_list = feat_list.cpu()
+                feat_list = feat_list
                 feat_list = feat_list.reshape(
                     self.filter_channel[n_layer-1], self.filter_dimension[n_layer-1], self.filter_dimension[n_layer-1]
                 )
-                feat_list = feat_list.transpose(-2, -1).reshape(1, -1).detach().numpy()
-                feat_list = np.expand_dims(feat_list, 0)
+                feat_list = feat_list.transpose(-2, -1).reshape(1, -1)
+                feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
                 feat_list = feat_list.squeeze().transpose(-2, -1).cpu().detach().numpy()
 
@@ -555,7 +559,19 @@ class GenerateRTL:
         loop = list(range(self.map_gold_torch[n_layer]))
 
         for i in loop:
-            x = self.model.sequential[i](x)
+            # if self.model.sequential[i]._get_name() == 'Linear':
+            #     from torch.nn import functional
+            #     weight = self.model.sequential[i].weight.data
+            #     w1 = weight.reshape(-1, self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(10, -1)
+            #     bias = self.model.sequential[i].bias.data
+            #     x1 = x.reshape(self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(1, -1)
+            #     t1 = functional.linear(x1, weight, bias)
+            #     from .model import fc
+            #     fc(self.model_dict, self.shift, n_layer, True, path)
+            #     # np.dot(x[0], weight[1]) + bias[1]
+            #     print()
+            t = self.model.sequential[i](x)
+            x = t
             if self.model.sequential[i]._get_name() == 'Conv2d':
                 x = x // self.shift
 
