@@ -11,12 +11,12 @@ use ieee.std_logic_arith.all;
 
 entity fully_connected is
   generic (
-    N_FILTER       : integer := 10;
-    N_CHANNEL      : integer := 64;
-    STRIDE         : integer := 2;
-    X_SIZE         : integer := 3;
-    FILTER_WIDTH   : integer := 3;
-    CONVS_PER_LINE : integer := 15;
+    N_FILTER       : integer := 0; -- ouput channels
+    N_CHANNEL      : integer := 0; -- input channels
+    STRIDE         : integer := 0; 
+    X_SIZE         : integer := 0; -- feature side
+    FILTER_WIDTH   : integer := 0; 
+    CONVS_PER_LINE : integer := 0; -- operations
     MEM_SIZE       : integer := 12;
     INPUT_SIZE     : integer := 8;
     SHIFT          : integer := 4;
@@ -58,7 +58,7 @@ end entity fully_connected;
 architecture a1 of fully_connected is
   signal iwght_reg, start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset: std_logic;
 
-  signal en_reg : std_logic_vector(10 - 1 downto 0);
+  signal en_reg : std_logic_vector(N_FILTER - 1 downto 0);
   signal features : std_logic_vector(INPUT_SIZE - 1 downto 0);
   signal weight : std_logic_vector(INPUT_SIZE - 1 downto 0);
   signal res_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -68,11 +68,11 @@ architecture a1 of fully_connected is
   signal add_ifmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_ofmap : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_iwght : integer range 0 to 2**(MEM_SIZE) - 1;
-  signal idx_mac : integer range 0 to 10 - 1;
-  signal idx_output : integer range 0 to 10 - 1;
+  signal idx_mac : integer range 0 to N_FILTER - 1;
+  signal idx_output : integer range 0 to N_FILTER - 1;
   signal idx_wght : integer;
 
-  type type_mac_arr is array (0 to 10-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+  type type_mac_arr is array (0 to N_FILTER-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal res_mac_arr : type_mac_arr;
   signal reg_mac_arr : type_mac_arr;
 
@@ -165,7 +165,7 @@ begin
             features <= CONV_STD_LOGIC_VECTOR(1, INPUT_SIZE);
             weight <= iwght_value(INPUT_SIZE-1 downto 0);
             add_iwght <= add_iwght + 1;
-            if (idx_wght < 10 - 1) then -- number of classes
+            if (idx_wght < N_FILTER - 1) then -- number of classes
               idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
@@ -192,8 +192,8 @@ begin
             idx_mac <= idx_wght;
             en_reg(idx_wght) <= '1';
             weight <= iwght_value(INPUT_SIZE-1 downto 0);
-            if (idx_wght < 10 - 1) then -- number of classes
-              add_iwght <= add_iwght + 576;
+            if (idx_wght < N_FILTER - 1) then -- number of classes
+              add_iwght <= add_iwght + CONVS_PER_LINE;
               idx_wght <= idx_wght + 1;
             else
               idx_wght <= 0;
@@ -205,10 +205,10 @@ begin
           end if;
 
         when WAITVALID =>
-          add_iwght <= add_ifmap + 10;
+          add_iwght <= add_ifmap + N_FILTER;
           en_reg <= (others => '0');
         -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
-          if add_iwght < 576 * 10 + 10 then -- image max size
+          if add_iwght < CONVS_PER_LINE * N_FILTER + N_FILTER then -- image max size
             EA_read <= READFEATURES;
           else
             EA_read <= WRITEFEATURES;
@@ -219,7 +219,7 @@ begin
           ce_ofmap <= '1';
           idx_mac <= idx_output;
           reg_out <= reg_mac_arr(idx_output);
-          if (idx_output < 10 - 1) then -- number of classes
+          if (idx_output < N_FILTER - 1) then -- number of classes
             idx_output <= idx_output + 1;
           else
             end_reg <= '1';
@@ -247,7 +247,7 @@ begin
            res_mac => res_mac
            );
 
-  reg_c : for i in 0 to 10 - 1 generate
+  reg_c : for i in 0 to N_FILTER - 1 generate
     ireg : entity work.reg
       generic map(INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE))
       port map(clock => clock, reset => pipe_reset, enable => en_reg(i),
