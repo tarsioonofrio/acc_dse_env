@@ -36,9 +36,6 @@ def main():
     with open(rtl_config_path) as f:
         rtl_config = json.load(f)
 
-    shift_bits = rtl_config["INPUT_SIZE"] / 2
-    # Adjust shift
-    shift = 2 ** shift_bits
     # Compute number of convolutional layers
     config_dataset = {
         "input_w": 32,
@@ -47,7 +44,7 @@ def main():
         "classes": 10,
     }
     model = Default(cnn_config, config_dataset)
-    model.load_state_dict(torch.load(cnn_output_path / 'model_quantized.pth'))
+    model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
     if os.path.exists(cnn_output_path / "weights.pkl"):
         # model_dict = {int(k): v for k, v in loadmat(str(path / "model.mat")).items() if k[0] != '_'}

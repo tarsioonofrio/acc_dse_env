@@ -293,24 +293,20 @@ def generate_ifmem_vhd_pkg(modelDict, shift, input_size, filter_dimension, filte
             flatten_output = [0.0] * layer_dimension[len(layer_dimension) - 2]
 
             for layerId in modelDict:
-
-
                 if modelDict[layerId]["type"] == "Conv2D":
                     for filterId in modelDict[layerId]["filter"]:
                         for m in range(layer_dimension[layerId]):
                             for n in range(layer_dimension[layerId]):
                                 acc[filterId] = int(modelDict[layerId]["filter"][filterId]["bias"] * shift * shift)
-
                                 for weightChannel in modelDict[layerId]["filter"][filterId]["weights"]:
                                     for weightsH in weightChannel:
                                         if layerId == 0:
                                             aux_idx_range = input_channel[0]
                                         else:
                                             aux_idx_range = filter_channel[layerId - 1]
-                                        for weightValue, ofmapChannel, inputChannel in zip(weightsH,
-                                                                                           range(aux_idx_range), range(
-                                                    input_channel[layerId])):
-
+                                        for weightValue, ofmapChannel, inputChannel in zip(
+                                                weightsH, range(aux_idx_range), range(input_channel[layerId])
+                                        ):
                                             if layerId == 0:
                                                 ifmap_input = int(float(
                                                     ifmap[layerId][ofmapChannel][filter_i + m * stride_h[layerId]][

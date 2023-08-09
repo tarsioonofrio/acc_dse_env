@@ -206,8 +206,8 @@ begin
         end if;
         cont_conv := cont_conv + 1;
 
-      elsif end_conv = '1' then
-      -- if end_conv = '1' then
+    elsif end_conv = '1' then
+    --if end_conv = '1' then
         report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
         report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
         report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));

@@ -71,7 +71,15 @@ class GenerateRTL:
         self.layer_rtl = list(self.layer_torch.values())
         self.map_rtl_torch = list(self.layer_torch.keys())
         self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
-        self.dataloader = dataloader
+        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
+        # Adjust shift
+        self.shift = 2 ** self.shift_bits
+        for i in range(len(model.sequential)):
+            name = model.sequential[i]._get_name()
+            if name in ['Conv2d', 'Linear']:
+                model.sequential[i].weight.data = model.sequential[i].weight.data * self.shift
+                model.sequential[i].bias.data = model.sequential[i].bias.data * (self.shift ** 2)
+
         model.requires_grad_(False)
         model.type(torch.int)
         self.model = model
@@ -81,10 +89,6 @@ class GenerateRTL:
         ]
         self.rtl_config = rtl_config
         self.rtl_output_path = rtl_output_path
-        self.samples = samples
-        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
-        # Adjust shift
-        self.shift = 2 ** self.shift_bits
         self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
         self.filter_dimension = [
             self.map_layer_props[v]['filter_dimension'](self.model.sequential[k]) for k, v in self.layer_torch.items()
@@ -109,6 +113,8 @@ class GenerateRTL:
         self.n_filter = self.filter_channel
         # change for core
         self.n_layer = 0
+        self.dataloader = dataloader
+        self.samples = samples
 
     def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -562,17 +568,17 @@ class GenerateRTL:
         loop = list(range(self.map_gold_torch[n_layer]))
 
         for i in loop:
-            if self.model.sequential[i]._get_name() == 'Linear':
-                # from torch.nn import functional
-                # weight = self.model.sequential[i].weight.data
-                # w1 = weight.reshape(-1, self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(10, -1)
-                # bias = self.model.sequential[i].bias.data
-                # x1 = x.reshape(self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(1, -1)
-                # t1 = functional.linear(x1, weight, bias)
-                # from .model import fc
-                # fc(self.model_dict, self.shift, n_layer, True, path)
-                # np.dot(x[0], weight[0]) + bias[0]
-                # print()
+            # if self.model.sequential[i]._get_name() == 'Linear':
+            #     from torch.nn import functional
+            #     weight = self.model.sequential[i].weight.data
+            #     w1 = weight.reshape(-1, self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(10, -1)
+            #     bias = self.model.sequential[i].bias.data
+            #     x1 = x.reshape(self.filter_channel[n_layer - 1], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]).transpose(-2, -1).reshape(1, -1)
+            #     t1 = functional.linear(x1, weight, bias)
+            #     from .model import fc
+            #     fc(self.model_dict, self.shift, n_layer, True, path)
+            #     np.dot(x[0], weight[0]) + bias[0]
+            #     print()
             t = self.model.sequential[i](x)
             x = t
             if self.model.sequential[i]._get_name() == 'Conv2d':
