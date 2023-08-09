@@ -6,8 +6,8 @@ export C
 export R
 
 
-MODULE=fc
-TESTCASE=fc
+MODULE=debug
+TESTCASE=debug
 TOPLEVEL=tb
 TOPLEVEL_LANG ?= vhdl
 
