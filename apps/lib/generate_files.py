@@ -50,19 +50,43 @@ def format_feature(feat_list, tab):
 
 
 class GenerateRTL:
+    tab = "    "
+    map_layer_props = {
+        'Conv2d': {
+            "op": 'C', "input_shape": lambda x: x.in_channels, 'filter_dimension': lambda x: x.kernel_size[0],
+            "filter_channel": lambda x: x.out_channels, "stride": lambda x: x.stride[0]
+        },
+        'Linear': {
+            "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
+            "filter_channel": lambda x: x.out_features, "stride": lambda x: 1
+        },
+        # 'Maxpool': 'M',
+    }
+
     def __init__(self, model, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
-        self.tab = "    "
-        self.map_layer_props = {
-            'Conv2d': {
-                "op": 'C', "input_shape": lambda x: x.in_channels, 'filter_dimension': lambda x: x.kernel_size[0],
-                "filter_channel": lambda x: x.out_channels, "stride": lambda x: x.stride[0]
-            },
-            'Linear': {
-                "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
-                "filter_channel": lambda x: x.out_features, "stride": lambda x: 1
-            },
-            # 'Maxpool': 'M',
-        }
+        # TODO remove model_dict
+        self.model_dict = model_dict
+        self.rtl_config = rtl_config
+        self.rtl_output_path = rtl_output_path
+        self.dataloader = dataloader
+        self.samples = samples
+        self.n_layer = 0
+        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
+        # Adjust shift
+        self.shift = 2 ** self.shift_bits
+
+        # Model params
+        shift2 = self.shift ** 2
+        for i in range(len(model.sequential)):
+            name = model.sequential[i]._get_name()
+            if name in ['Conv2d', 'Linear']:
+                model.sequential[i].weight.data = model.sequential[i].weight.data * self.shift
+                model.sequential[i].bias.data = model.sequential[i].bias.data * shift2
+
+        model.requires_grad_(False)
+        model.type(torch.int)
+        self.model = model
+
         self.layer_torch = {
             e: layer._get_name()
             for e, layer in enumerate(model.sequential)
@@ -71,24 +95,9 @@ class GenerateRTL:
         self.layer_rtl = list(self.layer_torch.values())
         self.map_rtl_torch = list(self.layer_torch.keys())
         self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
-        self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
-        # Adjust shift
-        self.shift = 2 ** self.shift_bits
-        for i in range(len(model.sequential)):
-            name = model.sequential[i]._get_name()
-            if name in ['Conv2d', 'Linear']:
-                model.sequential[i].weight.data = model.sequential[i].weight.data * self.shift
-                model.sequential[i].bias.data = model.sequential[i].bias.data * (self.shift ** 2)
-
-        model.requires_grad_(False)
-        model.type(torch.int)
-        self.model = model
-        self.model_dict = model_dict
         self.input_channel = [
             self.map_layer_props[v]['input_shape'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
-        self.rtl_config = rtl_config
-        self.rtl_output_path = rtl_output_path
         self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
         self.filter_dimension = [
             self.map_layer_props[v]['filter_dimension'](self.model.sequential[k]) for k, v in self.layer_torch.items()
@@ -111,10 +120,6 @@ class GenerateRTL:
         self.stride_h = self.stride
         self.stride_w = self.stride
         self.n_filter = self.filter_channel
-        # change for core
-        self.n_layer = 0
-        self.dataloader = dataloader
-        self.samples = samples
 
     def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -367,6 +372,7 @@ class GenerateRTL:
             f.writelines([f"{b}\n" for b in bias_list])
             f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
 
+    # TODO remove or move to legacy code
     def get_wght(self, layer):
         model_dict = self.model_dict
         shift = self.shift
@@ -395,6 +401,7 @@ class GenerateRTL:
             weight_list = []
         return weight_list
 
+    # TODO remove or move to legacy code
     def get_bias(self, layer):
         model_dict = self.model_dict
         shift = self.shift
@@ -458,6 +465,7 @@ class GenerateRTL:
         write_mem_txt(feat_list, "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
+    # TODO remove or move to legacy code
     def generate_gold_fc_vhd_pkg(self, layer, path):
         model_dict = self.model_dict
         shift = self.shift
@@ -507,6 +515,7 @@ class GenerateRTL:
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
+    # TODO remove or move to legacy code
     def generate_gold_maxpool_vhd_pkg(self, layer, path):
         feature = open_file(path.parent / str(layer) / 'gold.txt')
         arr = np.array(feature).reshape(-1, 3, 3)
@@ -526,6 +535,7 @@ class GenerateRTL:
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
+    # TODO remove or move to legacy code
     def get_feature_data(self, layer, path, dataset_size=1):
         filter_channel = self.filter_channel
         filter_dimension = self.filter_dimension

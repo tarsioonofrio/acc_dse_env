@@ -36,3 +36,5 @@ modelsim.ini
 qshift/model/
 
 *.png
+
+.project

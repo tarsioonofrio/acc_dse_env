@@ -61,7 +61,6 @@ architecture a1 of fully_connected is
   signal en_reg : std_logic_vector(N_FILTER - 1 downto 0);
   signal features : std_logic_vector(INPUT_SIZE - 1 downto 0);
   signal weight : std_logic_vector(INPUT_SIZE - 1 downto 0);
-  signal bias : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal res_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal reg_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal reg_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -72,11 +71,6 @@ architecture a1 of fully_connected is
   signal idx_mac : integer range 0 to N_FILTER - 1;
   signal idx_output : integer range 0 to N_FILTER - 1;
   signal idx_wght : integer;
-
-  signal features_int : integer;
-  signal weight_int : integer;
-  signal res_mac_int : integer;
-  signal reg_mac_int : integer;
 
 
   type type_mac_arr is array (0 to N_FILTER-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -104,12 +98,6 @@ begin
   --     end if;
   --   end if;
   -- end process;
-
-  features_int <= (CONV_INTEGER(features(INPUT_SIZE-1 downto 0)));
-  weight_int <= (CONV_INTEGER(weight(INPUT_SIZE-1 downto 0)));
-  res_mac_int <= (CONV_INTEGER(reg_mac_arr(idx_mac)((INPUT_SIZE*2)-1 downto 0)));
-  reg_mac_int <= (CONV_INTEGER(reg_mac((INPUT_SIZE*2)-1 downto 0)));
-
 
   ----------------------------------------------------------------------------
   -- input values control
