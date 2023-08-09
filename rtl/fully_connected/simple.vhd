@@ -61,6 +61,7 @@ architecture a1 of fully_connected is
   signal en_reg : std_logic_vector(N_FILTER - 1 downto 0);
   signal features : std_logic_vector(INPUT_SIZE - 1 downto 0);
   signal weight : std_logic_vector(INPUT_SIZE - 1 downto 0);
+  signal bias : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal res_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal reg_mac : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal reg_out : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
@@ -72,6 +73,12 @@ architecture a1 of fully_connected is
   signal idx_output : integer range 0 to N_FILTER - 1;
   signal idx_wght : integer;
 
+  signal features_int : integer;
+  signal weight_int : integer;
+  signal res_mac_int : integer;
+  signal reg_mac_int : integer;
+
+
   type type_mac_arr is array (0 to N_FILTER-1) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
   signal res_mac_arr : type_mac_arr;
   signal reg_mac_arr : type_mac_arr;
@@ -79,7 +86,7 @@ architecture a1 of fully_connected is
   -- signal reg_config : type_config_integer;
 
   -- Macro state machine signals to control input values flags
-  type statesReadValues is (WAITSTART, READBIAS, READFEATURES, READWEIGHTS, WAITVALID, WRITEFEATURES);
+  type statesReadValues is (WAITSTART, READFEATURES, READWEIGHTS, WAITVALID, WRITEFEATURES);
   signal EA_read : statesReadValues;
   
   constant const_output     : std_logic_vector(INPUT_SIZE + CARRY_SIZE-1 downto 0) := (others => '0');
@@ -97,6 +104,11 @@ begin
   --     end if;
   --   end if;
   -- end process;
+
+  features_int <= (CONV_INTEGER(features(INPUT_SIZE-1 downto 0)));
+  weight_int <= (CONV_INTEGER(weight(INPUT_SIZE-1 downto 0)));
+  res_mac_int <= (CONV_INTEGER(reg_mac_arr(idx_mac)((INPUT_SIZE*2)-1 downto 0)));
+  reg_mac_int <= (CONV_INTEGER(reg_mac((INPUT_SIZE*2)-1 downto 0)));
 
 
   ----------------------------------------------------------------------------
@@ -152,28 +164,9 @@ begin
 
           start_reg <= start_op;
           if start_op = '1' and start_reg = '0' then
+            add_iwght <= N_FILTER;
             end_reg <= '0';
-            EA_read <= READBIAS;
-          end if;
-        
-        -- TODO READBIAS block is almost the same as READWEIGHTS, add to READWEIGHTS a flag about read bias
-        when READBIAS =>
-          ce_iwght <= '1';
-          if iwght_valid = '1' then
-            idx_mac <= idx_wght;
-            en_reg(idx_wght) <= '1';
-            features <= CONV_STD_LOGIC_VECTOR(1, INPUT_SIZE);
-            weight <= iwght_value(INPUT_SIZE-1 downto 0);
-            add_iwght <= add_iwght + 1;
-            if (idx_wght < N_FILTER - 1) then -- number of classes
-              idx_wght <= idx_wght + 1;
-            else
-              idx_wght <= 0;
-              EA_read <= READFEATURES;
-              ce_iwght <= '0';
-            end if;
-          else
-            en_reg <= (others => '0') ;
+            EA_read <= READFEATURES;
           end if;
 
         when READFEATURES =>
@@ -212,23 +205,29 @@ begin
             EA_read <= READFEATURES;
           else
             EA_read <= WRITEFEATURES;
+            add_iwght <= 0;
           end if;
         
         when WRITEFEATURES =>
-          debug_reg <= '1';
-          ce_ofmap <= '1';
-          idx_mac <= idx_output;
-          reg_out <= reg_mac_arr(idx_output);
-          if (idx_output < N_FILTER - 1) then -- number of classes
-            idx_output <= idx_output + 1;
+          ce_iwght <= '1';
+          if iwght_valid = '1' then
+            debug_reg <= '1';
+            ce_ofmap <= '1';
+            add_iwght <= idx_output + 1;
+            idx_mac <= idx_output;
+            reg_out <= reg_mac_arr(idx_output) + iwght_value;
+            if (idx_output < N_FILTER - 1) then -- number of classes
+              idx_output <= idx_output + 1;
+            else
+              ce_iwght <= '0';
+              end_reg <= '1';
+              idx_output <= 0;
+              pipe_reset <= '1';
+              EA_read <= WAITSTART;
+            end if;
           else
-            end_reg <= '1';
-            idx_output <= 0;
-            EA_read <= WAITSTART;
-            ce_iwght <= '0';
-            pipe_reset <= '1';
+            en_reg <= (others => '0') ;
           end if;
-
         when others => null;
       end case;
     end if;
