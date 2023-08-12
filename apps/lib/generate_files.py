@@ -1,16 +1,12 @@
 from pathlib import Path
 from os.path import relpath
-from math import log2, ceil
 
 import torch
 import numpy as np
 
 from .bram import open_file
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
-
-
-def log2ceil(x):
-    return ceil(log2(x)) + 1
+from .util import log2ceil
 
 
 def write_mem_pkg(constant, data, file_name, package, path):

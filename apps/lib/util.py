@@ -1,4 +1,5 @@
 import math
+from math import ceil, log2
 
 
 def get_input_size(input_h, input_w, input_c):
@@ -33,3 +34,7 @@ def get_input_channel(input_c, n_conv_layers, filter_channel):
         input_channel[i] = filter_channel[i - 1]
     input_channel[n_conv_layers] = 1
     return input_channel
+
+
+def log2ceil(x):
+    return ceil(log2(x)) + 1
