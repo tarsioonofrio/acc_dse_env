@@ -4,9 +4,10 @@ from os.path import relpath
 import torch
 import numpy as np
 
-from .bram import open_file
-from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 from .util import log2ceil
+from .bram import open_file
+from .vhdl_package import Integer, Package
+from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 
 
 def write_mem_pkg(constant, data, file_name, package, path):
@@ -137,6 +138,25 @@ class GenerateRTL:
             self.generate_samples()
         if core:
             self.generate_core()
+        print()
+        map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
+        generics_layer = {
+            kg: [(self.layer_dimension[map_torch_rtl[e]] if kg == 'X_SIZE' else
+                  self.layer_dimension[map_torch_rtl[e] + 1] if kg == 'CONVS_PER_LINE' else
+                  vg(layer))
+                 if layer._get_name() == kl else 0
+                 for e, layer in enumerate(self.model.sequential)
+                 if layer._get_name() in self.map_layer_props.keys()
+                 ]
+            for kl, vl in self.map_layer_props.items()
+            for kg, vg in vl['generics'].items()
+        }
+        arrays = [Integer(v, k) for k, v in generics_layer.items()]
+        pack = Package('pack_cnn_seq', *arrays)
+        path = self.rtl_output_path / 'core'
+        path.mkdir(parents=True, exist_ok=True)
+        with open(path / "pack_cnn_seq.vhd", "w") as f:
+            f.write(str(pack))
 
     def generate_layer(self, layer):
         path = self.rtl_output_path
@@ -178,8 +198,8 @@ class GenerateRTL:
         else:
             data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
         generate_dict2 = {
-            ** self.rtl_config,
-            ** generate_layer_dict,
+            **self.rtl_config,
+            **generate_layer_dict,
             "CLK_HALF": clk_half,
             "RST_TIME": rst_time,
             "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
@@ -198,7 +218,7 @@ class GenerateRTL:
         time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
         generate_dict3 = dict(sorted(generate_dict2.items()))
         line2 = " ".join(
-             f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
+            f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
         ) + "\n"
         with open(path / "generic_file.txt", "w") as f:
             f.write(line2)
@@ -206,8 +226,8 @@ class GenerateRTL:
     def generate_tcl_generic(self, n_layer, generic_dict_layer, path):
         if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
             generate_dict2 = {
-                ** self.rtl_config,
-                ** generic_dict_layer,
+                **self.rtl_config,
+                **generic_dict_layer,
             }
             line = (
                 "set CLK_PERIOD {CLK_PERIOD}\n"
@@ -342,10 +362,12 @@ class GenerateRTL:
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         # bias_list = self.get_bias(layer)
-        bias_list = [str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()]
+        bias_list = [str(n) for n in
+                     self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()]
         # weight_list = self.get_wght(n_layer)
         if self.layer_rtl[n_layer] == 'Conv2d':
-            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
+            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2,
+                                                                                             -1).cpu().detach().numpy()
             weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
         elif self.layer_rtl[n_layer] == 'Linear':
             ch = self.filter_channel[n_layer - 1]
@@ -450,7 +472,7 @@ class GenerateRTL:
             if self.layer_rtl[n_layer] == 'Linear':
                 feat_list = feat_list
                 feat_list = feat_list.reshape(
-                    self.filter_channel[n_layer], self.filter_dimension[n_layer-1], self.filter_dimension[n_layer-1]
+                    self.filter_channel[n_layer], self.filter_dimension[n_layer - 1], self.filter_dimension[n_layer - 1]
                 )
                 feat_list = feat_list.transpose(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
@@ -563,7 +585,8 @@ class GenerateRTL:
                 feat_list = fc(model_dict, shift, layer, gen_features, path)
             elif model_dict[layer]["type"] == "Conv2D":
                 feat_list = conv2d(
-                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict, shift,
+                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict,
+                    shift,
                     stride_h, stride_w, self.tab, dataset, dataset_size
                 )
             else:
@@ -613,4 +636,3 @@ class GenerateRTL:
         data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
-

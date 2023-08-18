@@ -48,9 +48,9 @@ class Package:
     def body(self, body):
         string = self.eof.join(map(str, body))
         formatted = (
-            "library ieee;"
-            "use ieee.std_logic_1164.all;"
-            "use ieee.std_logic_arith.all;"
+            "library ieee;\n"
+            "use ieee.std_logic_1164.all;\n"
+            "use ieee.std_logic_arith.all;\n"
             f"package {self.name} is{self.eof}"
             f"{string}{self.eof}"
             f"end package {self.name};{self.eof}"
