@@ -217,6 +217,7 @@ class GenerateRTL:
                 "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
                 "\n"
             ).format(**generate_dict2)
+            # line2 = " ".join(sorted(line.split(" "))) + '\n'
             # line = " ".join(
             #     f"-g{k}={v}" for k, v in generate_dict2.items()
             # ) + "\n"
@@ -315,30 +316,30 @@ class GenerateRTL:
 
     def generate_core(self):
         # TODO remove -2 in future after integrate FC (and max pool)
-        layer = len(self.layer_dimension) - 2
+        layer = len(self.layer_dimension) - 3
         path_core = self.rtl_output_path / "core"
         stride = [max(self.stride)]
-        n_filter = [max(self.filter_channel)]
-        x_size = max([self.dataloader.config["input_w"]] + self.layer_dimension)
-        c_size = max([self.dataloader.config["input_c"]] + self.filter_channel)
-        conv_per_line = max(self.layer_dimension)
+        n_filter = [max(self.filter_channel[1:])]
+        x_size = max([self.dataloader.config["input_w"]] + self.layer_dimension[1:])
+        n_channel = max([self.dataloader.config["input_c"]] + self.filter_channel[1:])
+        conv_per_line = max(self.layer_dimension[1:])
         generic_dict2 = {
             "STRIDE": stride[0],
             "N_FILTER": n_filter[0],
             "X_SIZE": x_size,
-            "C_SIZE": c_size,
+            "N_CHANNEL": n_channel,
             "FILTER_WIDTH": max(self.filter_dimension),
-            "CONVS_PER_LINE": max(self.layer_dimension),
+            "CONVS_PER_LINE": max(self.layer_dimension[1:]),
             "LAYER": 0,
             "SHIFT": self.shift_bits,
-            "N_LAYER": layer,
+            "N_LAYER": layer + 1,
             "OP_TYPE": "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
         }
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_core)
         self.generate_config_file(
-            n_layer=layer, x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
+            n_layer=layer, x_size=x_size, conv_per_line=conv_per_line, n_channel=n_channel, path=path_core,
             n_filter=n_filter[0],
         )
 
