@@ -3,7 +3,6 @@
   "ARRAY_TYPE": "syst2d",
   "MEM_SIZE": 16,
   "MAX_MEM_SIZE": 36,
-  "BRAM_RW_DEPTH_SAMPLES": 36,
   "INPUT_SIZE": 16,
   "CARRY_SIZE": 4,
   "LAT": 2,

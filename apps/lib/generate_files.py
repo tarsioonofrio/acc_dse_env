@@ -209,19 +209,20 @@ class GenerateRTL:
                 "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
                 "PATH": data_path,
             }
-            line = (
-                "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-                "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
-                "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_PERIOD}ns -gCLK_HALF={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
-                "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
-                "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
-                # "\n"
-            ).format(**generate_dict2)
-            line2 = " ".join(sorted(line.split(" "))) + '\n'
-            # generate_dict3 = dict(sorted(generate_dict2.items()))
-            # line2 = " ".join(
-            #      f"-g{k}={v}ns" if k == 'RISE_START' else f"-g{k}={v}" for k, v in generate_dict3.items()
-            # ) + "\n"
+            # line = (
+            #     "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+            #     "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
+            #     "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_PERIOD}ns -gCLK_HALF={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
+            #     "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
+            #     "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
+            #     # "\n"
+            # ).format(**generate_dict2)
+            # line2 = " ".join(sorted(line.split(" "))) + '\n'
+            time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
+            generate_dict3 = dict(sorted(generate_dict2.items()))
+            line2 = " ".join(
+                 f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
+            ) + "\n"
             with open(path / "generic_file.txt", "w") as f:
                 f.write(line2)
 
