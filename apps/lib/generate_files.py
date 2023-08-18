@@ -45,16 +45,30 @@ def format_feature(feat_list, tab):
     return format_feat
 
 
+class Model:
+    def __init__(self, model, dataloader, samples=10):
+        pass
+
+
 class GenerateRTL:
     tab = "    "
     map_layer_props = {
         'Conv2d': {
             "op": 'C', "input_shape": lambda x: x.in_channels, 'filter_dimension': lambda x: x.kernel_size[0],
-            "filter_channel": lambda x: x.out_channels, "stride": lambda x: x.stride[0]
+            "filter_channel": lambda x: x.out_channels, "stride": lambda x: x.stride[0],
+            "generics": {
+                'X_SIZE': None,
+                'CONVS_PER_LINE': None,
+                'N_FILTER': lambda x: x.out_channels,
+                'N_CHANNEL': lambda x: x.in_channels,
+                'STRIDE': lambda x: x.stride[0],
+                'FILTER_WIDTH': lambda x: x.kernel_size[0],
+            }
         },
         'Linear': {
             "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
-            "filter_channel": lambda x: x.out_features, "stride": lambda x: 1
+            "filter_channel": lambda x: x.out_features, "stride": lambda x: 1,
+            "generics": {'IN_FEATURES': lambda x: x.in_features, 'OUT_FEATURES': lambda x: x.out_features}
         },
         # 'Maxpool': 'M',
     }
@@ -98,13 +112,13 @@ class GenerateRTL:
         self.filter_dimension = [
             self.map_layer_props[v]['filter_dimension'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
-        self.filter_channel = [
+        self.filter_channel = [self.dataloader.config["input_c"]] + [
             self.map_layer_props[v]['filter_channel'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
         input_tensor = torch.ones(
             1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
         )
-        self.layer_dimension = []
+        self.layer_dimension = [self.dataloader.config["input_w"]]
         for e, layer in enumerate(model.sequential[0:-1]):
             input_tensor = layer(input_tensor)
             if e in self.layer_torch:
@@ -115,7 +129,6 @@ class GenerateRTL:
         ]
         self.stride_h = self.stride
         self.stride_w = self.stride
-        self.n_filter = self.filter_channel
 
     def __call__(self, samples=False, core=False):
         for e, _ in enumerate(list(self.model_dict.keys())):
@@ -126,159 +139,171 @@ class GenerateRTL:
             self.generate_core()
 
     def generate_layer(self, layer):
-        input_c = self.dataloader.config["input_c"]
-        input_w = self.dataloader.config["input_w"]
         path = self.rtl_output_path
 
-        # Compute HW parameters
-        if layer == 0:
-            x_size = input_w
-            c_size = input_c
-        else:
-            x_size = self.layer_dimension[layer - 1]
-            c_size = self.filter_channel[layer - 1]
+        if self.layer_torch[self.map_rtl_torch[layer]] == 'Conv2d':
+            generics_layer = {
+                k: (self.layer_dimension[layer] if k == 'X_SIZE' else
+                    self.layer_dimension[layer+1] if k == 'CONVS_PER_LINE' else
+                    v(self.model.sequential[self.map_rtl_torch[layer]]))
+                for k, v in self.map_layer_props['Conv2d']['generics'].items()
+            }
+            x_size = generics_layer['X_SIZE']
+            n_filter = generics_layer['N_FILTER']
+            n_channel = generics_layer['N_CHANNEL']
+            conv_per_line = generics_layer['CONVS_PER_LINE']
 
-        if self.layer_torch[self.map_rtl_torch[layer]] == 'Linear':
-            conv_per_line = self.input_channel[layer]
-        else:
-            conv_per_line = self.layer_dimension[layer]
-        generic_dict2 = {
-            "X_SIZE": x_size,
-            "C_SIZE": c_size,
-            "FILTER_WIDTH": self.filter_dimension[layer],
-            "CONVS_PER_LINE": conv_per_line,
-            "LAYER": layer,
-            "N_FILTER": self.n_filter[layer],
-            "STRIDE": self.stride[layer],
-            "SHIFT": self.shift_bits,
-            "N_LAYER": 0,
-            "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
-        }
+            generic_dict2 = {
+                ** generics_layer,
+                "LAYER": layer,
+                "SHIFT": self.shift_bits,
+                "N_LAYER": 0,
+                "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
+            }
+        elif self.layer_torch[self.map_rtl_torch[layer]] == 'Linear':
+            ops_per_layer = self.input_channel[layer]
+            x_size = 0
+            n_channel = 0
+            n_filter = 0
+            conv_per_line = 0
+            generic_dict2 = {
+                # "LAYER": layer,
+                "LAYER": layer,
+                "SHIFT": self.shift_bits,
+                "N_LAYER": 0,
+                "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
+            }
+
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
-        self.generate_generic_file(generic_dict2, path_layer)
+        self.generate_generic_file(layer, generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(generic_dict2, path_layer)
+        self.generate_tcl_generic(layer, generic_dict2, path_layer)
         self.generate_config_file(
-            x_size=x_size,  conv_per_line=conv_per_line, n_channel=c_size, path=path_layer,
-            n_filter=self.n_filter[layer],
+            n_layer=layer, x_size=x_size,  conv_per_line=conv_per_line, n_channel=n_channel, path=path_layer,
+            n_filter=n_filter,
         )
         # Generate VHDL tensorflow package
-        self.generate_ifmem_vhd_pkg(path=path_layer, layer=layer)
+        self.generate_ifmem_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
         # Generate VHDL gold output package
         self.generate_gold_vhd_pkg(n_layer=layer, path=path_layer)
 
-    def generate_generic_file(self, generate_layer_dict, path, core=False):
-        clk_half = self.rtl_config["CLK_PERIOD"] / 2
-        rst_time = clk_half * 5
-        if core:
-            data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
-        else:
-            data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
-        generate_dict2 = {
-            ** self.rtl_config,
-            ** generate_layer_dict,
-            "CLK_HALF": clk_half,
-            "RST_TIME": rst_time,
-            "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
-            "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
-            "PATH": data_path,
-        }
-        line = (
-            "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-            "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
-            "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
-            "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={C_SIZE} -gSHIFT={SHIFT} "
-            "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
-            "\n"
-        ).format(**generate_dict2)
-        with open(path / "generic_file.txt", "w") as f:
-            f.write(line)
+    def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
+        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
+            clk_half = self.rtl_config["CLK_PERIOD"] / 2
+            rst_time = clk_half * 5
+            if core:
+                data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
+            else:
+                data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+            generate_dict2 = {
+                ** self.rtl_config,
+                ** generate_layer_dict,
+                "CLK_HALF": clk_half,
+                "RST_TIME": rst_time,
+                "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
+                "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
+                "PATH": data_path,
+            }
+            line = (
+                "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+                "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
+                "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
+                "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
+                "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
+                "\n"
+            ).format(**generate_dict2)
+            # line = " ".join(
+            #     f"-g{k}={v}" for k, v in generate_dict2.items()
+            # ) + "\n"
+            with open(path / "generic_file.txt", "w") as f:
+                f.write(line)
 
-    def generate_tcl_generic(self, generic_dict_layer, path):
-        generate_dict2 = {
-            ** self.rtl_config,
-            ** generic_dict_layer,
-        }
-        line = (
-            "set CLK_PERIOD {CLK_PERIOD}\n"
-            "set INPUT_SIZE {INPUT_SIZE}\n"
-            "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
-            "set ARRAY_TYPE {ARRAY_TYPE}\n"
-            "set LAT {LAT}\n"
-            "set LAYER {LAYER}\n"
-            "set parameters "
-            "{{{{N_FILTER {N_FILTER}}} "
-            "{{N_CHANNEL {C_SIZE}}} "
-            "{{STRIDE {STRIDE}}} "
-            "{{X_SIZE {X_SIZE}}} "
-            "{{FILTER_WIDTH {FILTER_WIDTH}}} "
-            "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
-            "{{MEM_SIZE {MEM_SIZE}}} "
-            "{{INPUT_SIZE {INPUT_SIZE}}} "
-            "{{CARRY_SIZE {CARRY_SIZE}}} "
-            "{{SHIFT {SHIFT}"
-            "}}}}\n"
-        ).format(**generate_dict2)
+    def generate_tcl_generic(self, n_layer, generic_dict_layer, path):
+        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
+            generate_dict2 = {
+                ** self.rtl_config,
+                ** generic_dict_layer,
+            }
+            line = (
+                "set CLK_PERIOD {CLK_PERIOD}\n"
+                "set INPUT_SIZE {INPUT_SIZE}\n"
+                "set DATAFLOW_TYPE {DATAFLOW_TYPE}\n"
+                "set ARRAY_TYPE {ARRAY_TYPE}\n"
+                "set LAT {LAT}\n"
+                "set LAYER {LAYER}\n"
+                "set parameters "
+                "{{{{N_FILTER {N_FILTER}}} "
+                "{{N_CHANNEL {N_CHANNEL}}} "
+                "{{STRIDE {STRIDE}}} "
+                "{{X_SIZE {X_SIZE}}} "
+                "{{FILTER_WIDTH {FILTER_WIDTH}}} "
+                "{{CONVS_PER_LINE {CONVS_PER_LINE}}} "
+                "{{MEM_SIZE {MEM_SIZE}}} "
+                "{{INPUT_SIZE {INPUT_SIZE}}} "
+                "{{CARRY_SIZE {CARRY_SIZE}}} "
+                "{{SHIFT {SHIFT}"
+                "}}}}\n"
+            ).format(**generate_dict2)
 
-        with open(path / "generic_synth.tcl", "w") as f:
-            f.write(line)
+            with open(path / "generic_synth.tcl", "w") as f:
+                f.write(line)
 
-    @staticmethod
-    def generate_config_file(x_size, conv_per_line, n_channel, path, n_filter):
-        generate_dict2 = {
-            "N_FILTER": n_filter,
-            "N_CHANNEL": n_channel,
-            "X_SIZE": x_size,
-            "X_SIZE_X_SIZE": x_size ** 2,
-            "CONVS_PER_LINE": conv_per_line,
-            "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line ** 2,
-            "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line ** 2) + 1,
-            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                (conv_per_line ** 2) * n_channel,
-            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                (conv_per_line ** 2) * (n_channel - 1),
-            "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                (conv_per_line ** 2) * n_channel * n_filter,
+    def generate_config_file(self, n_layer, x_size, conv_per_line, n_channel, path, n_filter):
+        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
+            generate_dict2 = {
+                "N_FILTER": n_filter,
+                "N_CHANNEL": n_channel,
+                "X_SIZE": x_size,
+                "X_SIZE_X_SIZE": x_size ** 2,
+                "CONVS_PER_LINE": conv_per_line,
+                "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line ** 2,
+                "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line ** 2) + 1,
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+                    (conv_per_line ** 2) * n_channel,
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+                    (conv_per_line ** 2) * (n_channel - 1),
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+                    (conv_per_line ** 2) * n_channel * n_filter,
 
-            "LOG_N_FILTER": log2ceil(n_filter),
-            "LOG_N_CHANNEL": log2ceil(n_channel),
-            "LOG_X_SIZE": log2ceil(x_size),
-            "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
-            "LOG_CONVS_PER_LINE": log2ceil(conv_per_line),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line ** 2),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((conv_per_line ** 2) + 1),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                log2ceil((conv_per_line ** 2) * n_channel),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                log2ceil((conv_per_line ** 2) * (n_channel - 1)),
-            "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                log2ceil((conv_per_line ** 2) * n_channel * n_filter),
-        }
+                "LOG_N_FILTER": log2ceil(n_filter),
+                "LOG_N_CHANNEL": log2ceil(n_channel),
+                "LOG_X_SIZE": log2ceil(x_size),
+                "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
+                "LOG_CONVS_PER_LINE": log2ceil(conv_per_line),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line ** 2),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((conv_per_line ** 2) + 1),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
+                    log2ceil((conv_per_line ** 2) * n_channel),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
+                    log2ceil((conv_per_line ** 2) * (n_channel - 1)),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
+                    log2ceil((conv_per_line ** 2) * n_channel * n_filter),
+            }
 
-        with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
-            text = f.read()
+            with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
+                text = f.read()
 
-        text_out = text.format(**generate_dict2)
+            text_out = text.format(**generate_dict2)
 
-        with open(path / "config_pkg.vhd", "w") as f:
-            f.write(text_out)
+            with open(path / "config_pkg.vhd", "w") as f:
+                f.write(text_out)
 
-        with open(path / "config_pkg.txt", "w") as f:
-            f.write(f'{generate_dict2["N_FILTER"]}\n')
-            f.write(f'{generate_dict2["N_CHANNEL"]}\n')
-            f.write(f'{generate_dict2["X_SIZE"]}\n')
-            f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
-            f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
+            with open(path / "config_pkg.txt", "w") as f:
+                f.write(f'{generate_dict2["N_FILTER"]}\n')
+                f.write(f'{generate_dict2["N_CHANNEL"]}\n')
+                f.write(f'{generate_dict2["X_SIZE"]}\n')
+                f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
+                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
 
     def generate_samples(self):
         path_samples = self.rtl_output_path / 'samples'
@@ -289,11 +314,11 @@ class GenerateRTL:
         self.generate_gold_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
 
     def generate_core(self):
-        # TODO remove -1 in future after integrate FC (and max pool)
-        layer = len(self.layer_dimension) - 1
+        # TODO remove -2 in future after integrate FC (and max pool)
+        layer = len(self.layer_dimension) - 2
         path_core = self.rtl_output_path / "core"
         stride = [max(self.stride)]
-        n_filter = [max(self.n_filter)]
+        n_filter = [max(self.filter_channel)]
         x_size = max([self.dataloader.config["input_w"]] + self.layer_dimension)
         c_size = max([self.dataloader.config["input_c"]] + self.filter_channel)
         conv_per_line = max(self.layer_dimension)
@@ -309,20 +334,20 @@ class GenerateRTL:
             "N_LAYER": layer,
             "OP_TYPE": "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
         }
-        self.generate_generic_file(generic_dict2, path_core, core=True)
+        self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(generic_dict2, path_core)
+        self.generate_tcl_generic(layer, generic_dict2, path_core)
         self.generate_config_file(
-            x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
+            n_layer=layer, x_size=x_size, conv_per_line=conv_per_line, n_channel=c_size, path=path_core,
             n_filter=n_filter[0],
         )
 
-    def generate_ifmem_vhd_pkg(self, layer, path):
-        filter_channel = self.filter_channel
+    def generate_ifmem_vhd_pkg(self, n_layer, path):
+        filter_channel = self.filter_channel[1:]
         filter_dimension = self.filter_dimension
         input_channel = self.input_channel
         input_size = self.input_size
-        layer_dimension = self.layer_dimension
+        layer_dimension = self.layer_dimension[1:]
         model_dict = self.model_dict
         shift = self.shift
         stride_h = self.stride_h
@@ -332,7 +357,7 @@ class GenerateRTL:
         testLabel = self.dataloader.y
         generate_ifmem_vhd_pkg(
             model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
-            testLabel, stride_h, stride_w, testSetSize, layer, path
+            testLabel, stride_h, stride_w, testSetSize, n_layer, path
         )
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
@@ -445,7 +470,7 @@ class GenerateRTL:
             if self.layer_rtl[n_layer] == 'Linear':
                 feat_list = feat_list
                 feat_list = feat_list.reshape(
-                    self.filter_channel[n_layer-1], self.filter_dimension[n_layer-1], self.filter_dimension[n_layer-1]
+                    self.filter_channel[n_layer], self.filter_dimension[n_layer-1], self.filter_dimension[n_layer-1]
                 )
                 feat_list = feat_list.transpose(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
@@ -608,3 +633,4 @@ class GenerateRTL:
         data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
+
