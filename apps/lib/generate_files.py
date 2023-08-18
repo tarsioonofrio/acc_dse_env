@@ -215,14 +215,14 @@ class GenerateRTL:
                 "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
                 "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
                 "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
-                "\n"
+                # "\n"
             ).format(**generate_dict2)
-            # line2 = " ".join(sorted(line.split(" "))) + '\n'
+            line2 = " ".join(sorted(line.split(" "))) + '\n'
             # line = " ".join(
             #     f"-g{k}={v}" for k, v in generate_dict2.items()
             # ) + "\n"
             with open(path / "generic_file.txt", "w") as f:
-                f.write(line)
+                f.write(line2)
 
     def generate_tcl_generic(self, n_layer, generic_dict_layer, path):
         if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
