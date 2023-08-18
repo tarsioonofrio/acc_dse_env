@@ -155,17 +155,6 @@ class GenerateRTL:
             "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
         }
 
-        if self.layer_torch[self.map_rtl_torch[layer]] == 'Conv2d':
-            x_size = generics_layer['X_SIZE']
-            n_filter = generics_layer['N_FILTER']
-            n_channel = generics_layer['N_CHANNEL']
-            conv_per_line = generics_layer['CONVS_PER_LINE']
-        else:
-            x_size = 0
-            n_channel = 0
-            n_filter = 0
-            conv_per_line = 0
-
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
@@ -173,10 +162,7 @@ class GenerateRTL:
         self.generate_generic_file(layer, generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_layer)
-        self.generate_config_file(
-            n_layer=layer, x_size=x_size,  conv_per_line=conv_per_line, n_channel=n_channel, path=path_layer,
-            n_filter=n_filter,
-        )
+        self.generate_config_file_old(n_layer=layer, path=path_layer, generics_layer=generics_layer)
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
@@ -247,8 +233,12 @@ class GenerateRTL:
             with open(path / "generic_synth.tcl", "w") as f:
                 f.write(line)
 
-    def generate_config_file(self, n_layer, x_size, conv_per_line, n_channel, path, n_filter):
+    def generate_config_file_old(self, n_layer, path, generics_layer):
         if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
+            x_size = generics_layer['X_SIZE']
+            n_filter = generics_layer['N_FILTER']
+            n_channel = generics_layer['N_CHANNEL']
+            conv_per_line = generics_layer['CONVS_PER_LINE']
             generate_dict2 = {
                 "N_FILTER": n_filter,
                 "N_CHANNEL": n_channel,
@@ -315,7 +305,6 @@ class GenerateRTL:
         n_filter = [max(self.filter_channel[1:])]
         x_size = max([self.dataloader.config["input_w"]] + self.layer_dimension[1:])
         n_channel = max([self.dataloader.config["input_c"]] + self.filter_channel[1:])
-        conv_per_line = max(self.layer_dimension[1:])
         generic_dict2 = {
             "STRIDE": stride[0],
             "N_FILTER": n_filter[0],
@@ -331,10 +320,7 @@ class GenerateRTL:
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_core)
-        self.generate_config_file(
-            n_layer=layer, x_size=x_size, conv_per_line=conv_per_line, n_channel=n_channel, path=path_core,
-            n_filter=n_filter[0],
-        )
+        self.generate_config_file_old(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, n_layer, path):
         filter_channel = self.filter_channel[1:]
