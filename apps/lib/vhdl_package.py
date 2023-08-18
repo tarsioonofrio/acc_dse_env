@@ -25,11 +25,11 @@ class Integer:
             return output
         else:
             typ = (
-                f"type {self.type_name} is array (0 to {len(self.default)}) "
+                f"type {self.type_name} is array (0 to {len(self.default) - 1}) "
                 f"of {self.type} {self.range()};"
             )
             default = f":= ({', '.join([str(s) for s in self.default])})"
-            const = f"constant {self.name} is {self.type_name} {default};"
+            const = f"constant {self.name} : {self.type_name} {default};"
             output = f"{typ}\n{const}"
             return output
 

@@ -152,10 +152,10 @@ class GenerateRTL:
             for kg, vg in vl['generics'].items()
         }
         arrays = [Integer(v, k) for k, v in generics_layer.items()]
-        pack = Package('pack_cnn_seq', *arrays)
+        pack = Package('cnn_seq_package', *arrays)
         path = self.rtl_output_path / 'core'
         path.mkdir(parents=True, exist_ok=True)
-        with open(path / "pack_cnn_seq.vhd", "w") as f:
+        with open(path / "cnn_seq_package.vhd", "w") as f:
             f.write(str(pack))
 
     def generate_layer(self, layer):
