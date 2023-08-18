@@ -140,39 +140,31 @@ class GenerateRTL:
 
     def generate_layer(self, layer):
         path = self.rtl_output_path
+        name_layer = self.layer_torch[self.map_rtl_torch[layer]]
+        generics_layer = {
+            k: (self.layer_dimension[layer] if k == 'X_SIZE' else
+                self.layer_dimension[layer + 1] if k == 'CONVS_PER_LINE' else
+                v(self.model.sequential[self.map_rtl_torch[layer]]))
+            for k, v in self.map_layer_props[name_layer]['generics'].items()
+        }
+        generic_dict2 = {
+            **generics_layer,
+            "LAYER": layer,
+            "SHIFT": self.shift_bits,
+            "N_LAYER": 0,
+            "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
+        }
 
         if self.layer_torch[self.map_rtl_torch[layer]] == 'Conv2d':
-            generics_layer = {
-                k: (self.layer_dimension[layer] if k == 'X_SIZE' else
-                    self.layer_dimension[layer+1] if k == 'CONVS_PER_LINE' else
-                    v(self.model.sequential[self.map_rtl_torch[layer]]))
-                for k, v in self.map_layer_props['Conv2d']['generics'].items()
-            }
             x_size = generics_layer['X_SIZE']
             n_filter = generics_layer['N_FILTER']
             n_channel = generics_layer['N_CHANNEL']
             conv_per_line = generics_layer['CONVS_PER_LINE']
-
-            generic_dict2 = {
-                ** generics_layer,
-                "LAYER": layer,
-                "SHIFT": self.shift_bits,
-                "N_LAYER": 0,
-                "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
-            }
-        elif self.layer_torch[self.map_rtl_torch[layer]] == 'Linear':
-            ops_per_layer = self.input_channel[layer]
+        else:
             x_size = 0
             n_channel = 0
             n_filter = 0
             conv_per_line = 0
-            generic_dict2 = {
-                # "LAYER": layer,
-                "LAYER": layer,
-                "SHIFT": self.shift_bits,
-                "N_LAYER": 0,
-                "OP_TYPE": self.map_layer_props[self.layer_rtl[layer]]["op"],
-            }
 
         path.mkdir(parents=True, exist_ok=True)
         path_layer = path / 'layer' / str(layer)
@@ -193,38 +185,37 @@ class GenerateRTL:
         self.generate_gold_vhd_pkg(n_layer=layer, path=path_layer)
 
     def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
-        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
-            clk_half = self.rtl_config["CLK_PERIOD"] / 2
-            rst_time = clk_half * 5
-            if core:
-                data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
-            else:
-                data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
-            generate_dict2 = {
-                ** self.rtl_config,
-                ** generate_layer_dict,
-                "CLK_HALF": clk_half,
-                "RST_TIME": rst_time,
-                "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
-                "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
-                "PATH": data_path,
-            }
-            # line = (
-            #     "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-            #     "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
-            #     "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_PERIOD}ns -gCLK_HALF={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
-            #     "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
-            #     "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
-            #     # "\n"
-            # ).format(**generate_dict2)
-            # line2 = " ".join(sorted(line.split(" "))) + '\n'
-            time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
-            generate_dict3 = dict(sorted(generate_dict2.items()))
-            line2 = " ".join(
-                 f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
-            ) + "\n"
-            with open(path / "generic_file.txt", "w") as f:
-                f.write(line2)
+        clk_half = self.rtl_config["CLK_PERIOD"] / 2
+        rst_time = clk_half * 5
+        if core:
+            data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
+        else:
+            data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+        generate_dict2 = {
+            ** self.rtl_config,
+            ** generate_layer_dict,
+            "CLK_HALF": clk_half,
+            "RST_TIME": rst_time,
+            "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "PATH": data_path,
+        }
+        # line = (
+        #     "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
+        #     "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
+        #     "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_PERIOD}ns -gCLK_HALF={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
+        #     "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
+        #     "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
+        #     # "\n"
+        # ).format(**generate_dict2)
+        # line2 = " ".join(sorted(line.split(" "))) + '\n'
+        time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
+        generate_dict3 = dict(sorted(generate_dict2.items()))
+        line2 = " ".join(
+             f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
+        ) + "\n"
+        with open(path / "generic_file.txt", "w") as f:
+            f.write(line2)
 
     def generate_tcl_generic(self, n_layer, generic_dict_layer, path):
         if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':

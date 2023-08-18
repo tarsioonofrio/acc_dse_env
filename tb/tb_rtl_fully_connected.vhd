@@ -15,11 +15,8 @@ use work.config_package.all;
 
 entity tb is
   generic (
-    N_FILTER       : integer := 0;
-    N_CHANNEL      : integer := 3;
-    X_SIZE         : integer := 0;
-    FILTER_WIDTH   : integer := 3;
-    CONVS_PER_LINE : integer := 15;
+    IN_FEATURES    : integer := 0; 
+    OUT_FEATURES   : integer := 0; 
     MEM_SIZE       : integer := 12;
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
@@ -107,11 +104,8 @@ begin
 
   DUT : entity work.fully_connected
     generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
+      IN_FEATURES       => IN_FEATURES,
+      OUT_FEATURES      => OUT_FEATURES,
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
