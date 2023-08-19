@@ -24,6 +24,7 @@ entity tb is
            CARRY_SIZE     : integer := 4;
            SHIFT          : integer := 8;
            LAT            : integer := 2;
+           LAYER          : integer := 1;
            BRAM_NAME_LAYER: integer := 1;
            OP_TYPE        : character  := 'C';
            PATH           : string  := ""
@@ -49,11 +50,12 @@ begin
 
   DUT : entity work.core
     generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
+      --N_FILTER       => N_FILTER,
+      --N_CHANNEL      => N_CHANNEL,
+      --X_SIZE         => X_SIZE,
+      --FILTER_WIDTH   => FILTER_WIDTH,
+      --CONVS_PER_LINE => CONVS_PER_LINE,
+      BRAM_NAME_LAYER=> LAYER,
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,

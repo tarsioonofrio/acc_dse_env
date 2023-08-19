@@ -10,13 +10,13 @@ use IEEE.math_real.all;
 use std.textio.all;
 
 use work.gold_package.all;
-use work.config_package.all;
+use work.cnn_seq_package.all;
 
 
 entity tb is
   generic (
-    IN_FEATURES    : integer := 0; 
-    OUT_FEATURES   : integer := 0; 
+    --IN_FEATURES    : integer := 0; 
+    --OUT_FEATURES   : integer := 0; 
     MEM_SIZE       : integer := 12;
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
@@ -38,7 +38,7 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic;
+  --signal config : type_config_logic;
 
 begin
 
@@ -104,8 +104,8 @@ begin
 
   DUT : entity work.fully_connected
     generic map(
-      IN_FEATURES       => IN_FEATURES,
-      OUT_FEATURES      => OUT_FEATURES,
+      IN_FEATURES       => IN_FEATURES(3),
+      OUT_FEATURES      => OUT_FEATURES(3),
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,

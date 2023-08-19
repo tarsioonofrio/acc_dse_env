@@ -7,6 +7,7 @@ vcom -work work ../apps/rtl_output/default/default/layer/3/iwght_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/ifmap_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/gold_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/config_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/core/cnn_seq_package.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
@@ -15,7 +16,6 @@ vcom -work work ../rtl/components/mem_split.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
-
 
 # Convolution core
 vcom -work work ../rtl/fully_connected/simple.vhd
