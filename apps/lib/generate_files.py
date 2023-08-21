@@ -72,6 +72,8 @@ class GenerateRTL:
             "filter_channel": lambda x: x.out_features, "stride": lambda x: 1,
             "generics": {
                 'IN_FEATURES': lambda x: x.in_features, 'OUT_FEATURES': lambda x: x.out_features,
+                'IN_FEATURES': lambda x: x.in_features,
+                'OUT_FEATURES': lambda x: x.out_features,
                 'TOTAL_OPS': lambda x: x.out_features,
 
             }
@@ -143,16 +145,19 @@ class GenerateRTL:
             self.generate_samples()
         if core:
             self.generate_core()
-        print()
         self.op_generics_pkg()
         self.common_generics_pkg()
 
     def common_generics_pkg(self):
+        op_type = "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
+        config = {"OP_TYPE": op_type, **self.rtl_config}
+
         arrays = [
             String(v, k) if type(v) is str else Integer(v, k)
-            for k, v in self.rtl_config.items()
+            for k, v in config.items()
             if type(v) is not float
         ]
+        
         pack = Package('common_generics_pkg', *arrays)
         path = self.rtl_output_path / 'core'
         path.mkdir(parents=True, exist_ok=True)
@@ -162,18 +167,45 @@ class GenerateRTL:
     def op_generics_pkg(self):
         map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
         generics_layer = {
-            kg: [(self.layer_dimension[map_torch_rtl[e]] if kg == 'X_SIZE' else
-                  self.layer_dimension[map_torch_rtl[e] + 1] if kg == 'CONVS_PER_LINE' else
-                  (self.layer_dimension[map_torch_rtl[e] + 1]**2) * layer.out_channels
-                  if (kg == 'TOTAL_OPS' and vg is None) else vg(layer))
-                 if layer._get_name() == kl else 0
+            kg: [vg(layer) if layer._get_name() == kl else 0
                  for e, layer in enumerate(self.model.sequential)
                  if layer._get_name() in self.map_layer_props.keys()
                  ]
             for kl, vl in self.map_layer_props.items()
             for kg, vg in vl['generics'].items()
+            if kg not in ['X_SIZE', 'CONVS_PER_LINE', 'TOTAL_OPS']
         }
-        arrays = [Integer(v, k) for k, v in generics_layer.items()]
+
+        total_ops = [
+            (self.layer_dimension[map_torch_rtl[e] + 1] ** 2) * layer.out_channels
+            if layer._get_name() == 'Conv2d' else self.map_layer_props['Linear']["generics"]['TOTAL_OPS'](layer)
+            for e, layer in enumerate(self.model.sequential)
+            if layer._get_name() in self.map_layer_props.keys()
+        ]
+
+        x_size = [
+            self.layer_dimension[map_torch_rtl[e]] if layer._get_name() == 'Conv2d' else 0
+            for e, layer in enumerate(self.model.sequential)
+            if layer._get_name() in self.map_layer_props.keys()
+        ]
+
+        convs_per_line = [
+            self.layer_dimension[map_torch_rtl[e] + 1] if layer._get_name() == 'Conv2d' else 0
+            for e, layer in enumerate(self.model.sequential)
+            if layer._get_name() in self.map_layer_props.keys()
+        ]
+
+        generics = {
+            'TOTAL_OPS': total_ops,
+            'X_SIZE': x_size,
+            'CONVS_PER_LINE': convs_per_line,
+            **generics_layer
+        }
+
+        arrays = [
+            String(v, k) if type(v) is str else Integer(v, k)
+            for k, v in generics.items()
+        ]
         pack = Package('op_generics_pkg', *arrays)
         path = self.rtl_output_path / 'core'
         path.mkdir(parents=True, exist_ok=True)

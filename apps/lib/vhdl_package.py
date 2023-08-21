@@ -45,7 +45,7 @@ class String:
         self.name = name
 
     def __str__(self):
-        default = f":= '{self.default}'"
+        default = f':= "{self.default}"'
         output = f"constant {self.name}: {self.type} {default};"
         return output
 
