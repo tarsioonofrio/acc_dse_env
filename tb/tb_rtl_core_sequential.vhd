@@ -14,21 +14,17 @@ use work.util_package.all;
 
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8;
-           LAT            : integer := 2;
-           LAYER          : integer := 1;
-           BRAM_NAME_LAYER: integer := 1;
-           OP_TYPE        : character  := 'C';
-           PATH           : string  := ""
-           );
+  generic (
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8;
+    LAT            : integer := 2;
+    LAYER          : integer := 1;
+    BRAM_NAME_LAYER: integer := 1;
+    OP_TYPE        : character  := 'C';
+    PATH           : string  := ""
+    );
 end tb;
 
 architecture a1 of tb is
@@ -50,11 +46,6 @@ begin
 
   DUT : entity work.core
     generic map(
-      --N_FILTER       => N_FILTER,
-      --N_CHANNEL      => N_CHANNEL,
-      --X_SIZE         => X_SIZE,
-      --FILTER_WIDTH   => FILTER_WIDTH,
-      --CONVS_PER_LINE => CONVS_PER_LINE,
       BRAM_NAME_LAYER=> LAYER,
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,

@@ -6,7 +6,7 @@ import numpy as np
 
 from .util import log2ceil
 from .bram import open_file
-from .vhdl_package import Integer, Package
+from .vhdl_package import Integer, String, Package
 from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 
 
@@ -139,6 +139,22 @@ class GenerateRTL:
         if core:
             self.generate_core()
         print()
+        self.op_generics_pkg()
+        self.common_generics_pkg()
+
+    def common_generics_pkg(self):
+        arrays = [
+            String(v, k) if type(v) is str else Integer(v, k)
+            for k, v in self.rtl_config.items()
+            if type(v) is not float
+        ]
+        pack = Package('common_generics_pkg', *arrays)
+        path = self.rtl_output_path / 'core'
+        path.mkdir(parents=True, exist_ok=True)
+        with open(path / "common_generics_pkg.vhd", "w") as f:
+            f.write(str(pack))
+
+    def op_generics_pkg(self):
         map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
         generics_layer = {
             kg: [(self.layer_dimension[map_torch_rtl[e]] if kg == 'X_SIZE' else
@@ -152,10 +168,10 @@ class GenerateRTL:
             for kg, vg in vl['generics'].items()
         }
         arrays = [Integer(v, k) for k, v in generics_layer.items()]
-        pack = Package('cnn_seq_package', *arrays)
+        pack = Package('op_generics_pkg', *arrays)
         path = self.rtl_output_path / 'core'
         path.mkdir(parents=True, exist_ok=True)
-        with open(path / "cnn_seq_package.vhd", "w") as f:
+        with open(path / "op_generics_pkg.vhd", "w") as f:
             f.write(str(pack))
 
     def generate_layer(self, layer):

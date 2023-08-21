@@ -10,13 +10,12 @@ use IEEE.math_real.all;
 use std.textio.all;
 
 use work.gold_package.all;
-use work.cnn_seq_package.all;
+use work.op_generics_pkg.all;
 
 
 entity tb is
   generic (
-    --IN_FEATURES    : integer := 0; 
-    --OUT_FEATURES   : integer := 0; 
+    LAYER          : integer := 0;
     MEM_SIZE       : integer := 12;
     INPUT_SIZE     : integer := 8;
     CARRY_SIZE     : integer := 4;
@@ -37,8 +36,6 @@ architecture a1 of tb is
   signal ofmap_out, ofmap_in : std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
-
-  --signal config : type_config_logic;
 
 begin
 
@@ -104,8 +101,8 @@ begin
 
   DUT : entity work.fully_connected
     generic map(
-      IN_FEATURES       => IN_FEATURES(3),
-      OUT_FEATURES      => OUT_FEATURES(3),
+      IN_FEATURES    => IN_FEATURES(LAYER),
+      OUT_FEATURES   => OUT_FEATURES(LAYER),
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
@@ -115,10 +112,9 @@ begin
       clock         => clock,
       reset         => reset,
 
-      start_op    => start_conv,
-      end_op      => end_conv,
+      start_op      => start_conv,
+      end_op        => end_conv,
       debug         => debug,
-      -- config        => config,
 
       iwght_valid   => iwght_valid,
       iwght_value   => iwght_value(INPUT_SIZE*2-1 downto 0),
@@ -137,23 +133,6 @@ begin
       ofmap_we      => ofmap_we,
       ofmap_ce      => ofmap_ce
       );
-
-  --config.n_filter <= CONV_STD_LOGIC_VECTOR(N_FILTER, config.n_filter'LENGTH);
-  --config.n_channel <= CONV_STD_LOGIC_VECTOR(N_CHANNEL, config.n_channel'LENGTH);
-  --config.x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE, config.x_size'LENGTH);
-  --config.x_size_x_size <= CONV_STD_LOGIC_VECTOR(X_SIZE*X_SIZE, config.x_size_x_size'LENGTH);
-  ----config.filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH, config.filter_width'LENGTH);
-  ----config.filter_width_filter_width <= CONV_STD_LOGIC_VECTOR(FILTER_WIDTH*FILTER_WIDTH, config.filter_width_filter_width'LENGTH);
-  ----config.filter_width_filter_width_1 <= CONV_STD_LOGIC_VECTOR((FILTER_WIDTH*FILTER_WIDTH)-1, config.filter_width_filter_width_1'LENGTH);
-  ----config.input_size <= CONV_STD_LOGIC_VECTOR(INPUT_SIZE, config.input_size'LENGTH);
-  ----config.carry_size <= CONV_STD_LOGIC_VECTOR(CARRY_SIZE, config.carry_size'LENGTH);
-  --config.convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE, config.convs_per_line'LENGTH);
-  --config.convs_per_line_convs_per_line <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE, config.convs_per_line_convs_per_line'LENGTH);
-  --config.convs_per_line_convs_per_line_1 <= CONV_STD_LOGIC_VECTOR((CONVS_PER_LINE*CONVS_PER_LINE)+1, config.convs_per_line_convs_per_line_1'LENGTH);
-
-  --config.convs_per_line_convs_per_line_n_channel <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL, config.convs_per_line_convs_per_line_n_channel'LENGTH);
-  --config.convs_per_line_convs_per_line_n_channel_1 <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*(N_CHANNEL-1), config.convs_per_line_convs_per_line_n_channel_1'LENGTH);
-  --config.convs_per_line_convs_per_line_n_channel_n_filter <= CONV_STD_LOGIC_VECTOR(CONVS_PER_LINE*CONVS_PER_LINE*N_CHANNEL*N_FILTER, config.convs_per_line_convs_per_line_n_channel_n_filter'LENGTH);
 
   clock <= not clock after 0.5 ns;
 

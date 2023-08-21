@@ -9,7 +9,7 @@ vmap work work
 vcom -work work ../apps/rtl_output/default/default/layer/0/config_pkg.vhd
 # vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
 #vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/core/cnn_seq_package.vhd
+vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
 
 
 # Package with utilities - need to be before convolution core

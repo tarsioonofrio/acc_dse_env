@@ -37,6 +37,22 @@ class Integer:
         return self.__str__()
 
 
+class String:
+    type = 'string'
+
+    def __init__(self, default, name):
+        self.default = default
+        self.name = name
+
+    def __str__(self):
+        default = f":= '{self.default}'"
+        output = f"constant {self.name}: {self.type} {default};"
+        return output
+
+    def __repr__(self):
+        return self.__str__()
+
+
 class Package:
     tab = ' '*2
     eof = '\n'
@@ -48,11 +64,11 @@ class Package:
     def body(self, body):
         string = self.eof.join(map(str, body))
         formatted = (
-            "library ieee;\n"
-            "use ieee.std_logic_1164.all;\n"
-            "use ieee.std_logic_arith.all;\n"
-            f"package {self.name} is{self.eof}"
-            f"{string}{self.eof}"
+            f"library ieee;{self.eof}"
+            f"use ieee.std_logic_1164.all;{self.eof}"
+            f"use ieee.std_logic_arith.all;{self.eof * 3}"
+            f"package {self.name} is{self.eof * 2}"
+            f"{string}{self.eof * 2}"
             f"end package {self.name};{self.eof}"
         )
         return formatted

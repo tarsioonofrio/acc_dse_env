@@ -9,20 +9,18 @@ use ieee.std_logic_textio.all;
 use std.textio.all;
 
 use work.gold_package.all;
+use work.op_generics_pkg.all;
 
 
 entity tb is
-  generic (N_FILTER       : integer := 16;
-           N_CHANNEL      : integer := 3;
-           X_SIZE         : integer := 32;
-           FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
-           CARRY_SIZE     : integer := 4;
-           SHIFT          : integer := 8;
-           LAT            : integer := 2
-           );
+  generic (
+    LAYER          : integer := 0;
+    MEM_SIZE       : integer := 12;
+    INPUT_SIZE     : integer := 8;
+    CARRY_SIZE     : integer := 4;
+    SHIFT          : integer := 8;
+    LAT            : integer := 2
+    );
 end tb;
 
 architecture a1 of tb is
@@ -104,11 +102,11 @@ begin
 
   DUT : entity work.convolution
     generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
+      N_FILTER       => N_FILTER(LAYER),
+      N_CHANNEL      => N_CHANNEL(LAYER),
+      X_SIZE         => X_SIZE(LAYER),
+      FILTER_WIDTH   => FILTER_WIDTH(LAYER),
+      CONVS_PER_LINE => CONVS_PER_LINE(LAYER),
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,
@@ -155,7 +153,7 @@ begin
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < CONVS_PER_LINE*CONVS_PER_LINE*N_FILTER then
+      if debug = '1' and cont_conv < CONVS_PER_LINE(LAYER)*CONVS_PER_LINE(LAYER)*N_FILTER(LAYER) then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
@@ -174,10 +172,6 @@ begin
         cont_conv := cont_conv + 1;
 
       elsif end_conv = '1' then
-        write(out_line, string'("clock, start, total"));
-        writeline(out_file, out_line);
-        write(out_line, string'("0.5 ns, 2.5 ns, " & time'image(now)));
-        writeline(out_file, out_line);
         report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
         report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
         report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));

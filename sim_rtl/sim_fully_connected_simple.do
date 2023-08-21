@@ -7,7 +7,7 @@ vcom -work work ../apps/rtl_output/default/default/layer/3/iwght_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/ifmap_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/gold_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/layer/3/config_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/core/cnn_seq_package.vhd
+vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd

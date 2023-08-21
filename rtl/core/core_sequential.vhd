@@ -6,17 +6,12 @@ use IEEE.std_logic_arith.all;
 
 use work.util_package.all;
 use work.config_package.all;
- use work.cnn_seq_package.all;
+use work.op_generics_pkg.all;
 
 
 entity core is
   generic (
     OP_TYPE        : character   := 'C';
-    --N_FILTER       : integer   := 16;
-    --N_CHANNEL      : integer   := 3;
-    --X_SIZE         : integer   := 32;
-    --FILTER_WIDTH   : integer   := 3;
-    --CONVS_PER_LINE : integer   := 15;
     MEM_SIZE       : integer   := 12;
     INPUT_SIZE     : integer   := 8;
     CARRY_SIZE     : integer   := 4;
@@ -204,7 +199,6 @@ begin
         start_conv    => start_conv,
         end_conv      => end_conv,
         debug         => debug,
---         config        => const_config_logic_vector(BRAM_NAME_LAYER),
         config        => config,
 
         iwght_valid   => iwght_valid,
@@ -229,11 +223,6 @@ begin
     GEN_MP2D: if OP_TYPE = 'M' generate
       MP2D : entity work.maxpool
         generic map(
-          --N_FILTER       => N_FILTER,
-          --N_CHANNEL      => N_CHANNEL,
-          --X_SIZE         => X_SIZE,
-          --FILTER_WIDTH   => FILTER_WIDTH,
-          --CONVS_PER_LINE => CONVS_PER_LINE,
           MEM_SIZE       => MEM_SIZE,
           INPUT_SIZE     => INPUT_SIZE,
           SHIFT          => SHIFT,
@@ -246,12 +235,6 @@ begin
           start_pool    => start_conv,
           end_pool      => end_conv,
           debug         => debug,
-          -- config        => const_config_logic_vector(BRAM_NAME_LAYER),
-  
-          -- iwght_valid   => iwght_valid,
-          -- iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
-          -- iwght_address => iwght_address,
-          -- iwght_ce      => iwght_ce,
   
           ifmap_valid   => ifmap_valid,
           ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
@@ -259,7 +242,6 @@ begin
           ifmap_ce      => ifmap_ce,
   
           ofmap_valid   => ofmap_valid,
-          -- ofmap_in      => ofmap_in,
           ofmap_out     => ofmap_out,
           ofmap_address => ofmap_address,
           ofmap_we      => ofmap_we,
@@ -284,7 +266,6 @@ begin
           start_op    => start_conv,
           end_op      => end_conv,
           debug         => debug,
-          -- config        => const_config_logic_vector(BRAM_NAME_LAYER),
   
           iwght_valid   => iwght_valid,
           iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),

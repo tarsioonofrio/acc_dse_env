@@ -1,7 +1,10 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_arith.all;
-package cnn_seq_package is
+
+
+package op_generics_pkg is
+
 type type_array_X_SIZE is array (0 to 3) of integer range 0 to 32;
 constant X_SIZE : type_array_X_SIZE := (32, 15, 7, 0);
 type type_array_CONVS_PER_LINE is array (0 to 3) of integer range 0 to 15;
@@ -18,4 +21,5 @@ type type_array_IN_FEATURES is array (0 to 3) of integer range 0 to 576;
 constant IN_FEATURES : type_array_IN_FEATURES := (0, 0, 0, 576);
 type type_array_OUT_FEATURES is array (0 to 3) of integer range 0 to 10;
 constant OUT_FEATURES : type_array_OUT_FEATURES := (0, 0, 0, 10);
-end package cnn_seq_package;
+
+end package op_generics_pkg;
