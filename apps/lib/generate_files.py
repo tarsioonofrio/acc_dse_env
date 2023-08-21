@@ -333,8 +333,7 @@ class GenerateRTL:
         self.generate_gold_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
 
     def generate_core(self):
-        # TODO remove -2 in future after integrate FC (and max pool)
-        layer = len(self.layer_dimension) - 3
+        layer = len(self.layer_dimension) - 2
         path_core = self.rtl_output_path / "core"
         stride = [max(self.stride)]
         n_filter = [max(self.filter_channel[1:])]

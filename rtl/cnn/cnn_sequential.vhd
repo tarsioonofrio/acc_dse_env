@@ -7,24 +7,17 @@ use ieee.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 use std.textio.all;
 
-use work.config_package.all;
 use work.util_package.all;
-use work.config_package_array.all;
 
 
 entity cnn is
   generic (
-    N_FILTER       : integer   := 16;
-    N_CHANNEL      : integer   := 3;
-    X_SIZE         : integer   := 32;
-    FILTER_WIDTH   : integer   := 3;
-    CONVS_PER_LINE : integer   := 15;
     MEM_SIZE       : integer   := 12;
     INPUT_SIZE     : integer   := 8;
     CARRY_SIZE     : integer   := 4;
     SHIFT          : integer   := 8;
     LAT            : integer   := 2;
-    N_LAYER        : integer   := 1;
+    N_LAYER        : integer   := 0;
     PATH           : string    := "";
     OP_TYPE        : string    := "CCC";
     TEST_LAYER     : integer   := 0;
@@ -40,11 +33,6 @@ entity cnn is
     p_start_conv : in std_logic;
     p_end_conv   : out std_logic;
     p_debug      : out std_logic;
-
-    --p_iwght_ce    : in std_logic;
-    --p_iwght_we    : in std_logic;
-    --p_iwght_valid : out std_logic;
-    --p_iwght_layer : in std_logic_vector(log2(N_LAYER) downto 0);
 
     p_ifmap_ce    : in std_logic;
     p_ifmap_we    : in std_logic;
@@ -81,18 +69,9 @@ architecture a1 of cnn is
 
   signal n_read, n_write : std_logic_vector(31 downto 0);
 
---   type type_config_logic_array  is array (1 to N_LAYER + 1) of type_config_logic;
---   signal config : type_config_logic_array;
-
---   signal config_test : type_config_logic := read_config(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/config_pkg.txt");;
 --   signal gold        : type_array_int :=  read_data(PATH & "/layer/" & integer'image(TEST_LAYER - 1) & "/gold.txt");;
 
 begin
-
---   -- init config array
---   gen_init_config: for i in 1 to N_LAYER generate
---     config(i) <= read_config(PATH & "/layer/" & integer'image(i-1) & "/config_pkg.txt") when reset = '1';
---   end generate;
 
   -- input map port to 0 index signal
   ofmap_ce(0) <= p_ifmap_ce;
@@ -131,12 +110,6 @@ begin
   gen_core: for i in 1 to N_LAYER generate
     core : entity work.core
       generic map(
-        N_FILTER       => N_FILTER,
-        N_CHANNEL      => N_CHANNEL,
-        X_SIZE         => X_SIZE,
-        LAT            => LAT,
-        FILTER_WIDTH   => FILTER_WIDTH,
-        CONVS_PER_LINE => CONVS_PER_LINE,
         MEM_SIZE       => MEM_SIZE,
         INPUT_SIZE     => INPUT_SIZE,
         SHIFT          => SHIFT,
@@ -151,13 +124,12 @@ begin
         BRAM_NUM_IFMAP => BRAM_NUM_IFMAP
         )
       port map(
-        clock         => clock,
-        reset         => reset,
+        clock           => clock,
+        reset           => reset,
 
         p_start_conv    => start_conv(i),
         p_end_conv      => end_conv(i),
         p_debug         => debug(i),
-        config          => const_config_logic_vector(i-1),
 
         p_iwght_ce      => '0',
         p_iwght_we      => '0',

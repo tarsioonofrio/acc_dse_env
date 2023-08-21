@@ -2,8 +2,7 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
+vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
@@ -14,15 +13,15 @@ vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_file.vhd
 
 # Convolution core
-vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
 vcom -work work ../rtl/fully_connected/simple.vhd
 
 # Processing element
-vcom -work work ../rtl/core/core_serial.vhd
+vcom -work work ../rtl/core/core_sequential.vhd
 
 # Network
-vcom -work work ../rtl/cnn/simple.vhd
+vcom -work work ../rtl/cnn/cnn_sequential.vhd
 
 
 # Testbench
