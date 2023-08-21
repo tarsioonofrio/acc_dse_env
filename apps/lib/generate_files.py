@@ -71,7 +71,6 @@ class GenerateRTL:
             "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
             "filter_channel": lambda x: x.out_features, "stride": lambda x: 1,
             "generics": {
-                'IN_FEATURES': lambda x: x.in_features, 'OUT_FEATURES': lambda x: x.out_features,
                 'IN_FEATURES': lambda x: x.in_features,
                 'OUT_FEATURES': lambda x: x.out_features,
                 'TOTAL_OPS': lambda x: x.out_features,
@@ -157,7 +156,7 @@ class GenerateRTL:
             for k, v in config.items()
             if type(v) is not float
         ]
-        
+
         pack = Package('common_generics_pkg', *arrays)
         path = self.rtl_output_path / 'core'
         path.mkdir(parents=True, exist_ok=True)
