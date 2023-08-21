@@ -8,9 +8,9 @@ use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
-use work.config_package.all;
 -- use work.gold_package.all;
 use work.util_package.all;
+use work.op_generics_pkg.all;
 
 
 entity tb is
@@ -23,7 +23,8 @@ entity tb is
     LAYER          : integer := 1;
     BRAM_NAME_LAYER: integer := 1;
     OP_TYPE        : character  := 'C';
-    PATH           : string  := ""
+    PATH           : string  := "";
+    TOTAL_OPS      : integer
     );
 end tb;
 
@@ -38,7 +39,6 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal config : type_config_logic := read_config(PATH & "/config_pkg.txt");
   signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
 begin
@@ -65,7 +65,6 @@ begin
       p_start_conv    => start_conv,
       p_end_conv      => end_conv,
       p_debug         => debug,
-      config          => config,
 
       p_iwght_ce      => '0',
       p_iwght_we      => '0',
@@ -114,18 +113,16 @@ begin
 
 
   process(clock)
-
-  variable cont_conv : integer := 0;
-
+  variable cont_ops : integer := 0;
 
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < (conv_integer(unsigned(config.convs_per_line_convs_per_line))*conv_integer(unsigned(config.n_filter))) then
+      if debug = '1' and cont_ops < TOTAL_OPS then
         if value_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(address_out))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
-          report "number of convolutions executed: " & integer'image(cont_conv);
+          report "number of convolutions executed: " & integer'image(cont_ops);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(address_out)));
           report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(address_out))));
 
@@ -137,12 +134,12 @@ begin
 
           assert false severity failure;
         end if;
-        cont_conv := cont_conv + 1;
+        cont_ops := cont_ops + 1;
 
       elsif end_conv = '1' then
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
-        report "number of convolutions: " & integer'image(cont_conv);
+        report "number of convolutions: " & integer'image(cont_ops);
         report "end of simulation without error!" severity failure;
       end if;
     end if;

@@ -6,9 +6,7 @@ vmap work work
 # Packages for CNN layer simualtion
 # inmem_pkg is not used in simulation
 
-vcom -work work ../apps/rtl_output/default/default/layer/0/config_pkg.vhd
 # vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
-#vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
 vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
 
 
@@ -21,7 +19,7 @@ vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_file.vhd
 
 # Convolution core
-vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
+vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
 vcom -work work ../rtl/fully_connected/simple.vhd
 

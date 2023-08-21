@@ -60,6 +60,7 @@ class GenerateRTL:
             "generics": {
                 'X_SIZE': None,
                 'CONVS_PER_LINE': None,
+                'TOTAL_OPS': None,
                 'N_FILTER': lambda x: x.out_channels,
                 'N_CHANNEL': lambda x: x.in_channels,
                 'STRIDE': lambda x: x.stride[0],
@@ -69,7 +70,11 @@ class GenerateRTL:
         'Linear': {
             "op": 'F', "input_shape": lambda x: x.in_features, 'filter_dimension': lambda x: 1,
             "filter_channel": lambda x: x.out_features, "stride": lambda x: 1,
-            "generics": {'IN_FEATURES': lambda x: x.in_features, 'OUT_FEATURES': lambda x: x.out_features}
+            "generics": {
+                'IN_FEATURES': lambda x: x.in_features, 'OUT_FEATURES': lambda x: x.out_features,
+                'TOTAL_OPS': lambda x: x.out_features,
+
+            }
         },
         # 'Maxpool': 'M',
     }
@@ -159,7 +164,8 @@ class GenerateRTL:
         generics_layer = {
             kg: [(self.layer_dimension[map_torch_rtl[e]] if kg == 'X_SIZE' else
                   self.layer_dimension[map_torch_rtl[e] + 1] if kg == 'CONVS_PER_LINE' else
-                  vg(layer))
+                  (self.layer_dimension[map_torch_rtl[e] + 1]**2) * layer.out_channels
+                  if (kg == 'TOTAL_OPS' and vg is None) else vg(layer))
                  if layer._get_name() == kl else 0
                  for e, layer in enumerate(self.model.sequential)
                  if layer._get_name() in self.map_layer_props.keys()
@@ -180,6 +186,8 @@ class GenerateRTL:
         generics_layer = {
             k: (self.layer_dimension[layer] if k == 'X_SIZE' else
                 self.layer_dimension[layer + 1] if k == 'CONVS_PER_LINE' else
+                (self.layer_dimension[layer + 1] ** 2) * self.model.sequential[self.map_rtl_torch[layer]].out_channels
+                if (k == 'TOTAL_OPS' and v is None) else
                 v(self.model.sequential[self.map_rtl_torch[layer]]))
             for k, v in self.map_layer_props[name_layer]['generics'].items()
         }
@@ -222,15 +230,6 @@ class GenerateRTL:
             "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
             "PATH": data_path,
         }
-        # line = (
-        #     "-gN_FILTER={N_FILTER} -gSTRIDE={STRIDE} -gX_SIZE={X_SIZE} -gFILTER_WIDTH={FILTER_WIDTH} "
-        #     "-gCONVS_PER_LINE={CONVS_PER_LINE} -gMEM_SIZE={MEM_SIZE} -gINPUT_SIZE={INPUT_SIZE} "
-        #     "-gCARRY_SIZE={CARRY_SIZE} -gCLK_PERIOD={CLK_PERIOD}ns -gCLK_HALF={CLK_HALF}ns -gRST_TIME={RST_TIME}ns -gRISE_START={RISE_START}ns "
-        #     "-gFALL_START={FALL_START}ns -gIN_DELAY={IN_DELAY}ns -gLAT={LAT} -gN_CHANNEL={N_CHANNEL} -gSHIFT={SHIFT} "
-        #     "-gN_LAYER={N_LAYER} -gPATH={PATH} -gOP_TYPE={OP_TYPE}"
-        #     # "\n"
-        # ).format(**generate_dict2)
-        # line2 = " ".join(sorted(line.split(" "))) + '\n'
         time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
         generate_dict3 = dict(sorted(generate_dict2.items()))
         line2 = " ".join(
