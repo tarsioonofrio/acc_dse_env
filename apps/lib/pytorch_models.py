@@ -2,8 +2,9 @@ from torch import nn
 
 
 class Default(nn.Module):
-    def __init__(self, config_model, config_data):
+    def __init__(self, config_model, config_data, debug=False):
         super().__init__()
+        self.debug = debug
         conv0 = nn.Conv2d(
             in_channels=3, out_channels=config_model["filter_channel"][0],
             kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
