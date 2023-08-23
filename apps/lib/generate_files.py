@@ -89,7 +89,6 @@ class GenerateRTL:
         self.rtl_output_path = rtl_output_path
         self.dataloader = dataloader
         self.samples = samples
-        self.n_layer = 0
         self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
         # Adjust shift
         self.shift = 2 ** self.shift_bits
@@ -112,37 +111,19 @@ class GenerateRTL:
             for e, layer in enumerate(model.sequential)
             if layer._get_name() in self.map_layer_props.keys()
         }
+        self.total_layers = len(self.layer_torch)
+
         self.layer_rtl = list(self.layer_torch.values())
         self.map_rtl_torch = list(self.layer_torch.keys())
         self.map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
-
         self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
-        in_channels = [
-            self.map_layer_props[v]['in_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
-        ]
-        out_channels = [
-            self.map_layer_props[v]['out_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
-        ]
-        self.in_channels = [
-            out_channels[e-1] if v == 'MaxPool2d' else in_channels[e]
-            for e, (k, v) in enumerate(self.layer_torch.items())
-        ]
-        self.out_channels = [self.dataloader.config["input_c"]] + [
-            out_channels[e-1] if v == 'MaxPool2d' else out_channels[e]
-            for e, (k, v) in enumerate(self.layer_torch.items())
-        ]
 
-        self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
-        self.kernel_size = [
-            self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
-        ]
         input_tensor = torch.ones(
             1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
         )
         self.in_features = [self.dataloader.config["input_w"]]
         self.input_shape = []
         self.output_shape = []
-        # self.output_shape = [[dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"]]]
 
         for e, layer in enumerate(model.sequential[0:-1]):
             if e in self.layer_torch:
@@ -154,6 +135,20 @@ class GenerateRTL:
             if e in self.layer_torch:
                 self.in_features.append(input_tensor.shape[-1])
                 self.output_shape.append(np.array(input_tensor.shape[1:]).tolist())
+
+        self.in_channels = [
+            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][0]
+            for i in range(self.total_layers)
+        ]
+        self.out_channels = [
+            0 if self.layer_rtl[i] == 'Linear' else self.output_shape[i][0]
+            for i in range(self.total_layers)
+        ]
+
+        self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
+        self.kernel_size = [
+            self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
 
         self.stride = [
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
@@ -195,7 +190,7 @@ class GenerateRTL:
             'TOTAL_OPS': total_ops,
             'X_SIZE': x_size,
             'CONVS_PER_LINE': convs_per_line,
-            'N_FILTER': self.out_channels[1:],
+            'N_FILTER': self.out_channels,
             'N_CHANNEL': self.in_channels,
             'STRIDE': self.stride,
             'FILTER_WIDTH': self.kernel_size,
@@ -390,9 +385,9 @@ class GenerateRTL:
         layer = len(self.in_features) - 2
         path_core = self.rtl_output_path / "core"
         stride = [max(self.stride)]
-        n_filter = [max(self.out_channels[1:])]
+        n_filter = [max(self.out_channels)]
         x_size = max([self.dataloader.config["input_w"]] + self.in_features[1:])
-        n_channel = max([self.dataloader.config["input_c"]] + self.out_channels[1:])
+        n_channel = max([self.dataloader.config["input_c"]] + self.out_channels)
         generic_dict2 = {
             "STRIDE": stride[0],
             "N_FILTER": n_filter[0],
@@ -412,7 +407,7 @@ class GenerateRTL:
 
     def generate_ifmem_vhd_pkg(self, n_layer, path):
         if self.layer_rtl[n_layer] == 'Conv2d':
-            filter_channel = self.out_channels[1:]
+            filter_channel = self.out_channels
             filter_dimension = self.kernel_size
             input_channel = self.in_channels
             input_size = self.input_size
