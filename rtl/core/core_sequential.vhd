@@ -217,71 +217,74 @@ begin
         );
   end generate;
 
-    GEN_MP2D: if OP_TYPE = 'M' generate
-      MP2D : entity work.maxpool
-        generic map(
-          MEM_SIZE       => MEM_SIZE,
-          INPUT_SIZE     => INPUT_SIZE,
-          SHIFT          => SHIFT,
-          CARRY_SIZE     => CARRY_SIZE
-          )
-        port map(
-          clock         => clock,
-          reset         => reset,
-  
-          start_pool    => start_conv,
-          end_pool      => end_conv,
-          debug         => debug,
-  
-          ifmap_valid   => ifmap_valid,
-          ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
-          ifmap_address => ifmap_address,
-          ifmap_ce      => ifmap_ce,
-  
-          ofmap_valid   => ofmap_valid,
-          ofmap_out     => ofmap_out,
-          ofmap_address => ofmap_address,
-          ofmap_we      => ofmap_we,
-          ofmap_ce      => ofmap_ce
-          );
-    end generate;
+  GEN_MP2D: if OP_TYPE = 'M' generate
+    MP2D : entity work.maxpool
+      generic map(
+        N_CHANNEL      => N_CHANNEL(BRAM_NAME_LAYER),
+        X_SIZE         => X_SIZE(BRAM_NAME_LAYER),
+        FILTER_WIDTH   => FILTER_WIDTH(BRAM_NAME_LAYER),
+        MEM_SIZE       => MEM_SIZE,
+        INPUT_SIZE     => INPUT_SIZE,
+        SHIFT          => SHIFT,
+        CARRY_SIZE     => CARRY_SIZE
+        )
+      port map(
+        clock         => clock,
+        reset         => reset,
 
-    GEN_FC: if OP_TYPE = 'F' generate
-      FC : entity work.fully_connected
-        generic map(
-          IN_FEATURES    => IN_FEATURES(BRAM_NAME_LAYER),
-          OUT_FEATURES   => OUT_FEATURES(BRAM_NAME_LAYER),
-          MEM_SIZE       => MEM_SIZE,
-          INPUT_SIZE     => INPUT_SIZE,
-          SHIFT          => SHIFT,
-          CARRY_SIZE     => CARRY_SIZE
-          )
-        port map(
-          clock         => clock,
-          reset         => reset,
-  
-          start_op    => start_conv,
-          end_op      => end_conv,
-          debug         => debug,
-  
-          iwght_valid   => iwght_valid,
-          iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
-          iwght_address => iwght_address,
-          iwght_ce      => iwght_ce,
-  
-          ifmap_valid   => ifmap_valid,
-          ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
-          ifmap_address => ifmap_address,
-          ifmap_ce      => ifmap_ce,
-  
-          ofmap_valid   => ofmap_valid,
-          ofmap_in      => ofmap_in,
-          ofmap_out     => ofmap_out,
-          ofmap_address => ofmap_address,
-          ofmap_we      => ofmap_we,
-          ofmap_ce      => ofmap_ce
-          );
-      end generate;
+        start_pool    => start_conv,
+        end_pool      => end_conv,
+        debug         => debug,
+
+        ifmap_valid   => ifmap_valid,
+        ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+        ifmap_address => ifmap_address,
+        ifmap_ce      => ifmap_ce,
+
+        ofmap_valid   => ofmap_valid,
+        ofmap_out     => ofmap_out,
+        ofmap_address => ofmap_address,
+        ofmap_we      => ofmap_we,
+        ofmap_ce      => ofmap_ce
+        );
+  end generate;
+
+  GEN_FC: if OP_TYPE = 'F' generate
+    FC : entity work.fully_connected
+      generic map(
+        IN_FEATURES    => IN_FEATURES(BRAM_NAME_LAYER),
+        OUT_FEATURES   => OUT_FEATURES(BRAM_NAME_LAYER),
+        MEM_SIZE       => MEM_SIZE,
+        INPUT_SIZE     => INPUT_SIZE,
+        SHIFT          => SHIFT,
+        CARRY_SIZE     => CARRY_SIZE
+        )
+      port map(
+        clock         => clock,
+        reset         => reset,
+
+        start_op    => start_conv,
+        end_op      => end_conv,
+        debug         => debug,
+
+        iwght_valid   => iwght_valid,
+        iwght_value   => iwght_value((INPUT_SIZE*2)-1 downto 0),
+        iwght_address => iwght_address,
+        iwght_ce      => iwght_ce,
+
+        ifmap_valid   => ifmap_valid,
+        ifmap_value   => ifmap_value((INPUT_SIZE*2)-1 downto 0),
+        ifmap_address => ifmap_address,
+        ifmap_ce      => ifmap_ce,
+
+        ofmap_valid   => ofmap_valid,
+        ofmap_in      => ofmap_in,
+        ofmap_out     => ofmap_out,
+        ofmap_address => ofmap_address,
+        ofmap_we      => ofmap_we,
+        ofmap_ce      => ofmap_ce
+        );
+    end generate;
       
 --     process(clock)
 --       -- convolution counter
