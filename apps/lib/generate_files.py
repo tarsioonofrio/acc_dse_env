@@ -403,22 +403,23 @@ class GenerateRTL:
         self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, n_layer, path):
-        filter_channel = self.out_channels[1:]
-        filter_dimension = self.kernel_size
-        input_channel = self.in_channels
-        input_size = self.input_size
-        layer_dimension = self.in_features[1:]
-        model_dict = self.model_dict
-        shift = self.shift
-        stride_h = self.stride
-        stride_w = self.stride
-        testSet = self.dataloader.x
-        testSetSize = 1
-        testLabel = self.dataloader.y
-        generate_ifmem_vhd_pkg(
-            model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel, testSet,
-            testLabel, stride_h, stride_w, testSetSize, n_layer, path
-        )
+        if self.layer_rtl[n_layer] == 'Conv2d':
+            filter_channel = self.out_channels[1:]
+            filter_dimension = self.kernel_size
+            input_channel = self.in_channels
+            input_size = self.input_size
+            layer_dimension = self.in_features[1:]
+            model_dict = self.model_dict
+            shift = self.shift
+            stride_h = self.stride
+            stride_w = self.stride
+            testSet = self.dataloader.x
+            testSetSize = 1
+            testLabel = self.dataloader.y
+            generate_ifmem_vhd_pkg(
+                model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
+                testSet, testLabel, stride_h, stride_w, testSetSize, n_layer, path
+            )
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         # bias_list = self.get_bias(layer)
@@ -426,39 +427,36 @@ class GenerateRTL:
             bias_list = [
                 str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
             ]
-        else:
-            bias_list = []
-        if self.layer_rtl[n_layer] == 'Conv2d':
-            layer = (
-                self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
-            )
-            weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
-        elif self.layer_rtl[n_layer] == 'Linear':
-            input_shape = self.shape[n_layer].tolist()
-            in_features = self.model.sequential[self.map_rtl_torch[n_layer]].in_features
-            out_features = self.model.sequential[self.map_rtl_torch[n_layer]].out_features
-            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data
-            layer1 = (layer.reshape([-1] + input_shape).transpose(-2, -1).reshape(out_features, in_features).cpu()
-                      .detach().numpy())
-            weight_list = np.expand_dims(layer1, [0, 1]).tolist()
-        else:
-            weight_list = [[]]
+            if self.layer_rtl[n_layer] == 'Conv2d':
+                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach()
+                         .numpy())
+                weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
+            elif self.layer_rtl[n_layer] == 'Linear':
+                input_shape = self.shape[n_layer].tolist()
+                in_features = self.model.sequential[self.map_rtl_torch[n_layer]].in_features
+                out_features = self.model.sequential[self.map_rtl_torch[n_layer]].out_features
+                layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data
+                layer1 = (layer.reshape([-1] + input_shape).transpose(-2, -1).reshape(out_features, in_features).cpu()
+                          .detach().numpy())
+                weight_list = np.expand_dims(layer1, [0, 1]).tolist()
+            else:
+                weight_list = [[]]
 
-        bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
-        weight_string = [
-            f"{self.tab}-- layer={n_layer} filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
-            for filters in weight_list
-            for f, channel in enumerate(filters)
-            for c, s in enumerate(channel)
-        ]
+            bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
+            weight_string = [
+                f"{self.tab}-- layer={n_layer} filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+                for filters in weight_list
+                for f, channel in enumerate(filters)
+                for c, s in enumerate(channel)
+            ]
 
-        package = "iwght_package"
-        constant = "input_wght"
-        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
-        write_mem_pkg(constant, data, "iwght_pkg", package, path)
-        with open(path / "iwght.txt", "w") as f:
-            f.writelines([f"{b}\n" for b in bias_list])
-            f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
+            package = "iwght_package"
+            constant = "input_wght"
+            data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+            write_mem_pkg(constant, data, "iwght_pkg", package, path)
+            with open(path / "iwght.txt", "w") as f:
+                f.writelines([f"{b}\n" for b in bias_list])
+                f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
 
     # TODO remove or move to legacy code
     def get_wght(self, layer):
