@@ -51,47 +51,36 @@ class Model:
         pass
 
 
+
 class GenerateRTL:
     tab = "    "
     map_layer_props = {
         'Conv2d': {
             "op": 'C', "in_channels": lambda x: x.in_channels, 'kernel_size': lambda x: x.kernel_size[0],
             "out_channels": lambda x: x.out_channels, "stride": lambda x: x.stride[0],
-            # "generics": {
-            #     # TODO: IN_FEATURES
-            #     # 'X_SIZE': None,
-            #     # TODO: OUT_FEATURES
-            #     # 'CONVS_PER_LINE': None,
-            #     # TODO IN_CHANNEL
-            #     'N_FILTER': lambda x: x.out_channels,
-            #     # TODO OUT_CHANNEL
-            #     'N_CHANNEL': lambda x: x.in_channels,
-            #     'FILTER_WIDTH': lambda x: x.kernel_size[0],
-            #     'STRIDE': lambda x: x.stride[0],
-            #     # 'TOTAL_OPS': None,
-            # }
+            "generics": [
+                # TODO: IN_FEATURES
+                'X_SIZE',
+                # TODO: OUT_FEATURES
+                'CONVS_PER_LINE',
+                # TODO IN_CHANNEL
+                'N_FILTER',
+                # TODO OUT_CHANNEL
+                'N_CHANNEL',
+                'FILTER_WIDTH',
+                'STRIDE',
+                'TOTAL_OPS',
+            ]
         },
         'Linear': {
-            "op": 'F', "in_channels": lambda x: x.in_features, 'kernel_size': lambda x: 1,
-            "out_channels": lambda x: x.out_features, "stride": lambda x: 1,
-            # "generics": {
-            #     'IN_FEATURES': lambda x: x.in_features,
-            #     'OUT_FEATURES': lambda x: x.out_features,
-            #     'TOTAL_OPS': lambda x: x.out_features,
-            #
-            # }
+            "op": 'F', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
+            "out_channels": lambda x: 0, "stride": lambda x: 0,
+            "generics": ['IN_FEATURES', 'OUT_FEATURES', 'TOTAL_OPS']
         },
         'MaxPool2d': {
             "op": 'M', "in_channels": lambda x: 0, 'kernel_size': lambda x: x.kernel_size,
             "out_channels": lambda x: 0, "stride": lambda x: x.stride,
-            # "generics": {
-            #     TODO: IN_FEATURES
-            #     'X_SIZE': None,
-            #     'N_CHANNEL': None,
-            #     'FILTER_WIDTH': lambda x: x.kernel_size,
-            #     'STRIDE': lambda x: x.stride,
-            #     'TOTAL_OPS': None,
-            # }
+            "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
         },
     }
 
@@ -155,16 +144,6 @@ class GenerateRTL:
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
 
-        # generics_layer = {
-        #     kg: [
-        #         vg(layer) if layer._get_name() == kl else 0
-        #         for e, layer in enumerate(self.model.sequential)
-        #         if layer._get_name() in self.map_layer_props.keys()
-        #         ]
-        #     for kl, vl in self.map_layer_props.items()
-        #     for kg, vg in vl['generics'].items()
-        # }
-
         total_ops = [
             (self.in_features[self.map_torch_rtl[e] + 1] ** 2) * layer.out_channels if layer._get_name() == 'Conv2d'
             else layer.out_features if layer._get_name() == 'Linear'
@@ -201,12 +180,12 @@ class GenerateRTL:
             'TOTAL_OPS': total_ops,
             'X_SIZE': x_size,
             'CONVS_PER_LINE': convs_per_line,
+            'N_FILTER': self.out_channels[1:],
+            'N_CHANNEL': self.in_channels,
+            'STRIDE': self.stride,
+            'FILTER_WIDTH': self.kernel_size,
             'IN_FEATURES': in_features,
             'OUT_FEATURES': out_features,
-            'N_CHANNEL': self.in_channels,
-            'N_FILTER': self.out_channels[1:],
-            'FILTER_WIDTH': self.kernel_size,
-            'STRIDE': self.stride,
         }
 
     def __call__(self, samples=False, core=False):
@@ -248,18 +227,9 @@ class GenerateRTL:
 
     def generate_layer(self, layer):
         path = self.rtl_output_path
-        name_layer = self.layer_torch[self.map_rtl_torch[layer]]
-        # generics_layer = {
-        #     k: (self.in_features[layer] if k == 'X_SIZE' else
-        #         self.in_features[layer + 1] if k == 'CONVS_PER_LINE' else
-        #         (self.in_features[layer + 1] ** 2) * self.model.sequential[self.map_rtl_torch[layer]].out_channels
-        #         if (k == 'TOTAL_OPS' and v is None) else
-        #         v(self.model.sequential[self.map_rtl_torch[layer]]))
-        #     for k, v in self.map_layer_props[name_layer]['generics'].items()
-        # }
-
         generics_layer = {
             k: v[layer] for k, v in self.generics.items()
+            if k in self.map_layer_props[self.layer_rtl[layer]]["generics"]
         }
 
         generic_dict2 = {
