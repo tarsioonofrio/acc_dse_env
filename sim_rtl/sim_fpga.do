@@ -20,7 +20,7 @@ vcom -work work ../rtl/components/mem_bram.vhd
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
-vcom -work work ../rtl/fully_connected/simple.vhd
+vcom -work work ../rtl/fully_connected/fully_connected_basic.vhd
 
 
 # Processing element
@@ -28,10 +28,10 @@ vcom -work work ../rtl/core/core_sequential_conv.vhd
 
 # Network
 vcom -work work ../rtl/cnn/cnn_sequential_conv.vhd
-vcom -work work ../rtl/accelerator/simple.vhd
+vcom -work work ../rtl/accelerator/fpga_basic.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_accelerator.vhd
+vcom -work work ../tb/tb_rtl_fpga.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb

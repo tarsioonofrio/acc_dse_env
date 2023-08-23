@@ -87,11 +87,9 @@ begin
 
   DUT : entity work.maxpool
     generic map(
-      N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
       X_SIZE         => X_SIZE,
       FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
       MEM_SIZE       => MEM_SIZE,
       INPUT_SIZE     => INPUT_SIZE,
       SHIFT          => SHIFT,

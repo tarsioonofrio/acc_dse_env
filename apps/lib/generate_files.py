@@ -51,7 +51,6 @@ class Model:
         pass
 
 
-
 class GenerateRTL:
     tab = "    "
     map_layer_props = {
@@ -118,11 +117,15 @@ class GenerateRTL:
         self.map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
 
         self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
-        self.in_channels = [
+        in_channels = [
             self.map_layer_props[v]['in_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
         out_channels = [
             self.map_layer_props[v]['out_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
+        self.in_channels = [
+            out_channels[e-1] if v == 'MaxPool2d' else in_channels[e]
+            for e, (k, v) in enumerate(self.layer_torch.items())
         ]
         self.out_channels = [self.dataloader.config["input_c"]] + [
             out_channels[e-1] if v == 'MaxPool2d' else out_channels[e]
@@ -160,7 +163,7 @@ class GenerateRTL:
         ]
 
         x_size = [
-            self.in_features[self.map_torch_rtl[e]] if layer._get_name() == 'Conv2d' else 0
+            self.in_features[self.map_torch_rtl[e]] if layer._get_name() in ['Conv2d', 'MaxPool2d'] else 0
             for e, layer in enumerate(self.model.sequential)
             if layer._get_name() in self.map_layer_props.keys()
         ]

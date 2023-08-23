@@ -2,7 +2,7 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
+vcom -work work ../apps/rtl_output/maxpool/default/core/op_generics_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
@@ -15,7 +15,7 @@ vcom -work work ../rtl/components/mem_file.vhd
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
-vcom -work work ../rtl/fully_connected/simple.vhd
+vcom -work work ../rtl/fully_connected/fully_connected_basic.vhd
 
 # Processing element
 vcom -work work ../rtl/core/core_sequential.vhd
@@ -28,7 +28,7 @@ vcom -work work ../rtl/cnn/cnn_sequential.vhd
 vcom -work work ../tb/tb_rtl_cnn.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/core/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/maxpool/default/core/generic_file.txt
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
