@@ -1,17 +1,13 @@
-import os
 import json
-import pickle
 import argparse
 from pathlib import Path
 
 import torch
 import numpy as np
-from tensorflow import keras
 
-from lib import keras_models
-from lib import util, keras_cifar10
-from lib.pytorch_models import Default
-from lib.model import dictionary_from_model
+from tensorflow import keras
+from lib import keras_cifar10
+from lib import pytorch_models
 
 
 def main():
@@ -43,34 +39,37 @@ def main():
     # Compute number of convolutional layers
 
     model_keras = keras.models.load_model(cnn_output_path / "weights")
+    weights = model_keras.get_weights()
     # Generate dictionary
-    model_dict = dictionary_from_model(model_keras)
+    # model_dict = dictionary_from_model(model_keras)
     config_dataset = {
         "input_w": 32,
         "input_h": 32,
         "input_c": 3,
         "classes": 10,
     }
-    model_pth0 = Default(cnn_config, config_dataset)
-    model_pth0.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
-    model_pth = Default(cnn_config, config_dataset)
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+    model_pth = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset, True)
     model_pth.requires_grad_(False)
 
-    for i in range(len(model_pth.sequential)):
-        name = model_pth.sequential[i]._get_name()
-        if name in ['Conv2d', 'Linear']:
-            model_pth.sequential[i].weight.data = model_pth0.sequential[i].weight.data * 256
-            model_pth.sequential[i].bias.data = model_pth0.sequential[i].bias.data * (256 * 256)
+    model_pth.sequential[0].weight.data = torch.from_numpy(np.transpose(weights[0]))
+    model_pth.sequential[0].bias.data = torch.from_numpy(np.transpose(weights[1]))
+    model_pth.sequential[2].weight.data = torch.from_numpy(np.transpose(weights[2]))
+    model_pth.sequential[2].bias.data = torch.from_numpy(np.transpose(weights[3]))
+    model_pth.sequential[4].weight.data = torch.from_numpy(np.transpose(weights[4]))
+    model_pth.sequential[4].bias.data = torch.from_numpy(np.transpose(weights[5]))
 
-    model_pth.type(torch.int)
+    i = 8
+    model_pth.sequential[i].weight.data = torch.from_numpy(np.transpose(weights[6]))
+    model_pth.sequential[i].bias.data = torch.from_numpy(np.transpose(weights[7]))
 
-    (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
+    # model_pth.type(torch.int)
+    # (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
+    # y0 = model_pth.sequential[0](torch.from_numpy(np.transpose(x_test_int[0:1].astype(np.int32), (0, 3, 2, 1))))//shift
+    # y1 = model_pth.sequential[1](y0)
+    # print()
 
-    y0 = model_pth.sequential[0](torch.from_numpy(np.transpose(x_test_int[0:1].astype(np.int32), (0, 3, 2, 1))))//shift
-    y1 = model_pth.sequential[1](y0)
-    print()
-
-    # torch.save(model_pth.state_dict(), cnn_output_path / "model_quantized.pth")
+    torch.save(model_pth.state_dict(), cnn_output_path / "model.pth")
 
 
 if __name__ == '__main__':

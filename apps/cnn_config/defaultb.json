@@ -1,8 +1,7 @@
 {
-  "name": "maxpool",
+  "name": "default",
   "filter_channel": [16, 32, 64],
   "filter_dimension": [3, 3, 3],
-  "pool": "max",
   "stride_h": [2, 2, 2],
   "stride_w": [2, 2, 2],
   "input_w": 32,

@@ -11,15 +11,10 @@ use ieee.std_logic_arith.all;
 
 entity maxpool is
   generic (
-    N_FILTER       : integer := 64;
     N_CHANNEL      : integer := 64;
-    I_CHANNEL      : integer := 64;
-    STRIDE         : integer := 2;
     X_SIZE         : integer := 3;
-    I_SIZE         : integer := 3;
-    P_SIZE         : integer := 3;
     FILTER_WIDTH   : integer := 3;
-    CONVS_PER_LINE : integer := 15;
+    --STRIDE         : integer := 3;
     MEM_SIZE       : integer := 12;
     INPUT_SIZE     : integer := 8;
     SHIFT          : integer := 4;
@@ -33,7 +28,6 @@ entity maxpool is
     start_pool : in  std_logic;
     end_pool   : out std_logic;
     debug      : out std_logic;
-    -- config     : in  type_config_logic;
 
     -- input feature map memory interface
     ifmap_valid   : in  std_logic;
@@ -60,9 +54,9 @@ architecture a1 of maxpool is
   signal value_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal output_reg : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
 
-  signal idx  : integer range 0 to P_SIZE*P_SIZE-1;
-  signal H : integer range 0 to I_SIZE;
-  signal V : integer range 0 to I_SIZE;
+  signal idx  : integer range 0 to FILTER_WIDTH*FILTER_WIDTH-1;
+  signal H : integer range 0 to X_SIZE;
+  signal V : integer range 0 to X_SIZE;
   signal T : integer range 0 to 2**(MEM_SIZE) - 1;
   signal add_reg : integer range -1 to 2**(MEM_SIZE) - 2;
 
@@ -80,18 +74,6 @@ architecture a1 of maxpool is
 
 begin
 
-  -- process(reset, clock)
-  -- begin
-  --   if reset = '1' then
-  --       reg_config <= config_integer_init;
-  --   elsif rising_edge(clock) then
-  --     if start_pool = '1' then
-  --       reg_config <= convert_config_logic_integer(config);
-  --     end if;
-  --   end if;
-  -- end process;
-
-
   ----------------------------------------------------------------------------
   -- input values control
   ----------------------------------------------------------------------------
@@ -104,6 +86,8 @@ begin
   ofmap_we <= cw_reg;
   ofmap_ce <= cw_reg;
   ofmap_address <= CONV_STD_LOGIC_VECTOR(add_reg, MEM_SIZE);
+
+  -- TODO change for convert to integer and convert to std logic vector with 36 bits
   ofmap_out <= const_output & output_reg;
 
   process(reset, clock)
@@ -142,22 +126,22 @@ begin
           idx <= 0;
           value_reg <= (others => '0');
           EA_read <= READFEATURES;
-          ouside_add_loop: for u in 0 to P_SIZE - 1 loop
-            inside_add_loop: for i in 0 to P_SIZE - 1 loop
-              add(P_SIZE*u + i) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + P_SIZE*u + i;
+          ouside_add_loop: for u in 0 to FILTER_WIDTH - 1 loop
+            inside_add_loop: for i in 0 to FILTER_WIDTH - 1 loop
+              add(FILTER_WIDTH*u + i) <= CONV_STD_LOGIC_VECTOR(T + H, MEM_SIZE) + FILTER_WIDTH*u + i;
             end loop inside_add_loop; 
           end loop ouside_add_loop;
 
-          -- TODO: maybe is possible to replace I_SIZE in (H+X_SIZE) by 1 or STRIDE
-          if (H+P_SIZE) >= I_SIZE then 
+          -- TODO: maybe is possible to replace X_SIZE in (H+X_SIZE) by 1 or STRIDE
+          if (H+FILTER_WIDTH) >= X_SIZE then 
             H <= 0;
-            V <= V + P_SIZE; 
-            T <= T+P_SIZE**2;
+            V <= V + FILTER_WIDTH; 
+            T <= T+FILTER_WIDTH**2;
           else
-            H <= H+P_SIZE;
+            H <= H+FILTER_WIDTH;
           end if;
 
-          if (V+P_SIZE) >= I_SIZE then
+          if (V+FILTER_WIDTH) >= X_SIZE then
             V <= 0;
           end if;
 
@@ -169,7 +153,7 @@ begin
               value_reg <= ifmap_value;
             end if;
             -- end if;
-            if (idx < P_SIZE*P_SIZE-1) then -- pool_size**2=3*3=9-1
+            if (idx < FILTER_WIDTH*FILTER_WIDTH-1) then -- pool_size**2=3*3=9-1
               idx <= idx + 1;
             else
               idx <= 0;
@@ -188,7 +172,7 @@ begin
           debug_reg <= '1';
           cw_reg <= '1';
   
-          if T < I_SIZE*I_SIZE*I_CHANNEL - 1 then -- image max size
+          if T < X_SIZE*X_SIZE*N_CHANNEL - 1 then -- image max size
             EA_read <= UPDATEADD;
           else
             EA_read <= WAITSTART;

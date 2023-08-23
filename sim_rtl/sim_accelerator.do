@@ -9,6 +9,7 @@ vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
+vcom -work work ../rtl/core/util_config_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
@@ -23,10 +24,10 @@ vcom -work work ../rtl/fully_connected/simple.vhd
 
 
 # Processing element
-vcom -work work ../rtl/core/core_serial.vhd
+vcom -work work ../rtl/core/core_sequential_conv.vhd
 
 # Network
-vcom -work work ../rtl/cnn/simple.vhd
+vcom -work work ../rtl/cnn/cnn_sequential_conv.vhd
 vcom -work work ../rtl/accelerator/simple.vhd
 
 # Testbench

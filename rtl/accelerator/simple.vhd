@@ -17,7 +17,7 @@ entity accelerator is
         -- START SECTION
         -- 3 CONV
         OP_TYPE        : string    := "CCC";
-        N_LAYER        : integer := 3;
+        N_LAYER        : integer := 1;
         PATH           : string  := "../apps/rtl_output/default/default";
 --         3 CONV + FULLY
 --         N_LAYER        : integer := 4;

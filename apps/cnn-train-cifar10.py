@@ -4,14 +4,15 @@ import pickle
 import argparse
 from pathlib import Path
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+import torch
+import numpy as np
+import torchvision.transforms as transforms
 
-from tensorflow import keras
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from skorch import NeuralNetClassifier
+from torchvision.datasets import CIFAR10
+from sklearn.metrics import accuracy_score, precision_recall_fscore_support
 
-from lib import keras_models
-from lib.model import dictionary_from_model
+from lib import pytorch_models
 
 
 def main():
@@ -32,47 +33,32 @@ def main():
 
     # Build CNN application
     # Get application dataset
-    (x_train_int, y_train), (x_test_int, y_test) = keras.datasets.cifar10.load_data()
-    x_train = x_train_int / 255.0
-    x_test = x_test_int / 255.0
-    # x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3)
-    y_train = keras.utils.to_categorical(y_train, 10)
-    # y_val = keras.utils.to_categorical(y_val, 10)
-    y_test = keras.utils.to_categorical(y_test, 10)
+    train = CIFAR10("./data", train=True)
+    test = CIFAR10("./data", train=False)
+    x_train = np.transpose((train.data / 255.0).astype(np.float32), [0, 3, 1, 2])
+    x_test = np.transpose((test.data / 255.0).astype(np.float32), [0, 3, 1, 2])
+
+    # y_train = [train.classes[target] for target in train.targets]
+    y_train = np.array(train.targets)
+    y_test = np.array(test.targets)
     config_dataset = {
         "input_w": 32,
         "input_h": 32,
         "input_c": 3,
         "classes": 10,
     }
-    km = vars(keras_models)
-    model = km[cnn_config["name"]](cnn_config, config_dataset)
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+    model_class = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset, True)
+    model = NeuralNetClassifier(model_class, criterion=torch.nn.CrossEntropyLoss, device="cuda")
 
-    # datagen = ImageDataGenerator(
-    #     rotation_range=15,
-    #     horizontal_flip=True,
-    #     width_shift_range=0.1,
-    #     height_shift_range=0.1
-    #     # zoom_range=0.3
-    # )
-    callback = keras.callbacks.EarlyStopping(monitor='accuracy', patience=10)
-    # model.fit(
-    #     datagen.flow(x_train, y_train), validation_data=datagen.flow(x_val, y_val),
-    #     epochs=cnn_config["n_epochs"], callbacks=[callback],
-    #     batch_size=64
-    # )
     model.fit(
-        x_train, y_train, epochs=cnn_config["n_epochs"], callbacks=[callback], validation_split=0.3, batch_size=64
+        x_train, y_train, epochs=cnn_config["n_epochs"]
     )
     # Save model
-    model.save(output_path / 'weights')
-    model_dict = dictionary_from_model(model)
-    # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
-    with open(output_path / 'weights.pkl', 'wb') as output:
-        # Pickle dictionary using protocol 0.
-        pickle.dump(model_dict, output)
-
-    model.evaluate(x_test, y_test, verbose=2)
+    torch.save(model.module.state_dict(), output_path / "model.pth")
+    y_pred = model.predict(x_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    # prf = precision_recall_fscore_support(y_test, y_pred)
 
 
 if __name__ == '__main__':

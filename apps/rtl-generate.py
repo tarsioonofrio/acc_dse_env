@@ -9,7 +9,7 @@ from types import SimpleNamespace
 import torch
 
 from lib import keras_cifar10
-from lib.pytorch_models import Default
+from lib import pytorch_models
 from lib.generate_files import GenerateRTL
 from lib.model import dictionary_from_model
 
@@ -43,7 +43,8 @@ def main():
         "input_c": 3,
         "classes": 10,
     }
-    model = Default(cnn_config, config_dataset)
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+    model = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset)
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
     if os.path.exists(cnn_output_path / "weights.pkl"):
