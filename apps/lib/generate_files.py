@@ -435,25 +435,24 @@ class GenerateRTL:
             bias_list = [
                 str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
             ]
-            if self.layer_rtl[n_layer] == 'Conv2d':
-                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach()
-                         .numpy())
-                weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
-            elif self.layer_rtl[n_layer] == 'Linear':
+            if self.layer_rtl[n_layer] == 'Linear':
                 input_shape = self.input_shape[n_layer][0]  # 64
                 output_shape = self.output_shape[n_layer][0]  # 10
-                pre_input_shape = self.output_shape[n_layer-1]
+                pre_input_shape = self.output_shape[n_layer - 1]
                 layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
+                # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
                 if pre_input_shape[-1] > 1:
-                # in_features = self.model.sequential[self.map_rtl_torch[n_layer]].in_features
-                # out_features = self.model.sequential[self.map_rtl_torch[n_layer]].out_features
                     layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
                               .reshape(output_shape, input_shape))
                 else:
                     layer1 = layer
                 weight_list = np.expand_dims(layer1, [0, 1]).tolist()
             else:
-                weight_list = [[]]
+                # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
+                #  Test in future
+                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach()
+                         .numpy())
+                weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
 
             bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
             weight_string = [
