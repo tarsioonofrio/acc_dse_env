@@ -121,12 +121,12 @@ class GenerateRTL:
         self.in_channels = [
             self.map_layer_props[v]['in_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
+        self.out_channels = [self.dataloader.config["input_c"]] + [
+            self.map_layer_props[v]['out_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        ]
         self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
         self.kernel_size = [
             self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
-        ]
-        self.out_channels = [self.dataloader.config["input_c"]] + [
-            self.map_layer_props[v]['out_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
         input_tensor = torch.ones(
             1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
@@ -245,14 +245,15 @@ class GenerateRTL:
         # Generate generic file for rtl simulation
         self.generate_generic_file(layer, generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
-        self.generate_tcl_generic(layer, generic_dict2, path_layer)
-        self.generate_config_file_old(n_layer=layer, path=path_layer, generics_layer=generics_layer)
-        # Generate VHDL tensorflow package
-        # self.generate_ifmem_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
-        # Generate VHDL gold output package
-        self.generate_gold_vhd_pkg(n_layer=layer, path=path_layer)
+        self.generate_gold_vhd_pkg(path=path_layer, n_layer=layer,)
+        # TODO update to run with layers
+        self.generate_tcl_generic(layer, generic_dict2, path_layer)
+        # Generate VHDL tensorflow package
+        self.generate_ifmem_vhd_pkg(path=path_layer, n_layer=layer)
+        # TODO remove um future
+        self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
 
     def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
@@ -308,7 +309,7 @@ class GenerateRTL:
             with open(path / "generic_synth.tcl", "w") as f:
                 f.write(line)
 
-    def generate_config_file_old(self, n_layer, path, generics_layer):
+    def generate_config_pkg(self, n_layer, path, generics_layer):
         if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
             x_size = generics_layer['X_SIZE']
             n_filter = generics_layer['N_FILTER']
@@ -367,8 +368,6 @@ class GenerateRTL:
     def generate_samples(self):
         path_samples = self.rtl_output_path / 'samples'
         path_samples.mkdir(parents=True, exist_ok=True)
-        # generate_vhd = {**vhd_dict, "input_channel": input_channel, "layer": layer}
-        # Generate generic file for rtl simulation
         self.generate_ifmap_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
         self.generate_gold_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
 
@@ -394,7 +393,7 @@ class GenerateRTL:
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_core)
-        self.generate_config_file_old(n_layer=layer, path=path_core, generics_layer=generic_dict2)
+        self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, n_layer, path):
         filter_channel = self.out_channels[1:]
@@ -416,12 +415,17 @@ class GenerateRTL:
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         # bias_list = self.get_bias(layer)
-        bias_list = [str(n) for n in
-                     self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()]
+        if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
+            bias_list = [
+                str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
+            ]
+        else:
+            bias_list = []
         # weight_list = self.get_wght(n_layer)
         if self.layer_rtl[n_layer] == 'Conv2d':
-            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2,
-                                                                                             -1).cpu().detach().numpy()
+            layer = (
+                self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
+            )
             weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
         elif self.layer_rtl[n_layer] == 'Linear':
             ch = self.out_channels[n_layer - 1]
@@ -431,7 +435,7 @@ class GenerateRTL:
             layer1 = layer.reshape(-1, ch, d, d).transpose(-2, -1).reshape(c, -1).cpu().detach().numpy()
             weight_list = np.expand_dims(layer1, [0, 1]).tolist()
         else:
-            weight_list = []
+            weight_list = [[]]
 
         bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
         weight_string = [
@@ -667,17 +671,24 @@ class GenerateRTL:
             #     fc(self.model_dict, self.shift, n_layer, True, path)
             #     np.dot(x[0], weight[0]) + bias[0]
             #     print()
-            t = self.model.sequential[i](x)
-            x = t
+            if self.model.sequential[i]._get_name() == 'MaxPool2d':
+                t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
+            else:
+                t = self.model.sequential[i](x)
+
             if self.model.sequential[i]._get_name() == 'Conv2d':
-                x = x // self.shift
+                x = t // self.shift
+            else:
+                x = t
 
         feat_list = x
         if self.layer_rtl[n_layer] == 'Linear':
             feat_list = feat_list.cpu().reshape(1, -1).detach().numpy()
             feat_list = np.expand_dims(feat_list, 0)
-        else:
-            feat_list = feat_list.squeeze().transpose(-2, -1).cpu().detach().numpy()
+        elif self.layer_rtl[n_layer] == 'Conv2d':
+            feat_list = feat_list.squeeze(0).transpose(-2, -1).cpu().detach().numpy()
+        elif self.layer_rtl[n_layer] == 'MaxPool2d':
+            feat_list = feat_list.squeeze(0).transpose(-2, -1).cpu().detach().numpy()
 
         if dataset_size > 1:
             s = feat_list.shape
