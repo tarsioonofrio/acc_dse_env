@@ -121,9 +121,14 @@ class GenerateRTL:
         self.in_channels = [
             self.map_layer_props[v]['in_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
-        self.out_channels = [self.dataloader.config["input_c"]] + [
+        out_channels = [
             self.map_layer_props[v]['out_channels'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
+        self.out_channels = [self.dataloader.config["input_c"]] + [
+            out_channels[e-1] if v == 'MaxPool2d' else out_channels[e]
+            for e, (k, v) in enumerate(self.layer_torch.items())
+        ]
+
         self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
         self.kernel_size = [
             self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
@@ -132,6 +137,7 @@ class GenerateRTL:
             1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
         )
         self.in_features = [self.dataloader.config["input_w"]]
+        self.shape = [[dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"]]]
         for e, layer in enumerate(model.sequential[0:-1]):
             if layer._get_name() == 'MaxPool2d':
                 input_tensor = layer(input_tensor.type(torch.float)).type(torch.int)
@@ -139,6 +145,7 @@ class GenerateRTL:
                 input_tensor = layer(input_tensor)
             if e in self.layer_torch:
                 self.in_features.append(input_tensor.shape[-1])
+                self.shape.append(np.array(input_tensor.shape))
 
         self.stride = [
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
@@ -189,7 +196,7 @@ class GenerateRTL:
         }
 
     def __call__(self, samples=False, core=False):
-        for e, _ in enumerate(list(self.model_dict.keys())):
+        for e in range(len(self.layer_torch)):
             self.generate_layer(e)
         if samples:
             self.generate_samples()
@@ -421,18 +428,18 @@ class GenerateRTL:
             ]
         else:
             bias_list = []
-        # weight_list = self.get_wght(n_layer)
         if self.layer_rtl[n_layer] == 'Conv2d':
             layer = (
                 self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach().numpy()
             )
             weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
         elif self.layer_rtl[n_layer] == 'Linear':
-            ch = self.out_channels[n_layer - 1]
-            d = self.kernel_size[n_layer - 1]
-            c = self.dataloader.config["classes"]
+            input_shape = self.shape[n_layer].tolist()
+            in_features = self.model.sequential[self.map_rtl_torch[n_layer]].in_features
+            out_features = self.model.sequential[self.map_rtl_torch[n_layer]].out_features
             layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data
-            layer1 = layer.reshape(-1, ch, d, d).transpose(-2, -1).reshape(c, -1).cpu().detach().numpy()
+            layer1 = (layer.reshape([-1] + input_shape).transpose(-2, -1).reshape(out_features, in_features).cpu()
+                      .detach().numpy())
             weight_list = np.expand_dims(layer1, [0, 1]).tolist()
         else:
             weight_list = [[]]
@@ -522,17 +529,20 @@ class GenerateRTL:
             loop = list(range(self.map_rtl_torch[n_layer]))
 
             for i in loop:
-                x = self.model.sequential[i](x)
+                if self.model.sequential[i]._get_name() == 'MaxPool2d':
+                    t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
+                else:
+                    t = self.model.sequential[i](x)
+
                 if self.model.sequential[i]._get_name() == 'Conv2d':
-                    x = x // self.shift
+                    x = t // self.shift
+                else:
+                    x = t
 
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
-                feat_list = feat_list
-                feat_list = feat_list.reshape(
-                    self.out_channels[n_layer], self.kernel_size[n_layer - 1], self.kernel_size[n_layer - 1]
-                )
-                feat_list = feat_list.transpose(-2, -1).reshape(1, -1)
+                shape = self.shape[n_layer][1:].tolist()
+                feat_list = feat_list.reshape(shape).transpose(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
                 feat_list = feat_list.squeeze().transpose(-2, -1).cpu().detach().numpy()
