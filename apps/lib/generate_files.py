@@ -145,7 +145,7 @@ class GenerateRTL:
             for i in range(self.total_layers)
         ]
 
-        self.input_size = np.prod([v for k, v in dataloader.config.items() if "input" in k])
+        self.input_size = np.prod(self.input_shape[0])
         self.kernel_size = [
             self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
@@ -163,27 +163,23 @@ class GenerateRTL:
         ]
 
         x_size = [
-            self.in_features[self.map_torch_rtl[e]] if layer._get_name() in ['Conv2d', 'MaxPool2d'] else 0
-            for e, layer in enumerate(self.model.sequential)
-            if layer._get_name() in self.map_layer_props.keys()
+            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][-1]
+            for i in range(self.total_layers)
         ]
 
         convs_per_line = [
-            self.in_features[self.map_torch_rtl[e] + 1] if layer._get_name() == 'Conv2d' else 0
-            for e, layer in enumerate(self.model.sequential)
-            if layer._get_name() in self.map_layer_props.keys()
+            self.output_shape[i][-1] if self.layer_rtl[i] == 'Conv2d' else 0
+            for i in range(self.total_layers)
         ]
 
         in_features = [
-            layer.in_features if layer._get_name() == 'Linear' else 0
-            for e, layer in enumerate(self.model.sequential)
-            if layer._get_name() in self.map_layer_props.keys()
+            self.input_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
+            for i in range(self.total_layers)
         ]
 
         out_features = [
-            layer.out_features if layer._get_name() == 'Linear' else 0
-            for e, layer in enumerate(self.model.sequential)
-            if layer._get_name() in self.map_layer_props.keys()
+            self.output_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
+            for i in range(self.total_layers)
         ]
 
         self.generics = {
