@@ -155,11 +155,8 @@ class GenerateRTL:
         ]
 
         total_ops = [
-            (self.in_features[self.map_torch_rtl[e] + 1] ** 2) * layer.out_channels if layer._get_name() == 'Conv2d'
-            else layer.out_features if layer._get_name() == 'Linear'
-            else 0
-            for e, layer in enumerate(self.model.sequential)
-            if layer._get_name() in self.map_layer_props.keys()
+            0 if self.layer_rtl[i] == 'MaxPool2d' else np.prod(self.output_shape[i])
+            for i in range(self.total_layers)
         ]
 
         x_size = [
@@ -671,17 +668,6 @@ class GenerateRTL:
         loop = list(range(self.map_gold_torch[n_layer]))
 
         for i in loop:
-            # if self.model.sequential[i]._get_name() == 'Linear':
-            #     from torch.nn import functional
-            #     weight = self.model.sequential[i].weight.data
-            #     w1 = weight.reshape(-1, self.out_channels[n_layer - 1], self.kernel_size[n_layer - 1], self.kernel_size[n_layer - 1]).transpose(-2, -1).reshape(10, -1)
-            #     bias = self.model.sequential[i].bias.data
-            #     x1 = x.reshape(self.out_channels[n_layer - 1], self.kernel_size[n_layer - 1], self.kernel_size[n_layer - 1]).transpose(-2, -1).reshape(1, -1)
-            #     t1 = functional.linear(x1, weight, bias)
-            #     from .model import fc
-            #     fc(self.model_dict, self.shift, n_layer, True, path)
-            #     np.dot(x[0], weight[0]) + bias[0]
-            #     print()
             if self.model.sequential[i]._get_name() == 'MaxPool2d':
                 t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
             else:
