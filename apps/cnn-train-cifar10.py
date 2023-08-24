@@ -33,8 +33,8 @@ def main():
 
     # Build CNN application
     # Get application dataset
-    train = CIFAR10("./data", train=True)
-    test = CIFAR10("./data", train=False)
+    train = CIFAR10("~/pytorch", train=True, download=True)
+    test = CIFAR10("~/pytorch", train=False, download=True)
     x_train = np.transpose((train.data / 255.0).astype(np.float32), [0, 3, 1, 2])
     x_test = np.transpose((test.data / 255.0).astype(np.float32), [0, 3, 1, 2])
 
@@ -49,16 +49,19 @@ def main():
     }
     pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
     model_class = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset, True)
-    model = NeuralNetClassifier(model_class, criterion=torch.nn.CrossEntropyLoss, device="cuda")
-
-    model.fit(
-        x_train, y_train, epochs=cnn_config["n_epochs"]
+    model = NeuralNetClassifier(
+        model_class, criterion=torch.nn.CrossEntropyLoss, device="cuda",  warm_start=True,
+        max_epochs=cnn_config["n_epochs"], lr=0.1
     )
+    model.fit(x_train, y_train)
+
     # Save model
-    torch.save(model.module.state_dict(), output_path / "model.pth")
     y_pred = model.predict(x_test)
     accuracy = accuracy_score(y_test, y_pred)
     # prf = precision_recall_fscore_support(y_test, y_pred)
+    print(accuracy)
+    print()
+    torch.save(model.module.state_dict(), output_path / "model.pth")
 
 
 if __name__ == '__main__':
