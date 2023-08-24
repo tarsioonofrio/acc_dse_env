@@ -154,18 +154,9 @@ class GenerateRTL:
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
 
+        # TODO add MaxPool2d to total_ops
         total_ops = [
             0 if self.layer_rtl[i] == 'MaxPool2d' else np.prod(self.output_shape[i])
-            for i in range(self.total_layers)
-        ]
-
-        x_size = [
-            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][-1]
-            for i in range(self.total_layers)
-        ]
-
-        convs_per_line = [
-            self.output_shape[i][-1] if self.layer_rtl[i] == 'Conv2d' else 0
             for i in range(self.total_layers)
         ]
 
@@ -174,8 +165,20 @@ class GenerateRTL:
             for i in range(self.total_layers)
         ]
 
+        # TODO x_size is in_features without linear, in future replace x_size per in_features with all layers
+        x_size = [
+            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][-1]
+            for i in range(self.total_layers)
+        ]
+
         out_features = [
             self.output_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
+            for i in range(self.total_layers)
+        ]
+        # TODO convs_per_line is out_features without linear,
+        #  in future replace convs_per_line per out_features with all layers
+        convs_per_line = [
+            self.output_shape[i][-1] if self.layer_rtl[i] == 'Conv2d' else 0
             for i in range(self.total_layers)
         ]
 
