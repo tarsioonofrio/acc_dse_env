@@ -5,6 +5,7 @@ use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 use ieee.std_logic_arith.all;
 
+
 -- use work.config_package.all;
 -- use work.util_package.all;
 
@@ -78,8 +79,6 @@ architecture a1 of fully_connected is
   -- Macro state machine signals to control input values flags
   type statesReadValues is (WAITSTART, READFEATURES, READWEIGHTS, WAITVALID, WRITEFEATURES);
   signal EA_read : statesReadValues;
-  
-  constant const_output : std_logic_vector(INPUT_SIZE + CARRY_SIZE-1 downto 0) := (others => '0');
 
 
 begin
@@ -99,7 +98,7 @@ begin
   ofmap_we <= ce_ofmap;
   ofmap_ce <= ce_ofmap;
   ofmap_address <= CONV_STD_LOGIC_VECTOR(idx_mac, MEM_SIZE);
-  ofmap_out <= reg_out;
+  ofmap_out <= CONV_STD_LOGIC_VECTOR(CONV_INTEGER(reg_out(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto SHIFT)), (INPUT_SIZE*2)+CARRY_SIZE);
 
   process(reset, clock)
   begin
@@ -187,7 +186,7 @@ begin
             ce_ofmap <= '1';
             add_iwght <= idx_output + 1;
             idx_mac <= idx_output;
-            reg_out <= shift_right(reg_mac_arr(idx_output), SHIFT) + iwght_value;
+            reg_out <= reg_mac_arr(idx_output) + iwght_value;
             if (idx_output < OUT_FEATURES - 1) then -- number of classes
               idx_output <= idx_output + 1;
             else

@@ -145,7 +145,6 @@ class GenerateRTL:
             for i in range(self.total_layers)
         ]
 
-        self.input_size = np.prod(self.input_shape[0])
         self.kernel_size = [
             self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
@@ -413,8 +412,8 @@ class GenerateRTL:
                 str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
             ]
             if self.layer_rtl[n_layer] == 'Linear':
-                input_shape = self.input_shape[n_layer][0]  # 64
-                output_shape = self.output_shape[n_layer][0]  # 10
+                input_shape = self.input_shape[n_layer][0]
+                output_shape = self.output_shape[n_layer][0]
                 pre_input_shape = self.output_shape[n_layer - 1]
                 layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
                 # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
@@ -504,12 +503,13 @@ class GenerateRTL:
         for i in loop:
             if self.model.sequential[i]._get_name() == 'MaxPool2d':
                 t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
-            else:
+                x = t
+            elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
                 t = self.model.sequential[i](x)
-
-            if self.model.sequential[i]._get_name() == 'Conv2d':
+                # normalize data after operation
                 x = t // self.shift
             else:
+                t = self.model.sequential[i](x)
                 x = t
 
         feat_list = x
