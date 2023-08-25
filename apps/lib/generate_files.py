@@ -407,25 +407,6 @@ class GenerateRTL:
         constant = "input_mem"
         write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
 
-    def generate_ifmem_vhd_pkg_legacy(self, n_layer, path):
-        if self.layer_rtl[n_layer] == 'Conv2d':
-            filter_channel = self.out_channels
-            filter_dimension = self.kernel_size
-            input_channel = self.in_channels
-            input_size = self.input_size
-            layer_dimension = self.in_features[1:]
-            model_dict = self.model_dict
-            shift = self.shift
-            stride_h = self.stride
-            stride_w = self.stride
-            testSet = self.dataloader.x
-            testSetSize = 1
-            testLabel = self.dataloader.y
-            generate_ifmem_vhd_pkg(
-                model_dict, shift, input_size, filter_dimension, filter_channel, layer_dimension, input_channel,
-                testSet, testLabel, stride_h, stride_w, testSetSize, n_layer, path
-            )
-
     def generate_iwght_vhd_pkg(self, n_layer, path):
         if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
             bias_list = [
@@ -471,9 +452,8 @@ class GenerateRTL:
             return ''
 
     # TODO remove or move to legacy code
-    def get_wght(self, layer):
-        model_dict = self.model_dict
-        shift = self.shift
+    @staticmethod
+    def get_wght(layer, model_dict, shift):
         if model_dict[layer]["type"] == "Dense":
             weight_list = [[[
                 [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
@@ -500,9 +480,8 @@ class GenerateRTL:
         return weight_list
 
     # TODO remove or move to legacy code
-    def get_bias(self, layer):
-        model_dict = self.model_dict
-        shift = self.shift
+    @staticmethod
+    def get_bias(layer, model_dict, shift):
         if model_dict[layer]["type"] == "Dense":
             bias_list = [
                 str(int(v["bias"] * shift * shift))
@@ -567,9 +546,8 @@ class GenerateRTL:
         return data_pkg
 
     # TODO remove or move to legacy code
-    def generate_gold_fc_vhd_pkg(self, layer, path):
-        model_dict = self.model_dict
-        shift = self.shift
+    @staticmethod
+    def generate_gold_fc_vhd_pkg(layer, path, model_dict, shift, tab):
         feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
 
         weights = [
@@ -591,33 +569,34 @@ class GenerateRTL:
         ]
 
         weights_bias_plain = bias + [ww for w in weights for ww in w]
-        bias_string = f"{self.tab}-- layer={layer}\n{self.tab}{', '.join(map(str, bias))},\n"
+        bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
         weight_string = [
-            f"{self.tab}-- layer={layer} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+            f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
             for c, s in enumerate(weights)
         ]
         package = "iwght_package"
         constant = "input_wght"
-        data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+        data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
 
         write_mem_txt([[weights_bias_plain]], "iwght", path)
         write_mem_pkg(constant, data, "iwght_pkg", package, path)
 
         package = "ifmap_package"
         constant = "input_map"
-        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
+        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
 
         write_mem_txt([[feature]], "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
         package = "gold_package"
         constant = "gold"
-        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
+        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
     # TODO remove or move to legacy code
-    def generate_gold_maxpool_vhd_pkg(self, layer, path):
+    @staticmethod
+    def generate_gold_maxpool_vhd_pkg(layer, path, tab):
         feature = open_file(path.parent / str(layer) / 'gold.txt')
         arr = np.array(feature).reshape(-1, 3, 3)
 
@@ -625,28 +604,21 @@ class GenerateRTL:
 
         package = "ifmap_package"
         constant = "input_map"
-        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in feature) + ","
+        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
 
         write_mem_txt([[feature]], "ifmap", path)
         write_mem_pkg(constant, data, "ifmap_pkg", package, path)
 
         package = "gold_package"
         constant = "gold"
-        data = f"\n{self.tab}-- ifmap\n{self.tab}" + ", ".join(str(i) for i in gold) + ","
+        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
         write_mem_txt([[gold]], "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
     # TODO remove or move to legacy code
-    def get_feature_data(self, layer, path, dataset_size=1):
-        filter_channel = self.out_channels
-        filter_dimension = self.kernel_size
-        input_channel = self.in_channels
-        layer_dimension = self.in_features
-        model_dict = self.model_dict
-        shift = self.shift
-        stride_h = self.stride
-        stride_w = self.stride
-        dataset = self.dataloader.x
+    @staticmethod
+    def get_feature_data(self, layer, path, filter_channel, filter_dimension, input_channel, layer_dimension,
+                         model_dict, shift,stride_h, stride_w, tab, dataset, dataset_size=1):
         gen_features = True
         if layer == 0:
             feat_list = [
@@ -665,14 +637,13 @@ class GenerateRTL:
                 feat_list = conv2d(
                     gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict,
                     shift,
-                    stride_h, stride_w, self.tab, dataset, dataset_size
+                    stride_h, stride_w, tab, dataset, dataset_size
                 )
             else:
                 feat_list = []
         return feat_list
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
-        # n_layer = n_layer + 1
         x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
         x = x.astype(np.int32)
         x = torch.from_numpy(x.astype(np.int32))
