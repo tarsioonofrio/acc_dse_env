@@ -251,13 +251,13 @@ class GenerateRTL:
         # Generate generic file for rtl simulation
         self.generate_generic_file(layer, generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
-        self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
-        self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
+        weight_list = self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
+        feat_list = self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
         self.generate_gold_vhd_pkg(path=path_layer, n_layer=layer,)
         # TODO update to run with layers
         self.generate_tcl_generic(layer, generic_dict2, path_layer)
         # Generate VHDL tensorflow package
-        self.generate_ifmem_vhd_pkg(path=path_layer, n_layer=layer)
+        self.generate_ifmem_vhd_pkg(path=path_layer, weight=weight_list, feature=feat_list)
         # TODO remove um future
         self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
 
@@ -401,7 +401,13 @@ class GenerateRTL:
         self.generate_tcl_generic(layer, generic_dict2, path_core)
         self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
-    def generate_ifmem_vhd_pkg(self, n_layer, path):
+    def generate_ifmem_vhd_pkg(self, path, weight, feature):
+        data_pkg = weight + feature
+        package = "inmem_package"
+        constant = "input_mem"
+        write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
+
+    def generate_ifmem_vhd_pkg_legacy(self, n_layer, path):
         if self.layer_rtl[n_layer] == 'Conv2d':
             filter_channel = self.out_channels
             filter_dimension = self.kernel_size
@@ -421,7 +427,6 @@ class GenerateRTL:
             )
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
-        # bias_list = self.get_bias(layer)
         if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
             bias_list = [
                 str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
@@ -445,21 +450,25 @@ class GenerateRTL:
                          .numpy())
                 weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
 
-            bias_string = f"{self.tab}-- layer={n_layer}\n{self.tab}{', '.join(bias_list)},\n"
+            bias_string = f"{self.tab}{', '.join(bias_list)},\n"
             weight_string = [
-                f"{self.tab}-- layer={n_layer} filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+                f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
                 for filters in weight_list
                 for f, channel in enumerate(filters)
                 for c, s in enumerate(channel)
             ]
-
+            data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+            bias_list_data = [f"{b}\n" for b in bias_list]
+            weight_list_data = [f"{s}\n" for f in weight_list for c in f for li in c for s in li]
+            data_txt = bias_list_data + weight_list_data
             package = "iwght_package"
             constant = "input_wght"
-            data = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
-            write_mem_pkg(constant, data, "iwght_pkg", package, path)
+            write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
             with open(path / "iwght.txt", "w") as f:
-                f.writelines([f"{b}\n" for b in bias_list])
-                f.writelines([f"{s}\n" for f in weight_list for c in f for li in c for s in li])
+                f.writelines(data_txt)
+            return data_pkg
+        else:
+            return ''
 
     # TODO remove or move to legacy code
     def get_wght(self, layer):
@@ -532,12 +541,13 @@ class GenerateRTL:
             for i in loop:
                 if self.model.sequential[i]._get_name() == 'MaxPool2d':
                     t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
-                else:
+                    x = t
+                elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
                     t = self.model.sequential[i](x)
-
-                if self.model.sequential[i]._get_name() == 'Conv2d':
+                    # normalize data after operation
                     x = t // self.shift
                 else:
+                    t = self.model.sequential[i](x)
                     x = t
 
             feat_list = x
@@ -549,13 +559,12 @@ class GenerateRTL:
                 feat_list = feat_list.squeeze(0).transpose(-2, -1).cpu().detach().numpy()
 
         format_feat = format_feature(feat_list, self.tab)
-
         package = "ifmap_package"
         constant = "input_map"
-        data = "".join([f"\n{self.tab}-- ifmap\n"] + format_feat)
-
+        data_pkg = "".join([f"\n{self.tab}-- ifmap\n"] + format_feat)
         write_mem_txt(feat_list, "ifmap", path)
-        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
+        write_mem_pkg(constant, data_pkg, "ifmap_pkg", package, path)
+        return data_pkg
 
     # TODO remove or move to legacy code
     def generate_gold_fc_vhd_pkg(self, layer, path):

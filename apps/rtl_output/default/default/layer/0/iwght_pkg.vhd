@@ -6,105 +6,104 @@ package iwght_package is
 
   constant input_wght : mem := (
     -- bias
-    -- layer=0
     11037, -2428, -242, -2863, 2700, 5160, -2868, 1138, 3380, -8573, 9203, -21348, 9706, -422, -2434, -3524,
 
     -- weights
-    -- layer=0 filter=0 channel=0
+    -- filter=0 channel=0
     56, 54, -49, 71, 124, 100, 21, 146, 114,
-    -- layer=0 filter=0 channel=1
+    -- filter=0 channel=1
     0, -77, -159, -90, -176, -216, -77, -97, -169,
-    -- layer=0 filter=0 channel=2
+    -- filter=0 channel=2
     103, 110, 88, -20, -20, -32, 53, -1, 58,
-    -- layer=0 filter=1 channel=0
+    -- filter=1 channel=0
     -60, 43, 93, 18, -46, 15, 53, -9, -57,
-    -- layer=0 filter=1 channel=1
+    -- filter=1 channel=1
     27, 124, 46, 29, -44, -72, -49, -59, -86,
-    -- layer=0 filter=1 channel=2
+    -- filter=1 channel=2
     91, 167, 186, 35, 0, -45, -162, -157, -124,
-    -- layer=0 filter=2 channel=0
+    -- filter=2 channel=0
     -8, -24, 32, 60, -36, 143, 5, 23, 44,
-    -- layer=0 filter=2 channel=1
+    -- filter=2 channel=1
     -54, -85, 101, -35, -127, 103, -121, -139, 125,
-    -- layer=0 filter=2 channel=2
+    -- filter=2 channel=2
     -4, -40, 127, -62, -54, 117, -115, -103, 89,
-    -- layer=0 filter=3 channel=0
+    -- filter=3 channel=0
     119, 142, 28, -92, -216, -81, 8, 29, 81,
-    -- layer=0 filter=3 channel=1
+    -- filter=3 channel=1
     65, 107, 73, -157, -230, -69, 63, 59, 78,
-    -- layer=0 filter=3 channel=2
+    -- filter=3 channel=2
     25, 143, 13, -89, -188, -122, 74, 80, 61,
-    -- layer=0 filter=4 channel=0
+    -- filter=4 channel=0
     -57, 90, 21, 232, 91, -155, 28, -216, -92,
-    -- layer=0 filter=4 channel=1
+    -- filter=4 channel=1
     -64, 69, -23, 155, 132, -89, 33, -132, -87,
-    -- layer=0 filter=4 channel=2
+    -- filter=4 channel=2
     -100, 90, 24, 52, 131, -46, 64, -181, -57,
-    -- layer=0 filter=5 channel=0
+    -- filter=5 channel=0
     47, -71, 8, 117, 43, -68, 13, 120, -85,
-    -- layer=0 filter=5 channel=1
+    -- filter=5 channel=1
     63, -12, -27, 79, 3, -103, 14, 106, -65,
-    -- layer=0 filter=5 channel=2
+    -- filter=5 channel=2
     34, -85, -116, 53, 26, -121, -21, 108, -117,
-    -- layer=0 filter=6 channel=0
+    -- filter=6 channel=0
     109, -7, -27, 56, 137, 164, -167, -204, -51,
-    -- layer=0 filter=6 channel=1
+    -- filter=6 channel=1
     9, -2, -27, -20, 102, 128, -108, -167, 1,
-    -- layer=0 filter=6 channel=2
+    -- filter=6 channel=2
     20, -40, -130, 141, 162, 106, -69, -133, -33,
-    -- layer=0 filter=7 channel=0
+    -- filter=7 channel=0
     -54, -82, -30, -64, -50, -113, -32, 15, -80,
-    -- layer=0 filter=7 channel=1
+    -- filter=7 channel=1
     4, -11, 4, 42, 10, -62, 30, 11, -33,
-    -- layer=0 filter=7 channel=2
+    -- filter=7 channel=2
     51, 76, 18, 48, 139, -7, 18, 158, 51,
-    -- layer=0 filter=8 channel=0
+    -- filter=8 channel=0
     -15, -22, 101, 105, 91, 21, 70, 113, 99,
-    -- layer=0 filter=8 channel=1
+    -- filter=8 channel=1
     -76, -9, -1, -21, -2, -68, 10, 34, -37,
-    -- layer=0 filter=8 channel=2
+    -- filter=8 channel=2
     -62, 46, 3, -61, -11, -85, -93, -66, -56,
-    -- layer=0 filter=9 channel=0
+    -- filter=9 channel=0
     137, 118, 116, 64, 163, 68, 31, 8, -100,
-    -- layer=0 filter=9 channel=1
+    -- filter=9 channel=1
     26, 27, -9, -93, -14, 32, -78, -139, -69,
-    -- layer=0 filter=9 channel=2
+    -- filter=9 channel=2
     -48, -8, 42, -115, -19, -95, -193, -121, -19,
-    -- layer=0 filter=10 channel=0
+    -- filter=10 channel=0
     -67, 16, -65, -143, -10, -102, -103, -52, -43,
-    -- layer=0 filter=10 channel=1
+    -- filter=10 channel=1
     99, 163, 37, 40, 234, 0, 128, 232, 74,
-    -- layer=0 filter=10 channel=2
+    -- filter=10 channel=2
     -109, -28, -28, -125, 61, -78, -38, -41, -119,
-    -- layer=0 filter=11 channel=0
+    -- filter=11 channel=0
     23, 32, 38, -62, 72, 58, 12, 14, -25,
-    -- layer=0 filter=11 channel=1
+    -- filter=11 channel=1
     -30, 13, 30, 11, 76, -7, 37, 25, -40,
-    -- layer=0 filter=11 channel=2
+    -- filter=11 channel=2
     -20, 49, 12, 37, 22, -39, -3, 66, -51,
-    -- layer=0 filter=12 channel=0
+    -- filter=12 channel=0
     -57, -37, 54, -111, 77, 11, 0, 157, -45,
-    -- layer=0 filter=12 channel=1
+    -- filter=12 channel=1
     -78, -108, -8, -95, 57, 120, -13, 94, -70,
-    -- layer=0 filter=12 channel=2
+    -- filter=12 channel=2
     -104, -133, 41, -190, 80, 64, -20, 143, 10,
-    -- layer=0 filter=13 channel=0
+    -- filter=13 channel=0
     5, 148, -105, -177, 110, 15, -30, -73, 77,
-    -- layer=0 filter=13 channel=1
+    -- filter=13 channel=1
     -5, 202, -16, -246, 122, 101, -100, -60, -17,
-    -- layer=0 filter=13 channel=2
+    -- filter=13 channel=2
     23, 198, -76, -165, 127, 64, -57, -114, 0,
-    -- layer=0 filter=14 channel=0
+    -- filter=14 channel=0
     -38, 31, 9, -50, -27, -10, -11, 40, 0,
-    -- layer=0 filter=14 channel=1
+    -- filter=14 channel=1
     24, -17, -43, -26, -26, -15, -36, -7, -31,
-    -- layer=0 filter=14 channel=2
+    -- filter=14 channel=2
     -59, -36, 27, 24, 35, -52, 9, -50, -28,
-    -- layer=0 filter=15 channel=0
+    -- filter=15 channel=0
     61, -67, -61, -13, 0, 81, -33, 16, 81,
-    -- layer=0 filter=15 channel=1
+    -- filter=15 channel=1
     59, 78, 25, 36, 115, 105, 50, 43, 6,
-    -- layer=0 filter=15 channel=2
+    -- filter=15 channel=2
     20, -82, -76, -166, -150, 10, -19, -104, -59,
 
     others => 0);

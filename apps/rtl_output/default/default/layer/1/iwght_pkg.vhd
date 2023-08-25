@@ -6,1033 +6,1032 @@ package iwght_package is
 
   constant input_wght : mem := (
     -- bias
-    -- layer=1
     966, 10025, 35789, 25931, 1125, -2613, -6038, 217, -32163, 10290, 14805, 13108, 4899, -3634, -10351, 33218, 6950, 27751, -52210, -7796, 16747, -6543, 21085, 13729, 43570, -34468, -18325, -3099, 14390, -14019, -41708, 11349,
 
     -- weights
-    -- layer=1 filter=0 channel=0
+    -- filter=0 channel=0
     -3, 23, -16, -60, 91, -42, 2, 4, 30,
-    -- layer=1 filter=0 channel=1
+    -- filter=0 channel=1
     -72, 119, -66, 48, 97, -218, 37, -211, 6,
-    -- layer=1 filter=0 channel=2
+    -- filter=0 channel=2
     113, -135, 48, -102, 75, 42, -19, 72, -75,
-    -- layer=1 filter=0 channel=3
+    -- filter=0 channel=3
     -7, -32, -35, 96, 86, -172, 27, -9, -11,
-    -- layer=1 filter=0 channel=4
+    -- filter=0 channel=4
     -15, 59, -222, 162, 151, -108, 82, -35, 122,
-    -- layer=1 filter=0 channel=5
+    -- filter=0 channel=5
     -70, 50, -108, 32, -88, 13, 26, -61, 28,
-    -- layer=1 filter=0 channel=6
+    -- filter=0 channel=6
     -25, 103, -33, 35, -21, -98, 15, -192, 78,
-    -- layer=1 filter=0 channel=7
+    -- filter=0 channel=7
     107, -52, -84, 44, -140, 37, 0, -75, 119,
-    -- layer=1 filter=0 channel=8
+    -- filter=0 channel=8
     95, -129, 18, 88, -186, 102, -189, 43, 118,
-    -- layer=1 filter=0 channel=9
+    -- filter=0 channel=9
     -6, 76, -38, 94, -64, -40, 41, -157, 104,
-    -- layer=1 filter=0 channel=10
+    -- filter=0 channel=10
     14, -87, 56, -7, -333, 172, -140, 133, 121,
-    -- layer=1 filter=0 channel=11
+    -- filter=0 channel=11
     105, -71, -71, 129, -264, 161, -105, 66, 21,
-    -- layer=1 filter=0 channel=12
+    -- filter=0 channel=12
     127, -317, 85, -58, 29, 99, 32, -23, 13,
-    -- layer=1 filter=0 channel=13
+    -- filter=0 channel=13
     -6, -48, 24, -18, -108, 39, -7, 31, -58,
-    -- layer=1 filter=0 channel=14
+    -- filter=0 channel=14
     -3, 8, 25, 8, -10, -23, -26, 8, -22,
-    -- layer=1 filter=0 channel=15
+    -- filter=0 channel=15
     101, 8, -72, -107, -48, 84, -106, 148, 31,
-    -- layer=1 filter=1 channel=0
+    -- filter=1 channel=0
     123, 214, 130, 20, 46, -118, -124, -164, -171,
-    -- layer=1 filter=1 channel=1
+    -- filter=1 channel=1
     4, -94, -56, -42, 83, -33, -51, 276, 66,
-    -- layer=1 filter=1 channel=2
+    -- filter=1 channel=2
     226, 214, -94, 20, -33, 117, -188, -227, -153,
-    -- layer=1 filter=1 channel=3
+    -- filter=1 channel=3
     -50, -52, 24, 312, 137, 14, 52, 145, 24,
-    -- layer=1 filter=1 channel=4
+    -- filter=1 channel=4
     38, 118, 179, 38, 69, 101, -89, -161, 100,
-    -- layer=1 filter=1 channel=5
+    -- filter=1 channel=5
     36, -14, 34, 96, 103, 7, -115, 169, -77,
-    -- layer=1 filter=1 channel=6
+    -- filter=1 channel=6
     -6, -54, -10, 114, 135, -157, -85, 54, 14,
-    -- layer=1 filter=1 channel=7
+    -- filter=1 channel=7
     -27, -73, 3, 214, -17, -156, 66, 63, 5,
-    -- layer=1 filter=1 channel=8
+    -- filter=1 channel=8
     64, -25, -45, -78, -118, -61, -50, -8, 82,
-    -- layer=1 filter=1 channel=9
+    -- filter=1 channel=9
     81, 83, 152, -56, -16, -133, -352, -275, -376,
-    -- layer=1 filter=1 channel=10
+    -- filter=1 channel=10
     46, 173, 38, -110, 9, 0, 50, -165, -3,
-    -- layer=1 filter=1 channel=11
+    -- filter=1 channel=11
     6, -128, -152, -82, -108, -315, -40, -13, -79,
-    -- layer=1 filter=1 channel=12
+    -- filter=1 channel=12
     -67, -56, 83, -4, 112, 1, 29, 147, -57,
-    -- layer=1 filter=1 channel=13
+    -- filter=1 channel=13
     -29, 17, -81, 174, 40, -22, 33, -12, -208,
-    -- layer=1 filter=1 channel=14
+    -- filter=1 channel=14
     -29, -6, -23, 29, 3, 7, -6, 0, 7,
-    -- layer=1 filter=1 channel=15
+    -- filter=1 channel=15
     -28, 177, -79, -151, 42, -199, 96, -106, -16,
-    -- layer=1 filter=2 channel=0
+    -- filter=2 channel=0
     95, 0, -158, -64, -44, -63, 63, -285, -154,
-    -- layer=1 filter=2 channel=1
+    -- filter=2 channel=1
     83, 67, 51, 141, -9, 102, 143, -76, 78,
-    -- layer=1 filter=2 channel=2
+    -- filter=2 channel=2
     63, -283, -222, 25, -82, -69, -3, -113, -66,
-    -- layer=1 filter=2 channel=3
+    -- filter=2 channel=3
     41, -14, 3, -52, 46, 189, -95, 18, 74,
-    -- layer=1 filter=2 channel=4
+    -- filter=2 channel=4
     27, -77, -97, 53, 96, -147, 137, -44, 29,
-    -- layer=1 filter=2 channel=5
+    -- filter=2 channel=5
     -100, -101, -143, -257, -84, -27, 32, -123, -63,
-    -- layer=1 filter=2 channel=6
+    -- filter=2 channel=6
     75, 248, -93, 37, 33, 111, 78, -127, 93,
-    -- layer=1 filter=2 channel=7
+    -- filter=2 channel=7
     -71, 24, 51, 133, -63, 123, 13, -88, -76,
-    -- layer=1 filter=2 channel=8
+    -- filter=2 channel=8
     -146, 142, -238, 0, 67, 7, 41, -312, -436,
-    -- layer=1 filter=2 channel=9
+    -- filter=2 channel=9
     10, -29, -289, -134, -169, 187, -62, -201, 69,
-    -- layer=1 filter=2 channel=10
+    -- filter=2 channel=10
     107, 71, 9, -51, -162, 78, 116, 149, 87,
-    -- layer=1 filter=2 channel=11
+    -- filter=2 channel=11
     -58, 3, -58, 81, 70, 16, -81, -78, -42,
-    -- layer=1 filter=2 channel=12
+    -- filter=2 channel=12
     -31, 70, -17, -142, -28, 46, -23, 61, -95,
-    -- layer=1 filter=2 channel=13
+    -- filter=2 channel=13
     -58, -5, -11, 25, -29, -15, 35, 129, 31,
-    -- layer=1 filter=2 channel=14
+    -- filter=2 channel=14
     -8, -19, 0, 25, -25, -17, -14, 24, -15,
-    -- layer=1 filter=2 channel=15
+    -- filter=2 channel=15
     -135, 132, -91, -51, -8, 89, -11, -40, -315,
-    -- layer=1 filter=3 channel=0
+    -- filter=3 channel=0
     -105, 94, -42, 49, 141, 85, -92, -102, 77,
-    -- layer=1 filter=3 channel=1
+    -- filter=3 channel=1
     -76, -171, -95, -320, -404, 73, 17, -28, -26,
-    -- layer=1 filter=3 channel=2
+    -- filter=3 channel=2
     -84, 55, 18, -7, 14, -69, 109, -62, 216,
-    -- layer=1 filter=3 channel=3
+    -- filter=3 channel=3
     -101, -230, -350, -134, -391, -98, -264, -178, -101,
-    -- layer=1 filter=3 channel=4
+    -- filter=3 channel=4
     -604, -886, -39, -483, -282, -80, -454, -171, 146,
-    -- layer=1 filter=3 channel=5
+    -- filter=3 channel=5
     87, 11, -26, -142, -40, -17, -111, -35, 40,
-    -- layer=1 filter=3 channel=6
+    -- filter=3 channel=6
     -258, -522, 63, -43, -101, -300, 105, 0, 55,
-    -- layer=1 filter=3 channel=7
+    -- filter=3 channel=7
     -78, -47, 81, -24, -43, -71, 167, 39, -2,
-    -- layer=1 filter=3 channel=8
+    -- filter=3 channel=8
     98, 18, 99, 3, -7, 82, -60, 79, 30,
-    -- layer=1 filter=3 channel=9
+    -- filter=3 channel=9
     56, 187, -247, 60, -84, 5, -94, -162, 246,
-    -- layer=1 filter=3 channel=10
+    -- filter=3 channel=10
     50, -54, -77, 28, 31, -16, -7, 37, -61,
-    -- layer=1 filter=3 channel=11
+    -- filter=3 channel=11
     57, 48, 128, -27, -3, 20, -19, -65, -1,
-    -- layer=1 filter=3 channel=12
+    -- filter=3 channel=12
     284, 1, -117, 150, -48, 5, -41, -82, -238,
-    -- layer=1 filter=3 channel=13
+    -- filter=3 channel=13
     -82, -144, -46, -77, -64, -425, -55, 50, -170,
-    -- layer=1 filter=3 channel=14
+    -- filter=3 channel=14
     -14, -3, -16, 22, -25, -24, 19, -16, 7,
-    -- layer=1 filter=3 channel=15
+    -- filter=3 channel=15
     -5, 55, -16, -53, -28, 37, -80, 38, -22,
-    -- layer=1 filter=4 channel=0
+    -- filter=4 channel=0
     73, -94, -69, 55, 98, -55, -83, -27, 171,
-    -- layer=1 filter=4 channel=1
+    -- filter=4 channel=1
     -67, -22, 115, -121, -86, 104, -87, -124, 4,
-    -- layer=1 filter=4 channel=2
+    -- filter=4 channel=2
     -302, 149, 70, 45, -631, 53, 84, -158, -8,
-    -- layer=1 filter=4 channel=3
+    -- filter=4 channel=3
     -91, 76, -44, -179, -174, 91, -97, -196, 3,
-    -- layer=1 filter=4 channel=4
+    -- filter=4 channel=4
     -36, 75, -26, -100, 116, -115, -28, 16, 143,
-    -- layer=1 filter=4 channel=5
+    -- filter=4 channel=5
     139, 101, -168, 61, 140, -122, 11, 81, -67,
-    -- layer=1 filter=4 channel=6
+    -- filter=4 channel=6
     -157, 25, 19, 3, -135, -79, -121, -41, -35,
-    -- layer=1 filter=4 channel=7
+    -- filter=4 channel=7
     99, -140, -8, -3, 76, -201, 92, 29, -91,
-    -- layer=1 filter=4 channel=8
+    -- filter=4 channel=8
     43, 43, 94, 93, -217, 0, 71, -173, -20,
-    -- layer=1 filter=4 channel=9
+    -- filter=4 channel=9
     -60, -77, 28, -61, 81, 94, 41, 47, 24,
-    -- layer=1 filter=4 channel=10
+    -- filter=4 channel=10
     -59, -21, 11, -90, -188, -113, 121, 74, -95,
-    -- layer=1 filter=4 channel=11
+    -- filter=4 channel=11
     40, -79, -66, 181, -28, -73, 25, 16, -4,
-    -- layer=1 filter=4 channel=12
+    -- filter=4 channel=12
     6, -66, -130, -31, -136, 78, -136, -34, 203,
-    -- layer=1 filter=4 channel=13
+    -- filter=4 channel=13
     97, -14, 35, -84, 41, 148, -12, -21, 36,
-    -- layer=1 filter=4 channel=14
+    -- filter=4 channel=14
     -13, 15, 10, -16, -1, 9, 30, 2, 28,
-    -- layer=1 filter=4 channel=15
+    -- filter=4 channel=15
     96, -57, 76, -90, 36, -80, -54, -3, 36,
-    -- layer=1 filter=5 channel=0
+    -- filter=5 channel=0
     -26, -140, 22, 59, -14, 15, 54, -79, -47,
-    -- layer=1 filter=5 channel=1
+    -- filter=5 channel=1
     -151, 16, 262, 90, -50, -2, 169, 102, -107,
-    -- layer=1 filter=5 channel=2
+    -- filter=5 channel=2
     8, 7, -37, -60, -158, -23, -130, 27, 122,
-    -- layer=1 filter=5 channel=3
+    -- filter=5 channel=3
     125, 127, -33, 62, 112, 96, 2, 115, -7,
-    -- layer=1 filter=5 channel=4
+    -- filter=5 channel=4
     135, 34, -43, 0, 202, 151, 31, 31, 26,
-    -- layer=1 filter=5 channel=5
+    -- filter=5 channel=5
     -120, -88, 62, -64, 124, -48, 69, -9, -20,
-    -- layer=1 filter=5 channel=6
+    -- filter=5 channel=6
     28, 116, -28, 57, -72, 36, 142, -88, -86,
-    -- layer=1 filter=5 channel=7
+    -- filter=5 channel=7
     6, 154, -60, 57, -21, -19, -1, -72, -83,
-    -- layer=1 filter=5 channel=8
+    -- filter=5 channel=8
     -52, -54, -29, -63, 155, 20, 116, -105, 42,
-    -- layer=1 filter=5 channel=9
+    -- filter=5 channel=9
     25, -27, 90, -40, 129, 20, 175, -16, -191,
-    -- layer=1 filter=5 channel=10
+    -- filter=5 channel=10
     76, 242, 40, 1, -176, -157, -60, 0, -2,
-    -- layer=1 filter=5 channel=11
+    -- filter=5 channel=11
     -27, 87, 62, 50, -5, -74, -26, -204, -28,
-    -- layer=1 filter=5 channel=12
+    -- filter=5 channel=12
     -62, -46, 119, 21, 134, -54, -55, 133, -15,
-    -- layer=1 filter=5 channel=13
+    -- filter=5 channel=13
     19, 0, -49, -37, 32, -122, -8, -91, 7,
-    -- layer=1 filter=5 channel=14
+    -- filter=5 channel=14
     12, 24, -2, -2, 24, 11, -5, -5, -23,
-    -- layer=1 filter=5 channel=15
+    -- filter=5 channel=15
     -5, 0, 2, -131, 66, -59, 36, 61, 7,
-    -- layer=1 filter=6 channel=0
+    -- filter=6 channel=0
     71, 109, 68, -108, 114, 55, -50, -58, -136,
-    -- layer=1 filter=6 channel=1
+    -- filter=6 channel=1
     -91, 21, 3, 46, 77, -49, -75, 152, 52,
-    -- layer=1 filter=6 channel=2
+    -- filter=6 channel=2
     -8, 61, 105, -7, 34, -9, -9, -270, -160,
-    -- layer=1 filter=6 channel=3
+    -- filter=6 channel=3
     -8, -9, -63, 85, 42, 115, 100, 13, 135,
-    -- layer=1 filter=6 channel=4
+    -- filter=6 channel=4
     -5, -31, -114, 43, 9, 33, -5, 47, -17,
-    -- layer=1 filter=6 channel=5
+    -- filter=6 channel=5
     104, 53, 64, 46, -64, -121, 40, -121, -36,
-    -- layer=1 filter=6 channel=6
+    -- filter=6 channel=6
     -29, -18, -73, 74, 79, 124, 70, 60, 35,
-    -- layer=1 filter=6 channel=7
+    -- filter=6 channel=7
     44, -123, 9, -87, -20, 78, 26, 10, -7,
-    -- layer=1 filter=6 channel=8
+    -- filter=6 channel=8
     156, 34, 172, -41, -64, -63, -74, -91, -73,
-    -- layer=1 filter=6 channel=9
+    -- filter=6 channel=9
     148, -90, 101, 113, -73, 59, 1, -148, 35,
-    -- layer=1 filter=6 channel=10
+    -- filter=6 channel=10
     -74, -171, 77, -65, 50, -102, 44, -147, 155,
-    -- layer=1 filter=6 channel=11
+    -- filter=6 channel=11
     71, 201, 119, 40, 27, -37, -104, -172, -161,
-    -- layer=1 filter=6 channel=12
+    -- filter=6 channel=12
     46, -3, -32, -14, -51, 20, 45, 132, -73,
-    -- layer=1 filter=6 channel=13
+    -- filter=6 channel=13
     -19, -64, -45, -138, -57, 35, 34, 87, 8,
-    -- layer=1 filter=6 channel=14
+    -- filter=6 channel=14
     3, 2, 1, -18, -1, -12, 21, -21, 5,
-    -- layer=1 filter=6 channel=15
+    -- filter=6 channel=15
     221, 84, 147, 25, -112, -123, -187, -249, -87,
-    -- layer=1 filter=7 channel=0
+    -- filter=7 channel=0
     -60, 75, -117, -23, -73, -128, 33, 53, -12,
-    -- layer=1 filter=7 channel=1
+    -- filter=7 channel=1
     -106, 33, -92, 179, -92, 135, 47, 96, 109,
-    -- layer=1 filter=7 channel=2
+    -- filter=7 channel=2
     -113, 32, 18, 22, -27, 47, -25, -57, -90,
-    -- layer=1 filter=7 channel=3
+    -- filter=7 channel=3
     42, 32, 137, 46, 148, -105, 30, -61, 7,
-    -- layer=1 filter=7 channel=4
+    -- filter=7 channel=4
     124, 144, 25, -59, 59, 28, 33, 49, -47,
-    -- layer=1 filter=7 channel=5
+    -- filter=7 channel=5
     -67, -49, -98, -102, -26, 2, -142, -29, 78,
-    -- layer=1 filter=7 channel=6
+    -- filter=7 channel=6
     38, -8, 77, -6, -4, -137, -34, -1, 19,
-    -- layer=1 filter=7 channel=7
+    -- filter=7 channel=7
     18, -35, 43, -37, -101, -15, -10, 32, 60,
-    -- layer=1 filter=7 channel=8
+    -- filter=7 channel=8
     -17, -160, -46, -28, 117, -6, -4, -7, 111,
-    -- layer=1 filter=7 channel=9
+    -- filter=7 channel=9
     165, -8, -37, 101, -127, -19, -109, 63, -52,
-    -- layer=1 filter=7 channel=10
+    -- filter=7 channel=10
     -4, -31, -134, -55, 4, 106, -74, 39, -85,
-    -- layer=1 filter=7 channel=11
+    -- filter=7 channel=11
     -289, -167, -82, -122, 54, 20, 102, 235, 207,
-    -- layer=1 filter=7 channel=12
+    -- filter=7 channel=12
     -182, 31, 107, 98, 66, 51, 170, 273, 67,
-    -- layer=1 filter=7 channel=13
+    -- filter=7 channel=13
     2, 34, 7, -47, -3, -113, -121, -205, -145,
-    -- layer=1 filter=7 channel=14
+    -- filter=7 channel=14
     -5, -39, -5, -30, -9, 5, 10, 5, 20,
-    -- layer=1 filter=7 channel=15
+    -- filter=7 channel=15
     -60, -20, -33, -98, 16, 87, 6, 118, 93,
-    -- layer=1 filter=8 channel=0
+    -- filter=8 channel=0
     -131, -8, 284, -42, 45, 153, -6, 22, -78,
-    -- layer=1 filter=8 channel=1
+    -- filter=8 channel=1
     -28, 21, -101, 82, 20, -22, -60, -86, 77,
-    -- layer=1 filter=8 channel=2
+    -- filter=8 channel=2
     -241, -26, -79, 55, -52, 94, -45, 135, -44,
-    -- layer=1 filter=8 channel=3
+    -- filter=8 channel=3
     18, 408, -86, -15, 284, 156, 19, 113, 67,
-    -- layer=1 filter=8 channel=4
+    -- filter=8 channel=4
     32, 76, -156, -64, 19, 79, 24, -88, 173,
-    -- layer=1 filter=8 channel=5
+    -- filter=8 channel=5
     119, 71, 0, -14, -198, -79, -18, 9, 10,
-    -- layer=1 filter=8 channel=6
+    -- filter=8 channel=6
     -81, -203, 66, 0, 67, -151, 136, 31, 230,
-    -- layer=1 filter=8 channel=7
+    -- filter=8 channel=7
     -18, -201, -95, 186, -52, 105, -76, -68, 35,
-    -- layer=1 filter=8 channel=8
+    -- filter=8 channel=8
     -178, 42, -62, 16, 110, 57, 102, 51, -38,
-    -- layer=1 filter=8 channel=9
+    -- filter=8 channel=9
     120, 2, 98, -21, -81, -58, -11, 3, 164,
-    -- layer=1 filter=8 channel=10
+    -- filter=8 channel=10
     177, 138, 68, 78, 209, -96, -126, -22, -67,
-    -- layer=1 filter=8 channel=11
+    -- filter=8 channel=11
     -1, 85, -102, 3, 34, -13, 69, 20, -147,
-    -- layer=1 filter=8 channel=12
+    -- filter=8 channel=12
     37, 98, 110, -124, 35, 59, -110, 20, -84,
-    -- layer=1 filter=8 channel=13
+    -- filter=8 channel=13
     101, 67, -207, -22, -22, 38, -93, -25, -80,
-    -- layer=1 filter=8 channel=14
+    -- filter=8 channel=14
     -22, 9, 21, 6, -13, 33, -10, -4, 15,
-    -- layer=1 filter=8 channel=15
+    -- filter=8 channel=15
     -2, 60, 125, 121, -12, -19, -107, -225, -99,
-    -- layer=1 filter=9 channel=0
+    -- filter=9 channel=0
     170, -189, 52, 184, -363, 8, 189, -90, -185,
-    -- layer=1 filter=9 channel=1
+    -- filter=9 channel=1
     95, -31, -9, -117, -396, -17, -278, -117, 85,
-    -- layer=1 filter=9 channel=2
+    -- filter=9 channel=2
     54, 143, 64, -63, 55, 9, 16, 32, 92,
-    -- layer=1 filter=9 channel=3
+    -- filter=9 channel=3
     -4, -27, -110, -15, 4, -218, -54, -76, -45,
-    -- layer=1 filter=9 channel=4
+    -- filter=9 channel=4
     78, 88, -42, 62, 30, -60, 81, -29, -85,
-    -- layer=1 filter=9 channel=5
+    -- filter=9 channel=5
     90, -282, -27, 68, -360, -80, 19, -176, 36,
-    -- layer=1 filter=9 channel=6
+    -- filter=9 channel=6
     24, -224, -152, -119, -50, 74, -53, -21, 87,
-    -- layer=1 filter=9 channel=7
+    -- filter=9 channel=7
     -95, -78, 27, -198, -43, 112, 46, -46, 155,
-    -- layer=1 filter=9 channel=8
+    -- filter=9 channel=8
     -21, 72, -75, -108, 161, 12, -3, 52, -34,
-    -- layer=1 filter=9 channel=9
+    -- filter=9 channel=9
     -11, 34, 36, 29, 119, -88, -99, 63, 136,
-    -- layer=1 filter=9 channel=10
+    -- filter=9 channel=10
     72, -77, -30, 45, 37, 22, 49, -144, -42,
-    -- layer=1 filter=9 channel=11
+    -- filter=9 channel=11
     -101, -9, 141, -56, 28, 85, -136, -40, 14,
-    -- layer=1 filter=9 channel=12
+    -- filter=9 channel=12
     27, 30, 94, 5, -3, 48, 95, 20, 14,
-    -- layer=1 filter=9 channel=13
+    -- filter=9 channel=13
     -134, -49, -7, 31, 50, -53, 157, 197, -5,
-    -- layer=1 filter=9 channel=14
+    -- filter=9 channel=14
     -12, 8, 5, 27, -11, 10, -14, -8, 7,
-    -- layer=1 filter=9 channel=15
+    -- filter=9 channel=15
     -36, 4, -25, 11, 47, -18, 29, -42, -45,
-    -- layer=1 filter=10 channel=0
+    -- filter=10 channel=0
     46, 51, -47, 166, -74, -27, -80, -17, 35,
-    -- layer=1 filter=10 channel=1
+    -- filter=10 channel=1
     -9, -134, -109, -42, 62, 9, -86, 2, 114,
-    -- layer=1 filter=10 channel=2
+    -- filter=10 channel=2
     128, -40, -139, -89, 1, 51, -107, -121, 51,
-    -- layer=1 filter=10 channel=3
+    -- filter=10 channel=3
     13, 205, -115, 160, 19, -14, -67, -65, 60,
-    -- layer=1 filter=10 channel=4
+    -- filter=10 channel=4
     74, 205, 93, 145, 280, 177, 76, 157, 88,
-    -- layer=1 filter=10 channel=5
+    -- filter=10 channel=5
     24, 24, 13, 38, 31, -79, -39, -113, 0,
-    -- layer=1 filter=10 channel=6
+    -- filter=10 channel=6
     -85, -123, -54, -86, -144, -51, -142, -88, 103,
-    -- layer=1 filter=10 channel=7
+    -- filter=10 channel=7
     -161, -35, -79, -80, 46, 137, -50, 75, 75,
-    -- layer=1 filter=10 channel=8
+    -- filter=10 channel=8
     25, 58, 24, 197, 130, -190, 23, -91, -59,
-    -- layer=1 filter=10 channel=9
+    -- filter=10 channel=9
     53, 7, -7, -155, -48, 13, 6, 25, -134,
-    -- layer=1 filter=10 channel=10
+    -- filter=10 channel=10
     -5, -21, 22, 32, 24, -105, 49, 36, -38,
-    -- layer=1 filter=10 channel=11
+    -- filter=10 channel=11
     28, 14, 77, -133, 31, 72, -102, 22, -8,
-    -- layer=1 filter=10 channel=12
+    -- filter=10 channel=12
     131, 107, 43, 56, 145, 65, 15, 19, 186,
-    -- layer=1 filter=10 channel=13
+    -- filter=10 channel=13
     -86, -244, -170, -95, -304, -277, -169, -206, -120,
-    -- layer=1 filter=10 channel=14
+    -- filter=10 channel=14
     32, -19, 7, 17, 34, 24, -2, -25, 22,
-    -- layer=1 filter=10 channel=15
+    -- filter=10 channel=15
     45, 0, 171, -15, -35, -106, 75, -52, -7,
-    -- layer=1 filter=11 channel=0
+    -- filter=11 channel=0
     -126, -2, 70, -29, -12, -9, -11, -71, -5,
-    -- layer=1 filter=11 channel=1
+    -- filter=11 channel=1
     -77, 95, 97, 104, 36, 46, 14, 21, 3,
-    -- layer=1 filter=11 channel=2
+    -- filter=11 channel=2
     46, 68, -78, -96, -99, -10, -150, -100, -109,
-    -- layer=1 filter=11 channel=3
+    -- filter=11 channel=3
     23, 15, 43, 145, 77, 106, 59, 168, 88,
-    -- layer=1 filter=11 channel=4
+    -- filter=11 channel=4
     6, -61, -29, -102, -96, -10, -38, -118, -77,
-    -- layer=1 filter=11 channel=5
+    -- filter=11 channel=5
     -1, 58, 8, -62, 15, 3, -19, -65, -23,
-    -- layer=1 filter=11 channel=6
+    -- filter=11 channel=6
     106, 142, 9, 112, 100, 28, 123, 114, 145,
-    -- layer=1 filter=11 channel=7
+    -- filter=11 channel=7
     -103, -72, -51, -12, 24, -27, 98, 50, -19,
-    -- layer=1 filter=11 channel=8
+    -- filter=11 channel=8
     35, -13, 72, -16, 11, -67, 68, 35, 79,
-    -- layer=1 filter=11 channel=9
+    -- filter=11 channel=9
     50, -45, -39, -209, 91, 22, -44, -31, -76,
-    -- layer=1 filter=11 channel=10
+    -- filter=11 channel=10
     48, 47, -9, -100, 57, -89, -113, 6, 64,
-    -- layer=1 filter=11 channel=11
+    -- filter=11 channel=11
     -150, -191, -161, 56, 3, 35, 120, 149, 157,
-    -- layer=1 filter=11 channel=12
+    -- filter=11 channel=12
     67, 53, -29, -86, -22, -61, -40, -78, 6,
-    -- layer=1 filter=11 channel=13
+    -- filter=11 channel=13
     24, 64, 71, 51, 51, -37, -45, -35, 81,
-    -- layer=1 filter=11 channel=14
+    -- filter=11 channel=14
     13, -3, 8, 19, 11, -27, 0, 7, 23,
-    -- layer=1 filter=11 channel=15
+    -- filter=11 channel=15
     7, 21, -65, -91, -64, 95, 142, 54, 100,
-    -- layer=1 filter=12 channel=0
+    -- filter=12 channel=0
     28, 42, 59, -5, 27, 4, 28, -78, -43,
-    -- layer=1 filter=12 channel=1
+    -- filter=12 channel=1
     -31, 94, 0, 94, 18, -1, 73, 36, -36,
-    -- layer=1 filter=12 channel=2
+    -- filter=12 channel=2
     -45, -165, -157, 109, -463, -48, 151, -37, -155,
-    -- layer=1 filter=12 channel=3
+    -- filter=12 channel=3
     -61, 1, -83, 18, 50, -55, -8, 51, -32,
-    -- layer=1 filter=12 channel=4
+    -- filter=12 channel=4
     12, -177, 0, 145, -110, 1, 44, 26, -2,
-    -- layer=1 filter=12 channel=5
+    -- filter=12 channel=5
     127, 76, -46, 20, 94, 157, -35, -29, 121,
-    -- layer=1 filter=12 channel=6
+    -- filter=12 channel=6
     177, -7, -9, 121, 33, -216, -24, -102, -21,
-    -- layer=1 filter=12 channel=7
+    -- filter=12 channel=7
     64, -40, -71, 84, 4, -187, 77, 37, 85,
-    -- layer=1 filter=12 channel=8
+    -- filter=12 channel=8
     -18, 207, 34, -108, -29, 59, -9, -164, -59,
-    -- layer=1 filter=12 channel=9
+    -- filter=12 channel=9
     -24, -75, 61, -138, 78, -142, 20, -24, -3,
-    -- layer=1 filter=12 channel=10
+    -- filter=12 channel=10
     -23, 10, -60, -115, 151, 110, -106, -95, 101,
-    -- layer=1 filter=12 channel=11
+    -- filter=12 channel=11
     53, -77, -206, 160, -53, -241, 264, 107, -118,
-    -- layer=1 filter=12 channel=12
+    -- filter=12 channel=12
     -111, -110, 41, 1, -76, -44, -142, 46, 32,
-    -- layer=1 filter=12 channel=13
+    -- filter=12 channel=13
     -20, -168, -44, -34, -137, -156, 5, -46, -10,
-    -- layer=1 filter=12 channel=14
+    -- filter=12 channel=14
     -24, 25, 26, 15, -30, 24, 20, -8, 0,
-    -- layer=1 filter=12 channel=15
+    -- filter=12 channel=15
     1, -33, 87, 11, -89, 52, -16, -126, 50,
-    -- layer=1 filter=13 channel=0
+    -- filter=13 channel=0
     -30, 8, -22, -44, -20, -8, 0, -27, -3,
-    -- layer=1 filter=13 channel=1
+    -- filter=13 channel=1
     18, -7, -28, 12, -23, -26, 23, -14, 0,
-    -- layer=1 filter=13 channel=2
+    -- filter=13 channel=2
     -36, 16, -3, -25, -10, -15, 21, 10, -30,
-    -- layer=1 filter=13 channel=3
+    -- filter=13 channel=3
     -8, 13, 7, 0, 1, -27, -25, -35, -7,
-    -- layer=1 filter=13 channel=4
+    -- filter=13 channel=4
     -14, -30, -34, -4, 22, 5, -21, -12, -20,
-    -- layer=1 filter=13 channel=5
+    -- filter=13 channel=5
     -22, -20, 8, -19, -11, 14, -39, -31, 0,
-    -- layer=1 filter=13 channel=6
+    -- filter=13 channel=6
     -1, -7, 6, -29, -31, 11, -16, 11, -23,
-    -- layer=1 filter=13 channel=7
+    -- filter=13 channel=7
     -37, 11, -27, -33, -2, -33, -22, -23, -10,
-    -- layer=1 filter=13 channel=8
+    -- filter=13 channel=8
     10, -19, -40, -23, -25, -13, -1, -12, -48,
-    -- layer=1 filter=13 channel=9
+    -- filter=13 channel=9
     17, 0, -18, -22, -23, -3, -1, 14, -22,
-    -- layer=1 filter=13 channel=10
+    -- filter=13 channel=10
     -32, -2, -4, 4, 2, 4, 6, 4, -36,
-    -- layer=1 filter=13 channel=11
+    -- filter=13 channel=11
     -18, -34, -29, -14, -20, 16, 7, 18, -22,
-    -- layer=1 filter=13 channel=12
+    -- filter=13 channel=12
     -37, -38, -24, 2, 4, -34, -9, -4, -29,
-    -- layer=1 filter=13 channel=13
+    -- filter=13 channel=13
     -6, -2, 9, 20, 0, -2, 16, -34, -19,
-    -- layer=1 filter=13 channel=14
+    -- filter=13 channel=14
     20, 25, 14, 25, -7, -25, -8, -22, -9,
-    -- layer=1 filter=13 channel=15
+    -- filter=13 channel=15
     -29, -17, 18, -24, 11, 12, -10, -26, -13,
-    -- layer=1 filter=14 channel=0
+    -- filter=14 channel=0
     -110, 56, 49, -70, 71, 18, -11, -38, 91,
-    -- layer=1 filter=14 channel=1
+    -- filter=14 channel=1
     -67, -14, -70, -24, -105, -173, -34, -40, -73,
-    -- layer=1 filter=14 channel=2
+    -- filter=14 channel=2
     55, -32, 40, 101, -41, 33, 1, 29, -26,
-    -- layer=1 filter=14 channel=3
+    -- filter=14 channel=3
     87, -24, 27, 97, -226, 105, 67, -81, -2,
-    -- layer=1 filter=14 channel=4
+    -- filter=14 channel=4
     70, -136, 176, 32, 62, 133, 75, 22, 17,
-    -- layer=1 filter=14 channel=5
+    -- filter=14 channel=5
     -37, 110, -16, -151, 115, 164, -45, -22, 113,
-    -- layer=1 filter=14 channel=6
+    -- filter=14 channel=6
     106, -103, -85, 79, -50, -140, 54, -52, -130,
-    -- layer=1 filter=14 channel=7
+    -- filter=14 channel=7
     19, 83, 5, -25, 49, -12, -69, 68, -40,
-    -- layer=1 filter=14 channel=8
+    -- filter=14 channel=8
     -11, -25, 23, -109, 65, 88, -49, -69, 40,
-    -- layer=1 filter=14 channel=9
+    -- filter=14 channel=9
     38, -24, 35, 92, -123, -21, -58, 56, -136,
-    -- layer=1 filter=14 channel=10
+    -- filter=14 channel=10
     -54, 124, -52, -68, 198, -40, -190, 106, 30,
-    -- layer=1 filter=14 channel=11
+    -- filter=14 channel=11
     -11, 140, -28, -105, 95, -61, -118, 86, -13,
-    -- layer=1 filter=14 channel=12
+    -- filter=14 channel=12
     50, 100, -46, -58, 157, -89, 4, 31, 13,
-    -- layer=1 filter=14 channel=13
+    -- filter=14 channel=13
     46, 61, 44, 53, 68, 118, -42, 56, 9,
-    -- layer=1 filter=14 channel=14
+    -- filter=14 channel=14
     7, 19, 27, 12, 5, 5, 8, -23, -12,
-    -- layer=1 filter=14 channel=15
+    -- filter=14 channel=15
     26, -35, 15, 45, -55, -96, -23, 67, 17,
-    -- layer=1 filter=15 channel=0
+    -- filter=15 channel=0
     -165, 18, 211, 1, 58, -4, -154, -148, 101,
-    -- layer=1 filter=15 channel=1
+    -- filter=15 channel=1
     -156, -194, -38, -47, -51, -202, -79, -340, -70,
-    -- layer=1 filter=15 channel=2
+    -- filter=15 channel=2
     31, 0, 65, -3, -12, 84, 39, 37, -132,
-    -- layer=1 filter=15 channel=3
+    -- filter=15 channel=3
     -41, -86, 44, -146, -176, -237, -64, -142, -232,
-    -- layer=1 filter=15 channel=4
+    -- filter=15 channel=4
     -28, -88, -68, 5, 42, -130, -46, 56, -43,
-    -- layer=1 filter=15 channel=5
+    -- filter=15 channel=5
     32, 52, 48, 94, 49, -34, 64, -4, -69,
-    -- layer=1 filter=15 channel=6
+    -- filter=15 channel=6
     -130, -31, -26, -346, -109, -142, -298, -35, -15,
-    -- layer=1 filter=15 channel=7
+    -- filter=15 channel=7
     -42, 87, -1, -150, -8, 164, 6, -26, 142,
-    -- layer=1 filter=15 channel=8
+    -- filter=15 channel=8
     -109, -63, -105, 63, -104, 9, 20, 75, 83,
-    -- layer=1 filter=15 channel=9
+    -- filter=15 channel=9
     -11, 0, -54, -89, -125, 65, -12, -57, -57,
-    -- layer=1 filter=15 channel=10
+    -- filter=15 channel=10
     -52, 38, 0, 146, 130, -7, 26, -20, -66,
-    -- layer=1 filter=15 channel=11
+    -- filter=15 channel=11
     146, -2, -7, -32, 74, 128, -101, -87, -17,
-    -- layer=1 filter=15 channel=12
+    -- filter=15 channel=12
     -64, -17, -34, 11, 82, -119, -15, -66, -236,
-    -- layer=1 filter=15 channel=13
+    -- filter=15 channel=13
     81, -24, 63, 4, 4, 21, -35, 107, 69,
-    -- layer=1 filter=15 channel=14
+    -- filter=15 channel=14
     -24, 21, -2, 2, -6, 19, 2, 5, 20,
-    -- layer=1 filter=15 channel=15
+    -- filter=15 channel=15
     30, 144, -39, 17, -5, -101, -57, 151, -93,
-    -- layer=1 filter=16 channel=0
+    -- filter=16 channel=0
     -56, -49, -112, -137, 44, 47, -60, 226, -28,
-    -- layer=1 filter=16 channel=1
+    -- filter=16 channel=1
     4, -13, 74, -9, -55, 63, -22, -110, -114,
-    -- layer=1 filter=16 channel=2
+    -- filter=16 channel=2
     -166, -198, 35, -53, 48, -75, -113, 35, 20,
-    -- layer=1 filter=16 channel=3
+    -- filter=16 channel=3
     2, 103, 6, 86, 28, 38, 143, -150, -95,
-    -- layer=1 filter=16 channel=4
+    -- filter=16 channel=4
     97, 16, -52, 144, 71, -4, -5, 88, 73,
-    -- layer=1 filter=16 channel=5
+    -- filter=16 channel=5
     -50, 46, 122, -9, -21, 68, -41, -2, 51,
-    -- layer=1 filter=16 channel=6
+    -- filter=16 channel=6
     -2, 33, -27, -136, 86, -5, -142, 29, -132,
-    -- layer=1 filter=16 channel=7
+    -- filter=16 channel=7
     20, 55, -45, 247, 72, -64, 133, -48, -242,
-    -- layer=1 filter=16 channel=8
+    -- filter=16 channel=8
     -190, -120, 42, -259, 45, 133, -31, 69, 340,
-    -- layer=1 filter=16 channel=9
+    -- filter=16 channel=9
     -83, -150, -67, -364, -203, 85, -664, 260, 286,
-    -- layer=1 filter=16 channel=10
+    -- filter=16 channel=10
     -119, -56, 34, -100, 147, -83, 71, -16, 39,
-    -- layer=1 filter=16 channel=11
+    -- filter=16 channel=11
     6, 90, 49, 25, 28, 172, -102, -143, -195,
-    -- layer=1 filter=16 channel=12
+    -- filter=16 channel=12
     -24, -129, -161, -158, -52, 131, -115, -41, -60,
-    -- layer=1 filter=16 channel=13
+    -- filter=16 channel=13
     -14, -85, 56, -56, -177, 9, -100, -252, -97,
-    -- layer=1 filter=16 channel=14
+    -- filter=16 channel=14
     -9, -29, -7, 2, 25, 21, 18, 11, -20,
-    -- layer=1 filter=16 channel=15
+    -- filter=16 channel=15
     -37, -120, -11, -215, -93, 125, -118, 98, 148,
-    -- layer=1 filter=17 channel=0
+    -- filter=17 channel=0
     283, 5, 46, -96, 142, 181, 95, -33, 25,
-    -- layer=1 filter=17 channel=1
+    -- filter=17 channel=1
     81, 173, -38, 35, 425, -66, 50, -263, 156,
-    -- layer=1 filter=17 channel=2
+    -- filter=17 channel=2
     36, -56, -26, -207, -170, -215, 48, -45, 164,
-    -- layer=1 filter=17 channel=3
+    -- filter=17 channel=3
     -134, -96, -198, 235, -289, -213, -19, 128, 74,
-    -- layer=1 filter=17 channel=4
+    -- filter=17 channel=4
     55, -68, -137, 47, -41, -175, 6, -18, -277,
-    -- layer=1 filter=17 channel=5
+    -- filter=17 channel=5
     -46, -90, -318, -174, -107, 31, 125, 59, 23,
-    -- layer=1 filter=17 channel=6
+    -- filter=17 channel=6
     -108, 17, 164, -13, -139, 155, -182, -362, 222,
-    -- layer=1 filter=17 channel=7
+    -- filter=17 channel=7
     -176, -5, -311, -153, -442, -99, 7, -245, 210,
-    -- layer=1 filter=17 channel=8
+    -- filter=17 channel=8
     -261, -105, 9, -99, -21, 33, -224, 155, -103,
-    -- layer=1 filter=17 channel=9
+    -- filter=17 channel=9
     85, 118, 170, 116, -23, 74, -26, 162, 55,
-    -- layer=1 filter=17 channel=10
+    -- filter=17 channel=10
     53, 73, -171, 37, 114, 40, 149, 181, -73,
-    -- layer=1 filter=17 channel=11
+    -- filter=17 channel=11
     -249, -526, -128, -778, -720, -914, 230, -16, -470,
-    -- layer=1 filter=17 channel=12
+    -- filter=17 channel=12
     214, -79, -73, 206, 137, 81, 105, 265, 193,
-    -- layer=1 filter=17 channel=13
+    -- filter=17 channel=13
     -201, -30, 12, -232, -235, -66, -17, -616, -338,
-    -- layer=1 filter=17 channel=14
+    -- filter=17 channel=14
     -14, -15, -5, -20, -31, 21, 19, -20, 13,
-    -- layer=1 filter=17 channel=15
+    -- filter=17 channel=15
     115, -298, 54, -59, -7, -90, 54, 212, -515,
-    -- layer=1 filter=18 channel=0
+    -- filter=18 channel=0
     123, 46, -46, 115, 60, 122, 107, -66, -75,
-    -- layer=1 filter=18 channel=1
+    -- filter=18 channel=1
     35, 28, 53, -91, 98, 30, 76, -13, -163,
-    -- layer=1 filter=18 channel=2
+    -- filter=18 channel=2
     -82, -69, 42, 117, -71, 67, -176, 6, -96,
-    -- layer=1 filter=18 channel=3
+    -- filter=18 channel=3
     116, -66, 88, 1, -169, -20, 24, 58, -111,
-    -- layer=1 filter=18 channel=4
+    -- filter=18 channel=4
     -67, 81, 79, 96, 72, -25, 140, -53, -347,
-    -- layer=1 filter=18 channel=5
+    -- filter=18 channel=5
     -156, -160, -166, -56, 165, 170, -70, -80, -181,
-    -- layer=1 filter=18 channel=6
+    -- filter=18 channel=6
     138, -165, 5, -125, 81, -40, 31, 41, -106,
-    -- layer=1 filter=18 channel=7
+    -- filter=18 channel=7
     85, 146, 1, -103, 22, 3, 40, 12, -30,
-    -- layer=1 filter=18 channel=8
+    -- filter=18 channel=8
     -35, -53, -109, 117, 190, 14, 67, -43, -137,
-    -- layer=1 filter=18 channel=9
+    -- filter=18 channel=9
     90, -63, -119, 45, -110, 29, -110, -14, 134,
-    -- layer=1 filter=18 channel=10
+    -- filter=18 channel=10
     -403, 38, -341, 100, 54, 57, 134, -119, -100,
-    -- layer=1 filter=18 channel=11
+    -- filter=18 channel=11
     74, 32, 134, 71, 89, 8, 107, -11, 7,
-    -- layer=1 filter=18 channel=12
+    -- filter=18 channel=12
     -37, 85, -178, 100, 139, -58, -156, 151, 29,
-    -- layer=1 filter=18 channel=13
+    -- filter=18 channel=13
     -50, -62, -63, -231, -156, 62, -108, -27, -31,
-    -- layer=1 filter=18 channel=14
+    -- filter=18 channel=14
     -26, 7, 26, 13, -39, 13, -17, -10, -14,
-    -- layer=1 filter=18 channel=15
+    -- filter=18 channel=15
     44, -39, -1, -152, -33, -16, 68, 41, 128,
-    -- layer=1 filter=19 channel=0
+    -- filter=19 channel=0
     -29, -246, -24, 3, 285, 88, 139, 143, 87,
-    -- layer=1 filter=19 channel=1
+    -- filter=19 channel=1
     120, -4, 64, -42, 2, 39, 93, -34, 71,
-    -- layer=1 filter=19 channel=2
+    -- filter=19 channel=2
     -56, -30, -20, 28, -4, 76, 175, 4, 171,
-    -- layer=1 filter=19 channel=3
+    -- filter=19 channel=3
     -180, -32, 60, -90, -41, 24, 3, 197, 27,
-    -- layer=1 filter=19 channel=4
+    -- filter=19 channel=4
     23, -39, 91, -21, 2, 153, 7, -51, -6,
-    -- layer=1 filter=19 channel=5
+    -- filter=19 channel=5
     -198, -115, -19, -138, -26, -3, -195, -25, 70,
-    -- layer=1 filter=19 channel=6
+    -- filter=19 channel=6
     32, 98, -96, 25, -57, 19, -43, 5, -22,
-    -- layer=1 filter=19 channel=7
+    -- filter=19 channel=7
     127, 82, -76, 183, -12, -70, 124, 17, -117,
-    -- layer=1 filter=19 channel=8
+    -- filter=19 channel=8
     -284, -201, -58, -122, -2, 261, 110, 193, 32,
-    -- layer=1 filter=19 channel=9
+    -- filter=19 channel=9
     -59, -55, -206, -154, 186, -110, -70, 189, 122,
-    -- layer=1 filter=19 channel=10
+    -- filter=19 channel=10
     -32, -27, 29, 26, 8, -87, -107, -57, 229,
-    -- layer=1 filter=19 channel=11
+    -- filter=19 channel=11
     -164, -162, -128, 38, -211, -8, 95, 84, 246,
-    -- layer=1 filter=19 channel=12
+    -- filter=19 channel=12
     42, -169, -161, 43, -103, -141, -3, -39, 47,
-    -- layer=1 filter=19 channel=13
+    -- filter=19 channel=13
     84, 26, -42, 31, 43, -75, -7, -67, 34,
-    -- layer=1 filter=19 channel=14
+    -- filter=19 channel=14
     -2, -11, 11, 9, -5, 22, -30, 29, -22,
-    -- layer=1 filter=19 channel=15
+    -- filter=19 channel=15
     56, 20, 55, 26, -228, -68, -128, -108, -57,
-    -- layer=1 filter=20 channel=0
+    -- filter=20 channel=0
     -31, -34, -137, -23, -362, -123, -41, -279, -105,
-    -- layer=1 filter=20 channel=1
+    -- filter=20 channel=1
     -8, 75, 0, 52, 9, 31, 40, -46, -82,
-    -- layer=1 filter=20 channel=2
+    -- filter=20 channel=2
     131, -107, -25, -216, -87, 80, -30, 43, 23,
-    -- layer=1 filter=20 channel=3
+    -- filter=20 channel=3
     -7, -33, -2, 18, -83, 66, 28, 55, 69,
-    -- layer=1 filter=20 channel=4
+    -- filter=20 channel=4
     62, 73, 74, 31, 174, 74, -103, 42, -20,
-    -- layer=1 filter=20 channel=5
+    -- filter=20 channel=5
     -3, -84, 65, -2, 73, 0, -72, -53, 111,
-    -- layer=1 filter=20 channel=6
+    -- filter=20 channel=6
     52, -55, -11, -6, -23, -78, 25, 19, -184,
-    -- layer=1 filter=20 channel=7
+    -- filter=20 channel=7
     36, 140, 82, -145, -242, -217, 64, -39, -159,
-    -- layer=1 filter=20 channel=8
+    -- filter=20 channel=8
     14, -16, 75, 2, 131, 87, -43, -48, -151,
-    -- layer=1 filter=20 channel=9
+    -- filter=20 channel=9
     -80, -32, 70, 73, 49, 17, 31, -87, -35,
-    -- layer=1 filter=20 channel=10
+    -- filter=20 channel=10
     89, -97, -80, -12, 148, 205, 28, 166, -12,
-    -- layer=1 filter=20 channel=11
+    -- filter=20 channel=11
     25, -32, -55, -34, -27, 90, 58, -25, -140,
-    -- layer=1 filter=20 channel=12
+    -- filter=20 channel=12
     -107, -8, 1, -51, -33, 84, 9, 33, 73,
-    -- layer=1 filter=20 channel=13
+    -- filter=20 channel=13
     -2, 53, 7, -37, -100, -75, 123, 38, 22,
-    -- layer=1 filter=20 channel=14
+    -- filter=20 channel=14
     -15, 17, 21, 0, -20, 6, -19, 5, 12,
-    -- layer=1 filter=20 channel=15
+    -- filter=20 channel=15
     -33, 101, -70, 42, 85, 15, -78, 71, -9,
-    -- layer=1 filter=21 channel=0
+    -- filter=21 channel=0
     50, -17, 82, 236, 120, -47, -10, 119, -141,
-    -- layer=1 filter=21 channel=1
+    -- filter=21 channel=1
     24, 121, 2, 160, -27, -3, -89, -140, -227,
-    -- layer=1 filter=21 channel=2
+    -- filter=21 channel=2
     65, 183, 162, 215, -25, -90, -91, 20, 86,
-    -- layer=1 filter=21 channel=3
+    -- filter=21 channel=3
     -200, -31, -31, -69, 38, -30, -181, -97, -15,
-    -- layer=1 filter=21 channel=4
+    -- filter=21 channel=4
     22, -97, -195, -83, -192, -318, 58, -263, -168,
-    -- layer=1 filter=21 channel=5
+    -- filter=21 channel=5
     -90, -81, 5, -30, 29, -4, 0, -91, 135,
-    -- layer=1 filter=21 channel=6
+    -- filter=21 channel=6
     7, 16, -101, -13, -184, 0, -363, -138, -117,
-    -- layer=1 filter=21 channel=7
+    -- filter=21 channel=7
     -64, 227, 115, -192, 186, -2, -116, -392, 170,
-    -- layer=1 filter=21 channel=8
+    -- filter=21 channel=8
     97, 70, 40, 87, 20, 136, -44, -25, -12,
-    -- layer=1 filter=21 channel=9
+    -- filter=21 channel=9
     143, -161, 86, -118, 100, 77, 23, -281, -27,
-    -- layer=1 filter=21 channel=10
+    -- filter=21 channel=10
     1, -109, 93, -90, -131, 41, -86, 132, -33,
-    -- layer=1 filter=21 channel=11
+    -- filter=21 channel=11
     -53, 59, 67, -36, -144, 8, -162, -234, -260,
-    -- layer=1 filter=21 channel=12
+    -- filter=21 channel=12
     21, 23, -17, 59, 53, -92, 47, 140, -112,
-    -- layer=1 filter=21 channel=13
+    -- filter=21 channel=13
     -35, 117, 43, -115, 87, 60, 169, -16, 136,
-    -- layer=1 filter=21 channel=14
+    -- filter=21 channel=14
     -31, 29, -27, -12, 0, 2, -14, 9, 25,
-    -- layer=1 filter=21 channel=15
+    -- filter=21 channel=15
     90, 43, -214, -83, 135, 60, 28, 16, -7,
-    -- layer=1 filter=22 channel=0
+    -- filter=22 channel=0
     -195, -107, 54, -40, 174, 107, 44, 197, -285,
-    -- layer=1 filter=22 channel=1
+    -- filter=22 channel=1
     72, 92, 20, -156, -91, 8, -866, -48, -340,
-    -- layer=1 filter=22 channel=2
+    -- filter=22 channel=2
     107, -43, 54, -160, 40, 49, 73, 6, 203,
-    -- layer=1 filter=22 channel=3
+    -- filter=22 channel=3
     111, -4, 167, 175, 55, 62, -136, -155, -278,
-    -- layer=1 filter=22 channel=4
+    -- filter=22 channel=4
     24, -153, -71, -20, 59, 53, 97, 104, 67,
-    -- layer=1 filter=22 channel=5
+    -- filter=22 channel=5
     -60, -57, -14, -53, -115, -98, -19, -139, -255,
-    -- layer=1 filter=22 channel=6
+    -- filter=22 channel=6
     110, 80, 89, -131, 136, -95, -278, -345, -294,
-    -- layer=1 filter=22 channel=7
+    -- filter=22 channel=7
     27, -9, -18, -40, -3, 131, -79, -62, 158,
-    -- layer=1 filter=22 channel=8
+    -- filter=22 channel=8
     -44, 166, 48, -80, -14, 39, -85, -237, 121,
-    -- layer=1 filter=22 channel=9
+    -- filter=22 channel=9
     201, -27, 77, 90, -84, -197, 195, -1014, -264,
-    -- layer=1 filter=22 channel=10
+    -- filter=22 channel=10
     61, 189, 5, -28, -57, -122, 63, 2, 114,
-    -- layer=1 filter=22 channel=11
+    -- filter=22 channel=11
     72, 13, 221, -147, -105, -7, -351, -141, 1,
-    -- layer=1 filter=22 channel=12
+    -- filter=22 channel=12
     -6, 118, 36, -74, 26, 141, -59, -72, 45,
-    -- layer=1 filter=22 channel=13
+    -- filter=22 channel=13
     -49, -39, -35, 177, -62, -43, 80, 0, 6,
-    -- layer=1 filter=22 channel=14
+    -- filter=22 channel=14
     27, 13, -34, 0, -11, 13, -17, -1, 33,
-    -- layer=1 filter=22 channel=15
+    -- filter=22 channel=15
     -108, 72, -37, -200, -126, 7, -72, -14, -3,
-    -- layer=1 filter=23 channel=0
+    -- filter=23 channel=0
     -104, -151, -93, 213, -202, -44, 31, 10, 87,
-    -- layer=1 filter=23 channel=1
+    -- filter=23 channel=1
     -119, -179, -28, -7, -43, 114, -142, 91, 68,
-    -- layer=1 filter=23 channel=2
+    -- filter=23 channel=2
     57, 46, 36, -152, -66, -36, 101, -93, -57,
-    -- layer=1 filter=23 channel=3
+    -- filter=23 channel=3
     77, 98, -53, 95, 185, -118, 23, 15, 88,
-    -- layer=1 filter=23 channel=4
+    -- filter=23 channel=4
     -29, 22, -42, -23, 148, -18, -118, -191, 11,
-    -- layer=1 filter=23 channel=5
+    -- filter=23 channel=5
     -11, -37, 73, 124, -51, -33, 36, 83, -125,
-    -- layer=1 filter=23 channel=6
+    -- filter=23 channel=6
     -25, 73, 15, 118, 133, 60, 51, 59, 137,
-    -- layer=1 filter=23 channel=7
+    -- filter=23 channel=7
     -24, -91, -26, -15, 155, 199, -71, -191, -88,
-    -- layer=1 filter=23 channel=8
+    -- filter=23 channel=8
     63, -14, -87, -71, 2, 0, 50, 82, 76,
-    -- layer=1 filter=23 channel=9
+    -- filter=23 channel=9
     -98, -66, -166, -249, -123, -218, -21, -136, 193,
-    -- layer=1 filter=23 channel=10
+    -- filter=23 channel=10
     -113, 62, 41, 45, 101, -67, -210, -26, -51,
-    -- layer=1 filter=23 channel=11
+    -- filter=23 channel=11
     -43, -90, 23, 106, -123, 2, -24, -77, 22,
-    -- layer=1 filter=23 channel=12
+    -- filter=23 channel=12
     -48, -42, 73, 104, -88, 25, 13, -87, 62,
-    -- layer=1 filter=23 channel=13
+    -- filter=23 channel=13
     232, 131, 96, 161, 13, 122, 228, -58, -143,
-    -- layer=1 filter=23 channel=14
+    -- filter=23 channel=14
     18, -1, 5, -3, -15, 1, -34, -25, 11,
-    -- layer=1 filter=23 channel=15
+    -- filter=23 channel=15
     -95, -19, 29, 25, -42, -56, -40, 157, 16,
-    -- layer=1 filter=24 channel=0
+    -- filter=24 channel=0
     -168, 119, 46, -77, 15, 230, -6, -3, 24,
-    -- layer=1 filter=24 channel=1
+    -- filter=24 channel=1
     15, -44, 3, -403, 1, -9, -21, -385, -111,
-    -- layer=1 filter=24 channel=2
+    -- filter=24 channel=2
     -70, 86, 115, -334, -342, -51, -131, -295, -232,
-    -- layer=1 filter=24 channel=3
+    -- filter=24 channel=3
     -4, 204, 115, -16, -85, 52, -126, -414, -51,
-    -- layer=1 filter=24 channel=4
+    -- filter=24 channel=4
     46, 185, 38, -338, -141, -31, -222, -277, -384,
-    -- layer=1 filter=24 channel=5
+    -- filter=24 channel=5
     2, -16, 1, -57, 66, 158, -52, 1, 69,
-    -- layer=1 filter=24 channel=6
+    -- filter=24 channel=6
     124, 81, 55, -412, -211, -180, -413, -479, -628,
-    -- layer=1 filter=24 channel=7
+    -- filter=24 channel=7
     -40, -80, 131, 62, -67, 89, -23, -14, -26,
-    -- layer=1 filter=24 channel=8
+    -- filter=24 channel=8
     -17, 10, -161, -21, 96, -20, 99, 64, 30,
-    -- layer=1 filter=24 channel=9
+    -- filter=24 channel=9
     -48, -118, -74, 188, 77, 71, -74, -90, -172,
-    -- layer=1 filter=24 channel=10
+    -- filter=24 channel=10
     24, 154, 25, -47, 6, -77, -12, 17, 19,
-    -- layer=1 filter=24 channel=11
+    -- filter=24 channel=11
     -25, 26, -40, 56, -28, -68, 29, -47, -81,
-    -- layer=1 filter=24 channel=12
+    -- filter=24 channel=12
     77, 31, 88, -32, -131, -38, -137, -95, -55,
-    -- layer=1 filter=24 channel=13
+    -- filter=24 channel=13
     -54, -60, 73, -766, 99, 65, -779, -1156, -1180,
-    -- layer=1 filter=24 channel=14
+    -- filter=24 channel=14
     18, -23, 17, -7, -27, 16, -13, -18, 12,
-    -- layer=1 filter=24 channel=15
+    -- filter=24 channel=15
     68, 57, -263, 82, 145, 35, 84, -9, -117,
-    -- layer=1 filter=25 channel=0
+    -- filter=25 channel=0
     -343, -11, -99, 91, -139, -34, 125, -104, 62,
-    -- layer=1 filter=25 channel=1
+    -- filter=25 channel=1
     171, 65, -17, -45, 15, 84, -112, 62, 87,
-    -- layer=1 filter=25 channel=2
+    -- filter=25 channel=2
     -105, -21, -240, 158, 136, -196, 58, -70, 2,
-    -- layer=1 filter=25 channel=3
+    -- filter=25 channel=3
     52, -53, 7, -104, -129, -164, -40, 48, -189,
-    -- layer=1 filter=25 channel=4
+    -- filter=25 channel=4
     -123, 159, 4, -59, 46, 51, -72, 77, 76,
-    -- layer=1 filter=25 channel=5
+    -- filter=25 channel=5
     -170, -122, 44, 66, 18, 75, 84, 47, 72,
-    -- layer=1 filter=25 channel=6
+    -- filter=25 channel=6
     35, -10, -63, -39, -4, -76, 35, -129, 66,
-    -- layer=1 filter=25 channel=7
+    -- filter=25 channel=7
     114, 191, 80, -103, 79, 103, -247, -154, -78,
-    -- layer=1 filter=25 channel=8
+    -- filter=25 channel=8
     -121, -56, 55, 121, -157, -22, 195, -133, 65,
-    -- layer=1 filter=25 channel=9
+    -- filter=25 channel=9
     -44, -101, 91, 27, -34, 16, -4, -40, 119,
-    -- layer=1 filter=25 channel=10
+    -- filter=25 channel=10
     -254, -43, -34, 36, 96, -112, -5, 17, -82,
-    -- layer=1 filter=25 channel=11
+    -- filter=25 channel=11
     173, 55, -2, 183, 75, -12, -30, -108, -35,
-    -- layer=1 filter=25 channel=12
+    -- filter=25 channel=12
     72, 140, 125, -133, -322, -162, -67, -51, -21,
-    -- layer=1 filter=25 channel=13
+    -- filter=25 channel=13
     33, -11, 25, 7, 24, -36, 9, 89, -88,
-    -- layer=1 filter=25 channel=14
+    -- filter=25 channel=14
     5, 20, 1, 25, 24, -3, 2, -29, 1,
-    -- layer=1 filter=25 channel=15
+    -- filter=25 channel=15
     112, -204, -46, 56, -158, 10, 126, 45, 132,
-    -- layer=1 filter=26 channel=0
+    -- filter=26 channel=0
     -56, -64, -31, -63, -107, -6, 331, 1, -115,
-    -- layer=1 filter=26 channel=1
+    -- filter=26 channel=1
     -61, 84, -23, 9, 87, -134, -15, -58, 65,
-    -- layer=1 filter=26 channel=2
+    -- filter=26 channel=2
     -1, 27, 48, 43, 66, -166, -6, 30, 79,
-    -- layer=1 filter=26 channel=3
+    -- filter=26 channel=3
     36, 197, 41, 66, -31, 83, -92, -17, 88,
-    -- layer=1 filter=26 channel=4
+    -- filter=26 channel=4
     111, 19, -84, -84, -40, 15, -5, 202, 120,
-    -- layer=1 filter=26 channel=5
+    -- filter=26 channel=5
     3, 14, 87, -207, -122, -44, -154, 33, -6,
-    -- layer=1 filter=26 channel=6
+    -- filter=26 channel=6
     -17, 12, 94, 48, -45, 163, -66, 32, 86,
-    -- layer=1 filter=26 channel=7
+    -- filter=26 channel=7
     -3, 93, -112, 32, 86, 20, 104, 137, 45,
-    -- layer=1 filter=26 channel=8
+    -- filter=26 channel=8
     -310, 199, 75, -176, -11, -159, -166, -10, 46,
-    -- layer=1 filter=26 channel=9
+    -- filter=26 channel=9
     -74, 109, -12, 6, -235, -380, -247, -131, 2,
-    -- layer=1 filter=26 channel=10
+    -- filter=26 channel=10
     -162, -4, -123, 5, -59, -55, 55, -86, 21,
-    -- layer=1 filter=26 channel=11
+    -- filter=26 channel=11
     -56, 27, 109, -21, 1, 85, -93, -14, 105,
-    -- layer=1 filter=26 channel=12
+    -- filter=26 channel=12
     130, 74, 83, 32, 51, 25, -97, -47, -5,
-    -- layer=1 filter=26 channel=13
+    -- filter=26 channel=13
     8, 45, 36, 46, 23, 5, 3, -2, -91,
-    -- layer=1 filter=26 channel=14
+    -- filter=26 channel=14
     18, -19, -22, -26, 18, -11, -7, 15, 27,
-    -- layer=1 filter=26 channel=15
+    -- filter=26 channel=15
     -137, -4, 0, -32, 8, -480, -352, 72, 106,
-    -- layer=1 filter=27 channel=0
+    -- filter=27 channel=0
     -44, 154, -31, -141, 82, 202, 37, -221, -32,
-    -- layer=1 filter=27 channel=1
+    -- filter=27 channel=1
     55, 81, 8, 97, -92, -108, 172, -10, 60,
-    -- layer=1 filter=27 channel=2
+    -- filter=27 channel=2
     23, -3, -2, 56, 12, 107, -115, 32, 99,
-    -- layer=1 filter=27 channel=3
+    -- filter=27 channel=3
     -52, -16, -189, 60, -7, 0, 73, 170, -29,
-    -- layer=1 filter=27 channel=4
+    -- filter=27 channel=4
     -18, 39, -6, -71, -126, 10, -40, -120, -93,
-    -- layer=1 filter=27 channel=5
+    -- filter=27 channel=5
     -65, 70, 23, -33, -159, 20, 17, 92, -39,
-    -- layer=1 filter=27 channel=6
+    -- filter=27 channel=6
     40, 107, -114, 50, 45, 15, -150, 173, 123,
-    -- layer=1 filter=27 channel=7
+    -- filter=27 channel=7
     112, 17, -110, -8, 15, 52, -55, -94, -34,
-    -- layer=1 filter=27 channel=8
+    -- filter=27 channel=8
     -148, 47, 120, -85, 53, 148, -54, -141, 13,
-    -- layer=1 filter=27 channel=9
+    -- filter=27 channel=9
     68, 70, -124, -196, 126, 117, -225, -95, 80,
-    -- layer=1 filter=27 channel=10
+    -- filter=27 channel=10
     20, -60, 10, -20, -62, -34, 58, -113, 73,
-    -- layer=1 filter=27 channel=11
+    -- filter=27 channel=11
     -144, -39, 86, 77, 25, 8, -59, -160, -49,
-    -- layer=1 filter=27 channel=12
+    -- filter=27 channel=12
     -252, -174, -166, 29, -30, -3, 98, 28, 26,
-    -- layer=1 filter=27 channel=13
+    -- filter=27 channel=13
     40, 0, -68, 109, 206, 130, -80, 198, 5,
-    -- layer=1 filter=27 channel=14
+    -- filter=27 channel=14
     -21, 9, -13, 21, 29, 0, 2, -8, -10,
-    -- layer=1 filter=27 channel=15
+    -- filter=27 channel=15
     118, 46, -69, -145, 160, 22, -78, 52, 124,
-    -- layer=1 filter=28 channel=0
+    -- filter=28 channel=0
     -65, 44, -12, 226, 58, -18, -44, -169, -42,
-    -- layer=1 filter=28 channel=1
+    -- filter=28 channel=1
     35, -114, -38, -44, -134, -2, -159, 155, 40,
-    -- layer=1 filter=28 channel=2
+    -- filter=28 channel=2
     43, 47, -124, 23, 27, -81, -45, 50, 45,
-    -- layer=1 filter=28 channel=3
+    -- filter=28 channel=3
     -38, -213, -20, -33, -215, -112, -88, 93, 56,
-    -- layer=1 filter=28 channel=4
+    -- filter=28 channel=4
     -39, -1, 22, 11, 79, 67, 0, 71, 204,
-    -- layer=1 filter=28 channel=5
+    -- filter=28 channel=5
     38, 123, -25, -41, 112, -62, 117, 92, -55,
-    -- layer=1 filter=28 channel=6
+    -- filter=28 channel=6
     -205, -236, -51, -34, -39, -99, -40, -132, 1,
-    -- layer=1 filter=28 channel=7
+    -- filter=28 channel=7
     -85, -28, 34, 183, 12, -303, -220, -221, -139,
-    -- layer=1 filter=28 channel=8
+    -- filter=28 channel=8
     0, -19, -109, 99, 137, 16, 14, 154, 76,
-    -- layer=1 filter=28 channel=9
+    -- filter=28 channel=9
     32, -36, -19, -12, 0, -172, 139, -31, -33,
-    -- layer=1 filter=28 channel=10
+    -- filter=28 channel=10
     -21, -32, -21, -56, -68, -45, -203, 126, 164,
-    -- layer=1 filter=28 channel=11
+    -- filter=28 channel=11
     209, 55, 122, -55, -55, -227, -54, -139, -74,
-    -- layer=1 filter=28 channel=12
+    -- filter=28 channel=12
     -12, -32, 4, -63, 78, -54, 47, 77, 73,
-    -- layer=1 filter=28 channel=13
+    -- filter=28 channel=13
     107, 21, -76, -65, 15, 138, 139, -89, -106,
-    -- layer=1 filter=28 channel=14
+    -- filter=28 channel=14
     17, -32, 23, -23, 28, 7, 15, 30, 0,
-    -- layer=1 filter=28 channel=15
+    -- filter=28 channel=15
     -9, -63, 61, 106, 78, -85, 7, 114, -37,
-    -- layer=1 filter=29 channel=0
+    -- filter=29 channel=0
     161, -55, -50, 76, 161, -50, -71, -112, -17,
-    -- layer=1 filter=29 channel=1
+    -- filter=29 channel=1
     46, 38, -78, -70, 126, 69, 139, 0, -123,
-    -- layer=1 filter=29 channel=2
+    -- filter=29 channel=2
     -23, -20, 31, -48, 97, 17, -50, 0, -54,
-    -- layer=1 filter=29 channel=3
+    -- filter=29 channel=3
     -20, 0, 100, 26, 46, 38, -69, 24, 63,
-    -- layer=1 filter=29 channel=4
+    -- filter=29 channel=4
     -52, -97, 49, -1, -75, -46, -3, 36, -69,
-    -- layer=1 filter=29 channel=5
+    -- filter=29 channel=5
     126, -105, -242, 73, 86, -21, -73, 13, 169,
-    -- layer=1 filter=29 channel=6
+    -- filter=29 channel=6
     93, -42, 54, 85, 160, -63, -2, -3, 6,
-    -- layer=1 filter=29 channel=7
+    -- filter=29 channel=7
     25, 51, 34, -183, -94, 164, 77, 21, -70,
-    -- layer=1 filter=29 channel=8
+    -- filter=29 channel=8
     191, -40, -234, 115, 98, -13, -65, 128, -105,
-    -- layer=1 filter=29 channel=9
+    -- filter=29 channel=9
     -82, 9, 70, 17, -3, 5, -18, 190, -76,
-    -- layer=1 filter=29 channel=10
+    -- filter=29 channel=10
     69, -262, 162, -60, 107, -94, -38, 55, 66,
-    -- layer=1 filter=29 channel=11
+    -- filter=29 channel=11
     -185, -184, -65, 245, -30, -145, 132, 182, -51,
-    -- layer=1 filter=29 channel=12
+    -- filter=29 channel=12
     153, -59, 9, 49, -70, -31, 54, -62, 18,
-    -- layer=1 filter=29 channel=13
+    -- filter=29 channel=13
     -43, 116, 7, -122, 52, 145, 71, 117, 79,
-    -- layer=1 filter=29 channel=14
+    -- filter=29 channel=14
     -35, 10, -27, 7, -4, -17, -37, -13, -29,
-    -- layer=1 filter=29 channel=15
+    -- filter=29 channel=15
     -74, -329, -188, 267, 111, -137, 29, 131, -16,
-    -- layer=1 filter=30 channel=0
+    -- filter=30 channel=0
     9, -98, 41, -94, -96, 157, 60, -32, -64,
-    -- layer=1 filter=30 channel=1
+    -- filter=30 channel=1
     11, 36, -57, -64, -22, 122, -13, 69, 99,
-    -- layer=1 filter=30 channel=2
+    -- filter=30 channel=2
     -106, -171, -95, 2, 55, 71, 89, 118, 5,
-    -- layer=1 filter=30 channel=3
+    -- filter=30 channel=3
     244, 198, 51, 75, -4, -70, -84, 114, -430,
-    -- layer=1 filter=30 channel=4
+    -- filter=30 channel=4
     90, 59, 138, -228, -44, -56, -174, -90, -40,
-    -- layer=1 filter=30 channel=5
+    -- filter=30 channel=5
     -29, 53, -42, -60, 6, 37, 0, 2, -63,
-    -- layer=1 filter=30 channel=6
+    -- filter=30 channel=6
     -24, -97, -136, -268, -65, -11, 12, 71, -160,
-    -- layer=1 filter=30 channel=7
+    -- filter=30 channel=7
     -137, -135, -107, -55, -106, 75, -148, 271, -42,
-    -- layer=1 filter=30 channel=8
+    -- filter=30 channel=8
     -246, -43, -69, 1, 50, 145, 124, 139, 41,
-    -- layer=1 filter=30 channel=9
+    -- filter=30 channel=9
     73, 2, -195, 71, 137, 81, -116, -33, 145,
-    -- layer=1 filter=30 channel=10
+    -- filter=30 channel=10
     -7, 136, 77, 209, 136, 39, 33, -97, -156,
-    -- layer=1 filter=30 channel=11
+    -- filter=30 channel=11
     -121, -61, -12, 50, 169, 196, -64, 29, 43,
-    -- layer=1 filter=30 channel=12
+    -- filter=30 channel=12
     16, 83, 58, 106, 138, 38, 109, 38, -125,
-    -- layer=1 filter=30 channel=13
+    -- filter=30 channel=13
     -202, -144, -361, -10, -251, -165, -37, -128, 62,
-    -- layer=1 filter=30 channel=14
+    -- filter=30 channel=14
     29, 10, 16, 2, -5, 2, -23, 21, 26,
-    -- layer=1 filter=30 channel=15
+    -- filter=30 channel=15
     -56, -60, 54, 86, 95, 43, 79, -43, -26,
-    -- layer=1 filter=31 channel=0
+    -- filter=31 channel=0
     -26, -139, 130, 11, 69, 71, 17, 64, 45,
-    -- layer=1 filter=31 channel=1
+    -- filter=31 channel=1
     -6, 68, -6, 76, 122, 52, -91, 144, 68,
-    -- layer=1 filter=31 channel=2
+    -- filter=31 channel=2
     11, -81, 44, -112, 25, -30, 107, 8, 49,
-    -- layer=1 filter=31 channel=3
+    -- filter=31 channel=3
     27, 112, -13, 30, -162, 50, -12, 32, -2,
-    -- layer=1 filter=31 channel=4
+    -- filter=31 channel=4
     34, 5, -28, -58, 9, 20, 18, -22, -31,
-    -- layer=1 filter=31 channel=5
+    -- filter=31 channel=5
     132, 198, -9, 11, -38, -93, -75, -46, 50,
-    -- layer=1 filter=31 channel=6
+    -- filter=31 channel=6
     37, 125, 83, -41, -77, 96, -53, 35, -3,
-    -- layer=1 filter=31 channel=7
+    -- filter=31 channel=7
     -93, 13, -46, -32, -133, 104, 54, -125, 64,
-    -- layer=1 filter=31 channel=8
+    -- filter=31 channel=8
     60, 0, 21, 47, 131, 13, -21, 143, -42,
-    -- layer=1 filter=31 channel=9
+    -- filter=31 channel=9
     -44, -50, -39, -40, -86, -63, 86, -104, -60,
-    -- layer=1 filter=31 channel=10
+    -- filter=31 channel=10
     -28, 110, -152, -134, -355, -314, -69, -252, -93,
-    -- layer=1 filter=31 channel=11
+    -- filter=31 channel=11
     -12, -12, 34, -55, -29, 31, -70, 102, 93,
-    -- layer=1 filter=31 channel=12
+    -- filter=31 channel=12
     11, 106, 19, -72, 13, 23, -8, 45, 10,
-    -- layer=1 filter=31 channel=13
+    -- filter=31 channel=13
     70, -39, 17, -131, -126, -66, 6, 70, -71,
-    -- layer=1 filter=31 channel=14
+    -- filter=31 channel=14
     -1, -23, 21, -9, 28, 12, -19, -16, -21,
-    -- layer=1 filter=31 channel=15
+    -- filter=31 channel=15
     51, 141, -81, -150, -54, 95, -120, 78, -98,
 
     others => 0);
