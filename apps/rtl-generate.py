@@ -1,17 +1,15 @@
-import os
 import json
-import pickle
 import argparse
 
 from pathlib import Path
 from types import SimpleNamespace
 
 import torch
+import numpy as np
+from torchvision.datasets import CIFAR10
 
-from apps.lib.legacy import keras_cifar10
 from lib import pytorch_models
 from lib.generate_files import GenerateRTL
-from apps.lib.legacy.model import dictionary_from_model
 
 
 def main():
@@ -47,9 +45,10 @@ def main():
     model = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset)
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
-    (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
-    x_test = x_test_int / 255.0
-    dataloader = SimpleNamespace(x=x_test, x_int=x_test_int, y=y_test, config=config_dataset)
+    test = CIFAR10("~/pytorch", train=False, download=True)
+    x_test = (test.data / 255.0).astype(np.float32)
+    y_test = np.array(test.targets)
+    dataloader = SimpleNamespace(x=x_test, x_int=x_test, y=y_test, config=config_dataset)
 
     generate_rtl = GenerateRTL(model, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl(samples=True, core=True)

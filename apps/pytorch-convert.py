@@ -28,19 +28,9 @@ def main():
     with open(cnn_config_path) as f:
         cnn_config = json.load(f)
 
-    with open(rtl_config_path) as f:
-        rtl_config = json.load(f)
-
-    shift_bits = rtl_config["INPUT_SIZE"] / 2
-    # Adjust shift
-    shift = int(2 ** shift_bits)
-
     # Compute number of convolutional layers
-
     model_keras = keras.models.load_model(cnn_output_path / "weights")
     weights = model_keras.get_weights()
-    # Generate dictionary
-    # model_dict = dictionary_from_model(model_keras)
     config_dataset = {
         "input_w": 32,
         "input_h": 32,

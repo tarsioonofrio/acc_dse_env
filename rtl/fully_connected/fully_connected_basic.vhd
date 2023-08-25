@@ -84,17 +84,6 @@ architecture a1 of fully_connected is
 
 begin
 
-  -- process(reset, clock)
-  -- begin
-  --   if reset = '1' then
-  --       reg_config <= config_integer_init;
-  --   elsif rising_edge(clock) then
-  --     if start_pool = '1' then
-  --       reg_config <= convert_config_logic_integer(config);
-  --     end if;
-  --   end if;
-  -- end process;
-
   ----------------------------------------------------------------------------
   -- input values control
   ----------------------------------------------------------------------------
@@ -184,7 +173,6 @@ begin
         when WAITVALID =>
           add_iwght <= add_ifmap + OUT_FEATURES;
           en_reg <= (others => '0');
-        -- report "output: " & integer'image(CONV_INTEGER(signed(value_reg)));
           if add_iwght < IN_FEATURES * OUT_FEATURES + OUT_FEATURES then -- image max size
             EA_read <= READFEATURES;
           else
@@ -199,7 +187,7 @@ begin
             ce_ofmap <= '1';
             add_iwght <= idx_output + 1;
             idx_mac <= idx_output;
-            reg_out <= reg_mac_arr(idx_output) + iwght_value;
+            reg_out <= shift_right(reg_mac_arr(idx_output), SHIFT) + iwght_value;
             if (idx_output < OUT_FEATURES - 1) then -- number of classes
               idx_output <= idx_output + 1;
             else
@@ -221,22 +209,27 @@ begin
   res_mac_arr(idx_mac) <= res_mac;
 
   mac0 : entity work.mac
-  generic map(INPUT_SIZE => INPUT_SIZE,
-              CARRY_SIZE => CARRY_SIZE
-              )
-  port map(sum     => reg_mac,
-           op1     => weight,
-           op2     => features,
-           res_mac => res_mac
-           );
+  generic map(
+    INPUT_SIZE => INPUT_SIZE,
+    CARRY_SIZE => CARRY_SIZE
+    )
+  port map(
+    sum     => reg_mac,
+    op1     => weight,
+    op2     => features,
+    res_mac => res_mac
+    );
 
   reg_c : for i in 0 to OUT_FEATURES - 1 generate
     ireg : entity work.reg
       generic map(INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE))
-      port map(clock => clock, reset => pipe_reset, enable => en_reg(i),
-                D     => res_mac_arr(i),
-                Q     => reg_mac_arr(i)
-                );
+      port map(
+        clock => clock,
+        reset => pipe_reset,
+        enable => en_reg(i),
+        D     => res_mac_arr(i),
+        Q     => reg_mac_arr(i)
+        );
   end generate reg_c;
 
   end a1;
