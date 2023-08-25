@@ -8,6 +8,10 @@ import numpy as np
 from .vhdl_package import Integer, String, Package
 
 
+def log2ceil(x):
+    return ceil(log2(x)) + 1
+
+
 def write_mem_pkg(constant, data, file_name, package, path):
     with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
         text = f.read()
@@ -423,7 +427,7 @@ class GenerateRTL:
             else:
                 # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
                 #  Test in future
-                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.transpose(-2, -1).cpu().detach()
+                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.swapaxes(-2, -1).cpu().detach()
                          .numpy())
                 weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
 
@@ -477,10 +481,10 @@ class GenerateRTL:
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
                 shape = self.output_shape[n_layer-1]
-                feat_list = feat_list.reshape(shape).transpose(-2, -1).reshape(1, -1)
+                feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
-                feat_list = feat_list.squeeze(0).transpose(-2, -1).cpu().detach().numpy()
+                feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
 
         format_feat = format_feature(feat_list, self.tab)
         package = "ifmap_package"
@@ -513,7 +517,7 @@ class GenerateRTL:
             feat_list = feat_list.cpu().reshape(1, -1).detach().numpy()
             feat_list = np.expand_dims(feat_list, 0)
         else:
-            feat_list = feat_list.squeeze(0).transpose(-2, -1).cpu().detach().numpy()
+            feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
 
         if dataset_size > 1:
             s = feat_list.shape
@@ -527,6 +531,3 @@ class GenerateRTL:
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
-
-def log2ceil(x):
-    return ceil(log2(x)) + 1
