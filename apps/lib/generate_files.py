@@ -1,13 +1,11 @@
 from pathlib import Path
 from os.path import relpath
+from math import ceil, log2
 
 import torch
 import numpy as np
 
-from .util import log2ceil
-from .bram import open_file
 from .vhdl_package import Integer, String, Package
-from .model import conv2d, generate_ifmem_vhd_pkg, pool2d, fc
 
 
 def write_mem_pkg(constant, data, file_name, package, path):
@@ -83,9 +81,7 @@ class GenerateRTL:
         },
     }
 
-    def __init__(self, model, model_dict, rtl_config, rtl_output_path, dataloader, samples=10):
-        # TODO remove model_dict
-        self.model_dict = model_dict
+    def __init__(self, model, rtl_config, rtl_output_path, dataloader, samples=10):
         self.rtl_output_path = rtl_output_path
         self.dataloader = dataloader
         self.samples = samples
@@ -451,55 +447,6 @@ class GenerateRTL:
         else:
             return ''
 
-    # TODO remove or move to legacy code
-    @staticmethod
-    def get_wght(layer, model_dict, shift):
-        if model_dict[layer]["type"] == "Dense":
-            weight_list = [[[
-                [str(i) for i in (v["weights"] * shift).astype(int).tolist()]
-                for k, v
-                in model_dict[layer]["neuron"].items()
-            ]]]
-        elif model_dict[layer]["type"] == "Conv2D":
-            weight_list = [
-                [[[str(int(weights[x, y, z].reshape(-1)))
-                   for x in range(weights.shape[0])
-                   for y in range(weights.shape[1])]
-
-                  for weights in [model_dict[layerId]["filter"][filterId]["weights"] * shift]
-                  for z in range(weights.shape[2])]
-
-                 for filterId in model_dict[layerId]["filter"]
-                 ]
-                for layerId in model_dict
-                if model_dict[layerId]["type"] in ["Conv2D", "Dense"]
-                if layerId == layer
-            ]
-        else:
-            weight_list = []
-        return weight_list
-
-    # TODO remove or move to legacy code
-    @staticmethod
-    def get_bias(layer, model_dict, shift):
-        if model_dict[layer]["type"] == "Dense":
-            bias_list = [
-                str(int(v["bias"] * shift * shift))
-                for k, v
-                in model_dict[layer]["neuron"].items()
-            ]
-        elif model_dict[layer]["type"] == "Conv2D":
-            bias_list = [
-                str(int(model_dict[layerId]["filter"][filterId]["bias"] * shift * shift))
-                for layerId in model_dict
-                if model_dict[layerId]["type"] == "Conv2D"
-                if layerId == layer
-                for filterId in model_dict[layerId]["filter"]
-            ]
-        else:
-            bias_list = []
-        return bias_list
-
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         # feat_list = self.get_feature_data(n_layer, path, dataset_size)
         if n_layer == 0:
@@ -545,104 +492,6 @@ class GenerateRTL:
         write_mem_pkg(constant, data_pkg, "ifmap_pkg", package, path)
         return data_pkg
 
-    # TODO remove or move to legacy code
-    @staticmethod
-    def generate_gold_fc_vhd_pkg(layer, path, model_dict, shift, tab):
-        feature = open_file(path.parent / str(layer - 1) / 'gold.txt')
-
-        weights = [
-            (v["weights"] * shift).astype(int).tolist()
-            for k, v
-            in model_dict[layer]["neuron"].items()
-        ]
-
-        bias = [
-            int(v["bias"] * shift * shift)
-            for k, v
-            in model_dict[layer]["neuron"].items()
-        ]
-
-        gold = [
-            np.dot(feature, w) + b
-            for w, b
-            in zip(weights, bias)
-        ]
-
-        weights_bias_plain = bias + [ww for w in weights for ww in w]
-        bias_string = f"{tab}-- layer={layer}\n{tab}{', '.join(map(str, bias))},\n"
-        weight_string = [
-            f"{tab}-- layer={layer} channel={c}\n{tab}{', '.join(map(str, s))},\n"
-            for c, s in enumerate(weights)
-        ]
-        package = "iwght_package"
-        constant = "input_wght"
-        data = "".join([f"{tab}-- bias\n"] + [bias_string] + [f"\n{tab}-- weights\n"] + weight_string)
-
-        write_mem_txt([[weights_bias_plain]], "iwght", path)
-        write_mem_pkg(constant, data, "iwght_pkg", package, path)
-
-        package = "ifmap_package"
-        constant = "input_map"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
-
-        write_mem_txt([[feature]], "ifmap", path)
-        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
-
-        package = "gold_package"
-        constant = "gold"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
-        write_mem_txt([[gold]], "gold", path)
-        write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-    # TODO remove or move to legacy code
-    @staticmethod
-    def generate_gold_maxpool_vhd_pkg(layer, path, tab):
-        feature = open_file(path.parent / str(layer) / 'gold.txt')
-        arr = np.array(feature).reshape(-1, 3, 3)
-
-        gold = pool2d(arr, kernel_size=3, stride=3, padding=0, pool_mode='max').reshape(-1).tolist()
-
-        package = "ifmap_package"
-        constant = "input_map"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in feature) + ","
-
-        write_mem_txt([[feature]], "ifmap", path)
-        write_mem_pkg(constant, data, "ifmap_pkg", package, path)
-
-        package = "gold_package"
-        constant = "gold"
-        data = f"\n{tab}-- ifmap\n{tab}" + ", ".join(str(i) for i in gold) + ","
-        write_mem_txt([[gold]], "gold", path)
-        write_mem_pkg(constant, data, "gold_pkg", package, path)
-
-    # TODO remove or move to legacy code
-    @staticmethod
-    def get_feature_data(self, layer, path, filter_channel, filter_dimension, input_channel, layer_dimension,
-                         model_dict, shift,stride_h, stride_w, tab, dataset, dataset_size=1):
-        gen_features = True
-        if layer == 0:
-            feat_list = [
-                [[str(int(image_shift[x, y, z]))
-                  for y in range(image_shift.shape[1])]
-                 for x in range(image_shift.shape[0])]
-                for i, image in enumerate(dataset)
-                if i in range(dataset_size)
-                for image_shift in [image * shift]
-                for z in range(image_shift.shape[2])
-            ]
-        else:
-            if model_dict[layer]["type"] == "Dense":
-                feat_list = fc(model_dict, shift, layer, gen_features, path)
-            elif model_dict[layer]["type"] == "Conv2D":
-                feat_list = conv2d(
-                    gen_features, filter_channel, filter_dimension, input_channel, layer, layer_dimension, model_dict,
-                    shift,
-                    stride_h, stride_w, tab, dataset, dataset_size
-                )
-            else:
-                feat_list = []
-        return feat_list
-
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
         x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
         x = x.astype(np.int32)
@@ -679,3 +528,7 @@ class GenerateRTL:
         data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
+
+
+def log2ceil(x):
+    return ceil(log2(x)) + 1

@@ -4,8 +4,7 @@ from pathlib import Path
 
 from math import log2, ceil
 
-from lib.bram import generate_bram_files
-from apps.lib.util import open_file
+from lib.bram import generate_bram_files, open_file
 
 
 def main():

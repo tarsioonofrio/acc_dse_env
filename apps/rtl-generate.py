@@ -8,10 +8,10 @@ from types import SimpleNamespace
 
 import torch
 
-from lib import keras_cifar10
+from apps.lib.legacy import keras_cifar10
 from lib import pytorch_models
 from lib.generate_files import GenerateRTL
-from lib.model import dictionary_from_model
+from apps.lib.legacy.model import dictionary_from_model
 
 
 def main():
@@ -47,28 +47,11 @@ def main():
     model = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset)
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
-    if os.path.exists(cnn_output_path / "weights.pkl"):
-        # model_dict = {int(k): v for k, v in loadmat(str(path / "model.mat")).items() if k[0] != '_'}
-        with open(cnn_output_path / 'weights.pkl', "rb") as f:
-            model_dict = pickle.load(f)
-    else:
-        from tensorflow import keras
-        model = keras.models.load_model(cnn_output_path / "weights")
-        # Generate dictionary
-        model_dict = dictionary_from_model(model)
-
-        # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
-        with open(cnn_output_path / 'weights.pkl', 'wb') as f:
-            # Pickle dictionary using protocol 0.
-            pickle.dump(model_dict, f)
-
     (_, _), (x_test_int, y_test) = keras_cifar10.load_data()
     x_test = x_test_int / 255.0
     dataloader = SimpleNamespace(x=x_test, x_int=x_test_int, y=y_test, config=config_dataset)
 
-    generate_rtl = GenerateRTL(
-        model, model_dict, rtl_config, rtl_output_path, dataloader, samples=10
-    )
+    generate_rtl = GenerateRTL(model, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl(samples=True, core=True)
 
 

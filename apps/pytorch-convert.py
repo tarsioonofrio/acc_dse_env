@@ -6,7 +6,6 @@ import torch
 import numpy as np
 
 from tensorflow import keras
-from lib import keras_cifar10
 from lib import pytorch_models
 
 
