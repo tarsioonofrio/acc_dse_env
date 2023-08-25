@@ -46,7 +46,7 @@ def main():
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
     test = CIFAR10("~/pytorch", train=False, download=True)
-    x_test = (test.data / 255.0).astype(np.float32)
+    x_test = np.transpose((test.data / 255.0).astype(np.float32), [0, 3, 1, 2])
     y_test = np.array(test.targets)
     dataloader = SimpleNamespace(x=x_test, x_int=x_test, y=y_test, config=config_dataset)
 

@@ -449,14 +449,14 @@ class GenerateRTL:
 
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         if n_layer == 0:
-            x = self.dataloader.x[0:dataset_size].transpose(0, 3, 1, 2) * self.shift
+            x = self.dataloader.x[0:dataset_size] * self.shift
             if dataset_size == 1:
                 feat_list = np.squeeze(x.astype(int))
             else:
                 s = x.shape
                 feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
         else:
-            x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
+            x = self.dataloader.x[0:dataset_size].swapaxes(-2, -1) * self.shift
             x = x.astype(np.int32)
             x = torch.from_numpy(x.astype(np.int32))
 
@@ -491,7 +491,7 @@ class GenerateRTL:
         return data_pkg
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
-        x = self.dataloader.x[0:dataset_size].transpose(0, 3, 2, 1) * self.shift
+        x = self.dataloader.x[0:dataset_size].swapaxes(-2, -1) * self.shift
         x = x.astype(np.int32)
         x = torch.from_numpy(x.astype(np.int32))
 
