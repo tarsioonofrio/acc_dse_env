@@ -6,6 +6,7 @@ from types import SimpleNamespace
 
 import torch
 import numpy as np
+from torchvision import transforms
 from torchvision.datasets import CIFAR10
 
 from lib import pytorch_models
@@ -42,13 +43,14 @@ def main():
         "classes": 10,
     }
     pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
-    model = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset)
+    model = pytorch_models_lower[cnn_config["name"]](cnn_config)
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
 
-    test = CIFAR10("~/pytorch", train=False, download=True)
-    x_test = np.transpose((test.data / 255.0).astype(np.float32), [0, 3, 1, 2])
-    y_test = np.array(test.targets)
-    dataloader = SimpleNamespace(x=x_test, x_int=x_test, y=y_test, config=config_dataset)
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ])
+    dataloader = CIFAR10("~/pytorch", train=False, download=True, transform=transform)
 
     generate_rtl = GenerateRTL(model, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl(samples=True, core=True)

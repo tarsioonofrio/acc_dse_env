@@ -2,7 +2,7 @@ from torch import nn
 
 
 class Default(nn.Module):
-    def __init__(self, config_model, config_data, debug=False):
+    def __init__(self, config_model, debug=False):
         super().__init__()
         self.debug = debug
         conv0 = nn.Conv2d(
@@ -28,7 +28,7 @@ class Default(nn.Module):
             nn.ReLU(),
             *conv,
             nn.Flatten(1, -1),
-            nn.Linear(64*9, config_data["classes"]),
+            nn.Linear(64*9, 10),
             nn.Softmax(1),
         )
 
@@ -42,7 +42,7 @@ class Default(nn.Module):
 
 
 class MaxPool(nn.Module):
-    def __init__(self, config_model, config_data, debug=False):
+    def __init__(self, config_model, debug=False):
         super().__init__()
         self.debug = debug
         conv0 = nn.Conv2d(
@@ -69,7 +69,7 @@ class MaxPool(nn.Module):
             *conv,
             nn.MaxPool2d(kernel_size=3),
             nn.Flatten(1, -1),
-            nn.Linear(64, config_data["classes"]),
+            nn.Linear(64, 10),
             nn.Softmax(1),
         )
 
@@ -83,7 +83,7 @@ class MaxPool(nn.Module):
 
 
 class BatchNorm(nn.Module):
-    def __init__(self, config_model, config_data, debug=False):
+    def __init__(self, config_model, debug=False):
         super().__init__()
         self.debug = debug
         conv0 = nn.Conv2d(
@@ -110,7 +110,7 @@ class BatchNorm(nn.Module):
             nn.ReLU(),
             *conv,
             nn.Flatten(1, -1),
-            nn.Linear(64*9, config_data["classes"]),
+            nn.Linear(64*9, 10),
             nn.Softmax(1),
         )
 

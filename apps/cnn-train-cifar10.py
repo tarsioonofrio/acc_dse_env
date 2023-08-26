@@ -1,16 +1,22 @@
-import os
+# https://docs.fast.ai/examples/migrating_pytorch_verbose.html
 import json
-import pickle
 import argparse
 from pathlib import Path
+from functools import partial
 
 import torch
-import numpy as np
-import torchvision.transforms as transforms
+from torchvision import transforms
 
-from skorch import NeuralNetClassifier
+
 from torchvision.datasets import CIFAR10
-from sklearn.metrics import accuracy_score, precision_recall_fscore_support
+
+# To get `fit_one_cycle`, `lr_find`
+import fastai.callback.schedule
+from fastai.learner import Learner
+from fastai.metrics import accuracy
+from fastai.data.core import DataLoaders
+from fastai.optimizer import OptimWrapper
+
 
 from lib import pytorch_models
 
@@ -20,6 +26,9 @@ def main():
         usage='use "python %(prog)s --help" for more information.\n'
     )
     parser.add_argument("--cnn_config", "-c", type=str, help="Name of neural network config file in nn_config")
+    parser.add_argument(
+        "--debug", "-d", action='store_true', help="To execute sequential model layer by layer and debug"
+    )
     args = parser.parse_args()
 
     root = Path(__file__).parent.resolve()
@@ -31,37 +40,30 @@ def main():
     with open(config_path) as f:
         cnn_config = json.load(f)
 
-    # Build CNN application
-    # Get application dataset
-    train = CIFAR10("~/pytorch", train=True, download=True)
-    test = CIFAR10("~/pytorch", train=False, download=True)
-    x_train = np.transpose((train.data / 255.0).astype(np.float32), [0, 3, 1, 2])
-    x_test = np.transpose((test.data / 255.0).astype(np.float32), [0, 3, 1, 2])
+    transform = transforms.Compose([
+        transforms.ToTensor(),
+        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ])
+    criterion = torch.nn.CrossEntropyLoss()
+    opt_func = partial(OptimWrapper, opt=torch.optim.SGD)
 
-    # y_train = [train.classes[target] for target in train.targets]
-    y_train = np.array(train.targets)
-    y_test = np.array(test.targets)
-    config_dataset = {
-        "input_w": 32,
-        "input_h": 32,
-        "input_c": 3,
-        "classes": 10,
-    }
-    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
-    model_class = pytorch_models_lower[cnn_config["name"]](cnn_config, config_dataset, True)
-    model = NeuralNetClassifier(
-        model_class, criterion=torch.nn.CrossEntropyLoss, device="cuda",  warm_start=True,
-        max_epochs=cnn_config["n_epochs"], lr=0.1
+    dataset_train = CIFAR10("~/pytorch", train=True, download=True, transform=transform)
+    dataset_test = CIFAR10("~/pytorch", train=False, download=True, transform=transform)
+
+    train_loader = torch.utils.data.DataLoader(
+        dataset_train, shuffle=True, batch_size=32, num_workers=2, pin_memory=True
     )
-    model.fit(x_train, y_train)
+    test_loader = torch.utils.data.DataLoader(
+        dataset_test, shuffle=False, batch_size=32, num_workers=2, pin_memory=True
+    )
+    data_loader = DataLoaders(train_loader, test_loader)
 
-    # Save model
-    y_pred = model.predict(x_test)
-    accuracy = accuracy_score(y_test, y_pred)
-    # prf = precision_recall_fscore_support(y_test, y_pred)
-    print(accuracy)
-    print()
-    torch.save(model.module.state_dict(), output_path / "model.pth")
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+    model = pytorch_models_lower[cnn_config["name"]](cnn_config, True)
+    learn = Learner(data_loader, model, loss_func=criterion, opt_func=opt_func, metrics=accuracy)
+    learn.fit_one_cycle(n_epoch=2, lr_max=0.1)
+    learn.fit(cnn_config["n_epochs"])
+    torch.save(learn.model.state_dict(), output_path / "model.pth")
 
 
 if __name__ == '__main__':

@@ -118,10 +118,9 @@ class GenerateRTL:
         self.map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
         self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
 
-        input_tensor = torch.ones(
-            1, dataloader.config["input_c"], dataloader.config["input_w"], dataloader.config["input_h"], dtype=torch.int
-        )
-        self.in_features = [self.dataloader.config["input_w"]]
+        shape = dataloader[0][0].shape
+        input_tensor = torch.ones(1, shape[0], shape[1], shape[2], dtype=torch.int)
+        self.in_features = [shape[1]]
         self.input_shape = []
         self.output_shape = []
 
@@ -381,8 +380,8 @@ class GenerateRTL:
         path_core = self.rtl_output_path / "core"
         stride = [max(self.stride)]
         n_filter = [max(self.out_channels)]
-        x_size = max([self.dataloader.config["input_w"]] + self.in_features[1:])
-        n_channel = max([self.dataloader.config["input_c"]] + self.out_channels)
+        x_size = max(self.in_features)
+        n_channel = max([self.input_shape[0][0]] + self.out_channels)
         generic_dict2 = {
             "STRIDE": stride[0],
             "N_FILTER": n_filter[0],
@@ -452,14 +451,16 @@ class GenerateRTL:
 
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         if n_layer == 0:
-            x = self.dataloader.x[0:dataset_size] * self.shift
+            x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+            x = x * self.shift
             if dataset_size == 1:
                 feat_list = np.squeeze(x.astype(int))
             else:
                 s = x.shape
                 feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
         else:
-            x = self.dataloader.x[0:dataset_size].swapaxes(-2, -1) * self.shift
+            x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+            x = x.swapaxes(-2, -1) * self.shift
             x = x.astype(np.int32)
             x = torch.from_numpy(x.astype(np.int32))
 
@@ -494,7 +495,8 @@ class GenerateRTL:
         return data_pkg
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
-        x = self.dataloader.x[0:dataset_size].swapaxes(-2, -1) * self.shift
+        x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+        x = x.swapaxes(-2, -1) * self.shift
         x = x.astype(np.int32)
         x = torch.from_numpy(x.astype(np.int32))
 
