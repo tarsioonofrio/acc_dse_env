@@ -87,13 +87,13 @@ class GenerateRTL:
 
     def __init__(self, model, rtl_config, rtl_output_path, dataloader, samples=10):
         self.rtl_output_path = rtl_output_path
-        self.dataloader = dataloader
         self.samples = samples
         self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
         # Adjust shift
         self.shift = 2 ** self.shift_bits
         self.rtl_config = {"SHIFT": self.shift_bits, ** rtl_config}
 
+        self.dataloader = dataloader
         # Model params
         shift2 = self.shift ** 2
         for i in range(len(model.sequential)):
@@ -459,24 +459,7 @@ class GenerateRTL:
                 s = x.shape
                 feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
         else:
-            x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
-            x = x.swapaxes(-2, -1) * self.shift
-            x = x.astype(np.int32)
-            x = torch.from_numpy(x.astype(np.int32))
-
-            loop = list(range(self.map_rtl_torch[n_layer]))
-
-            for i in loop:
-                if self.model.sequential[i]._get_name() == 'MaxPool2d':
-                    t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
-                    x = t
-                elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
-                    t = self.model.sequential[i](x)
-                    # normalize data after operation
-                    x = t // self.shift
-                else:
-                    t = self.model.sequential[i](x)
-                    x = t
+            x = self.forward(dataset_size, n_layer, self.map_rtl_torch)
 
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
@@ -495,26 +478,9 @@ class GenerateRTL:
         return data_pkg
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
-        x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
-        x = x.swapaxes(-2, -1) * self.shift
-        x = x.astype(np.int32)
-        x = torch.from_numpy(x.astype(np.int32))
-
-        loop = list(range(self.map_gold_torch[n_layer]))
-
-        for i in loop:
-            if self.model.sequential[i]._get_name() == 'MaxPool2d':
-                t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
-                x = t
-            elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
-                t = self.model.sequential[i](x)
-                # normalize data after operation
-                x = t // self.shift
-            else:
-                t = self.model.sequential[i](x)
-                x = t
-
+        x = self.forward(dataset_size, n_layer, self.map_gold_torch)
         feat_list = x
+
         if self.layer_rtl[n_layer] == 'Linear':
             feat_list = feat_list.cpu().reshape(1, -1).detach().numpy()
             feat_list = np.expand_dims(feat_list, 0)
@@ -533,3 +499,21 @@ class GenerateRTL:
         write_mem_txt(feat_list, "gold", path)
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
+    def forward(self, dataset_size, n_layer, map_data):
+        x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+        x = x.swapaxes(-2, -1) * self.shift
+        x = x.astype(np.int32)
+        x = torch.from_numpy(x.astype(np.int32))
+        loop = list(range(map_data[n_layer]))
+        for i in loop:
+            if self.model.sequential[i]._get_name() == 'MaxPool2d':
+                t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
+                x = t
+            elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
+                t = self.model.sequential[i](x)
+                # normalize data after operation
+                x = t // self.shift
+            else:
+                t = self.model.sequential[i](x)
+                x = t
+        return x
