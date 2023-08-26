@@ -1,11 +1,8 @@
 import json
 import argparse
-
 from pathlib import Path
-from types import SimpleNamespace
 
 import torch
-import numpy as np
 from torchvision import transforms
 from torchvision.datasets import CIFAR10
 
@@ -35,13 +32,6 @@ def main():
     with open(rtl_config_path) as f:
         rtl_config = json.load(f)
 
-    # Compute number of convolutional layers
-    config_dataset = {
-        "input_w": 32,
-        "input_h": 32,
-        "input_c": 3,
-        "classes": 10,
-    }
     pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
     model = pytorch_models_lower[cnn_config["name"]](cnn_config)
     model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
