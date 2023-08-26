@@ -42,7 +42,7 @@ def main():
 
     transform = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
     ])
     criterion = torch.nn.CrossEntropyLoss()
     opt_func = partial(OptimWrapper, opt=torch.optim.SGD)
