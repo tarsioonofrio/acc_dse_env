@@ -7,13 +7,14 @@
   * `cnn-train-cifar10.py`: training script for a simple CNN model.
   * `rtl-generate.py`: generate RTL code needed to run trained CNN model using hdl code.
   * `table-generate.py`: generate data tables CNN weights and feature maps.
+* `experiments/`: where are saved the output files from app scripts.
   * `cnn_config`: folder with jsons to configurate the cnn model.
   * `cnn_output`: folder with output data from trained cnn model. Each folder inside this path will have the same name
-  of json used train the model with `cnn-train-cifar10.py`. Will have this pattern: `apps/cnn_output/cnn_json_name/`.
+  of json used train the model with `cnn-train-cifar10.py`. Will have this pattern: `experiments/cnn_output/cnn_json_name/`.
   * `rtl_config`: folder with jsons to configurate RTL and BRAMs needed to run CNN model.
   * `rtl_output`: folder with RTL and BRAMs code. Each folder inside this path will have the same name of json used.
   train the model, to generate RTL code (`rtl-generate.py`) and BRAMs (`bram-generate.py`). Will have this pattern:
-  `apps/rtl_output/cnn_json_name/rtl_json_name/`.
+  `experiments/rtl_output/cnn_json_name/rtl_json_name/`.
     * `bram/`: BRAMs RTL code and other files.
     * `core/`: Core support files.
     * `layer/`: Layer files. Each folder have support files for one layer: weights, feature maps and others.
@@ -50,7 +51,7 @@ device.
 
 If you don't want to train a network from scratch, you can skip this part.
 
-First you need to configure the neural network, make a copy of `default.json ` in `app/cnn_config`
+First you need to configure the neural network, make a copy of `default.json ` in `experiments/cnn_config`
 and change the network settings and file name.
 After that it is necessary to train the network and save the weights running `app/train-cifar10.py`:
 
@@ -75,7 +76,7 @@ And
 `python bram-generate.py -n {cnn json config file name} -w {rtl json config file name}`
 
 
-In `app/rtl_output` there will be a folder named in the format `{cnn file name}/{rtl file name}`
+In `experiments/rtl_output` there will be a folder named in the format `{cnn file name}/{rtl file name}`
 where auxiliaries for the simulation per layer will be saved, containing information such as:
 
 * Generics.
@@ -95,16 +96,16 @@ For example to simulate:
 
 If you want to use a new CNN model or new rtl configuration, you need to change these two paths:
 
-     ../apps/rtl_output/default/default/core/config_pkg.vhd
-     ../apps/rtl_output/default/default/core/generic_file.txt
+     ../experiments/rtl_output/default/default/core/config_pkg.vhd
+     ../experiments/rtl_output/default/default/core/generic_file.txt
 
 If you want to run a core or convolutional for another layer data than to zero, like 1, just change:
 
-     ../apps/rtl_output/default/default/0/config_pkg.vhd
+     ../experiments/rtl_output/default/default/0/config_pkg.vhd
 
 For:
 
-     ../apps/rtl_output/default/default/1/config_pkg.vhd
+     ../experiments/rtl_output/default/default/1/config_pkg.vhd
 
 If you want to use other rtl settings, you need to change `default/default`
 to the desired project folder. It is necessary to change the other paths to the same folder.
