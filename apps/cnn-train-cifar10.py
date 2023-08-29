@@ -56,7 +56,7 @@ def main():
     ])
 
     criterion = torch.nn.CrossEntropyLoss()
-    opt_func = partial(OptimWrapper, opt=torch.optim.SGD)
+    opt_func = partial(OptimWrapper, opt=torch.optim.Adam)
 
     dataset_train = CIFAR10("~/pytorch", train=True, download=True, transform=transform)
     dataset_test = CIFAR10("~/pytorch", train=False, download=True, transform=transform_test)
