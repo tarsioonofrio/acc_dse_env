@@ -16,7 +16,7 @@ def main():
 
     args = parser.parse_args()
 
-    root = Path(__file__).parent.resolve()
+    root = Path(__file__).parent.parent.resolve() / 'experiments'
     file_rtl = root / "rtl_config" / f"{args.rtl_config}.json"
     path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 
