@@ -1,0 +1,12 @@
+{
+  "DATAFLOW_TYPE": "ws",
+  "ARRAY_TYPE": "syst2d",
+  "MEM_SIZE": 16,
+  "MAX_MEM_SIZE": 36,
+  "INPUT_SIZE": 16,
+  "CARRY_SIZE": 4,
+  "LAT": 2,
+  "CLK_PERIOD": 2.0,
+  "IN_DELAY": 0.3,
+  "DEVICE": "7SERIES"
+}

@@ -31,6 +31,7 @@ dict_fun_ordenate_bits = {
 
 
 def two_comp(val, nbits):
+    # TODO replace with https://numpy.org/devdocs/reference/generated/numpy.binary_repr.html
     # https://stackoverflow.com/questions/7822956/how-to-convert-negative-integer-value-to-hex-in-python
     return (val + (1 << nbits)) % (1 << nbits)
 
@@ -109,21 +110,21 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
     bram_config = get_bram_config(max_bits, bram_size)
     bram_addr = bram_config["BRAM_ADDR"]
 
-    wght_data, wght_size = generate_data_formated(
+    wght_data, wght_size = generate_data_formatted(
         "iwght", "iwght", bram_config, bram_size, input_path / "layer", max_bits
     )
-    fmap_data, fmap_size = generate_data_formated(
+    fmap_data, fmap_size = generate_data_formatted(
         "ifmap", "ifmap", bram_config, bram_size, input_path / "layer", max_bits
     )
-    gold_data, gold_size = generate_data_formated(
+    gold_data, gold_size = generate_data_formatted(
         "gold", "gold", bram_config, bram_size, input_path / "layer", max_bits
     )
 
-    sample_fmap_data, sample_fmap_size = generate_data_formated(
+    sample_fmap_data, sample_fmap_size = generate_data_formatted(
         "ifmap", "sampleifmap", bram_config, bram_size, input_path / "samples", max_bits
     )
 
-    sample_gold_data, sample_gold_size = generate_data_formated(
+    sample_gold_data, sample_gold_size = generate_data_formatted(
         "gold", "samplegold", bram_config, bram_size, input_path / "samples", max_bits
     )
 
@@ -180,11 +181,11 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
     return dict_bram
 
 
-def generate_data_formated(file_name, entity_name, bram_config, bram_size, input_path, max_bits):
-    formated = [
+def generate_data_formatted(file_name, entity_name, bram_config, bram_size, input_path, max_bits):
+    formatted = [
         format_bram_pkg(f"{entity_name}_layer{f.parent.name}", open_file(f), bram_config, max_bits, bram_size)
         for f in sorted(input_path.glob(f"**/{file_name}.txt"))
     ]
-    data = [y for x in formated for y in x[0]]
-    size = [f"{x[1]:02d}" for x in formated]
+    data = [y for x in formatted for y in x[0]]
+    size = [f"{x[1]:02d}" for x in formatted]
     return data, size

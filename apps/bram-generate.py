@@ -4,8 +4,7 @@ from pathlib import Path
 
 from math import log2, ceil
 
-from lib.bram import generate_bram_files
-from apps.lib.util import open_file
+from lib.bram import generate_bram_files, open_file
 
 
 def main():
@@ -17,7 +16,7 @@ def main():
 
     args = parser.parse_args()
 
-    root = Path(__file__).parent.resolve()
+    root = Path(__file__).parent.parent.resolve() / 'experiments'
     file_rtl = root / "rtl_config" / f"{args.rtl_config}.json"
     path = root / "rtl_output" / f"{args.cnn_config}/{args.rtl_config}"
 

@@ -4,16 +4,17 @@
 
 * `apps/`: `python` scripts to run train basic deep learning model and generate RTL code.
   * `bram-generate.py`: generate BRAMs needed to run trained CNN model in FPGA.
-  * `cnn-train-cifar10.py`: trainning script for a simple CNN model.
+  * `cnn-train-cifar10.py`: training script for a simple CNN model.
   * `rtl-generate.py`: generate RTL code needed to run trained CNN model using hdl code.
   * `table-generate.py`: generate data tables CNN weights and feature maps.
+* `experiments/`: where are saved the output files from app scripts.
   * `cnn_config`: folder with jsons to configurate the cnn model.
   * `cnn_output`: folder with output data from trained cnn model. Each folder inside this path will have the same name
-  of json used train the model with `cnn-train-cifar10.py`. Will have this pattern: `apps/cnn_output/cnn_json_name/`.
+  of json used train the model with `cnn-train-cifar10.py`. Will have this pattern: `experiments/cnn_output/cnn_json_name/`.
   * `rtl_config`: folder with jsons to configurate RTL and BRAMs needed to run CNN model.
   * `rtl_output`: folder with RTL and BRAMs code. Each folder inside this path will have the same name of json used.
   train the model, to generate RTL code (`rtl-generate.py`) and BRAMs (`bram-generate.py`). Will have this pattern:
-  `apps/rtl_output/cnn_json_name/rtl_json_name/`.
+  `experiments/rtl_output/cnn_json_name/rtl_json_name/`.
     * `bram/`: BRAMs RTL code and other files.
     * `core/`: Core support files.
     * `layer/`: Layer files. Each folder have support files for one layer: weights, feature maps and others.
@@ -50,7 +51,7 @@ device.
 
 If you don't want to train a network from scratch, you can skip this part.
 
-First you need to configure the neural network, make a copy of `default.json ` in `app/cnn_config`
+First you need to configure the neural network, make a copy of `default.json ` in `experiments/cnn_config`
 and change the network settings and file name.
 After that it is necessary to train the network and save the weights running `app/train-cifar10.py`:
 
@@ -75,7 +76,7 @@ And
 `python bram-generate.py -n {cnn json config file name} -w {rtl json config file name}`
 
 
-In `app/rtl_output` there will be a folder named in the format `{cnn file name}/{rtl file name}`
+In `experiments/rtl_output` there will be a folder named in the format `{cnn file name}/{rtl file name}`
 where auxiliaries for the simulation per layer will be saved, containing information such as:
 
 * Generics.
@@ -95,16 +96,16 @@ For example to simulate:
 
 If you want to use a new CNN model or new rtl configuration, you need to change these two paths:
 
-     ../apps/rtl_output/default/default/core/config_pkg.vhd
-     ../apps/rtl_output/default/default/core/generic_file.txt
+     ../experiments/rtl_output/default/default/core/config_pkg.vhd
+     ../experiments/rtl_output/default/default/core/generic_file.txt
 
 If you want to run a core or convolutional for another layer data than to zero, like 1, just change:
 
-     ../apps/rtl_output/default/default/0/config_pkg.vhd
+     ../experiments/rtl_output/default/default/0/config_pkg.vhd
 
 For:
 
-     ../apps/rtl_output/default/default/1/config_pkg.vhd
+     ../experiments/rtl_output/default/default/1/config_pkg.vhd
 
 If you want to use other rtl settings, you need to change `default/default`
 to the desired project folder. It is necessary to change the other paths to the same folder.
@@ -119,21 +120,22 @@ to the desired project folder. It is necessary to change the other paths to the 
 
 From Tarsio's Bachelor Thesis:
 
-* Finalizar a integração da camada FC e MP2P com o framework.
-* Prototipar a rede completa, ou seja, incluir as camadas adicionais: Max polling 2D e Fully Connected.
-* Implementar a função de ativação da camada FC (Fully Connected), que não foi implementada por falta de tempo no TCC. A FC é uma camada importante em redes neurais convolucionais, e sua ativação é necessária para que o acelerador funcione corretamente.
-* Refatorar/organizar o framework desenvolvido. Refatorar o framework é importante para melhorar a organização e manutenção do código. Isso pode facilitar o desenvolvimento de novas funcionalidades e correção de bugs, além de tornar o código mais legível e compreensível .
-* Aumentar a integração com o TensorFlow, utilizando-o diretamente para gerar as inicializações de memória. A sua integração com o acelerador pode trazer benefícios em termos de desempenho e facilidade de uso. Utilizar o TensorFlow diretamente para gerar as features pode ser uma forma de melhorar a integração.
-* Integração com o PyTorch, por ser mais flexível que Keras (TensorFlow).
-* Avaliar a utilização de memória unificada. Uma memória unificada pode trazer benefícios em termos de desempenho e eficiência. Testá-la pode ajudar a avaliar sua viabilidade e identificar possíveis melhorias ou limitações para trabalhos futuros.
-* Traduzir o código para Verilog. O uso de Verilog simplifica a integração com IPs gerados ou disponibilizados pela XILINX, facilitar sua integração em projetos de maior complexidade.
-* Tornar a ferramenta de inicialização das BRAMs genérica, para possa ser utilizada em outros projetos.
-* Alterar o CONVWS ou desenvolver um novo módulo com suporte a stride 1 e tamanho de filtros parametrizáveis (hoje há suporte apenas para filtro 3 x 3. Estas modificações permitirão a avaliação de uma maior número de arquiteturas de CNN.
-* Paralelizar os Cores. Essa abordagem pode melhorar o desempenho do acelerador, permitindo paralelismo temporal (na forma de um pipeline) ou espacial (vários CONVWS operando sobre a mesma camada, mas em diferentes canais).
-* Remover clock com deslocamento de 180 graus do módulo memory das BRAMs (i.e., borda de descida), e alterar todos os módulos para que façam a leitura em borda de subida.
-* Melhorar o pipeline entre os cores para que a vazão aumente, ou seja, desenvolver uma arquitetura multiciclo.
-* Avaliar a arquitetura de convolução 1D. A arquitetura de convolução 1D é utilizada em aplicações que envolvem processamento de sinais unidimensionais, como processamento de áudio ou séries temporais. Testar essa arquitetura pode ajudar a avaliar sua eficácia e identificar possíveis melhorias para aplicações futuras.
-* Integrar o este trabalho com o fluxo de DSE do proposto na Tese de Loeonardo Juracy JuracyLeonardoRezende2022thesis.
+* Finalize the integration of the FC and MP2P layers with the framework.
+* Prototype the complete network, that is, include the additional layers: Max polling 2D and Fully Connected.
+* Implement the activation function of the FC (Fully Connected) layer, which was not implemented due to lack of time in the final paper. The FC is an important layer in convolutional neural networks, and its activation is necessary for the accelerator to function correctly.
+* Refactor/organize the developed framework. Refactoring the framework is important for improving the organization and maintenance of the code. This can facilitate the development of new functionalities and bug fixes, in addition to making the code more readable and understandable.
+* Increase integration with TensorFlow, using it directly to generate memory initializations. Its integration with the accelerator can bring benefits in terms of performance and ease of use. Using TensorFlow directly to generate the features can be a way to improve integration.
+* Integration with PyTorch, as it is more flexible than Keras (TensorFlow).
+* Evaluate the use of unified memory. A unified memory can bring benefits in terms of performance and efficiency. Testing it can help evaluate its viability and identify possible improvements or limitations for future work.
+* Translate the code to Verilog. The use of Verilog simplifies the integration with IPs generated or made available by XILINX, facilitate its integration in more complex projects.
+* Make the BRAM initialization tool generic, so that it can be used in other projects.
+* Modify the CONVWS or develop a new module that supports stride 1 and parameterizable filter sizes (currently there is support only for a 3 x 3 filter). These modifications will allow the evaluation of a larger number of CNN architectures.
+* Parallelize the Cores. This approach can improve the performance of the accelerator, allowing temporal parallelism (in the form of a pipeline) or spatial parallelism (several CONVWS operating on the same layer, but on different channels).
+* Remove clock with a 180-degree shift from the memory module of the BRAMs (i.e., falling edge), and modify all modules so that they read on the rising edge.
+* Improve the pipeline between the cores to increase throughput, that is, develop a multi-cycle architecture.
+* Evaluate the 1D convolution architecture. The 1D convolution architecture is used in applications that involve processing of one-dimensional signals, such as audio processing or time series. Testing this architecture can help evaluate its effectiveness and identify possible improvements for future applications.
+* Integrate this work with the DSE flow proposed in the thesis by Loeonardo Juracy JuracyLeonardoRezende2022thesis.
+
 
 From Juracy's Doctoral Thesis:
 * **[Working on]** **Accelerator Prototyping.** Prototype the proposed accelerators in FPGAs, considering the

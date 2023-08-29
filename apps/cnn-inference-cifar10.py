@@ -21,7 +21,7 @@ x_test = x_test.reshape(-1, 32, 32, 3)
 # Normalize the data
 x_test = x_test / 255.0
 
-root = Path(__file__).parent.resolve()
+root = Path(__file__).parent.parent.resolve() / 'experiments'
 cnn_output_path = root / 'cnn_output'
 all_paths = cnn_output_path.glob('**/weights')
 

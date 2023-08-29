@@ -11,14 +11,14 @@ export R
 MODULE=test
 TOPLEVEL_LANG ?= vhdl
 
-#filename = $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt
-#new_generics = $(shell bash ../write_generics_file.sh $(filename)) -gPATH=$(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)
+#filename = $(shell pwd)/../experiments/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt
+#new_generics = $(shell bash ../write_generics_file.sh $(filename)) -gPATH=$(shell pwd)/../experiments/rtl_output/$(C)/$(R)/layer/$(L)
 #_ := $(shell mkdir -p tmp)
 #_ := $(shell echo $(new_generics) > tmp/generic_file.txt)
 
-VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/gold_pkg.vhd
-VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/core/config_pkg.vhd
-#VHDL_SOURCES += $(shell pwd)/../apps/rtl_output/$(C)/$(R)/bram/config_const_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../experiments/rtl_output/$(C)/$(R)/layer/$(L)/gold_pkg.vhd
+VHDL_SOURCES += $(shell pwd)/../experiments/rtl_output/$(C)/$(R)/core/config_pkg.vhd
+#VHDL_SOURCES += $(shell pwd)/../experiments/rtl_output/$(C)/$(R)/bram/config_const_pkg.vhd
 
 VHDL_SOURCES += $(shell pwd)/../rtl/core/util_pkg.vhd
 
@@ -34,7 +34,7 @@ VHDL_SOURCES += $(shell pwd)/../rtl/core/core_serial.vhd
 
 VHDL_SOURCES += $(shell pwd)/../tb/tb_rtl_core_serial.vhd
 
-SIM_ARGS += -voptargs=+acc=lprn -t ps -f $(shell pwd)/../apps/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt -wlf vsim.wlf
+SIM_ARGS += -voptargs=+acc=lprn -t ps -f $(shell pwd)/../experiments/rtl_output/$(C)/$(R)/layer/$(L)/generic_file.txt -wlf vsim.wlf
 
 
 COCOTB_HDL_TIMESTEP=1

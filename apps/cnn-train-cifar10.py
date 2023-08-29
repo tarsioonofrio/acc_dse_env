@@ -1,17 +1,24 @@
-import os
+# https://docs.fast.ai/examples/migrating_pytorch_verbose.html
 import json
-import pickle
 import argparse
 from pathlib import Path
+from functools import partial
 
-# os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+import torch
+from torchvision import transforms
 
-from tensorflow import keras
-from sklearn.model_selection import train_test_split
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
 
-from lib import keras_models
-from lib.model import dictionary_from_model
+from torchvision.datasets import CIFAR10
+
+# To get `fit_one_cycle`, `lr_find`
+import fastai.callback.schedule
+from fastai.learner import Learner
+from fastai.metrics import accuracy
+from fastai.data.core import DataLoaders
+from fastai.optimizer import OptimWrapper
+
+
+from lib import pytorch_models
 
 
 def main():
@@ -19,9 +26,12 @@ def main():
         usage='use "python %(prog)s --help" for more information.\n'
     )
     parser.add_argument("--cnn_config", "-c", type=str, help="Name of neural network config file in nn_config")
+    parser.add_argument(
+        "--debug", "-d", action='store_true', help="To execute sequential model layer by layer and debug"
+    )
     args = parser.parse_args()
 
-    root = Path(__file__).parent.resolve()
+    root = Path(__file__).parent.parent.resolve() / 'experiments'
     config_path = root / "cnn_config" / f"{args.cnn_config}.json"
     output_path = root / "cnn_output" / args.cnn_config
 
@@ -30,49 +40,42 @@ def main():
     with open(config_path) as f:
         cnn_config = json.load(f)
 
-    # Build CNN application
-    # Get application dataset
-    (x_train_int, y_train), (x_test_int, y_test) = keras.datasets.cifar10.load_data()
-    x_train = x_train_int / 255.0
-    x_test = x_test_int / 255.0
-    # x_train, x_val, y_train, y_val = train_test_split(x_train, y_train, test_size=0.3)
-    y_train = keras.utils.to_categorical(y_train, 10)
-    # y_val = keras.utils.to_categorical(y_val, 10)
-    y_test = keras.utils.to_categorical(y_test, 10)
-    config_dataset = {
-        "input_w": 32,
-        "input_h": 32,
-        "input_c": 3,
-        "classes": 10,
-    }
-    km = vars(keras_models)
-    model = km[cnn_config["name"]](cnn_config, config_dataset)
+    transform = transforms.Compose([
+        transforms.RandomHorizontalFlip(),  # FLips the image w.r.t horizontal axis
+        transforms.RandomRotation(10),  # Rotates the image to a specified angel
+        transforms.RandomAffine(0, shear=10, scale=(0.8, 1.2)),  # Perform action like zooms, change shear angles.
+        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),  # Set the color params
 
-    # datagen = ImageDataGenerator(
-    #     rotation_range=15,
-    #     horizontal_flip=True,
-    #     width_shift_range=0.1,
-    #     height_shift_range=0.1
-    #     # zoom_range=0.3
-    # )
-    callback = keras.callbacks.EarlyStopping(monitor='accuracy', patience=10)
-    # model.fit(
-    #     datagen.flow(x_train, y_train), validation_data=datagen.flow(x_val, y_val),
-    #     epochs=cnn_config["n_epochs"], callbacks=[callback],
-    #     batch_size=64
-    # )
-    model.fit(
-        x_train, y_train, epochs=cnn_config["n_epochs"], callbacks=[callback], validation_split=0.3, batch_size=64
+        transforms.ToTensor(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ])
+
+    transform_test = transforms.Compose([
+        transforms.ToTensor(),
+        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+    ])
+
+    criterion = torch.nn.CrossEntropyLoss()
+    opt_func = partial(OptimWrapper, opt=torch.optim.Adam)
+
+    dataset_train = CIFAR10("~/pytorch", train=True, download=True, transform=transform)
+    dataset_test = CIFAR10("~/pytorch", train=False, download=True, transform=transform_test)
+
+    train_loader = torch.utils.data.DataLoader(
+        dataset_train, shuffle=True, batch_size=32, num_workers=2, pin_memory=True
     )
-    # Save model
-    model.save(output_path / 'weights')
-    model_dict = dictionary_from_model(model)
-    # savemat(path / "model.mat", {str(k): v for k, v in model_dict.items()})
-    with open(output_path / 'weights.pkl', 'wb') as output:
-        # Pickle dictionary using protocol 0.
-        pickle.dump(model_dict, output)
+    test_loader = torch.utils.data.DataLoader(
+        dataset_test, shuffle=False, batch_size=32, num_workers=2, pin_memory=True
+    )
+    data_loader = DataLoaders(train_loader, test_loader)
 
-    model.evaluate(x_test, y_test, verbose=2)
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+    model = pytorch_models_lower[cnn_config["name"]](cnn_config, args.debug)
+    learn = Learner(data_loader, model, loss_func=criterion, opt_func=opt_func, metrics=accuracy)
+    learn.fit_one_cycle(n_epoch=2, lr_max=0.1)
+    learn.fit(cnn_config["n_epochs"])
+    torch.save(learn.model.state_dict(), output_path / "model.pth")
+    learn.save(output_path / "fastai")
 
 
 if __name__ == '__main__':
