@@ -31,7 +31,7 @@ def main():
     )
     args = parser.parse_args()
 
-    root = Path(__file__).parent.resolve()
+    root = Path(__file__).parent.parent.resolve() / 'experiments'
     config_path = root / "cnn_config" / f"{args.cnn_config}.json"
     output_path = root / "cnn_output" / args.cnn_config
 

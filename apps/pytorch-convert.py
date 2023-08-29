@@ -17,7 +17,7 @@ def main():
     parser.add_argument("--rtl_config", "-r", type=str, help="Name of hardware config file in rtl_config")
     args = parser.parse_args()
 
-    root = Path(__file__).parent.resolve()
+    root = Path(__file__).parent.parent.resolve() / 'experiments'
     cnn_config_path = root / "cnn_config" / f"{args.cnn_config}.json"
     cnn_output_path = root / "cnn_output" / args.cnn_config
     rtl_config_path = root / "rtl_config" / f"{args.rtl_config}.json"
