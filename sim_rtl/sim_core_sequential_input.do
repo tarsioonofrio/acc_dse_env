@@ -8,8 +8,8 @@ vmap work work
 # Packages for CNN layer simualtion
 # inmem_pkg is not used in simulation
 
-vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/bram/config_const_pkg.vhd
+vcom -work work ../experiments/rtl_output/default/default/core/config_pkg.vhd
+vcom -work work ../experiments/rtl_output/default/default/bram/config_const_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd
@@ -31,7 +31,7 @@ vcom -work work ../rtl/core/core_serial.vhd
 vcom -work work ../tb/tb_rtl_core_serial_input.vhd
 
 # Simulation
-set fp [open "../apps/rtl_output/default/default/core/generic_file.txt" r]
+set fp [open "../experiments/rtl_output/default/default/core/generic_file.txt" r]
 set generic_file [read $fp]
 set generics "-gN_LAYER_ERR=$num_layer $generic_file"
 vsim -voptargs=+acc=lprn -t ps work.tb {*}$generics

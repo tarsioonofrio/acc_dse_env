@@ -6,8 +6,8 @@ vmap work work
 # Packages for CNN layer simualtion
 # inmem_pkg is not used in simulation
 
-# vcom -work work ../apps/rtl_output/default/default/core/config_pkg.vhd
-vcom -work work ../apps/rtl_output/default/default/core/op_generics_pkg.vhd
+# vcom -work work ../experiments/rtl_output/default/default/core/config_pkg.vhd
+vcom -work work ../experiments/rtl_output/default/default/core/op_generics_pkg.vhd
 
 
 # Package with utilities - need to be before convolution core
@@ -30,7 +30,7 @@ vcom -work work ../rtl/core/core_sequential.vhd
 vcom -work work ../tb/tb_rtl_core_sequential.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/layer/3/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/default/default/layer/3/generic_file.txt
 #onfinish exit
 #onbreak exit
 log -r /*
