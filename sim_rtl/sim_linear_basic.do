@@ -18,10 +18,10 @@ vcom -work work ../rtl/components/mem_split.vhd
 vcom -work work ../rtl/core/util_pkg.vhd
 
 # Convolution core
-vcom -work work ../rtl/fully_connected/fully_connected_basic.vhd
+vcom -work work ../rtl/linear/linear_basic.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_fully_connected.vhd
+vcom -work work ../tb/tb_rtl_linear.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../apps/rtl_output/default/default/layer/3/generic_file.txt

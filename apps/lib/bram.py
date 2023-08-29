@@ -31,6 +31,7 @@ dict_fun_ordenate_bits = {
 
 
 def two_comp(val, nbits):
+    # TODO replace with https://numpy.org/devdocs/reference/generated/numpy.binary_repr.html
     # https://stackoverflow.com/questions/7822956/how-to-convert-negative-integer-value-to-hex-in-python
     return (val + (1 << nbits)) % (1 << nbits)
 

@@ -5,7 +5,7 @@ use ieee.std_logic_arith.all;
 
 package common_generics_pkg is
 
-constant OP_TYPE: string := "CCCF";
+constant OP_TYPE: string := "CCCL";
 constant SHIFT: integer range 0 to 8 := 8;
 constant DATAFLOW_TYPE: string := "ws";
 constant ARRAY_TYPE: string := "syst2d";

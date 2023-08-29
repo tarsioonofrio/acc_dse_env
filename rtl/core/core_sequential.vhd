@@ -106,7 +106,7 @@ begin
   -- map mem value to conv 
   ifmap_value <= mem_ifmap_value;
 
-  GEN_IWGHT: if OP_TYPE = 'C' or OP_TYPE = 'F' generate
+  GEN_IWGHT: if OP_TYPE = 'C' or OP_TYPE = 'L' generate
     IWGHT : entity work.memory
       generic map(
         ROM_PATH => IWGHT_PATH,
@@ -249,8 +249,8 @@ begin
         );
   end generate;
 
-  GEN_FC: if OP_TYPE = 'F' generate
-    FC : entity work.fully_connected
+  GEN_FC: if OP_TYPE = 'L' generate
+    FC : entity work.linear
       generic map(
         IN_FEATURES    => IN_FEATURES(BRAM_NAME_LAYER),
         OUT_FEATURES   => OUT_FEATURES(BRAM_NAME_LAYER),

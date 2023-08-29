@@ -21,7 +21,7 @@ vcom -work work ../rtl/components/mem_file.vhd
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
-vcom -work work ../rtl/fully_connected/simple.vhd
+vcom -work work ../rtl/linear/linear_basic.vhd
 
 # Processing element
 vcom -work work ../rtl/core/core_sequential.vhd

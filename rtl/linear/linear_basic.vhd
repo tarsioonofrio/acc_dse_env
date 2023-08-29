@@ -10,7 +10,7 @@ use ieee.std_logic_arith.all;
 -- use work.util_package.all;
 
 
-entity fully_connected is
+entity linear is
   generic (
     IN_FEATURES    : integer := 0; 
     OUT_FEATURES   : integer := 0; 
@@ -49,10 +49,10 @@ entity fully_connected is
     ofmap_we      : out std_logic;
     ofmap_ce      : out std_logic
     );
-end entity fully_connected;
+end entity linear;
 
 
-architecture a1 of fully_connected is
+architecture a1 of linear is
   signal iwght_reg, start_reg, end_reg, ce_ifmap, ce_iwght, ce_ofmap, debug_reg, pipe_reset: std_logic;
 
   signal en_reg  : std_logic_vector(OUT_FEATURES - 1 downto 0);

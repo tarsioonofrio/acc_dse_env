@@ -99,7 +99,7 @@ begin
       n_write  => ofmap_n_write
       );
 
-  DUT : entity work.fully_connected
+  DUT : entity work.linear
     generic map(
       IN_FEATURES    => IN_FEATURES(LAYER),
       OUT_FEATURES   => OUT_FEATURES(LAYER),

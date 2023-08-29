@@ -20,7 +20,7 @@ vcom -work work ../rtl/components/mem_bram.vhd
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_multi.vhd
 vcom -work work ../rtl/pool/maxpool2d.vhd
-vcom -work work ../rtl/fully_connected/fully_connected_basic.vhd
+vcom -work work ../rtl/linear/linear_basic.vhd
 
 
 # Processing element

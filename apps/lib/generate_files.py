@@ -74,7 +74,7 @@ class GenerateRTL:
             ]
         },
         'Linear': {
-            "op": 'F', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
+            "op": 'L', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
             "out_channels": lambda x: 0, "stride": lambda x: 0,
             "generics": ['IN_FEATURES', 'OUT_FEATURES', 'TOTAL_OPS']
         },
