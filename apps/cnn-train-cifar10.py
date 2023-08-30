@@ -56,7 +56,7 @@ def main():
     ])
 
     criterion = torch.nn.CrossEntropyLoss()
-    opt_func = partial(OptimWrapper, opt=torch.optim.Adam)
+    opt_func = partial(OptimWrapper, opt=torch.optim.SGD)
 
     dataset_train = CIFAR10("~/pytorch", train=True, download=True, transform=transform)
     dataset_test = CIFAR10("~/pytorch", train=False, download=True, transform=transform_test)
@@ -72,7 +72,7 @@ def main():
     pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
     model = pytorch_models_lower[cnn_config["name"]](cnn_config, args.debug)
     learn = Learner(data_loader, model, loss_func=criterion, opt_func=opt_func, metrics=accuracy)
-    learn.fit_one_cycle(n_epoch=2, lr_max=0.1)
+    learn.fit_one_cycle(n_epoch=2)
     learn.fit(cnn_config["n_epochs"])
     torch.save(learn.model.state_dict(), output_path / "model.pth")
     learn.save(output_path / "fastai")
