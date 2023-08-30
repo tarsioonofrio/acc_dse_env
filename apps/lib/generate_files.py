@@ -378,6 +378,8 @@ class GenerateRTL:
     def generate_core(self):
         layer = len(self.in_features) - 2
         path_core = self.rtl_output_path / "core"
+        path_core.mkdir(parents=True, exist_ok=True)
+
         stride = [max(self.stride)]
         n_filter = [max(self.out_channels)]
         x_size = max(self.in_features)
@@ -464,7 +466,8 @@ class GenerateRTL:
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
                 shape = self.output_shape[n_layer-1]
-                feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
+                if len(shape) > 1:
+                    feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
                 feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()

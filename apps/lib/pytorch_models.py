@@ -28,7 +28,7 @@ class Default(nn.Module):
             nn.ReLU(),
             *conv,
             nn.Flatten(1, -1),
-            nn.Linear(config_model["filter_channel"][2]*9, 10),
+            nn.Linear(config_model["filter_channel"][-1]*9, 10),
             nn.Softmax(1),
         )
 
@@ -166,3 +166,24 @@ class Default3FC(nn.Module):
             x = self.sequential(x)
         return x
 
+
+class Stride1(nn.Module):
+    def __init__(self, config_model, debug=False):
+        super().__init__()
+        self.debug = debug
+        conv0 = nn.Conv2d(in_channels=3, out_channels=1, kernel_size=3, stride=1)
+        self.sequential = nn.Sequential(
+            conv0,
+            nn.ReLU(),
+            nn.Flatten(1, -1),
+            nn.Linear(900, 10),
+            nn.Softmax(1),
+        )
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
