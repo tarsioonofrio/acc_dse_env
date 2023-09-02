@@ -53,7 +53,7 @@ end entity convolution;
 architecture a1 of convolution is
 
   -- State machine signals to control input values read
-  type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3, E4, E5);
+  type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3);
   signal EA_add : statesM;
 
   -- Macro state machine signals to control input values flags
@@ -371,10 +371,10 @@ begin
             end if;
           when E2 =>
             if ifmap_valid = '1' then
-          --    EA_add <= E3;
-          --  end if;
-          --when E3 =>
-          --  if ifmap_valid = '1' then
+              EA_add <= E3;
+            end if;
+          when E3 =>
+            if ifmap_valid = '1' then
           --    EA_add <= E4;
           --  end if;
           --when E4 =>
@@ -412,10 +412,10 @@ begin
           add(0) <= CONV_STD_LOGIC_VECTOR(V + H, MEM_SIZE);
           --add(1) <= add(0) + 1;
 
-          add(2) <= X_SIZE + add(0);
+          add(1) <= X_SIZE + add(0);
           --add(3) <= add(2) + 1;
 
-          add(4) <= X_SIZE + add(2);
+          add(2) <= X_SIZE + add(1);
           --add(5) <= add(4) + 1;
 
           --
@@ -445,16 +445,16 @@ begin
           features(2, 2) <= features(2, 1);
 
           -- count the number os arithmetic shifts
-          if cont_steps < 4 then  -- stop at 7 - enough to fire accumulation
+          if cont_steps < 7 then  -- stop at 7 - enough to fire accumulation
             cont_steps <= cont_steps + 1;
           end if;
 
         when E0 => buffer_features(0, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  --------- COMPUTE WITH PREVIOUS DATA
-        when E1 => buffer_features(0, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
-        when E2 => buffer_features(1, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);
-        when E3 => buffer_features(1, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
-        when E4 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  -- signalize to store in regs  
-        when E5 => buffer_features(2, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        when E1 => buffer_features(1, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        when E2 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        --when E3 => buffer_features(1, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        --when E4 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  -- signalize to store in regs  
+        --when E5 => buffer_features(2, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
 
         when others => null;
 
@@ -574,13 +574,13 @@ begin
       reg_start_mac     <= start_mac;
       reg_reg_start_mac <= reg_start_mac;
 
-      if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
+      if control_iteration_flag = '0' and cont_steps > 3 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
         if cont_iterations = CONVS_PER_LINE then
           cont_iterations <= (others => '0');
         end if;
-      elsif EA_add = E1 then
+      elsif EA_add = UPDATEADD then
         control_iteration_flag <= '0';
       end if;
 
@@ -739,10 +739,11 @@ begin
 
   ifmap_address <= add(0) when EA_add = E0 else
                    add(1) when EA_add = E1 else
-                   add(2) when EA_add = E2 else
-                   add(3) when EA_add = E3 else
-                   add(4) when EA_add = E4 else
-                   add(5);
+                   add(2);
+                   --when EA_add = E2 else
+                   --add(3) when EA_add = E3 else
+                   --add(4) when EA_add = E4 else
+                   --add(5);
 
   -- Input memory chip enable control
   --in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';

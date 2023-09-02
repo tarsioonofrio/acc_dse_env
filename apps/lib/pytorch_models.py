@@ -167,11 +167,50 @@ class Default3FC(nn.Module):
         return x
 
 
-class Stride1(nn.Module):
+class FirstChannel(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        return x[:, 0].unsqueeze(1)
+
+
+class OneChannel(nn.Module):
     def __init__(self, config_model, debug=False):
         super().__init__()
         self.debug = debug
-        conv0 = nn.Conv2d(in_channels=3, out_channels=1, kernel_size=3, stride=1)
+        conv0 = nn.Conv2d(
+            in_channels=1, out_channels=config_model["filter_channel"][0],
+            kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
+            stride=(config_model["stride_h"][0], config_model["stride_w"][0])
+        )
+        self.sequential = nn.Sequential(
+            FirstChannel(),
+            conv0,
+            nn.ReLU(),
+            nn.Flatten(1, -1),
+            nn.Linear(675, 10),
+            nn.Softmax(1),
+        )
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
+
+
+class Conv1(nn.Module):
+    def __init__(self, config_model, debug=False):
+        super().__init__()
+        self.debug = debug
+        conv0 = nn.Conv2d(
+            in_channels=3, out_channels=config_model["filter_channel"][0],
+            kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
+            stride=(config_model["stride_h"][0], config_model["stride_w"][0])
+        )
         self.sequential = nn.Sequential(
             conv0,
             nn.ReLU(),
