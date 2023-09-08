@@ -41,10 +41,10 @@ def main():
         cnn_config = json.load(f)
 
     transform = transforms.Compose([
-        transforms.RandomHorizontalFlip(),  # FLips the image w.r.t horizontal axis
-        transforms.RandomRotation(10),  # Rotates the image to a specified angel
-        transforms.RandomAffine(0, shear=10, scale=(0.8, 1.2)),  # Perform action like zooms, change shear angles.
-        transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),  # Set the color params
+        # transforms.RandomHorizontalFlip(),  # FLips the image w.r.t horizontal axis
+        # transforms.RandomRotation(10),  # Rotates the image to a specified angel
+        # transforms.RandomAffine(0, shear=10, scale=(0.8, 1.2)),  # Perform action like zooms, change shear angles.
+        # transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),  # Set the color params
 
         transforms.ToTensor(),
         # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),

@@ -236,3 +236,24 @@ class Conv1(nn.Module):
         else:
             x = self.sequential(x)
         return x
+
+
+class Linear1(nn.Module):
+    def __init__(self, config_model, debug=False):
+        super().__init__()
+        self.debug = debug
+        final_layers = [
+            nn.Flatten(1, -1),
+            nn.Linear(3072, 10),
+            nn.Softmax(1),
+        ]
+        self.sequential = nn.Sequential(*final_layers)
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
+

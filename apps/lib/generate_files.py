@@ -257,7 +257,7 @@ class GenerateRTL:
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, weight=weight_list, feature=feat_list)
         # TODO remove um future
-        self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
+        # self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
 
     def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
@@ -399,7 +399,7 @@ class GenerateRTL:
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_core)
-        self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
+        # self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, path, weight, feature):
         data_pkg = weight + feature
@@ -418,7 +418,7 @@ class GenerateRTL:
                 pre_input_shape = self.output_shape[n_layer - 1]
                 layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
                 # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
-                if pre_input_shape[-1] > 1:
+                if pre_input_shape[-1] > 1 and len(self.output_shape) > 1:
                     layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
                               .reshape(output_shape, input_shape))
                 else:
