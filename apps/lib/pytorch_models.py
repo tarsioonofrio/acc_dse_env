@@ -1,3 +1,4 @@
+import torch
 from torch import nn
 
 
@@ -211,13 +212,22 @@ class Conv1(nn.Module):
             kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
             stride=(config_model["stride_h"][0], config_model["stride_w"][0])
         )
-        self.sequential = nn.Sequential(
+        layers = [
             conv0,
             nn.ReLU(),
-            nn.Flatten(1, -1),
-            nn.Linear(900, 10),
+            nn.Flatten(1, -1)
+        ]
+        sequential = nn.Sequential(*layers)
+
+        shape = config_model['input_c'], config_model['input_w'], config_model['input_h']
+        input_tensor = torch.ones(1, shape[0], shape[1], shape[2])
+        dim = sequential(input_tensor).shape[1]
+
+        final_layers = [
+            nn.Linear(dim, 10),
             nn.Softmax(1),
-        )
+        ]
+        self.sequential = nn.Sequential(*(layers + final_layers))
 
     def forward(self, x):
         if self.debug:

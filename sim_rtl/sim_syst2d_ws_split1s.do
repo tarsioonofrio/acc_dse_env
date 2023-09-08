@@ -27,6 +27,7 @@ vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/conv1out1s1/
 #onbreak exit
 log -r /*
 add wave sim:/tb/*
+add wave sim:/tb/DUT/*
 run -all
 #run 1000 ns
 #exit 

@@ -53,7 +53,7 @@ end entity convolution;
 architecture a1 of convolution is
 
   -- State machine signals to control input values read
-  type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3);
+  type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3, E4, E5);
   signal EA_add : statesM;
 
   -- Macro state machine signals to control input values flags
@@ -375,14 +375,14 @@ begin
             end if;
           when E3 =>
             if ifmap_valid = '1' then
-          --    EA_add <= E4;
-          --  end if;
-          --when E4 =>
-          --  if ifmap_valid = '1' then
-          --    EA_add <= E5;
-          --  end if;
-          --when E5 =>
-            --if ifmap_valid = '1' then
+              EA_add <= E4;
+            end if;
+          when E4 =>
+            if ifmap_valid = '1' then
+              EA_add <= E5;
+            end if;
+          when E5 =>
+            if ifmap_valid = '1' then
               EA_add <= UPDATEADD;
             end if;
         end case;
@@ -484,7 +484,7 @@ begin
     if reset = '1' then
       en_reg_flag <= '0';
     elsif rising_edge(clock) then
-      if EA_add = E1 then
+      if EA_add = E4 then
         en_reg_flag <= '1';
       else
         en_reg_flag <= '0';
@@ -492,7 +492,7 @@ begin
     end if;
   end process;
 
-  en_reg <= '1' when EA_add = E1 and en_reg_flag = '0' else '0';
+  en_reg <= '1' when EA_add = E4 and en_reg_flag = '0' else '0';
 
   -------------------------------------------------------------------------------------------------------
   --- PART 2 *********  MACS AND FLOPS ARRAY - ATTENTION :  ARRANGEMENT IS DIFFERENT FROM 2D  ***********
@@ -574,13 +574,13 @@ begin
       reg_start_mac     <= start_mac;
       reg_reg_start_mac <= reg_start_mac;
 
-      if control_iteration_flag = '0' and cont_steps > 3 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
+      if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
         cont_iterations        <= cont_iterations + 1;
         control_iteration_flag <= '1';
         if cont_iterations = CONVS_PER_LINE then
           cont_iterations <= (others => '0');
         end if;
-      elsif EA_add = UPDATEADD then
+      elsif EA_add = E4 then
         control_iteration_flag <= '0';
       end if;
 
@@ -739,8 +739,8 @@ begin
 
   ifmap_address <= add(0) when EA_add = E0 else
                    add(1) when EA_add = E1 else
-                   add(2);
-                   --when EA_add = E2 else
+                   add(2) when EA_add = E2 else
+                   (others => '0');
                    --add(3) when EA_add = E3 else
                    --add(4) when EA_add = E4 else
                    --add(5);
