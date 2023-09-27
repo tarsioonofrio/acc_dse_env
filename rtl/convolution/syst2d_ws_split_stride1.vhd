@@ -53,7 +53,7 @@ end entity convolution;
 architecture a1 of convolution is
 
   -- State machine signals to control input values read
-  type statesM is (RIDLE, UPDATEADD, E0, E1, E2, E3, E4, E5);
+  type statesM is (RIDLE, UPDATEADD, E0, E1, E2);
   signal EA_add : statesM;
 
   -- Macro state machine signals to control input values flags
@@ -64,7 +64,10 @@ architecture a1 of convolution is
   signal weight : wgh3x3;
 
   type features_3x3 is array (0 to 2, 0 to 2) of std_logic_vector(INPUT_SIZE-1 downto 0);
-  signal features, buffer_features : features_3x3;
+  signal features : features_3x3;
+
+  type features_3 is array (0 to 2) of std_logic_vector(INPUT_SIZE-1 downto 0);
+  signal buffer_features : features_3;
 
   type array3x3 is array (0 to 2, 0 to 2) of std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);  -- 20 bits
   signal op1, op2, res_mac, reg_mac : array3x3;
@@ -72,7 +75,7 @@ architecture a1 of convolution is
   type address is array (0 to 5) of std_logic_vector(MEM_SIZE-1 downto 0);
   signal add : address;
 
-  signal in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
+  signal change_line, in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
 
   signal reg_reg_bias_value, reg_bias_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal adder_mux                          : std_logic_vector(INPUT_SIZE-1 downto 0);
@@ -370,18 +373,18 @@ begin
               EA_add <= E2;
             end if;
           when E2 =>
-            if ifmap_valid = '1' then
-              EA_add <= E3;
-            end if;
-          when E3 =>
-            if ifmap_valid = '1' then
-              EA_add <= E4;
-            end if;
-          when E4 =>
-            if ifmap_valid = '1' then
-              EA_add <= E5;
-            end if;
-          when E5 =>
+          --  if ifmap_valid = '1' then
+          --    EA_add <= E3;
+          --  end if;
+          --when E3 =>
+          --  if ifmap_valid = '1' then
+          --    EA_add <= E4;
+          --  end if;
+          --when E4 =>
+          --  if ifmap_valid = '1' then
+          --    EA_add <= E5;
+          --  end if;
+          --when E5 =>
             if ifmap_valid = '1' then
               EA_add <= UPDATEADD;
             end if;
@@ -397,7 +400,7 @@ begin
       H               <= 0;
       V               <= 0;
       add             <= (others => (others => '0'));
-      buffer_features <= (others => (others => (others => '0')));
+      buffer_features <= (others => (others => '0'));
       features        <= (others => (others => (others => '0')));
       cont_steps      <= (others => '0');
 
@@ -431,27 +434,27 @@ begin
           --
           -- TRANSFER THE READ DATA, REUSING THE FIRST COLUM TO THE THIRD ONE
           --
-          features(0, 0) <= buffer_features(0, 0);
-          features(0, 1) <= features(0, 0);
-          features(0, 2) <= features(0, 1);
+          features(0, 0) <= buffer_features(0);
+          features(0, 1) <= buffer_features(0);
+          features(0, 2) <= buffer_features(0);
 
-          features(1, 0) <= buffer_features(1, 0);
-          features(1, 1) <= features(1, 0);
-          features(1, 2) <= features(1, 1);
+          features(1, 0) <= buffer_features(1);
+          features(1, 1) <= buffer_features(1);
+          features(1, 2) <= buffer_features(1);
 
 
-          features(2, 0) <= buffer_features(2, 0);
-          features(2, 1) <= features(2, 0);
-          features(2, 2) <= features(2, 1);
+          features(2, 0) <= buffer_features(2);
+          features(2, 1) <= buffer_features(2);
+          features(2, 2) <= buffer_features(2);
 
           -- count the number os arithmetic shifts
           if cont_steps < 7 then  -- stop at 7 - enough to fire accumulation
             cont_steps <= cont_steps + 1;
           end if;
 
-        when E0 => buffer_features(0, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  --------- COMPUTE WITH PREVIOUS DATA
-        when E1 => buffer_features(1, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);
-        when E2 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        when E0 => buffer_features(0) <= ifmap_value(INPUT_SIZE-1 downto 0);  --------- COMPUTE WITH PREVIOUS DATA
+        when E1 => buffer_features(1) <= ifmap_value(INPUT_SIZE-1 downto 0);
+        when E2 => buffer_features(2) <= ifmap_value(INPUT_SIZE-1 downto 0);
         --when E3 => buffer_features(1, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
         --when E4 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  -- signalize to store in regs  
         --when E5 => buffer_features(2, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
@@ -470,7 +473,7 @@ begin
         H               <= 0;
         V               <= 0;
         add             <= (others => (others => '0'));
-        buffer_features <= (others => (others => (others => '0')));
+        buffer_features <= (others => (others => '0'));
         features        <= (others => (others => (others => '0')));
         cont_steps      <= (others => '0');
       end if;
@@ -484,7 +487,7 @@ begin
     if reset = '1' then
       en_reg_flag <= '0';
     elsif rising_edge(clock) then
-      if EA_add = E4 then
+      if EA_add = E0 then
         en_reg_flag <= '1';
       else
         en_reg_flag <= '0';
@@ -492,7 +495,7 @@ begin
     end if;
   end process;
 
-  en_reg <= '1' when EA_add = E4 and en_reg_flag = '0' else '0';
+  en_reg <= '1' when EA_add = E0 and en_reg_flag = '0' else '0';
 
   -------------------------------------------------------------------------------------------------------
   --- PART 2 *********  MACS AND FLOPS ARRAY - ATTENTION :  ARRANGEMENT IS DIFFERENT FROM 2D  ***********
@@ -570,28 +573,37 @@ begin
       reg_start_mac          <= '0';
       reg_reg_start_mac      <= '0';
       control_iteration_flag <= '0';
+      change_line <= '0';
     elsif rising_edge(clock) then
       reg_start_mac     <= start_mac;
       reg_reg_start_mac <= reg_start_mac;
 
-      if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E3 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
-        cont_iterations        <= cont_iterations + 1;
-        control_iteration_flag <= '1';
-        if cont_iterations = CONVS_PER_LINE then
-          cont_iterations <= (others => '0');
+      if EA_add = E2 then
+        if change_line = '0' then
+          if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E2 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
+            cont_iterations        <= cont_iterations + 1;
+            control_iteration_flag <= '1';
+            if cont_iterations = CONVS_PER_LINE then
+              cont_iterations <= (others => '0');
+              change_line <= '1';
+            end if;
+          elsif EA_add = E0 then
+            control_iteration_flag <= '0';
+          end if;
+
+          if read_bias = '1' or read_weights = '1' or start_mac = '1' then
+            cont_iterations <= (others => '0');
+            change_line <= '1';
+          end if;
+
+          if reg_start_mac = '1' then
+            cont_iterations <= (others => '0');
+            change_line <= '1';
+          end if;
+        else
+          change_line <= '0';
         end if;
-      elsif EA_add = E4 then
-        control_iteration_flag <= '0';
       end if;
-
-      if read_bias = '1' or read_weights = '1' or start_mac = '1' then
-        cont_iterations <= (others => '0');
-      end if;
-
-      if reg_start_mac = '1' then
-        cont_iterations <= (others => '0');
-      end if;
-
     end if;
   end process;
 

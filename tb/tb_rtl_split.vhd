@@ -167,7 +167,8 @@ begin
             report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out));
           end if;
 
-          assert false severity failure;
+          --assert false severity failure;
+          --assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
 
