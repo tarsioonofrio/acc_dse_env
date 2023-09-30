@@ -578,31 +578,29 @@ begin
       reg_start_mac     <= start_mac;
       reg_reg_start_mac <= reg_start_mac;
 
-      if EA_add = E2 then
-        if change_line = '0' then
-          if control_iteration_flag = '0' and cont_steps > 6 and EA_add = E2 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
-            cont_iterations        <= cont_iterations + 1;
-            control_iteration_flag <= '1';
-            if cont_iterations = CONVS_PER_LINE then
-              cont_iterations <= (others => '0');
-              change_line <= '1';
-            end if;
-          elsif EA_add = E0 then
-            control_iteration_flag <= '0';
-          end if;
-
-          if read_bias = '1' or read_weights = '1' or start_mac = '1' then
+      if change_line = '0' then
+        if control_iteration_flag = '0' and cont_steps > 6  and EA_add = E2 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
+          cont_iterations        <= cont_iterations + 1;
+          control_iteration_flag <= '1';
+          if cont_iterations >= CONVS_PER_LINE then
             cont_iterations <= (others => '0');
             change_line <= '1';
           end if;
-
-          if reg_start_mac = '1' then
-            cont_iterations <= (others => '0');
-            change_line <= '1';
-          end if;
-        else
-          change_line <= '0';
+        elsif EA_add = UPDATEADD then
+          control_iteration_flag <= '0';
         end if;
+
+        if read_bias = '1' or read_weights = '1' or start_mac = '1' then
+          cont_iterations <= (others => '0');
+          change_line <= '1';
+        end if;
+
+        if reg_start_mac = '1' then
+          cont_iterations <= (others => '0');
+          change_line <= '1';
+        end if;
+      else
+        change_line <= '0';
       end if;
     end if;
   end process;

@@ -24,14 +24,22 @@ class Default(nn.Module):
             ]
         ]
 
-        self.sequential = nn.Sequential(
+        layers = [
             conv0,
             nn.ReLU(),
-            *conv,
-            nn.Flatten(1, -1),
-            nn.Linear(config_model["filter_channel"][-1]*9, 10),
+            nn.Flatten(1, -1)
+        ]
+        sequential = nn.Sequential(*layers)
+
+        shape = config_model['input_c'], config_model['input_w'], config_model['input_h']
+        input_tensor = torch.ones(1, shape[0], shape[1], shape[2])
+        dim = sequential(input_tensor).shape[1]
+
+        final_layers = [
+            nn.Linear(dim, 10),
             nn.Softmax(1),
-        )
+        ]
+        self.sequential = nn.Sequential(*(layers + final_layers))
 
     def forward(self, x):
         if self.debug:
