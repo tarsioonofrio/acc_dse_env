@@ -75,7 +75,7 @@ architecture a1 of convolution is
   type address is array (0 to 5) of std_logic_vector(MEM_SIZE-1 downto 0);
   signal add : address;
 
-  signal change_line, in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
+  signal change_line, change_line_reg, in_ce, partial_ce, partial_wr, partial_valid_flag, en_reg_flag, control_iteration_flag, valid_sync_signal, update_add_base, ce_control, ce_flag, read_bias_flag, read_bias, read_weights, start_mac, end_conv_signal, end_conv_reg, read_weight_flag, en_reg, pipe_reset, valid_signal, reg_read_weights, reg_read_bias, reg_start_mac, reg_reg_start_mac, ofmap_ce_reg, ofmap_we_reg, debug_reg, valid_sync_signal_reg, iwght_ce_reg : std_logic;
 
   signal reg_reg_bias_value, reg_bias_value : std_logic_vector((INPUT_SIZE*2)-1 downto 0);
   signal adder_mux                          : std_logic_vector(INPUT_SIZE-1 downto 0);
@@ -280,11 +280,13 @@ begin
       elsif (reg_start_mac = '1' and update_add_base = '0') then
         address_base    <= address_base + (X_SIZE*X_SIZE);
         update_add_base <= '1';
-      end if;
-
-      if EA_add = UPDATEADD then
+      elsif (update_add_base = '1') then
         update_add_base <= '0';
       end if;
+
+      --if EA_add = UPDATEADD then
+      --  update_add_base <= '0';
+      --end if;
 
     end if;
   end process;
@@ -592,15 +594,15 @@ begin
 
         if read_bias = '1' or read_weights = '1' or start_mac = '1' then
           cont_iterations <= (others => '0');
-          change_line <= '1';
         end if;
 
         if reg_start_mac = '1' then
           cont_iterations <= (others => '0');
-          change_line <= '1';
         end if;
       else
-        change_line <= '0';
+        if (EA_add = E1) then
+          change_line <= '0';        
+        end if;
       end if;
     end if;
   end process;
