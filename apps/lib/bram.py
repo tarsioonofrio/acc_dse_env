@@ -162,14 +162,15 @@ def generate_bram_files(input_path, path_output, config_hw, bram_size):
         f" {{MAX_MEM_SIZE {config_hw['MAX_MEM_SIZE']}}}"
         # f" -gBRAM_RW_DEPTH_SAMPLES={config_hw['BRAM_RW_DEPTH_SAMPLES']}"
     )
+    synth_file = path_output.parent / "core/generic_synth.tcl"
+    if synth_file.exists():
+        with open(synth_file, "r") as f:
+            generics_synth = f.read().strip()
 
-    with open(path_output.parent / "core/generic_synth.tcl", "r") as f:
-        generics_synth = f.read().strip()
-
-    with open(path_output / f"generic_synth{bram_size}.txt", "w") as f:
-        f.writelines(
-            generics_synth[:-1] + rw_depth_generics_synth + generic_size_synth + f" {{BRAM_ADDR={bram_addr}}}" + "}"
-        )
+        with open(path_output / f"generic_synth{bram_size}.txt", "w") as f:
+            f.writelines(
+                generics_synth[:-1] + rw_depth_generics_synth + generic_size_synth + f" {{BRAM_ADDR={bram_addr}}}" + "}"
+            )
 
     dict_bram = {
         "wght": wght_size,

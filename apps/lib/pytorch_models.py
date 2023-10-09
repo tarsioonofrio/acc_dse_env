@@ -27,6 +27,7 @@ class Default(nn.Module):
         layers = [
             conv0,
             nn.ReLU(),
+            *conv,
             nn.Flatten(1, -1)
         ]
         sequential = nn.Sequential(*layers)

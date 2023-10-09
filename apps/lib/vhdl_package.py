@@ -21,12 +21,12 @@ class Integer:
     def __str__(self):
         if self.is_scalar:
             default = f":= {self.default}"
-            output = f"constant {self.name}: {self.type} {self.range()} {default};"
+            output = f"constant {self.name}: {self.type} {default};"
             return output
         else:
             typ = (
                 f"type {self.type_name} is array (0 to {len(self.default) - 1}) "
-                f"of {self.type} {self.range()};"
+                f"of {self.type};"
             )
             default = f":= ({', '.join([str(s) for s in self.default])})"
             const = f"constant {self.name} : {self.type_name} {default};"
