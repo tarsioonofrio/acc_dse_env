@@ -18,17 +18,18 @@ class Systolic2dWs:
         out_add = np.zeros_like(in_add)
         out_sum = np.zeros_like(in_sum)
 
-        out_mac[0][0] = self.features[in_add[0]] * self.weight[0][0]
-        out_mac[0][1] = self.features[in_add[0]] * self.weight[0][1] + in_mac[0][0]
-        out_mac[0][2] = self.features[in_add[0]] * self.weight[0][2] + in_mac[0][1]
+        if in_add[-1] < self.x_size * self.x_size:
+            out_mac[0][0] = self.features[in_add[0]] * self.weight[0][0]
+            out_mac[0][1] = self.features[in_add[0]] * self.weight[0][1] + in_mac[0][0]
+            out_mac[0][2] = self.features[in_add[0]] * self.weight[0][2] + in_mac[0][1]
 
-        out_mac[1][0] = self.features[in_add[1]] * self.weight[1][0]
-        out_mac[1][1] = self.features[in_add[1]] * self.weight[1][1] + in_mac[1][0]
-        out_mac[1][2] = self.features[in_add[1]] * self.weight[1][2] + in_mac[1][1]
+            out_mac[1][0] = self.features[in_add[1]] * self.weight[1][0]
+            out_mac[1][1] = self.features[in_add[1]] * self.weight[1][1] + in_mac[1][0]
+            out_mac[1][2] = self.features[in_add[1]] * self.weight[1][2] + in_mac[1][1]
 
-        out_mac[2][0] = self.features[in_add[2]] * self.weight[2][0]
-        out_mac[2][1] = self.features[in_add[2]] * self.weight[2][1] + in_mac[2][0]
-        out_mac[2][2] = self.features[in_add[2]] * self.weight[2][2] + in_mac[2][1]
+            out_mac[2][0] = self.features[in_add[2]] * self.weight[2][0]
+            out_mac[2][1] = self.features[in_add[2]] * self.weight[2][1] + in_mac[2][0]
+            out_mac[2][2] = self.features[in_add[2]] * self.weight[2][2] + in_mac[2][1]
 
         out_sum[0] = in_mac[0][2]
         out_sum[1] = in_mac[1][2] + in_sum[0]
@@ -83,7 +84,8 @@ class Systolic2dWs:
             report['h'].append(out_h)
             report['v'].append(out_v)
             in_add, in_mac, in_sum, in_h, in_v = np.copy(out_add), np.copy(out_mac), np.copy(out_sum), out_h, out_v
-        df = pd.DataFrame.from_dict(report).T
+        df = pd.DataFrame.from_dict(report)
+        df = df.drop(labels=0, axis=0).reset_index(drop=True).T
         return df
 
 
@@ -111,8 +113,10 @@ def test():
         1, 2, 3, 4, 5,
     ])
 
+    n_sim = x_size * (x_size-2) + 3 + 1
     conv = Systolic2dWs(features, weight, bias, x_size)
-    report = conv.sim(15)
+    report = conv.sim(n_sim)
+    report.to_csv(f'../../test.csv')
     print()
 
 
@@ -131,6 +135,9 @@ def main():
     rtl_config_path = root / "rtl_config" / f"{args.rtl_config}.json"
     rtl_output_path = root / "rtl_output" / args.cnn_config / args.rtl_config
     output_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'test_table'
+    generic_layer_path = (
+            root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'generic_file.txt'
+    )
     output_path.mkdir(parents=True, exist_ok=True)
 
     with open(cnn_config_path) as f:
@@ -139,14 +146,18 @@ def main():
     with open(rtl_config_path) as f:
         rtl_config = json.load(f)
 
+    with open(generic_layer_path) as f:
+        gen_list = [g.split('=') for g in f.read().replace("\n", "").split(" ")]
+        generic_config = {k.replace("-g", ""): v for k, v in gen_list}
+
     weight_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'iwght.txt'
     fmap_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'ifmap.txt'
 
     with open(weight_path) as f:
         weight_bias_data = [int(i) for i in f.read().split("\n") if i != '']
 
-        with open(fmap_path) as f:
-            features = np.array([int(i) for i in f.read().split("\n") if i != ''])
+    with open(fmap_path) as f:
+        features = np.array([int(i) for i in f.read().split("\n") if i != ''])
 
     layer = int(args.layer)
     n_filter = cnn_config["filter_channel"][layer]
@@ -154,9 +165,10 @@ def main():
     bias = weight_bias[layer]
     weight = weight_bias[n_filter:].reshape(-1, 3, 3)[layer]
 
-    x_size = 32
+    x_size = int(generic_config['X_SIZE'])
+    n_sim = x_size * (x_size-2) + 3 + 1
     conv = Systolic2dWs(features, weight, bias, x_size)
-    df = conv.sim(15)
+    df = conv.sim(n_sim)
     df.to_csv(output_path / f'{layer}.csv')
     print()
 
