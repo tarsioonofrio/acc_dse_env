@@ -3,10 +3,10 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../experiments/rtl_output/default_s1/default_s1_pad1/layer/0/ifmap_pkg.vhd
-vcom -work work ../experiments/rtl_output/default_s1/default_s1_pad1/layer/0/iwght_pkg.vhd
-vcom -work work ../experiments/rtl_output/default_s1/default_s1_pad1/layer/0/gold_pkg.vhd
-vcom -work work ../experiments/rtl_output/default_s1/default_s1_pad1/core/op_generics_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_s1_pad1/default/layer/0/ifmap_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_s1_pad1/default/layer/0/iwght_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_s1_pad1/default/layer/0/gold_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_s1_pad1/default/core/op_generics_pkg.vhd
 
 
 # Components

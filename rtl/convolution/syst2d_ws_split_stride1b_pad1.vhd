@@ -85,8 +85,8 @@ architecture a1 of convolution is
   signal partial_add, partial_add_reg, partial_base, cont_iterations, weight_x, bias_x, weight_control, cont_steps, ofmap_address_reg, iwght_address_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
   signal H                                                                            : integer range 0 to X_SIZE;
-  signal V                                                                            : integer range 0 to 2**(MEM_SIZE);
-  signal address_base                                                                 : integer range 0 to 2**(MEM_SIZE);
+  signal V                                                                            : integer range -X_SIZE to 2**(MEM_SIZE);
+  signal address_base                                                                 : integer range -X_SIZE to 2**(MEM_SIZE);
   signal conv_length                                                                  : integer range 0 to CONVS_PER_LINE*CONVS_PER_LINE;
   signal channel_control, channel_control_reg                                         : integer range 0 to N_CHANNEL;
   signal cont_weight_cycles, cont_valid, cont_total_valid, cont_conv, cont_conv_plus1 : integer;
@@ -274,13 +274,13 @@ begin
   process(reset, clock)
   begin
     if reset = '1' then
-      address_base    <= 0;
+      address_base    <= -X_SIZE;
       update_add_base <= '0';
 
     elsif rising_edge(clock) then
 
       if (reg_read_bias = '1') then
-        address_base <= 0;
+        address_base <= -X_SIZE;
       elsif (reg_start_mac = '1' and update_add_base = '0') then
         address_base    <= address_base + (X_SIZE*X_SIZE);
         update_add_base <= '1';
@@ -392,12 +392,13 @@ begin
   begin
     if reset = '1' then
       H               <= 0;
-      V               <= 0;
+      V               <= -X_SIZE;
       add             <= (others => (others => '0'));
       buffer_features <= (others => (others => '0'));
       features        <= (others => (others => (others => '0')));
       cont_steps      <= (others => '0');
-
+      padh            <= (others => '0');
+      padv            <= (others => '1');
     elsif rising_edge(clock) then
 
       case EA_add is
@@ -498,11 +499,13 @@ begin
 
       elsif (reg_read_bias = '1') then
         H               <= 0;
-        V               <= 0;
+        V               <= -X_SIZE;
         add             <= (others => (others => '0'));
         buffer_features <= (others => (others => '0'));
         features        <= (others => (others => (others => '0')));
         cont_steps      <= (others => '0');
+        padh            <= (others => '0');
+        padv            <= (others => '1');
       end if;
 
     end if;
