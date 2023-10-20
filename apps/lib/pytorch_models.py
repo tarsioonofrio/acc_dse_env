@@ -6,10 +6,12 @@ class Default(nn.Module):
     def __init__(self, config_model, debug=False):
         super().__init__()
         self.debug = debug
+        padding = config_model.get('pad', [0 for i in range(len(config_model["filter_channel"]))])
         conv0 = nn.Conv2d(
             in_channels=3, out_channels=config_model["filter_channel"][0],
             kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
-            stride=(config_model["stride_h"][0], config_model["stride_w"][0])
+            stride=(config_model["stride_h"][0], config_model["stride_w"][0]),
+            padding=padding[0]
         )
         conv = [
             layer
@@ -18,7 +20,8 @@ class Default(nn.Module):
                 nn.Conv2d(
                     in_channels=config_model["filter_channel"][i - 1], out_channels=config_model["filter_channel"][i],
                     kernel_size=(config_model["filter_dimension"][i], config_model["filter_dimension"][i]),
-                    stride=(config_model["stride_h"][i], config_model["stride_w"][i])
+                    stride=(config_model["stride_h"][i], config_model["stride_w"][i]),
+                    padding=padding[i]
                 ),
                 nn.ReLU()
             ]
