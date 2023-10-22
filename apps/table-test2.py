@@ -47,15 +47,13 @@ class Systolic2dWs:
         out_add[1] = self.x_size + in_add[0]
         out_add[2] = self.x_size + in_add[1]
 
-        print('add', in_add)
-
-        print('mac[0]', out_mac[0])
-        print('mac[1]', out_mac[1])
-        print('mac[2]', out_mac[2])
-
-        print('sum[0]', out_sum[0])
-        print('sum[1]', out_sum[1])
-        print('sum[2]', out_sum[2])
+        # print('add', in_add)
+        # print('mac[0]', out_mac[0])
+        # print('mac[1]', out_mac[1])
+        # print('mac[2]', out_mac[2])
+        # print('sum[0]', out_sum[0])
+        # print('sum[1]', out_sum[1])
+        # print('sum[2]', out_sum[2])
 
         return out_add, out_mac, out_sum, out_h, out_v
 
@@ -98,14 +96,22 @@ def convolution2d(image, kernel, stride, padding):
     output_height = (padded_height - kernel_height) // stride + 1
     output_width = (padded_width - kernel_width) // stride + 1
 
-    new_image = np.zeros((output_height, output_width), dtype=int)
+    output_image = np.zeros((output_height, output_width), dtype=int)
+    # output_kernel = np.zeros(kernel.shape, dtype=int)
 
-    for y in range(0, output_height):
-        for x in range(0, output_width):
-            new_image[y][x] = np.sum(
-                image[y * stride:y * stride + kernel_height, x * stride:x * stride + kernel_width] * kernel
-            )
-    return new_image
+    for fy in range(0, output_height):
+        for fx in range(0, output_width):
+            output_kernel = image[fy * stride:fy * stride + kernel_height, fx * stride:fx * stride + kernel_width] * kernel
+            output_image[fy][fx] = np.sum(output_kernel)
+            # output_image[fy][fx] = np.sum(
+            #     image[fy * stride:fy * stride + kernel_height, fx * stride:fx * stride + kernel_width] * kernel
+            # )
+            # for wy in range(0, kernel_height):
+            #     for wx in range(0, kernel_width):
+            #         output_kernel[wy][wx] = image[fy * stride + wy, fx * stride + wx] * kernel[wy, wx]
+            #         print(output_kernel)
+            #         output_image[fy][fx] = np.sum(output_kernel)
+    return output_image
 
 
 def basic():
@@ -138,7 +144,6 @@ def basic():
     report.to_csv(f'../../test.csv')
     conv2 = convolution2d(image=features.reshape(x_size, x_size), kernel=weight, stride=1, padding=0)
     print()
-
 
 
 def main():
