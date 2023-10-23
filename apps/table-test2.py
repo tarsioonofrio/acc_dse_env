@@ -75,7 +75,6 @@ class Systolic2dWs:
             **report_arr
         }
         for i in range(-1, time):
-            print('time', i, time)
             out_add, out_mac, out_sum, out_h, out_v = self(in_add, in_mac, in_sum, in_h, in_v)
             for n, d in zip(['add', 'mac', 'sum'], [in_add, in_mac, in_sum]):
                 for s in range(d.size):
@@ -97,20 +96,80 @@ def convolution2d(image, kernel, stride, padding):
     output_width = (padded_width - kernel_width) // stride + 1
 
     output_image = np.zeros((output_height, output_width), dtype=int)
-    # output_kernel = np.zeros(kernel.shape, dtype=int)
-
+    output_shape = (output_height, output_width, kernel_height, kernel_width)
+    output_mult = np.zeros(output_shape, dtype=int)
+    output_sx = np.zeros(output_shape, dtype=int)
+    output_sy = np.zeros(output_shape[:-1], dtype=int)
     for fy in range(0, output_height):
         for fx in range(0, output_width):
-            output_kernel = image[fy * stride:fy * stride + kernel_height, fx * stride:fx * stride + kernel_width] * kernel
-            output_image[fy][fx] = np.sum(output_kernel)
-            # output_image[fy][fx] = np.sum(
-            #     image[fy * stride:fy * stride + kernel_height, fx * stride:fx * stride + kernel_width] * kernel
-            # )
-            # for wy in range(0, kernel_height):
-            #     for wx in range(0, kernel_width):
-            #         output_kernel[wy][wx] = image[fy * stride + wy, fx * stride + wx] * kernel[wy, wx]
-            #         print(output_kernel)
-            #         output_image[fy][fx] = np.sum(output_kernel)
+            mult = (
+                    image[fy * stride:fy * stride + kernel_height, fx * stride:fx * stride + kernel_width] * kernel
+            )
+            sx = np.cumsum(mult, axis=1)
+            sy = np.cumsum(sx[:, -1])
+            output_image[fy, fx] = sy[-1]
+            output_mult[fy, fx] = mult
+            output_sy[fy, fx] = sy
+            output_sx[fy, fx] = sx
+            # output_mult[c] = mult
+
+    nsim = 19
+
+    sim_table = np.zeros((nsim, kernel_height, kernel_width), dtype=int)
+    stride_space = 0
+    for fy in range(0, output_height):
+        for fx in range(0, output_width):
+            for wy in range(0, kernel_height):
+                for wx in range(0, kernel_width):
+                    index = np.ravel_multi_index((fy, fx), (output_height, output_width))
+                    sim_table[index + wy + wx + stride_space, wy, wx] = output_sx[fy, fx, wy, wx]
+        stride_space = stride_space + 2
+
+
+    # # [0, 0]
+    # sim_table[0, 0, 0] = output_sx[0, 0][0, 0]
+    # sim_table[1, 0, 1] = output_sx[0, 0][0, 1]
+    # sim_table[2, 0, 2] = output_sx[0, 0][0, 2]
+    # sim_table[1, 1, 0] = output_sx[0, 0][1, 0]
+    # sim_table[2, 1, 1] = output_sx[0, 0][1, 1]
+    # sim_table[3, 1, 2] = output_sx[0, 0][1, 2]
+    # sim_table[2, 2, 0] = output_sx[0, 0][2, 0]
+    # sim_table[3, 2, 1] = output_sx[0, 0][2, 1]
+    # sim_table[4, 2, 2] = output_sx[0, 0][2, 2]
+    #
+    # # [0, 1]
+    # sim_table[1, 0, 0] = output_sx[0, 1][0, 0]
+    # sim_table[2, 0, 1] = output_sx[0, 1][0, 1]
+    # sim_table[3, 0, 2] = output_sx[0, 1][0, 2]
+    # sim_table[2, 1, 0] = output_sx[0, 1][1, 0]
+    # sim_table[3, 1, 1] = output_sx[0, 1][1, 1]
+    # sim_table[4, 1, 2] = output_sx[0, 1][1, 2]
+    # sim_table[3, 2, 0] = output_sx[0, 1][2, 0]
+    # sim_table[4, 2, 1] = output_sx[0, 1][2, 1]
+    # sim_table[5, 2, 2] = output_sx[0, 1][2, 2]
+    #
+    # # [0, 2]
+    # sim_table[2, 0, 0] = output_sx[0, 2][0, 0]
+    # sim_table[3, 0, 1] = output_sx[0, 2][0, 1]
+    # sim_table[4, 0, 2] = output_sx[0, 2][0, 2]
+    # sim_table[3, 1, 0] = output_sx[0, 2][1, 0]
+    # sim_table[4, 1, 1] = output_sx[0, 2][1, 1]
+    # sim_table[5, 1, 2] = output_sx[0, 2][1, 2]
+    # sim_table[4, 2, 0] = output_sx[0, 2][2, 0]
+    # sim_table[5, 2, 1] = output_sx[0, 2][2, 1]
+    # sim_table[6, 2, 2] = output_sx[0, 2][2, 2]
+    #
+    # # [1, 0]
+    # sim_table[2 + 3, 0, 0] = output_sx[1, 0][0, 0]
+    # sim_table[2 + 4, 0, 1] = output_sx[1, 0][0, 1]
+    # sim_table[2 + 5, 0, 2] = output_sx[1, 0][0, 2]
+    # sim_table[2 + 4, 1, 0] = output_sx[1, 0][1, 0]
+    # sim_table[2 + 5, 1, 1] = output_sx[1, 0][1, 1]
+    # sim_table[2 + 6, 1, 2] = output_sx[1, 0][1, 2]
+    # sim_table[2 + 5, 2, 0] = output_sx[1, 0][2, 0]
+    # sim_table[2 + 6, 2, 1] = output_sx[1, 0][2, 1]
+    # sim_table[2 + 7, 2, 2] = output_sx[1, 0][2, 2]
+
     return output_image
 
 
@@ -139,6 +198,7 @@ def basic():
     ])
 
     n_sim = x_size * (x_size-2) + 3 + 1
+    n_sim2 = convs_per_line * (convs_per_line + 2) + 3 + 1
     conv = Systolic2dWs(features, weight, bias, x_size)
     report = conv.sim(n_sim)
     report.to_csv(f'../../test.csv')
