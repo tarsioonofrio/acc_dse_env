@@ -97,7 +97,7 @@ def convolution2d(features, weights, stride, padding):
     output_height = (padded_height - weight_height) // stride + 1
     output_width = (padded_width - weight_width) // stride + 1
 
-    output_image = np.zeros((output_channel, output_height, output_width), dtype=int)
+    output_features = np.zeros((output_channel, output_height, output_width), dtype=int)
     output_shape = (output_channel, output_height, output_width, weight_height, weight_width)
     output_mult = np.zeros(output_shape, dtype=int)
     output_sx = np.zeros(output_shape, dtype=int)
@@ -111,7 +111,7 @@ def convolution2d(features, weights, stride, padding):
                     )
                     sx = np.cumsum(mult, axis=1)
                     sy = np.cumsum(sx[:, -1])
-                    output_image[wc, fy, fx] = sy[-1]
+                    output_features[wc, fy, fx] = sy[-1]
                     output_mult[wc, fy, fx] = mult
                     output_sy[wc, fy, fx] = sy
                     output_sx[wc, fy, fx] = sx
@@ -129,7 +129,7 @@ def convolution2d(features, weights, stride, padding):
                         index = np.ravel_multi_index((wc, fy, fx), (output_channel, output_height, output_width))
                         sim_table[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fy, fx, wy, wx]
             stride_space = stride_space + 2
-    return output_image
+    return output_features
 
 
 def basic():
