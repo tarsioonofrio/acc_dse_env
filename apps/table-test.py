@@ -135,7 +135,6 @@ def main():
 
     root = Path(__file__).parent.parent.resolve() / 'experiments'
     cnn_config_path = root / "cnn_config" / f"{args.cnn_config}.json"
-    cnn_output_path = root / "cnn_output" / args.cnn_config
     rtl_config_path = root / "rtl_config" / f"{args.rtl_config}.json"
     rtl_output_path = root / "rtl_output" / args.cnn_config / args.rtl_config
     output_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'test_table'
@@ -154,9 +153,9 @@ def main():
         gen_list = [g.split('=') for g in f.read().replace("\n", "").split(" ")]
         generic_config = {k.replace("-g", ""): v for k, v in gen_list}
 
-    weight_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'iwght.txt'
-    fmap_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'ifmap.txt'
-    gold_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'gold.txt'
+    weight_path = rtl_output_path / 'layer' / args.layer / 'iwght.txt'
+    fmap_path = rtl_output_path / 'layer' / args.layer / 'ifmap.txt'
+    gold_path = rtl_output_path / 'layer' / args.layer / 'gold.txt'
 
     with open(weight_path) as f:
         weight_bias_data = [int(i) for i in f.read().split("\n") if i != '']
