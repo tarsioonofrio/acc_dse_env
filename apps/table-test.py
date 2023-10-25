@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 
 
-def convolution2d(features, weights, gold, n_sim, stride=1, padding=0):
+def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
     features = np.pad(features, [(0, 0), (padding, padding), (padding, padding)], mode='constant', constant_values=0)
 
     weights_channel, _, weight_height, weight_width = weights.shape
@@ -34,7 +34,7 @@ def convolution2d(features, weights, gold, n_sim, stride=1, padding=0):
                     mult = (feat * weights[wc, fc])
                     sx = np.cumsum(mult, axis=1)
                     sy = np.cumsum(sx[:, -1])
-                    output_features[wc, fy, fx] = sy[-1]
+                    output_features[wc, fy, fx] = sy[-1] + output_features[wc, fy, fx]
                     output_mult[wc, fy, fx] = mult
                     output_sy[wc, fy, fx] = sy
                     output_sx[wc, fy, fx] = sx
@@ -44,7 +44,7 @@ def convolution2d(features, weights, gold, n_sim, stride=1, padding=0):
                         for y in range(fy * stride, fy * stride + weight_height)
                         for x in range(fx * stride, fx * stride + weight_width)
                     ]
-                    temp_add[wc, fy, fx] = np.array(tmp).reshape(output_height, output_width)
+                    temp_add[wc, fy, fx] = np.array(tmp).reshape(weight_height, weight_width)
 
     reg_mac = np.zeros((n_sim, weight_height, weight_width), dtype=int)
     reg_sum = np.zeros((n_sim, weight_width), dtype=int)
@@ -75,9 +75,12 @@ def convolution2d(features, weights, gold, n_sim, stride=1, padding=0):
     }
     df = pd.DataFrame.from_dict(report)
     df = df.reset_index(drop=True)
-    output_features[output_features < 0] = 0
-    output_features = output_features.reshape(-1)
-    cmp = gold == output_features
+    output_features_bias = output_features + bias[:, None, None]
+    output_features_bias[output_features_bias < 0] = 0
+    output_features_bias = output_features_bias.reshape(-1)
+    # shift
+    output_features_bias_shift = output_features_bias // 256
+    cmp = gold == output_features_bias_shift
     assert np.all(cmp)
     return df
 
@@ -113,8 +116,9 @@ def basic():
     ]])
 
     n_sim = convs_per_line * (convs_per_line + 2) + 3 + 1
-    report = convolution2d(
-        features=features.reshape((-1, x_size, x_size)), weights=weight, gold=gold, n_sim=n_sim, stride=1, padding=0
+    report = conv2d_ws_sim(
+        features=features.reshape((-1, x_size, x_size)), weights=weight, gold=gold, bias=bias, n_sim=n_sim,
+        stride=1, padding=0
     )
     report.to_csv(f'../../test2.csv')
     print()
@@ -152,12 +156,16 @@ def main():
 
     weight_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'iwght.txt'
     fmap_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'ifmap.txt'
+    gold_path = root / "rtl_output" / args.cnn_config / args.rtl_config / 'layer' / args.layer / 'gold.txt'
 
     with open(weight_path) as f:
         weight_bias_data = [int(i) for i in f.read().split("\n") if i != '']
 
     with open(fmap_path) as f:
         features_data = np.array([int(i) for i in f.read().split("\n") if i != ''])
+
+    with open(gold_path) as f:
+        gold = np.array([int(i) for i in f.read().split("\n") if i != ''])
 
     layer = int(args.layer)
     n_filter = cnn_config["filter_channel"][layer]
@@ -167,16 +175,17 @@ def main():
 
     weight_bias = np.array(weight_bias_data)
     bias = weight_bias[:n_filter]
-    weight = weight_bias[n_filter:].reshape(n_filter, -1, 3, 3)
-    # features = features_data.reshape(-1, x_size*x_size)
-    features = features_data
+    weight = weight_bias[n_filter:].reshape(n_filter, n_channel, 3, 3)
+    features = features_data.reshape(n_channel, x_size*x_size)
 
-    n_sim = x_size * (x_size-2) * n_channel + 3 + 1
-    # conv = Systolic2dWs(features, weight, bias, x_size, n_channel)
-    # df = conv.sim(n_sim)
-    # df.to_csv(output_path / f'{layer}.csv')
+    n_sim = convs_per_line * (convs_per_line + 2) * n_channel + 3 + 1
+    report = conv2d_ws_sim(
+        features=features.reshape((-1, x_size, x_size)), weights=weight, bias=bias,
+        gold=gold, n_sim=n_sim, stride=1, padding=0
+    )
+    report.to_csv(output_path / f'{layer}.csv')
     print()
 
 
 if __name__ == '__main__':
-    basic()
+    main()

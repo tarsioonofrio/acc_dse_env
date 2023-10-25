@@ -492,7 +492,7 @@ class GenerateRTL:
 
         if dataset_size > 1:
             s = feat_list.shape
-            feat_list = feat_list.reshape(-1, s[-2], s[-1]).astype(int)
+            feat_list = feat_list.reshape((-1, s[-2], s[-1])).astype(int)
 
         format_feat = format_feature(feat_list, self.tab)
 
