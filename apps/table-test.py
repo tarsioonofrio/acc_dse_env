@@ -178,7 +178,7 @@ def main():
     weight = weight_bias[n_filter:].reshape(n_filter, n_channel, 3, 3)
     features = features_data.reshape(n_channel, x_size*x_size)
 
-    n_sim = convs_per_line * (convs_per_line + 2) * n_channel + 3 + 1
+    n_sim = convs_per_line * (convs_per_line + 2) * n_channel * n_filter + 3 + 1
     report = conv2d_ws_sim(
         features=features.reshape((-1, x_size, x_size)), weights=weight, bias=bias,
         gold=gold, n_sim=n_sim, stride=1, padding=0
