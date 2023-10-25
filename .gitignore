@@ -40,3 +40,5 @@ qshift/model/
 .project
 
 apps/data/
+
+test_table/
