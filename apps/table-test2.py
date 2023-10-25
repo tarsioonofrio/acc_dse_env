@@ -1,3 +1,5 @@
+# https://stackoverflow.com/a/65269944
+
 import json
 import argparse
 from pathlib import Path
@@ -101,35 +103,61 @@ def convolution2d(features, weights, stride, padding):
     output_shape = (output_channel, output_height, output_width, weight_height, weight_width)
     output_mult = np.zeros(output_shape, dtype=int)
     output_sx = np.zeros(output_shape, dtype=int)
+    temp_feat = np.zeros(output_shape, dtype=int)
+    temp_add = np.zeros(output_shape, dtype=int)
     output_sy = np.zeros(output_shape[:-1], dtype=int)
     for wc in range(0, output_channel):
         for fc in range(0, input_channel):
             for fy in range(0, output_height):
                 for fx in range(0, output_width):
-                    mult = (
-                            features[fc, fy * stride:fy * stride + weight_height, fx * stride:fx * stride + weight_width] * weights[wc, fc]
-                    )
+                    feat = features[fc, fy * stride:fy * stride + weight_height, fx * stride:fx * stride + weight_width]
+                    mult = (feat * weights[wc, fc])
                     sx = np.cumsum(mult, axis=1)
                     sy = np.cumsum(sx[:, -1])
                     output_features[wc, fy, fx] = sy[-1]
                     output_mult[wc, fy, fx] = mult
                     output_sy[wc, fy, fx] = sy
                     output_sx[wc, fy, fx] = sx
-                    # output_mult[c] = mult
+                    temp_feat[wc, fy, fx] = feat
+                    tmp = [
+                        np.ravel_multi_index((fc, y, x), features.shape)
+                        for y in range(fy * stride, fy * stride + weight_height)
+                        for x in range(fx * stride, fx * stride + weight_width)
+                    ]
+                    temp_add[wc, fy, fx] = np.array(tmp).reshape(output_height, output_width)
 
     nsim = 19
 
-    sim_table = np.zeros((nsim, weight_height, weight_width), dtype=int)
-    stride_space = 0
+    reg_mac = np.zeros((nsim, weight_height, weight_width), dtype=int)
+    reg_sum = np.zeros((nsim, weight_width), dtype=int)
+    features_sim = np.zeros((nsim, weight_width), dtype=int)
+    add = np.zeros((nsim, weight_height), dtype=int)
+    weights_sim = np.zeros(nsim, dtype=int)
     for wc in range(0, output_channel):
         for fy in range(0, output_height):
+            stride_space = fy * 2
             for fx in range(0, output_width):
+                index = np.ravel_multi_index((wc, fy, fx), (output_channel, output_height, output_width))
+                weights_sim[index + stride_space] = wc
                 for wy in range(0, weight_height):
+                    reg_sum[index + stride_space + wy + 3, wy] = output_sy[wc, fy, fx, wy]
+                    # add[index + stride_space + wy, wy] = temp_add[wc, fy, fx, wy]
                     for wx in range(0, weight_width):
-                        index = np.ravel_multi_index((wc, fy, fx), (output_channel, output_height, output_width))
-                        sim_table[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fy, fx, wy, wx]
-            stride_space = stride_space + 2
-    return output_features
+                        reg_mac[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fy, fx, wy, wx]
+                        features_sim[index + wy + wx + stride_space, wy] = temp_feat[wc, fy, fx, wy, wx]
+                        add[index + wy + wx + stride_space, wy] = temp_add[wc, fy, fx, wy, wx]
+
+    report_arr = {
+        f'{n}{e}': data
+        for n, array in zip(['add', 'ftr', 'mac', 'sum', ], [add, features_sim, reg_mac, reg_sum])
+        for e, data in enumerate(array.reshape(nsim, -1).swapaxes(0, 1).tolist())
+    }
+    report = {
+        **report_arr, 'wid': weights_sim
+    }
+    df = pd.DataFrame.from_dict(report)
+    df = df.reset_index(drop=True)
+    return output_features, df
 
 
 def basic():
@@ -161,7 +189,8 @@ def basic():
     conv = Systolic2dWs(features[0], weight[0, 0], bias, x_size)
     report = conv.sim(n_sim)
     report.to_csv(f'../../test.csv')
-    conv2 = convolution2d(features=features.reshape(-1, x_size, x_size), weights=weight, stride=1, padding=0)
+    output, report = convolution2d(features=features.reshape(-1, x_size, x_size), weights=weight, stride=1, padding=0)
+    report.to_csv(f'../../test2.csv')
     print()
 
 
@@ -217,9 +246,9 @@ def main():
     features = features_data
 
     n_sim = x_size * (x_size-2) * n_channel + 3 + 1
-    conv = Systolic2dWs(features, weight, bias, x_size, n_channel)
-    df = conv.sim(n_sim)
-    df.to_csv(output_path / f'{layer}.csv')
+    # conv = Systolic2dWs(features, weight, bias, x_size, n_channel)
+    # df = conv.sim(n_sim)
+    # df.to_csv(output_path / f'{layer}.csv')
     print()
 
 
