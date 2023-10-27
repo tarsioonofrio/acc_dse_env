@@ -53,10 +53,15 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
     weights_sim = np.zeros(n_sim, dtype=int)
     cont_valid = np.zeros(n_sim, dtype=int)
     cont = 0
+    cont_aux = 0
+    wait_line = 0
+    wait_feature = 0
     for wc in range(0, output_channel):
         for fc in range(0, input_channel):
             for fy in range(0, output_height):
                 stride_space = 2 * np.ravel_multi_index((wc, fc, fy), (output_channel, input_channel, output_height))
+                # if cont > 0:
+                #     cont = cont - 1
                 for fx in range(0, output_width):
                     index = np.ravel_multi_index(
                         (wc, fc, fy, fx), (output_channel, input_channel, output_height, output_width)
@@ -66,8 +71,15 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                     # )
                     weights_sim[index] = wc + 1
                     # TODO remove the lina above and make the delay with a counter that go to zero when raise your limit
-                    if index > 5 and ((index % 32 < 4 or index % 32 > 5) or index % (32*32 - 2*32 + 4) > 5):
-                        cont = cont + 1
+                    if index > 5:
+                        if cont != 0 and cont % 30 == 0 and wait_line < 2:
+                            wait_line = wait_line + 1
+                        # elif cont != 0 and cont % 30*30 == 0 and wait_feature < 5:
+                        #     wait_feature = wait_feature + 1
+                        else:
+                            # wait_feature = 0
+                            wait_line = 0
+                            cont = cont + 1
                     cont_valid[index] = cont
                     for wy in range(0, weight_height):
                         reg_sum[index + stride_space + wy + 3, wy] = output_sy[wc, fc, fy, fx, wy]
@@ -76,10 +88,12 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                             reg_mac[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fc, fy, fx, wy, wx]
                             features_sim[index + wy + wx + stride_space, wy] = temp_feat[wc, fc, fy, fx, wy, wx]
                             add[index + wy + wx + stride_space - 1, wy] = temp_add[wc, fc, fy, fx, wy, wx]
+                            # if index + wy + wx + stride_space in [958, 959, 960]:
+                            #     print(index, index + wy + wx + stride_space, wy, temp_add[wc, fc, fy, fx, wy, wx])
 
     report_arr = {
         f'{n}{e}': data
-        for n, array in zip(['add', 'ftr', 'sum', 'mac'], [add, features_sim,  reg_sum, reg_mac])
+        for n, array in zip(['add', 'ftr', 'sum', 'mac'], [add, features_sim, reg_sum, reg_mac])
         for e, data in enumerate(array.reshape(n_sim, -1).swapaxes(0, 1).tolist())
     }
     report = {
@@ -187,7 +201,7 @@ def main():
     weight_bias = np.array(weight_bias_data)
     bias = weight_bias[:n_filter]
     weight = weight_bias[n_filter:].reshape(n_filter, n_channel, 3, 3)
-    features = features_data.reshape(n_channel, x_size*x_size)
+    features = features_data.reshape(n_channel, x_size * x_size)
 
     n_sim = conv_per_line * (conv_per_line + 2) * n_channel * n_filter + (3 + 1) * n_filter
     report = conv2d_ws_sim(
