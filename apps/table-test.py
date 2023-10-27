@@ -95,7 +95,7 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
         for e, data in enumerate(array.reshape(n_sim, -1).swapaxes(0, 1).tolist())
     }
     report = {
-        'cnt_vld': cont_valid, 'of_map': of_map, 'of_add': of_add, **report_arr, 'bias_x': bias_x
+        'cnt_vld': cont_valid, 'of_add': of_add, 'of_map': of_map, **report_arr, 'bias_x': bias_x
     }
     df = pd.DataFrame.from_dict(report)
     df = df.reset_index(drop=True)
