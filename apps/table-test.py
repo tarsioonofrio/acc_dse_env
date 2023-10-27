@@ -56,17 +56,17 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
     for wc in range(0, output_channel):
         for fc in range(0, input_channel):
             for fy in range(0, output_height):
-                # stride_space = fy * 2
                 stride_space = 2 * np.ravel_multi_index((wc, fc, fy), (output_channel, input_channel, output_height))
                 for fx in range(0, output_width):
                     index = np.ravel_multi_index(
                         (wc, fc, fy, fx), (output_channel, input_channel, output_height, output_width)
                     )
-                    feat_index = np.ravel_multi_index(
-                        (fc, fy, fx), (input_channel, output_height, output_width)
-                    )
+                    # feat_index = np.ravel_multi_index(
+                    #     (fc, fy, fx), (input_channel, output_height, output_width)
+                    # )
                     weights_sim[index] = wc + 1
-                    if feat_index > 5 and (index % 32 < 4 or index % 32 > 5):
+                    # TODO remove the lina above and make the delay with a counter that go to zero when raise your limit
+                    if index > 5 and ((index % 32 < 4 or index % 32 > 5) or index % (32*32 - 2*32 + 4) > 5):
                         cont = cont + 1
                     cont_valid[index] = cont
                     for wy in range(0, weight_height):
@@ -76,8 +76,6 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                             reg_mac[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fc, fy, fx, wy, wx]
                             features_sim[index + wy + wx + stride_space, wy] = temp_feat[wc, fc, fy, fx, wy, wx]
                             add[index + wy + wx + stride_space - 1, wy] = temp_add[wc, fc, fy, fx, wy, wx]
-                            if index + wy + wx + stride_space - 1 == 899:
-                                print(index, index + wy + wx + stride_space - 1, wy, temp_add[wc, fc, fy, fx, wy, wx])
 
     report_arr = {
         f'{n}{e}': data
