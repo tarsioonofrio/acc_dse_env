@@ -48,56 +48,57 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
 
     reg_mac = np.zeros((n_sim, weight_height, weight_width), dtype=int)
     reg_sum = np.zeros((n_sim, weight_width), dtype=int)
-    features_sim = np.zeros((n_sim, weight_width), dtype=int)
-    add = np.zeros((n_sim, weight_height), dtype=int)
-    weights_sim = np.zeros(n_sim, dtype=int)
+    if_map = np.zeros((n_sim, weight_width), dtype=int)
+    if_add = np.zeros((n_sim, weight_height), dtype=int)
+    bias_x = np.zeros(n_sim, dtype=int)
+    of_add = np.zeros(n_sim, dtype=int)
+    of_map = np.zeros(n_sim, dtype=int)
     cont_valid = np.zeros(n_sim, dtype=int)
+    cum_sum = output_mult.sum(axis=(4, 5)).cumsum(axis=1)
     cont = 0
-    cont_aux = 0
     wait_line = 0
-    wait_feature = 0
     for wc in range(0, output_channel):
         for fc in range(0, input_channel):
             for fy in range(0, output_height):
                 stride_space = 2 * np.ravel_multi_index((wc, fc, fy), (output_channel, input_channel, output_height))
-                # if cont > 0:
-                #     cont = cont - 1
                 for fx in range(0, output_width):
                     index = np.ravel_multi_index(
                         (wc, fc, fy, fx), (output_channel, input_channel, output_height, output_width)
                     )
-                    # feat_index = np.ravel_multi_index(
-                    #     (fc, fy, fx), (input_channel, output_height, output_width)
-                    # )
-                    weights_sim[index] = wc + 1
+                    output_index = np.ravel_multi_index(
+                        (wc, fy, fx), (output_channel, output_height, output_width)
+                    )
+                    bias_x[index] = wc + 1
                     # TODO remove the lina above and make the delay with a counter that go to zero when raise your limit
                     if index > 5:
                         if cont != 0 and cont % 30 == 0 and wait_line < 2:
                             wait_line = wait_line + 1
-                        # elif cont != 0 and cont % 30*30 == 0 and wait_feature < 5:
-                        #     wait_feature = wait_feature + 1
                         else:
-                            # wait_feature = 0
                             wait_line = 0
                             cont = cont + 1
                     cont_valid[index] = cont
+                    idx_of = index + stride_space + (weight_height - 1) + 3 + 1
+                    of_map[idx_of] = cum_sum[wc, fc, fy, fx]
+                    of_add[idx_of] = output_index
                     for wy in range(0, weight_height):
                         reg_sum[index + stride_space + wy + 3, wy] = output_sy[wc, fc, fy, fx, wy]
-                        # add[index + stride_space + wy, wy] = temp_add[wc, fy, fx, wy]
                         for wx in range(0, weight_width):
                             reg_mac[index + wy + wx + stride_space, wy, wx] = output_sx[wc, fc, fy, fx, wy, wx]
-                            features_sim[index + wy + wx + stride_space, wy] = temp_feat[wc, fc, fy, fx, wy, wx]
-                            add[index + wy + wx + stride_space - 1, wy] = temp_add[wc, fc, fy, fx, wy, wx]
+                            if_map[index + wy + wx + stride_space, wy] = temp_feat[wc, fc, fy, fx, wy, wx]
+                            if_add[index + wy + wx + stride_space - 1, wy] = temp_add[wc, fc, fy, fx, wy, wx]
                             # if index + wy + wx + stride_space in [958, 959, 960]:
                             #     print(index, index + wy + wx + stride_space, wy, temp_add[wc, fc, fy, fx, wy, wx])
 
     report_arr = {
         f'{n}{e}': data
-        for n, array in zip(['add', 'ftr', 'sum', 'mac'], [add, features_sim, reg_sum, reg_mac])
+        for n, array in zip(
+            ['if_add', 'if_map', 'reg_sum', 'of_map', 'of_add', 'reg_mac'],
+            [if_add, if_map, reg_sum, of_map, of_add, reg_mac]
+        )
         for e, data in enumerate(array.reshape(n_sim, -1).swapaxes(0, 1).tolist())
     }
     report = {
-        'cnt': cont_valid, **report_arr, 'b_x': weights_sim
+        'cnt_vld': cont_valid, **report_arr, 'bias_x': bias_x
     }
     df = pd.DataFrame.from_dict(report)
     df = df.reset_index(drop=True)
