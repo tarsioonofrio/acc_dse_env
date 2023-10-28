@@ -51,7 +51,8 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
     if_map = np.zeros((n_sim, weight_width), dtype=int)
     if_add = np.full((n_sim, weight_height), -1, dtype=int)
     of_add = np.full(n_sim, -1, dtype=int)
-    bias_x = np.zeros(n_sim, dtype=int)
+    n_filter = np.zeros(n_sim, dtype=int)
+    n_channel = np.zeros(n_sim, dtype=int)
     of_map = np.zeros(n_sim, dtype=int)
     cont_valid = np.zeros(n_sim, dtype=int)
     cum_sum = output_mult.sum(axis=(4, 5)).cumsum(axis=1)
@@ -68,10 +69,10 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                     output_index = np.ravel_multi_index(
                         (wc, fy, fx), (output_channel, output_height, output_width)
                     )
-                    bias_x[index] = wc + 1
-                    # TODO remove the lina above and make the delay with a counter that go to zero when raise your limit
+                    n_filter[index] = wc
+                    n_channel[index] = fc
                     if index > 5:
-                        if cont != 0 and cont % 30 == 0 and wait_line < 2:
+                        if cont != 0 and cont % output_height == 0 and wait_line < 2:
                             wait_line = wait_line + 1
                         else:
                             wait_line = 0
@@ -95,7 +96,8 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
         for e, data in enumerate(array.reshape(n_sim, -1).swapaxes(0, 1).tolist())
     }
     report = {
-        'cnt_vld': cont_valid, 'of_add': of_add, 'of_map': of_map, **report_arr, 'bias_x': bias_x
+        'cnt_vld': cont_valid, 'of_add': of_add, 'of_map': of_map, **report_arr, 'filter': n_filter,
+        'channel': n_channel
     }
     df = pd.DataFrame.from_dict(report)
     df = df.reset_index(drop=True)

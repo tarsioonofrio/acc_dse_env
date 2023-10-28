@@ -30,7 +30,7 @@ log -r /*
 add wave sim:/tb/*
 add wave sim:/tb/DUT/*
 add wave sim:/tb/DUT/cont_total_valid
-add wave sim:/tb/DUT/ofmap_addres
+add wave sim:/tb/DUT/ofmap_address
 add wave sim:/tb/DUT/ofmap_out
 add wave sim:/tb/DUT/add
 add wave sim:/tb/DUT/features
