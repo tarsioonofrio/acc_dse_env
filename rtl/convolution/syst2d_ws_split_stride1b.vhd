@@ -753,7 +753,7 @@ begin
 
   -- Input memory chip enable control
   --in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
-  iwght_ce <= '1' when not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
+  iwght_ce <= '0' when (EA_read = WAITSTART or EA_read = WAITVALID or ce_flag = '1' or end_conv_reg = '1') else '1';
   ifmap_ce <= '1' when not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
 
   -- Ofmap memory enables
