@@ -185,7 +185,7 @@ begin
           read_bias    <= '0';
           read_weights <= '1';
 
-          if iwght_valid = '1' then
+          if iwght_valid = '1' and read_weights = '1' then
             cont_weight_cycles <= cont_weight_cycles + 1;
           end if;
 

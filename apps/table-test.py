@@ -56,6 +56,8 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
     of_map = np.zeros(n_sim, dtype=int)
     cont_valid = np.zeros(n_sim, dtype=int)
     cum_sum = output_mult.sum(axis=(4, 5)).cumsum(axis=1)
+    cum_sum[:, -1] = cum_sum[:, -1] + bias[:, None, None]
+
     cont = 0
     wait_line = 0
     for wc in range(0, output_channel):
