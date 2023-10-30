@@ -185,7 +185,7 @@ begin
           read_bias    <= '0';
           read_weights <= '1';
 
-          if iwght_valid = '1' then
+          if iwght_valid = '1' and read_weights = '1' then
             cont_weight_cycles <= cont_weight_cycles + 1;
           end if;
 
@@ -580,34 +580,28 @@ begin
       reg_start_mac     <= start_mac;
       reg_reg_start_mac <= reg_start_mac;
 
-      if change_line = '0' then
-        if control_iteration_flag = '0' and cont_steps > 6  and EA_add = E2 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
-          cont_iterations        <= cont_iterations + 1;
-          control_iteration_flag <= '1';
-          if cont_iterations >= CONVS_PER_LINE then
-            cont_iterations <= (others => '0');
-            change_line <= '1';
-          end if;
-        elsif EA_add = UPDATEADD then
-          control_iteration_flag <= '0';
-        end if;
-
-        if read_bias = '1' or read_weights = '1' or start_mac = '1' then
+      if control_iteration_flag = '0' and cont_steps > 5 and EA_add = E2 and (read_bias = '0' and read_weights = '0' and start_mac = '0') then
+        cont_iterations        <= cont_iterations + 1;
+        control_iteration_flag <= '1';
+        if cont_iterations >= CONVS_PER_LINE + 1 then
           cont_iterations <= (others => '0');
+          change_line <= '1';
         end if;
+      elsif EA_add = UPDATEADD then
+        control_iteration_flag <= '0';
+      end if;
 
-        if reg_start_mac = '1' then
-          cont_iterations <= (others => '0');
-        end if;
-      else
-        if (EA_add = E1) then
-          change_line <= '0';        
-        end if;
+      if read_bias = '1' or read_weights = '1' or start_mac = '1' then
+        cont_iterations <= (others => '0');
+      end if;
+
+      if reg_start_mac = '1' then
+        cont_iterations <= (others => '0');
       end if;
     end if;
   end process;
 
-  valid_signal <= '1' when EA_add = UPDATEADD and cont_iterations > 0 and (read_bias = '0' and read_weights = '0' and start_mac = '0') else
+  valid_signal <= '1' when EA_add = UPDATEADD and (cont_iterations > 1) and (cont_iterations < CONVS_PER_LINE + 1 + 1) and (read_bias = '0' and read_weights = '0' and start_mac = '0') else
                   '0';
 
   ------------------------------------------------------------------------------------
@@ -759,7 +753,7 @@ begin
 
   -- Input memory chip enable control
   --in_ce <= '0' when EA_read = WAITSTART or (EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1' else '1';
-  iwght_ce <= '1' when not(EA_read = WAITSTART or ce_flag = '1' or end_conv_reg = '1') else '0';
+  iwght_ce <= '0' when (EA_read = WAITSTART or EA_read = WAITVALID or ce_flag = '1' or end_conv_reg = '1') else '1';
   ifmap_ce <= '1' when not((EA_add = UPDATEADD and read_bias = '0' and read_weights = '0') or ce_flag = '1' or end_conv_reg = '1') else '0';
 
   -- Ofmap memory enables
