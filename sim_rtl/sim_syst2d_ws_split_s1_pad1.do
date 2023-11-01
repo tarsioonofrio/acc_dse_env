@@ -15,7 +15,7 @@ vcom -work work ../rtl/components/reg.vhd
 vcom -work work ../rtl/components/mem_split.vhd
 
 # Convolution core
-vcom -work work ../rtl/convolution/syst2d_ws_split_stride1b_pad1.vhd
+vcom -work work ../rtl/convolution/syst2d_ws_split_stride1_pad1.vhd
 
 # Testbench
 vcom -work work ../tb/tb_rtl_split.vhd
@@ -40,6 +40,8 @@ add wave sim:/tb/DUT/reg_mac
 add wave sim:/tb/DUT/reg_soma1
 add wave sim:/tb/DUT/reg_soma2
 add wave sim:/tb/DUT/reg_soma3
+add wave sim:/tb/DUT/partial2
+add wave sim:/tb/DUT/padv
 
 run -all
 #run 1000 ns

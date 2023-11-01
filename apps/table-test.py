@@ -8,29 +8,36 @@ import numpy as np
 import pandas as pd
 
 
-def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
-    features = np.pad(features, [(0, 0), (padding, padding), (padding, padding)], mode='constant', constant_values=0)
+def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0, test=False):
+    features_pad = np.pad(
+        features, [(0, 0), (padding, padding), (padding, padding)], mode='constant', constant_values=0
+    )
 
     weights_channel, _, weight_height, weight_width = weights.shape
-    _, padded_height, padded_width = features.shape
+    _, padded_height, padded_width = features_pad.shape
 
-    input_channel = features.shape[0]
+    input_channel = features_pad.shape[0]
     output_channel = weights_channel
     output_height = (padded_height - weight_height) // stride + 1
     output_width = (padded_width - weight_width) // stride + 1
 
+    address_tmp = np.arange(0, features.size).reshape(features.shape)
+    address = np.full(features_pad.shape, -1, dtype=int)
+    address[:, padding:-padding, padding:-padding] = address_tmp
     output_features = np.zeros((output_channel, output_height, output_width), dtype=int)
     output_shape = (output_channel, input_channel, output_height, output_width, weight_height, weight_width)
     output_mult = np.zeros(output_shape, dtype=int)
     output_sx = np.zeros(output_shape, dtype=int)
     temp_feat = np.zeros(output_shape, dtype=int)
     temp_add = np.zeros(output_shape, dtype=int)
+    temp_wc = np.zeros(output_shape[:-2], dtype=int)
+    temp_fc = np.zeros(output_shape[:-2], dtype=int)
     output_sy = np.zeros(output_shape[:-1], dtype=int)
     for wc in range(0, output_channel):
         for fc in range(0, input_channel):
             for fy in range(0, output_height):
                 for fx in range(0, output_width):
-                    feat = features[fc, fy * stride:fy * stride + weight_height, fx * stride:fx * stride + weight_width]
+                    feat = features_pad[fc, fy * stride:fy * stride + weight_height, fx * stride:fx * stride + weight_width]
                     mult = (feat * weights[wc, fc])
                     sx = np.cumsum(mult, axis=1)
                     sy = np.cumsum(sx[:, -1])
@@ -39,12 +46,14 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                     output_sy[wc, fc, fy, fx] = sy
                     output_sx[wc, fc, fy, fx] = sx
                     temp_feat[wc, fc, fy, fx] = feat
-                    tmp = [
-                        np.ravel_multi_index((fc, y, x), features.shape)
-                        for y in range(fy * stride, fy * stride + weight_height)
-                        for x in range(fx * stride, fx * stride + weight_width)
-                    ]
-                    temp_add[wc, fc, fy, fx] = np.array(tmp).reshape(weight_height, weight_width)
+                    temp_fc[wc, fc, fy, fx] = fc
+                    temp_wc[wc, fc, fy, fx] = wc
+                    # tmp = [
+                    #     np.ravel_multi_index((fc, y, x), features_pad.shape)
+                    #     for y in range(fy * stride, fy * stride + weight_height)
+                    #     for x in range(fx * stride, fx * stride + weight_width)
+                    # ]
+                    temp_add[wc, fc, fy, fx] = address[fc, fy * stride:fy * stride + weight_height, fx * stride:fx * stride + weight_width]
 
     reg_mac = np.zeros((n_sim, weight_height, weight_width), dtype=int)
     reg_sum = np.zeros((n_sim, weight_width), dtype=int)
@@ -71,8 +80,8 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
                     output_index = np.ravel_multi_index(
                         (wc, fy, fx), (output_channel, output_height, output_width)
                     )
-                    n_filter[index] = wc
-                    n_channel[index] = fc
+                    n_filter[index] = temp_wc[wc, fc, fy, fx]
+                    n_channel[index] = temp_fc[wc, fc, fy, fx]
                     if index > 5:
                         if cont != 0 and cont % output_height == 0 and wait_line < 2:
                             wait_line = wait_line + 1
@@ -98,22 +107,26 @@ def conv2d_ws_sim(features, weights, bias, gold, n_sim, stride=1, padding=0):
         for e, data in enumerate(array.reshape(n_sim, -1).swapaxes(0, 1).tolist())
     }
     report = {
-        'cnt_vld': cont_valid, 'of_add': of_add, 'of_map': of_map, **report_arr, 'filter': n_filter,
+        'cnt_vld': cont_valid, 'partial2': of_add, 'of_map': of_map, **report_arr, 'filter': n_filter,
         'channel': n_channel
     }
     df = pd.DataFrame.from_dict(report)
     df = df.reset_index(drop=True)
-    output_features_bias = output_features + bias[:, None, None]
-    output_features_bias[output_features_bias < 0] = 0
-    output_features_bias = output_features_bias.reshape(-1)
-    # shift
-    output_features_bias_shift = output_features_bias // 256
-    cmp = gold == output_features_bias_shift
-    assert np.all(cmp)
+    if test:
+        cmp = gold == output_features.reshape(-1)
+        assert np.all(cmp)
+    else:
+        output_features_bias = output_features + bias[:, None, None]
+        output_features_bias[output_features_bias < 0] = 0
+        output_features_bias = output_features_bias.reshape(-1)
+        # shift
+        output_features_bias_shift = output_features_bias // 256
+        cmp = gold == output_features_bias_shift
+        assert np.all(cmp)
     return df
 
 
-def basic():
+def stride1():
     x_size = 5
     filter_width = 3
     convs_per_line = 3
@@ -130,9 +143,9 @@ def basic():
     ]]])
 
     gold = np.array([
-        0, 5, 0,
+        -139, 5, -107,
         92, 37, 94,
-        84, 0, 138,
+        84, -69, 138,
     ])
 
     features = np.array([[
@@ -146,9 +159,46 @@ def basic():
     n_sim = convs_per_line * (convs_per_line + 2) + 3 + 1
     report = conv2d_ws_sim(
         features=features.reshape((-1, x_size, x_size)), weights=weight, gold=gold, bias=bias, n_sim=n_sim,
-        stride=1, padding=0
+        stride=1, padding=0, test=True
     )
-    report.to_csv(f'../../test2.csv')
+    report.to_csv(f'../../stride1.csv')
+    print()
+
+
+def pad1():
+    x_size = 3
+    filter_width = 3
+    convs_per_line = 3
+    mem_size = 10
+    input_size = 8
+    carry_size = 4
+
+    bias = np.array([0])
+
+    weight = np.array([[[
+        [8, 4, 8],
+        [-2, -4, 4],
+        [5, 3, -7],
+    ]]])
+
+    gold = np.array([
+        -59, -78, 94,
+        156, -139, -72,
+        -8, 102, 74,
+    ])
+
+    features = np.array([[
+        -1, 3, -10,
+        -4, 9, 5,
+        7, -9, 9,
+    ]])
+
+    n_sim = convs_per_line * (convs_per_line + 2) + 3 + 1
+    report = conv2d_ws_sim(
+        features=features.reshape((-1, x_size, x_size)), weights=weight, gold=gold, bias=bias, n_sim=n_sim,
+        stride=1, padding=1, test=True
+    )
+    report.to_csv(f'../../pad1.csv')
     print()
 
 
@@ -208,7 +258,7 @@ def main():
     n_sim = conv_per_line * (conv_per_line + 2) * n_channel * n_filter + (3 + 1) * n_filter
     report = conv2d_ws_sim(
         features=features.reshape((-1, x_size, x_size)), weights=weight, bias=bias,
-        gold=gold, n_sim=n_sim, stride=1, padding=0
+        gold=gold, n_sim=n_sim, stride=1, padding=1
     )
     report.to_csv(output_path / f'{layer}.csv')
     print()

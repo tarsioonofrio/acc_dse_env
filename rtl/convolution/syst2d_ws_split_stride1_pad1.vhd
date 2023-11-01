@@ -414,11 +414,11 @@ begin
           --
           -- NEXT LINE
           --  
-          if V < 0 then
+          if cont_conv < X_SIZE - 4 or cont_conv = X_SIZE * X_SIZE then
             padv(0) <= '1';
             padv(1) <= '0';
             padv(2) <= '0';
-          elsif V >= X_SIZE * X_SIZE then
+          elsif cont_conv >= X_SIZE * X_SIZE - X_SIZE * 1 - 2 then
             padv(0) <= '0';
             padv(1) <= '0';
             padv(2) <= '1';
@@ -505,7 +505,7 @@ begin
         features        <= (others => (others => (others => '0')));
         cont_steps      <= (others => '0');
         padh            <= (others => '0');
-        padv            <= (others => '1');
+        padv            <= (others => '0');
       end if;
 
     end if;
