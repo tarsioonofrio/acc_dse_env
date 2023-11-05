@@ -152,40 +152,27 @@ class GenerateRTL:
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
 
-        # TODO add MaxPool2d to total_ops
-        total_ops = [
-            0 if self.layer_rtl[i] == 'MaxPool2d' else np.prod(self.output_shape[i])
-            for i in range(self.total_layers)
-        ]
-
-        in_features = [
-            self.input_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
-            for i in range(self.total_layers)
-        ]
+        in_features = [np.prod(self.input_shape[i]) for i in range(self.total_layers)]
+        out_features = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
+        total_ops = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
 
         # TODO x_size is in_features without linear, in future replace x_size per in_features with all layers
-        x_size = [
-            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][-1]
+        in_size = [
+            self.input_shape[i][-1]
             for i in range(self.total_layers)
         ]
 
-        out_features = [
-            self.output_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
-            for i in range(self.total_layers)
-        ]
-        # TODO convs_per_line is out_features without linear,
-        #  in future replace convs_per_line per out_features with all layers
-        convs_per_line = [
-            self.output_shape[i][-1] if self.layer_rtl[i] == 'Conv2d' else 0
+        out_size = [
+            self.output_shape[i][-1]
             for i in range(self.total_layers)
         ]
 
         self.generics = {
             'TOTAL_OPS': total_ops,
-            'X_SIZE': x_size,
-            'CONVS_PER_LINE': convs_per_line,
-            'N_FILTER': self.out_channels,
+            'X_SIZE': in_size,
+            'CONVS_PER_LINE': out_size,
             'N_CHANNEL': self.in_channels,
+            'N_FILTER': self.out_channels,
             'STRIDE': self.stride,
             'FILTER_WIDTH': self.kernel_size,
             'IN_FEATURES': in_features,

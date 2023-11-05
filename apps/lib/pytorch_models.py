@@ -95,6 +95,60 @@ class MaxPool(nn.Module):
         return x
 
 
+class DefaultMaxPool(nn.Module):
+    def __init__(self, config_model, debug=False):
+        super().__init__()
+        self.debug = debug
+        padding = config_model.get('pad', [0 for i in range(len(config_model["filter_channel"]))])
+        conv0 = nn.Conv2d(
+            in_channels=3, out_channels=config_model["filter_channel"][0],
+            kernel_size=(config_model["filter_dimension"][0], config_model["filter_dimension"][0]),
+            stride=(config_model["stride_h"][0], config_model["stride_w"][0]),
+            padding=padding[0]
+        )
+        conv = [
+            layer
+            for i in range(1, len(config_model["filter_channel"]))
+            for layer in [
+                nn.Conv2d(
+                    in_channels=config_model["filter_channel"][i - 1], out_channels=config_model["filter_channel"][i],
+                    kernel_size=(config_model["filter_dimension"][i], config_model["filter_dimension"][i]),
+                    stride=(config_model["stride_h"][i], config_model["stride_w"][i]),
+                    padding=padding[i]
+                ),
+                nn.ReLU(),
+                nn.MaxPool2d(kernel_size=2),
+            ]
+        ]
+
+        layers = [
+            conv0,
+            nn.ReLU(),
+            nn.MaxPool2d(kernel_size=2),
+            *conv,
+            nn.Flatten(1, -1)
+        ]
+        sequential = nn.Sequential(*layers)
+
+        shape = config_model['input_c'], config_model['input_w'], config_model['input_h']
+        input_tensor = torch.ones(1, shape[0], shape[1], shape[2])
+        dim = sequential(input_tensor).shape[1]
+
+        final_layers = [
+            nn.Linear(dim, 10),
+            nn.Softmax(1),
+        ]
+        self.sequential = nn.Sequential(*(layers + final_layers))
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
+
+
 class BatchNorm(nn.Module):
     def __init__(self, config_model, debug=False):
         super().__init__()
