@@ -29,7 +29,7 @@ vcom -work work ../rtl/core/core_sequential.vhd
 vcom -work work ../tb/tb_rtl_core_sequential.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/1/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/6/generic_file.txt
 #onfinish exit
 #onbreak exit
 log -r /*

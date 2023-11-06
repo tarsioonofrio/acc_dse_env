@@ -5,8 +5,8 @@ vmap work work
 vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/0/iwght_pkg.vhd
 
 # Packages for CNN layer simualtion
-vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/1/ifmap_pkg.vhd
-vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/1/gold_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/5/ifmap_pkg.vhd
+vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/5/gold_pkg.vhd
 vcom -work work ../experiments/rtl_output/default_maxpool_s1_pad1/default/core/op_generics_pkg.vhd
 
 
@@ -26,7 +26,7 @@ vcom -work work ../rtl/pool/maxpool2d.vhd
 vcom -work work ../tb/tb_rtl_maxpool.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/1/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/default_maxpool_s1_pad1/default/layer/5/generic_file.txt
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
