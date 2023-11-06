@@ -127,7 +127,7 @@ class GenerateRTL:
         for e, layer in enumerate(model.sequential[0:-1]):
             if e in self.layer_torch:
                 self.input_shape.append(np.array(input_tensor.shape[1:]).tolist())
-            if layer._get_name() == 'MaxPool2d':
+            if 'pool' in layer._get_name().lower():
                 input_tensor = layer(input_tensor.type(torch.float)).type(torch.int)
             else:
                 input_tensor = layer(input_tensor)

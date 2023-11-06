@@ -4,7 +4,9 @@ from pathlib import Path
 
 import torch
 from torchvision import transforms
-from torchvision.datasets import CIFAR10
+from torchvision.datasets import CIFAR10, ImageFolder
+from torchvision import models as torchvision_models
+
 
 from lib import pytorch_models
 from lib.generate_files import GenerateRTL
@@ -16,6 +18,7 @@ def main():
     )
     parser.add_argument("--cnn_config", "-c", type=str, help="Name of neural network config file in nn_config")
     parser.add_argument("--rtl_config", "-r", type=str, help="Name of hardware config file in rtl_config")
+    parser.add_argument("--dataset", "-d", type=str, help="Name of hardware config file in rtl_config")
     args = parser.parse_args()
 
     root = Path(__file__).parent.parent.resolve() / 'experiments'
@@ -26,21 +29,35 @@ def main():
 
     rtl_output_path.mkdir(parents=True, exist_ok=True)
 
-    with open(cnn_config_path) as f:
-        cnn_config = json.load(f)
+    torchvision_models_lower = {k.lower(): v for k, v in vars(torchvision_models).items()}
+    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
+
+    if args.cnn_config in torchvision_models_lower:
+        torch_model = torchvision_models_lower[args.cnn_config](weights='DEFAULT')
+        layers = list(torch_model.features.modules())[1:] + [torch_model.avgpool] + list(torch_model.classifier.modules())[1:]
+        model = torch.nn.Module()
+        model.sequential = torch.nn.Sequential(*layers)
+        transform = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+        ])
+        path = root.parent.parent / 'imagenette2-320/val/'
+        dataloader = ImageFolder(root=path.as_posix(), transform=transform)
+        torch_model(torch.unsqueeze(dataloader[0][0], 0))
+    else:
+        with open(cnn_config_path) as f:
+            cnn_config = json.load(f)
+
+        model = pytorch_models_lower[cnn_config["name"]](cnn_config)
+        model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
+        transform = transforms.Compose([
+            transforms.ToTensor(),
+        ])
+        dataloader = CIFAR10("~/pytorch", train=False, download=True, transform=transform)
 
     with open(rtl_config_path) as f:
         rtl_config = json.load(f)
-
-    pytorch_models_lower = {k.lower(): v for k, v in vars(pytorch_models).items()}
-    model = pytorch_models_lower[cnn_config["name"]](cnn_config)
-    model.load_state_dict(torch.load(cnn_output_path / 'model.pth'))
-
-    transform = transforms.Compose([
-        transforms.ToTensor(),
-        # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
-    ])
-    dataloader = CIFAR10("~/pytorch", train=False, download=True, transform=transform)
 
     generate_rtl = GenerateRTL(model, rtl_config, rtl_output_path, dataloader, samples=10)
     generate_rtl(samples=True, core=True)
