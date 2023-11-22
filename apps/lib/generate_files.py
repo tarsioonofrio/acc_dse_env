@@ -83,6 +83,11 @@ class GenerateRTL:
             "out_channels": lambda x: 0, "stride": lambda x: x.stride,
             "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
         },
+        'AdaptiveAvgPool2d': {
+            "op": 'A', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
+            "out_channels": lambda x: 0, "stride": lambda x: 0,
+            "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
+        },
     }
 
     def __init__(self, model, rtl_config, rtl_output_path, dataloader, samples=10):
@@ -103,6 +108,7 @@ class GenerateRTL:
                 model.sequential[i].bias.data = model.sequential[i].bias.data * shift2
 
         model.requires_grad_(False)
+        model.eval()
         model.type(torch.int)
         self.model = model
 

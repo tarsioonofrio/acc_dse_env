@@ -34,9 +34,7 @@ def main():
 
     if args.cnn_config in torchvision_models_lower:
         torch_model = torchvision_models_lower[args.cnn_config](weights='DEFAULT')
-        layers = list(torch_model.features.modules())[1:] + [torch_model.avgpool] + list(torch_model.classifier.modules())[1:]
-        model = torch.nn.Module()
-        model.sequential = torch.nn.Sequential(*layers)
+        model = pytorch_models_lower['vgg'](torch_model, debug=True)
         transform = transforms.Compose([
             transforms.Resize((224, 224)),
             transforms.ToTensor(),
@@ -44,7 +42,7 @@ def main():
         ])
         path = root.parent.parent / 'imagenette2-320/val/'
         dataloader = ImageFolder(root=path.as_posix(), transform=transform)
-        torch_model(torch.unsqueeze(dataloader[0][0], 0))
+        model(torch.unsqueeze(dataloader[0][0], 0))
     else:
         with open(cnn_config_path) as f:
             cnn_config = json.load(f)
