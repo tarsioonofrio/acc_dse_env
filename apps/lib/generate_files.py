@@ -130,7 +130,7 @@ class GenerateRTL:
         self.input_shape = []
         self.output_shape = []
 
-        for e, layer in enumerate(model.sequential[0:-1]):
+        for e, layer in enumerate(model.sequential):
             if e in self.layer_torch:
                 self.input_shape.append(np.array(input_tensor.shape[1:]).tolist())
             if 'pool' in layer._get_name().lower():
@@ -502,7 +502,7 @@ class GenerateRTL:
         x = torch.from_numpy(x.astype(np.int32))
         loop = list(range(map_data[n_layer]))
         for i in loop:
-            if self.model.sequential[i]._get_name() == 'MaxPool2d':
+            if 'Pool' in self.model.sequential[i]._get_name():
                 t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
                 x = t
             elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
