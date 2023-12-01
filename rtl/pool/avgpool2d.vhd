@@ -10,7 +10,7 @@ use ieee.numeric_std.all
 -- use work.util_package.all;
 
 
-entity maxpool is
+entity avgpool is
   generic (
     N_CHANNEL      : integer := 64;
     X_SIZE         : integer := 3;
@@ -45,10 +45,10 @@ entity maxpool is
     );
   attribute dont_touch : string;
   attribute dont_touch of maxpool : entity is "true";         
-end entity maxpool;
+end entity avgpool;
 
 
-architecture a1 of maxpool is
+architecture a1 of avgpool is
   signal start_reg, end_reg, ce_reg, cw_reg, debug_reg, ifmap_valid_reg : std_logic;
   -- signal out_add_reg : std_logic_vector(MEM_SIZE-1 downto 0);
 
