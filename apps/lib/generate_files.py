@@ -83,6 +83,11 @@ class GenerateRTL:
             "out_channels": lambda x: 0, "stride": lambda x: x.stride,
             "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
         },
+        'AdaptiveAvgPool2d': {
+            "op": 'A', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
+            "out_channels": lambda x: 0, "stride": lambda x: 0,
+            "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
+        },
     }
 
     def __init__(self, model, rtl_config, rtl_output_path, dataloader, samples=10):
@@ -103,6 +108,7 @@ class GenerateRTL:
                 model.sequential[i].bias.data = model.sequential[i].bias.data * shift2
 
         model.requires_grad_(False)
+        model.eval()
         model.type(torch.int)
         self.model = model
 
@@ -124,10 +130,10 @@ class GenerateRTL:
         self.input_shape = []
         self.output_shape = []
 
-        for e, layer in enumerate(model.sequential[0:-1]):
+        for e, layer in enumerate(model.sequential):
             if e in self.layer_torch:
                 self.input_shape.append(np.array(input_tensor.shape[1:]).tolist())
-            if layer._get_name() == 'MaxPool2d':
+            if 'pool' in layer._get_name().lower():
                 input_tensor = layer(input_tensor.type(torch.float)).type(torch.int)
             else:
                 input_tensor = layer(input_tensor)
@@ -496,7 +502,7 @@ class GenerateRTL:
         x = torch.from_numpy(x.astype(np.int32))
         loop = list(range(map_data[n_layer]))
         for i in loop:
-            if self.model.sequential[i]._get_name() == 'MaxPool2d':
+            if 'Pool' in self.model.sequential[i]._get_name():
                 t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
                 x = t
             elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
