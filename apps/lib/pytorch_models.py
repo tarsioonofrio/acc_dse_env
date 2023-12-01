@@ -2,6 +2,27 @@ import torch
 from torch import nn
 
 
+class VGG(nn.Module):
+    def __init__(self, vgg, debug=False):
+        super().__init__()
+        self.debug = debug
+        layers = [
+            * list(vgg.features.modules())[1:],
+            vgg.avgpool,
+            nn.Flatten(1, -1),
+            * list(vgg.classifier.modules())[1:]
+        ]
+        self.sequential = nn.Sequential(*layers)
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
+
+
 class Default(nn.Module):
     def __init__(self, config_model, debug=False):
         super().__init__()
