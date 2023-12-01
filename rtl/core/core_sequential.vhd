@@ -223,6 +223,7 @@ begin
         N_CHANNEL      => N_CHANNEL(BRAM_NAME_LAYER),
         X_SIZE         => X_SIZE(BRAM_NAME_LAYER),
         FILTER_WIDTH   => FILTER_WIDTH(BRAM_NAME_LAYER),
+        CONVS_PER_LINE => CONVS_PER_LINE(BRAM_NAME_LAYER),
         MEM_SIZE       => MEM_SIZE,
         INPUT_SIZE     => INPUT_SIZE,
         SHIFT          => SHIFT,
@@ -263,8 +264,8 @@ begin
         clock         => clock,
         reset         => reset,
 
-        start_op    => start_conv,
-        end_op      => end_conv,
+        start_op      => start_conv,
+        end_op        => end_conv,
         debug         => debug,
 
         iwght_valid   => iwght_valid,

@@ -3,9 +3,9 @@ vlib work
 vmap work work
 
 # Package with utilities - need to be before convolution core
-vcom -work work ../experiments/rtl_output/default/default/bram/bram_36Kb.vhd
-vcom -work work ../experiments/rtl_output/default/default/core/config_pkg.vhd
-vcom -work work ../experiments/rtl_output/default/default/bram/config_const_pkg.vhd
+vcom -work work ../experiments/rtl_output/linear1/default/bram/bram_36Kb.vhd
+vcom -work work ../experiments/rtl_output/linear1/default/core/config_pkg.vhd
+vcom -work work ../experiments/rtl_output/linear1/default/bram/config_const_pkg.vhd
 
 # Package with utilities - need to be before convolution core
 vcom -work work ../rtl/core/util_pkg.vhd

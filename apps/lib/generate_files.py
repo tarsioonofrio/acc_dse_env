@@ -152,40 +152,27 @@ class GenerateRTL:
             self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
         ]
 
-        # TODO add MaxPool2d to total_ops
-        total_ops = [
-            0 if self.layer_rtl[i] == 'MaxPool2d' else np.prod(self.output_shape[i])
-            for i in range(self.total_layers)
-        ]
-
-        in_features = [
-            self.input_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
-            for i in range(self.total_layers)
-        ]
+        in_features = [np.prod(self.input_shape[i]) for i in range(self.total_layers)]
+        out_features = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
+        total_ops = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
 
         # TODO x_size is in_features without linear, in future replace x_size per in_features with all layers
-        x_size = [
-            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][-1]
+        in_size = [
+            self.input_shape[i][-1]
             for i in range(self.total_layers)
         ]
 
-        out_features = [
-            self.output_shape[i][-1] if self.layer_rtl[i] == 'Linear' else 0
-            for i in range(self.total_layers)
-        ]
-        # TODO convs_per_line is out_features without linear,
-        #  in future replace convs_per_line per out_features with all layers
-        convs_per_line = [
-            self.output_shape[i][-1] if self.layer_rtl[i] == 'Conv2d' else 0
+        out_size = [
+            self.output_shape[i][-1]
             for i in range(self.total_layers)
         ]
 
         self.generics = {
             'TOTAL_OPS': total_ops,
-            'X_SIZE': x_size,
-            'CONVS_PER_LINE': convs_per_line,
-            'N_FILTER': self.out_channels,
+            'X_SIZE': in_size,
+            'CONVS_PER_LINE': out_size,
             'N_CHANNEL': self.in_channels,
+            'N_FILTER': self.out_channels,
             'STRIDE': self.stride,
             'FILTER_WIDTH': self.kernel_size,
             'IN_FEATURES': in_features,
@@ -257,7 +244,7 @@ class GenerateRTL:
         # Generate VHDL tensorflow package
         self.generate_ifmem_vhd_pkg(path=path_layer, weight=weight_list, feature=feat_list)
         # TODO remove um future
-        self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
+        # self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
 
     def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
@@ -378,6 +365,8 @@ class GenerateRTL:
     def generate_core(self):
         layer = len(self.in_features) - 2
         path_core = self.rtl_output_path / "core"
+        path_core.mkdir(parents=True, exist_ok=True)
+
         stride = [max(self.stride)]
         n_filter = [max(self.out_channels)]
         x_size = max(self.in_features)
@@ -397,7 +386,7 @@ class GenerateRTL:
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
         self.generate_tcl_generic(layer, generic_dict2, path_core)
-        self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
+        # self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, path, weight, feature):
         data_pkg = weight + feature
@@ -416,7 +405,7 @@ class GenerateRTL:
                 pre_input_shape = self.output_shape[n_layer - 1]
                 layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
                 # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
-                if pre_input_shape[-1] > 1:
+                if pre_input_shape[-1] > 1 and len(self.output_shape) > 1:
                     layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
                               .reshape(output_shape, input_shape))
                 else:
@@ -464,7 +453,8 @@ class GenerateRTL:
             feat_list = x
             if self.layer_rtl[n_layer] == 'Linear':
                 shape = self.output_shape[n_layer-1]
-                feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
+                if len(shape) > 1:
+                    feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
                 feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
@@ -489,7 +479,7 @@ class GenerateRTL:
 
         if dataset_size > 1:
             s = feat_list.shape
-            feat_list = feat_list.reshape(-1, s[-2], s[-1]).astype(int)
+            feat_list = feat_list.reshape((-1, s[-2], s[-1])).astype(int)
 
         format_feat = format_feature(feat_list, self.tab)
 

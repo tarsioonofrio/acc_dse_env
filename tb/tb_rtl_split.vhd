@@ -153,7 +153,7 @@ begin
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < CONVS_PER_LINE(LAYER)*CONVS_PER_LINE(LAYER)*N_FILTER(LAYER) then
+      if debug = '1' and cont_conv < TOTAL_OPS(LAYER) then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
@@ -170,6 +170,7 @@ begin
           assert false severity failure;
         end if;
         cont_conv := cont_conv + 1;
+        --report "cont_conv value: " & integer'image(cont_conv);
 
       elsif end_conv = '1' then
         report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
