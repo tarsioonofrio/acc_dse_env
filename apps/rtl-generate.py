@@ -42,7 +42,7 @@ def main():
         ])
         path = root.parent.parent / 'imagenette2-320/val/'
         dataloader = ImageFolder(root=path.as_posix(), transform=transform)
-        model(torch.unsqueeze(dataloader[0][0], 0))
+        # model(torch.unsqueeze(dataloader[0][0], 0))
     else:
         with open(cnn_config_path) as f:
             cnn_config = json.load(f)

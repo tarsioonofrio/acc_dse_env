@@ -8,7 +8,8 @@ class VGG(nn.Module):
         self.debug = debug
         layers = [
             * list(vgg.features.modules())[1:],
-            vgg.avgpool,
+            # avg pool is not necessary at this moment, using the size of input is the same of output
+            # vgg.avgpool,
             nn.Flatten(1, -1),
             * list(vgg.classifier.modules())[1:]
         ]

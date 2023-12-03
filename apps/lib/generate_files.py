@@ -84,8 +84,8 @@ class GenerateRTL:
             "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
         },
         'AdaptiveAvgPool2d': {
-            "op": 'A', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
-            "out_channels": lambda x: 0, "stride": lambda x: 0,
+            "op": 'A', "in_channels": lambda x: 0, 'kernel_size': lambda x, y: x//y,
+            "out_channels": lambda x: 0, "stride": lambda x, y: x - (y-1)*(x//y),
             "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
         },
     }
@@ -150,12 +150,20 @@ class GenerateRTL:
             for i in range(self.total_layers)
         ]
 
-        self.kernel_size = [
-            self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        self.stride = [
+            self.map_layer_props[v]['stride'](self.model.sequential[k]) if v !='AdaptiveAvgPool2d'
+            else self.map_layer_props[v]['stride'](
+                self.input_shape[self.map_torch_rtl[k]][-1], self.output_shape[self.map_torch_rtl[k]][-1]
+            )
+            for k, v in self.layer_torch.items()
         ]
 
-        self.stride = [
-            self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+        self.kernel_size = [
+            self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) if v !='AdaptiveAvgPool2d'
+            else self.map_layer_props[v]['kernel_size'](
+                self.input_shape[self.map_torch_rtl[k]][-1], self.output_shape[self.map_torch_rtl[k]][-1]
+            )
+            for k, v in self.layer_torch.items()
         ]
 
         in_features = [np.prod(self.input_shape[i]) for i in range(self.total_layers)]
