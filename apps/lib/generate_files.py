@@ -1,6 +1,7 @@
 from pathlib import Path
 from os.path import relpath
 from math import ceil, log2
+from tempfile import NamedTemporaryFile
 
 import torch
 import numpy as np
@@ -10,42 +11,6 @@ from .vhdl_package import Integer, String, Package
 
 def log2ceil(x):
     return ceil(log2(x)) + 1
-
-
-def write_mem_pkg(constant, data, file_name, package, path):
-    with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
-        text = f.read()
-    text_out = text.format(package=package, constant=constant, data=data)
-    with open(path / f"{file_name}.vhd", "w") as f:
-        f.write(text_out)
-
-
-def write_mem_txt(feat_list, file_name, path):
-    with open(path / f"{file_name}.txt", "w") as f:
-        f.writelines([f"{d}\n" for c in feat_list for n in c for d in n])
-
-
-def format_feature2(feat_list, tab):
-    format_feat = [
-        # f"{tab}-- image={layer} channel={c} column={n}\n{tab}{','.join(column)},\n"
-        # f"{tab}-- channel={c} column={n}\n{tab}{', '.join(column)}, \n"
-        f"{tab}{', '.join(column)}, \n"
-        for c, channel in enumerate(feat_list)
-        for n, column in enumerate(channel)
-    ]
-    return format_feat
-
-
-def format_feature(feat_list, tab):
-    format_feat = [tab]
-    for c, channel in enumerate(feat_list):
-        format_feat.append(f"-- channel={c}\n{tab}")
-        for column in channel:
-            for feat in column:
-                format_feat.append(f"{str(feat)}, ")
-            format_feat.append(f"\n{tab}")
-        format_feat.append(f"\n{tab}")
-    return format_feat
 
 
 class Model:
@@ -406,7 +371,7 @@ class GenerateRTL:
         data_pkg = weight + feature
         package = "inmem_package"
         constant = "input_mem"
-        write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
+        self.write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
@@ -424,31 +389,33 @@ class GenerateRTL:
                               .reshape(output_shape, input_shape))
                 else:
                     layer1 = layer
-                weight_list = np.expand_dims(layer1, [0, 1]).tolist()
+                weight_arr = np.expand_dims(layer1, [0, 1])
             else:
                 # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
                 #  Test in future
                 layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.swapaxes(-2, -1).cpu().detach()
                          .numpy())
-                weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
+                weight_arr = layer.reshape(1, *layer.shape[0:2], -1)
 
-            bias_string = f"{self.tab}{', '.join(bias_list)},\n"
-            weight_string = [
-                f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
-                for filters in weight_list
-                for f, channel in enumerate(filters)
-                for c, s in enumerate(channel)
-            ]
-            data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
-            bias_list_data = [f"{b}\n" for b in bias_list]
-            weight_list_data = [f"{s}\n" for f in weight_list for c in f for li in c for s in li]
-            data_txt = bias_list_data + weight_list_data
-            package = "iwght_package"
-            constant = "input_wght"
-            write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
-            with open(path / "iwght.txt", "w") as f:
-                f.writelines(data_txt)
-            return data_pkg
+            # weight_list = weight_arr.tolist()
+            # weight_string = [
+            #     f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+            #     for filters in weight_list
+            #     for f, channel in enumerate(filters)
+            #     for c, s in enumerate(channel)
+            # ]
+            # bias_string = f"{self.tab}{', '.join(bias_list)},\n"
+            # bias_list_data = [f"{b}\n" for b in bias_list]
+            # weight_list_data = [f"{s}\n" for f in weight_list for c in f for li in c for s in li]
+            # data_txt = bias_list_data + weight_list_data
+            # package = "iwght_package"
+            # constant = "input_wght"
+            # data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+            # self.write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
+            # with open(path / "iwght.txt", "w") as f:
+            #     f.writelines(data_txt)
+            # return data_pkg
+            return ''
         else:
             return ''
 
@@ -473,12 +440,11 @@ class GenerateRTL:
             else:
                 feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
 
-        format_feat = format_feature(feat_list, self.tab)
+        np.savetxt(path / "ifmap.txt", feat_list.reshape(-1), fmt='%i')
         package = "ifmap_package"
         constant = "input_map"
-        data_pkg = "".join([f"\n{self.tab}-- ifmap\n"] + format_feat)
-        write_mem_txt(feat_list, "ifmap", path)
-        write_mem_pkg(constant, data_pkg, "ifmap_pkg", package, path)
+        data_pkg = self.format_feature(feat_list, 'ifmap')
+        self.write_mem_pkg(constant, data_pkg, "ifmap_pkg", package, path)
         return data_pkg
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
@@ -495,13 +461,11 @@ class GenerateRTL:
             s = feat_list.shape
             feat_list = feat_list.reshape((-1, s[-2], s[-1])).astype(int)
 
-        format_feat = format_feature(feat_list, self.tab)
-
         package = "gold_package"
         constant = "gold"
-        data = "".join([f"\n{self.tab}-- gold\n"] + format_feat)
-        write_mem_txt(feat_list, "gold", path)
-        write_mem_pkg(constant, data, "gold_pkg", package, path)
+        data = self.format_feature(feat_list, constant)
+        np.savetxt(path / "gold.txt", feat_list.reshape(-1), fmt='%i')
+        self.write_mem_pkg(constant, data, "gold_pkg", package, path)
 
     def forward(self, dataset_size, n_layer, map_data):
         x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
@@ -521,3 +485,40 @@ class GenerateRTL:
                 t = self.model.sequential[i](x)
                 x = t
         return x
+
+    def format_feature(self, data_list, name):
+        with NamedTemporaryFile(mode='w', delete=False) as f:
+            f.write(f"\n{self.tab}-- {name}\n")
+            f.write(self.tab)
+            for c, channel in enumerate(data_list):
+                f.write(f"-- channel={c}\n{self.tab}")
+                for column in channel:
+                    for data in column:
+                        f.write(f"{str(data)}, ")
+                    f.write(f"\n{self.tab}")
+                f.write(f"\n{self.tab}")
+        return f.name
+
+    @staticmethod
+    def write_mem_pkg(constant, file_data, file_name, package, path):
+        with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
+            text = f.read()
+        # TODO format package and constant but no data, after formatting split template in
+        #   {data} and write line by line to file
+        text_out = text.format(package=package, constant=constant)
+        start_text, end_text = text_out.split("[data]")
+
+        with open(path / f"{file_name}.vhd", "w") as f:
+            f.write(start_text)
+            with open(path / file_data, "r") as read:
+                for line in read:
+                    f.write(line)
+            f.write(end_text)
+
+    @staticmethod
+    def write_mem_txt(feat_list, file_name, path):
+        with open(path / f"{file_name}.txt", "w") as f:
+            for c in feat_list:
+                for n in c:
+                    for d in n:
+                        f.write(f"{d}\n")

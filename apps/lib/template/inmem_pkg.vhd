@@ -5,6 +5,6 @@ package {package} is
   type mem is array(0 to 4000000) of integer;
 
   constant {constant} : mem := (
-{data}
+[data]
     others => 0);
 end {package};
