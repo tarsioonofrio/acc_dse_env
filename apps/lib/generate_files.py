@@ -1,6 +1,7 @@
 from pathlib import Path
 from os.path import relpath
 from math import ceil, log2
+from shutil import copyfileobj
 from tempfile import NamedTemporaryFile
 
 import torch
@@ -368,10 +369,11 @@ class GenerateRTL:
         # self.generate_config_pkg(n_layer=layer, path=path_core, generics_layer=generic_dict2)
 
     def generate_ifmem_vhd_pkg(self, path, weight, feature):
-        data_pkg = weight + feature
-        package = "inmem_package"
-        constant = "input_mem"
-        self.write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
+        with NamedTemporaryFile(mode='wb', delete=False) as file_write:
+            for file_read in [weight, feature]:
+                with open(file_read, 'rb') as fd:
+                    copyfileobj(fd, file_write)
+        self.write_mem_pkg("input_mem", file_write.name, "inmem_pkg", "inmem_package", path)
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
@@ -395,23 +397,27 @@ class GenerateRTL:
                          .numpy())
                 weight_arr = layer.reshape(1, *layer.shape[0:2], -1)
 
-            bias_weight_arr = bias_arr.reshape(-1).append(weight_arr.reshape(-1))
-            np.savetxt(path / "iwght.txt", bias_weight_arr, fmt='%i')
+            with open(path / "iwght.txt", "w") as file_txt:
+                np.savetxt(file_txt, bias_arr.reshape(-1), fmt='%i')
+                np.savetxt(file_txt, weight_arr.reshape(-1), fmt='%i')
 
-            package = "iwght_package"
-            constant = "input_wght"
-            bias_string = f"{self.tab}{', '.join(bias_arr)},\n"
-            weight_list = weight_arr.tolist()
-            weight_string = [
-                f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
-                for filters in weight_list
-                for f, channel in enumerate(filters)
-                for c, s in enumerate(channel)
-            ]
-            data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
-            self.write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
-            # return data_pkg
-            return ''
+            with NamedTemporaryFile(mode='w', delete=False) as file_tmp:
+                file_tmp.write(f"{self.tab}-- bias\n")
+                file_tmp.write(f"{self.tab}")
+                for b in bias_arr[:-1]:
+                    file_tmp.write(f"{b}, ")
+                file_tmp.write(f"{bias_arr[-1]},")
+                file_tmp.write("\n")
+                file_tmp.write(f"\n{self.tab}-- weights\n")
+                for filters in weight_arr:
+                    for ft, channel in enumerate(filters):
+                        for c, s in enumerate(channel):
+                            file_tmp.write(
+                                f"{self.tab}-- filter={ft} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+                            )
+
+            self.write_mem_pkg("input_wght", file_tmp.name, "iwght_pkg", "iwght_package", path)
+            return file_tmp.name
         else:
             return ''
 
@@ -439,9 +445,9 @@ class GenerateRTL:
         np.savetxt(path / "ifmap.txt", feat_list.reshape(-1), fmt='%i')
         package = "ifmap_package"
         constant = "input_map"
-        data_pkg = self.format_feature(feat_list, 'ifmap')
-        self.write_mem_pkg(constant, data_pkg, "ifmap_pkg", package, path)
-        return data_pkg
+        file_name = self.format_feature(feat_list, 'ifmap')
+        self.write_mem_pkg(constant, file_name, "ifmap_pkg", package, path)
+        return file_name
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
         x = self.forward(dataset_size, n_layer, self.map_gold_torch)
@@ -457,11 +463,9 @@ class GenerateRTL:
             s = feat_list.shape
             feat_list = feat_list.reshape((-1, s[-2], s[-1])).astype(int)
 
-        package = "gold_package"
-        constant = "gold"
-        data = self.format_feature(feat_list, constant)
+        file_name = self.format_feature(feat_list, "gold")
         np.savetxt(path / "gold.txt", feat_list.reshape(-1), fmt='%i')
-        self.write_mem_pkg(constant, data, "gold_pkg", package, path)
+        self.write_mem_pkg("gold", file_name, "gold_pkg", "gold_package", path)
 
     def forward(self, dataset_size, n_layer, map_data):
         x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
@@ -499,8 +503,6 @@ class GenerateRTL:
     def write_mem_pkg(constant, file_data, file_name, package, path):
         with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
             text = f.read()
-        # TODO format package and constant but no data, after formatting split template in
-        #   {data} and write line by line to file
         text_out = text.format(package=package, constant=constant)
         start_text, end_text = text_out.split("[data]")
 
