@@ -375,9 +375,7 @@ class GenerateRTL:
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
         if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
-            bias_list = [
-                str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
-            ]
+            bias_arr = self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().numpy()
             if self.layer_rtl[n_layer] == 'Linear':
                 input_shape = self.input_shape[n_layer][0]
                 output_shape = self.output_shape[n_layer][0]
@@ -397,23 +395,21 @@ class GenerateRTL:
                          .numpy())
                 weight_arr = layer.reshape(1, *layer.shape[0:2], -1)
 
-            # weight_list = weight_arr.tolist()
-            # weight_string = [
-            #     f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
-            #     for filters in weight_list
-            #     for f, channel in enumerate(filters)
-            #     for c, s in enumerate(channel)
-            # ]
-            # bias_string = f"{self.tab}{', '.join(bias_list)},\n"
-            # bias_list_data = [f"{b}\n" for b in bias_list]
-            # weight_list_data = [f"{s}\n" for f in weight_list for c in f for li in c for s in li]
-            # data_txt = bias_list_data + weight_list_data
-            # package = "iwght_package"
-            # constant = "input_wght"
-            # data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
-            # self.write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
-            # with open(path / "iwght.txt", "w") as f:
-            #     f.writelines(data_txt)
+            bias_weight_arr = bias_arr.reshape(-1).append(weight_arr.reshape(-1))
+            np.savetxt(path / "iwght.txt", bias_weight_arr, fmt='%i')
+
+            package = "iwght_package"
+            constant = "input_wght"
+            bias_string = f"{self.tab}{', '.join(bias_arr)},\n"
+            weight_list = weight_arr.tolist()
+            weight_string = [
+                f"{self.tab}-- filter={f} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+                for filters in weight_list
+                for f, channel in enumerate(filters)
+                for c, s in enumerate(channel)
+            ]
+            data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+            self.write_mem_pkg(constant, data_pkg, "iwght_pkg", package, path)
             # return data_pkg
             return ''
         else:

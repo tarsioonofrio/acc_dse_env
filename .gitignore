@@ -44,3 +44,5 @@ apps/data/
 test_table/
 
 experiments/rtl_output/vgg*/
+
+experiments/rtl_output/_vgg11/
