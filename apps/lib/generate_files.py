@@ -371,8 +371,9 @@ class GenerateRTL:
     def generate_ifmem_vhd_pkg(self, path, weight, feature):
         with NamedTemporaryFile(mode='wb', delete=False) as file_write:
             for file_read in [weight, feature]:
-                with open(file_read, 'rb') as fd:
-                    copyfileobj(fd, file_write)
+                if file_read != '':
+                    with open(file_read, 'rb') as fd:
+                        copyfileobj(fd, file_write)
         self.write_mem_pkg("input_mem", file_write.name, "inmem_pkg", "inmem_package", path)
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
