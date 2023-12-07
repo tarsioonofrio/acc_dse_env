@@ -46,7 +46,7 @@ architecture a1 of memory is
   signal cont_read, cont_write, cont_av_cycles : integer;
 
   signal data_av_signal : std_logic;
-  signal ROM :type_array_int := read_data(ROM_PATH);
+  signal ROM :type_array_int(0 to 2**ADDRESS_SIZE-1) := read_data(ROM_PATH, 2**ADDRESS_SIZE-1);
 
 begin
 

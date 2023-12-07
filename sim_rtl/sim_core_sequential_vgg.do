@@ -1,33 +1,39 @@
 if {[file isdirectory work]} { vdel -all -lib work }
+set num_layer 1
 vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/ifmap_pkg.vhd
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/iwght_pkg.vhd
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/gold_pkg.vhd
+# inmem_pkg is not used in simulation
+
 vcom -work work ../experiments/rtl_output/vgg11/vgg/core/op_generics_pkg.vhd
 
+
+# Package with utilities - need to be before convolution core
+vcom -work work ../rtl/core/util_pkg.vhd
 
 # Components
 vcom -work work ../rtl/components/mac.vhd
 vcom -work work ../rtl/components/reg.vhd
-vcom -work work ../rtl/components/mem_split.vhd
+vcom -work work ../rtl/components/mem_file.vhd
 
 # Convolution core
 vcom -work work ../rtl/convolution/syst2d_ws_split_stride1_pad1.vhd
+vcom -work work ../rtl/pool/maxpool2d.vhd
+vcom -work work ../rtl/linear/linear_basic.vhd
+
+# Processing element
+vcom -work work ../rtl/core/core_sequential.vhd
 
 # Testbench
-vcom -work work ../tb/tb_rtl_split.vhd
+vcom -work work ../tb/tb_rtl_core_sequential.vhd
 
 # Simulation
 vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/vgg11/vgg/layer/4/generic_file.txt
-#set StdArithNoWarnings 1
-#set NumericStdNoWarnings 1
-onfinish exit
-onbreak exit
-#log -r /*
+#onfinish exit
+#onbreak exit
+log -r /*
+add wave sim:/tb/*
 run -all
-exit
-
-
+#run 1222 ns
+#exit 

@@ -39,7 +39,7 @@ architecture a1 of tb is
 
   signal ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  signal gold : type_array_int := read_data(PATH & "/gold.txt");
+  signal gold : type_array_int(0 to 2**MEM_SIZE-1) := read_data(PATH & "/gold.txt", 2**MEM_SIZE-1);
 
 begin
 
