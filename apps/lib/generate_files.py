@@ -376,50 +376,49 @@ class GenerateRTL:
         self.write_mem_pkg("input_mem", file_write.name, "inmem_pkg", "inmem_package", path)
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
-        if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
-            bias_arr = self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().numpy()
-            if self.layer_rtl[n_layer] == 'Linear':
-                input_shape = self.input_shape[n_layer][0]
-                output_shape = self.output_shape[n_layer][0]
-                pre_input_shape = self.output_shape[n_layer - 1]
-                layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
-                # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
-                if pre_input_shape[-1] > 1 and len(self.output_shape) > 1:
-                    layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
-                              .reshape(output_shape, input_shape))
-                else:
-                    layer1 = layer
-                weight_arr = np.expand_dims(layer1, [0, 1])
-            else:
-                # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
-                #  Test in future
-                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.swapaxes(-2, -1).cpu().detach()
-                         .numpy())
-                weight_arr = layer.reshape(1, *layer.shape[0:2], -1)
-
-            with open(path / "iwght.txt", "w") as file_txt:
-                np.savetxt(file_txt, bias_arr.reshape(-1), fmt='%i')
-                np.savetxt(file_txt, weight_arr.reshape(-1), fmt='%i')
-
-            with NamedTemporaryFile(mode='w', delete=False) as file_tmp:
-                file_tmp.write(f"{self.tab}-- bias\n")
-                file_tmp.write(f"{self.tab}")
-                for b in bias_arr[:-1]:
-                    file_tmp.write(f"{b}, ")
-                file_tmp.write(f"{bias_arr[-1]},")
-                file_tmp.write("\n")
-                file_tmp.write(f"\n{self.tab}-- weights\n")
-                for filters in weight_arr:
-                    for ft, channel in enumerate(filters):
-                        for c, s in enumerate(channel):
-                            file_tmp.write(
-                                f"{self.tab}-- filter={ft} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
-                            )
-
-            self.write_mem_pkg("input_wght", file_tmp.name, "iwght_pkg", "iwght_package", path)
-            return file_tmp.name
-        else:
+        if self.layer_rtl[n_layer] not in ['Linear', 'Conv2d']:
             return ''
+
+        bias_arr = self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().numpy()
+        if self.layer_rtl[n_layer] == 'Linear':
+            input_shape = self.input_shape[n_layer][0]
+            output_shape = self.output_shape[n_layer][0]
+            pre_input_shape = self.output_shape[n_layer - 1]
+            layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
+            # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
+            if pre_input_shape[-1] > 1 and len(self.output_shape) > 1:
+                layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
+                          .reshape(output_shape, input_shape))
+            else:
+                layer1 = layer
+            weight_arr = np.expand_dims(layer1, [0, 1])
+        else:
+            # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
+            #  Test in future
+            layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.swapaxes(-2, -1).cpu().detach()
+                     .numpy())
+            weight_arr = layer.reshape(1, *layer.shape[0:2], -1)
+
+        with open(path / "iwght.txt", "w") as file_txt:
+            np.savetxt(file_txt, bias_arr.reshape(-1), fmt='%i')
+            np.savetxt(file_txt, weight_arr.reshape(-1), fmt='%i')
+
+        with NamedTemporaryFile(mode='w', delete=False) as file_tmp:
+            file_tmp.write(f"{self.tab}-- bias\n")
+            file_tmp.write(f"{self.tab}")
+            for b in bias_arr:
+                file_tmp.write(f"{b}, ")
+            file_tmp.write("\n")
+            file_tmp.write(f"\n{self.tab}-- weights\n")
+            for filters in weight_arr:
+                for ft, channel in enumerate(filters):
+                    for c, s in enumerate(channel):
+                        file_tmp.write(
+                            f"{self.tab}-- filter={ft} channel={c}\n{self.tab}{', '.join(map(str, s))},\n"
+                        )
+
+        self.write_mem_pkg("input_wght", file_tmp.name, "iwght_pkg", "iwght_package", path)
+        return file_tmp.name
 
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         if n_layer == 0:
@@ -443,10 +442,8 @@ class GenerateRTL:
                 feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
 
         np.savetxt(path / "ifmap.txt", feat_list.reshape(-1), fmt='%i')
-        package = "ifmap_package"
-        constant = "input_map"
         file_name = self.format_feature(feat_list, 'ifmap')
-        self.write_mem_pkg(constant, file_name, "ifmap_pkg", package, path)
+        self.write_mem_pkg("input_map", file_name, "ifmap_pkg", "ifmap_package", path)
         return file_name
 
     def generate_gold_vhd_pkg(self, n_layer, path, dataset_size=1):
@@ -512,11 +509,3 @@ class GenerateRTL:
                 for line in read:
                     f.write(line)
             f.write(end_text)
-
-    @staticmethod
-    def write_mem_txt(feat_list, file_name, path):
-        with open(path / f"{file_name}.txt", "w") as f:
-            for c in feat_list:
-                for n in c:
-                    for d in n:
-                        f.write(f"{d}\n")

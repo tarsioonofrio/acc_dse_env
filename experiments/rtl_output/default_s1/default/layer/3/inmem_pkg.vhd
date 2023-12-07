@@ -6,7 +6,7 @@ package inmem_package is
 
   constant input_mem : mem := (
     -- bias
-    -2634, -108, 222, 3427, 194, -1576, 1538, -444, 159, 365,
+    -2634, -108, 222, 3427, 194, -1576, 1538, -444, 159, 365, 
 
     -- weights
     -- filter=0 channel=0
