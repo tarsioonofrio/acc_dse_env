@@ -23,7 +23,6 @@ vcom -work work ../rtl/core/core_sequential.vhd
 # Network
 vcom -work work ../rtl/cnn/cnn_sequential.vhd
 
-
 # Testbench
 vcom -work work ../tb/tb_rtl_cnn.vhd
 
