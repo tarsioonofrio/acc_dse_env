@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.std_logic_signed.all;
 package inmem_package is
-  type mem is array(0 to 4000000) of integer;
+  type mem is array(0 to 2**16) of integer;
 
   constant input_mem : mem := (
     -- bias

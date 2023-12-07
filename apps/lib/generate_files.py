@@ -14,11 +14,6 @@ def log2ceil(x):
     return ceil(log2(x)) + 1
 
 
-class Model:
-    def __init__(self, model, dataloader, samples=10):
-        pass
-
-
 class GenerateRTL:
     tab = "    "
     map_layer_props = {
@@ -497,11 +492,10 @@ class GenerateRTL:
                 f.write(f"\n{self.tab}")
         return f.name
 
-    @staticmethod
-    def write_mem_pkg(constant, file_data, file_name, package, path):
+    def write_mem_pkg(self, constant, file_data, file_name, package, path):
         with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
             text = f.read()
-        text_out = text.format(package=package, constant=constant)
+        text_out = text.format(package=package, constant=constant, mem_size=self.rtl_config["MEM_SIZE"])
         start_text, end_text = text_out.split("[data]")
 
         with open(path / f"{file_name}.vhd", "w") as f:
