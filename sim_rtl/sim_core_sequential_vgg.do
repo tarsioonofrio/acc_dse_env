@@ -29,11 +29,8 @@ vcom -work work ../rtl/core/core_sequential.vhd
 vcom -work work ../tb/tb_rtl_core_sequential.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/vgg11/vgg/layer/4/generic_file.txt
-#onfinish exit
-#onbreak exit
-log -r /*
-add wave sim:/tb/*
+vsim -t ns work.tb -f ../experiments/rtl_output/vgg11/vgg/layer/4/generic_file.txt
+onfinish exit
+onbreak exit
 run -all
-#run 1222 ns
-#exit 
+exit 

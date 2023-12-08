@@ -3,9 +3,9 @@ vlib work
 vmap work work
 
 # Packages for CNN layer simualtion
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/ifmap_pkg.vhd
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/iwght_pkg.vhd
-vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/4/gold_pkg.vhd
+vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/0/ifmap_pkg.vhd
+vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/0/iwght_pkg.vhd
+vcom -work work ../experiments/rtl_output/vgg11/vgg/layer/0/gold_pkg.vhd
 vcom -work work ../experiments/rtl_output/vgg11/vgg/core/op_generics_pkg.vhd
 
 
@@ -21,12 +21,11 @@ vcom -work work ../rtl/convolution/syst2d_ws_split_stride1_pad1.vhd
 vcom -work work ../tb/tb_rtl_split.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../experiments/rtl_output/vgg11/vgg/layer/4/generic_file.txt
-#set StdArithNoWarnings 1
-#set NumericStdNoWarnings 1
+vsim -t ns work.tb -f ../experiments/rtl_output/vgg11/vgg/layer/0/generic_file.txt
+set StdArithNoWarnings 1
+set NumericStdNoWarnings 1
 onfinish exit
 onbreak exit
-#log -r /*
 run -all
 exit
 
