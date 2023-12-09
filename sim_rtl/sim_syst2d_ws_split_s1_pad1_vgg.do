@@ -1,5 +1,5 @@
-set path "default/default"
-set layer 0
+set path "vgg11/vgg"
+set layer 5
 
 if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
