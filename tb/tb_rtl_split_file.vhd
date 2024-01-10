@@ -145,8 +145,7 @@ begin
   start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
 
   process(clock)
-
-    -- convolution counter
+  -- convolution counter
   variable cont_conv : integer := 0;
   variable out_line          : line;
 
