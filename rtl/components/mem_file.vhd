@@ -1,9 +1,9 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.std_logic_signed.all;
-use IEEE.std_logic_arith.all;
-use std.textio.all;
-use ieee.std_logic_textio.all;
+--use ieee.std_logic_signed.all;
+use ieee.numeric_std.all;
+--use std.textio.all;
+--use ieee.std_logic_textio.all;
 
 use work.util_package.all;
 
@@ -37,8 +37,8 @@ end memory;
 
 architecture a1 of memory is
 
-  type ofmap is array(0 to 2**ADDRESS_SIZE) of std_logic_vector(INPUT_SIZE-1 downto 0);
-  signal mem : ofmap := (others => (others => '0'));
+  --type ofmap is array(0 to 2**ADDRESS_SIZE) of std_logic_vector(INPUT_SIZE-1 downto 0);
+  -- signal mem : ofmap := (others => (others => '0'));
 
   type statesDataAv is (WAITCE, WAITLATENCY);
   signal EA_dataav, PE_dataav : statesDataAv;
@@ -46,7 +46,7 @@ architecture a1 of memory is
   signal cont_read, cont_write, cont_av_cycles : integer;
 
   signal data_av_signal : std_logic;
-  signal ROM :type_array_int(0 to 2**ADDRESS_SIZE-1) := read_data(ROM_PATH, 2**ADDRESS_SIZE-1);
+  signal mem :type_array_int(0 to 2**ADDRESS_SIZE-1) := read_data(ROM_PATH, 2**ADDRESS_SIZE-1);
 
 begin
 
@@ -57,20 +57,15 @@ begin
     if clock'event and clock = '1' then
         if chip_en = '1' then
           if wr_en = '1' then
-            mem(CONV_INTEGER(unsigned(address))) <= data_in;
+            mem(to_integer(unsigned(address))) <= to_integer(signed(data_in));
           end if;
         end if;
     end if;
   end process;
-
-  -- Read from memory
-  data_out <= mem(CONV_INTEGER(unsigned(address))) when chip_en = '1';
   end generate;
 
-  GEN_ROM: if ROM_PATH /= "" generate
   -- Read from memory
-  data_out <= CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1';
-  end generate;
+  data_out <= std_logic_vector(to_signed(mem(to_integer(unsigned(address))), INPUT_SIZE)) when chip_en = '1';
 
   process(reset, clock)
   begin
@@ -173,8 +168,8 @@ begin
     end if;
   end process;
 
-  n_read <= CONV_STD_LOGIC_VECTOR(cont_read, 32);
+  n_read <= std_logic_vector(to_unsigned(cont_read, 32));
 
-  n_write <= CONV_STD_LOGIC_VECTOR(cont_write, 32);
+  n_write <= std_logic_vector(to_unsigned(cont_write, 32));
 
 end a1;
