@@ -13,7 +13,9 @@ def log2ceil(x):
 
 
 def write_mem_pkg(constant, data, file_name, package, path):
-    with open(Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r") as f:
+    with open(
+        Path(__file__).parent.resolve() / "template/inmem_pkg.vhd", "r"
+    ) as f:
         text = f.read()
     text_out = text.format(package=package, constant=constant, data=data)
     with open(path / f"{file_name}.vhd", "w") as f:
@@ -56,56 +58,86 @@ class Model:
 class GenerateRTL:
     tab = "    "
     map_layer_props = {
-        'Conv2d': {
-            "op": 'C', "in_channels": lambda x: x.in_channels, 'kernel_size': lambda x: x.kernel_size[0],
-            "out_channels": lambda x: x.out_channels, "stride": lambda x: x.stride[0],
+        "Conv2d": {
+            "op": "C",
+            "in_channels": lambda x: x.in_channels,
+            "kernel_size": lambda x: x.kernel_size[0],
+            "out_channels": lambda x: x.out_channels,
+            "stride": lambda x: x.stride[0],
             "generics": [
                 # TODO: IN_FEATURES
-                'X_SIZE',
+                "X_SIZE",
                 # TODO: OUT_FEATURES
-                'CONVS_PER_LINE',
+                "CONVS_PER_LINE",
                 # TODO IN_CHANNEL
-                'N_FILTER',
+                "N_FILTER",
                 # TODO OUT_CHANNEL
-                'N_CHANNEL',
-                'FILTER_WIDTH',
-                'STRIDE',
-                'TOTAL_OPS',
-            ]
+                "N_CHANNEL",
+                "FILTER_WIDTH",
+                "STRIDE",
+                "TOTAL_OPS",
+            ],
         },
-        'Linear': {
-            "op": 'L', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
-            "out_channels": lambda x: 0, "stride": lambda x: 0,
-            "generics": ['IN_FEATURES', 'OUT_FEATURES', 'TOTAL_OPS']
+        "Linear": {
+            "op": "L",
+            "in_channels": lambda x: 0,
+            "kernel_size": lambda x: 0,
+            "out_channels": lambda x: 0,
+            "stride": lambda x: 0,
+            "generics": ["IN_FEATURES", "OUT_FEATURES", "TOTAL_OPS"],
         },
-        'MaxPool2d': {
-            "op": 'M', "in_channels": lambda x: 0, 'kernel_size': lambda x: x.kernel_size,
-            "out_channels": lambda x: 0, "stride": lambda x: x.stride,
-            "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
+        "MaxPool2d": {
+            "op": "M",
+            "in_channels": lambda x: 0,
+            "kernel_size": lambda x: x.kernel_size,
+            "out_channels": lambda x: 0,
+            "stride": lambda x: x.stride,
+            "generics": [
+                "X_SIZE",
+                "N_CHANNEL",
+                "FILTER_WIDTH",
+                "STRIDE",
+                "TOTAL_OPS",
+            ],
         },
-        'AdaptiveAvgPool2d': {
-            "op": 'A', "in_channels": lambda x: 0, 'kernel_size': lambda x: 0,
-            "out_channels": lambda x: 0, "stride": lambda x: 0,
-            "generics": ['X_SIZE', 'N_CHANNEL', 'FILTER_WIDTH', 'STRIDE', 'TOTAL_OPS']
+        "AdaptiveAvgPool2d": {
+            "op": "A",
+            "in_channels": lambda x: 0,
+            "kernel_size": lambda x: 0,
+            "out_channels": lambda x: 0,
+            "stride": lambda x: 0,
+            "generics": [
+                "X_SIZE",
+                "N_CHANNEL",
+                "FILTER_WIDTH",
+                "STRIDE",
+                "TOTAL_OPS",
+            ],
         },
     }
 
-    def __init__(self, model, rtl_config, rtl_output_path, dataloader, samples=10):
+    def __init__(
+        self, model, rtl_config, rtl_output_path, dataloader, samples=10
+    ):
         self.rtl_output_path = rtl_output_path
         self.samples = samples
         self.shift_bits = int(rtl_config["INPUT_SIZE"] / 2)
         # Adjust shift
-        self.shift = 2 ** self.shift_bits
-        self.rtl_config = {"SHIFT": self.shift_bits, ** rtl_config}
+        self.shift = 2**self.shift_bits
+        self.rtl_config = {"SHIFT": self.shift_bits, **rtl_config}
 
         self.dataloader = dataloader
         # Model params
-        shift2 = self.shift ** 2
+        shift2 = self.shift**2
         for i in range(len(model.sequential)):
             name = model.sequential[i]._get_name()
-            if name in ['Conv2d', 'Linear']:
-                model.sequential[i].weight.data = model.sequential[i].weight.data * self.shift
-                model.sequential[i].bias.data = model.sequential[i].bias.data * shift2
+            if name in ["Conv2d", "Linear"]:
+                model.sequential[i].weight.data = (
+                    model.sequential[i].weight.data * self.shift
+                )
+                model.sequential[i].bias.data = (
+                    model.sequential[i].bias.data * shift2
+                )
 
         model.requires_grad_(False)
         model.eval()
@@ -122,67 +154,82 @@ class GenerateRTL:
         self.layer_rtl = list(self.layer_torch.values())
         self.map_rtl_torch = list(self.layer_torch.keys())
         self.map_torch_rtl = {v: e for e, v in enumerate(self.map_rtl_torch)}
-        self.map_gold_torch = [k + 2 if v == 'Conv2d' else k + 1 for k, v in self.layer_torch.items()]
-
+        if self.total_layers == 1:
+            self.map_gold_torch = [0]
+        else:
+            self.map_gold_torch = [
+                k + 2 if v == "Conv2d" else k + 1
+                for k, v in self.layer_torch.items()
+            ]
         shape = dataloader[0][0].shape
-        input_tensor = torch.ones(1, shape[0], shape[1], shape[2], dtype=torch.int)
+        input_tensor = torch.ones(
+            1, shape[0], shape[1], shape[2], dtype=torch.int
+        )
         self.in_features = [shape[1]]
         self.input_shape = []
         self.output_shape = []
 
         for e, layer in enumerate(model.sequential):
             if e in self.layer_torch:
-                self.input_shape.append(np.array(input_tensor.shape[1:]).tolist())
-            if 'pool' in layer._get_name().lower():
-                input_tensor = layer(input_tensor.type(torch.float)).type(torch.int)
+                self.input_shape.append(
+                    np.array(input_tensor.shape[1:]).tolist()
+                )
+            if "pool" in layer._get_name().lower():
+                input_tensor = layer(input_tensor.type(torch.float)).type(
+                    torch.int
+                )
             else:
                 input_tensor = layer(input_tensor)
             if e in self.layer_torch:
                 self.in_features.append(input_tensor.shape[-1])
-                self.output_shape.append(np.array(input_tensor.shape[1:]).tolist())
+                self.output_shape.append(
+                    np.array(input_tensor.shape[1:]).tolist()
+                )
 
         self.in_channels = [
-            0 if self.layer_rtl[i] == 'Linear' else self.input_shape[i][0]
+            0 if self.layer_rtl[i] == "Linear" else self.input_shape[i][0]
             for i in range(self.total_layers)
         ]
         self.out_channels = [
-            0 if self.layer_rtl[i] == 'Linear' else self.output_shape[i][0]
+            0 if self.layer_rtl[i] == "Linear" else self.output_shape[i][0]
             for i in range(self.total_layers)
         ]
 
         self.kernel_size = [
-            self.map_layer_props[v]['kernel_size'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+            self.map_layer_props[v]["kernel_size"](self.model.sequential[k])
+            for k, v in self.layer_torch.items()
         ]
 
         self.stride = [
-            self.map_layer_props[v]['stride'](self.model.sequential[k]) for k, v in self.layer_torch.items()
+            self.map_layer_props[v]["stride"](self.model.sequential[k])
+            for k, v in self.layer_torch.items()
         ]
 
-        in_features = [np.prod(self.input_shape[i]) for i in range(self.total_layers)]
-        out_features = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
-        total_ops = [np.prod(self.output_shape[i]) for i in range(self.total_layers)]
+        in_features = [
+            np.prod(self.input_shape[i]) for i in range(self.total_layers)
+        ]
+        out_features = [
+            np.prod(self.output_shape[i]) for i in range(self.total_layers)
+        ]
+        total_ops = [
+            np.prod(self.output_shape[i]) for i in range(self.total_layers)
+        ]
 
         # TODO x_size is in_features without linear, in future replace x_size per in_features with all layers
-        in_size = [
-            self.input_shape[i][-1]
-            for i in range(self.total_layers)
-        ]
+        in_size = [self.input_shape[i][-1] for i in range(self.total_layers)]
 
-        out_size = [
-            self.output_shape[i][-1]
-            for i in range(self.total_layers)
-        ]
+        out_size = [self.output_shape[i][-1] for i in range(self.total_layers)]
 
         self.generics = {
-            'TOTAL_OPS': total_ops,
-            'X_SIZE': in_size,
-            'CONVS_PER_LINE': out_size,
-            'N_CHANNEL': self.in_channels,
-            'N_FILTER': self.out_channels,
-            'STRIDE': self.stride,
-            'FILTER_WIDTH': self.kernel_size,
-            'IN_FEATURES': in_features,
-            'OUT_FEATURES': out_features,
+            "TOTAL_OPS": total_ops,
+            "X_SIZE": in_size,
+            "CONVS_PER_LINE": out_size,
+            "N_CHANNEL": self.in_channels,
+            "N_FILTER": self.out_channels,
+            "STRIDE": self.stride,
+            "FILTER_WIDTH": self.kernel_size,
+            "IN_FEATURES": in_features,
+            "OUT_FEATURES": out_features,
         }
 
     def __call__(self, samples=False, core=False):
@@ -196,7 +243,9 @@ class GenerateRTL:
         self.common_generics_pkg()
 
     def common_generics_pkg(self):
-        op_type = "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
+        op_type = "".join(
+            [self.map_layer_props[v]["op"] for v in self.layer_rtl]
+        )
         config = {"OP_TYPE": op_type, **self.rtl_config}
 
         arrays = [
@@ -205,8 +254,8 @@ class GenerateRTL:
             if type(v) is not float
         ]
 
-        pack = Package('common_generics_pkg', *arrays)
-        path = self.rtl_output_path / 'core'
+        pack = Package("common_generics_pkg", *arrays)
+        path = self.rtl_output_path / "core"
         path.mkdir(parents=True, exist_ok=True)
         with open(path / "common_generics_pkg.vhd", "w") as f:
             f.write(str(pack))
@@ -216,8 +265,8 @@ class GenerateRTL:
             String(v, k) if type(v) is str else Integer(v, k)
             for k, v in self.generics.items()
         ]
-        pack = Package('op_generics_pkg', *arrays)
-        path = self.rtl_output_path / 'core'
+        pack = Package("op_generics_pkg", *arrays)
+        path = self.rtl_output_path / "core"
         path.mkdir(parents=True, exist_ok=True)
         with open(path / "op_generics_pkg.vhd", "w") as f:
             f.write(str(pack))
@@ -225,7 +274,8 @@ class GenerateRTL:
     def generate_layer(self, layer):
         path = self.rtl_output_path
         generics_layer = {
-            k: v[layer] for k, v in self.generics.items()
+            k: v[layer]
+            for k, v in self.generics.items()
             if k in self.map_layer_props[self.layer_rtl[layer]]["generics"]
         }
 
@@ -237,47 +287,75 @@ class GenerateRTL:
         }
 
         path.mkdir(parents=True, exist_ok=True)
-        path_layer = path / 'layer' / str(layer)
+        path_layer = path / "layer" / str(layer)
         path_layer.mkdir(parents=True, exist_ok=True)
         # Generate generic file for rtl simulation
         self.generate_generic_file(layer, generic_dict2, path_layer)
         # Generate TCL file with generics for logic synthesis
-        weight_list = self.generate_iwght_vhd_pkg(path=path_layer, n_layer=layer)
+        weight_list = self.generate_iwght_vhd_pkg(
+            path=path_layer, n_layer=layer
+        )
         feat_list = self.generate_ifmap_vhd_pkg(path=path_layer, n_layer=layer)
-        self.generate_gold_vhd_pkg(path=path_layer, n_layer=layer,)
+        self.generate_gold_vhd_pkg(
+            path=path_layer,
+            n_layer=layer,
+        )
         # TODO update to run with layers
         self.generate_tcl_generic(layer, generic_dict2, path_layer)
         # Generate VHDL tensorflow package
-        self.generate_ifmem_vhd_pkg(path=path_layer, weight=weight_list, feature=feat_list)
+        self.generate_ifmem_vhd_pkg(
+            path=path_layer, weight=weight_list, feature=feat_list
+        )
         # TODO remove um future
         # self.generate_config_pkg(n_layer=layer, path=path_layer, generics_layer=generics_layer)
 
-    def generate_generic_file(self, n_layer, generate_layer_dict, path, core=False):
+    def generate_generic_file(
+        self, n_layer, generate_layer_dict, path, core=False
+    ):
         clk_half = self.rtl_config["CLK_PERIOD"] / 2
         rst_time = clk_half * 5
         if core:
-            data_path = relpath(path.parent, (Path(__file__).parent.parent.parent / "sim_rtl"))
+            data_path = relpath(
+                path.parent, (Path(__file__).parent.parent.parent / "sim_rtl")
+            )
         else:
-            data_path = relpath(path, (Path(__file__).parent.parent.parent / "sim_rtl"))
+            data_path = relpath(
+                path, (Path(__file__).parent.parent.parent / "sim_rtl")
+            )
         generate_dict2 = {
             **self.rtl_config,
             **generate_layer_dict,
             "CLK_HALF": clk_half,
             "RST_TIME": rst_time,
-            "RISE_START": clk_half * 2.0 + rst_time + self.rtl_config["IN_DELAY"],
-            "FALL_START": clk_half * 4.0 + rst_time + self.rtl_config["IN_DELAY"],
+            "RISE_START": clk_half * 2.0
+            + rst_time
+            + self.rtl_config["IN_DELAY"],
+            "FALL_START": clk_half * 4.0
+            + rst_time
+            + self.rtl_config["IN_DELAY"],
             "PATH": data_path,
         }
-        time = ['CLK_PERIOD', 'CLK_HALF', 'RST_TIME', 'RISE_START', 'FALL_START', 'IN_DELAY']
+        time = [
+            "CLK_PERIOD",
+            "CLK_HALF",
+            "RST_TIME",
+            "RISE_START",
+            "FALL_START",
+            "IN_DELAY",
+        ]
         generate_dict3 = dict(sorted(generate_dict2.items()))
-        line2 = " ".join(
-            f"-g{k}={v}ns" if k in time else f"-g{k}={v}" for k, v in generate_dict3.items()
-        ) + "\n"
+        line2 = (
+            " ".join(
+                f"-g{k}={v}ns" if k in time else f"-g{k}={v}"
+                for k, v in generate_dict3.items()
+            )
+            + "\n"
+        )
         with open(path / "generic_file.txt", "w") as f:
             f.write(line2)
 
     def generate_tcl_generic(self, n_layer, generic_dict_layer, path):
-        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
+        if self.layer_torch[self.map_rtl_torch[n_layer]] == "Conv2d":
             generate_dict2 = {
                 **self.rtl_config,
                 **generic_dict_layer,
@@ -307,42 +385,51 @@ class GenerateRTL:
                 f.write(line)
 
     def generate_config_pkg(self, n_layer, path, generics_layer):
-        if self.layer_torch[self.map_rtl_torch[n_layer]] == 'Conv2d':
-            x_size = generics_layer['X_SIZE']
-            n_filter = generics_layer['N_FILTER']
-            n_channel = generics_layer['N_CHANNEL']
-            conv_per_line = generics_layer['CONVS_PER_LINE']
+        if self.layer_torch[self.map_rtl_torch[n_layer]] == "Conv2d":
+            x_size = generics_layer["X_SIZE"]
+            n_filter = generics_layer["N_FILTER"]
+            n_channel = generics_layer["N_CHANNEL"]
+            conv_per_line = generics_layer["CONVS_PER_LINE"]
             generate_dict2 = {
                 "N_FILTER": n_filter,
                 "N_CHANNEL": n_channel,
                 "X_SIZE": x_size,
-                "X_SIZE_X_SIZE": x_size ** 2,
+                "X_SIZE_X_SIZE": x_size**2,
                 "CONVS_PER_LINE": conv_per_line,
-                "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line ** 2,
-                "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line ** 2) + 1,
-                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                    (conv_per_line ** 2) * n_channel,
-                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                    (conv_per_line ** 2) * (n_channel - 1),
-                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                    (conv_per_line ** 2) * n_channel * n_filter,
-
+                "CONVS_PER_LINE_CONVS_PER_LINE": conv_per_line**2,
+                "CONVS_PER_LINE_CONVS_PER_LINE_1": (conv_per_line**2) + 1,
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL": (conv_per_line**2)
+                * n_channel,
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1": (conv_per_line**2)
+                * (n_channel - 1),
+                "CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER": (
+                    conv_per_line**2
+                )
+                * n_channel
+                * n_filter,
                 "LOG_N_FILTER": log2ceil(n_filter),
                 "LOG_N_CHANNEL": log2ceil(n_channel),
                 "LOG_X_SIZE": log2ceil(x_size),
-                "LOG_X_SIZE_X_SIZE": log2ceil(x_size ** 2),
+                "LOG_X_SIZE_X_SIZE": log2ceil(x_size**2),
                 "LOG_CONVS_PER_LINE": log2ceil(conv_per_line),
-                "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line ** 2),
-                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil((conv_per_line ** 2) + 1),
-                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL":
-                    log2ceil((conv_per_line ** 2) * n_channel),
-                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1":
-                    log2ceil((conv_per_line ** 2) * (n_channel - 1)),
-                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER":
-                    log2ceil((conv_per_line ** 2) * n_channel * n_filter),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE": log2ceil(conv_per_line**2),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_1": log2ceil(
+                    (conv_per_line**2) + 1
+                ),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL": log2ceil(
+                    (conv_per_line**2) * n_channel
+                ),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1": log2ceil(
+                    (conv_per_line**2) * (n_channel - 1)
+                ),
+                "LOG_CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER": log2ceil(
+                    (conv_per_line**2) * n_channel * n_filter
+                ),
             }
 
-            with open(Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r") as f:
+            with open(
+                Path(__file__).parent.resolve() / "template/config_pkg.vhd", "r"
+            ) as f:
                 text = f.read()
 
             text_out = text.format(**generate_dict2)
@@ -357,16 +444,28 @@ class GenerateRTL:
                 f.write(f'{generate_dict2["X_SIZE_X_SIZE"]}\n')
                 f.write(f'{generate_dict2["CONVS_PER_LINE"]}\n')
                 f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE"]}\n')
-                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n')
-                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n')
-                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n')
-                f.write(f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n')
+                f.write(
+                    f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_1"]}\n'
+                )
+                f.write(
+                    f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL"]}\n'
+                )
+                f.write(
+                    f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_1"]}\n'
+                )
+                f.write(
+                    f'{generate_dict2["CONVS_PER_LINE_CONVS_PER_LINE_N_CHANNEL_N_FILTER"]}\n'
+                )
 
     def generate_samples(self):
-        path_samples = self.rtl_output_path / 'samples'
+        path_samples = self.rtl_output_path / "samples"
         path_samples.mkdir(parents=True, exist_ok=True)
-        self.generate_ifmap_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
-        self.generate_gold_vhd_pkg(path=path_samples, n_layer=0, dataset_size=self.samples)
+        self.generate_ifmap_vhd_pkg(
+            path=path_samples, n_layer=0, dataset_size=self.samples
+        )
+        self.generate_gold_vhd_pkg(
+            path=path_samples, n_layer=0, dataset_size=self.samples
+        )
 
     def generate_core(self):
         layer = len(self.in_features) - 2
@@ -387,7 +486,9 @@ class GenerateRTL:
             "LAYER": 0,
             "SHIFT": self.shift_bits,
             "N_LAYER": layer + 1,
-            "OP_TYPE": "".join([self.map_layer_props[v]["op"] for v in self.layer_rtl])
+            "OP_TYPE": "".join(
+                [self.map_layer_props[v]["op"] for v in self.layer_rtl]
+            ),
         }
         self.generate_generic_file(layer, generic_dict2, path_core, core=True)
         # Generate TCL file with generics for logic synthesis
@@ -401,27 +502,44 @@ class GenerateRTL:
         write_mem_pkg(constant, data_pkg, "inmem_pkg", package, path)
 
     def generate_iwght_vhd_pkg(self, n_layer, path):
-        if self.layer_rtl[n_layer] in ['Linear', 'Conv2d']:
+        if self.layer_rtl[n_layer] in ["Linear", "Conv2d"]:
             bias_list = [
-                str(n) for n in self.model.sequential[self.map_rtl_torch[n_layer]].bias.data.cpu().detach().tolist()
+                str(n)
+                for n in self.model.sequential[self.map_rtl_torch[n_layer]]
+                .bias.data.cpu()
+                .detach()
+                .tolist()
             ]
-            if self.layer_rtl[n_layer] == 'Linear':
+            if self.layer_rtl[n_layer] == "Linear":
                 input_shape = self.input_shape[n_layer][0]
                 output_shape = self.output_shape[n_layer][0]
                 pre_input_shape = self.output_shape[n_layer - 1]
-                layer = self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.cpu().detach().numpy()
+                layer = (
+                    self.model.sequential[self.map_rtl_torch[n_layer]]
+                    .weight.data.cpu()
+                    .detach()
+                    .numpy()
+                )
                 # TODO unnecessary for final result, but for maintain same order from tensorflow. Remove in future
                 if pre_input_shape[-1] > 1 and len(self.output_shape) > 1:
-                    layer1 = (layer.reshape(output_shape, *pre_input_shape).swapaxes(-2, -1)
-                              .reshape(output_shape, input_shape))
+                    layer1 = (
+                        layer.reshape(output_shape, *pre_input_shape)
+                        .swapaxes(-2, -1)
+                        .reshape(output_shape, input_shape)
+                    )
                 else:
                     layer1 = layer
                 weight_list = np.expand_dims(layer1, [0, 1]).tolist()
             else:
                 # TODO maybe this reorder is unnecessary for final result, but for maintain same order from tensorflow.
                 #  Test in future
-                layer = (self.model.sequential[self.map_rtl_torch[n_layer]].weight.data.swapaxes(-2, -1).cpu().detach()
-                         .numpy())
+                layer = (
+                    self.model.sequential[self.map_rtl_torch[n_layer]]
+                    .weight.data.swapaxes(-2, -1)
+                    .cpu()
+                    .detach()
+                    .numpy()
+                )
                 weight_list = layer.reshape(1, *layer.shape[0:2], -1).tolist()
 
             bias_string = f"{self.tab}{', '.join(bias_list)},\n"
@@ -431,9 +549,16 @@ class GenerateRTL:
                 for f, channel in enumerate(filters)
                 for c, s in enumerate(channel)
             ]
-            data_pkg = "".join([f"{self.tab}-- bias\n"] + [bias_string] + [f"\n{self.tab}-- weights\n"] + weight_string)
+            data_pkg = "".join(
+                [f"{self.tab}-- bias\n"]
+                + [bias_string]
+                + [f"\n{self.tab}-- weights\n"]
+                + weight_string
+            )
             bias_list_data = [f"{b}\n" for b in bias_list]
-            weight_list_data = [f"{s}\n" for f in weight_list for c in f for li in c for s in li]
+            weight_list_data = [
+                f"{s}\n" for f in weight_list for c in f for li in c for s in li
+            ]
             data_txt = bias_list_data + weight_list_data
             package = "iwght_package"
             constant = "input_wght"
@@ -442,29 +567,37 @@ class GenerateRTL:
                 f.writelines(data_txt)
             return data_pkg
         else:
-            return ''
+            return ""
 
     def generate_ifmap_vhd_pkg(self, path, n_layer, dataset_size=1):
         if n_layer == 0:
-            x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+            x = np.array(
+                [
+                    self.dataloader[i][0].cpu().detach().numpy()
+                    for i in range(dataset_size)
+                ]
+            )
             x = x * self.shift
-            if dataset_size == 1:
-                feat_list = np.squeeze(x.astype(int))
-            else:
-                s = x.shape
-                feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
+            # if dataset_size == 1:
+            #     feat_list = np.squeeze(x.astype(int))
+            # else:
+            s = x.shape
+            feat_list = x.reshape(-1, s[-2], s[-1]).astype(int)
         else:
             x = self.forward(dataset_size, n_layer, self.map_rtl_torch)
 
             feat_list = x
-            if self.layer_rtl[n_layer] == 'Linear':
-                shape = self.output_shape[n_layer-1]
+            if self.layer_rtl[n_layer] == "Linear":
+                shape = self.output_shape[n_layer - 1]
                 if len(shape) > 1:
-                    feat_list = feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
+                    feat_list = (
+                        feat_list.reshape(shape).swapaxes(-2, -1).reshape(1, -1)
+                    )
                 feat_list = np.expand_dims(feat_list.detach().numpy(), 0)
             else:
-                feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
-
+                feat_list = (
+                    feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
+                )
         format_feat = format_feature(feat_list, self.tab)
         package = "ifmap_package"
         constant = "input_map"
@@ -477,11 +610,13 @@ class GenerateRTL:
         x = self.forward(dataset_size, n_layer, self.map_gold_torch)
         feat_list = x
 
-        if self.layer_rtl[n_layer] == 'Linear':
+        if self.layer_rtl[n_layer] == "Linear":
             feat_list = feat_list.cpu().reshape(1, -1).detach().numpy()
             feat_list = np.expand_dims(feat_list, 0)
         else:
-            feat_list = feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
+            feat_list = (
+                feat_list.squeeze(0).swapaxes(-2, -1).cpu().detach().numpy()
+            )
 
         if dataset_size > 1:
             s = feat_list.shape
@@ -496,16 +631,23 @@ class GenerateRTL:
         write_mem_pkg(constant, data, "gold_pkg", package, path)
 
     def forward(self, dataset_size, n_layer, map_data):
-        x = np.array([self.dataloader[i][0].cpu().detach().numpy() for i in range(dataset_size)])
+        x = np.array(
+            [
+                self.dataloader[i][0].cpu().detach().numpy()
+                for i in range(dataset_size)
+            ]
+        )
         x = x.swapaxes(-2, -1) * self.shift
         x = x.astype(np.int32)
         x = torch.from_numpy(x.astype(np.int32))
         loop = list(range(map_data[n_layer]))
         for i in loop:
-            if 'Pool' in self.model.sequential[i]._get_name():
-                t = self.model.sequential[i](x.type(torch.float)).type(torch.int)
+            if "Pool" in self.model.sequential[i]._get_name():
+                t = self.model.sequential[i](x.type(torch.float)).type(
+                    torch.int
+                )
                 x = t
-            elif self.model.sequential[i]._get_name() in ['Linear', 'Conv2d']:
+            elif self.model.sequential[i]._get_name() in ["Linear", "Conv2d"]:
                 t = self.model.sequential[i](x)
                 # normalize data after operation
                 x = t // self.shift
