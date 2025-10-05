@@ -99,17 +99,6 @@ begin
       );
 
   DUT : entity work.convolution
-    generic map(
-      N_FILTER       => N_FILTER(LAYER),
-      N_CHANNEL      => N_CHANNEL(LAYER),
-      X_SIZE         => X_SIZE(LAYER),
-      FILTER_WIDTH   => FILTER_WIDTH(LAYER),
-      CONVS_PER_LINE => CONVS_PER_LINE(LAYER),
-      MEM_SIZE       => MEM_SIZE,
-      INPUT_SIZE     => INPUT_SIZE,
-      SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
-      )
     port map(
       clock         => clock,
       reset         => reset,
