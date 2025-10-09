@@ -36,6 +36,8 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+  file sim_file : text open write_mode is "sim.txt";
+
 begin
 
   IWGHT : entity work.memory
@@ -147,10 +149,15 @@ begin
     -- convolution counter
   variable cont_conv : integer := 0;
   variable out_line          : line;
+  variable sim_start         : time := 0 ns;
+  variable elapsed           : time;
 
   begin
 
     if clock'event and clock = '0' then
+      if start_conv = '1' then
+        sim_start := now;
+      end if;
       if debug = '1' and cont_conv < TOTAL_OPS(LAYER) then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
@@ -178,6 +185,16 @@ begin
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
         report "number of convolutions: " & integer'image(cont_conv);
+
+        elapsed := now - sim_start;                  -- tempo desde o start_conv
+        write(out_line, string'("runtime="));
+        write(out_line, elapsed);                    -- grava com unidade (ex.: ns)
+        writeline(sim_file, out_line);
+
+        -- write(out_line, string'("runtime_ns="));
+        -- write(out_line, integer'image(integer(elapsed / 1 ns)));
+        -- writeline(sim_file, out_line);
+
         report "end of simulation without error!" severity failure;
       end if;
     end if;
