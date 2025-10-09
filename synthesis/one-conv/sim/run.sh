@@ -16,7 +16,7 @@ GATE=../logical/results/gate_level/convolution_logic_mapped.v
 files=""
 while IFS= read -r line; do
   files="$files$GIT_ROOT/$line "
-done < ../list-file.txt
+done < list-file.txt
 
 # Monta defines: read generic file, strip leading -g from each token and build DEFINE_FLAGS
 DEFINE_FLAGS=""
@@ -43,4 +43,4 @@ fi
 
 # Chamada do xrun (mantendo args.txt como no histórico)
 # xrun -f args.txt $DEFINE_FLAGS $files $TB $GATE -run -exit
-xrun -f args.txt -v200x $DEFINE_FLAGS $files $TB $GATE -input waves.tcl -run -exit
+xrun -f args.txt -sv $TB $GATE -v200x $DEFINE_FLAGS $files -run -exit

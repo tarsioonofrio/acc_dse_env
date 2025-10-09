@@ -49,6 +49,4 @@ if {[file exists $defines_file]} {
     close $fp_def
 }
 
-append HDL_FILES "${GIT_ROOT}/rtl/system/system.sv"
-
-source ${GIT_ROOT}/synthesis/source/run_logical_synthesis.tcl
+source ${GIT_ROOT}/synthesis/source/logical_synthesis.tcl
