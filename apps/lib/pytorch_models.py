@@ -2,6 +2,30 @@ import torch
 from torch import nn
 
 
+class Convolution(nn.Module):
+    def __init__(self, config_model, debug=False):
+        super().__init__()
+        self.debug = debug
+        conv = nn.Conv2d(
+            in_channels=1,
+            out_channels=config_model["filter_channel"][0],
+            kernel_size=(
+                config_model["filter_dimension"][0],
+                config_model["filter_dimension"][0],
+            ),
+            stride=(config_model["stride_h"][0], config_model["stride_w"][0]),
+        )
+        self.sequential = nn.Sequential(conv)
+
+    def forward(self, x):
+        if self.debug:
+            for layer in self.sequential:
+                x = layer(x)
+        else:
+            x = self.sequential(x)
+        return x
+
+
 class VGG(nn.Module):
     def __init__(self, vgg, debug=False):
         super().__init__()

@@ -1,7 +1,7 @@
-experiments/rtl_output/default_s1/default/layer/0/ifmap_pkg.vhd
-experiments/rtl_output/default_s1/default/layer/0/iwght_pkg.vhd
-experiments/rtl_output/default_s1/default/layer/0/gold_pkg.vhd
-experiments/rtl_output/default_s1/default/core/op_generics_pkg.vhd
+experiments/rtl_output/one-conv032/default/layer/0/ifmap_pkg.vhd
+experiments/rtl_output/one-conv032/default/layer/0/iwght_pkg.vhd
+experiments/rtl_output/one-conv032/default/layer/0/gold_pkg.vhd
+experiments/rtl_output/one-conv032/default/core/op_generics_pkg.vhd
 rtl/components/mac.vhd
 rtl/components/reg.vhd
 rtl/components/mem_split.vhd
