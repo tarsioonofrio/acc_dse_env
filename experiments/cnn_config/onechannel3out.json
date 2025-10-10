@@ -1,0 +1,11 @@
+{
+  "name": "onechannel",
+  "filter_channel": [3],
+  "filter_dimension": [3],
+  "stride_h": [2],
+  "stride_w": [2],
+  "input_w": 32,
+  "input_h": 32,
+  "input_c": 3,
+  "n_epochs": 10
+}

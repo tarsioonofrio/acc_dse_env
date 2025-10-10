@@ -1,5 +1,5 @@
 {
-  "name": "conv1",
+  "name": "stride1",
   "filter_channel": [1],
   "filter_dimension": [3],
   "stride_h": [1],
