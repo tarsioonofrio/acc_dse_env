@@ -8,6 +8,12 @@ import numpy as np
 from .vhdl_package import Integer, String, Package
 
 
+try:
+    import ipdb
+except ImportError:
+    pass
+
+
 def log2ceil(x):
     return ceil(log2(x)) + 1
 
@@ -174,11 +180,12 @@ class GenerateRTL:
                 self.input_shape.append(
                     np.array(input_tensor.shape[1:]).tolist()
                 )
-            if "pool" in layer._get_name().lower():
+            if layer._get_name().lower() in ["pool", "softmax"]:
                 input_tensor = layer(input_tensor.type(torch.float)).type(
                     torch.int
                 )
             else:
+                # ipdb.set_trace()
                 input_tensor = layer(input_tensor)
             if e in self.layer_torch:
                 self.in_features.append(input_tensor.shape[-1])

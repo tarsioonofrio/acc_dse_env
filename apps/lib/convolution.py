@@ -12,12 +12,12 @@ def convolution(cnn_config):
             self.debug = debug
             conv = nn.Conv2d(
                 in_channels=1,
-                out_channels=cnn_config["filter_channel"][0],
+                out_channels=cnn_config["filter_channel"],
                 kernel_size=(
-                    cnn_config["filter_dimension"][0],
-                    cnn_config["filter_dimension"][0],
+                    cnn_config["filter_dimension"],
+                    cnn_config["filter_dimension"],
                 ),
-                stride=(cnn_config["stride_h"][0], cnn_config["stride_w"][0]),
+                stride=(cnn_config["stride_h"], cnn_config["stride_w"]),
             )
             self.sequential = nn.Sequential(conv)
 
