@@ -30,4 +30,4 @@ log -r /*
 add wave sim:/tb/*
 run -all
 #run 1000 ns
-#exit 
+#exit
