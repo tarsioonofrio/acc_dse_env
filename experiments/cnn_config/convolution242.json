@@ -1,5 +1,5 @@
 {
-  "name": "one-conv",
+  "name": "convolution",
   "filter_channel": [1],
   "filter_dimension": [3],
   "stride_h": [1],

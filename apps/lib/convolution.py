@@ -1,7 +1,7 @@
 from torch import nn
 
 
-def one_conv_layer(cnn_config):
+def convolution(cnn_config):
     # padding = cnn_config.get(
     #     "pad", [0 for i in range(len(cnn_config["filter_channel"]))]
     # )

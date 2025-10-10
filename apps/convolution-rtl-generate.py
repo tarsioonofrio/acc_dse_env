@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 
 import torch
-from torch.utils.data import DataLoader
+from lib.convolution import convolution
 from lib.generate_files import GenerateRTL
-from lib.one_conv_layer import one_conv_layer
+from torch.utils.data import DataLoader
 
 
 def main():
@@ -13,33 +13,32 @@ def main():
         usage='use "python %(prog)s --help" for more information.\n'
     )
     parser.add_argument(
-        "--cnn_config",
+        "--cnn",
         "-c",
-        default="one-conv32",
-        type=str,
-        help="Name of neural network config file in nn_config",
+        type=Path,
+        help="Path to neural network config file",
     )
     parser.add_argument(
-        "--rtl_config",
+        "--rtl",
         "-r",
-        default="default",
-        type=str,
-        help="Name of hardware config file in rtl_config",
+        default=Path("../experiments/rtl_config/default.json"),
+        type=Path,
+        help="Path to hardware config file",
     )
     args = parser.parse_args()
 
     root = Path(__file__).parent.parent.resolve() / "experiments"
-    cnn_config_path = root / "cnn_config" / f"{args.cnn_config}.json"
-    cnn_output_path = root / "cnn_output" / args.cnn_config
-    rtl_config_path = root / "rtl_config" / f"{args.rtl_config}.json"
-    rtl_output_path = root / "rtl_output" / args.cnn_config / args.rtl_config
+    cnn_config_path = args.cnn
+    cnn_output_path = root / "cnn_output" / args.cnn.stem
+    rtl_config_path = args.rtl
+    rtl_output_path = root / "rtl_output" / args.cnn.stem / args.rtl.stem
 
     rtl_output_path.mkdir(parents=True, exist_ok=True)
 
     with open(cnn_config_path) as f:
         cnn_config = json.load(f)
 
-    model = one_conv_layer(cnn_config)
+    model = convolution(cnn_config)
     model.load_state_dict(torch.load(cnn_output_path / "model.pth"))
 
     class RandomNormalDataset:
