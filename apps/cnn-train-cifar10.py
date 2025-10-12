@@ -54,7 +54,7 @@ def main():
             # transforms.RandomRotation(10),  # Rotates the image to a specified angel
             # transforms.RandomAffine(0, shear=10, scale=(0.8, 1.2)),  # Perform action like zooms, change shear angles.
             # transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2),  # Set the color params
-            transforms.Grayscale(num_output_channels=1),
+            # transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor(),
             # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
@@ -62,7 +62,7 @@ def main():
 
     transform_test = transforms.Compose(
         [
-            transforms.Grayscale(num_output_channels=1),
+            # transforms.Grayscale(num_output_channels=1),
             transforms.ToTensor(),
             # transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]

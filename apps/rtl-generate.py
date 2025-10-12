@@ -70,7 +70,7 @@ def main():
         model.load_state_dict(torch.load(cnn_output_path / "model.pth"))
         transform = transforms.Compose(
             [
-                transforms.Grayscale(num_output_channels=1),
+                # transforms.Grayscale(num_output_channels=1),
                 transforms.ToTensor(),
             ]
         )
