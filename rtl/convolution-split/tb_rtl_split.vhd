@@ -147,10 +147,10 @@ begin
   process(clock)
 
     -- convolution counter
-  variable cont_conv : integer := 0;
-  variable out_line          : line;
-  variable sim_start         : time := 0 ns;
-  variable elapsed           : time;
+  variable cont_conv  : integer := 0;
+  variable out_line   : line;
+  variable sim_start  : time := 0 ns;
+  variable elapsed    : time;
 
   begin
 

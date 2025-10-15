@@ -2,11 +2,14 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
+set CNN conv1out1s1
+set RTL default
+
 # Packages for CNN layer simualtion
-vcom -work work ../../../experiments/rtl_output/conv1out1s1b/default/layer/0/ifmap_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/conv1out1s1b/default/layer/0/iwght_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/conv1out1s1b/default/layer/0/gold_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/conv1out1s1b/default/core/op_generics_pkg.vhd
+vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/ifmap_pkg.vhd
+vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/iwght_pkg.vhd
+vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/gold_pkg.vhd
+vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/core/op_generics_pkg.vhd
 
 
 # Components
@@ -21,11 +24,11 @@ vcom -work work syst2d_ws_split_stride1.vhd
 vcom -work work ../tb_rtl_split.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../../../experiments/rtl_output/conv1out1s1b/default/layer/0/generic_file.txt
+vsim -voptargs=+acc=lprn -t ps work.tb -f ../../../experiments/rtl_output/$CNN/$RTL/layer/0/generic_file.txt
 #do wave_syst2d_ws.do
 #onfinish exit
 #onbreak exit
-log -r /*
+# log -r /*
 
 add wave sim:/tb/*
 add wave sim:/tb/DUT/*
