@@ -11,7 +11,7 @@ def convolution(cnn_config):
             super().__init__()
             self.debug = debug
             conv = nn.Conv2d(
-                in_channels=1,
+                in_channels=cnn_config["input_c"],
                 out_channels=cnn_config["filter_channel"],
                 kernel_size=(
                     cnn_config["filter_dimension"],

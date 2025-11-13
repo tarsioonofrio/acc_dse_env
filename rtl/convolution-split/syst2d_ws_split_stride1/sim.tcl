@@ -2,7 +2,7 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-set CNN conv1out1s1
+set CNN conv1-3x3
 set RTL default
 
 # Packages for CNN layer simualtion

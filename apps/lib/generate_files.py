@@ -8,12 +8,6 @@ import numpy as np
 from .vhdl_package import Integer, String, Package
 
 
-try:
-    import ipdb
-except ImportError:
-    pass
-
-
 def log2ceil(x):
     return ceil(log2(x)) + 1
 
@@ -185,7 +179,6 @@ class GenerateRTL:
                     torch.int
                 )
             else:
-                # ipdb.set_trace()
                 input_tensor = layer(input_tensor)
             if e in self.layer_torch:
                 self.in_features.append(input_tensor.shape[-1])
