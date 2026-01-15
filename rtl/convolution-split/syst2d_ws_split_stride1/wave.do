@@ -137,9 +137,25 @@ add wave -noupdate -radix unsigned /tb/DUT/reg_soma2
 add wave -noupdate -radix unsigned /tb/DUT/reg_soma3
 add wave -noupdate -radix unsigned /tb/DUT/bias_x
 add wave -noupdate /tb/DUT/cont_weight_cycles
+add wave -noupdate /tb/IFMAP/reset
+add wave -noupdate /tb/IFMAP/clock
+add wave -noupdate /tb/IFMAP/chip_en
+add wave -noupdate /tb/IFMAP/wr_en
+add wave -noupdate -radix decimal /tb/IFMAP/data_in
+add wave -noupdate -radix unsigned /tb/IFMAP/address
+add wave -noupdate /tb/IFMAP/data_av
+add wave -noupdate -radix decimal /tb/IFMAP/data_out
+add wave -noupdate -radix unsigned /tb/IFMAP/n_read
+add wave -noupdate -radix unsigned /tb/IFMAP/n_write
+add wave -noupdate /tb/IFMAP/EA_dataav
+add wave -noupdate /tb/IFMAP/PE_dataav
+add wave -noupdate /tb/IFMAP/cont_read
+add wave -noupdate /tb/IFMAP/cont_write
+add wave -noupdate /tb/IFMAP/cont_av_cycles
+add wave -noupdate /tb/IFMAP/data_av_signal
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 1} {46500 ps} 0} {{Cursor 2} {166500 ps} 0} {{Cursor 3} {169474 ps} 0}
-quietly wave cursor active 3
+WaveRestoreCursors {{Cursor 1} {22487 ps} 0} {{Cursor 2} {166500 ps} 0} {{Cursor 3} {169474 ps} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 214
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -154,4 +170,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {152178 ps} {180150 ps}
+WaveRestoreZoom {7699275 ps} {7727247 ps}

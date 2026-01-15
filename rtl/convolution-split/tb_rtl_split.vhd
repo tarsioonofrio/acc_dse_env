@@ -147,17 +147,37 @@ begin
   process(clock)
 
     -- convolution counter
-  variable cont_conv  : integer := 0;
-  variable out_line   : line;
-  variable sim_start  : time := 0 ns;
-  variable elapsed    : time;
+  variable cont_conv           : integer := 0;
+  variable out_line            : line;
+  variable sim_start           : time := 0 ns;
+  variable elapsed             : time;
+  variable total_cycles        : integer := 0;
+  variable iwght_active_cycles : integer := 0;
+  variable ifmap_active_cycles : integer := 0;
+  variable ofmap_active_cycles : integer := 0;
+  variable counting            : boolean := false;
 
   begin
 
     if clock'event and clock = '0' then
       if start_conv = '1' then
         sim_start := now;
+        counting  := true;
       end if;
+
+      if counting then
+        total_cycles := total_cycles + 1;
+        if iwght_ce = '1' then
+          iwght_active_cycles := iwght_active_cycles + 1;
+        end if;
+        if ifmap_ce = '1' then
+          ifmap_active_cycles := ifmap_active_cycles + 1;
+        end if;
+        if ofmap_ce = '1' then
+          ofmap_active_cycles := ofmap_active_cycles + 1;
+        end if;
+      end if;
+
       if debug = '1' and cont_conv < TOTAL_OPS(LAYER) then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
@@ -178,6 +198,7 @@ begin
         --report "cont_conv value: " & integer'image(cont_conv);
 
       elsif end_conv = '1' then
+        counting := false;
         report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
         report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
         report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));
@@ -191,9 +212,31 @@ begin
         write(out_line, elapsed);                    -- grava com unidade (ex.: ns)
         writeline(sim_file, out_line);
 
+        -- Memory usage counters
+        write(out_line, string'("total_cycles="));
+        write(out_line, integer'image(total_cycles));
+        writeline(sim_file, out_line);
+
+        write(out_line, string'("iwght_active_cycles="));
+        write(out_line, integer'image(iwght_active_cycles));
+        writeline(sim_file, out_line);
+
+        write(out_line, string'("ifmap_active_cycles="));
+        write(out_line, integer'image(ifmap_active_cycles));
+        writeline(sim_file, out_line);
+
+        write(out_line, string'("ofmap_active_cycles="));
+        write(out_line, integer'image(ofmap_active_cycles));
+        writeline(sim_file, out_line);
+
         -- write(out_line, string'("runtime_ns="));
         -- write(out_line, integer'image(integer(elapsed / 1 ns)));
         -- writeline(sim_file, out_line);
+
+        report "total_cycles=" & integer'image(total_cycles);
+        report "iwght_active_cycles=" & integer'image(iwght_active_cycles);
+        report "ifmap_active_cycles=" & integer'image(ifmap_active_cycles);
+        report "ofmap_active_cycles=" & integer'image(ofmap_active_cycles);
 
         report "end of simulation without error!" severity failure;
       end if;
