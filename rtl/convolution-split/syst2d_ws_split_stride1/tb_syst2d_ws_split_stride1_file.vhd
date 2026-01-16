@@ -55,15 +55,15 @@ architecture a1 of tb is
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   file sim_file : text open write_mode is "sim.txt";
-  --signal gold : type_array_int := read_data(PATH & "/s.txt");
-  signal gold : type_array_int := read_data(PATH & "/gold.txt");
+  signal gold : type_array_int := read_data(PATH & "/s.txt");
+  --signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
 begin
 
   IWGHT : entity work.memory
     generic map(
-      --ROM_PATH => PATH & "/g.txt",
-      ROM_PATH => PATH & "/iwght.txt",
+      ROM_PATH => PATH & "/g.txt",
+      --ROM_PATH => PATH & "/iwght.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -83,8 +83,8 @@ begin
 
   IFMAP : entity work.memory
     generic map(
-      --ROM_PATH => PATH & "/d.txt",
-      ROM_PATH => PATH & "/ifmap.txt",
+      ROM_PATH => PATH & "/d.txt",
+      --ROM_PATH => PATH & "/ifmap.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
