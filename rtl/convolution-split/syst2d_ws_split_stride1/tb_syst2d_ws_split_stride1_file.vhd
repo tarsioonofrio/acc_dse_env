@@ -55,7 +55,8 @@ architecture a1 of tb is
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
   file sim_file : text open write_mode is "sim.txt";
-  signal gold : type_array_int := read_data(PATH & "/s.txt");
+  signal gold : type_array_int := read_data(PATH & "/s_default_quant.txt");
+  --signal gold : type_array_int := read_data(PATH & "/s.txt");
   --signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
 begin
@@ -170,6 +171,7 @@ begin
 
     -- convolution counter
   variable cont_conv           : integer := 0;
+  variable expected_int        : integer := 0;
   variable out_line            : line;
   variable sim_start           : time := 0 ns;
   variable elapsed             : time;
@@ -201,11 +203,18 @@ begin
       end if;
 
       if debug = '1' and cont_conv < TOTAL_OPS then
-        if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+        expected_int := gold(CONV_INTEGER(unsigned(ofmap_address)));
+        if expected_int < 0 then
+          expected_int := 0;
+        end if;
+        if SHIFT > 0 then
+          expected_int := expected_int / (2**SHIFT);
+        end if;
+        if ofmap_out /= CONV_STD_LOGIC_VECTOR(expected_int, ((INPUT_SIZE*2)+CARRY_SIZE)) then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
+          report "expected value: " & integer'image(expected_int);
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
