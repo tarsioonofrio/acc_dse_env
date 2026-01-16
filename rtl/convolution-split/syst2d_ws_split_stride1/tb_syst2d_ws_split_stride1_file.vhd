@@ -8,8 +8,7 @@ use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
-use work.gold_package.all;
-
+use work.util_package.all;
 
 entity tb is
   generic (
@@ -62,7 +61,7 @@ begin
 
   IWGHT : entity work.memory
     generic map(
-      ROM => PATH & "g.txt",
+      ROM_PATH => PATH & "/g.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -82,7 +81,7 @@ begin
 
   IFMAP : entity work.memory
     generic map(
-    ROM => PATH & "d.txt",
+      ROM_PATH => PATH & "/d.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -102,7 +101,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      ROM => "no",
+      --ROM_PATH => "no",
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT

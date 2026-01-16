@@ -14,6 +14,9 @@ set PATH "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-nor
 # vcom -work work $LAYER_PATH/iwght_pkg.vhd
 # vcom -work work $LAYER_PATH/gold_pkg.vhd
 
+# Package with utilities - need to be before convolution core
+vcom -work work ../../core/util_pkg.vhd
+
 # Components
 vcom -work work ../../components/mac/mac.vhd
 vcom -work work ../../components/reg/reg.vhd
@@ -23,7 +26,7 @@ vcom -work work ../../components/mem_file/mem_file.vhd
 vcom -work work syst2d_ws_split_stride1.vhd
 
 # Testbench
-vcom -work work tb_syst2d_ws_split_stride1.vhd
+vcom -work work tb_syst2d_ws_split_stride1_file.vhd
 
 # Simulation
 set fh [open $GENERIC_FILE r]
