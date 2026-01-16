@@ -8,6 +8,7 @@ set LAYER 0
 set LAYER_PATH "../../../experiments/rtl_output/$CNN/$RTL/layer/$LAYER"
 set GENERIC_FILE "$LAYER_PATH/generic_file.txt"
 set PATH $LAYER_PATH
+set LAT 1
 # set PATH "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
 
 # Packages for CNN layer simulation
@@ -40,10 +41,13 @@ foreach arg $generic_args {
   if {[string match "-gPATH=*" $arg]} {
     continue
   }
+  if {[string match "-gLAT=*" $arg]} {
+    continue
+  }
   lappend filtered $arg
 }
 
-vsim -voptargs=+acc=lprn -t ps work.tb -gPATH=$PATH {*}$filtered
+vsim -voptargs=+acc=lprn -t ps work.tb -gPATH=$PATH -gLAT=$LAT {*}$filtered
 do wave.do
 
 run -all
