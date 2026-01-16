@@ -7,7 +7,8 @@ set RTL default
 set LAYER 0
 set LAYER_PATH "../../../experiments/rtl_output/$CNN/$RTL/layer/$LAYER"
 set GENERIC_FILE "$LAYER_PATH/generic_file.txt"
-set PATH "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
+set PATH $LAYER_PATH
+# set PATH "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
 
 # Packages for CNN layer simulation
 # vcom -work work $LAYER_PATH/ifmap_pkg.vhd
