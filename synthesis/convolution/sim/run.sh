@@ -19,7 +19,7 @@ while IFS= read -r line; do
 done < list-file.txt
 
 # Monta defines: read generic file, strip leading -g from each token and build DEFINE_FLAGS
-DEFINE_FLAGS=""
+DEFINE_FLAGS="-define PATH=../FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
 defines_file="${GIT_ROOT}/experiments/rtl_output/default/default/layer/0/generic_file.txt"
 if [[ -f "$defines_file" ]]; then
   while IFS= read -r line; do
