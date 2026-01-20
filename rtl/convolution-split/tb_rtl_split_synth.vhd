@@ -32,7 +32,7 @@ entity tb is
     N_FILTER       : integer := 16;
     N_LAYER        : integer := 1;
     OP_TYPE        : string := "C";
-    PATH           : string := "";
+    PATH           : string := "/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal";
     RISE_START     : time := 0 ns;
     RST_TIME       : time := 2.5 ns;
     SHIFT          : integer := 8;
@@ -103,7 +103,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      --ROM => "no",
+      ROM_PATH => "",
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -122,6 +122,12 @@ begin
       );
 
   DUT : entity work.convolution
+    generic map(
+      MEM_SIZE   => MEM_SIZE,
+      INPUT_SIZE => INPUT_SIZE,
+      SHIFT      => SHIFT,
+      CARRY_SIZE => CARRY_SIZE
+      )
     port map(
       clock         => clock,
       reset         => reset,

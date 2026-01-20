@@ -47,7 +47,6 @@ transcript
 vsim*
 work
 xcelium*
-xrun.log
 xrun.history
 *.cache
 *.vcd
