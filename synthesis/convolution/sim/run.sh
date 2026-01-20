@@ -1,3 +1,5 @@
+DATA_PATH="/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
+
 rm -rf dut.shm
 rm -rf xcelium.d
 
@@ -26,7 +28,7 @@ done < ../list-file.txt
 
 # Monta generics VHDL a partir do generic_file.txt (somente os do tb)
 GENERIC_FLAGS=""
-TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT")
+TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
 defines_file="${GIT_ROOT}/experiments/rtl_output/default/default/layer/0/generic_file.txt"
 if [[ -f "$defines_file" ]]; then
   while IFS= read -r line; do
@@ -45,7 +47,11 @@ if [[ -f "$defines_file" ]]; then
         val="${tok#*=}"
         for g in "${TB_GENERICS[@]}"; do
           if [[ $key == "$g" ]]; then
-            GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>${val}"
+            if [[ $key == "PATH" ]]; then
+              GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>\"${DATA_PATH}\""
+            else
+              GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>${val}"
+            fi
             break
           fi
         done

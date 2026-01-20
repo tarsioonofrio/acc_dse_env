@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 20, 2026 at 00:40:41 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 20, 2026 at 00:50:51 -03
 xrun
 	-f args.txt
 		-smartorder
@@ -19,6 +19,7 @@ xrun
 	-generic LAT=>2
 	-generic LAYER=>0
 	-generic MEM_SIZE=>16
+	-generic PATH=>"/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
 	-generic SHIFT=>8
 	/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd
@@ -2448,4 +2449,4 @@ end of simulation without error!
 Report at 125958 NS + 0
 /sim/tarsio/acc_dse_env/rtl/convolution-split/tb_rtl_split_synth.vhd:220         report "end of simulation without error!" severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 20, 2026 at 00:40:49 -03  (total: 00:00:08)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 20, 2026 at 00:51:04 -03  (total: 00:00:13)
