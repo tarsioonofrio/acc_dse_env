@@ -8,19 +8,37 @@ use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
-use work.gold_package.all;
-use work.op_generics_pkg.all;
+use work.util_package.all;
 
 
 entity tb is
   generic (
-    LAYER          : integer := 0;
-    MEM_SIZE       : integer := 12;
-    INPUT_SIZE     : integer := 8;
+    ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
-    SHIFT          : integer := 8;
+    CLK_HALF       : time := 1.0 ns;
+    CLK_PERIOD     : time := 2.0 ns;
+    CONVS_PER_LINE : integer := 15;
+    DATAFLOW_TYPE  : string := "ws";
+    DEVICE         : string := "7SERIES";
+    FALL_START     : time := 0 ns;
+    FILTER_WIDTH   : integer := 3;
+    INPUT_SIZE     : integer := 8;
+    IN_DELAY       : time := 0 ns;
+    LAT            : integer := 2;
+    LAYER          : integer := 0;
+    MAX_MEM_SIZE   : integer := 12;
+    MEM_SIZE       : integer := 12;
+    N_CHANNEL      : integer := 3;
+    N_FILTER       : integer := 16;
+    N_LAYER        : integer := 1;
+    OP_TYPE        : string := "C";
     PATH           : string := "";
-    LAT            : integer := 2
+    RISE_START     : time := 0 ns;
+    RST_TIME       : time := 2.5 ns;
+    SHIFT          : integer := 8;
+    STRIDE         : integer := 1;
+    TOTAL_OPS      : integer := 0;
+    X_SIZE         : integer := 32
     );
 end tb;
 
@@ -158,7 +176,7 @@ begin
         cycle_count := cycle_count + 1;
       end if;
 
-      if debug = '1' and cont_conv < TOTAL_OPS(LAYER) then
+      if debug = '1' and cont_conv < TOTAL_OPS then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";

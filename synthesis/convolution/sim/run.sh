@@ -8,7 +8,7 @@ module load xcelium > /dev/null 2>&1
 GIT_ROOT=$(git rev-parse --show-toplevel)
 
 # Testbench e pack conforme usado no histórico
-TB=${GIT_ROOT}/tb/tb_rtl_split_synth.vhd
+TB=${GIT_ROOT}/rtl/convolution-split/tb_rtl_split_synth.vhd
 
 GATE=../logical/results/gate_level/convolution_logic_mapped.v
 
@@ -16,7 +16,7 @@ GATE=../logical/results/gate_level/convolution_logic_mapped.v
 files=""
 while IFS= read -r line; do
   files="$files$GIT_ROOT/$line "
-done < list-file.txt
+done < ../list-file.txt
 
 # Monta defines: read generic file, strip leading -g from each token and build DEFINE_FLAGS
 DEFINE_FLAGS="-define PATH=../FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
