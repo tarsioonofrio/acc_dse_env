@@ -1,5 +1,5 @@
-runtime=121918 ns
-total_cycles=0
-iwght_active_cycles=0
-ifmap_active_cycles=0
-ofmap_active_cycles=0
+runtime=870690 ns
+total_cycles=87070
+iwght_active_cycles=252
+ifmap_active_cycles=78369
+ofmap_active_cycles=29700

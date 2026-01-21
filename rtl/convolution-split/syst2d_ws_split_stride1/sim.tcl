@@ -24,7 +24,7 @@ vcom -work work syst2d_ws_split_stride1.vhd
 vcom -work work ../tb_rtl_split.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ps work.tb -f ../../../experiments/rtl_output/$CNN/$RTL/layer/0/generic_file.txt
+vsim -voptargs=+acc=lprn -t ns work.tb -f ../../../experiments/rtl_output/$CNN/$RTL/layer/0/generic_file.txt
 do wave.do
 #onfinish exit
 #onbreak exit

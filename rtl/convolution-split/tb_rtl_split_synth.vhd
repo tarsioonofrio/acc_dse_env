@@ -15,8 +15,8 @@ use work.op_generics_pkg.all;
 entity tb is
   generic (
     LAYER          : integer := 0;
-    MEM_SIZE       : integer := 12;
-    INPUT_SIZE     : integer := 8;
+    MEM_SIZE       : integer := 16;
+    INPUT_SIZE     : integer := 16;
     CARRY_SIZE     : integer := 4;
     SHIFT          : integer := 8;
     LAT            : integer := 2
