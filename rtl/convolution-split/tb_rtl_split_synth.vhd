@@ -189,12 +189,12 @@ begin
         if SHIFT > 0 then
           expected_int := expected_int / (2**SHIFT);
         end if;
-        if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
+        if ofmap_out /= CONV_STD_LOGIC_VECTOR(expected_int, ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
           report "number of convolutions executed: " & integer'image(cont_conv);
           report "idx: " & integer'image(CONV_INTEGER(unsigned(ofmap_address)));
-          report "expected value: " & integer'image(gold(CONV_INTEGER(unsigned(ofmap_address))));
+          report "expected value: " & integer'image(expected_int);
 
           if (INPUT_SIZE*2)+CARRY_SIZE > 32 then
             report "obtained value: " & integer'image(CONV_INTEGER(ofmap_out(31 downto 0)));
