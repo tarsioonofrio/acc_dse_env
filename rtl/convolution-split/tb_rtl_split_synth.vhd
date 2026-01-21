@@ -154,7 +154,7 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
-  clock <= not clock after 0.5 ns;
+  clock <= not clock after 5 ns;
 
   reset <= '1', '0' after 2.5 ns;
 
