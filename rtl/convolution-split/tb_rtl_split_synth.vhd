@@ -155,10 +155,8 @@ begin
       );
 
   clock <= not clock after 5 ns;
-
-  reset <= '1', '0' after 2.5 ns;
-
-  start_conv <= '0', '1' after 2.5 ns, '0' after 3.5 ns;
+  reset <= '1', '0' after 10 ns;
+  start_conv <= '0', '1' after 15 ns, '0' after 25 ns;
 
   process(clock)
 

@@ -84,3 +84,4 @@ genus.log*
 *.tiff
 *.webp
     
+synthesis/convolution/sim/xrun.key
