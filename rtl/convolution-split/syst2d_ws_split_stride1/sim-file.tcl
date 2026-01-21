@@ -29,6 +29,7 @@ vcom -work work syst2d_ws_split_stride1.vhd
 
 # Testbench
 vcom -work work tb_syst2d_ws_split_stride1_file.vhd
+# vcom -work work ../tb_rtl_split_synth.vhd
 
 # Simulation
 # set fh [open $GENERIC_FILE r]
