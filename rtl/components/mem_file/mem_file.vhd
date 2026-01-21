@@ -46,7 +46,6 @@ architecture a1 of memory is
   signal cont_read, cont_write, cont_av_cycles : integer;
 
   signal data_av_signal : std_logic;
-  signal ROM :type_array_int := read_data(ROM_PATH);
 
 begin
 
@@ -68,8 +67,10 @@ begin
   end generate;
 
   GEN_ROM: if ROM_PATH /= "" generate
-  -- Read from memory
-  data_out <= CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1';
+    constant ROM : type_array_int := read_data(ROM_PATH);
+  begin
+    -- Read from memory
+    data_out <= CONV_STD_LOGIC_VECTOR(ROM(CONV_INTEGER(unsigned(address))), INPUT_SIZE) when chip_en = '1';
   end generate;
 
   process(reset, clock)

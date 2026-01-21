@@ -8,18 +8,37 @@ use ieee.std_logic_textio.all;
 
 use std.textio.all;
 
-use work.gold_package.all;
-use work.op_generics_pkg.all;
+use work.util_package.all;
 
 
 entity tb is
   generic (
-    LAYER          : integer := 0;
-    MEM_SIZE       : integer := 16;
-    INPUT_SIZE     : integer := 16;
+    ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
+    CLK_HALF       : time := 1.0 ns;
+    CLK_PERIOD     : time := 2.0 ns;
+    CONVS_PER_LINE : integer := 15;
+    DATAFLOW_TYPE  : string := "ws";
+    DEVICE         : string := "7SERIES";
+    FALL_START     : time := 0 ns;
+    FILTER_WIDTH   : integer := 3;
+    INPUT_SIZE     : integer := 8;
+    IN_DELAY       : time := 0 ns;
+    LAT            : integer := 2;
+    LAYER          : integer := 0;
+    MAX_MEM_SIZE   : integer := 12;
+    MEM_SIZE       : integer := 12;
+    N_CHANNEL      : integer := 3;
+    N_FILTER       : integer := 16;
+    N_LAYER        : integer := 1;
+    OP_TYPE        : string := "C";
+    PATH           : string := "/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal";
+    RISE_START     : time := 0 ns;
+    RST_TIME       : time := 2.5 ns;
     SHIFT          : integer := 8;
-    LAT            : integer := 2
+    STRIDE         : integer := 1;
+    TOTAL_OPS      : integer := 0;
+    X_SIZE         : integer := 32
     );
 end tb;
 
@@ -36,11 +55,15 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
+  signal gold : type_array_int := read_data(PATH & "/s_default_quant.txt");
+
+  file sim_report : text open write_mode is "rtl_split_synth_report.txt";
+
 begin
 
   IWGHT : entity work.memory
     generic map(
-      ROM => "weight",
+      ROM_PATH => PATH & "/g.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -60,7 +83,7 @@ begin
 
   IFMAP : entity work.memory
     generic map(
-      ROM => "map",
+      ROM_PATH => PATH & "/d.txt",
       INPUT_SIZE => INPUT_SIZE*2,
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -80,7 +103,7 @@ begin
 
   OFMAP : entity work.memory
     generic map(
-      ROM => "no",
+      ROM_PATH => "",
       INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE),
       ADDRESS_SIZE => MEM_SIZE,
       DATA_AV_LATENCY => LAT
@@ -99,6 +122,12 @@ begin
       );
 
   DUT : entity work.convolution
+    generic map(
+      MEM_SIZE   => MEM_SIZE,
+      INPUT_SIZE => INPUT_SIZE,
+      SHIFT      => SHIFT,
+      CARRY_SIZE => CARRY_SIZE
+      )
     port map(
       clock         => clock,
       reset         => reset,
@@ -125,7 +154,7 @@ begin
       ofmap_ce      => ofmap_ce
       );
 
-  clock <= not clock after 0.5 ns;
+  clock <= not clock after 5 ns;
 
   reset <= '1', '0' after 2.5 ns;
 
@@ -135,12 +164,25 @@ begin
 
     -- convolution counter
   variable cont_conv : integer := 0;
+  variable cycle_count : integer := 0;
+  variable start_time  : time := 0 ns;
+  variable running     : boolean := false;
   variable out_line          : line;
 
   begin
 
     if clock'event and clock = '0' then
-      if debug = '1' and cont_conv < TOTAL_OPS(LAYER) then
+      if start_conv = '1' then
+        running := true;
+        cycle_count := 0;
+        start_time := now;
+      end if;
+
+      if running and end_conv = '0' then
+        cycle_count := cycle_count + 1;
+      end if;
+
+      if debug = '1' and cont_conv < TOTAL_OPS then
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
@@ -167,6 +209,14 @@ begin
         report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
         report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
         report "number of convolutions: " & integer'image(cont_conv);
+        if running then
+          write(out_line, string'("total_cycles: "));
+          write(out_line, cycle_count);
+          write(out_line, string'(", exec_time: "));
+          write(out_line, now - start_time);
+          writeline(sim_report, out_line);
+          running := false;
+        end if;
         report "end of simulation without error!" severity failure;
       end if;
     end if;
