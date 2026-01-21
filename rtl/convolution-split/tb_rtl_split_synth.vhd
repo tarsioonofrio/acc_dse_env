@@ -13,32 +13,32 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    ARRAY_TYPE     : string := "syst2d";
-    CARRY_SIZE     : integer := 4;
-    CLK_HALF       : time := 1.0 ns;
-    CLK_PERIOD     : time := 2.0 ns;
-    CONVS_PER_LINE : integer := 15;
-    DATAFLOW_TYPE  : string := "ws";
-    DEVICE         : string := "7SERIES";
-    FALL_START     : time := 0 ns;
-    FILTER_WIDTH   : integer := 3;
-    INPUT_SIZE     : integer := 8;
-    IN_DELAY       : time := 0 ns;
-    LAT            : integer := 2;
-    LAYER          : integer := 0;
-    MAX_MEM_SIZE   : integer := 12;
-    MEM_SIZE       : integer := 12;
-    N_CHANNEL      : integer := 3;
-    N_FILTER       : integer := 16;
-    N_LAYER        : integer := 1;
-    OP_TYPE        : string := "C";
-    PATH           : string := "/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal";
-    RISE_START     : time := 0 ns;
-    RST_TIME       : time := 2.5 ns;
-    SHIFT          : integer := 8;
-    STRIDE         : integer := 1;
-    TOTAL_OPS      : integer := 0;
-    X_SIZE         : integer := 32
+  ARRAY_TYPE     : string := "syst2d";
+  CARRY_SIZE     : integer := 4;
+  CONVS_PER_LINE : integer := 30;
+  DATAFLOW_TYPE  : string := "ws";
+  DEVICE         : string := "7SERIES";
+  FILTER_WIDTH   : integer := 3;
+  INPUT_SIZE     : integer := 16;
+  LAT            : integer := 2;
+  LAYER          : integer := 0;
+  MAX_MEM_SIZE   : integer := 36;
+  MEM_SIZE       : integer := 16;
+  N_CHANNEL      : integer := 3;
+  N_FILTER       : integer := 3;
+  N_LAYER        : integer := 0;
+  OP_TYPE        : string := "C";
+  SHIFT          : integer := 8;
+  STRIDE         : integer := 1;
+  TOTAL_OPS      : integer := 2700;
+  X_SIZE         : integer := 32;
+  PATH           : string := "/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
+  --IN_DELAY       : time := 0.3 ns;
+  --RISE_START     : time := 7.3 ns;
+  --RST_TIME       : time := 5.0 ns;
+  --FALL_START     : time := 9.3 ns;
+  --CLK_HALF       : time := 1.0 ns;
+  --CLK_PERIOD     : time := 2.0 ns;
     );
 end tb;
 
