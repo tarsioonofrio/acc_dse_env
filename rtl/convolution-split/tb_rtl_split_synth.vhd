@@ -13,6 +13,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
+  LAT            : integer := 1;
   ARRAY_TYPE     : string := "syst2d";
   CARRY_SIZE     : integer := 4;
   CONVS_PER_LINE : integer := 30;
@@ -20,7 +21,6 @@ entity tb is
   DEVICE         : string := "7SERIES";
   FILTER_WIDTH   : integer := 3;
   INPUT_SIZE     : integer := 16;
-  LAT            : integer := 2;
   LAYER          : integer := 0;
   MAX_MEM_SIZE   : integer := 36;
   MEM_SIZE       : integer := 16;
@@ -121,7 +121,7 @@ begin
       n_write  => ofmap_n_write
       );
 
-  DUT : entity work.convolution
+  dut : entity work.convolution
     generic map(
       MEM_SIZE   => MEM_SIZE,
       INPUT_SIZE => INPUT_SIZE,
