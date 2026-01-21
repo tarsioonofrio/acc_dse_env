@@ -160,6 +160,7 @@ begin
 
   process(clock)
 
+  variable expected_int        : integer := 0;
     -- convolution counter
   variable cont_conv : integer := 0;
   variable cycle_count : integer := 0;
@@ -181,6 +182,13 @@ begin
       end if;
 
       if debug = '1' and cont_conv < TOTAL_OPS then
+        expected_int := gold(CONV_INTEGER(unsigned(ofmap_address)));
+        if expected_int < 0 then
+          expected_int := 0;
+        end if;
+        if SHIFT > 0 then
+          expected_int := expected_int / (2**SHIFT);
+        end if;
         if ofmap_out /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))), ((INPUT_SIZE*2)+CARRY_SIZE)) then
           --if ofmap_out(31 downto 0) /= CONV_STD_LOGIC_VECTOR(gold(CONV_INTEGER(unsigned(ofmap_address))),(INPUT_SIZE*2)) then
           report "end of simulation with error!";
