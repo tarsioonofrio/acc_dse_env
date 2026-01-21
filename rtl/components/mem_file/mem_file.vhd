@@ -130,7 +130,8 @@ begin
       data_av_signal <= '0';
     elsif clock'event and clock = '1' then
       if DATA_AV_LATENCY = 0 then
-        data_av_signal <= '1';
+        -- For zero-latency memories, data is only valid when chip_en is asserted
+        data_av_signal <= chip_en;
       else
         if chip_en = '1' then
           if DATA_AV_LATENCY = 1 and EA_dataav = WAITCE then
@@ -147,7 +148,8 @@ begin
     end if;
   end process;
 
-  data_av <= (data_av_signal and chip_en) when DATA_AV_LATENCY = 1 else
+  data_av <= chip_en when DATA_AV_LATENCY = 0 else
+             (data_av_signal and chip_en) when DATA_AV_LATENCY = 1 else
              data_av_signal;
 
   process(clock, reset)
