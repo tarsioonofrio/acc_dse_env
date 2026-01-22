@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 14:25:52 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 14:30:15 -03
 xrun
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
@@ -2404,16 +2404,8 @@ Loading snapshot work.tb:a1 .................... Done
 xcelium> source /soft64/cadence/ferramentas/XCELIUM2303/tools/xcelium/files/xmsimrc
 xcelium> database -open dut -shm
 Created SHM database dut
-xcelium> probe -create -database dut -all -depth all
-xmsim: *W,PRUASZ: Unpacked array at ":gold" of 4000001 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 4000001 :gold' or 'setenv SHM_UNPACKED_LIMIT 4000001' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":IWGHT:mem" of 2097184 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2097184 :IWGHT:mem' or 'setenv SHM_UNPACKED_LIMIT 2097184' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":IFMAP:mem" of 2097184 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2097184 :IFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2097184' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":OFMAP:mem" of 2359332 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2359332 :OFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2359332' to adjust limit.
-Created probe 1
+xcelium> probe -create -database dut -depth all -hier /tb/dut
+xmsim: *E,UNKOPT: unrecognized option for the probe [-create] command (-hier).
 xcelium> run
 ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:">"
 Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
@@ -2522,4 +2514,4 @@ end of simulation without error!
 Report at 609580 NS + 0
 /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:276         report "end of simulation without error!" severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 14:26:03 -03  (total: 00:00:11)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 14:30:25 -03  (total: 00:00:10)
