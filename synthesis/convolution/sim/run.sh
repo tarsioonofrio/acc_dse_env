@@ -33,8 +33,7 @@ WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
-xrun  -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files -run -exit
-
+xrun -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files
 
 # GENERIC_FLAGS=""
 # TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
