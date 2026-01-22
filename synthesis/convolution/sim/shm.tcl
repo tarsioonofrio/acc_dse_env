@@ -1,4 +1,4 @@
 database -open dut -shm
-probe -create -database dut -all -depth all
+probe -create -database dut -depth all -hier /tb/dut
 run
 exit
