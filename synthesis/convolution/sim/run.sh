@@ -61,6 +61,16 @@ if [[ -f "$defines_file" ]]; then
 fi
 
 echo $GENERIC_FLAGS
+
+# Gera script TCL para criar SHM (compatível com versões sem -shm direto)
+WAVES_TCL="${SCRIPT_DIR}/waves.tcl"
+cat > "$WAVES_TCL" <<'EOF'
+database -open waves -shm
+probe -create -database waves -all -depth all
+run
+exit
+EOF
+
 # Chamada do xrun (mantendo args.txt como no histórico)
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
-xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
+xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
