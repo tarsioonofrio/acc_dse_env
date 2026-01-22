@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 20, 2026 at 00:50:51 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 13:25:55 -03
 xrun
 	-f args.txt
 		-smartorder
@@ -11,16 +11,9 @@ xrun
 		-timescale 1ns/1ps
 		/pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v
 	-sv
-	/sim/tarsio/acc_dse_env/rtl/convolution-split/tb_rtl_split_synth.vhd
+	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
 	../logical/results/gate_level/convolution_logic_mapped.v
 	-v200x
-	-generic CARRY_SIZE=>4
-	-generic INPUT_SIZE=>16
-	-generic LAT=>2
-	-generic LAYER=>0
-	-generic MEM_SIZE=>16
-	-generic PATH=>"/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
-	-generic SHIFT=>8
 	/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd
 	/sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd
@@ -2236,8 +2229,6 @@ file: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital
 file: ../logical/results/gate_level/convolution_logic_mapped.v
 	module work.RC_CG_MOD:v
 		errors: 0, warnings: 0
-	module work.RC_CG_MOD_2:v
-		errors: 0, warnings: 0
 	module work.RC_CG_MOD_3:v
 		errors: 0, warnings: 0
 	module work.RC_CG_MOD_4:v
@@ -2270,6 +2261,8 @@ file: ../logical/results/gate_level/convolution_logic_mapped.v
 		errors: 0, warnings: 0
 	module work.RC_CG_MOD_18:v
 		errors: 0, warnings: 0
+	module work.RC_CG_MOD_19:v
+		errors: 0, warnings: 0
 	module work.RC_CG_MOD_20:v
 		errors: 0, warnings: 0
 	module work.RC_CG_MOD_21:v
@@ -2283,6 +2276,64 @@ file: ../logical/results/gate_level/convolution_logic_mapped.v
 	module work.RC_CG_MOD_25:v
 		errors: 0, warnings: 0
 	module work.RC_CG_MOD_26:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_27:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_28:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_29:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_31:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_32:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_33:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_34:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_35:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_36:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_37:v
+		errors: 0, warnings: 0
+	module work.mac:v
+		errors: 0, warnings: 0
+	module work.mac_171:v
+		errors: 0, warnings: 0
+	module work.mac_170:v
+		errors: 0, warnings: 0
+	module work.mac_8_172:v
+		errors: 0, warnings: 0
+	module work.mac_8_173:v
+		errors: 0, warnings: 0
+	module work.mac_8_174:v
+		errors: 0, warnings: 0
+	module work.mac_8_175:v
+		errors: 0, warnings: 0
+	module work.mac_8_176:v
+		errors: 0, warnings: 0
+	module work.mac_8:v
+		errors: 0, warnings: 0
+	module work.reg:v
+		errors: 0, warnings: 0
+	module work.reg_419:v
+		errors: 0, warnings: 0
+	module work.reg_418:v
+		errors: 0, warnings: 0
+	module work.reg_417:v
+		errors: 0, warnings: 0
+	module work.reg_416:v
+		errors: 0, warnings: 0
+	module work.reg_415:v
+		errors: 0, warnings: 0
+	module work.reg_414:v
+		errors: 0, warnings: 0
+	module work.reg_413:v
+		errors: 0, warnings: 0
+	module work.reg_412:v
+		errors: 0, warnings: 0
+	module work.RC_CG_MOD_2:v
 		errors: 0, warnings: 0
 	module work.RC_CG_MOD_1:v
 		errors: 0, warnings: 0
@@ -2298,7 +2349,7 @@ file: ../logical/results/gate_level/convolution_logic_mapped.v
 	errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd:
 	errors: 0, warnings: 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/tb_rtl_split_synth.vhd:
+/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:
 	errors: 0, warnings: 0
 WORK.UTIL_PACKAGE (package):
 	streams: 2, words: 367
@@ -2321,9 +2372,9 @@ WORK.MEMORY (entity):
 WORK.MEMORY:A1 (architecture):
 	streams: 1, words: 2608
 WORK.TB (entity):
-	streams: 27, words: 2542
+	streams: 21, words: 2035
 WORK.TB:A1 (architecture):
-	streams: 5, words: 25586
+	streams: 5, words: 26032
 xmelab: *W,ARCMRA: Elaborating the WORK.TB:A1, MRA (most recently analyzed) architecture.
 	Elaborating the design hierarchy:
 	Top level design units:
@@ -2333,12 +2384,12 @@ xmelab: *W,FLFNOF: No SDF file specified, but annotation parameters were present
 	Annotating SDF timing data:
 		Compiled SDF file:     convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X
 		Log file:              ./sdf_log.log
-		Backannotation scope:  tb.DUT
+		Backannotation scope:  tb.dut
 		Configuration file:    
 		MTM control:           
 		Scale factors:         
 		Scale type:            
-xmelab: *W,SDFSNF: Specified scope (tb.DUT) not found, skipping annotation of convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X.
+xmelab: *W,SDFSNF: Specified scope (tb.dut) not found, skipping annotation of convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X.
 	Annotation completed with 0 Errors and 1 Warnings
 	Building instance specific data structures.
 	Design hierarchy summary:
@@ -2418,35 +2469,43 @@ ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin funct
 Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
 ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
 Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of iwght read: 448
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght read: 84
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 number of iwght write: 0
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ifmap read: 37761
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap read: 26123
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 number of ifmap write: 0
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ofmap read: 7200
-ASSERT/WARNING (time 125958 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap read: 5400
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
 Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ofmap write: 10800
-REPORT/NOTE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of convolutions: 0
-REPORT/FAILURE (time 125958 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap write: 8100
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of convolutions: 2700
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+total_cycles=60957
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+iwght_active_cycles=168
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ifmap_active_cycles=52256
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ofmap_active_cycles=24300
+REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 end of simulation without error!
-Report at 125958 NS + 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/tb_rtl_split_synth.vhd:220         report "end of simulation without error!" severity failure;
+Report at 609580 NS + 0
+/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:276         report "end of simulation without error!" severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 20, 2026 at 00:51:04 -03  (total: 00:00:13)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 13:26:07 -03  (total: 00:00:12)
