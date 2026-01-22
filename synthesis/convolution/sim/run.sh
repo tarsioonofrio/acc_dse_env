@@ -62,14 +62,8 @@ fi
 
 echo $GENERIC_FLAGS
 
-# Gera script TCL para criar SHM (compatível com versões sem -shm direto)
-WAVES_TCL="${SCRIPT_DIR}/waves.tcl"
-cat > "$WAVES_TCL" <<'EOF'
-database -open waves -shm
-probe -create -database waves -all -depth all
-run
-exit
-EOF
+# Script TCL hardcoded para criar SHM (compatível com versões sem -shm direto)
+WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
 
 # Chamada do xrun (mantendo args.txt como no histórico)
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
