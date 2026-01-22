@@ -16,7 +16,7 @@ if [[ -z "$GIT_ROOT" ]]; then
 fi
 
 # Testbench e pack conforme usado no histórico
-TB=${GIT_ROOT}/rtl/convolution-split/tb_rtl_split_synth.vhd
+TB=${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
 
 GATE=../logical/results/gate_level/convolution_logic_mapped.v
 
@@ -27,44 +27,46 @@ while IFS= read -r line; do
 done < ../list-file.txt
 
 # Monta generics VHDL a partir do generic_file.txt (somente os do tb)
-GENERIC_FLAGS=""
-TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
-defines_file="${GIT_ROOT}/experiments/rtl_output/default/default/layer/0/generic_file.txt"
-if [[ -f "$defines_file" ]]; then
-  while IFS= read -r line; do
-    # skip empty lines
-    if [[ -z "${line//[[:space:]]/}" ]]; then
-      continue
-    fi
-    # split into tokens by whitespace
-    for tok in $line; do
-      # Converte -gNAME=VAL para associações VHDL: NAME=>VAL
-      if [[ $tok == -g* ]]; then
-        tok="${tok:2}"
-      fi
-      if [[ $tok == *=* ]]; then
-        key="${tok%%=*}"
-        val="${tok#*=}"
-        for g in "${TB_GENERICS[@]}"; do
-          if [[ $key == "$g" ]]; then
-            if [[ $key == "PATH" ]]; then
-              GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>\"${DATA_PATH}\""
-            else
-              GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>${val}"
-            fi
-            break
-          fi
-        done
-      fi
-    done
-  done < "$defines_file"
-fi
-
-echo $GENERIC_FLAGS
-
+# # Chamada do xrun (mantendo args.txt como no histórico)
 # Script TCL hardcoded para criar SHM (compatível com versões sem -shm direto)
 WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
-
-# Chamada do xrun (mantendo args.txt como no histórico)
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
-xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
+# xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
+# xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
+xrun  -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files -run -exit
+
+
+# GENERIC_FLAGS=""
+# TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
+# defines_file="${GIT_ROOT}/experiments/rtl_output/default/default/layer/0/generic_file.txt"
+# if [[ -f "$defines_file" ]]; then
+#   while IFS= read -r line; do
+#     # skip empty lines
+#     if [[ -z "${line//[[:space:]]/}" ]]; then
+#       continue
+#     fi
+#     # split into tokens by whitespace
+#     for tok in $line; do
+#       # Converte -gNAME=VAL para associações VHDL: NAME=>VAL
+#       if [[ $tok == -g* ]]; then
+#         tok="${tok:2}"
+#       fi
+#       if [[ $tok == *=* ]]; then
+#         key="${tok%%=*}"
+#         val="${tok#*=}"
+#         for g in "${TB_GENERICS[@]}"; do
+#           if [[ $key == "$g" ]]; then
+#             if [[ $key == "PATH" ]]; then
+#               GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>\"${DATA_PATH}\""
+#             else
+#               GENERIC_FLAGS="$GENERIC_FLAGS -generic ${key}=>${val}"
+#             fi
+#             break
+#           fi
+#         done
+#       fi
+#     done
+#   done < "$defines_file"
+# fi
+
+# echo $GENERIC_FLAGS
