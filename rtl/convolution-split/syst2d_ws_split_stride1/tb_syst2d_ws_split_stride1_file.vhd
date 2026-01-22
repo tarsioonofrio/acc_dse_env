@@ -32,6 +32,7 @@ entity tb is
     TOTAL_OPS      : integer := 2700;
     X_SIZE         : integer := 32;
     PATH           : string := "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
+    --PATH           : string := "/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
     --IN_DELAY       : time := 0.3 ns;
     --RISE_START     : time := 7.3 ns;
     --RST_TIME       : time := 5.0 ns;
