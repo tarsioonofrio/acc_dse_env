@@ -125,7 +125,7 @@ begin
       n_write  => ofmap_n_write
       );
 
-  DUT : entity work.convolution
+  dut : entity work.convolution
     generic map(
       N_FILTER       => N_FILTER,
       N_CHANNEL      => N_CHANNEL,
