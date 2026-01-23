@@ -2,56 +2,54 @@ if {[file isdirectory work]} { vdel -all -lib work }
 vlib work
 vmap work work
 
-set CNN conv1-3x3
-set RTL default
+# set CNN conv1-3x3
+# set RTL default
+# set LAYER 0
+# set LAYER_PATH "../../../experiments/rtl_output/$CNN/$RTL/layer/$LAYER"
+# set GENERIC_FILE "$LAYER_PATH/generic_file.txt"
+# set PATH $LAYER_PATH
+# set LAT 1
+# set PATH "/home/tarsio/gaph/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal2"
 
-# Packages for CNN layer simualtion
-vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/ifmap_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/iwght_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/layer/0/gold_pkg.vhd
-vcom -work work ../../../experiments/rtl_output/$CNN/$RTL/core/op_generics_pkg.vhd
+# Packages for CNN layer simulation
+# vcom -work work $LAYER_PATH/ifmap_pkg.vhd
+# vcom -work work $LAYER_PATH/iwght_pkg.vhd
+# vcom -work work $LAYER_PATH/gold_pkg.vhd
 
+# Package with utilities - need to be before convolution core
+vcom -work work ../../core/util_pkg.vhd
 
 # Components
 vcom -work work ../../components/mac/mac.vhd
 vcom -work work ../../components/reg/reg.vhd
-vcom -work work ../../components/mem_split/mem_split.vhd
+vcom -work work ../../components/mem_file/mem_file.vhd
 
 # Convolution core
 vcom -work work syst2d_ws_split_stride1.vhd
 
 # Testbench
-vcom -work work ../tb_rtl_split.vhd
+vcom -work work tb_syst2d_ws_split_stride1_file.vhd
+# vcom -work work ../tb_rtl_split_synth.vhd
 
 # Simulation
-vsim -voptargs=+acc=lprn -t ns work.tb -f ../../../experiments/rtl_output/$CNN/$RTL/layer/0/generic_file.txt
+# set fh [open $GENERIC_FILE r]
+# set generic_line [read $fh]
+# close $fh
+
+# set generic_args [split $generic_line]
+# set filtered {}
+# foreach arg $generic_args {
+#   if {[string match "-gPATH=*" $arg]} {
+#     continue
+#   }
+#   if {[string match "-gLAT=*" $arg]} {
+#     continue
+#   }
+#   lappend filtered $arg
+# }
+
+# vsim -voptargs=+acc=lprn -t ps work.tb -gPATH=$PATH -gLAT=$LAT {*}$filtered
+vsim -voptargs=+acc=lprn -t ps work.tb
 do wave.do
-#onfinish exit
-#onbreak exit
-# log -r /*
-
-# add wave sim:/tb/*
-# add wave sim:/tb/DUT/*
-# add wave sim:/tb/clock
-# add wave sim:/tb/DUT/cont_total_valid
-# add wave sim:/tb/DUT/cont_valid
-# add wave sim:/tb/DUT/cont_conv
-# add wave sim:/tb/DUT/read_weight_flag
-# add wave sim:/tb/DUT/EA_read
-# add wave sim:/tb/DUT/iwght_valid
-# add wave sim:/tb/iwght_ce
-# add wave sim:/tb/DUT/cont_weight_cycles
-# add wave sim:/tb/DUT/weight_control
-
-# add wave sim:/tb/DUT/add
-# add wave sim:/tb/DUT/ofmap_address
-# add wave sim:/tb/DUT/ofmap_out
-# add wave sim:/tb/DUT/reg_soma1
-# add wave sim:/tb/DUT/reg_soma2
-# add wave sim:/tb/DUT/reg_soma3
-# add wave sim:/tb/DUT/bias_x
-# add wave sim:/tb/DUT/cont_weight_cycles
 
 run -all
-#run 1000 ns
-#exit
