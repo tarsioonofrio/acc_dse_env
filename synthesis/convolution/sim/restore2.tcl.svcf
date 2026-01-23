@@ -1,0 +1,395 @@
+# SimVision Command Script (Thu Jan 22 23:09:46 -03 2026)
+#
+# Version 23.03.s003
+#
+# You can restore this configuration with:
+#
+#      xrun -access +rwc -input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl -f args.txt -sv /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd ../logical/results/gate_level/convolution_logic_mapped.v -v200x /sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd /sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd /sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd /sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd -input restore2.tcl
+#
+
+
+#
+# Preferences
+#
+preferences set plugin-enable-svdatabrowser-new 1
+preferences set plugin-enable-groupscope 0
+preferences set plugin-enable-interleaveandcompare 0
+preferences set plugin-enable-waveformfrequencyplot 0
+
+#
+# Simulator
+#
+database require simulator -hints {
+	simulator "xrun -gui -access +rwc -input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl -f args.txt -sv /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd ../logical/results/gate_level/convolution_logic_mapped.v -v200x /sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd /sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd /sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd /sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd -input restore2.tcl"
+}
+
+#
+# Mnemonic Maps
+#
+mmap new  -reuse -name {Boolean as Logic} -radix %b -contents {{%c=FALSE -edgepriority 1 -shape low}
+{%c=TRUE -edgepriority 1 -shape high}}
+mmap new  -reuse -name {Example Map} -radix %x -contents {{%b=11???? -bgcolor orange -label REG:%x -linecolor yellow -shape bus}
+{%x=1F -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=2C -bgcolor red -label ERROR -linecolor white -shape EVENT}
+{%x=* -label %x -linecolor gray -shape bus}}
+
+#
+# Design Browser windows
+#
+if {[catch {window new WatchList -name "Design Browser 1" -geometry 1366x731+0+0}] != ""} {
+    window geometry "Design Browser 1" 1366x731+0+0
+}
+window target "Design Browser 1" on
+browser using {Design Browser 1}
+browser set -scope  simulator:::dut 
+browser set \
+    -signalsort name
+browser yview see  simulator:::dut 
+browser timecontrol set -lock 0
+
+#
+# Waveform windows
+#
+if {[catch {window new WaveWindow -name "Waveform 1" -geometry 1010x600+0+0}] != ""} {
+    window geometry "Waveform 1" 1010x600+0+0
+}
+window target "Waveform 1" on
+waveform using {Waveform 1}
+waveform sidebar visibility partial
+waveform set \
+    -primarycursor TimeA \
+    -signalnames name \
+    -signalwidth 175 \
+    -units fs \
+    -valuewidth 75
+waveform baseline set -time 0
+
+set id [waveform add -signals  {
+	simulator:::dut:add
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:adder_mux
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:address_base
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:bias_x
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:buffer_features
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:CARRY_SIZE
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ce_control
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ce_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:change_line
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:change_line_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:channel_control
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:channel_control_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:clock
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_conv
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_conv_plus1
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_debug
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_iterations
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_steps
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_total_valid
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_valid
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:cont_weight_cycles
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:control_iteration_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:conv_length
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:CONVS_PER_LINE
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:debug
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:debug_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:EA_add
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:EA_read
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:en_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:en_reg_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:end_conv
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:end_conv_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:end_conv_signal
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:features
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:FILTER_WIDTH
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:H
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ifmap_address
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ifmap_ce
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ifmap_valid
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ifmap_value
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:in_ce
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:INPUT_SIZE
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_address
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_address_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_ce
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_ce_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_valid
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:iwght_value
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:MEM_SIZE
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:N_CHANNEL
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:N_FILTER
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_address
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_address_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_ce
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_ce_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_in
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_out
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_out_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_valid
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_we
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:ofmap_we_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:op1
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:op2
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial0
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial1
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial2
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_add
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_add_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_base
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_ce
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_control
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_valid_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:partial_wr
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:pipe_reset
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:read_bias
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:read_bias_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:read_weight_flag
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:read_weights
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_bias_value
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_mac
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_read_bias
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_read_weights
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_reg_bias_value
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_reg_start_mac
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_soma1
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_soma2
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_soma3
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reg_start_mac
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:res_mac
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:reset
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:SHIFT
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:shift_output
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:start_conv
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:start_mac
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:STRIDE
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:update_add_base
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:V
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:valid_signal
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:valid_sync_signal
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:valid_sync_signal_reg
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:weight
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:weight_control
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:weight_x
+	} ]
+set id [waveform add -signals  {
+	simulator:::dut:X_SIZE
+	} ]
+
+waveform xview limits 0 2000fs
+
+#
+# Waveform Window Links
+#
+
+#
+# Console windows
+#
+console set -windowname Console
+window geometry Console 1366x731+0+0
+
+#
+# Layout selection
+#
+
