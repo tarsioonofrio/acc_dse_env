@@ -2916,4 +2916,5 @@ ofmap_active_cycles=24300
 REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 end of simulation without error!
 Report at 609580 NS + 0
-xcelium> 
+xcelium> quit
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 22:44:51 -03  (total: 01:06:17)

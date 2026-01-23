@@ -43,6 +43,11 @@ read_db ${DB_FILE}
 set_db interconnect_mode ple
 
 # read_stimulus $SHM -dut_instance tb.dut -start ${START_TIME}
+
+# for VHDL both commands below work
+# reading shm file omit dut instance 
+# read_stimulus $SHM -start ${START_TIME}
+# for vcd file add tb architecture in parentheses
 read_stimulus /sim/tarsio/acc_dse_env/synthesis/convolution/sim/simvision.vcd -dut_instance tb(a1).dut -start ${START_TIME}
 
 #compute_power -mode average
