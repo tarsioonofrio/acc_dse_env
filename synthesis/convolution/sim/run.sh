@@ -1,6 +1,6 @@
 DATA_PATH="/sim/tarsio/FastConv_SystemVerilog/data/ifn9/sim/sim-032-3-3-normal"
 
-# rm -rf dut.shm
+rm -rf dut.shm
 rm -rf xcelium.d
 
 if command -v module >/dev/null 2>&1; then
@@ -33,7 +33,7 @@ WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
-xrun -gui -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files
+xrun -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files
 
 # GENERIC_FLAGS=""
 # TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
