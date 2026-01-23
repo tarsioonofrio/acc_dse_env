@@ -1,6 +1,7 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 14:30:15 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 21:38:34 -03
 xrun
+	-gui
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
 	-f args.txt
@@ -21,8 +22,6 @@ xrun
 	/sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd
 	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd
-	-run
-	-exit
 file: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v
 	module work.AN2D0BWP30P140:v
 		errors: 0, warnings: 0
@@ -2400,12 +2399,33 @@ xmelab: *W,SDFSNF: Specified scope (tb.dut) not found, skipping annotation of co
 		Processes:    97      44
 		Signals:     140     110
 	Writing initial simulation snapshot: WORK.TB:A1
-Loading snapshot work.tb:a1 .................... Done
+xmsim: *W,NOMTDGUI: Multi-Threaded Dumping is disabled for interactive debug mode.
+
+-------------------------------------
+Relinquished control to SimVision...
+xcelium> 
 xcelium> source /soft64/cadence/ferramentas/XCELIUM2303/tools/xcelium/files/xmsimrc
-xcelium> database -open dut -shm
-Created SHM database dut
-xcelium> probe -create -database dut -depth all -hier /tb/dut
-xmsim: *E,UNKOPT: unrecognized option for the probe [-create] command (-hier).
+xcelium> ;# cria/define a pasta dut.shm como default
+xcelium> # database -open waves -shm -into dut.shm -default
+xcelium> database -open waves -evcd -into waves.evcd -default
+Created default EVCD database waves
+xcelium> 
+xcelium> ;# se você tem arrays grandes, isso evita "not probed" por limite
+xcelium> # antes do probe
+xcelium> set ::env(SHM_UNPACKED_LIMIT) 5000000
+5000000
+xcelium> 
+xcelium> 
+xcelium> ;# forma mais robusta: sonda tudo que for "top" (evita errar caminho /tb/dut)
+xcelium> # probe -create [scope -tops] -all -depth all
+xcelium> probe -create :tb -all -depth all
+xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+xmsim: *SE,PRNFND: No items are probed because no objects were found that match any specified name.
+xcelium> 
+xcelium> # run
+xcelium> # exit
+xcelium> database -open waves -into /sim/tarsio/acc_dse_env/synthesis/convolution/sim -default -event
+xmsim: *E,DBDUPL: Database name already exists (waves).
 xcelium> run
 ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:">"
 Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
@@ -2512,6 +2532,388 @@ ofmap_active_cycles=24300
 REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 end of simulation without error!
 Report at 609580 NS + 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:276         report "end of simulation without error!" severity failure;
-xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 14:30:25 -03  (total: 00:00:10)
+xcelium> ls
+args.txt
+convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X
+dut.shm
+rtl_split_synth_report.txt
+run.sh
+sdf_cmd.cmd
+sdf_log.log
+shm.tcl
+sim.tcl
+sim.txt
+wave.do
+waves.evcd
+xcelium.d
+xrun-helpall.txt
+xrun.history
+xrun.key
+xrun.log
+xcelium> ls -lh dut.shm
+total 0
+xcelium> ls dut.shm
+xcelium> reset
+Loaded snapshot work.tb:a1
+xcelium> database -open wave -into /sim/tarsio/acc_dse_env/synthesis/convolution/sim/dut.shm -default -event -statement
+xmsim: *W,DBSPE2: The database -statement option will have an adverse performance impact. The +linedebug command line option must be specified when probing statements.
+Created default SHM database wave
+xcelium> run
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:">"
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght read: 84
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght write: 0
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap read: 26123
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap write: 0
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap read: 5400
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap write: 8100
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of convolutions: 2700
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+total_cycles=60957
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+iwght_active_cycles=168
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ifmap_active_cycles=52256
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ofmap_active_cycles=24300
+REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+end of simulation without error!
+Report at 609580 NS + 0
+xcelium> run
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght read: 84
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght write: 0
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap read: 26123
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap write: 0
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap read: 5400
+ASSERT/WARNING (time 609590 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap write: 8100
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of convolutions: 2700
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+total_cycles=60957
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+iwght_active_cycles=168
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ifmap_active_cycles=52256
+REPORT/NOTE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ofmap_active_cycles=24300
+REPORT/FAILURE (time 609590 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+end of simulation without error!
+Report at 609590 NS + 0
+xcelium> reset
+Loaded snapshot work.tb:a1
+xcelium> probe -create -shm :dut:add :dut:adder_mux :dut:address_base :dut:bias_x :dut:buffer_features :dut:CARRY_SIZE :dut:ce_control :dut:ce_flag :dut:change_line :dut:change_line_reg :dut:channel_control :dut:channel_control_reg :dut:clock :dut:cont_conv :dut:cont_conv_plus1 :dut:cont_debug :dut:cont_iterations :dut:cont_steps :dut:cont_total_valid :dut:cont_valid :dut:cont_weight_cycles :dut:control_iteration_flag :dut:conv_length :dut:CONVS_PER_LINE :dut:debug :dut:debug_reg :dut:EA_add :dut:EA_read :dut:en_reg :dut:en_reg_flag :dut:end_conv :dut:end_conv_reg :dut:end_conv_signal :dut:features :dut:FILTER_WIDTH :dut:H :dut:ifmap_address :dut:ifmap_ce :dut:ifmap_valid :dut:ifmap_value :dut:in_ce :dut:INPUT_SIZE :dut:iwght_address :dut:iwght_address_reg :dut:iwght_ce :dut:iwght_ce_reg :dut:iwght_valid :dut:iwght_value :dut:MEM_SIZE :dut:N_CHANNEL :dut:N_FILTER :dut:ofmap_address :dut:ofmap_address_reg :dut:ofmap_ce :dut:ofmap_ce_reg :dut:ofmap_in :dut:ofmap_out :dut:ofmap_out_reg :dut:ofmap_valid :dut:ofmap_we :dut:ofmap_we_reg :dut:op1 :dut:op2 :dut:partial0 :dut:partial1 :dut:partial2 :dut:partial_add :dut:partial_add_reg :dut:partial_base :dut:partial_ce :dut:partial_control :dut:partial_valid_flag :dut:partial_wr :dut:pipe_reset :dut:read_bias :dut:read_bias_flag :dut:read_weight_flag :dut:read_weights :dut:reg_bias_value :dut:reg_mac :dut:reg_read_bias :dut:reg_read_weights :dut:reg_reg_bias_value :dut:reg_reg_start_mac :dut:reg_soma1 :dut:reg_soma2 :dut:reg_soma3 :dut:reg_start_mac :dut:res_mac :dut:reset :dut:SHIFT :dut:shift_output :dut:start_conv :dut:start_mac :dut:STRIDE :dut:update_add_base :dut:V :dut:valid_signal :dut:valid_sync_signal :dut:valid_sync_signal_reg :dut:weight :dut:weight_control :dut:weight_x :dut:X_SIZE
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+xmsim: *W,PRNALL: Invalid statement trace command to database.
+Created probe 1
+xcelium> run
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:">"
+Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
+Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght read: 84
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of iwght write: 0
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap read: 26123
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ifmap write: 0
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap read: 5400
+ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
+Built-in function CONV_INTEGER/TO_INTEGER argument too large.
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of ofmap write: 8100
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of convolutions: 2700
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+total_cycles=60957
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+iwght_active_cycles=168
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ifmap_active_cycles=52256
+REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ofmap_active_cycles=24300
+REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+end of simulation without error!
+Report at 609580 NS + 0
+xcelium> 

@@ -11,5 +11,5 @@ set ::env(SHM_UNPACKED_LIMIT) 5000000
 # probe -create [scope -tops] -all -depth all
 probe -create :tb -all -depth all
 
-run
-exit
+# run
+# exit
