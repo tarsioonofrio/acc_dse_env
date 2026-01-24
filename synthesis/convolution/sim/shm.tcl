@@ -7,6 +7,19 @@ database -open waves -shm -into dut.shm -default
 set ::env(SHM_UNPACKED_LIMIT) 5000000
 
 
+;# debug: probe candidate scope names for SDF
+run 0
+set fh [open "scope_test.log" "w"]
+set candidates [list ":dut" "dut" ":tb:dut" "tb.dut" ":tb" "tb" ":tb(a1):dut" "tb(a1).dut" ":tb:a1:dut" "tb.a1.dut"]
+foreach c $candidates {
+  if {[catch {scope $c} err]} {
+    puts $fh "SCOPE_FAIL $c :: $err"
+  } else {
+    puts $fh "SCOPE_OK $c :: [scope]"
+  }
+}
+close $fh
+
 ;# forma mais robusta: sonda tudo que for "top" (evita errar caminho /tb/dut)
 # probe -create [scope -tops] -all -depth all
 # probe -create :tb -all -depth all
