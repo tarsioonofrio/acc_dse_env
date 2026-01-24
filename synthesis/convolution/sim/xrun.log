@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 22, 2026 at 23:15:24 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 24, 2026 at 16:09:25 -03
 xrun
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
@@ -16,11 +16,13 @@ xrun
 	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
 	../logical/results/gate_level/convolution_logic_mapped.v
 	-v200x
+	-generic INPUT_SIZE=>8
+	-generic MEM_SIZE=>12
+	-generic CARRY_SIZE=>4
 	/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd
 	/sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd
-	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd
 file: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v
 	module work.AN2D0BWP30P140:v
 		errors: 0, warnings: 0
@@ -2341,20 +2343,26 @@ file: ../logical/results/gate_level/convolution_logic_mapped.v
 		errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd:
 	errors: 0, warnings: 0
-/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd:
-	errors: 0, warnings: 0
-/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd:
-	errors: 0, warnings: 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd:
-	errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd:
 	errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:
+	errors: 0, warnings: 0
+/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd:
+	errors: 0, warnings: 0
+/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd:
 	errors: 0, warnings: 0
 WORK.UTIL_PACKAGE (package):
 	streams: 2, words: 367
 WORK.UTIL_PACKAGE:BODY (package body):
 	streams: 2, words: 2419
+WORK.MEMORY (entity):
+	streams: 24, words: 3979
+WORK.MEMORY:A1 (architecture):
+	streams: 1, words: 2608
+WORK.TB (entity):
+	streams: 21, words: 2035
+WORK.TB:A1 (architecture):
+	streams: 4, words: 25586
 WORK.REG (entity):
 	streams: 9, words: 1849
 WORK.REG:A1 (architecture):
@@ -2363,40 +2371,156 @@ WORK.MAC (entity):
 	streams: 11, words: 3931
 WORK.MAC:A1 (architecture):
 	streams: 1, words: 1803
-WORK.CONVOLUTION (entity):
-	streams: 37, words: 7483
-WORK.CONVOLUTION:A1 (architecture):
-	streams: 9, words: 44074
-WORK.MEMORY (entity):
-	streams: 24, words: 3979
-WORK.MEMORY:A1 (architecture):
-	streams: 1, words: 2608
-WORK.TB (entity):
-	streams: 21, words: 2035
-WORK.TB:A1 (architecture):
-	streams: 5, words: 26032
 xmelab: *W,ARCMRA: Elaborating the WORK.TB:A1, MRA (most recently analyzed) architecture.
 	Elaborating the design hierarchy:
+xmelab: *W,CUDEFB: default binding occurred for component instance (:tb(a1):dut) with verilog module (work.convolution:v).
 	Top level design units:
 		:tb(a1):
 	Reading SDF file from location "../logical/results/gate_level/convolution_analysis_view_0p90v_25c_captyp_nominal.sdf"
-xmelab: *W,FLFNOF: No SDF file specified, but annotation parameters were present, in SDF annotation command file sdf_cmd.cmd, line 6.
 	Annotating SDF timing data:
 		Compiled SDF file:     convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X
 		Log file:              ./sdf_log.log
 		Backannotation scope:  tb.dut
 		Configuration file:    
-		MTM control:           
-		Scale factors:         
-		Scale type:            
+		MTM control:           MAXIMUM
+		Scale factors:         1:1:1
+		Scale type:            FROM_MAXIMUM
 xmelab: *W,SDFSNF: Specified scope (tb.dut) not found, skipping annotation of convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X.
 	Annotation completed with 0 Errors and 1 Warnings
+	SDF statistics: 
+		 No. of Pathdelays = 27702   	 No. of Disabled Pathdelays = 0        Annotated = 0.00% (0/27702) 
+		 No. of Tchecks    = 10199   	 No. of Disabled Tchecks    = 0        Annotated = 0.00% (0/10199) 
+	Building instance overlay tables: .................... Done
+	Generating native compiled code:
+		work.AOI21D1BWP30P140:v <0x68cbca58>
+			streams:   0, words:     0
+		work.XOR3UD0BWP30P140:v <0x52ce513b>
+			streams:   0, words:     0
+		work.XOR3UD0BWP30P140:v <0x75eb9da7>
+			streams:   0, words:     0
+		work.MAOI222D0BWP30P140:v <0x4937e349>
+			streams:   0, words:     0
+		work.DFCND1BWP30P140:v <0x6c958e3f>
+			streams:   0, words:     0
+		work.EDFCND1BWP30P140:v <0x584a0c11>
+			streams:   0, words:     0
+		work.EDFCND1BWP30P140:v <0x2e4b1064>
+			streams:   0, words:     0
+		work.EDFCND1BWP30P140:v <0x2bb6cfbe>
+			streams:   0, words:     0
+		work.DFCND1BWP30P140:v <0x2e888524>
+			streams:   0, words:     0
+		work.OAI22D0P7BWP30P140:v <0x01be46df>
+			streams:   0, words:     0
+		work.IAO21D1BWP30P140:v <0x3f901763>
+			streams:   0, words:     0
+		work.AO21D0BWP30P140:v <0x65288f84>
+			streams:   0, words:     0
+		work.MUX2ND0BWP30P140:v <0x6baa9a3c>
+			streams:   0, words:     0
+		work.AOI31D0BWP30P140:v <0x052cc76c>
+			streams:   0, words:     0
+		work.AOI221D0BWP30P140:v <0x3e9d4d5d>
+			streams:   0, words:     0
+		work.OAI221D0BWP30P140:v <0x6a24ceb6>
+			streams:   0, words:     0
+		work.AOI21D0P7BWP30P140:v <0x2a1222c3>
+			streams:   0, words:     0
+		work.OA211D0BWP30P140:v <0x1d8bdfae>
+			streams:   0, words:     0
+		work.HA1D0BWP30P140:v <0x0c6c7c91>
+			streams:   0, words:     0
+		work.XOR2UD0BWP30P140:v <0x71fc934d>
+			streams:   0, words:     0
+		work.EDFCNQD1BWP30P140:v <0x0387f936>
+			streams:   0, words:     0
+		work.EDFCNQD1BWP30P140:v <0x35dfaa5e>
+			streams:   0, words:     0
+		work.MOAI22D0BWP30P140:v <0x642fbb60>
+			streams:   0, words:     0
+		work.AOI31D0BWP30P140:v <0x3b8985d3>
+			streams:   0, words:     0
+		work.OAI211D0BWP30P140:v <0x037df09f>
+			streams:   0, words:     0
+		work.CKMUX2D0BWP30P140:v <0x0551f2be>
+			streams:   0, words:     0
+		work.OAI31D0BWP30P140:v <0x1de86c4c>
+			streams:   0, words:     0
+		work.OAI211D0BWP30P140:v <0x6410aeb3>
+			streams:   0, words:     0
+		work.IAO21D1BWP30P140:v <0x037941c9>
+			streams:   0, words:     0
+		work.OA21D0BWP30P140:v <0x6862b7cb>
+			streams:   0, words:     0
+		work.AO211D0BWP30P140:v <0x1ad4aad4>
+			streams:   0, words:     0
+		work.AO22D0BWP30P140:v <0x44eaacfc>
+			streams:   0, words:     0
+		work.OAI21D0BWP30P140:v <0x5ef66557>
+			streams:   0, words:     0
+		work.IOA21D1BWP30P140:v <0x7d111de1>
+			streams:   0, words:     0
+		work.DFCNQD1BWP30P140:v <0x4d78df70>
+			streams:   0, words:     0
+		work.DFCNQD1BWP30P140:v <0x2517c0a5>
+			streams:   0, words:     0
+		work.MOAI22D0BWP30P140:v <0x430a77fc>
+			streams:   0, words:     0
+		work.HA1D0BWP30P140:v <0x0be060f0>
+			streams:   0, words:     0
+		work.IOA21D1BWP30P140:v <0x41f84b4b>
+			streams:   0, words:     0
+		work.XNR2UD0BWP30P140:v <0x31e915fe>
+			streams:   0, words:     0
+		work.OAI31D0BWP30P140:v <0x234d2ef3>
+			streams:   0, words:     0
+		work.MAOI22D0BWP30P140:v <0x79486860>
+			streams:   0, words:     0
+		work.AOI22D0P7BWP30P140:v <0x6bfe02a2>
+			streams:   0, words:     0
+		work.OAI22D0P7BWP30P140:v <0x269b8a43>
+			streams:   0, words:     0
+		work.AO22D0BWP30P140:v <0x63cf6060>
+			streams:   0, words:     0
+		work.XOR2UD0BWP30P140:v <0x76708f2c>
+			streams:   0, words:     0
+		work.AOI21D0P7BWP30P140:v <0x16fb7469>
+			streams:   0, words:     0
+		work.HA1D0BWP30P140:v <0x25f258f4>
+			streams:   0, words:     0
+		work.OAI21D0BWP30P140:v <0x621f33fd>
+			streams:   0, words:     0
+		work.AO21D0BWP30P140:v <0x59c1d92e>
+			streams:   0, words:     0
+		work.XNR2UD0BWP30P140:v <0x3665099f>
+			streams:   0, words:     0
+		work.FA1D0BWP30P140:v <0x12131af8>
+			streams:   0, words:     0
+		work.FA1D0BWP30P140:v <0x558ab98b>
+			streams:   0, words:     0
+		work.CKLNQD1BWP30P140:v <0x3c173de4>
+			streams:   0, words:     0
+		work.convolution:v <0x5186a457>
+			streams:   1, words:  2869
 	Building instance specific data structures.
+	Loading native compiled code:     .................... Done
 	Design hierarchy summary:
-		       Instances  Unique
-		Components:   24       5
-		Processes:    97      44
-		Signals:     140     110
+		                   Instances  Unique
+	VHDL Design hierarchy:
+		Components:                5       2
+		Default bindings:          2       -
+		Processes:                32      12
+		Signals:                  47      33
+	Verilog Design hierarchy:
+		Modules:                3333     113
+		UDPs:                   9325       4
+		Primitives:            18046       6
+		Timing outputs:         4048     101
+		Registers:               839       7
+		Scalar wires:           6046       -
+		Pseudo assignments:        1       -
+		Timing checks:         12035       -
+		Simulation timescale:    1ps
 	Writing initial simulation snapshot: WORK.TB:A1
 Loading snapshot work.tb:a1 .................... Done
 xcelium> source /soft64/cadence/ferramentas/XCELIUM2303/tools/xcelium/files/xmsimrc
@@ -2417,120 +2541,29 @@ xcelium> # probe -create :tb -all -depth all
 xcelium> probe -create -database waves : -all -depth all
 xmsim: *W,PRUASZ: Unpacked array at ":gold" of 4000001 elements exceeds limit of 16384 - not probed
  Use 'probe -create -unpacked 4000001 :gold' or 'setenv SHM_UNPACKED_LIMIT 4000001' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":IWGHT:mem" of 2097184 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2097184 :IWGHT:mem' or 'setenv SHM_UNPACKED_LIMIT 2097184' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":IFMAP:mem" of 2097184 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2097184 :IFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2097184' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":OFMAP:mem" of 2359332 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2359332 :OFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2359332' to adjust limit.
+xmsim: *W,PRUASZ: Unpacked array at ":IWGHT:mem" of 65552 elements exceeds limit of 16384 - not probed
+ Use 'probe -create -unpacked 65552 :IWGHT:mem' or 'setenv SHM_UNPACKED_LIMIT 65552' to adjust limit.
+xmsim: *W,PRUASZ: Unpacked array at ":IFMAP:mem" of 65552 elements exceeds limit of 16384 - not probed
+ Use 'probe -create -unpacked 65552 :IFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 65552' to adjust limit.
+xmsim: *W,PRUASZ: Unpacked array at ":OFMAP:mem" of 81940 elements exceeds limit of 16384 - not probed
+ Use 'probe -create -unpacked 81940 :OFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 81940' to adjust limit.
+xmsim: *W,PRHOPT: The design contains optimized signals. To improve simulation performance these signals are excluded.
 Created probe 1
 xcelium> 
 xcelium> run
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:">"
-Built-in relational argument contains a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"*"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 0 FS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from function @ieee.std_logic_signed:"+"
-Built-in function result set to 'X' due to a ('U', 'X', 'W', 'Z', '-') in an operand.
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of iwght read: 84
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of iwght write: 0
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ifmap read: 26123
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ifmap write: 0
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ofmap read: 5400
-ASSERT/WARNING (time 609580 NS) from package ieee.STD_LOGIC_ARITH, this builtin function called  from process :$PROCESS_003 (architecture work.tb:a1)
-Built-in function CONV_INTEGER/TO_INTEGER argument too large.
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of ofmap write: 8100
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-number of convolutions: 2700
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-total_cycles=60957
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-iwght_active_cycles=168
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-ifmap_active_cycles=52256
-REPORT/NOTE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-ofmap_active_cycles=24300
-REPORT/FAILURE (time 609580 NS) from process :$PROCESS_003 (architecture work.tb:a1)
-end of simulation without error!
-Report at 609580 NS + 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:276         report "end of simulation without error!" severity failure;
+REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+end of simulation with error!
+REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+number of convolutions executed: 0
+REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+idx: 0
+REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+expected value: 0
+REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+obtained value: 30
+ASSERT/FAILURE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+Assertion violation.
+Assertion at 37530 NS + 0
+/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:246           assert false severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 22, 2026 at 23:15:36 -03  (total: 00:00:12)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 24, 2026 at 16:09:37 -03  (total: 00:00:12)

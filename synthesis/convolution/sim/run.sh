@@ -26,6 +26,9 @@ while IFS= read -r line; do
   files="$files$GIT_ROOT/$line "
 done < ../list-file.txt
 
+# Ajusta generics do TB para bater com o netlist gate-level.
+GENERIC_FLAGS="-generic INPUT_SIZE=>8 -generic MEM_SIZE=>12 -generic CARRY_SIZE=>4"
+
 # Monta generics VHDL a partir do generic_file.txt (somente os do tb)
 # # Chamada do xrun (mantendo args.txt como no histórico)
 # Script TCL hardcoded para criar SHM (compatível com versões sem -shm direto)
@@ -33,7 +36,7 @@ WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
-xrun -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $files
+xrun -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files
 
 # GENERIC_FLAGS=""
 # TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")

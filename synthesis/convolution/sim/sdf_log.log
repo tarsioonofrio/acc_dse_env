@@ -5,9 +5,9 @@ Annotating SDF timing data:
   Log file:              ./sdf_log.log
   Backannotation scope:  tb.dut
   Configuration file:    
-  MTM control:           
-  Scale factors:         
-  Scale type:            
+  MTM control:           MAXIMUM
+  Scale factors:         1:1:1
+  Scale type:            FROM_MAXIMUM
 
 Time units: 1ps
 
