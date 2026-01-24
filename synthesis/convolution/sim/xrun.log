@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 24, 2026 at 16:09:25 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 24, 2026 at 17:14:58 -03
 xrun
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
@@ -2380,12 +2380,12 @@ xmelab: *W,CUDEFB: default binding occurred for component instance (:tb(a1):dut)
 	Annotating SDF timing data:
 		Compiled SDF file:     convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X
 		Log file:              ./sdf_log.log
-		Backannotation scope:  tb.dut
+		Backannotation scope:  :tb(a1):dut
 		Configuration file:    
 		MTM control:           MAXIMUM
 		Scale factors:         1:1:1
 		Scale type:            FROM_MAXIMUM
-xmelab: *W,SDFSNF: Specified scope (tb.dut) not found, skipping annotation of convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X.
+xmelab: *W,SDFSNF: Specified scope (:tb(a1):dut) not found, skipping annotation of convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X.
 	Annotation completed with 0 Errors and 1 Warnings
 	SDF statistics: 
 		 No. of Pathdelays = 27702   	 No. of Disabled Pathdelays = 0        Annotated = 0.00% (0/27702) 
@@ -2566,4 +2566,4 @@ Assertion violation.
 Assertion at 37530 NS + 0
 /sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:246           assert false severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 24, 2026 at 16:09:37 -03  (total: 00:00:12)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 24, 2026 at 17:15:10 -03  (total: 00:00:12)

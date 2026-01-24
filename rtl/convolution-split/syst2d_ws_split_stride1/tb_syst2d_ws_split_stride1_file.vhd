@@ -61,6 +61,33 @@ architecture a1 of tb is
   --signal gold : type_array_int := read_data(PATH & "/s.txt");
   --signal gold : type_array_int := read_data(PATH & "/gold.txt");
 
+  -- Bind directly to the gate-level Verilog module "convolution".
+  component convolution is
+    port (clock : in std_logic;
+          reset : in std_logic;
+          start_conv : in std_logic;
+          end_conv   : out std_logic;
+          debug      : out std_logic;
+
+          iwght_valid   : in  std_logic;
+          iwght_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+          iwght_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+          iwght_ce      : out std_logic;
+
+          ifmap_valid   : in  std_logic;
+          ifmap_value   : in  std_logic_vector((INPUT_SIZE*2)-1 downto 0);
+          ifmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+          ifmap_ce      : out std_logic;
+
+          ofmap_valid   : in  std_logic;
+          ofmap_in      : in  std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+          ofmap_out     : out std_logic_vector(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto 0);
+          ofmap_address : out std_logic_vector(MEM_SIZE-1 downto 0);
+          ofmap_we      : out std_logic;
+          ofmap_ce      : out std_logic
+          );
+  end component;
+
 begin
 
   IWGHT : entity work.memory
@@ -125,18 +152,7 @@ begin
       n_write  => ofmap_n_write
       );
 
-  dut : entity work.convolution
-    generic map(
-      N_FILTER       => N_FILTER,
-      N_CHANNEL      => N_CHANNEL,
-      X_SIZE         => X_SIZE,
-      FILTER_WIDTH   => FILTER_WIDTH,
-      CONVS_PER_LINE => CONVS_PER_LINE,
-      MEM_SIZE       => MEM_SIZE,
-      INPUT_SIZE     => INPUT_SIZE,
-      SHIFT          => SHIFT,
-      CARRY_SIZE     => CARRY_SIZE
-      )
+  dut : convolution
     port map(
       clock         => clock,
       reset         => reset,
