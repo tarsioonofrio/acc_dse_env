@@ -53,3 +53,4 @@ vsim -voptargs=+acc=lprn -t ps work.tb
 do wave.do
 
 run -all
+quit

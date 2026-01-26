@@ -55,8 +55,7 @@ architecture a1 of tb is
 
   signal iwght_n_read, iwght_n_write, ifmap_n_read, ifmap_n_write, ofmap_n_read, ofmap_n_write : std_logic_vector(31 downto 0);
 
-  file sim_file : text open write_mode is "sim.txt";
-  file sim_report : text open write_mode is "rtl_split_synth_report.txt";
+  file sim_report : text open write_mode is "sim.txt";
   signal gold : type_array_int := read_data(PATH & "/s_default_quant.txt");
   --signal gold : type_array_int := read_data(PATH & "/s.txt");
   --signal gold : type_array_int := read_data(PATH & "/gold.txt");
@@ -242,31 +241,14 @@ begin
         report "number of convolutions: " & integer'image(cont_conv);
 
         elapsed := now - sim_start;
-        write(out_line, string'("runtime="));
-        write(out_line, elapsed);
-        writeline(sim_file, out_line);
 
-        write(out_line, string'("total_cycles="));
-        write(out_line, integer'image(total_cycles));
-        writeline(sim_file, out_line);
-
-        write(out_line, string'("total_cycles: "));
+        write(out_line, string'("Total cycles: "));
         write(out_line, total_cycles);
-        write(out_line, string'(", exec_time: "));
-        write(out_line, elapsed);
         writeline(sim_report, out_line);
 
-        write(out_line, string'("iwght_active_cycles="));
-        write(out_line, integer'image(iwght_active_cycles));
-        writeline(sim_file, out_line);
-
-        write(out_line, string'("ifmap_active_cycles="));
-        write(out_line, integer'image(ifmap_active_cycles));
-        writeline(sim_file, out_line);
-
-        write(out_line, string'("ofmap_active_cycles="));
-        write(out_line, integer'image(ofmap_active_cycles));
-        writeline(sim_file, out_line);
+        write(out_line, string'("Total execution time: "));
+        write(out_line, integer'image(integer(elapsed / 1 ns)));
+        writeline(sim_report, out_line);
 
         report "iwght_active_cycles=" & integer'image(iwght_active_cycles);
         report "ifmap_active_cycles=" & integer'image(ifmap_active_cycles);
