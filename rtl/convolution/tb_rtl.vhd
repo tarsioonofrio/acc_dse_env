@@ -17,7 +17,7 @@ entity tb is
         INPUT_SIZE  : integer := 8 ;
         CARRY_SIZE : integer := 4 ;
         SHIFT : integer := 8;
-        LAT : integer := 2
+        LAT : integer := 1
     );
 end tb;
 
@@ -34,7 +34,7 @@ architecture a1 of tb is
   begin
 
    INMEM: entity work.memory
-       generic map( ROM => "yes", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT)
+       generic map( ROM => "yes", INPUT_SIZE => INPUT_SIZE*2, ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => 1)
        port map(
      clock=>clock,
      reset=>reset,
@@ -50,7 +50,7 @@ architecture a1 of tb is
      );
 
    OFMAPMEM: entity work.memory
-       generic map( ROM => "no", INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE), ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => LAT )
+       generic map( ROM => "no", INPUT_SIZE => ((INPUT_SIZE*2)+CARRY_SIZE), ADDRESS_SIZE => MEM_SIZE, DATA_AV_LATENCY => 1 )
        port map(
      clock=>clock,
      reset=>reset,

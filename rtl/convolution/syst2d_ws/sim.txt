@@ -1,1 +1,1 @@
-runtime=14073 ns
+runtime=9634 ns

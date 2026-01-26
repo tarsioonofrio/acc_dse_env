@@ -1,1 +1,1 @@
-total_cycles: 60957, exec_time: 609560 ns
+total_cycles: 34857, exec_time: 348560 ns

@@ -12,7 +12,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    LAT            : integer := 1;
+    LAT            : integer := 0;
     ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
     CONVS_PER_LINE : integer := 30;
@@ -268,10 +268,10 @@ begin
         write(out_line, integer'image(ofmap_active_cycles));
         writeline(sim_file, out_line);
 
-        report "total_cycles=" & integer'image(total_cycles);
         report "iwght_active_cycles=" & integer'image(iwght_active_cycles);
         report "ifmap_active_cycles=" & integer'image(ifmap_active_cycles);
         report "ofmap_active_cycles=" & integer'image(ofmap_active_cycles);
+        report "total_cycles=" & integer'image(total_cycles);
 
         report "end of simulation without error!" severity failure;
       end if;
