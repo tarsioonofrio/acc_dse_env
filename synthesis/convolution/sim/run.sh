@@ -16,7 +16,7 @@ if [[ -z "$GIT_ROOT" ]]; then
 fi
 
 # Testbench e pack conforme usado no histórico
-TB=${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
+TB=${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file_synth.vhd
 
 GATE=../logical/results/gate_level/convolution_logic_mapped.v
 

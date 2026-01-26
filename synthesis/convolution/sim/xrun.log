@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Jan 24, 2026 at 18:03:36 -03
+TOOL:	xrun(64)	23.03-s003: Started on Jan 26, 2026 at 13:59:23 -03
 xrun
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
@@ -13,15 +13,15 @@ xrun
 		-timescale 1ns/1ps
 		/pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v
 	-sv
-	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
+	/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file_synth.vhd
 	../logical/results/gate_level/convolution_logic_mapped.v
 	-v200x
 	-generic INPUT_SIZE=>8
 	-generic MEM_SIZE=>12
 	-generic CARRY_SIZE=>4
+	/sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/mac/mac.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd
-	/sim/tarsio/acc_dse_env/rtl/core/util_pkg.vhd
 	/sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd
 file: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v
 	module work.AN2D0BWP30P140:v
@@ -2345,7 +2345,7 @@ file: ../logical/results/gate_level/convolution_logic_mapped.v
 	errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/components/mem_file/mem_file.vhd:
 	errors: 0, warnings: 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:
+/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file_synth.vhd:
 	errors: 0, warnings: 0
 /sim/tarsio/acc_dse_env/rtl/components/reg/reg.vhd:
 	errors: 0, warnings: 0
@@ -2360,9 +2360,9 @@ WORK.MEMORY (entity):
 WORK.MEMORY:A1 (architecture):
 	streams: 1, words: 2608
 WORK.TB (entity):
-	streams: 21, words: 2035
+	streams: 21, words: 2029
 WORK.TB:A1 (architecture):
-	streams: 4, words: 25586
+	streams: 4, words: 25186
 WORK.REG (entity):
 	streams: 9, words: 1849
 WORK.REG:A1 (architecture):
@@ -2377,6 +2377,9 @@ xmelab: *W,CUDEFB: default binding occurred for component instance (:tb(a1):dut)
 	Top level design units:
 		:tb(a1):
 	Reading SDF file from location "../logical/results/gate_level/convolution_analysis_view_0p90v_25c_captyp_nominal.sdf"
+	Compiled SDF file "convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X" older than source SDF file "../logical/results/gate_level/convolution_analysis_view_0p90v_25c_captyp_nominal.sdf".
+	Recompiling.
+	Writing compiled SDF file to "convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X".
 	Annotating SDF timing data:
 		Compiled SDF file:     convolution_analysis_view_0p90v_25c_captyp_nominal.sdf.X
 		Log file:              ./sdf_log.log
@@ -3098,101 +3101,101 @@ xcelium>
 xcelium> run
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 205114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 125114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[0] 
-            Time: 205102 PS
+            Time: 125102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 18475114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 10595114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[2] 
-            Time: 18475102 PS
+            Time: 10595102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 18475114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 10595114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[4] 
-            Time: 18475102 PS
+            Time: 10595102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 18555111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 10635111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[9] 
-            Time: 18555108 PS
+            Time: 10635108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[3] 
-            Time: 36825102 PS
+            Time: 21105102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[4] 
-            Time: 36825102 PS
+            Time: 21105102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825114 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105114 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[7] 
-            Time: 36825102 PS
+            Time: 21105102 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[9] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[10] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[11] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[12] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[13] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[14] 
-            Time: 36825108 PS
+            Time: 21105108 PS
 
 Warning!  Glitch suppression
-           Scheduled event for delayed signal of net "D" at time 36825111 PS was canceled!
+           Scheduled event for delayed signal of net "D" at time 21105111 PS was canceled!
             File: /pdk/tsmc/PDK28/PDK_TSMC28_bv/tcbn28hpcplusbwp30p140_190a/TSMCHOME/digital/Front_End/verilog/tcbn28hpcplusbwp30p140_110a/tcbn28hpcplusbwp30p140.v, line = 6576
            Scope: :DUT.\reg_bias_value_reg[15] 
-            Time: 36825108 PS
-REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+            Time: 21105108 PS
+REPORT/NOTE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 end of simulation with error!
-REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 number of convolutions executed: 0
-REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 idx: 0
-REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 expected value: 0
-REPORT/NOTE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 obtained value: 30
-ASSERT/FAILURE (time 37530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+ASSERT/FAILURE (time 21530 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 Assertion violation.
-Assertion at 37530 NS + 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd:246           assert false severity failure;
+Assertion at 21530 NS + 0
+/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file_synth.vhd:245           assert false severity failure;
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Jan 24, 2026 at 18:03:49 -03  (total: 00:00:13)
+TOOL:	xrun(64)	23.03-s003: Exiting on Jan 26, 2026 at 13:59:34 -03  (total: 00:00:11)
