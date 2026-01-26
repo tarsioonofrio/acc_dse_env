@@ -2,4 +2,3 @@ rtl/components/mac/mac.vhd
 rtl/components/reg/reg.vhd
 rtl/core/util_pkg.vhd
 rtl/components/mem_file/mem_file.vhd
-rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd

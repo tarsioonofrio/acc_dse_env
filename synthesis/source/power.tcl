@@ -1,4 +1,7 @@
 
+# read_mmmc "${GIT_ROOT}/synthesis/source/scripts/mmmc_tsmc_28_bv.tcl"
+
+
 # set DB_FILE ./results/gate_level/conv_logic_mapped.db
 set START_TIME 0ns
 set CONSTRAINTS_PATH ${GIT_ROOT}/synthesis/source/scripts

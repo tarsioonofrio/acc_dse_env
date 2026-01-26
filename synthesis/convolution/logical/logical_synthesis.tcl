@@ -49,4 +49,6 @@ if {[file exists $defines_file]} {
     close $fp_def
 }
 
+append HDL_FILES "${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd"
+
 source ${GIT_ROOT}/synthesis/source/logical_synthesis.tcl

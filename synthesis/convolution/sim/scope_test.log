@@ -1,0 +1,19 @@
+SCOPE_OK :dut :: :dut
+SCOPE_FAIL dut :: xmsim: *SE,PNOOBJ: Path element could not be found: dut.
+
+SCOPE_FAIL :tb:dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL tb.dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL :tb :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL tb :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL :tb(a1):dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb(a1).
+
+SCOPE_FAIL tb(a1).dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL :tb:a1:dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+
+SCOPE_FAIL tb.a1.dut :: xmsim: *SE,PNOOBJ: Path element could not be found: tb.
+

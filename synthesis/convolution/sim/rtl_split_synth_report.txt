@@ -1,1 +1,0 @@
-total_cycles: 60957, exec_time: 609560 ns
