@@ -31,16 +31,18 @@ set file_list "list-file.txt"
 set fp [open $file_list r]
 while {[gets $fp line] >= 0} {
     if {[string trim $line] ne ""} {
-        vcom -work work $define_flags ${GIT_ROOT}/$line
+        # vcom -work work $define_flags ${GIT_ROOT}/$line
+        vcom -work work ${GIT_ROOT}/$line
     }
 }
 close $fp
 
-vcom -work work $define_flags ${GIT_ROOT}/tb/tb_rtl_split.vhd
+vcom -work work ${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd
+vcom -work work ${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file.vhd
 
 # to show FSM
 # vsim -voptargs=+acc -t ns -fsmdebug -coverage -debugDB work.tb
-vsim -voptargs=+acc -t ns work.tb  -f ${GIT_ROOT}/experiments/rtl_output/default_s1/default/layer/0/generic_file.txt
+vsim -voptargs=+acc -t ns work.tb
 set StdArithNoWarnings 1
 set StdVitalGlitchNoWarnings 1
 do wave.do
@@ -52,5 +54,7 @@ do wave.do
 # one line
 # run 7000ns
 run -all
+quit
+
 
 # coverage report -output report.txt -srcfile=* -assert -directive -cvg -codeAll
