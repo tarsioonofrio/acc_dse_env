@@ -27,7 +27,7 @@ while IFS= read -r line; do
 done < ../list-file.txt
 
 # Ajusta generics do TB para bater com o netlist gate-level.
-GENERIC_FLAGS="-generic INPUT_SIZE=>8 -generic MEM_SIZE=>12 -generic CARRY_SIZE=>4"
+GENERIC_FLAGS="-generic INPUT_SIZE=>10 -generic MEM_SIZE=>16 -generic CARRY_SIZE=>4"
 
 # Monta generics VHDL a partir do generic_file.txt (somente os do tb)
 # # Chamada do xrun (mantendo args.txt como no histórico)

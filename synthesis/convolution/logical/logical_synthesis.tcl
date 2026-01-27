@@ -24,30 +24,30 @@ if { [file exists $file_list_path] } {
     close $fp
 }
 
-set defines_file "experiments/rtl_output/default/default/layer/0/generic_file.txt"
+# set defines_file "experiments/rtl_output/default/default/layer/0/generic_file.txt"
 set DEFINE_FLAGS ""
 
-if {[file exists $defines_file]} {
-    set fp_def [open $defines_file r]
-    while {[gets $fp_def line] >= 0} {
-        set line_trim [string trim $line]
-        if {$line_trim ne ""} {
-            # split the line into tokens (whitespace separated) and process each token
-            set tokens [split $line_trim]
-            foreach tok $tokens {
-                # remove leading "-g" if present
-                if {[string match "-g*" $tok]} {
-                    set tok [string range $tok 2 end]
-                }
-                # only keep tokens that look like key=value
-                if {$tok ne "" && [string first "=" $tok] >= 0} {
-                    append DEFINE_FLAGS " $tok"
-                }
-            }
-        }
-    }
-    close $fp_def
-}
+# if {[file exists $defines_file]} {
+#     set fp_def [open $defines_file r]
+#     while {[gets $fp_def line] >= 0} {
+#         set line_trim [string trim $line]
+#         if {$line_trim ne ""} {
+#             # split the line into tokens (whitespace separated) and process each token
+#             set tokens [split $line_trim]
+#             foreach tok $tokens {
+#                 # remove leading "-g" if present
+#                 if {[string match "-g*" $tok]} {
+#                     set tok [string range $tok 2 end]
+#                 }
+#                 # only keep tokens that look like key=value
+#                 if {$tok ne "" && [string first "=" $tok] >= 0} {
+#                     append DEFINE_FLAGS " $tok"
+#                 }
+#             }
+#         }
+#     }
+#     close $fp_def
+# }
 
 append HDL_FILES "${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/syst2d_ws_split_stride1.vhd"
 

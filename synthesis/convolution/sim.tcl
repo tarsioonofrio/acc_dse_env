@@ -12,20 +12,20 @@ set GIT_ROOT [exec git rev-parse --show-toplevel]
 # vlog -work work  -svinputport=relaxed $DATA_SV
 
 # Read key=value defines from define.txt and build the +define+key=value flags
-set defines_file "../list-def.txt"
+# set defines_file "../list-def.txt"
 set define_flags ""
 
-if {[file exists $defines_file]} {
-    set fp_def [open $defines_file r]
-    while {[gets $fp_def line] >= 0} {
-        set line_trim [string trim $line]
-        set line_trim [string range $line_trim 8 end]
-        if { $line_trim ne "" && [string first "=" $line_trim] > 0 } {
-            set define_flags "$define_flags+define+$line_trim "
-        }
-    }
-    close $fp_def
-}
+# if {[file exists $defines_file]} {
+#     set fp_def [open $defines_file r]
+#     while {[gets $fp_def line] >= 0} {
+#         set line_trim [string trim $line]
+#         set line_trim [string range $line_trim 8 end]
+#         if { $line_trim ne "" && [string first "=" $line_trim] > 0 } {
+#             set define_flags "$define_flags+define+$line_trim "
+#         }
+#     }
+#     close $fp_def
+# }
 
 set file_list "list-file.txt"
 set fp [open $file_list r]
