@@ -19,7 +19,7 @@ entity tb is
     DATAFLOW_TYPE  : string := "ws";
     DEVICE         : string := "7SERIES";
     FILTER_WIDTH   : integer := 3;
-    INPUT_SIZE     : integer := 16;
+    INPUT_SIZE     : integer := 20;
     LAYER          : integer := 0;
     MAX_MEM_SIZE   : integer := 36;
     MEM_SIZE       : integer := 16;
