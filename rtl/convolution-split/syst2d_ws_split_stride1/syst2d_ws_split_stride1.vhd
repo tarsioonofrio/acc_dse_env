@@ -14,8 +14,8 @@ entity convolution is
            X_SIZE         : integer := 32;
            FILTER_WIDTH   : integer := 3;
            CONVS_PER_LINE : integer := 15;
-           MEM_SIZE       : integer := 12;
-           INPUT_SIZE     : integer := 8;
+           MEM_SIZE       : integer := 16;
+           INPUT_SIZE     : integer := 10;
            SHIFT          : integer := 4;
            CARRY_SIZE     : integer := 4
            );
