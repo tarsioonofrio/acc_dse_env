@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------------------------
--- CONVOLUTION - SYSTOLIC   -  JAN/2021 - MORAES 
+-- CONVOLUTION - SYSTOLIC   -  JAN/2021 - MORAES
 -- MODIFIED IN MARCH 8 2021 - COMBINATIONAL MAC
 -------------------------------------------------------------------------------------------------
 library ieee;
@@ -8,14 +8,15 @@ use ieee.std_logic_signed.all;
 use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
 
 entity convolution is
-  generic (N_FILTER       : integer := 16;
+  generic (
+           INPUT_SIZE     : integer := 16;
+           N_FILTER       : integer := 16;
            N_CHANNEL      : integer := 3;
            STRIDE         : integer := 2;
            X_SIZE         : integer := 32;
            FILTER_WIDTH   : integer := 3;
            CONVS_PER_LINE : integer := 15;
            MEM_SIZE       : integer := 16;
-           INPUT_SIZE     : integer := 10;
            SHIFT          : integer := 4;
            CARRY_SIZE     : integer := 4
            );
@@ -425,10 +426,10 @@ begin
 
           --
           -- NEXT LINE
-          --  
+          --
           if (H+1) >= X_SIZE then
             H <= 0;
-            V <= V+1*X_SIZE; 
+            V <= V+1*X_SIZE;
           else
             H <= H+1;
           end if;
@@ -458,7 +459,7 @@ begin
         when E1 => buffer_features(1) <= ifmap_value(INPUT_SIZE-1 downto 0);
         when E2 => buffer_features(2) <= ifmap_value(INPUT_SIZE-1 downto 0);
         --when E3 => buffer_features(1, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
-        --when E4 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  -- signalize to store in regs  
+        --when E4 => buffer_features(2, 0) <= ifmap_value(INPUT_SIZE-1 downto 0);  -- signalize to store in regs
         --when E5 => buffer_features(2, 1) <= ifmap_value(INPUT_SIZE-1 downto 0);
 
         when others => null;
@@ -606,7 +607,7 @@ begin
 
   ------------------------------------------------------------------------------------
   -- Number of convolutions control
-  ------------------------------------------------------------------------------------  
+  ------------------------------------------------------------------------------------
   process(reset, clock)
   begin
     if reset = '1' then
@@ -631,7 +632,7 @@ begin
 
   ------------------------------------------------------------------------------------
   -- Ofmap memory read and wright control
-  ------------------------------------------------------------------------------------  
+  ------------------------------------------------------------------------------------
   process(reset, clock)
   begin
     if reset = '1' then
@@ -732,7 +733,7 @@ begin
   -- Shift
   shift_output(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto (INPUT_SIZE*2)-(SHIFT-CARRY_SIZE)) <= (others => '0');
 
-  -- ReLU 
+  -- ReLU
   shift_output((INPUT_SIZE*2)-(SHIFT-CARRY_SIZE)-1 downto 0) <= partial2(((INPUT_SIZE*2)+CARRY_SIZE)-1 downto SHIFT) when partial2 > 0 else (others => '0');
 
   ------------------------------------------------------------------------------------
@@ -740,7 +741,7 @@ begin
   ------------------------------------------------------------------------------------
   --  input memory read address (constant sums used to access the correct address on memory)
   iwght_address <= bias_x when read_bias = '1' else
-                   (weight_x + N_FILTER)  when read_weights = '1' or start_mac = '1' else 
+                   (weight_x + N_FILTER)  when read_weights = '1' or start_mac = '1' else
                    (others => '0');
 
   ifmap_address <= add(0) when EA_add = E0 else

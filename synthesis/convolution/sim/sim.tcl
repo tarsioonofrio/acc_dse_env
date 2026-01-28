@@ -43,7 +43,8 @@ vcom -work work ${GIT_ROOT}/rtl/convolution-split/syst2d_ws_split_stride1/tb_sys
 
 # to show FSM
 # vsim -voptargs=+acc -t ns -fsmdebug -coverage -debugDB work.tb
-vsim -voptargs=+acc -t ns -gINPUT_SIZE=10 -gMEM_SIZE=16 -gCARRY_SIZE=4 work.tb
+# vsim -voptargs=+acc -t ns  -gINPUT_SIZE=10 -gMEM_SIZE=16 -gCARRY_SIZE=4 work.tb
+vsim -voptargs=+acc -t ns  work.tb
 set StdArithNoWarnings 1
 set StdVitalGlitchNoWarnings 1
 do wave.do

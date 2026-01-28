@@ -12,14 +12,14 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    LAT            : integer := 0;
+    LAT            : integer := 2;
+    INPUT_SIZE     : integer := 16;
     ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
     CONVS_PER_LINE : integer := 30;
     DATAFLOW_TYPE  : string := "ws";
     DEVICE         : string := "7SERIES";
     FILTER_WIDTH   : integer := 3;
-    INPUT_SIZE     : integer := 10;
     LAYER          : integer := 0;
     MAX_MEM_SIZE   : integer := 36;
     MEM_SIZE       : integer := 16;
@@ -183,8 +183,8 @@ begin
   --start_conv <= '0', '1' after RST_TIME, '0' after RST_TIME + CLK_HALF;
 
   clock <= not clock after 5 ns;
-  reset <= '1', '0' after 10 ns;
-  start_conv <= '0', '1' after 15 ns, '0' after 25 ns;
+  reset <= '1', '0' after 30 ns;
+  start_conv <= '0', '1' after 45 ns, '0' after 55 ns;
 
 
   process(clock)
@@ -222,7 +222,7 @@ begin
         end if;
       end if;
 
-      if debug = '1' and cont_conv < TOTAL_OPS then
+      if debug = '1' and ofmap_valid = '1' and cont_conv < TOTAL_OPS then
         expected_int := gold(CONV_INTEGER(unsigned(ofmap_address)));
         if expected_int < 0 then
           expected_int := 0;

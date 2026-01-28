@@ -1,0 +1,2 @@
+Total cycles: 34857
+Total execution time: 348560

@@ -6,6 +6,14 @@ database -open waves -shm -into dut.shm -default
 # antes do probe
 set ::env(SHM_UNPACKED_LIMIT) 5000000
 
+probe -create -unpacked 4000001 :gold 
+# or  setenv SHM_UNPACKED_LIMIT 4000001
+probe -create -unpacked 2097184 :IWGHT:mem 
+# or  setenv SHM_UNPACKED_LIMIT 2097184
+probe -create -unpacked 2097184 :IFMAP:mem 
+# or  setenv SHM_UNPACKED_LIMIT 2097184
+probe -create -unpacked 2359332 :OFMAP:mem 
+# or  setenv SHM_UNPACKED_LIMIT 2359332
 
 ;# debug: probe candidate scope names for SDF
 run 0

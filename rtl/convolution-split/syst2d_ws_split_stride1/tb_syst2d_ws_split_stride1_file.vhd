@@ -13,13 +13,13 @@ use work.util_package.all;
 entity tb is
   generic (
     LAT            : integer := 0;
+    INPUT_SIZE     : integer := 16;
     ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
     CONVS_PER_LINE : integer := 30;
     DATAFLOW_TYPE  : string := "ws";
     DEVICE         : string := "7SERIES";
     FILTER_WIDTH   : integer := 3;
-    INPUT_SIZE     : integer := 10;
     LAYER          : integer := 0;
     MAX_MEM_SIZE   : integer := 36;
     MEM_SIZE       : integer := 16;
