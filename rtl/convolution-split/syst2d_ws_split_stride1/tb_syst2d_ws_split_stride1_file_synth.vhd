@@ -13,7 +13,7 @@ use work.util_package.all;
 entity tb is
   generic (
     LAT            : integer := 2;
-    INPUT_SIZE     : integer := 16;
+    INPUT_SIZE     : integer := 20;
     ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 4;
     CONVS_PER_LINE : integer := 30;

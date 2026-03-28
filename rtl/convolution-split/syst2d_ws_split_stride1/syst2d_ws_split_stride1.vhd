@@ -9,7 +9,7 @@ use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
 
 entity convolution is
   generic (
-           INPUT_SIZE     : integer := 16;
+           INPUT_SIZE     : integer := 20;
            N_FILTER       : integer := 16;
            N_CHANNEL      : integer := 3;
            STRIDE         : integer := 2;
