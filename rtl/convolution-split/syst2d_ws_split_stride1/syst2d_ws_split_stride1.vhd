@@ -18,7 +18,7 @@ entity convolution is
            CONVS_PER_LINE : integer := 15;
            MEM_SIZE       : integer := 16;
            SHIFT          : integer := 4;
-           CARRY_SIZE     : integer := 4
+           CARRY_SIZE     : integer := 8
            );
   port (clock : in std_logic;
         reset : in std_logic;
