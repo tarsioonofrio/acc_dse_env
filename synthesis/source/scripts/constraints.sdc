@@ -7,12 +7,12 @@ set sdc_version 1.5
 set_load_unit -femtofarads
 set_time_unit -nanoseconds
 
-### Creating the clock of 500 MHz 
+### Creating the clock of 500 MHz
 set period_clock 2;
-create_clock -name {clk} -period $period_clock [get_ports {clk}]
+create_clock -name {clock} -period $period_clock [get_ports {clock}]
 
 ### Ignoring the time analysis for the Reset
-set_false_path -from [get_ports {reset}] 
+set_false_path -from [get_ports {reset}]
 
 ### INPUTS
 set_driving_cell -lib_cell GINVD1BWP30P140 [all_inputs]
