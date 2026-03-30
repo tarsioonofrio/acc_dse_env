@@ -21,5 +21,5 @@ set_driving_cell -lib_cell GINVD1BWP30P140 [all_inputs]
 set_load [load_of [get_lib_pins GINVMCOD8BWP30P140/I]] [all_outputs]
 
 # Dando meio periodo para o ambiente
-set_input_delay -clock clk [expr ${period_clock}/2] [all_inputs]
-set_output_delay -clock clk [expr ${period_clock}/2] [all_outputs]
+set_input_delay -clock clock [expr ${period_clock}/2] [all_inputs]
+set_output_delay -clock clock [expr ${period_clock}/2] [all_outputs]
