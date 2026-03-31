@@ -12,7 +12,7 @@ use work.util_package.all;
 
 entity tb is
   generic (
-    LAT            : integer := 2;
+    LAT            : integer := 0;
     INPUT_SIZE     : integer := 20;
     ARRAY_TYPE     : string := "syst2d";
     CARRY_SIZE     : integer := 8;
@@ -43,6 +43,12 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
+  function slv_counter_to_integer(value : std_logic_vector(31 downto 0)) return integer is
+  begin
+    -- Keep the MSB clear to avoid std_logic_arith overflow warnings in reports.
+    return CONV_INTEGER(unsigned('0' & value(30 downto 0)));
+  end function;
+
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
@@ -248,12 +254,12 @@ begin
 
       elsif end_conv = '1' then
         counting := false;
-        report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
-        report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
-        report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));
-        report "number of ifmap write: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_write)));
-        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+        report "number of iwght read: " & integer'image(slv_counter_to_integer(iwght_n_read));
+        report "number of iwght write: " & integer'image(slv_counter_to_integer(iwght_n_write));
+        report "number of ifmap read: " & integer'image(slv_counter_to_integer(ifmap_n_read));
+        report "number of ifmap write: " & integer'image(slv_counter_to_integer(ifmap_n_write));
+        report "number of ofmap read: " & integer'image(slv_counter_to_integer(ofmap_n_read));
+        report "number of ofmap write: " & integer'image(slv_counter_to_integer(ofmap_n_write));
         report "number of convolutions: " & integer'image(cont_conv);
 
         elapsed := now - sim_start;

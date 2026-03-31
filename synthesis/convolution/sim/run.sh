@@ -26,8 +26,10 @@ while IFS= read -r line; do
   files="$files$GIT_ROOT/$line "
 done < ../list-file.txt
 
-# Ajusta generics do TB para bater com o netlist gate-level.
-# GENERIC_FLAGS="-generic INPUT_SIZE=>10 -generic MEM_SIZE=>16 -generic CARRY_SIZE=>4"
+# O testbench gate-level já carrega os generics corretos por default.
+# Mantenha os defaults do arquivo tb_syst2d_ws_split_stride1_file_synth.vhd
+# sincronizados com o netlist sintetizado e evite sobrescrevê-los aqui.
+GENERIC_FLAGS=""
 
 # Monta generics VHDL a partir do generic_file.txt (somente os do tb)
 # # Chamada do xrun (mantendo args.txt como no histórico)
