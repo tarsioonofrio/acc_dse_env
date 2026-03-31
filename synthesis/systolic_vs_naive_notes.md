@@ -363,6 +363,51 @@ Em contraste, no `acc_dse_env`:
 5. A diferença principal aparece no contexto do `macoperation` do `naive`.
 6. A explicação mais provável é **inflação contextual do caminho aritmético monolítico** no `naive`, e não uma superioridade intrínseca do multiplicador isolado.
 
+## Tabelas dos fluxos de síntese
+
+### Tabela 1: comparação geral de área
+
+```text
++---------------------------+-----------+
+| Fluxo                     | Cell Area |
++---------------------------+-----------+
+| acc_dse padrão            | 12032.874 |
+| acc_dse preserve          | 13264.524 |
+| acc_dse preserve_nodpopt  | 13949.460 |
+| naive                     | 15359.526 |
++---------------------------+-----------+
+```
+
+### Tabela 2: incremento relativo ao fluxo padrão do `acc_dse`
+
+```text
++--------------------------+-----------+----------------+
+| Fluxo                    | Delta abs | Delta relativo |
++--------------------------+-----------+----------------+
+| preserve                 | 1231.650  | +10.2%         |
+| preserve_nodpopt         | 1916.586  | +15.9%         |
++--------------------------+-----------+----------------+
+```
+
+### Tabela 3: distância até o `naive`
+
+```text
++--------------------------+----------------------+
+| Fluxo                    | naive - fluxo        |
++--------------------------+----------------------+
+| acc_dse padrão           | 3326.652             |
+| acc_dse preserve         | 2095.002             |
+| acc_dse preserve_nodpopt | 1410.066             |
++--------------------------+----------------------+
+```
+
+Leitura:
+
+- desligar merge/poda estrutural aproximou o `acc_dse` do `naive`
+- desligar também `syn_opt` e clock gating aproximou ainda mais
+- mesmo assim, o `naive` permaneceu maior
+- isso reforça que a diferença restante não vem só do script, mas também da microarquitetura e do contexto aritmético do `macoperation`
+
 ## Próximo passo recomendado
 
 O experimento mais incisivo a partir daqui é:
