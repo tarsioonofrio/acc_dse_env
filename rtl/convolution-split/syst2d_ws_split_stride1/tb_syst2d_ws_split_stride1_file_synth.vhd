@@ -7,6 +7,7 @@ use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 
 use std.textio.all;
+use std.env.all;
 
 use work.util_package.all;
 
@@ -283,7 +284,9 @@ begin
         report "ofmap_active_cycles=" & integer'image(ofmap_active_cycles);
         report "total_cycles=" & integer'image(total_cycles);
 
-        report "end of simulation without error!" severity failure;
+        report "end of simulation without error!" severity note;
+        std.env.stop;
+        wait;
       end if;
     end if;
 
