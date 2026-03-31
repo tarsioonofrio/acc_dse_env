@@ -44,9 +44,15 @@ end tb;
 
 architecture a1 of tb is
   function slv_counter_to_integer(value : std_logic_vector(31 downto 0)) return integer is
+    variable result : integer := 0;
   begin
-    -- Keep the MSB clear to avoid std_logic_arith overflow warnings in reports.
-    return CONV_INTEGER(unsigned('0' & value(30 downto 0)));
+    -- Convert only the non-sign bit range explicitly to avoid std_logic_arith overflow warnings.
+    for i in 0 to 30 loop
+      if value(i) = '1' then
+        result := result + (2 ** i);
+      end if;
+    end loop;
+    return result;
   end function;
 
   signal clock, reset, start_conv, debug : std_logic := '0';
