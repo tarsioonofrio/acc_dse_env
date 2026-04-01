@@ -7,15 +7,16 @@ use IEEE.std_logic_arith.all;
 use ieee.std_logic_textio.all;
 
 use std.textio.all;
+use std.env.all;
 
 use work.util_package.all;
 
 entity tb is
   generic (
-    LAT            : integer := 2;
-    INPUT_SIZE     : integer := 16;
+    LAT            : integer := 0;
+    INPUT_SIZE     : integer := 20;
     ARRAY_TYPE     : string := "syst2d";
-    CARRY_SIZE     : integer := 4;
+    CARRY_SIZE     : integer := 8;
     CONVS_PER_LINE : integer := 30;
     DATAFLOW_TYPE  : string := "ws";
     DEVICE         : string := "7SERIES";
@@ -43,6 +44,18 @@ entity tb is
 end tb;
 
 architecture a1 of tb is
+  function slv_counter_to_integer(value : std_logic_vector(31 downto 0)) return integer is
+    variable result : integer := 0;
+  begin
+    -- Convert only the non-sign bit range explicitly to avoid std_logic_arith overflow warnings.
+    for i in 0 to 30 loop
+      if value(i) = '1' then
+        result := result + (2 ** i);
+      end if;
+    end loop;
+    return result;
+  end function;
+
   signal clock, reset, start_conv, debug : std_logic := '0';
 
   signal ofmap_valid, ofmap_ce, ofmap_we, iwght_ce, iwght_valid, ifmap_ce, ifmap_valid, end_conv : std_logic := '0';
@@ -248,12 +261,12 @@ begin
 
       elsif end_conv = '1' then
         counting := false;
-        report "number of iwght read: " & integer'image(CONV_INTEGER(unsigned(iwght_n_read)));
-        report "number of iwght write: " & integer'image(CONV_INTEGER(unsigned(iwght_n_write)));
-        report "number of ifmap read: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_read)));
-        report "number of ifmap write: " & integer'image(CONV_INTEGER(unsigned(ifmap_n_write)));
-        report "number of ofmap read: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_read)));
-        report "number of ofmap write: " & integer'image(CONV_INTEGER(unsigned(ofmap_n_write)));
+        report "number of iwght read: " & integer'image(slv_counter_to_integer(iwght_n_read));
+        report "number of iwght write: " & integer'image(slv_counter_to_integer(iwght_n_write));
+        report "number of ifmap read: " & integer'image(slv_counter_to_integer(ifmap_n_read));
+        report "number of ifmap write: " & integer'image(slv_counter_to_integer(ifmap_n_write));
+        report "number of ofmap read: " & integer'image(slv_counter_to_integer(ofmap_n_read));
+        report "number of ofmap write: " & integer'image(slv_counter_to_integer(ofmap_n_write));
         report "number of convolutions: " & integer'image(cont_conv);
 
         elapsed := now - sim_start;
@@ -271,7 +284,9 @@ begin
         report "ofmap_active_cycles=" & integer'image(ofmap_active_cycles);
         report "total_cycles=" & integer'image(total_cycles);
 
-        report "end of simulation without error!" severity failure;
+        report "end of simulation without error!" severity note;
+        std.env.stop;
+        wait;
       end if;
     end if;
 

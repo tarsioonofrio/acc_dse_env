@@ -13,9 +13,9 @@ use work.util_package.all;
 entity tb is
   generic (
     LAT            : integer := 0;
-    INPUT_SIZE     : integer := 16;
+    INPUT_SIZE     : integer := 20;
     ARRAY_TYPE     : string := "syst2d";
-    CARRY_SIZE     : integer := 4;
+    CARRY_SIZE     : integer := 8;
     CONVS_PER_LINE : integer := 30;
     DATAFLOW_TYPE  : string := "ws";
     DEVICE         : string := "7SERIES";

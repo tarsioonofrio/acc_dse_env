@@ -9,16 +9,16 @@ use IEEE.std_logic_arith.CONV_STD_LOGIC_VECTOR;
 
 entity convolution is
   generic (
-           INPUT_SIZE     : integer := 16;
-           N_FILTER       : integer := 16;
+           INPUT_SIZE     : integer := 20;
+           N_FILTER       : integer := 3;
            N_CHANNEL      : integer := 3;
-           STRIDE         : integer := 2;
+           STRIDE         : integer := 1;
            X_SIZE         : integer := 32;
            FILTER_WIDTH   : integer := 3;
-           CONVS_PER_LINE : integer := 15;
+           CONVS_PER_LINE : integer := 30;
            MEM_SIZE       : integer := 16;
-           SHIFT          : integer := 4;
-           CARRY_SIZE     : integer := 4
+           SHIFT          : integer := 8;
+           CARRY_SIZE     : integer := 8
            );
   port (clock : in std_logic;
         reset : in std_logic;
