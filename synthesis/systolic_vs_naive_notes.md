@@ -333,7 +333,7 @@ Arquivo:
 
 - [`/sim/tarsio/FastConv_SystemVerilog/synthesis/conv-naive-m032p/logical/results/gate_level/conv_logic_mapped.v`](/sim/tarsio/FastConv_SystemVerilog/synthesis/conv-naive-m032p/logical/results/gate_level/conv_logic_mapped.v)
 
-Isso mostra que as instâncias foram **uniquificadas por contexto**.
+Isso mostra que as instâncias foram **unificadas por contexto**.
 
 ## Interpretação mais provável
 
@@ -361,7 +361,7 @@ Em contraste, no `acc_dse_env`:
 3. O controle do `acc_dse_env` sofre simplificação por constantes e remoção de flops.
 4. O multiplicador puro do `naive` **não** é maior que o do `acc_dse_env`.
 5. A diferença principal aparece no contexto do `macoperation` do `naive`.
-6. A explicação mais provável é **inflação contextual do caminho aritmético monolítico** no `naive`, e não uma superioridade intrínseca do multiplicador isolado.
+6. A explicação mais provável é **inflação contextual** no `naive`, e não uma superioridade intrínseca do multiplicador isolado.
 
 ## Tabelas dos fluxos de síntese
 
@@ -414,9 +414,3 @@ O experimento mais incisivo a partir daqui é:
 
 - sintetizar `macoperation` isolado
 - comparar esse bloco com um recorte aritmético equivalente do `acc_dse_env`
-
-Esse é o caminho mais direto para separar:
-
-- custo do multiplicador
-- custo da redução (`CSA_9`)
-- custo de otimização contextual do bloco monolítico
