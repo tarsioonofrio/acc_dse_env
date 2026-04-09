@@ -1,5 +1,5 @@
 xrun(64): 23.03-s003: (c) Copyright 1995-2023 Cadence Design Systems, Inc.
-TOOL:	xrun(64)	23.03-s003: Started on Mar 31, 2026 at 01:58:28 -03
+TOOL:	xrun(64)	23.03-s003: Started on Apr 09, 2026 at 11:47:29 -03
 xrun
 	-access +rwc
 	-input /sim/tarsio/acc_dse_env/synthesis/convolution/sim/shm.tcl
@@ -2558,61 +2558,25 @@ xcelium> database -open waves -shm -into dut.shm -default
 Created default SHM database waves
 xcelium> # database -open waves -evcd -into waves.evcd -default
 xcelium> 
-xcelium> ;# se você tem arrays grandes, isso evita "not probed" por limite
-xcelium> # antes do probe
-xcelium> set ::env(SHM_UNPACKED_LIMIT) 5000000
-5000000
+xcelium> # Eleva limite global para arrays unpacked grandes.
+xcelium> set ::env(SHM_UNPACKED_LIMIT) 3145776
+3145776
 xcelium> 
-xcelium> probe -create -unpacked 4000001 :gold 
+xcelium> probe -create -unpacked 4000001 :gold
 Created probe 1
-xcelium> # or  setenv SHM_UNPACKED_LIMIT 4000001
-xcelium> probe -create -unpacked 2097184 :IWGHT:mem 
-xmsim: *W,PRUASZ: Unpacked array at ":IWGHT:mem" of 2621480 elements exceeds limit of 2097184 - not probed
- Use 'probe -create -unpacked 2621480 :IWGHT:mem' or 'setenv SHM_UNPACKED_LIMIT 2621480' to adjust limit.
-xmsim: *SE,DBOBBD: Cannot create SHM probe for :IWGHT:mem.
-xmsim: *SE,PRBFAIL: No probes were created due to a probe command failure.
-xcelium> # or  setenv SHM_UNPACKED_LIMIT 2097184
-xcelium> probe -create -unpacked 2097184 :IFMAP:mem 
-xmsim: *W,PRUASZ: Unpacked array at ":IFMAP:mem" of 2621480 elements exceeds limit of 2097184 - not probed
- Use 'probe -create -unpacked 2621480 :IFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2621480' to adjust limit.
-xmsim: *SE,DBOBBD: Cannot create SHM probe for :IFMAP:mem.
-xmsim: *SE,PRBFAIL: No probes were created due to a probe command failure.
-xcelium> # or  setenv SHM_UNPACKED_LIMIT 2097184
-xcelium> probe -create -unpacked 2359332 :OFMAP:mem 
-xmsim: *W,PRUASZ: Unpacked array at ":OFMAP:mem" of 3145776 elements exceeds limit of 2359332 - not probed
- Use 'probe -create -unpacked 3145776 :OFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 3145776' to adjust limit.
-xmsim: *SE,DBOBBD: Cannot create SHM probe for :OFMAP:mem.
-xmsim: *SE,PRBFAIL: No probes were created due to a probe command failure.
-xcelium> # or  setenv SHM_UNPACKED_LIMIT 2359332
-xcelium> 
-xcelium> ;# debug: probe candidate scope names for SDF
-xcelium> run 0
-xmsim: *E,RNBDSC: Invalid time for run command.
-xcelium> set fh [open "scope_test.log" "w"]
-file14
-xcelium> set candidates [list ":dut" "dut" ":tb:dut" "tb.dut" ":tb" "tb" ":tb(a1):dut" "tb(a1).dut" ":tb:a1:dut" "tb.a1.dut"]
-:dut dut :tb:dut tb.dut :tb tb :tb(a1):dut tb(a1).dut :tb:a1:dut tb.a1.dut
-xcelium> foreach c $candidates {
->   if {[catch {scope $c} err]} {
->     puts $fh "SCOPE_FAIL $c :: $err"
->   } else {
->     puts $fh "SCOPE_OK $c :: [scope]"
->   }
-> }
-xcelium> close $fh
-xcelium> 
-xcelium> ;# forma mais robusta: sonda tudo que for "top" (evita errar caminho /tb/dut)
-xcelium> # probe -create [scope -tops] -all -depth all
-xcelium> # probe -create :tb -all -depth all
-xcelium> probe -create -database waves : -all -depth all
-xmsim: *W,PRUASZ: Unpacked array at ":IWGHT:mem" of 2621480 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2621480 :IWGHT:mem' or 'setenv SHM_UNPACKED_LIMIT 2621480' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":IFMAP:mem" of 2621480 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 2621480 :IFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 2621480' to adjust limit.
-xmsim: *W,PRUASZ: Unpacked array at ":OFMAP:mem" of 3145776 elements exceeds limit of 16384 - not probed
- Use 'probe -create -unpacked 3145776 :OFMAP:mem' or 'setenv SHM_UNPACKED_LIMIT 3145776' to adjust limit.
-xmsim: *W,PRHOPT: The design contains optimized signals. To improve simulation performance these signals are excluded.
+xcelium> probe -create -unpacked 2621480 :IWGHT:mem
 Created probe 2
+xcelium> probe -create -unpacked 2621480 :IFMAP:mem
+Created probe 3
+xcelium> probe -create -unpacked 3145776 :OFMAP:mem
+Created probe 4
+xcelium> 
+xcelium> # Probe hierárquico robusto: tenta DUT; se não encontrar, cai para topo.
+xcelium> if {[catch {probe -create -database waves :tb:dut -all -depth all}]} {
+>   probe -create -database waves : -all -depth all
+> }
+xmsim: *W,PRHOPT: The design contains optimized signals. To improve simulation performance these signals are excluded.
+Created probe 5
 xcelium> 
 xcelium> run
 xmsim: *W,NTCDMIN: At time 65011 PS multiple NTC conditional delays were simulataneously active at net (:tb:dut.read_bias_reg.CP_d). Minimum delay is selected.
@@ -30972,9 +30936,9 @@ REPORT/NOTE (time 348620 NS) from process :$PROCESS_003 (architecture work.tb:a1
 ofmap_active_cycles=18906
 REPORT/NOTE (time 348620 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 total_cycles=34858
-REPORT/FAILURE (time 348620 NS) from process :$PROCESS_003 (architecture work.tb:a1)
+REPORT/NOTE (time 348620 NS) from process :$PROCESS_003 (architecture work.tb:a1)
 end of simulation without error!
-Report at 348620 NS + 0
-/sim/tarsio/acc_dse_env/rtl/convolution-split/syst2d_ws_split_stride1/tb_syst2d_ws_split_stride1_file_synth.vhd:286         report "end of simulation without error!" severity failure;
+std.env.stop invoked from tb_syst2d_ws_split_stride1_file_synth.vhd, line: 288, pos: 19
+Simulation stopped via std.env.stop(1) at time 348620 NS + 0
 xcelium> exit
-TOOL:	xrun(64)	23.03-s003: Exiting on Mar 31, 2026 at 01:59:31 -03  (total: 00:01:03)
+TOOL:	xrun(64)	23.03-s003: Exiting on Apr 09, 2026 at 11:48:35 -03  (total: 00:01:06)
