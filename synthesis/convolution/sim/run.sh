@@ -38,10 +38,30 @@ GENERIC_FLAGS=""
 # # Chamada do xrun (mantendo args.txt como no histórico)
 # Script TCL hardcoded para criar SHM (compatível com versões sem -shm direto)
 WAVES_TCL="${SCRIPT_DIR}/shm.tcl"
+MODE="${MODE:-signoff}"
+
+case "$MODE" in
+  signoff)
+    ARGS_FILE="${SCRIPT_DIR}/args_signoff.txt"
+    SDF_TEMPLATE="${SCRIPT_DIR}/sdf_cmd_max.cmd"
+    ;;
+  debug)
+    ARGS_FILE="${SCRIPT_DIR}/args_debug.txt"
+    SDF_TEMPLATE="${SCRIPT_DIR}/sdf_cmd_typ.cmd"
+    ;;
+  *)
+    echo "Invalid MODE='$MODE'. Use MODE=signoff or MODE=debug." >&2
+    exit 1
+    ;;
+esac
+
+# Gera sdf_cmd.cmd coerente com o modo (MAXIMUM/signoff, TYPICAL/debug).
+cp "$SDF_TEMPLATE" "${SCRIPT_DIR}/sdf_cmd.cmd"
+
 # xrun -f args.txt $GENERIC_FLAGS $files $TB $GATE -run -exit
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -access +rwc -input "$WAVES_TCL"
 # xrun -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files -run -exit
-xrun -access +rwc -input "$WAVES_TCL" -f args.txt -sv $TB $GATE -v200x $GENERIC_FLAGS $files
+xrun -access +rwc -input "$WAVES_TCL" -f "$ARGS_FILE" -sv $TB $GATE -v200x $GENERIC_FLAGS $files
 
 # GENERIC_FLAGS=""
 # TB_GENERICS=("LAYER" "MEM_SIZE" "INPUT_SIZE" "CARRY_SIZE" "SHIFT" "LAT" "PATH")
