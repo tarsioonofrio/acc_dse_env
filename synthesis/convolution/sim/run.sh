@@ -8,6 +8,9 @@ if command -v module >/dev/null 2>&1; then
   module load xcelium > /dev/null 2>&1
 fi
 
+# Evita limites padrão baixos de probe para memórias grandes.
+export SHM_UNPACKED_LIMIT=3145776
+
 # Raiz do repo para prefixar cada entrada do list_file.txt
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 GIT_ROOT=$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)

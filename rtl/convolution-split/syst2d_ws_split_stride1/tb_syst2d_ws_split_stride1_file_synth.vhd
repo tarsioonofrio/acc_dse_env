@@ -286,7 +286,6 @@ begin
 
         report "end of simulation without error!" severity note;
         std.env.stop;
-        wait;
       end if;
     end if;
 
