@@ -1,7 +1,11 @@
 # acc_dse_env: a design-space exploration environment for CNN accelerators (capstone / TCC)
 
-This repository holds the author's undergraduate capstone (TCC): a workflow that goes from a CNN description
-to a VHDL accelerator and its evaluation,
+This repository holds the author's undergraduate capstone (TCC) at PUCRS,
+
+> T. O. C. da Silva, "Ambiente para exploração de CNNs em nível RTL" (an RTL-level exploration environment for
+> CNNs), undergraduate thesis, PUCRS, 2023.
+
+It is a workflow that goes from a CNN description to a VHDL accelerator and its evaluation,
 
 **CNN configuration → training and data export → RTL and BRAM generation → RTL simulation → synthesis,
 netlist simulation and power.**
